@@ -1,0 +1,9 @@
+{
+  "applications" : [
+      {"name":"Registration", "url":"/registration", "logo":"images/nurse.png"},
+      {"name":"Clinic", "url":"/clinic", "logo":"images/stethoscope_1.png"},
+      {"name":"Pharmacy", "url":"/pharmacy", "logo":"images/medical_pills_pot.png"},
+      {"name":"Laboratory", "url":"/lab", "logo":"images/medical_case.png"},
+      {"name":"Counseling", "url":"/counseling", "logo":"images/reportorium.png"}
+  ]
+}

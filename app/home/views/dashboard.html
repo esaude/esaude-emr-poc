@@ -1,0 +1,45 @@
+<div class="bg-info-border content-border border-rouded go-to-center">
+    <div class="inline-align content-border-margin-regular" ng-repeat="app in apps">
+        <button type="button" class="btn btn-default" ng-click="linkApp(app.url)">
+            <span>
+                <img ng-src="../../{{app.logo}}" width="120" height="82" alt="provider">
+            </span>
+            <br/>{{app.name}}
+        </button>
+    </div>
+</div>
+<div class="panel panel-primary content-border-margin">
+    <div class="panel-heading">
+        <h3 class="panel-title">Activities</h3>
+    </div>
+    <div class="panel-body">
+        <div class="panel panel-default inline-align col-md-6">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Last Activities</h3>
+                </div>
+            <div class="panel-body">
+                <canvas id="bar" class="chart chart-bar" data="barData"
+                        labels="barLabels" series="barSeries" legend="true"></canvas> 
+            </div>
+            </div>
+            <div class="panel panel-default inline-align col-md-6">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Frequent Actions</h3>
+                </div>
+                <div class="panel-body">
+                    <canvas id="pie" class="chart chart-pie" data="pieData"
+                            labels="pieLabels"  series="pieSeries" legend="true"></canvas> 
+                </div>
+            </div>
+    </div>
+</div>
+
+<div class="panel panel-primary content-border-margin">
+    <div class="panel-heading">
+        <h3 class="panel-title">Logging</h3>
+    </div>
+    <div class="panel-body">
+        <p><b>Last login:</b> 2015-07-23 18:00:00</p>
+        <p><b>Longgest session:</b> 600 mins</p>
+    </div>
+</div>

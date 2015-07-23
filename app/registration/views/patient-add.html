@@ -1,0 +1,203 @@
+<div class="row bg-info-border bg-info content-border border-rouded-top"><!--patient header -->
+    <div class="header-text-lg"><!-- patient name and identifier -->
+        <b>Registrar novo paciente</b>
+    </div><!-- patient name and identifier -->
+</div><!--patient header -->
+<div class="panel panel-primary content-border-margin"><!-- demographics -->
+    <div class="panel-heading">
+        <h3 class="panel-title">Demographics</h3>
+    </div>
+    <div class="panel-body">
+        <form class="form-horizontal">
+            <div class="form-group form-group-lg">
+                <label for="patient_name" class="col-sm-2 control-label">Name:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="patient_name">
+                </div>
+            </div>
+            <div class="form-group form-group-lg">
+                <label for="patient_muddle_name" class="col-sm-2 control-label">Middle Name:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="patient_muddle_name">
+                </div>
+            </div>
+            <div class="form-group form-group-lg">
+                <label for="patient_surname" class="col-sm-2 control-label">Surname:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="patient_surname">
+                </div>
+            </div>
+            <div class="form-group form-group-lg">
+                <label class="col-sm-2 control-label"><b>Gender:</b></label>
+                <div class=" radio col-sm-3 input-lg">
+                    <label class="radio-inline">
+                        <input type="radio" name="genderRGroup" id="male" value="M"> Male
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="genderRGroup" id="female" value="F"> Female
+                    </label>
+                </div>
+                <label class="col-sm-2 control-label"><b>Age/Birthdate:</b></label>
+                <div class="col-sm-1">
+                    <input type="number" class="form-control" id="age">
+                </div>
+                <div class="col-sm-2">
+                    <div id="birth_datetime_picker" class="input-group date">
+                        <input type="text" class="form-control" id="birthdate"/>
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                    <script type="text/javascript">
+                        $(function () {
+                            $('#birth_datetime_picker').datetimepicker();
+                        });
+                    </script>
+                </div>
+                <div class="checkbox col-sm-2 input-lg">
+                    <label>
+                        <input type="checkbox"> Estimada
+                    </label>
+                </div>
+            </div>
+        </form>
+    </div>
+</div><!-- demographics -->
+<div class="panel panel-primary content-border-margin"><!-- address -->
+    <div class="panel-heading">
+        <h3 class="panel-title">Address</h3>
+    </div>
+    <div class="panel-body">
+        <form class="form-horizontal">
+            <div class="form-group form-group-lg">
+                <label for="address_country" class="col-sm-2 control-label">State/Province:</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="address_country">
+                        <option></option>
+                        <option>Mozambique</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group form-group-lg">
+                <label for="address_state_province" class="col-sm-2 control-label">State/Province:</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="address_state_province">
+                        <option></option>
+                        <option>Maputo</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group form-group-lg">
+                <label for="address_district" class="col-sm-2 control-label">District:</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="address_district">
+                        <option></option>
+                        <option>Matola</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group form-group-lg">
+                <label for="address_localidade" class="col-sm-2 control-label">Localidade:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="address_localidade">
+                </div>
+            </div>
+            <div class="form-group form-group-lg">
+                <label for="address_bairro" class="col-sm-2 control-label">Bairro:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="address_bairro">
+                </div>
+            </div>
+            <div class="form-group form-group-lg">
+                <label for="address_celula_quarteirao" class="col-sm-2 control-label">Celula/Quarteirao:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="address_celula_quarteirao">
+                </div>
+            </div>
+            <div class="form-group form-group-lg">
+                <label for="address_av" class="col-sm-2 control-label">Av/Rua/Casa:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="address_av">
+                </div>
+            </div>
+        </form>
+    </div>
+</div><!-- address -->
+<div class="panel panel-primary content-border-margin"><!-- identifier -->
+    <div class="panel-heading">
+        <h3 class="panel-title">Identifiers</h3>
+    </div>
+
+    <div class="panel-body">
+        <form class="form-horizontal">
+            <div class="form-group form-group-lg">
+                <label for="patient_identifier_type" class="col-sm-2 control-label">Identifier Type:</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="patient_identifier_type">
+                        <option></option>
+                        <option>NID (Servico TARV)</option>
+                        <option>BI (Bilhete de Identidade)</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Identifier</th>
+                <th>Prefered</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="col-sm-4 control-label">NID (Servico Tarv)</td>
+                <td><input type="text" class="form-control input-lg" id="nid"></td>
+                <td>
+                    <input type="radio" name="preferedIdRGroup" id="1" value="M">
+                </td>
+                <td>
+                    <button id="patient_identifier_remove_1" type="button" value="Remove Identifier" class="btn btn-danger btn-lg">
+                        <span class="glyphicon glyphicon-remove-sign"></span>
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-sm-4 control-label">BI (Bilhete de Identidade)</td>
+                <td><input type="text" class="form-control input-lg" id="bi"></td>
+                <td>
+                    <input type="radio" name="preferedIdRGroup" id="2" value="M">
+                </td>
+                <td>
+                    <button id="patient_identifier_remove_2" type="button" value="Remove Identifier" class="btn btn-danger btn-lg">
+                        <span class="glyphicon glyphicon-remove-sign"></span>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div><!-- identifier -->
+<div class="row bg-info-border content-border border-rouded"><!--dead -->
+    <div class="checkbox input-lg">
+        <label>
+            <input id="patient-dead" type="checkbox" class="checkbox"> Patient is dead
+        </label>
+    </div>
+</div><!--dead -->
+
+<div class="row bg-info-border content-border border-rouded-bottom go-to-right"><!-- visit header controls -->
+    <button type="button" class="btn btn-warning btn-lg">
+        <span class="glyphicon glyphicon-step-backward" ng-click="linkSearch()"></span>
+    </button>
+    <button type="button" class="btn btn-primary btn-lg">
+        <span class="glyphicon glyphicon-plus"></span>
+    </button>
+</div><!-- visit header controls -->
+
+<script>
+    $('input[type=text]').keyboard({layout: 'qwerty'}).addTyping();
+
+    $('input[type=number]').keyboard({layout: 'num'}).addTyping();
+</script>

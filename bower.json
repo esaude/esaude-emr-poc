@@ -1,0 +1,32 @@
+{
+  "name": "ui-templates",
+  "version": "0.0.1",
+  "description": "templates for eSaude EMR POC ui system",
+  "authors": [
+    "Valerio Joao"
+  ],
+  "license": "MIT",
+  "homepage": "http://esaude.org/",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "1.4.2",
+    "bootstrap": "3.3.5",
+    "jquery": "2.1.4",
+    "eonasdan-bootstrap-datetimepicker": "~4.14.30",
+    "keyboard": "~1.23.5",
+    "jquery-ui": "1.9.2",
+    "angular-route": "~1.4.3",
+    "angular-ui-router": "~0.2.15",
+    "angular-smart-table": "~2.1.1",
+    "angular-chart.js": "~0.7.2"
+  },
+  "resolutions": {
+    "angular": "1.4.3"
+  }
+}

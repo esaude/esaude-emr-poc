@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="../../bower_components/jquery-ui/themes/ui-lightness/jquery-ui.css">
+    <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
+    <link rel="stylesheet" href="../../bower_components/keyboard/dist/css/keyboard.min.css" />
+    <link rel="stylesheet" href="../../bower_components/keyboard/dist/css/keyboard-previewkeyset.min.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="../styles/main-styles.css">
+    <!-- endbuild -->
+  </head>
+  <body>
+      <div  class="container-fluid">
+          <div ng-app="registration">
+              <div ui-view="layout"></div>
+          </div>
+      </div>
+
+      <!-- build:js(.) scripts/vendor.js -->
+      <!-- bower:js -->
+      <script src="../../bower_components/jquery/dist/jquery.min.js"></script>
+      <script src="../../bower_components/angular/angular.min.js"></script>
+      <script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+      <script src="../../bower_components/moment/min/moment.min.js"></script>
+      <script src="../../bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+      <script src="../../bower_components/jquery-ui/ui/minified/jquery-ui.min.js"></script>
+      <script src="../../bower_components/keyboard/dist/js/jquery.keyboard.min.js"></script>
+      <script src="../../bower_components/keyboard/dist/layouts/keyboard-layouts-combined.min.js"></script>
+      <script src="../../bower_components/keyboard/dist/layouts/keyboard-layouts-greywyvern.min.js"></script>
+      <script src="../../bower_components/angular-route/angular-route.min.js"></script>
+      <script src="../../bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+      <script src="../../bower_components/angular-smart-table/dist/smart-table.min.js"></script>       
+     <script src="../../bower_components/keyboard/dist/js/jquery.keyboard.extension-all.min.js"></script>
+      <!-- endbower -->
+
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="./app.js"></script>  
+    <script src="services/patientServiceMock.js"></script>
+    <script src="services/programServiceMock.js"></script>
+    <script src="controllers/searchController.js"></script>
+    <script src="controllers/dashboardController.js"></script>
+    <script src="controllers/patientController.js"></script>
+    <!-- endbuild -->
+</body>
+</html>
