@@ -1,9 +1,9 @@
 {
-  "name": "ui-templates",
+  "name": "ui-prototypes",
   "version": "0.0.1",
   "description": "templates for eSaude EMR POC ui system",
   "authors": [
-    "Valerio Joao"
+    "eSaude Mozambique"
   ],
   "license": "MIT",
   "homepage": "http://esaude.org/",
