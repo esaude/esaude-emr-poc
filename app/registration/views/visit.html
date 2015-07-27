@@ -1,0 +1,50 @@
+<div ng-include src="'views/patient-header.html'"></div><!--patient header -->
+
+<div class="row bg-info-border content-border border-rouded-top"><!-- program header controls -->
+    <table  st-table="patientVisits" class="table table-striped" width="auto">
+        <thead>
+            <tr>
+                <th>Visit</th>
+                <th>Starting Date</th>
+                <th>Ending Date</th>
+                <th>Location</th>
+                <th>Encounters</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="patientVisit in patientVisits">
+                <td>
+                    <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#editVisitModal">
+                        {{patientVisit.visitType.name}} <span class="glyphicon glyphicon-pencil"></span>
+                    </button>
+                </td>
+                <td>{{patientVisit.dateStarted}}</td>
+                <td>{{patientVisit.dateStopped}}</td>
+                <td>{{patientVisit.location}}</td>
+                <td>
+                    <button class="btn btn-primary" type="button">
+                        3 Encounter(s) <span class="glyphicon glyphicon-eye-open"></span>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="5" class="text-center">
+                    <div  st-items-by-page="10" st-pagination=""></div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div><!-- program header controls -->
+<div class="row bg-info-border content-border border-rouded-bottom go-to-right"><!-- visit header controls -->
+    <button type="button" class="btn btn-warning btn-lg">
+        <span class="glyphicon glyphicon-step-backward" ng-click="linkDashboard()"></span>
+    </button>
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addVisitModal">
+        <span class="glyphicon glyphicon-plus"></span>
+    </button>
+</div><!-- visit header controls -->
+<!-- modal diaolgs -->
+<div ng-include src="'views/visit-add.html'"></div>
+<div ng-include src="'views/visit-edit.html'"></div>

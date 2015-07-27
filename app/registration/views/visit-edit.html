@@ -1,0 +1,78 @@
+<div class="modal fade" id="editVisitModal" tabindex="-1" role="dialog" aria-labelledby="editVisitModalLabel">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="editVisitModalLabel">Edit Visit</h4>
+            </div>
+            <form id="visit_form" class="form-horizontal" ng-submit="saveVisit()">
+                <div class="modal-body content-border-margin">
+                    <div class="form-group form-group-lg">
+                        <label for="visit_type" class="control-label col-sm-4">Visit Type:</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" id="visit_type" ng-model="newVisit.visitType" 
+                                    ng-options="visitType.name for visitType in visitTypes">
+                                <option></option>
+                            </select>
+                            
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg">
+                        <label class="control-label col-sm-4">Date Started:</label>
+                        <div id="visit_started_datetime_picker" class="input-group date col-sm-8">
+                            <input type="text" class="form-control" id="started_date" ng-model="newVisit.dateStarted"/>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                        <script>
+                            $(function () {
+                                $('#visit_started_datetime_picker').datetimepicker();
+                            });
+                        </script>
+                    </div>
+                    <div class="form-group form-group-lg">
+                        <label class="control-label col-sm-4">Date Stopped:</label>
+                        <div id="visit_stopped_datetime_picker" class="input-group date col-sm-8">
+                            <input type="text" class="form-control" id="started_date" ng-model="newVisit.dateStopped"/>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                        <script>
+                            $(function () {
+                                $('#visit_stopped_datetime_picker').datetimepicker();
+                            });
+                        </script>
+                    </div>
+                    <div class="form-group form-group-lg">
+                        <label for="visit_location" class="control-label col-sm-4">Location:</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" id="visit_location" ng-model="newVisit.location">
+                                <option></option>
+                                <option value="Location A">Location A</option>
+                                <option value="Location B">Location B</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning btn-lg" data-dismiss="modal">
+                        <span class="glyphicon glyphicon-minus-sign"></span>
+                    </button>
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <span class="glyphicon glyphicon-floppy-disk"></span>
+                    </button>
+                    <button type="submit" class="btn btn-danger btn-lg">
+                        <span class="glyphicon glyphicon-remove-sign"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    $('.modal').on('show.bs.modal', function(){
+    $(this).find('form')[0].reset();
+});
+</script>

@@ -1,18 +1,15 @@
 'use strict';
 
 angular.module('registration')
-        .controller('DashboardController', function ($scope, $location, $stateParams, programServiceMock, patientServiceMock) {
+        .controller('DashboardController', function ($scope, $rootScope, $location, $state, $stateParams, programServiceMock, patientServiceMock) {
             var patientUuid;
-            var patient;
     
             init();
     
             function init() {
                 patientUuid = $stateParams.patientUuid;
-                patient = patientServiceMock.getPatientByUuid(patientUuid);
                 
-                $scope.patientName = patient.givenName + " " + patient.familyName;
-                $scope.patientIdentifier = patient.nid;
+                $rootScope.patient = patientServiceMock.getPatientByUuid(patientUuid);
                 
                 $scope.programs = programServiceMock.getPrograms();
                 $scope.patientPrograms = programServiceMock.getPatientPrograms(1);
@@ -34,5 +31,13 @@ angular.module('registration')
             
             $scope.linkSearch = function() {
                 $location.url("/search"); // path not hash
+            };
+            
+            $scope.linkVisit = function() {
+                //$state.go("dashboard.visit");
+                $location.url("/visit/" + patientUuid); // path not hash
+            };
+            $scope.linkPatientDetail = function() {
+                $location.url("/patient/detail/" + patientUuid + "/demographic"); // path not hash
             };
         });

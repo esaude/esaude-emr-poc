@@ -1,0 +1,18 @@
+<div ng-include src="'views/patient-header.html'"></div><!--patient header -->
+
+<div class="row bg-info-border content-border border-rouded-top"><!-- program header controls -->
+    <ul class="nav nav-tabs">
+        <li role="presentation" class="active"><a ui-sref="detailpatient.demographic">Demographics</a></li>
+        <li role="presentation"><a ui-sref="detailpatient.addresses">Addresses</a></li>
+        <li role="presentation"><a ui-sref="detailpatient.attributes">Attributes</a></li>
+    </ul>
+    <div ui-view=""></div>
+</div><!-- program header controls -->
+<div class="row bg-info-border content-border border-rouded-bottom go-to-right"><!-- visit header controls -->
+    <button type="button" class="btn btn-warning btn-lg">
+        <span class="glyphicon glyphicon-step-backward" ng-click="linkDashboard()"></span>
+    </button>
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addVisitModal">
+        <span class="glyphicon glyphicon glyphicon-print"></span>
+    </button>
+</div><!-- visit header controls -->

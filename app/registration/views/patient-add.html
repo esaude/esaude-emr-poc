@@ -12,19 +12,19 @@
             <div class="form-group form-group-lg">
                 <label for="patient_name" class="col-sm-2 control-label">Name:</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="patient_name">
+                    <input type="text" class="form-control keyboard-in" id="patient_name">
                 </div>
             </div>
             <div class="form-group form-group-lg">
                 <label for="patient_muddle_name" class="col-sm-2 control-label">Middle Name:</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="patient_muddle_name">
+                    <input type="text" class="form-control keyboard-in" id="patient_muddle_name">
                 </div>
             </div>
             <div class="form-group form-group-lg">
                 <label for="patient_surname" class="col-sm-2 control-label">Surname:</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="patient_surname">
+                    <input type="text" class="form-control keyboard-in" id="patient_surname">
                 </div>
             </div>
             <div class="form-group form-group-lg">
@@ -99,25 +99,25 @@
             <div class="form-group form-group-lg">
                 <label for="address_localidade" class="col-sm-2 control-label">Localidade:</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="address_localidade">
+                    <input type="text" class="form-control keyboard-in" id="address_localidade">
                 </div>
             </div>
             <div class="form-group form-group-lg">
                 <label for="address_bairro" class="col-sm-2 control-label">Bairro:</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="address_bairro">
+                    <input type="text" class="form-control keyboard-in" id="address_bairro">
                 </div>
             </div>
             <div class="form-group form-group-lg">
                 <label for="address_celula_quarteirao" class="col-sm-2 control-label">Celula/Quarteirao:</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="address_celula_quarteirao">
+                    <input type="text" class="form-control keyboard-in" id="address_celula_quarteirao">
                 </div>
             </div>
             <div class="form-group form-group-lg">
                 <label for="address_av" class="col-sm-2 control-label">Av/Rua/Casa:</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="address_av">
+                    <input type="text" class="form-control keyboard-in" id="address_av">
                 </div>
             </div>
         </form>
@@ -154,7 +154,7 @@
         <tbody>
             <tr>
                 <td class="col-sm-4 control-label">NID (Servico Tarv)</td>
-                <td><input type="text" class="form-control input-lg" id="nid"></td>
+                <td><input type="text" class="form-control input-lg keyboard-in" id="nid"></td>
                 <td>
                     <input type="radio" name="preferedIdRGroup" id="1" value="M">
                 </td>
@@ -166,7 +166,7 @@
             </tr>
             <tr>
                 <td class="col-sm-4 control-label">BI (Bilhete de Identidade)</td>
-                <td><input type="text" class="form-control input-lg" id="bi"></td>
+                <td><input type="text" class="form-control input-lg keyboard-in" id="bi"></td>
                 <td>
                     <input type="radio" name="preferedIdRGroup" id="2" value="M">
                 </td>
@@ -192,12 +192,7 @@
         <span class="glyphicon glyphicon-step-backward" ng-click="linkSearch()"></span>
     </button>
     <button type="button" class="btn btn-primary btn-lg">
-        <span class="glyphicon glyphicon-plus"></span>
+        <span class="glyphicon glyphicon-floppy-disk"></span>
     </button>
 </div><!-- visit header controls -->
-
-<script>
-    $('input[type=text]').keyboard({layout: 'qwerty'}).addTyping();
-
-    $('input[type=number]').keyboard({layout: 'num'}).addTyping();
-</script>
+<script src="../../scripts/calendar-modal.js" type="text/javascript"></script>
