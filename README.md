@@ -13,7 +13,11 @@ version 0.12.0.
 - Bower
 - Grunt
 
-1. Run `grunt` for building and `grunt serve` for preview.
+1. Run `grunt` for building node modules
+
+2. Run `bower init` for building project dependencies
+
+3. and `grunt serve` for preview.
 
 2. Open your web browser with the address //http://loocalhost:9000/home
 
