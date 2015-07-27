@@ -1,7 +1,7 @@
 # prototypes-poc
 
-This project is a UI prototype of the EMR POC system. I uses data from mock services and keeps saved date in the temp memory. 
-This system must be used for survey and design of the UI.
+This project is a UI prototype of the EMR POC system. It uses data from mock services and keeps saved date in the temp memory. 
+This system is intended for survey and design of the POC UI.
 
 This project is generated with [yo angular generator](https://github.com/yeoman/generator-angular)
 version 0.12.0.
