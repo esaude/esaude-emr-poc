@@ -14,13 +14,14 @@ version 0.12.0.
 - Bower
 - Grunt
 
-1. Run `grunt` for building node modules
-
-2. Run `bower init` for building project dependencies
-
-3. and `grunt serve` for preview.
-
-2. Open your web browser with the address //http://loocalhost:9000/home
+1. Run npm install
+2. Run npm install -g bower
+3. Run npm install -g grunt
+4. Run npm install -g grunt-cli
+5. Run `grunt` for building node modules
+6. Run `bower init` for building project dependencies
+7. Run `grunt serve` for preview.
+8. Open your web browser with the address //http://loocalhost:9000/home
 
 ## Testing
 
