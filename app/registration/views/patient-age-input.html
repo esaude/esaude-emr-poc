@@ -1,0 +1,39 @@
+<div class="panel panel-primary content-border-margin"><!-- demographics -->
+    <div class="panel-heading">
+        <h3 class="panel-title">Age/Birthdate</h3>
+    </div>
+    <div class="panel-body">
+        <form class="form-horizontal">
+            <label for="patient_age" class="col-sm-2 control-label"><b>Age/Birthdate:</b></label>
+        <div class="col-sm-2 input-group-lg">
+            <input id="patient_age" type="number" class="form-control">
+        </div>
+        <div class="col-sm-6">
+            <div id="birth_datetime_picker" class="input-group input-group-lg date">
+                <input type="text" class="form-control" id="birthdate"/>
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+            <script type="text/javascript">
+                $(function () {
+                    $('#birth_datetime_picker').datetimepicker();
+                });
+            </script>
+        </div>
+        <div class="checkbox col-sm-2 input-lg">
+            <label>
+                <input type="checkbox"> Estimated
+            </label>
+        </div>
+        </form>
+    </div>
+</div>
+
+<div class="row bg-info-border content-border border-rouded">
+    <button type="button" class="btn btn-success btn-lg" ui-sref="newpatient.address">
+        <span class="glyphicon glyphicon glyphicon-step-forward"></span>
+    </button>
+</div>
+
+<script src="../../scripts/virtual-keyboard.js" type="text/javascript"></script>

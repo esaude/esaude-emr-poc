@@ -14,7 +14,7 @@ angular.module('registration')
             };
             
             $scope.linkPatientNew = function() {
-                $location.url("/patient/new"); // path not hash
+                $location.url("/patient/new/name"); // path not hash
             };
 
         });

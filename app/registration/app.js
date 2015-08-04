@@ -26,6 +26,30 @@ angular
                     'content@newpatient': { templateUrl: 'views/patient-add.html'}
                 }
             })
+            .state('newpatient.name', {
+                url: '/name',
+                templateUrl: 'views/patient-name-input.html'
+            })
+            .state('newpatient.gender', {
+                url: '/gender',
+                templateUrl: 'views/patient-gender-input.html'
+            })
+            .state('newpatient.age', {
+                url: '/age',
+                templateUrl: 'views/patient-age-input.html'
+            })
+            .state('newpatient.address', {
+                url: '/address',
+                templateUrl: 'views/patient-address-input.html'
+            })
+            .state('newpatient.identifier', {
+                url: '/identifier',
+                templateUrl: 'views/patient-identifier-input.html'
+            })
+            .state('newpatient.confirm', {
+                url: '/confirm',
+                templateUrl: 'views/patient-confirm-input.html'
+            })
             .state('visit', {
                 url: '/visit/:patientUuid',
                 views: {

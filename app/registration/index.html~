@@ -44,6 +44,7 @@
       <!-- endbower -->
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="../scripts/calendar-modal.js"></script>
     <script src="./app.js"></script>  
     <script src="services/patientServiceMock.js"></script>
     <script src="services/programServiceMock.js"></script>

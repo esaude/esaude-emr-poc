@@ -55,7 +55,7 @@ and open the template in the editor.
     border-bottom-left-radius: 4px;
 }
 
-li, td, th {
+b, li, td, th {
     font-size: 18px;
     vertical-align: middle;
 }
@@ -63,3 +63,9 @@ li, td, th {
 keyboard {
     font-size: 18px;
 }
+
+#status-buttons a               { display:inline-block; text-align:center; text-transform:uppercase; margin:0 5px 0 5px}
+#status-buttons a:hover         { text-decoration:none; }
+#status-buttons span            { display:block; height:30px; margin:0 auto 10px; padding-top:5px; width:30px; 
+    border-radius:50%; }
+#status-buttons a.active span   { background:#00BC8C; }
