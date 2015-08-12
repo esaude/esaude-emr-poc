@@ -5,15 +5,14 @@
     <title>home</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <!-- build:css(.) styles/vendor.css -->
+    <!-- build:css styles/vendor.home.min.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="../../bower_components/keyboard/dist/css/keyboard.min.css" />
     <link rel="stylesheet" href="../../bower_components/angular-chart.js/dist/angular-chart.css" />
     <!-- endbower -->
     <!-- endbuild -->
-    <!-- build:css(.tmp) styles/main.css -->
+    <!-- build:css styles/main.min.css -->
     <link rel="stylesheet" href="../styles/main-styles.css">
     <!-- endbuild -->
   </head>
@@ -24,7 +23,7 @@
           </div>
       </div>
 
-      <!-- build:js(.) scripts/vendor.js -->
+      <!-- build:js scripts/vendor.home.min.js -->
       <!-- bower:js -->
       <script src="../../bower_components/jquery/dist/jquery.min.js"></script>
       <script src="../../bower_components/angular/angular.min.js"></script>
@@ -38,12 +37,18 @@
       <script src="../../bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
       <script src="../../bower_components/Chart.js/Chart.min.js"></script>
       <script src="../../bower_components/angular-chart.js/dist/angular-chart.min.js"></script>
+      <script src="../../bower_components/angular-smart-table/dist/smart-table.min.js"></script>       
+      <script src="../../bower_components/keyboard/dist/js/jquery.keyboard.extension-all.min.js"></script>
+      <script src="../../bower_components/angular-cookies/angular-cookies.min.js"></script>
       <!-- endbower -->
+      <!-- endbuild -->
 
-    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <!-- build:js scripts/home.min.js -->
     <script src="../common/application/services/applicationServiceMock.js"></script>
     
     <script src="./app.js"></script>
+    <script src="services/authService.js"></script>
+    <script src="controllers/loginController.js"></script>
     <script src="controllers/dashboardController.js"></script>
     <!-- endbuild -->
 </body>
