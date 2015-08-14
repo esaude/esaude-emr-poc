@@ -6,16 +6,20 @@
 // 'test/spec/{,*/}*.js'
 // use this if you want to recursively match all subfolders:
 // 'test/spec/**/*.js'
-
 module.exports = function (grunt) {
-
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
 
+  grunt.loadNpmTasks('grunt-connect-proxy');
+  
   // Automatically load required Grunt tasks
   require('jit-grunt')(grunt, {
     useminPrepare: 'grunt-usemin'
   });
+  
+  var serveStatic = require('serve-static');
+  
+  var proxySnippet = require('grunt-connect-proxy/lib/utils').proxyRequest;
 
   // Configurable paths for the application
   var appConfig = {
@@ -73,21 +77,31 @@ module.exports = function (grunt) {
         hostname: 'localhost',
         livereload: 35729
       },
+      proxies: [
+            {
+                context: '/openmrs',
+                host: 'localhost',
+                port: 8080,
+                https: true,
+                xforward: true
+            }
+        ],
       livereload: {
         options: {
           open: true,
           middleware: function (connect) {
             return [
-              connect.static('.tmp'),
+              serveStatic('.tmp'),
               connect().use(
                 '/bower_components',
-                connect.static('./bower_components')
+                serveStatic('./bower_components')
               ),
               connect().use(
                 '/app/styles',
-                connect.static('./app/styles')
+                serveStatic('./app/styles')
               ),
-              connect.static(appConfig.app)
+              serveStatic(appConfig.app),
+              proxySnippet
             ];
           }
         }
@@ -375,6 +389,7 @@ module.exports = function (grunt) {
       'clean:server',
       'concurrent:server',
       'autoprefixer:server',
+      'configureProxies',
       'connect:livereload',
       'watch'
     ]);

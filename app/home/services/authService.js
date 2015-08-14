@@ -5,12 +5,11 @@ angular.module('home')
 .factory('authenticationService',
     ['$http', '$cookieStore', '$rootScope', '$window', '$q',
     function ($http, $cookieStore, $rootScope, $window, $q) {
-        var sessionResourcePath = 'http://localhost\:8080/openmrs/ws/rest/v1/session';
+        var sessionResourcePath = '/openmrs/ws/rest/v1/session';
 
         var createSession = function(username, password){
             return $http.get(sessionResourcePath, {
-                headers: {'Authorization': 'Basic ' + $window.btoa(username + ':' + password),
-                          'Access-Control-Allow-Origin': '*'},
+                headers: {'Authorization': 'Basic ' + $window.btoa(username + ':' + password)},
                 cache: false
             });
         };
