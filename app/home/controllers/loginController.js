@@ -2,8 +2,8 @@
 
 angular.module('home')
     .controller('LoginController', ['$rootScope', '$scope', '$location', 
-                'authenticationService', '$q',
-        function ($rootScope, $scope, $location, authenticationService, $q) {
+                'authenticationService', '$q', '$stateParams', 'spinner',
+        function ($rootScope, $scope, $location, authenticationService, $q, $stateParams, spinner) {
         var landingPagePath = "/dashboard";
         var loginPagePath = "/login";
         
@@ -12,6 +12,10 @@ angular.module('home')
         function init () {
             $scope.showMenu = true;
             $scope.loginUser = {};
+        }
+        
+        if ($stateParams.showLoginMessage) {
+            $scope.errorMessage = "You are not authenticated or your session expired. Please login.";
         }
         
         var redirectToLandingPageIfAlreadyAuthenticated = function () {
@@ -27,7 +31,7 @@ angular.module('home')
         }
         
         $scope.login = function () {
-//            $scope.errorMessage = null;
+            $scope.errorMessage = null;
             $scope.dataLoading = true;
             var deferrable = $q.defer();
             authenticationService.loginUser($scope.loginUser.username, $scope.loginUser.password).then(
@@ -49,24 +53,10 @@ angular.module('home')
                     deferrable.reject(error);
                 }
             );
-            deferrable.promise['finally'](function() {
-                $location.path(landingPagePath);
-            });
-    
-        }
-        // reset login status
-//        authenticationService.clearCredentials();
-// 
-//        $scope.login = function () {
-//            $scope.dataLoading = true;
-//            authenticationService.login($scope.loginUser.username, $scope.loginUser.password, function(response) {
-//                if(response.success) {
-//                    authenticationService.setCredentials($scope.loginUser.username, $scope.loginUser.password);
-//                    $location.url('/dashboard');
-//                } else {
-//                    $scope.error = response.message;
-//                    $scope.dataLoading = false;
-//                }
-//            });
-//        };
+            spinner.forPromise(deferrable.promise).then(
+                function () {
+                    $location.path(landingPagePath);
+                }
+            );
+        };
     }]);

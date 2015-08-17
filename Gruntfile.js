@@ -18,7 +18,6 @@ module.exports = function (grunt) {
   });
   
   var serveStatic = require('serve-static');
-  
   var proxySnippet = require('grunt-connect-proxy/lib/utils').proxyRequest;
 
   // Configurable paths for the application
