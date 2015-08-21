@@ -65,4 +65,4 @@
     </button>
 </div>
 
-<!--script src="../../scripts/virtual-keyboard.js" type="text/javascript"></script-->
+<script src="../../scripts/virtual-keyboard.js" type="text/javascript"></script>
