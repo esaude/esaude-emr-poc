@@ -1,13 +1,76 @@
 'use strict';
 
 angular.module('registration')
-        .controller('SearchController', function ($scope, $location, patientServiceMock) {
-
-            init();
-
-            function init() {
-                $scope.patients = patientServiceMock.getPatients();
+        .controller('SearchController', function ($scope, $location, patientService) {
+            $scope.results = [];
+            
+            var searchBasedOnQueryParameters = function () {
+                if (hasSearchParameters()) {
+                    var searchPromise = patientService.search(
+                        $scope.searchText);
+                    searchPromise['finally'](function () {
+                    });
+                    return searchPromise;
+                }
+            };
+            
+            var hasSearchParameters = function () {
+                return $scope.searchText.trim().length > 0;
+            };
+            
+            var showSearchResults = function (searchPromise) {
+                $scope.noMoreResultsPresent = false;
+                if (searchPromise) {
+                    searchPromise.success(function (data) {
+                        $scope.results = patientSearchUtil(data.results);
+                        $scope.noResultsMessage = $scope.results.length === 0 ? "No results found" : null;
+                    });
+                }
+            };
+            
+            function patientSearchUtil(results) {
+                //prepare results to be presented in search table
+                var preparedResults = [];
+                for(var patientIndex in results) {
+                    var result = results[patientIndex];
+                    var patient = {identifier: "", givenName: "", middleName: "", familyName: "", age: "", birthdate:"", uuid: ""};
+                    //find the correct identifier NID - TARV
+                    for(var identifierIndex in result.identifiers) {
+                        var identifier = result.identifiers[identifierIndex];
+                        //check identifier type
+                        if(identifier.identifierType.display === "NID (SERVICO TARV)") {
+                            patient.identifier = identifier.identifier;
+                        }
+                    }
+                    if(typeof result.person !== "undefined" && typeof result.person.names !== "undefined") {
+                        var name = result.person.names[0];
+                        patient.givenName = name.givenName;
+                        patient.middleName = name.middleName;
+                        patient.familyName = name.familyName;
+                    }
+                    //prepare age and birthdate
+                    if(typeof result.person !== "undefined") {
+                        patient.gender = result.person.gender;
+                        patient.age = result.person.age;
+                        patient.birthdate = result.person.birthdate;
+                    }
+                    patient.uuid = result.uuid;
+                    
+                    preparedResults.push(patient);
+                }
+                return preparedResults;
             }
+
+            $scope.change = function (text) {
+                //start loading data at 3 chars
+                if(text.trim().length === 0) {
+                    $scope.results = [];
+                }
+                else if(text.trim().length > 2) {
+                    $scope.searchText = text;
+                    showSearchResults(searchBasedOnQueryParameters(text));
+                }
+            };
             
             $scope.linkDashboard = function(patient) {
                 $location.url("/dashboard/" + patient.uuid); // path not hash

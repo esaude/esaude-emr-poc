@@ -19,16 +19,14 @@ angular
                     'layout': { templateUrl: '../common/application/views/layout.html', controller: 'DashboardController'},
                     'content@dashboard': { templateUrl: 'views/dashboard.html'}
                 },
-                resolve: {authenticate: authenticate}
+                resolve: {authenticated: authenticated}
             });
-            function authenticate($q, $cookieStore, $state, $timeout) {
-                console.log($cookieStore.get('user'));
+            
+            function authenticated($q, $cookieStore, $state, $timeout) {
                 if ($cookieStore.get('user') != null) {
-                    debugger;
                     // Resolve the promise successfully
                     return $q.when();
                 } else {
-                    debugger;
                     // The next bit of code is asynchronously tricky.
 
                     $timeout(function () {
@@ -40,6 +38,5 @@ angular
                     // Reject the authentication promise to prevent the state from loading
                     return $q.reject();
                 }
-            }
-            
+            };
     }]);
