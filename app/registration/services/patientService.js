@@ -15,6 +15,17 @@ angular.module('registration')
                 withCredentials: true
             });
         };
+        
+        var getByIdentifier = function (query) {
+            return $http.get(openmrsUrl + "/ws/rest/v1/patient", {
+                method: "GET",
+                params: {
+                    identifier: query,
+                    v: "full"
+                     },
+                withCredentials: true
+            });
+        };
 
         var get = function (uuid) {
             return $http.get(openmrsUrl + "/ws/rest/v1/patient/" + uuid, {
@@ -64,6 +75,7 @@ angular.module('registration')
 
         return {
             search: search,
+            getByIdentifier: getByIdentifier,
 //            create: create,
             generateIdentifier: generateIdentifier,
 //            update: update,
