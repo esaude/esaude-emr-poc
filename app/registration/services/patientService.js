@@ -10,6 +10,7 @@ angular.module('registration')
                 method: "GET",
                 params: {
                     q: query,
+                    identifier: query,
                     v: "full"
                      },
                 withCredentials: true

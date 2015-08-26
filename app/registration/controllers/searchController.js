@@ -10,12 +10,6 @@ angular.module('registration')
                     var searchPromise = patientService.search(
                         $scope.searchText);
                     searchPromise['finally'](function () {
-                        //search by identifier if no name found
-                        searchPromise.success(function (data) {
-                            if(data.results.length === 0) {
-                                searchPromise = patientService.getByIdentifier($scope.searchText);
-                            }
-                        });
                     });
                     return searchPromise;
                 }
