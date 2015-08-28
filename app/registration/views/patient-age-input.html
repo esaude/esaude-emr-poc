@@ -6,11 +6,11 @@
         <form class="form-horizontal">
             <label for="patient_age" class="col-sm-2 control-label"><b>Age/Birthdate:</b></label>
         <div class="col-sm-2 input-group-lg">
-            <input id="patient_age" type="number" class="form-control">
+            <input id="patient_age" type="number" class="form-control" ng-model="patient.age.years">
         </div>
         <div class="col-sm-6">
             <div id="birth_datetime_picker" class="input-group input-group-lg date">
-                <input type="text" class="form-control" id="birthdate"/>
+                <input type="text" class="form-control" id="birthdate" ng-model="patient.birthdate"/>
                 <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>

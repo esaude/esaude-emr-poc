@@ -44,13 +44,13 @@ angular.module('registration')
             });
         };
 
-//        var create = function (patient) {
-//            var patientJson = new Bahmni.Registration.CreatePatientRequestMapper(moment()).mapFromPatient($rootScope.patientConfiguration.personAttributeTypes, patient);
-//            return $http.post(baseOpenMRSRESTURL + "/patientprofile", patientJson, {
-//                withCredentials: true,
-//                headers: {"Accept": "application/json", "Content-Type": "application/json"}
-//            });
-//        };
+        var create = function (patient) {
+            var patientJson = new Bahmni.Registration.CreatePatientRequestMapper(moment()).mapFromPatient($rootScope.patientConfiguration.personAttributeTypes, patient);
+            return $http.post(baseOpenMRSRESTURL + "/patientprofile", patientJson, {
+                withCredentials: true,
+                headers: {"Accept": "application/json", "Content-Type": "application/json"}
+            });
+        };
 //
 //        var update = function (patient, openMRSPatient) {
 //            var patientJson = new Bahmni.Registration.UpdatePatientRequestMapper(moment()).mapFromPatient($rootScope.patientConfiguration.personAttributeTypes, openMRSPatient, patient);

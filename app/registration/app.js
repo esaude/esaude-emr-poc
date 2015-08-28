@@ -1,7 +1,7 @@
 'use strict';
 
 angular
-    .module('registration', ['ngRoute', 'ui.router', 'smart-table'])
+    .module('registration', ['ngRoute', 'ui.router', 'smart-table', 'uiHelper', 'config', 'domain'])
     .config(['$urlRouterProvider', '$stateProvider', function ($urlRouterProvider, $stateProvider) {
         $urlRouterProvider.otherwise('/search');
         $stateProvider
@@ -22,7 +22,7 @@ angular
             .state('newpatient', {
                 url: '/patient/new',
                 views: {
-                    'layout': { templateUrl: '../common/application/views/layout.html', controller: 'NewPatientController'},
+                    'layout': { templateUrl: '../common/application/views/layout.html', controller: 'CreatePatientController'},
                     'content@newpatient': { templateUrl: 'views/patient-add.html'}
                 }
             })

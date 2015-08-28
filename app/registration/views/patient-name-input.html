@@ -7,19 +7,22 @@
             <div class="form-group form-group-lg">
                 <label for="patient_name" class="col-sm-2 control-label">Name:</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control keyboard-in" id="patient_name">
+                    <input type="text" class="form-control keyboard-in" id="patient_name" ng-model="$patient.givenName"
+                           placeholder="First Name" title="Enter patient's first name.">
                 </div>
             </div>
             <div class="form-group form-group-lg">
                 <label for="patient_muddle_name" class="col-sm-2 control-label">Middle Name:</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control keyboard-in" id="patient_muddle_name">
+                    <input type="text" class="form-control keyboard-in" id="patient_muddle_name" ng-model="patient.middleName"
+                           placeholder="Middle Name" title="Enter patient's middle name.">
                 </div>
             </div>
             <div class="form-group form-group-lg">
                 <label for="patient_surname" class="col-sm-2 control-label">Surname:</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control keyboard-in" id="patient_surname">
+                    <input type="text" class="form-control keyboard-in" id="patient_surname" ng-model="patient.familyName"
+                           placeholder="Last Name" title="Enter patient's last name.">
                 </div>
             </div>
         </form>

@@ -79,7 +79,7 @@ module.exports = function (grunt) {
       proxies: [
             {
                 context: '/openmrs',
-                host: '192.168.50.45',
+                host: 'localhost',
                 port: 8080,
                 https: true,
                 xforward: true
