@@ -1,26 +1,170 @@
 'use strict';
 
-angular.module('authentication', []).factory('authenticate',
-    ['$q', '$cookieStore', '$state', '$timeout', function ($q, $cookieStore, $state, $timeout) {
-        
-        return function () {
-                if ($cookieStore.get('user') != null) {
-                    debugger;
-                    // Resolve the promise successfully
-                    return $q.when();
-                } else {
-                    debugger;
-                    // The next bit of code is asynchronously tricky.
+angular.module('authentication')
+    .config(function ($httpProvider) {
+        var interceptor = ['$rootScope', '$q', function ($rootScope, $q) {
+            function success(response) {
+                return response;
+            }
 
-                    $timeout(function () {
-                        // This code runs after the authentication promise has been rejected.
-                        // Go to the log-in page
-                        $state.go('login', { showLoginMessage: true});
-                    });
-
-                    // Reject the authentication promise to prevent the state from loading
-                    return $q.reject();
+            function error(response) {
+                if (response.status === 401) {
+                    $rootScope.$broadcast('event:auth-loginRequired');
                 }
+                return $q.reject(response);
+            }
+
+            return {
+                response: success,
+                responseError: error
             };
-    }]
-);
+        }];
+        $httpProvider.interceptors.push(interceptor);
+    }).run(['$rootScope', '$window', function ($rootScope, $window) {
+        $rootScope.$on('event:auth-loginRequired', function () {
+            $window.location = "../home/#/login?showLoginMessage=true";
+        });
+    }]).service('sessionService', ['$rootScope', '$http', '$q', '$cookieStore', 'userService', function ($rootScope, $http, $q, $cookieStore, userService) {
+        var sessionResourcePath = '/openmrs/ws/rest/v1/session';
+
+        var createSession = function(username, password){
+            return $http.get(sessionResourcePath, {
+                headers: {'Authorization': 'Basic ' + window.btoa(username + ':' + password)},
+                cache: false
+            });
+        };
+
+        var hasAnyActiveProvider = function (providers) {
+            return _.filter(providers, function (provider) {
+                    return (provider.retired == undefined || provider.retired == "false")
+                }).length > 0;
+        };
+
+        var self = this;
+
+        this.destroy = function(){
+            return $http.delete(sessionResourcePath).success(function(data){
+                delete $.cookie(Bahmni.Common.Constants.currentUser, null, {path: "/"});
+                delete $.cookie(Bahmni.Common.Constants.currentUser, null, {path: "/"});
+                delete $.cookie(Bahmni.Common.Constants.retrospectiveEntryEncounterDateCookieName, null, {path: "/"});
+                delete $.cookie(Bahmni.Common.Constants.grantProviderAccessDataCookieName, null, {path: "/"});
+                $rootScope.currentUser = null;
+            });
+        };
+
+        this.loginUser = function(username, password, location) {
+            var deferrable = $q.defer();
+            createSession(username,password).success(function(data) {
+                if (data.authenticated) {
+                    $cookieStore.put(Bahmni.Common.Constants.currentUser, username, {path: '/', expires: 7});
+                    deferrable.resolve();
+                } else {
+                   deferrable.reject('Authentication failed. Please try again.');   
+                }
+            }).error(function(){
+                deferrable.reject('Authentication failed. Please try again.');   
+            });
+            return deferrable.promise;
+        };
+
+        this.get = function () {
+            return $http.get(sessionResourcePath, { cache: false });
+        };
+
+        this.loadCredentials = function () {
+            var deferrable = $q.defer();
+            var currentUser = $cookieStore.get(Bahmni.Common.Constants.currentUser);
+            if(!currentUser) {
+                this.destroy().then(function() {
+                    $rootScope.$broadcast('event:auth-loginRequired');
+                    deferrable.reject("No User in session. Please login again.")
+                });
+                return deferrable.promise;
+            }
+            userService.getUser(currentUser).success(function(data) {
+                userService.getProviderForUser(data.results[0].uuid).success(function(providers){
+                        if(!_.isEmpty(providers.results) && hasAnyActiveProvider(providers.results)){
+                            $rootScope.currentUser = new Bahmni.Auth.User(data.results[0]);
+                            $rootScope.$broadcast('event:user-credentialsLoaded', data.results[0]);
+                            deferrable.resolve(data.results[0]);
+                        }else{
+                            self.destroy();
+                            deferrable.reject('You have not been setup as a Provider, please contact administrator.');
+                        }
+                    }
+                ).error(function(){
+                        self.destroy();
+                        deferrable.reject('Could not get provider for the current user.');
+                    });
+            }).error(function () {
+                self.destroy();
+                deferrable.reject('Could not get roles for the current user.');
+            });
+            return deferrable.promise;
+        };
+
+        this.loadProviders = function(userInfo) {
+            return $http.get("/openmrs/ws/rest/v1/provider", {
+                 method: "GET",
+                 params: {
+                     user: userInfo.uuid
+                 },
+                 cache: false
+             }).success(function (data) {
+                var providerUuid = (data.results.length > 0) ? data.results[0].uuid : undefined;
+                $rootScope.currentProvider = { uuid: providerUuid };
+             });
+        };
+    }]).factory('authenticator', ['$rootScope', '$q', '$window', 'sessionService', function ($rootScope, $q, $window, sessionService) {
+        var authenticateUser = function () {
+            var defer = $q.defer();
+            var sessionDetails = sessionService.get();
+            sessionDetails.success(function (data) {
+                if (data.authenticated) {
+                    defer.resolve();
+                } else {
+                    defer.reject('User not authenticated');
+                    $rootScope.$broadcast('event:auth-loginRequired');
+                }
+            });
+            sessionDetails.error(function(data){
+                defer.reject('User not authenticated');
+                $rootScope.$broadcast('event:auth-loginRequired');
+            });
+            return defer.promise;
+        }
+
+        return {
+            authenticateUser: authenticateUser
+        }
+
+    }]).directive('logOut',['sessionService', '$window', function(sessionService, $window) {
+        return {
+            link: function(scope, element, attrs) {
+                element.bind('click', function() {
+                    scope.$apply(function() {
+                        sessionService.destroy().then(
+                            function () {
+                                $window.location = "../home/#/login";
+                            }
+                        );
+                    });
+                });
+            }
+        };
+    }])
+    .directive('btnUserInfo', ['$rootScope', '$window', function($rootScope, $window) {
+        return {
+            restrict: 'CA',
+            link: function(scope, elem, attrs) {
+                elem.bind('click', function(event) {
+                    $(this).next().toggleClass('active');
+                    event.stopPropagation();
+                });
+                $(document).find('body').bind('click', function() {
+                    $(elem).next().removeClass('active');
+                });
+            }
+        };
+    }
+]);

@@ -1,7 +1,7 @@
-var UI = UI || {};
-UI.Registration = UI.Registration || {};
+var Bahmni = Bahmni || {};
+Bahmni.Registration = Bahmni.Registration || {};
 
-UI.Registration.Constants = {
+Bahmni.Registration.Constants = {
     openmrsUrl: "/openmrs",
     registrationEncounterType: "REG",
     baseOpenMRSRESTURL: "/openmrs/ws/rest/v1",

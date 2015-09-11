@@ -1,0 +1,70 @@
+[
+    {
+        "id": "bahmni.adt.admission",
+        "extensionPoints": [
+            {
+                "id": "org.bahmni.adt.admit.action",
+                "description": "Bahmni Patient Admission Action"
+            },
+            {
+                "id": "org.bahmni.adt.transfer.action",
+                "description": "Bahmni Patient Transfer Action"
+            },
+            {
+                "id": "org.bahmni.adt.discharge.action",
+                "description": "Bahmni Patient Discharge Action"
+            },
+            {
+                "id": "org.bahmni.patient.search",
+                "description": "Bahmni patient search, lookup Page"
+            }
+        ],
+        "contextModel": [ 
+            "patientUuid",
+            "encounterUuid",
+            "visitUuid"
+        ],
+        "config" : {
+            "onAdmissionForwardTo": "#/patient/{{patientUuid}}/visit/{{visitUuid}}/encounter/{{encounterUuid}}/bed",
+            "onTransferForwardTo": "#/patient/{{patientUuid}}/visit/{{visitUuid}}/encounter/{{encounterUuid}}/bed",
+            "onDischargeForwardTo": "#/patient/search",
+            "defaultVisitType": "IPD",
+            "dashboard":{
+                "dashboardName": "General",
+                "conceptName": "Adt Notes",
+                "sections": [
+                {
+                    "title": "Vitals",
+                    "name": "vitals",
+                    "isObservation": true,
+                    "dashboardParams": {
+                        "conceptNames": ["Vitals"],
+                        "numberOfVisits": 2
+                    }
+                },
+                {
+                    "title": "Disposition",
+                    "name": "disposition",
+                    "numberOfVisits": 1
+                },
+                {
+                    "title": "Diagnosis",
+                    "name": "diagnosis",
+                    "numberOfVisits": 1,
+                    "showDetailsButton":true
+                },
+                {
+                "title": "Patient Information",
+                "name": "patientInformation",
+                "patientAttributes": ["caste", "class", "education", "occupation", "debt", "distanceFromCenter", "isUrban", "cluster","RationCard", "familyIncome"],
+                "addressFields": ["address1", "address2", "cityVillage", "countryDistrict"]
+                },
+                {
+                "title": "Admission Details",
+                "name":"admissionDetails"
+                }
+            ]
+        }
+        }
+    }
+]

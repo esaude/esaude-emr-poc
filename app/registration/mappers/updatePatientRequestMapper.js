@@ -1,6 +1,6 @@
 'use strict';
 
-UI.Registration.UpdatePatientRequestMapper = (function () {
+Bahmni.Registration.UpdatePatientRequestMapper = (function () {
     var UpdatePatientRequestMapper = function (currentDate) {
         this.currentDate = currentDate;
     };

@@ -1,0 +1,34 @@
+<div class="col-sm-2 control-label">
+    <label for="{{attribute.name}}">{{attribute.name}}<span class="asterick" ng-show="{{attribute.required}}">*</span></label>
+</div>
+<div class="col-sm-10" data-ng-switch on="attribute.format">
+    <div data-ng-switch-when="java.lang.String">
+        <span data-ng-switch="isAutoComplete(attribute.name)">
+            <input class="form-control keyboard-in" data-ng-switch-when="true"
+                   type="text" id="{{$parent.attribute.name}}"                   
+                   ng-model="$parent.patient[$parent.attribute.name]" data-item-type="personAttribute"
+                   my-autocomplete source="getAutoCompleteList" response-map="getDataResults" ng-disabled="isReadOnly($parent.attribute.name)" ng-required="{{attribute.required}}">
+
+            <input class="form-control keyboard-in" data-ng-switch-default
+                   type="text" pattern-validate id="{{attribute.name}}"
+                   ng-model="patient[attribute.name]" data-item-type="personAttribute" ng-disabled="isReadOnly(attribute.name)" ng-required="{{attribute.required}}">
+        </span>
+    </div>
+    <div data-ng-switch-when="org.openmrs.Concept">
+        <select class="form-control" id="{{attribute.name}}" ng-model="patient[attribute.name]"
+                ng-options="a.conceptId as a.description for a in attribute.answers" ng-disabled="isReadOnly(attribute.name)" ng-required="{{attribute.required}}">
+            <option value=""></option>
+        </select>
+    </div>
+    <div class="left" data-ng-switch-when="java.lang.Integer">
+        <input class="form-control" id="{{attribute.name}}" type="number" pattern-validate 
+               ng-model="patient[attribute.name]" data-item-type="personAttribute" ng-disabled="isReadOnly(attribute.name)" ng-required="{{attribute.required}}"/>
+    </div>
+    <div data-ng-switch-when="java.lang.Float">
+        <input class="form-control" type="number" pattern-validate step="any" id="{{attribute.name}}" 
+               ng-model="patient[attribute.name]" data-item-type="personAttribute" ng-disabled="isReadOnly(attribute.name)" ng-required="{{attribute.required}}"/>
+    </div>
+    <div data-ng-switch-when="java.lang.Boolean">
+        <input class="form-control" id="isUrban" type="checkbox" ng-model="patient[attribute.name]" ng-disabled="isReadOnly(attribute.name)" ng-required="{{attribute.required}}"/>
+    </div>
+</div>

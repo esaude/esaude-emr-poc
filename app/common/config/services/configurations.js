@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('config')
+angular.module('bahmni.common.config')
     .service('configurations', ['configurationService', function (configurationService) {
 
         this.configs = {};

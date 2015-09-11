@@ -1,1 +1,1 @@
-angular.module('config', []);
+angular.module('bahmni.common.config', []);

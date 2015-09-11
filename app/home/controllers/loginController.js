@@ -1,9 +1,8 @@
 'use strict';
 
 angular.module('home')
-    .controller('LoginController', ['$rootScope', '$scope', '$location', 
-                'authenticationService', '$q', '$stateParams', 'spinner',
-        function ($rootScope, $scope, $location, authenticationService, $q, $stateParams, spinner) {
+    .controller('LoginController', ['$rootScope', '$scope', '$window', '$location', 'sessionService', 'spinner', '$q', '$stateParams',
+        function ($rootScope, $scope, $window, $location, sessionService, spinner, $q, $stateParams) {
         var landingPagePath = "/dashboard";
         var loginPagePath = "/login";
         
@@ -19,7 +18,7 @@ angular.module('home')
         }
         
         var redirectToLandingPageIfAlreadyAuthenticated = function () {
-            authenticationService.get().success(function (data) {
+            sessionService.get().success(function (data) {
                 if (data.authenticated) {
                     $location.path(landingPagePath);
                 }
@@ -34,9 +33,9 @@ angular.module('home')
             $scope.errorMessage = null;
             $scope.dataLoading = true;
             var deferrable = $q.defer();
-            authenticationService.loginUser($scope.loginUser.username, $scope.loginUser.password).then(
+            sessionService.loginUser($scope.loginUser.username, $scope.loginUser.password).then(
                 function () {
-                    authenticationService.loadCredentials().then(
+                    sessionService.loadCredentials().then(
                         function () {
                             $rootScope.$broadcast('event:auth-loggedin');
                             deferrable.resolve();

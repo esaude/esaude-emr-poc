@@ -1,6 +1,6 @@
 'use strict';
 
-UI.Registration.PatientConfig = (function () {
+Bahmni.Registration.PatientConfig = (function () {
 
     function PatientConfig(patientAttributeTypes, identifierSources, additionalPatientInformation ) {
         this.personAttributeTypes = patientAttributeTypes;

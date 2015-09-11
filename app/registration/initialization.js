@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('registration').factory('initialization',
-    ['$rootScope', '$q', 'configurations', 'authenticator', 'appService', 'spinner', 'Preferences',
-    function ($rootScope, $q, configurations, authenticator, appService, spinner, preferences) {
+    ['$rootScope', 'configurations', 'authenticator', 'appService', 'spinner', 'Preferences',
+    function ($rootScope, configurations, authenticator, appService, spinner, preferences) {
         var getConfigs = function() {
             var configNames = ['encounterConfig', 'patientAttributesConfig', 'identifierSourceConfig', 'addressLevels', 'genderMap', 'relationshipTypeConfig'];
             return configurations.load(configNames).then(function () {

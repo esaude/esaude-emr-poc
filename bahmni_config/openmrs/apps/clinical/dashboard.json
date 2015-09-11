@@ -1,0 +1,257 @@
+[
+    {
+        "dashboardName": "General",
+        "displayByDefault": true,
+        "maxRecentlyViewedPatients": 10,
+        "sections": [
+            {
+                "title": "Diagnosis",
+                "name": "diagnosis",
+                "showCertainty": true,
+                "showOrder": true
+            },
+            {
+                "title": "Disposition",
+                "name": "disposition",
+                "numberOfVisits": 1
+            },
+            {
+                "title": "Treatments",
+                "name": "treatment",
+                "dashboardParams": {
+                    "showFlowSheet": true,
+                    "showListView": true,
+                    "showRoute": true,
+                    "showDrugForm": true,
+                    "numberOfVisits": 3,
+                    "showOtherActive": true,
+                    "showDetailsButton": true
+                },
+                "allTreatmentDetails": {
+                    "title": "Treatments",
+                    "showFlowSheet": true,
+                    "showListView": true,
+                    "showRoute": true,
+                    "showDrugForm": true,
+                    "numberOfVisits": 10,
+                    "showOtherActive": true,
+                    "showDetailsButton": true
+                }
+            },
+            {
+                "title": "Radiology",
+                "name": "radiology"
+            },
+            {
+                "title": "Lab Orders Display Control",
+                "name": "ordersControl",
+                "orderType": "Lab Order",
+                "conceptNames":[ "Systolic", "Diastolic", "Posture", "Temperature"]
+            },
+            {
+                "title": "Lab Results",
+                "name": "labOrders",
+                "dashboardParams": {
+                "title": null,
+                    "numberOfVisits": 1,
+                    "showChart": false,
+                    "showTable": true,
+                    "showDetailsButton": false,
+                    "initialAccessionCount": 0,
+                    "latestAccessionCount": 1
+                },
+                "allLabDetails": {
+                    "numberOfVisits": 10
+                }
+            },
+            {
+                "title": "Nutritional Values",
+                "name": "vitals",
+                "isObservation": true,
+                "dashboardParams": {
+                    "conceptNames": [
+                        "HEIGHT",
+                        "Weight",
+                        "BMI",
+                        "BMI STATUS"
+                    ],
+                    "numberOfVisits": 2
+                },
+                "allObservationDetails": {
+                    "conceptNames": [
+                        "HEIGHT",
+                        "Weight",
+                        "BMI",
+                        "BMI STATUS"
+                    ],
+                    "numberOfVisits": 2,
+                    "scope": "latest",
+                    "showDetailsButton": true
+                }
+            },
+            {
+                "title": "Vitals",
+                "name": "vitals",
+                "isObservation": true,
+                "dashboardParams": {
+                    "conceptNames": ["Vitals"],
+                    "numberOfVisits": 2
+                },
+                "allObservationDetails": {
+                    "conceptNames": ["Vitals"],
+                    "numberOfVisits": 2,
+                    "showDetailsButton": true
+                }
+            },
+            {
+                "title": "Visits",
+                "name": "visits",
+                "dashboardParams": {
+                    "title": null,
+                    "maximumNoOfVisits": 10
+                }
+            },
+            {
+                "title": "Diabetes",
+                "templateName": "Diabetes Template",
+                "name": "diseaseTemplate",
+                "dashboardParams": {
+                    "showOnly": []
+                },
+                "allDiseaseDetails": {
+                    "showDetailsButton": true,
+                    "pivotTable": {
+                        "numberOfVisits": "15",
+                        "groupBy": "encounters",
+                        "obsConcepts": [
+                            "Weight",
+                            "Height",
+                            "Systolic",
+                            "Diastolic",
+                            "Diabetes, Foot Exam",
+                            "Diabetes, Eye Exam"
+                        ],
+                        "drugConcepts": [
+                            "Ipratropium Pressurised",
+                            "Garbhpal Rasa"
+                        ],
+                        "labConcepts": [
+                            "RBS",
+                            "FBS",
+                            "PP2BS",
+                            "Hb1AC",
+                            "Creatinine",
+                            "Albumin",
+                            "Polymorph"
+                        ]
+                    }
+                }
+            },
+            {
+                "title": "Admission Details",
+                "name": "admissionDetails"
+            }
+        ]
+    },
+    {
+        "dashboardName": "Trends",
+        "maxRecentlyViewedPatients": 10,
+        "sections": [
+            {
+                "title": "Patient Information",
+                "name": "patientInformation",
+                "patientAttributes": ["caste", "class", "education", "occupation", "debt", "distanceFromCenter", "isUrban", "cluster","RationCard", "familyIncome"],
+                "addressFields": ["address1", "address2", "cityVillage", "countryDistrict"]
+            },
+            {
+                "type": "observationGraph",
+                "name": "observationGraph",
+                "title": "Growth Chart",
+                "config": {
+                    "referenceData": "growthChartReference.csv",
+                    "numberOfVisits": 20
+                }
+            },
+            {
+                "type": "observationGraph",
+                "name": "observationGraph",
+                "title": "BP",
+                "config": {
+                    "yAxisConcepts": [
+                        "Systolic",
+                        "Diastolic"
+                    ],
+                    "xAxisConcept": "observationDateTime",
+                    "numberOfVisits": 10
+                }
+            },
+            {
+                "type": "observationGraph",
+                "name": "observationGraph",
+                "title": "Weight/BMI",
+                "config": {
+                    "yAxisConcepts": [
+                        "Weight",
+                        "BMI"
+                    ],
+                    "xAxisConcept": "observationDateTime",
+                    "numberOfVisits": 10
+                }
+            },
+            {
+                "type": "observationGraph",
+                "name": "observationGraph",
+                "title": "Diabetes/Blood Sugar",
+                "config": {
+                    "yAxisConcepts": [
+                        "Blood Sugar Fasting",
+                        "Blood Sugar P.P"
+                    ],
+                    "xAxisConcept": "observationDateTime",
+                    "numberOfVisits": 10
+                }
+            },
+            {
+                "type": "observationGraph",
+                "name": "observationGraph",
+                "title": "Pulse",
+                "config": {
+                    "yAxisConcepts": ["Pulse"],
+                    "xAxisConcept": "observationDateTime",
+                    "numberOfVisits": 10
+                }
+            },
+            {
+                "title": "Diabetes",
+                "templateName": "Diabetes, Progress",
+                "name": "diseaseTemplate",
+                "dashboardParams": {
+                    "showOnly": []
+                },
+                "allDiseaseDetails": {
+                    "showDetailsButton": true,
+                    "pivotTable": {
+                        "numberOfVisits": "10",
+                        "groupBy": "visits",
+                        "obsConcepts": [
+                            "Diabetes, Blood Pressure",
+                            "Diabetes, A1C",
+                            "Diabetes, LDL",
+                            "Diabetes, Ulcers on Feet",
+                            "Blood Sugar Fasting",
+                            "Blood Sugar PP"
+                        ],
+                        "labConcepts": [
+                            "RBS",
+                            "FBS",
+                            "PP2BS",
+                            "Hb1AC",
+                            "Creatinine",
+                            "Cholesterol"
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+]

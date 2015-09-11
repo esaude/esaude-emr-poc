@@ -27,6 +27,14 @@ angular.module('registration')
                 withCredentials: true
             });
         };
+        
+        var getIdentifierTypes = function () {
+            return $http.get(openmrsUrl + "/ws/rest/v1/patientidentifiertype", {
+                method: "GET",
+                params: {v: "full"},
+                withCredentials: true
+            });
+        };
 
         var get = function (uuid) {
             return $http.get(openmrsUrl + "/ws/rest/v1/patient/" + uuid, {
@@ -77,6 +85,7 @@ angular.module('registration')
         return {
             search: search,
             getByIdentifier: getByIdentifier,
+            getIdentifierTypes: getIdentifierTypes,
 //            create: create,
             generateIdentifier: generateIdentifier,
 //            update: update,

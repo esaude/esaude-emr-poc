@@ -1,4 +1,4 @@
-angular.module('home')
+angular.module('authentication')
     .service('userService', ['$rootScope', '$http', function ($rootScope, $http) {
 
         this.getUser = function (userName) {

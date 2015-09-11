@@ -1,0 +1,93 @@
+[
+    {
+        "name": "Chief Complaint Report",
+        "type": "CodedObsCount",
+        "config": {
+            "type": "codedObsCountReport",
+            "ageGroupName": "All Ages",
+            "conceptNames": "'Chief Complaint'",
+            "visitTypes": "'IPD','OPD'"
+        }
+    },
+    {
+        "name": "Inpatient Morbidity",
+        "type": "diagnosisCount",
+        "config": {
+            "type": "diagnosisReport",
+            "visitTypes": "'IPD'"
+        }
+    },
+    {
+        "name": "Outpatient Morbidity",
+        "type": "diagnosisCount",
+        "config": {
+            "type": "diagnosisReport",
+            "visitTypes": "'OPD'"
+        }
+    },
+    {
+        "name": "Laboratory Services",
+        "type": "TestCount"
+    },
+    {
+        "name": "Generic Laboratory Services",
+        "type": "ElisGeneric",
+        "config": {
+            "type": "sqlReport",
+            "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/testCount.sql"
+        }
+    },
+    {
+        "name": "Generic Outpatient Morbidity",
+        "type": "MRSGeneric",
+        "config": {
+            "type": "sqlReport",
+            "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/diagnosisCountOPD.sql"
+        }
+    },
+    {
+        "name": "Blood Pressure",
+        "type": "obsCount",
+        "config": {
+            "type": "codedObsCountReport",
+            "ageGroupName": "All Ages",
+            "conceptNames": "'Systolic','Diastolic'",
+            "visitTypes": "'OPD','IPD'"
+        }
+    },
+    {
+        "name": "Smoking History Report",
+        "type": "booleanConceptsCount",
+        "config": {
+            "type": "codedObsCountReport",
+            "ageGroupName": "All Ages",
+            "conceptNames": "'Smoking History'"
+        }
+    },
+    {
+        "name": "Vitals Template Report",
+        "type": "obsTemplate",
+        "config": {
+            "type": "obsTemplateReport",
+            "templateName": "Vitals"
+        }
+    },
+    {
+        "name": "Tuberculosis Intake Template Report",
+        "type": "obsTemplate",
+        "config": {
+            "type": "obsTemplateReport",
+            "templateName": "Tuberculosis Intake Template"
+        }
+    },
+    {
+        "name": "Diabetes",
+        "type": "obsCount",
+        "config": {
+            "type": "codedObsCountReport",
+            "ageGroupName": "All Ages",
+            "conceptNames": "'Diabetes, Intake'",
+            "visitTypes": "'OPD','IPD'"
+        }
+    }
+]

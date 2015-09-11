@@ -1,6 +1,6 @@
 'use strict';
 
-UI.Registration.PatientAttributeTypeMapper = (function () {
+Bahmni.Registration.PatientAttributeTypeMapper = (function () {
 
     function PatientAttributeTypeMapper() {
     }

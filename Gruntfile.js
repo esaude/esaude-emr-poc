@@ -73,14 +73,14 @@ module.exports = function (grunt) {
       options: {
         port: 9000,
         // Change this to '0.0.0.0' to access the server from outside.
-        hostname: 'localhost',
+        hostname: '0.0.0.0',
         livereload: 35729
       },
       proxies: [
             {
                 context: '/openmrs',
                 host: 'localhost',
-                port: 8080,
+                port: 8258,
                 https: true,
                 xforward: true
             }
@@ -94,6 +94,10 @@ module.exports = function (grunt) {
               connect().use(
                 '/bower_components',
                 serveStatic('./bower_components')
+              ),
+              connect().use(
+                '/bahmni_config',
+                serveStatic('./bahmni_config')
               ),
               connect().use(
                 '/app/styles',

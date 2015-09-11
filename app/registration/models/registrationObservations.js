@@ -1,6 +1,6 @@
 'use strict';
 
-UI.Registration.RegistrationObservations = (function () {
+Bahmni.Registration.RegistrationObservations = (function () {
     var ObservationData = (function () {
         function ObservationData(uuid, concept, value) {
             this.uuid = uuid;
