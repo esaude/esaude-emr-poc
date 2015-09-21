@@ -20,6 +20,7 @@
             </div>
         </form>
     </div>
+    <form name="idForm">
     <table class="table">
         <thead>
             <tr>
@@ -29,13 +30,16 @@
                 <th></th>
             </tr>
         </thead>
-        <tbody>
+        <tbody>  
             <tr ng-repeat=" pi in patientIdentifiers">
                 <td class="col-sm-4 control-label">{{pi.type.name}}</td>
                 <td>
-                    <div ng-class="{'has-error': pi.identifier.$invalid, 'has-success': !pi.identifier.$invalid}">
-                        <input type="text" class="form-control input-lg keyboard-in" id="aaa" 
-                               placeholder="{{pi.type.format}}" ng-model="pi.identifier" ng-pattern="{{pi.format}}">
+                    <div class="form-group has-success has-feedback" 
+                         ng-class="{'has-error': idForm.{{pi.fieldName}}.$invalid, 'has-success': !idForm.{{pi.fieldName}}.$invalid}">
+                        <input type="text" class="form-control input-lg keyboard-in" dynamic-name="pi.fieldName" 
+                               placeholder="{{pi.type.format}}" ng-model="pi.identifier" ng-pattern="{{pi.type.format}}">
+                        <span ng-class="{'glyphicon glyphicon-remove form-control-feedback': idForm.{{pi.fieldName}}.$invalid, 
+                                    'glyphicon glyphicon-ok form-control-feedback': !idForm.{{pi.fieldName}}.$invalid}"></span>
                     </div>
                 </td>
                 <td>
@@ -52,6 +56,7 @@
             </tr>
         </tbody>
     </table>
+    </form>
 </div><!-- identifier -->
 <div class="row bg-info-border content-border border-rouded"><!--dead -->
     <div class="checkbox input-lg">
@@ -62,8 +67,8 @@
 </div><!--dead -->
 
 <div class="row bg-info-border content-border border-rouded">
-    <button type="button" class="btn btn-success btn-lg" ui-sref="newpatient.confirm">
-        <span class="glyphicon glyphicon glyphicon glyphicon-ok-sign"></span>
+    <button type="button" class="btn btn-success btn-lg" ui-sref="newpatient.death">
+       <span class="glyphicon glyphicon glyphicon-step-forward"></span>
     </button>
 </div>
 

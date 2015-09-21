@@ -52,6 +52,10 @@ angular
                 url: '/identifier',
                 templateUrl: 'views/patient-identifier-input.html'
             })
+            .state('newpatient.death', {
+                url: '/death',
+                templateUrl: 'views/patient-death-input.html'
+            })
             .state('newpatient.confirm', {
                 url: '/confirm',
                 templateUrl: 'views/patient-confirm-input.html'

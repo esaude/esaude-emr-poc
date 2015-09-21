@@ -1,0 +1,33 @@
+
+<div class="form-group form-group-lg">
+    <label for="death_date" class="col-sm-2 control-label">Date of death:</label>
+    <div class="col-sm-10">
+        <div id="birth_datetime_picker" class="input-group date">
+            <input type="text" class="form-control" id="death_date" ng-model="patient.deathDate" ng-change="selectIsDead()"/>
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+        </div>
+        <script type="text/javascript">
+            $(function () {
+                $('#death_datetime_picker').datetimepicker();
+            });
+        </script>
+    </div>
+</div>
+<div class="form-group form-group-lg" ng-init="getDeathConcepts()">
+    <label for="death_reason" class="col-sm-2 control-label">Reason of death:
+        <span class="asterick" ng-if="patient.dead">*</span>
+    </label>
+    <div class="col-sm-10">
+        <select id="death_reason" class="form-control" ng-model="patient.causeOfDeath"
+                ng-options="concept.display for concept in deathConcepts track by concept.uuid"
+                ng-change="selectIsDead()" ng-required="patient.dead">
+            <option></option>
+        </select>
+    </div>
+</div>
+<div class="form-group form-group-lg">
+    <label for="isDead" class="col-sm-2 control-label">Is Dead:</label>
+    <input type="checkbox" id="isDead" class="isDeadChkBox" ng-model="patient.dead" ng-disabled="disableIsDead()"/>
+</div>

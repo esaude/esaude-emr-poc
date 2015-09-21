@@ -17,7 +17,7 @@ angular.module('registration')
                 if (this.registrationNumber && this.registrationNumber.length > 0) {
                     this.identifier = this.identifierPrefix.name + this.registrationNumber;
                 }
-                return this.identifier
+                return this.identifier;
             };
 
             var clearRegistrationNumber = function () {

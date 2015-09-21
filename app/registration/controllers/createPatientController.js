@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('registration')
-    .controller('CreatePatientController', ['$scope', '$rootScope', '$state', 'patient', 'patientService', 'Preferences', 'spinner', 'appService',
-        function ($scope, $rootScope, $state, patientModel, patientService, preferences, spinner, appService) {
+    .controller('CreatePatientController', ['$scope', '$rootScope', '$state', 'patient', 'patientService', 'Preferences', 'spinner', 'appService', '$http', 'adminConfigService',
+        function ($scope, $rootScope, $state, patientModel, patientService, preferences, spinner, appService, $http, adminConfigService) {
                 var dateUtil = Bahmni.Common.Util.DateUtil;
                 $scope.actions = {};
                 $scope.patientIdentifiers = [];
@@ -31,7 +31,8 @@ angular.module('registration')
                         });
                         
                         if(found === undefined) {
-                            $scope.patientIdentifiers.push({type: patientIdentifierType, identifier: null, preferred: false});
+                            var fieldName = patientIdentifierType.name.trim().replace(/[^a-zA-Z0-9]/g, '');
+                            $scope.patientIdentifiers.push({type: patientIdentifierType, identifier: null, preferred: false, fieldName : fieldName});
                         } else {
                             $scope.errorMessage = "The selected Patient Identifier Type is already contained.";
                         }
@@ -49,6 +50,50 @@ angular.module('registration')
                         p.preferred = false; //set them all to false
                     });
                     identifier.preferred = true; //set the clicked one to true
+                };
+                
+                $scope.getDeathConcepts = function () {
+                    var deathConcept;
+                    var deathConceptValue;
+                    $http({
+                        url: '/openmrs/ws/rest/v1/systemsetting',
+                        method: 'GET',
+                        params: {
+                            q: 'concept.causeOfDeath',
+                            v: 'full'
+                        },
+                        withCredentials: true,
+                        transformResponse: [function(data){
+                            deathConcept = JSON.parse(data);
+                            deathConceptValue = deathConcept.results[0].value;
+                            $http.get(Bahmni.Common.Constants.conceptUrl, {
+                                params: {
+                                    q: deathConceptValue,
+                                    v: 'custom:(uuid,name,set,answers:(uuid,display,name:(uuid,name),retired))'
+                                },
+                                withCredentials: true
+                            }).then(function (results) {
+                                $scope.deathConcepts = results.data.results[0]!=null ? results.data.results[0].answers:[];
+                                $scope.deathConcepts = filterRetireDeathConcepts($scope.deathConcepts);
+                            });
+                        }]
+                    });
+                };
+                
+                var filterRetireDeathConcepts = function(deathConcepts){
+                    return _.filter(deathConcepts,function(concept){
+                        return !concept.retired;
+                    });
+                };
+                
+                $scope.selectIsDead = function(){
+                    if($scope.patient.causeOfDeath != null ||$scope.patient.deathDate != null){
+                        $scope.patient.dead = true;
+                    }
+                };
+
+                $scope.disableIsDead = function(){
+                    return ($scope.patient.causeOfDeath != null || $scope.patient.deathDate != null) && $scope.patient.dead;
                 };
 
                 $scope.create = function () {
@@ -92,4 +137,15 @@ angular.module('registration')
 //                $state.go("patient.edit", {patientUuid: $scope.patient.uuid});
             };
 
-        }]);
+        }]).directive("dynamicName",function($compile){
+        return {
+            restrict:"A",
+            terminal:true,
+            priority:1000,
+            link:function(scope,element,attrs){
+                element.attr('name', scope.$eval(attrs.dynamicName));
+                element.removeAttr("dynamic-name");
+                $compile(element)(scope);
+            }
+        };
+    });
