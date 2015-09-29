@@ -20,20 +20,31 @@ Bahmni.Common.Util.DateUtil = {
         to.setHours(0,0,0,0);
         return Math.floor((to - from) / (60 * 1000 * 60 * 24));
     },
-    addDays: function (date, days) {
-        return moment(date).add(days, 'day').toDate();
-    },
 
     addSeconds: function (date, seconds) {
         return moment(date).add(seconds, 'seconds').toDate();
+    },
+    addDays: function (date, days) {
+        return moment(date).add(days, 'day').toDate();
+    },
+    addMonths: function (date, months) {
+        return moment(date).add(months, 'month').toDate();
+    },
+    addYears: function (date, years) {
+        return moment(date).add(years, 'year').toDate();
     },
 
     subtractSeconds: function (date, seconds) {
         return moment(date).subtract(seconds, 'seconds').toDate();
     },
-
     subtractDays: function (date, days) {
         return this.addDays(date, -1 * days)
+    },
+    subtractMonths: function (date, months) {
+        return this.addMonths(date, -1 * months)
+    },
+    subtractYears: function (date, years) {
+        return this.addYears(date, -1 * years)
     },
 
     createDays: function (startDate, endDate) {
@@ -52,7 +63,7 @@ Bahmni.Common.Util.DateUtil = {
     },
 
     getDateWithoutTime: function(datetime){
-        return moment(datetime).format("YYYY-MM-DD");
+        return datetime?moment(datetime).format("YYYY-MM-DD"):null;
     },
 
     formatDateWithTime: function (datetime) {
@@ -113,6 +124,9 @@ Bahmni.Common.Util.DateUtil = {
         return dateOne.getTime() == dateTwo.getTime();
     },
 
+    isBeforeDate: function(date1, date2){
+      return moment(date1).isBefore(moment(date2));
+    },
     isSameDate: function(date1, date2) {
         if(date1 == null || date2 == null) {
             return false;
@@ -218,5 +232,9 @@ Bahmni.Common.Util.DateUtil = {
 
     parseLongDateToServerFormat: function(longDate){
         return longDate ? moment(longDate).format("YYYY-MM-DDTHH:mm:ss.SSS") : null;
+    },
+
+    parseServerDateToDate: function(longDate){
+        return longDate ? moment(longDate,"YYYY-MM-DDTHH:mm:ss.SSS").toDate() : null;
     }
 };

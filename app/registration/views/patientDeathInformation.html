@@ -2,17 +2,8 @@
 <div class="form-group form-group-lg">
     <label for="death_date" class="col-sm-2 control-label">Date of death:</label>
     <div class="col-sm-10">
-        <div id="birth_datetime_picker" class="input-group date">
-            <input type="text" class="form-control" id="death_date" ng-model="patient.deathDate" ng-change="selectIsDead()"/>
-            <span class="input-group-addon">
-                <span class="glyphicon glyphicon-calendar"></span>
-            </span>
-        </div>
-        <script type="text/javascript">
-            $(function () {
-                $('#death_datetime_picker').datetimepicker();
-            });
-        </script>
+        <input date id="death_date" class="form-control" ng-model="patient.deathDate" ng-change="selectIsDead()">
+        <span class="glyphicon glyphicon-calendar form-control-feedback" aria-hidden="true"></span>
     </div>
 </div>
 <div class="form-group form-group-lg" ng-init="getDeathConcepts()">

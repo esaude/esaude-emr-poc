@@ -1,17 +1,14 @@
 <ul class="list-group content-border-margin-regular">
     <li class="list-group-item">
-        <b>Names: </b> {{patient.givenName}} {{patient.familyName}}
+        <b>Names: </b> {{patient.givenName}} {{patient.middleName}} {{patient.familyName}}
     </li>
     <li class="list-group-item">
         <b>Gender: </b> {{patient.gender}}
     </li>
     <li class="list-group-item">
-        <b>Birthdate: </b> {{patient.birthdate}}
+        <b>Birthdate: </b> {{patient.birthdate | date:"MM/dd/yyyy"}} <b> Estimated: </b> {{patient.birthdateEstimated}}
     </li>
     <li class="list-group-item">
-        <b>Age: </b> {{patient.age}}
-    </li>
-    <li class="list-group-item">
-        <b>Dead: </b> {{patient.dead}}
+        <b>Age: </b> {{patient.age.years}}
     </li>
 </ul>

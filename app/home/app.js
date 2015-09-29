@@ -1,7 +1,8 @@
 'use strict';
 
 angular
-    .module('home', ['ngRoute', 'ngCookies', 'ui.router', 'application', 'chart.js', 'uiHelper', 'bahmni.common.appFramework'])
+    .module('home', ['ngRoute', 'ngCookies', 'ui.router', 'application', 'chart.js', 'uiHelper', 
+                'bahmni.common.appFramework', 'bahmni.common.domain'])
     .config(['$urlRouterProvider', '$stateProvider', '$httpProvider',
                 function ($urlRouterProvider, $stateProvider) {
         $urlRouterProvider.otherwise('/login');

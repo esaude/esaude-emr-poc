@@ -51,12 +51,16 @@ angular.module('httpErrorInterceptor',[])
                     showError("Could not connect to the server. Please check your connection and try again");
                 } else if (response.status === 403) {
                     var errorMessage = data.error && data.error.message ? stringAfter(data.error.message, ':') : unexpectedError;
-                    showError(errorMessage);
                     if(shouldRedirectToLogin(response)){
                             $rootScope.$broadcast('event:auth-loginRequired');
+                    }else{
+                         showError(errorMessage);
+
                     }
                 } else if (response.status === 404) {
-                    showError("The requested information does not exist");
+                    if(!_.contains(response.config.url, "implementation_config") && !_.contains(response.config.url, "locale_")) {
+                        showError("The requested information does not exist");
+                    }
                 }
                 return $q.reject(response);
             }

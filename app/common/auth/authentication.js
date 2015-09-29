@@ -24,7 +24,8 @@ angular.module('authentication')
         $rootScope.$on('event:auth-loginRequired', function () {
             $window.location = "../home/#/login?showLoginMessage=true";
         });
-    }]).service('sessionService', ['$rootScope', '$http', '$q', '$cookieStore', 'userService', function ($rootScope, $http, $q, $cookieStore, userService) {
+    }]).service('sessionService', ['$rootScope', '$http', '$q', '$cookieStore', 'userService', 'localStorageService', 
+                function ($rootScope, $http, $q, $cookieStore, userService, localStorageService) {
         var sessionResourcePath = '/openmrs/ws/rest/v1/session';
 
         var createSession = function(username, password){
@@ -57,6 +58,10 @@ angular.module('authentication')
             createSession(username,password).success(function(data) {
                 if (data.authenticated) {
                     $cookieStore.put(Bahmni.Common.Constants.currentUser, username, {path: '/', expires: 7});
+                    if(location != undefined) {
+                        localStorageService.remove("emr.location");
+                        localStorageService.set("emr.location", {name: location.display, uuid: location.uuid});
+                    }
                     deferrable.resolve();
                 } else {
                    deferrable.reject('Authentication failed. Please try again.');   

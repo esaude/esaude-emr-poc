@@ -1,0 +1,11 @@
+<ul class="list-group content-border-margin-regular">
+    <li class="list-group-item">
+        <b>Is Dead: </b> {{(patient.dead === true) ? "YES" : "NO"}} 
+    </li>
+    <li class="list-group-item">
+        <b>Date of death: </b> {{patient.deathDate | date:"MM/dd/yyyy"}}
+    </li>
+    <li class="list-group-item">
+        <b>Reason of death: </b> {{patient.causeOfDeath.display}}
+    </li>
+</ul>

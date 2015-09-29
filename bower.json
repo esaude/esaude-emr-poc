@@ -28,7 +28,8 @@
     "angular-cookies": "~1.4.3",
     "lodash": "~3.10.1",
     "jquery-cookie": "~1.4.1",
-    "at-table": "~1.0.5"
+    "at-table": "~1.0.5",
+    "angular-local-storage": "~0.2.2"
   },
   "resolutions": {
     "angular": "1.4.3"

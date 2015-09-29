@@ -15,27 +15,19 @@ Bahmni.Registration.CreatePatientRequestMapper = (function () {
                             givenName: patient.givenName,
                             middleName: patient.middleName,
                             familyName: patient.familyName,
-                            "preferred": false
+                            preferred: false
                         }
                     ],
                     addresses: [_.pick(patient.address, constants.allAddressFileds) ],
                     birthdate: this.getBirthdate(patient.birthdate, patient.age),
-                    birthdateEstimated: patient.birthdate === undefined,
+                    birthdateEstimated: patient.birthdateEstimated,
                     gender: patient.gender,
                     personDateCreated: patient.registrationDate,
-                    attributes: this.getMrsAttributes(patient, patientAttributeTypes)
+                    attributes: this.getMrsAttributes(patient, patientAttributeTypes),
+                    dead: patient.dead,
+                    deathDate: patient.deathDate
                 },
-                identifiers: [
-                    {
-                        identifier: patient.identifier,
-                        "identifierType": {
-                           "name": constants.patientIdentifierTypeName
-                        },
-                        "preferred": true,
-                        "voided": false
-                    }
-                ],
-                relationships: patient.relationships
+                identifiers: setIdentifiers(patient)
 
             }
         };
@@ -58,8 +50,26 @@ Bahmni.Registration.CreatePatientRequestMapper = (function () {
                 }
             };
             setAttributeValue(result, attribute, patient[result.name]);
-            return  attribute
+            return  attribute;
         })
+    };
+    
+    var setIdentifiers = function (patient) {
+        var identifiers = [];
+        for (var i in patient.patientIdentifiers) {
+            var patientIdentifier = patient.patientIdentifiers[i];
+            
+            identifiers.push({
+                        identifier: patientIdentifier.identifier,
+                        identifierType: {
+                           name: patientIdentifier.type.name
+                        },
+                        preferred: patientIdentifier.preferred,
+                        location: patientIdentifier.location,
+                        voided: false
+                    });
+        }
+        return identifiers;
     };
 
     var setAttributeValue = function (attributeType, attr, value) {
@@ -75,7 +85,7 @@ Bahmni.Registration.CreatePatientRequestMapper = (function () {
     CreatePatientRequestMapper.prototype.getBirthdate = function (birthdate, age) {
         var mnt;
         if (birthdate !== undefined) {
-            mnt = moment(birthdate, 'DD-MM-YYYY');
+            mnt = moment(birthdate, 'mm/dd/yyyy');
         } else if (age !== undefined) {
             mnt = moment(this.currentDate).subtract('days', age.days).subtract('months', age.months).subtract('years', age.years);
         }

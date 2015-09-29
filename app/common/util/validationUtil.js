@@ -30,29 +30,26 @@ Bahmni.Common.Util.ValidationUtil = (function () {
     //This will work only for patient attributes, since we are passing concept behind the attribute.
     //To have a generic one, we need to remove the concept dependency.. And concept will be null for non concept fields
     var validate = function (complexObject, objectConfiguration) {
+        var allCustomValidators = Bahmni.Registration.customValidator;
+        if(!allCustomValidators) return;
+
         var dataArray = flattenObject(complexObject);
-        for (var property in dataArray) {
-            var fnName = "validate_" + property.replace("\.", "_");
-            var exists = true;
-            try {
-                if (eval(fnName))
-                    exists = true;
-            } catch (e) {
-                exists = false;
-            }
-            if (exists) {
-                if (typeof eval(fnName).method == 'function') {
-                    var ret = (eval(fnName).method)(property, dataArray[property],
-                        _.filter(objectConfiguration, function (attr) {
-                            return attr.name == property
-                        })[0]);
-                    if (ret == false) {
-                        return (eval(fnName).errorMessage);
-                    }
+        var errorMessages = [];
+        _.every(dataArray,function(value,field){
+            var isValid=true;
+            var fieldSpecificValidator = allCustomValidators[field];
+            if (!fieldSpecificValidator) return isValid;
+            if (typeof fieldSpecificValidator.method == 'function') {
+                var personAttributeTypeConfig = _.find(objectConfiguration,{name:field});
+                isValid = fieldSpecificValidator.method(field, value, personAttributeTypeConfig);
+                if (!isValid){
+                    errorMessages.push(fieldSpecificValidator.errorMessage);
+                    isValid = true;
                 }
             }
-        }
-        return;
+            return isValid;
+        });
+        return errorMessages.join(', ');
     };
     return {
         validate: validate

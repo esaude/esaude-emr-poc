@@ -1,21 +1,16 @@
 <table class="table">
-        <thead>
-            <tr>
-                <th>Type</th>
-                <th>Identifier</th>
-                <th>Prefered</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td class="col-sm-4 control-label">NID (Servico Tarv)</td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td class="col-sm-4 control-label">BI (Bilhete de Identidade)</td>
-                <td></td>
-                <td></td>
-            </tr>
-        </tbody>
-    </table>
+    <thead>
+        <tr>
+            <th>Type</th>
+            <th>Identifier</th>
+            <th>Preferred</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="patientIdentifier in patient.patientIdentifiers">
+            <td class="col-sm-4 control-label">{{patientIdentifier.type.name}}</td>
+            <td>{{patientIdentifier.identifier}}</td>
+            <td>{{(patientIdentifier.preferred === true) ? "YES" : "NO"}}</td>
+        </tr>
+    </tbody>
+</table>

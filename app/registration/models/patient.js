@@ -5,12 +5,15 @@ angular.module('registration')
         var create = function () {
             var calculateAge = function () {
                 if (this.birthdate) {
-                    var birthDate = new Date(this.birthdate.replace(/(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3"));
-                    this.age = age.fromBirthDate(birthDate);
+                    this.age = age.fromBirthDate(this.birthdate);
                 }
                 else {
                     this.age = age.create(null, null, null);
                 }
+            };
+
+            var calculateBirthDate = function () {
+                this.birthdate = age.calculateBirthDate(this.age);
             };
 
             var generateIdentifier = function () {
@@ -37,15 +40,19 @@ angular.module('registration')
             };
 
             return {
-                address: {},
-                age: age.create(),
-                calculateAge: calculateAge,
-                identifierPrefix: {},
-                generateIdentifier: generateIdentifier,
-                clearRegistrationNumber: clearRegistrationNumber,
-                image: '../images/blank-user.gif',
-                fullNameLocal: fullNameLocal,
-                getImageData: getImageData
+                address: {}
+                ,age: age.create()
+                ,birthdate: null
+                ,calculateAge: calculateAge
+                ,identifierPrefix: {}
+                ,generateIdentifier: generateIdentifier
+                ,clearRegistrationNumber: clearRegistrationNumber
+                ,image: '../images/blank-user.gif'
+                ,fullNameLocal: fullNameLocal
+                ,getImageData: getImageData
+                ,relationships: []
+                ,newlyAddedRelationships: [{}]
+                ,calculateBirthDate: calculateBirthDate
             };
         };
 

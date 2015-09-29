@@ -1,15 +1,17 @@
 'use strict';
 
 angular.module('registration')
-    .controller('CreatePatientController', ['$scope', '$rootScope', '$state', 'patient', 'patientService', 'Preferences', 'spinner', 'appService', '$http', 'adminConfigService',
-        function ($scope, $rootScope, $state, patientModel, patientService, preferences, spinner, appService, $http, adminConfigService) {
+    .controller('CreatePatientController', ['$scope', '$state', 'patient', 'patientService', 
+                    'spinner', 'appService', '$http', 'localStorageService',
+        function ($scope, $state, patientModel, patientService, spinner, appService, $http, localStorageService) {
                 var dateUtil = Bahmni.Common.Util.DateUtil;
                 $scope.actions = {};
-                $scope.patientIdentifiers = [];
                 $scope.addressHierarchyConfigs = appService.getAppDescriptor().getConfigValue("addressHierarchy");
 
                 (function () {
                     $scope.patient = patientModel.create();
+                    $scope.patient.patientIdentifiers = [];
+                    $scope.today = dateUtil.getDateWithoutTime(dateUtil.now());
                     //get patient identifier types
                     var searchPromise = patientService.getIdentifierTypes();
 
@@ -26,13 +28,13 @@ angular.module('registration')
                     var patientIdentifierType = $scope.patient.patientIdentifierType;
                     if (patientIdentifierType !== null) {
                         //validate already contained
-                        var found = _.find($scope.patientIdentifiers, function (chr) {
+                        var found = _.find($scope.patient.patientIdentifiers, function (chr) {
                             return chr.type.name === patientIdentifierType.name;
                         });
                         
                         if(found === undefined) {
                             var fieldName = patientIdentifierType.name.trim().replace(/[^a-zA-Z0-9]/g, '');
-                            $scope.patientIdentifiers.push({type: patientIdentifierType, identifier: null, preferred: false, fieldName : fieldName});
+                            $scope.patient.patientIdentifiers.push({type: patientIdentifierType, identifier: null, preferred: false, location: localStorageService.get("emr.location").uuid, fieldName : fieldName});
                         } else {
                             $scope.errorMessage = "The selected Patient Identifier Type is already contained.";
                         }
@@ -42,11 +44,11 @@ angular.module('registration')
                 $scope.removeIdentifier = function (identifier) {
                     $scope.errorMessage = null;
                     
-                    _.pull($scope.patientIdentifiers, identifier);
+                    _.pull($scope.patient.patientIdentifiers, identifier);
                 };
 
                 $scope.setPreferredId = function (identifier) {
-                    angular.forEach($scope.patientIdentifiers, function (p) {
+                    angular.forEach($scope.patient.patientIdentifiers, function (p) {
                         p.preferred = false; //set them all to false
                     });
                     identifier.preferred = true; //set the clicked one to true
@@ -95,34 +97,25 @@ angular.module('registration')
                 $scope.disableIsDead = function(){
                     return ($scope.patient.causeOfDeath != null || $scope.patient.deathDate != null) && $scope.patient.dead;
                 };
+                
+                $scope.initAttributes = function() {
+                    $scope.patientAttributes = [];
+                    angular.forEach($scope.patientConfiguration.customAttributeRows(), function (value) {
+                        angular.forEach(value, function (value) {
+                            $scope.patientAttributes.push(value);
+                        });
+                    });
+                };
 
                 $scope.create = function () {
-                setPreferences();
-                var errMsg = Bahmni.Common.Util.ValidationUtil.validate($scope.patient,$scope.patientConfiguration.personAttributeTypes);
-                if(errMsg){
-//                    messagingService.showMessage('formError', errMsg);
-                    return;
-                }
-                if($rootScope.newlyAddedRelationships && $rootScope.newlyAddedRelationships.length > 1) {
-                    $rootScope.newlyAddedRelationships.shift();
-                    $scope.patient.relationships = $rootScope.newlyAddedRelationships;
-                }
+                    var errMsg = Bahmni.Common.Util.ValidationUtil.validate($scope.patient,$scope.patientConfiguration.personAttributeTypes);
+                    if(errMsg){
+    //                   messagingService.showMessage('formError', errMsg);
+                        return;
+                    }
 
-                if (!$scope.hasOldIdentifier) {
-                    spinner.forPromise(patientService.generateIdentifier($scope.patient)
-                        .then(function (response) {
-                            $scope.patient.identifier = response.data;
-                            patientService.create($scope.patient).success(successCallback);
-                        }));
-                }
-                else{
                     patientService.create($scope.patient).success(successCallback);
-                }
-            };
-
-            var setPreferences = function () {
-                preferences.identifierPrefix = $scope.patient.identifierPrefix.prefix;
-            };
+                };
 
             var successCallback = function (patientProfileData) {
                 $scope.patient.uuid = patientProfileData.patient.uuid;
@@ -130,13 +123,13 @@ angular.module('registration')
                 $scope.patient.isNew = true;
                 $scope.patient.registrationDate = dateUtil.now();
                 $scope.actions.followUpAction(patientProfileData);
+                console.log(patientProfileData);
             };
 
             $scope.afterSave = function () {
 //                messagingService.showMessage("info", "Saved");
 //                $state.go("patient.edit", {patientUuid: $scope.patient.uuid});
             };
-
         }]).directive("dynamicName",function($compile){
         return {
             restrict:"A",
@@ -148,4 +141,47 @@ angular.module('registration')
                 $compile(element)(scope);
             }
         };
-    });
+        }).directive('date', function() {
+            return {
+               restrict: 'A',
+               require: '^ngModel',
+               link: function(scope, elm, attrs, ctrl) {
+                 var dp = $(elm);
+
+                 dp.datepicker({
+                   onSelect: function(dateText) {
+                     scope.$apply(function() {
+                      ctrl.$setViewValue(dateText);
+                     });
+                  }
+                 });
+
+                 scope.$watch(attrs.ngModel, function(nv) {
+                   dp.datepicker('setDate', nv)  
+                 });
+               }
+            }
+        }).filter('valueofaddress', function() {
+              return function(input, scope) {
+                  input = input || '';
+                  var value = scope.patient.address[input];
+
+                  return value;
+              };
+        }).filter('valueofothers', function() {
+              return function(input, scope) {
+                  var attrubuteName = input.name || '';
+                  var value = scope.patient[attrubuteName];
+                  
+                  if (input.format === "org.openmrs.Concept") {
+                      for (var i in input.answers) {
+                          var data = input.answers[i];
+                          if (data.conceptId === value) {
+                              value = data.description;
+                              break;
+                          }
+                      }
+                  }         
+                  return value;
+              };
+        });

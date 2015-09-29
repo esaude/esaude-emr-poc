@@ -1,23 +1,5 @@
 <ul class="list-group content-border-margin-regular">
-    <li class="list-group-item">
-        <b>Distrito: </b> Distrito
-    </li>
-    <li class="list-group-item">
-        <b>Endereço: </b> Endereço
-    </li>
-    <li class="list-group-item">
-        <b>Localidade </b> Localidade
-    </li>
-    <li class="list-group-item">
-        <b>Bairro </b> Bairro
-    </li>
-    <li class="list-group-item">
-        <b>Célula/Quarteirão: </b> Célula/Quarteirão
-    </li>
-    <li class="list-group-item">
-        <b>Avenida/Rua/Casa: </b> Avenida/Rua/Casa
-    </li>
-    <li class="list-group-item">
-        <b>Prefered: </b> YES
+    <li class="list-group-item" ng-repeat="addressLevel in addressLevels">
+        <b>{{addressLevel.name}}: </b> {{addressLevel.addressField | valueofaddress:this}}
     </li>
 </ul>

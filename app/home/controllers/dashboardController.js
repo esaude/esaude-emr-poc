@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('home')
-        .controller('DashboardController', function ($scope, applicationServiceMock) {
+        .controller('DashboardController', ['$scope', 'applicationServiceMock', function ($scope, applicationServiceMock) {
             init();
 
             function init() {
@@ -29,4 +29,4 @@ angular.module('home')
             $scope.pieData = [500, 300, 100];
             $scope.pieSeries = ['Created', 'Updated', 'Removed'];
 
-        });
+        }]);

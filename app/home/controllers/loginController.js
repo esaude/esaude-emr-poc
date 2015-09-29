@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('home')
-    .controller('LoginController', ['$rootScope', '$scope', '$window', '$location', 'sessionService', 'spinner', '$q', '$stateParams',
-        function ($rootScope, $scope, $window, $location, sessionService, spinner, $q, $stateParams) {
+    .controller('LoginController', ['$rootScope', '$scope', '$window', '$location', 'sessionService', 'spinner', '$q', 
+                '$stateParams', 'locationService',
+        function ($rootScope, $scope, $window, $location, sessionService, spinner, $q, $stateParams, locationService) {
         var landingPagePath = "/dashboard";
         var loginPagePath = "/login";
         
@@ -10,7 +11,16 @@ angular.module('home')
         
         function init () {
             $scope.showMenu = true;
-            $scope.loginUser = {};
+            $rootScope.loginUser = {};
+            
+            var locationPromise = locationService.getAllByTag();
+            
+            locationPromise.success(function (data) {
+                        $scope.locations = data.results;
+                    });
+                    locationPromise['finally'](function () {
+                    });
+            
         }
         
         if ($stateParams.showLoginMessage) {
@@ -33,7 +43,7 @@ angular.module('home')
             $scope.errorMessage = null;
             $scope.dataLoading = true;
             var deferrable = $q.defer();
-            sessionService.loginUser($scope.loginUser.username, $scope.loginUser.password).then(
+            sessionService.loginUser($scope.loginUser.username, $scope.loginUser.password, $scope.loginUser.currentLocation).then(
                 function () {
                     sessionService.loadCredentials().then(
                         function () {

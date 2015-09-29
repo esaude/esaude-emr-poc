@@ -1,26 +1,5 @@
-<ul class="list-group content-border-margin-regular">
-    <li class="list-group-item">
-        <b>Local de Nascimento: </b> Local de Nascimento
-    </li>
-    <li class="list-group-item">
-        <b>Nacionalidade: </b> Nacionalidade
-    </li>
-    <li class="list-group-item">
-        <b>Estado Civil: </b> Estado Civil
-    </li>
-    <li class="list-group-item">
-        <b>Unidade Sanitária: </b> Unidade Sanitária
-    </li>
-    <li class="list-group-item">
-        <b>Distrito Sanitário: </b> Distrito Sanitário
-    </li>
-    <li class="list-group-item">
-        <b>Local de Trabalho: </b> Local de Trabalho
-    </li>
-    <li class="list-group-item">
-        <b>Nome da Mãe: </b> Nome da Mãe
-    </li>
-    <li class="list-group-item">
-        <b>Contacto: </b> Contacto
+<ul class="list-group content-border-margin-regular" ng-init="initAttributes()">
+    <li class="list-group-item" ng-repeat="patientAttribute in patientAttributes">
+        <b>{{patientAttribute.name}}: </b> {{patientAttribute | valueofothers:this}}
     </li>
 </ul>

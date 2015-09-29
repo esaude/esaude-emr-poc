@@ -16,8 +16,30 @@
 
 <div class="panel panel-primary content-border-margin">
     <div class="panel-heading">
+        <h3 class="panel-title">Other Information</h3>
+    </div>
+
+    <div ng-include src="'views/patient-attributes.html'"></div>
+</div>
+
+<div class="panel panel-primary content-border-margin">
+    <div class="panel-heading">
         <h3 class="panel-title">Identifiers</h3>
     </div>
 
     <div ng-include src="'views/patient-identifiers.html'"></div>
+</div>
+
+<div class="panel panel-primary content-border-margin">
+    <div class="panel-heading">
+        <h3 class="panel-title">Death Information</h3>
+    </div>
+
+    <div ng-include src="'views/patient-death.html'"></div>
+</div>
+
+<div class="row bg-info-border content-border border-rouded">
+    <button type="button" class="btn btn-primary btn-lg" ng-click="create()">
+        <span class="glyphicon glyphicon glyphicon glyphicon-floppy-disk"></span>
+    </button>
 </div>

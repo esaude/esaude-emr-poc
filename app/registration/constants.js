@@ -2,10 +2,12 @@ var Bahmni = Bahmni || {};
 Bahmni.Registration = Bahmni.Registration || {};
 
 Bahmni.Registration.Constants = {
+    patientIdentifierTypeName: "Bahmni Id",
     openmrsUrl: "/openmrs",
     registrationEncounterType: "REG",
     baseOpenMRSRESTURL: "/openmrs/ws/rest/v1",
     patientImageURL: "/patient_images/",
+    bahmniRESTBaseURL: "/openmrs/ws/rest/v1/bahmnicore",
     emrApiRESTBaseURL: "/openmrs/ws/rest/emrapi",
     emrApiEncounterUrl: "/openmrs/ws/rest/emrapi/encounter",
     webServiceRestBaseURL: "/openmrs/ws/rest/v1",
@@ -14,3 +16,6 @@ Bahmni.Registration.Constants = {
     nextStepConfigId: "org.bahmni.registration.patient.next"
 };
 
+Bahmni.Registration.Constants.Errors = {
+    manageIdentifierSequencePrivilege:"You don't have the privilege to create a patient with the given ID."
+};

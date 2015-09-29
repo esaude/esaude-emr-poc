@@ -2,7 +2,8 @@
 
 angular
     .module('registration')
-    .config(['$urlRouterProvider', '$stateProvider', function ($urlRouterProvider, $stateProvider) {
+    .config(['$urlRouterProvider', '$stateProvider', 
+                function ($urlRouterProvider, $stateProvider) {
         $urlRouterProvider.otherwise('/search');
         $stateProvider
             .state('search', {

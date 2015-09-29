@@ -2,8 +2,8 @@
 
 angular.module('registration')
     .factory('patientService', ['$http', '$rootScope', function ($http, $rootScope) {
-        var openmrsUrl = '/openmrs';
-//        var baseOpenMRSRESTURL = "/openmrs/ws/rest/v1";
+        var openmrsUrl = Bahmni.Registration.Constants.openmrsUrl;
+        var baseOpenMRSRESTURL = Bahmni.Registration.Constants.baseOpenMRSRESTURL;
 
         var search = function (query) {
             return $http.get(openmrsUrl + "/ws/rest/v1/patient", {
@@ -86,7 +86,7 @@ angular.module('registration')
             search: search,
             getByIdentifier: getByIdentifier,
             getIdentifierTypes: getIdentifierTypes,
-//            create: create,
+            create: create,
             generateIdentifier: generateIdentifier,
 //            update: update,
             get: get
