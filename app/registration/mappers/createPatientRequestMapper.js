@@ -25,7 +25,8 @@ Bahmni.Registration.CreatePatientRequestMapper = (function () {
                     personDateCreated: patient.registrationDate,
                     attributes: this.getMrsAttributes(patient, patientAttributeTypes),
                     dead: patient.dead,
-                    deathDate: patient.deathDate
+                    causeOfDeath: (patient.dead === true) ? patient.causeOfDeath.uuid : null,
+                    deathDate: (patient.dead === true) ? patient.deathDate : null
                 },
                 identifiers: setIdentifiers(patient)
 
@@ -85,7 +86,7 @@ Bahmni.Registration.CreatePatientRequestMapper = (function () {
     CreatePatientRequestMapper.prototype.getBirthdate = function (birthdate, age) {
         var mnt;
         if (birthdate !== undefined) {
-            mnt = moment(birthdate, 'mm/dd/yyyy');
+            mnt = moment(moment(birthdate).toDate());
         } else if (age !== undefined) {
             mnt = moment(this.currentDate).subtract('days', age.days).subtract('months', age.months).subtract('years', age.years);
         }

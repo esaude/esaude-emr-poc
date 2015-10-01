@@ -59,8 +59,8 @@ angular.module('authentication')
                 if (data.authenticated) {
                     $cookieStore.put(Bahmni.Common.Constants.currentUser, username, {path: '/', expires: 7});
                     if(location != undefined) {
-                        localStorageService.remove("emr.location");
-                        localStorageService.set("emr.location", {name: location.display, uuid: location.uuid});
+                        localStorageService.cookie.remove("emr.location");
+                        localStorageService.cookie.set("emr.location", {name: location.display, uuid: location.uuid}, 7);
                     }
                     deferrable.resolve();
                 } else {

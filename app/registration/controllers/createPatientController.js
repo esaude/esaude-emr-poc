@@ -34,7 +34,10 @@ angular.module('registration')
                         
                         if(found === undefined) {
                             var fieldName = patientIdentifierType.name.trim().replace(/[^a-zA-Z0-9]/g, '');
-                            $scope.patient.patientIdentifiers.push({type: patientIdentifierType, identifier: null, preferred: false, location: localStorageService.get("emr.location").uuid, fieldName : fieldName});
+                            $scope.patient.patientIdentifiers.push({type: patientIdentifierType, 
+                                identifier: null, preferred: false, 
+                                location: localStorageService.cookie.get("emr.location").uuid, 
+                                fieldName : fieldName});
                         } else {
                             $scope.errorMessage = "The selected Patient Identifier Type is already contained.";
                         }
@@ -106,7 +109,7 @@ angular.module('registration')
                         });
                     });
                 };
-
+                
                 $scope.create = function () {
                     var errMsg = Bahmni.Common.Util.ValidationUtil.validate($scope.patient,$scope.patientConfiguration.personAttributeTypes);
                     if(errMsg){
@@ -122,8 +125,7 @@ angular.module('registration')
                 $scope.patient.name = patientProfileData.patient.person.names[0].display;
                 $scope.patient.isNew = true;
                 $scope.patient.registrationDate = dateUtil.now();
-                $scope.actions.followUpAction(patientProfileData);
-                console.log(patientProfileData);
+                console.log($scope.patient.uuid);
             };
 
             $scope.afterSave = function () {

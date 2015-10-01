@@ -2,7 +2,8 @@
 <div class="form-group form-group-lg">
     <label for="death_date" class="col-sm-2 control-label">Date of death:</label>
     <div class="col-sm-10">
-        <input date id="death_date" class="form-control" ng-model="patient.deathDate" ng-change="selectIsDead()">
+        <input type="text" class="form-control" date-time id="death_date" ng-model="patient.deathDate" 
+               ng-change="selectIsDead()" min-view="date" auto-close="true">
         <span class="glyphicon glyphicon-calendar form-control-feedback" aria-hidden="true"></span>
     </div>
 </div>
