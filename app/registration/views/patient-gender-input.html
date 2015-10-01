@@ -7,12 +7,9 @@
             <div class="form-group form-group-lg">
                 <label class="col-sm-2 control-label"><b>Gender:</b></label>
                 <div class=" radio col-sm-3 input-lg">
-                    <label class="radio-inline">
-                        <input type="radio" name="genderRGroup" id="male" value="M" ng-model="patient.gender"> Male
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="genderRGroup" id="female" value="F" ng-model="patient.gender"> Female
-                    </label>
+                    <input type="checkbox" bs-switch switch-active="true" switch-size="large" 
+                           switch-off-text="Male" switch-on-text="Female" switch-on-color="warning" switch-off-color="primary" 
+                           ng-model="patient.gender" ng-true-value="'F'" ng-false-value="'M'">
                 </div>
             </div>
         </form>
