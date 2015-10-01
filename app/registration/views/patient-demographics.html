@@ -6,7 +6,7 @@
         <b>Gender: </b> {{patient.gender}}
     </li>
     <li class="list-group-item">
-        <b>Birthdate: </b> {{patient.birthdate | date:"MM/dd/yyyy"}} <b> Estimated: </b> {{patient.birthdateEstimated}}
+        <b>Birthdate: </b> {{patient.birthdate | date:"MM/dd/yyyy"}} <b> Estimated: </b> {{(patient.birthdateEstimated == true)? "YES" : "NO"}}
     </li>
     <li class="list-group-item">
         <b>Age: </b> {{patient.age.years}}

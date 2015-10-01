@@ -9,19 +9,19 @@
                 <input id="patient_age" type="number" min="0" max="120" class="form-control" ng-model="patient.age.years"
                        ng-change="patient.calculateBirthDate()">
             </div>
-            <div class="col-sm-6 form-group-lg">
+            <div class="col-sm-4 form-group-lg">
                 <div class="form-group date">
                     <input type="text" class="form-control" date-time ng-model="patient.birthdate" 
                            min-view="date" auto-close="true" ng-change="patient.calculateAge()">
                     <span class="glyphicon glyphicon-calendar form-control-feedback" aria-hidden="true"></span>
                 </div>
             </div>
-        <div class="checkbox col-sm-2 input-lg">
-            <label>
-                <input type="checkbox" ng-model="patient.birthdateEstimated"
-                       ng-true-value="'YES'" ng-false-value="'NO'"> Estimated
-            </label>
-        </div>
+            <label class="col-sm-2 control-label"><b>Estimated:</b></label>
+            <div>
+            <input type="checkbox" class="col-sm-2" bs-switch switch-active="true" switch-size="large" 
+                   switch-off-text="NO" switch-on-text="YES" 
+                   ng-model="patient.birthdateEstimated">
+            </div>
         </form>
     </div>
 </div>
