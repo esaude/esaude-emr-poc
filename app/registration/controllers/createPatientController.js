@@ -132,38 +132,7 @@ angular.module('registration')
 //                messagingService.showMessage("info", "Saved");
 //                $state.go("patient.edit", {patientUuid: $scope.patient.uuid});
             };
-        }]).directive("dynamicName",function($compile){
-        return {
-            restrict:"A",
-            terminal:true,
-            priority:1000,
-            link:function(scope,element,attrs){
-                element.attr('name', scope.$eval(attrs.dynamicName));
-                element.removeAttr("dynamic-name");
-                $compile(element)(scope);
-            }
-        };
-        }).directive('date', function() {
-            return {
-               restrict: 'A',
-               require: '^ngModel',
-               link: function(scope, elm, attrs, ctrl) {
-                 var dp = $(elm);
-
-                 dp.datepicker({
-                   onSelect: function(dateText) {
-                     scope.$apply(function() {
-                      ctrl.$setViewValue(dateText);
-                     });
-                  }
-                 });
-
-                 scope.$watch(attrs.ngModel, function(nv) {
-                   dp.datepicker('setDate', nv)  
-                 });
-               }
-            }
-        }).filter('valueofaddress', function() {
+        }]).filter('valueofaddress', function() {
               return function(input, scope) {
                   input = input || '';
                   var value = scope.patient.address[input];

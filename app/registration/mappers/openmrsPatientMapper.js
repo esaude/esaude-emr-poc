@@ -43,7 +43,9 @@ angular.module('registration').factory('openmrsPatientMapper', ['patient', '$roo
                 patient.age = birthdate ? age.fromBirthDate(openmrsPatient.person.birthdate) : null;
                 patient.gender = openmrsPatient.person.gender;
                 patient.address = mapAddress(openmrsPatient.person.preferredAddress);
+                //TODO: must get the identifier to display from openmrs configurations
                 patient.identifier = openmrsPatient.identifiers[0].identifier;
+                patient.identifierType = openmrsPatient.identifiers[0].identifierType.display;
                 patient.image = Bahmni.Registration.Constants.patientImageURL + openmrsPatient.uuid + ".jpeg?q=" + new Date().toISOString();
                 patient.registrationDate = parseDate(openmrsPatient.person.auditInfo.dateCreated);
                 mapAttributes(patient, openmrsPatient.person.attributes);

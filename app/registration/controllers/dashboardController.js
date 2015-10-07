@@ -1,15 +1,14 @@
 'use strict';
 
 angular.module('registration')
-        .controller('DashboardController', function ($scope, $rootScope, $location, $state, $stateParams, programServiceMock, patientServiceMock) {
+        .controller('DashboardController', ["$scope", "$rootScope", "$location", "$state", "$stateParams", "programServiceMock", "patientService", 
+                    function ($scope, $rootScope, $location, $state, $stateParams, programServiceMock, patientService) {
             var patientUuid;
     
             init();
     
             function init() {
                 patientUuid = $stateParams.patientUuid;
-                
-                $rootScope.patient = patientServiceMock.getPatientByUuid(patientUuid);
                 
                 $scope.programs = programServiceMock.getPrograms();
                 $scope.patientPrograms = programServiceMock.getPatientPrograms(1);
@@ -40,4 +39,4 @@ angular.module('registration')
             $scope.linkPatientDetail = function() {
                 $location.url("/patient/detail/" + patientUuid + "/demographic"); // path not hash
             };
-        });
+        }]);

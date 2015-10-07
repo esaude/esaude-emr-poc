@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('registration')
-        .controller('SearchController', ['$scope', '$location', 'patientService', 
-    function ($scope, $location, patientService) {
+        .controller('SearchController', ['$rootScope', '$scope', '$location', 'patientService', 'openmrsPatientMapper',
+    function ($rootScope, $scope, $location, patientService, patientMapper) {
             $scope.results = [];
             
             var searchBasedOnQueryParameters = function () {
@@ -22,7 +22,7 @@ angular.module('registration')
             var showSearchResults = function (searchPromise) {
                 if (searchPromise) {
                     searchPromise.success(function (data) {
-                        $scope.results = patientSearchUtil(data.results);
+                        $scope.results = mapPatient(data.results);
                         $scope.displayed = $scope.results;
                         $scope.noResultsMessage = $scope.results.length === 0 ? "No results found" : null;
                     });
@@ -42,6 +42,7 @@ angular.module('registration')
             };
             
             $scope.linkDashboard = function(patient) {
+                $rootScope.patient = patient;
                 $location.url("/dashboard/" + patient.uuid); // path not hash
             };
             
@@ -49,33 +50,12 @@ angular.module('registration')
                 $location.url("/patient/new/name"); // path not hash
             };
             
-            function patientSearchUtil(results) {
+            function mapPatient(results) {
                 //prepare results to be presented in search table
                 var preparedResults = [];
                 for(var patientIndex in results) {
                     var result = results[patientIndex];
-                    var patient = {identifier: "", givenName: "", middleName: "", familyName: "", age: "", birthdate:"", uuid: ""};
-                    //find the correct identifier NID - TARV
-                    for(var identifierIndex in result.identifiers) {
-                        var identifier = result.identifiers[identifierIndex];
-                        //check identifier type
-                        if(identifier.identifierType.display === "NID (SERVICO TARV)") {
-                            patient.identifier = identifier.identifier;
-                        }
-                    }
-                    if(typeof result.person !== "undefined" && typeof result.person.names !== "undefined") {
-                        var name = result.person.names[0];
-                        patient.givenName = name.givenName;
-                        patient.middleName = name.middleName;
-                        patient.familyName = name.familyName;
-                    }
-                    //prepare age and birthdate
-                    if(typeof result.person !== "undefined") {
-                        patient.gender = result.person.gender;
-                        patient.age = result.person.age;
-                        patient.birthdate = result.person.birthdate;
-                    }
-                    patient.uuid = result.uuid;
+                    var patient = patientMapper.map(result);
                     
                     preparedResults.push(patient);
                 }
