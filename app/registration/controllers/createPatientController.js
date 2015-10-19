@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('registration')
-    .controller('CreatePatientController', ['$scope', '$state', 'patient', 'patientService', 
+    .controller('CreatePatientController', ['$scope', '$state', '$location', 'patient', 'patientService', 
                     'spinner', 'appService', '$http', 'localStorageService',
-        function ($scope, $state, patientModel, patientService, spinner, appService, $http, localStorageService) {
+        function ($scope, $state, $location, patientModel, patientService, spinner, appService, $http, localStorageService) {
                 var dateUtil = Bahmni.Common.Util.DateUtil;
                 $scope.actions = {};
                 $scope.addressHierarchyConfigs = appService.getAppDescriptor().getConfigValue("addressHierarchy");
@@ -125,34 +125,11 @@ angular.module('registration')
                 $scope.patient.name = patientProfileData.patient.person.names[0].display;
                 $scope.patient.isNew = true;
                 $scope.patient.registrationDate = dateUtil.now();
-                console.log($scope.patient.uuid);
+                $location.url("/dashboard/" + $scope.patient.uuid);
             };
 
             $scope.afterSave = function () {
 //                messagingService.showMessage("info", "Saved");
 //                $state.go("patient.edit", {patientUuid: $scope.patient.uuid});
             };
-        }]).filter('valueofaddress', function() {
-              return function(input, scope) {
-                  input = input || '';
-                  var value = scope.patient.address[input];
-
-                  return value;
-              };
-        }).filter('valueofothers', function() {
-              return function(input, scope) {
-                  var attrubuteName = input.name || '';
-                  var value = scope.patient[attrubuteName];
-                  
-                  if (input.format === "org.openmrs.Concept") {
-                      for (var i in input.answers) {
-                          var data = input.answers[i];
-                          if (data.conceptId === value) {
-                              value = data.description;
-                              break;
-                          }
-                      }
-                  }         
-                  return value;
-              };
-        });
+        }]);

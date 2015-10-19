@@ -39,7 +39,7 @@ angular.module('registration').factory('openmrsPatientMapper', ['patient', '$roo
                 patient.givenName = openmrsPatient.person.preferredName.givenName;
                 patient.middleName = openmrsPatient.person.preferredName.middleName;
                 patient.familyName = openmrsPatient.person.preferredName.familyName;
-                patient.birthdate = openmrsPatient.person.birthdateEstimated || !birthdate ? "" : getDateStr(birthdate);
+                patient.birthdate = !birthdate ? "" : getDateStr(birthdate);
                 patient.age = birthdate ? age.fromBirthDate(openmrsPatient.person.birthdate) : null;
                 patient.gender = openmrsPatient.person.gender;
                 patient.address = mapAddress(openmrsPatient.person.preferredAddress);
@@ -49,6 +49,8 @@ angular.module('registration').factory('openmrsPatientMapper', ['patient', '$roo
                 patient.image = Bahmni.Registration.Constants.patientImageURL + openmrsPatient.uuid + ".jpeg?q=" + new Date().toISOString();
                 patient.registrationDate = parseDate(openmrsPatient.person.auditInfo.dateCreated);
                 mapAttributes(patient, openmrsPatient.person.attributes);
+                patient.patientIdentifiers = [];
+                patient.uuid = openmrsPatient.uuid;
                 return patient;
             };
 

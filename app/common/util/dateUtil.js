@@ -141,8 +141,6 @@ Bahmni.Common.Util.DateUtil = {
     diffInYearsMonthsDays: function (dateFrom, dateTo) {
         dateFrom = this.parse(dateFrom)
         dateTo = this.parse(dateTo)
-        console.log(dateFrom);
-        console.log(dateTo);
 
         var from = {
             d: dateFrom.getDate(),

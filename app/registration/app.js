@@ -88,5 +88,13 @@ angular
             .state('detailpatient.attributes', {
                 url: '/attributes',
                 templateUrl: 'views/patient-attributes.html'
+            })
+            .state('detailpatient.identifiers', {
+                url: '/identifiers',
+                templateUrl: 'views/patient-identifiers.html'
+            })
+            .state('detailpatient.death', {
+                url: '/death',
+                templateUrl: 'views/patient-death.html'
             });
     }]);

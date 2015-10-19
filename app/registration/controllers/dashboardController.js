@@ -1,14 +1,24 @@
 'use strict';
 
 angular.module('registration')
-        .controller('DashboardController', ["$scope", "$rootScope", "$location", "$state", "$stateParams", "programServiceMock", "patientService", 
-                    function ($scope, $rootScope, $location, $state, $stateParams, programServiceMock, patientService) {
+        .controller('DashboardController', ["$scope", "$location", "$state", "$stateParams", 
+                        "programServiceMock", "patientService", "openmrsPatientMapper", 
+                    function ($scope, $location, $state, $stateParams, programServiceMock, patientService, patientMapper) {
             var patientUuid;
     
             init();
     
             function init() {
                 patientUuid = $stateParams.patientUuid;
+                
+                var searchPromise = patientService.get(patientUuid);
+
+                searchPromise.success(function (data) {
+                    $scope.patient = patientMapper.map(data);
+                });
+                
+                searchPromise['finally'](function () {
+                });
                 
                 $scope.programs = programServiceMock.getPrograms();
                 $scope.patientPrograms = programServiceMock.getPatientPrograms(1);

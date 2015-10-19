@@ -42,7 +42,6 @@ angular.module('registration')
             };
             
             $scope.linkDashboard = function(patient) {
-                $rootScope.patient = patient;
                 $location.url("/dashboard/" + patient.uuid); // path not hash
             };
             

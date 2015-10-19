@@ -2,6 +2,6 @@
 
 angular.module('registration')
     .factory('patientValidator', [function () {
-
+            
     }]
 );

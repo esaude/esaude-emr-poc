@@ -17,17 +17,6 @@ angular.module('registration')
             });
         };
         
-        var getByIdentifier = function (query) {
-            return $http.get(openmrsUrl + "/ws/rest/v1/patient", {
-                method: "GET",
-                params: {
-                    identifier: query,
-                    v: "full"
-                     },
-                withCredentials: true
-            });
-        };
-        
         var getIdentifierTypes = function () {
             return $http.get(openmrsUrl + "/ws/rest/v1/patientidentifiertype", {
                 method: "GET",
@@ -40,6 +29,13 @@ angular.module('registration')
             return $http.get(openmrsUrl + "/ws/rest/v1/patient/" + uuid, {
                 method: "GET",
                 params: {v: "full"},
+                withCredentials: true
+            });
+        };
+        
+        var getPatientIdentifiers = function (patientUuid) {
+            return $http.get(openmrsUrl + "/ws/rest/v1/patient/" + patientUuid + "/identifier", {
+                method: "GET",
                 withCredentials: true
             });
         };
@@ -84,12 +80,12 @@ angular.module('registration')
 
         return {
             search: search,
-            getByIdentifier: getByIdentifier,
             getIdentifierTypes: getIdentifierTypes,
             create: create,
             generateIdentifier: generateIdentifier,
 //            update: update,
-            get: get
+            get: get,
+            getPatientIdentifiers: getPatientIdentifiers
 //            updateImage: updateImage
         };
     }]);
