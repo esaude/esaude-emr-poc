@@ -1,0 +1,31 @@
+<section class="bacteriology-dashboard">
+    <h2 class="section-title">{{section | titleTranslate}}</h2>
+
+    <section class="block hierarchy">
+        <ul class="form-field">
+            <li ng-repeat="specimen in ::specimens" toggle="specimen.isOpen">
+                <span class="tree-list-item">
+                    <i class="fa fa-caret-right" ng-hide="specimen.isOpen"></i>
+                    <i class="fa fa-caret-down" ng-show="specimen.isOpen"></i>
+                    <span class="specimen-info">
+                        <span class="specimenSource">{{specimen.specimenSource}}</span>
+                        <span class="specimenId">#{{specimen.specimenId}}</span>
+                        <span class="specimenCollectionDate">
+                            {{specimen.specimenCollectionDate | bahmniDateTime}}
+                        </span>
+                    </span>
+                </span>
+
+                <ul ng-show="specimen.isOpen">
+                    <show-observation patient="patient" observation="obs" ng-repeat="obs in ::specimen.sampleResult.groupMembers"></show-observation>
+                </ul>
+                <div ng-show="!hasResults(specimen.sampleResult) && specimen.isOpen">
+                    <div class="placeholder-text"><p translate="NO_SPECIMEN_RESULT_FOUND_MESSAGE"></p></div>
+                </div>
+            </li>
+            <li ng-show="!specimens">
+                <div class="placeholder-text"><p translate="NO_SPECIMEN_FOUND_MESSAGE"></p></div>
+            </li>
+        </ul>
+    </section>
+</section>

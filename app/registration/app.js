@@ -22,6 +22,31 @@ angular
                 },
                 resolve: { initialization: 'initialization' }
             })
+            .state('dashboard.program', {
+                url: '/program',
+                templateUrl: 'views/patient-programs.html', 
+                controller: 'ManageProgramController'
+            })
+            .state('dashboard.visits', {
+                url: '/visits',
+                templateUrl: 'views/patient-visits.html'
+            })
+            .state('dashboard.services', {
+                url: '/services',
+                templateUrl: 'views/patient-services.html'
+            })
+            .state('dashboard.alerts', {
+                url: '/alerts',
+                templateUrl: 'views/patient-alerts.html'
+            })
+            .state('serviceslist', {
+                url: '/services/:patientUuid',
+                views: {
+                    'layout': { templateUrl: '../common/application/views/layout.html', controller: 'ServicesListController'},
+                    'content@serviceslist': { templateUrl: 'views/services-list.html'}
+                },
+                resolve: { initialization: 'initialization' }
+            })
             .state('newpatient', {
                 url: '/patient/new',
                 views: {

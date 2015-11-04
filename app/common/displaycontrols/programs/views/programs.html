@@ -1,0 +1,94 @@
+<section class="program-dashboard">
+    <div ng-if="hasPatientAnyActivePrograms()">
+        <h3 class="program-title">
+            <span>Active Programs</span>
+        </h3>
+        <div ng-repeat="program in activePrograms" class="program-stuff">
+            <div class="program-row">
+                <div class="program-details">
+                    <span>{{program.display}}</span>
+                    <span class="enrolled-info enrolled-info-dash-board">( {{program.dateEnrolled | date:"MM/dd/yyyy"}}</span>
+                    <span class="enrolled-info enrolled-info-dash-board" ng-if="program.dateCompleted"> - {{program.dateCompleted | date:"MM/dd/yyyy"}}</span>
+                    <span class="enrolled-info enrolled-info-dash-board">)</span>
+                </div>
+                <div class="program-timeline">
+                    <timeline program="program"></timeline>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="hasPatientAnyPastPrograms()">
+        <h3 class="program-title">
+            <span>Past Programs</span>
+        </h3>
+        <div ng-repeat="program in pastPrograms" class="program-stuff">
+            <div class="program-row">
+                <div class="program-details">
+                    <span>{{program.display}}</span>
+                    <span class="enrolled-info enrolled-info-dash-board">( {{program.dateEnrolled | date:"MM/dd/yyyy"}}</span>
+                    <span class="enrolled-info enrolled-info-dash-board" ng-if="program.dateCompleted"> - {{program.dateCompleted | date:"MM/dd/yyyy"}}</span>
+                    <span class="enrolled-info enrolled-info-dash-board">)</span>
+                </div>
+                <div class="program-timeline">
+                    <timeline program="program"></timeline>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="note-container" ng-show="!hasPatientAnyPrograms()">
+        <div class="note warning">
+            <div class="text placeholder-text">
+                <p>NO_ACTIVE_PASSIVE_PROGRAMS_MESSAGE</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<table class="table" width="auto">
+    <thead>
+        <tr>
+            <th>Program</th>
+            <th>Status</th>
+            <th>Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="program in activePrograms">
+            <td>
+                <button class="btn btn-primary btn-lg" type="button" data-toggle="modal" data-target="#editProgramModal">
+                    {{program.display}}({{program.dateEnrolled | date:"MM/dd/yyyy"}}) <span class="glyphicon glyphicon-pencil"></span>
+                </button>
+            </td>
+            <td ng-show="program.states !== null && program.states.length > 0" class="ng-hide">
+                <button class="btn btn-primary btn-lg" type="button"  
+                        data-toggle="modal" data-target="#editProgramStateModal">
+                    {{patientProgram.states[patientProgram.states.length - 1].state.name}} 
+                    ({{patientProgram.states[patientProgram.states.length - 1].endDate !== null ? 
+                            "Ate: " + patientProgram.states[patientProgram.states.length - 1].endDate : 
+                                    "Desde: " + patientProgram.states[patientProgram.states.length - 1].startDate}}) 
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="5" class="text-center">
+                <div  st-items-by-page="2" st-displayed-pages="5" st-pagination=""></div>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+<div class="go-to-right"><!-- visit header controls -->
+    <button id="patient_program" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addProgramModal">
+        <span class="glyphicon glyphicon-plus"></span>
+    </button>
+</div><!-- visit header controls -->
+
+<!-- modal dialogs -->
+<div ng-include src="'views/program-add.html'"></div>
+<div ng-include src="'views/program-edit.html'"></div>
+<div ng-include src="'views/program-state-edit.html'"></div>

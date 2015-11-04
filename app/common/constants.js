@@ -6,6 +6,7 @@ Bahmni.Common = Bahmni.Common || {};
     var RESTWS_V1 = "/openmrs/ws/rest/v1";
     var BAHMNI_CORE = RESTWS_V1 + "/bahmnicore";
     var EMRAPI = RESTWS + "/emrapi";
+    var BACTERIOLOGY = RESTWS_V1;
 
     var serverErrorMessages = [
         {
@@ -13,6 +14,11 @@ Bahmni.Common = Bahmni.Common || {};
             clientMessage: "One or more drugs you are trying to order are already active. Please change the start date of the conflicting drug or remove them from the new prescription."
         }
     ];
+
+    var representation = "custom:(uuid,name,names,conceptClass," +
+        "setMembers:(uuid,name,names,conceptClass," +
+        "setMembers:(uuid,name,names,conceptClass," +
+        "setMembers:(uuid,name,names,conceptClass))))";
 
     Bahmni.Common.Constants = {
         dateFormat: "dd/mm/yyyy",
@@ -24,8 +30,9 @@ Bahmni.Common = Bahmni.Common || {};
         diseaseTemplateUrl :BAHMNI_CORE + "/diseaseTemplates",
         AllDiseaseTemplateUrl : BAHMNI_CORE + "/diseaseTemplate",
         emrapiConceptUrl :EMRAPI + "/concept",
-        encounterConfigurationUrl: BAHMNI_CORE + "/bahmniencounter/config",
-        patientConfigurationUrl:BAHMNI_CORE + "/patient/config",
+        encounterConfigurationUrl: BAHMNI_CORE + "/config/bahmniencounter",
+        patientConfigurationUrl:BAHMNI_CORE + "/config/patient",
+        drugOrderConfigurationUrl:BAHMNI_CORE + "/config/drugOrders",
         emrEncounterUrl: EMRAPI + "/encounter",
         encounterUrl: RESTWS_V1 + "/encounter",
         locationUrl: RESTWS_V1 + "/location",
@@ -33,9 +40,11 @@ Bahmni.Common = Bahmni.Common || {};
         bahmniDrugOrderUrl: BAHMNI_CORE + "/drugOrders",
         bahmniDispositionByVisitUrl: BAHMNI_CORE + "/disposition/visit",
         bahmniDispositionByPatientUrl: BAHMNI_CORE + "/disposition/patient",
+        bahmniSearchUrl:BAHMNI_CORE + "/search",
         bahmniLabOrderResultsUrl: BAHMNI_CORE + "/labOrderResults",
         bahmniEncounterUrl: BAHMNI_CORE + "/bahmniencounter",
         conceptUrl: RESTWS_V1 + "/concept",
+        conceptSearchByFullNameUrl: RESTWS_V1 + "/concept?s=byFullySpecifiedName",
         visitUrl: RESTWS_V1 + "/visit",
         endVisitUrl: BAHMNI_CORE + "/visit/endVisit",
         visitTypeUrl: RESTWS_V1 + "/visittype",
@@ -55,10 +64,15 @@ Bahmni.Common = Bahmni.Common || {};
         drugImportUrl: BAHMNI_CORE + "/admin/upload/drug",
         labResultsImportUrl: BAHMNI_CORE + "/admin/upload/labResults",
         referenceTermsImportUrl: BAHMNI_CORE + "/admin/upload/referenceterms",
+        relationshipImportUrl: BAHMNI_CORE + "/admin/upload/relationship",
         conceptSetExportUrl: BAHMNI_CORE + "/admin/export/conceptset?conceptName=:conceptName",
         patientImportUrl: BAHMNI_CORE + "/admin/upload/patient",
         adminImportStatusUrl: BAHMNI_CORE + "/admin/upload/status",
         dhisAllTasksUrl: RESTWS_V1 + "/dhis/tasks",
+        programUrl: RESTWS_V1 + "/program",
+        programEnrollPatientUrl: RESTWS_V1 + "/programenrollment",
+        programEnrollmentDefaultInformation: "default",
+        programEnrollmentFullInformation: "full",
         dhisTaskUrl: RESTWS_V1 + "/dhis/task/",
         dhisFireQueriesUrl: RESTWS_V1 + "/dhis/fireQueries",
         relationshipTypesUrl: RESTWS_V1 + "/relationshiptype",
@@ -68,6 +82,7 @@ Bahmni.Common = Bahmni.Common || {};
         dosageFrequencyConceptName : 'Dosage Frequency',
         dosageInstructionConceptName : 'Dosage Instructions',
         consultationNoteConceptName : 'Consultation Note',
+        diagnosisConceptSet : 'Diagnosis Concept Set',
         radiologyOrderType : 'Radiology Order',
         radiologyResultConceptName :"Radiology Result",
         investigationEncounterType:"INVESTIGATION",
@@ -101,7 +116,6 @@ Bahmni.Common = Bahmni.Common || {};
         conceptDetailsClassName: 'Concept Details',
         admissionEncounterTypeName: 'ADMISSION',
         dischargeEncounterTypeName: 'DISCHARGE',
-        consultationEncounterName: 'Consultation',
         imageClassName: 'Image',
         locationCookieName: 'bahmni.user.location',
         retrospectiveEntryEncounterDateCookieName: 'bahmni.clinical.retrospectiveEncounterDate',
@@ -112,17 +126,30 @@ Bahmni.Common = Bahmni.Common || {};
         retrospectivePrivilege:'app:clinical:retrospective',
         nutritionalConceptName:'Nutritional Values',
         messageForNoObservation: "No observations captured for this visit.",
-        messageForNoDisposition: "No dispositions available.",
+        messageForNoDisposition: "NO_DISPOSTIONS_AVAILABLE_MESSAGE_KEY",
         messageForNoFulfillment: "No observations captured for this order.",
         reportsUrl: "/bahmnireports/report",
-        diagnosisStatuses : {"RULED OUT" : "Ruled Out Diagnosis"},
+        uploadReportTemplateUrl: "/bahmnireports/upload",
+        ruledOutdiagnosisStatus : "Ruled Out Diagnosis",
         registartionConsultationPrivilege:'app:common:registration_consultation_link',
+        manageIdentifierSequencePrivilege:"Manage Identifier Sequence",
         closeVisitPrivilege:'app:common:closeVisit',
         deleteDiagnosisPrivilege:'app:clinical:deleteDiagnosis',
+        viewPatientsPrivilege: 'View Patients',
+        editPatientsPrivilege: 'Edit Patients',
+        addVisitsPrivilege: 'Add Visits',
+        deleteVisitsPrivilege: 'Delete Visits',
         grantProviderAccess: "app:clinical:grantProviderAccess",
         grantProviderAccessDataCookieName: "app:clinical:grantProviderAccessData",
         globalPropertyUrl: BAHMNI_CORE + "/sql/globalproperty",
         fulfillmentConfiguration: "fulfillment",
-        fulfillmentFormSuffix:" Fulfillment Form"
+        fulfillmentFormSuffix:" Fulfillment Form",
+        noNavigationLinksMessage: "No navigation links available.",
+        conceptSetRepresentationForOrderFulfillmentConfig: representation,
+        entityMappingUrl: RESTWS_V1 + "/entitymapping",
+        encounterTypeUrl: RESTWS_V1+"/encountertype",
+        defaultExtensionName: "default",
+        bahmniBacteriologyResultsUrl: BACTERIOLOGY + "/specimen",
+        formDataUrl: RESTWS_V1 + "/obs"
     };
 })();

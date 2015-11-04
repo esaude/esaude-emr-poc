@@ -8,10 +8,10 @@
             class="btn btn-success btn-lg" ng-click="linkPatientDetail()">
         <span class="glyphicon glyphicon-eye-open"></span>
     </button>
-    <button id="edit_patient" type="button" value="Edit Patient" class="btn btn-default btn-lg">
+    <button id="edit_patient" type="button" class="btn btn-default btn-lg">
         <span class="glyphicon glyphicon-pencil"></span>
     </button>
-    <button id="delete_patient" type="button" value="Delete Patient" class="btn btn-danger btn-lg">
+    <button id="delete_patient" type="button" class="btn btn-danger btn-lg">
         <span class="glyphicon glyphicon-remove-sign"></span>
     </button>
 </div><!-- patient header controls -->
@@ -34,100 +34,12 @@
     <button type="button" class="btn btn-default btn-lg">
         <span class="glyphicon glyphicon-pencil"></span>
     </button>
-    <button id="show_visits" type="button" value="List Visits" class="btn btn-default btn-lg" ng-click="linkVisit()">
+    <button id="show_visits" type="button" class="btn btn-default btn-lg" ng-click="linkVisit()">
         <span class="glyphicon glyphicon-list-alt"></span>
     </button>
-    <button id="delete_visit" type="button" value="Delete Visit" class="btn btn-danger btn-lg">
+    <button id="delete_visit" type="button" class="btn btn-danger btn-lg">
         <span class="glyphicon glyphicon-remove-sign"></span>
     </button>
 </div><!-- visit header controls -->
-<div class="row bg-info-border content-border border-rouded-top"><!-- program header controls -->
-    <div class="col-md-12">
-        <table class="table table-striped" width="auto">
-            <thead>
-                <tr>
-                    <th>Program</th>
-                    <th>Starting Date</th>
-                    <th>Location</th>
-                    <th>Ending Date</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="patientProgram in patientPrograms" id= "patient_program_{{patientProgram.id}}">
-                    <td>
-                        <button id= "program_{{patientProgram.program.id}}" class="btn btn-primary btn-lg" type="button" data-toggle="modal" data-target="#editProgramModal">
-                            {{patientProgram.program.name}} <span class="glyphicon glyphicon-pencil"></span>
-                        </button>
-                    </td>
-                    <td>{{patientProgram.dateEnrolled}}</td>
-                    <td>{{patientProgram.location}}</td>
-                    <td>{{patientProgram.dateCompleted}}</td>
-                    <td ng-show="patientProgram.states !== 'undefined' && patientProgram.states.length > 0" class="ng-hide">
-                        <button class="btn btn-primary btn-lg" type="button" id= "patient_state_{{patientProgram.states[patientProgram.states.length - 1].id}}"  
-                                data-toggle="modal" data-target="#editProgramStateModal">
-                            {{patientProgram.states[patientProgram.states.length - 1].state.name}} 
-                            ({{patientProgram.states[patientProgram.states.length - 1].endDate !== null ? 
-                            "Ate: " + patientProgram.states[patientProgram.states.length - 1].endDate : 
-                                    "Desde: " + patientProgram.states[patientProgram.states.length - 1].startDate}}) 
-                            <span class="glyphicon glyphicon-pencil"></span>
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div><!-- program header controls -->
-<div class="bg-info-border content-border border-rouded-bottom go-to-right"><!-- visit header controls -->
-    <button id="patient_program" type="button" value="Add Program" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addProgramModal">
-        <span class="glyphicon glyphicon-plus"></span>
-    </button>
-</div><!-- visit header controls -->
-<div class="panel panel-primary content-border-margin"><!-- demographics -->
-    <div class="panel-heading">
-        <h3 class="panel-title">Encounter Forms</h3>
-    </div>
-    <div class="row">
-        <div class="col-sm-12">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Encounter/Form</th>
-                        <th>Last Encounter</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <button class="btn btn-primary btn-lg" type="button">
-                                Adulto: Processo de abertura: Demografico <span class="glyphicon glyphicon-plus"></span>
-                            </button>
-                        </td>
-                        <td>
-                            <button class="btn btn-primary btn-lg" type="button">
-                                Date: 2015-01-05 10:20:00 <span class="glyphicon glyphicon-eye-open"></span>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <button class="btn btn-primary btn-lg" type="button">
-                                Crianca: Processo de abertura: Demografico <span class="glyphicon glyphicon-plus"></span>
-                            </button>
-                        </td>
-                        <td>
-                            <button class="btn btn-primary btn-lg" type="button">
-                                Date: 2004-01-10 10:20:00 <span class="glyphicon glyphicon-eye-open"></span>
-                            </button>
-                        </td>
-                    </tr>
 
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-<!-- modal diaolgs -->
-<div ng-include src="'views/program-add.html'"></div>
-<div ng-include src="'views/program-edit.html'"></div>
-<div ng-include src="'views/program-state-edit.html'"></div>
+<div ng-include src="'views/patient-summary.html'"></div>

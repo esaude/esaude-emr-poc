@@ -1,0 +1,75 @@
+<table class="table table-responsive">
+    <thead>
+        <tr>
+            <th>Program</th>
+            <th>Status</th>
+            <th>Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-if="hasPatientEnrolledToSomePrograms()" ng-repeat="program in filteredActivePrograms">
+            <td>
+                <button class="btn btn-primary btn-lg" type="button" data-toggle="modal" data-target="#editProgramModal">
+                    {{program.display}}
+                    Enrolled on: ({{program.dateEnrolled | date:"MM/dd/yyyy"}}) <span class="glyphicon glyphicon-pencil"></span>
+                </button>
+            </td>
+            <td ng-if="program.states.length !== 0">
+                <button class="btn btn-primary btn-lg" type="button"  
+                        data-toggle="modal" data-target="#editProgramStateModal">
+                    {{program.states[program.states.length - 1].state.concept.display}}
+                    <span ng-if="program.states[program.states.length - 1].endDate !== null">
+                        to {{program.states[program.states.length - 1].endDate | date:"MM/dd/yyyy"}}
+                    </span>
+                    <span ng-if="program.states[program.states.length - 1].endDate === null">
+                        from ({{program.states[program.states.length - 1].startDate | date:"MM/dd/yyyy"}})
+                    </span>
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </button>
+            </td>
+            <td>
+                <button class="btn btn-success btn-lg" type="button">
+                    <span class="glyphicon glyphicon-eye-open"></span>
+                </button>
+            </td>
+        </tr>
+        <tr ng-if="hasPatientAnyPastPrograms()" ng-repeat="program in filteredNotReopenedPrograms">
+            <td>
+                <button class="btn btn-default btn-lg" type="button" disabled="disabled">
+                    {{program.display}}
+                    Completed on: ({{program.dateCompleted | date:"MM/dd/yyyy"}})
+                </button>
+            </td>
+            <td ng-if="program.states.length !== 0">
+                <button class="btn btn-default btn-lg" type="button" disabled="disabled">
+                    {{program.states[program.states.length - 1].state.concept.display}}
+                    <span ng-if="program.states[program.states.length - 1].endDate !== null">
+                        to {{program.states[program.states.length - 1].endDate | date:"MM/dd/yyyy"}}
+                    </span>
+                    <span ng-if="program.states[program.states.length - 1].endDate === null">
+                        from ({{program.states[program.states.length - 1].startDate | date:"MM/dd/yyyy"}})
+                    </span>
+                </button>
+            </td>
+            <td>
+                <button class="btn btn-success btn-lg" type="button">
+                    <span class="glyphicon glyphicon-eye-open"></span>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3" class="go-to-right">
+                <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addProgramModal">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+<!-- modal dialogs -->
+<div ng-include src="'views/program-add.html'"></div>
+<div ng-include src="'views/program-edit.html'"></div>
+<div ng-include src="'views/program-state-edit.html'"></div>

@@ -34,6 +34,7 @@ Bahmni.Registration.CreatePatientRequestMapper = (function () {
         };
 
         this.setImage(patient, openMRSPatient);
+        openMRSPatient.relationships = patient.relationships;
         return  openMRSPatient;
     };
 

@@ -82,6 +82,8 @@ angular.module('registration').service('programServiceMock', function () {
     
     var patientPrograms = [
         {id: 1, patientId: 1, program: programs[0], dateEnrolled: "2011-01-12", dateCompleted: "2014-01-12", location: "Location A", states: [patientProgramStates[0]]},
-        {id: 2, patientId: 1, program: programs[1], dateEnrolled: "2011-01-12", dateCompleted: null, location: "Location A",  states: [patientProgramStates[1]]}
+        {id: 2, patientId: 1, program: programs[1], dateEnrolled: "2011-01-12", dateCompleted: null, location: "Location A",  states: [patientProgramStates[1]]},
+        {id: 3, patientId: 1, program: programs[3], dateEnrolled: "2011-01-12", dateCompleted: null, location: "Location A",  states: [patientProgramStates[1]]},
+        {id: 4, patientId: 1, program: programs[4], dateEnrolled: "2011-01-12", dateCompleted: null, location: "Location A",  states: [patientProgramStates[1]]}
     ];
 });

@@ -1,0 +1,47 @@
+<section class="program-dashboard">
+    <div ng-if="hasPatientAnyActivePrograms()">
+        <h3 class="program-title">
+            <span>Active Programs</span>
+        </h3>
+        <div ng-repeat="program in activePrograms" class="program-stuff">
+            <div class="program-row">
+                <div class="program-details">
+                    <span>{{program.display}}</span>
+                    <span class="enrolled-info enrolled-info-dash-board">( {{program.dateEnrolled | bahmniDate}}</span>
+                    <span class="enrolled-info enrolled-info-dash-board" ng-if="program.dateCompleted"> - {{program.dateCompleted | bahmniDate}}</span>
+                    <span class="enrolled-info enrolled-info-dash-board">)</span>
+                </div>
+                <div class="program-timeline">
+                    <timeline program="program"></timeline>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="hasPatientAnyPastPrograms()">
+        <h3 class="program-title">
+            <span>Past Programs</span>
+        </h3>
+        <div ng-repeat="program in pastPrograms" class="program-stuff">
+            <div class="program-row">
+                <div class="program-details">
+                    <span>{{program.display}}</span>
+                    <span class="enrolled-info enrolled-info-dash-board">( {{program.dateEnrolled | bahmniDate}}</span>
+                    <span class="enrolled-info enrolled-info-dash-board" ng-if="program.dateCompleted"> - {{program.dateCompleted | bahmniDate}}</span>
+                    <span class="enrolled-info enrolled-info-dash-board">)</span>
+                </div>
+                <div class="program-timeline">
+                    <timeline program="program"></timeline>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="note-container" ng-show="!hasPatientAnyPrograms()">
+        <div class="note warning">
+            <div class="text placeholder-text">
+                <p>{{'NO_ACTIVE_PASSIVE_PROGRAMS_MESSAGE' | translate}}</p>
+            </div>
+        </div>
+    </div>
+</section>

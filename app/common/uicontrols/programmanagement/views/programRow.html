@@ -1,0 +1,55 @@
+<div class="program-row">
+    <div class="program-details">
+        <span>{{patientProgram.display}}</span>
+        <span class="enrolled-info"> (Enrolled on {{patientProgram.dateEnrolled | bahmniDate}})</span>
+        <a class="back-btn dashboard-link fr" id="dashboard-link" ui-sref="patient.dashboard.show({patientUuid: patient.uuid,programUuid: patientProgram.program.uuid,conceptSetGroupName: 'observations'})">
+            <img ng-src="{{patient.image}}" onerror="this.onerror=null;this.src='../images/blank-user.gif';">
+            <span class="patient-info">
+                <span class="patient-name" >{{patientProgram.display}}</span>
+                <span class="patient-id">{{patient.identifier}}</span>
+            </span>
+        </a>
+    </div>
+    <div class="program-timeline-container">
+        <div class="program-timeline" ng-if="patientProgram.states.length!=0">
+            <timeline program="patientProgram"></timeline>
+        </div>
+        <button ng-click="toggleEdit(patientProgram)" ng-class="{'tab-selected': patientProgram.editing, 'btn-noTimeline':patientProgram.states.length==0}" ng-if="hasProgramWorkflowStates(patientProgram)" class="fr detail-btn">
+            <span>Details</span>
+            <i class="fa fa-expand"></i>
+        </button>
+    </div>
+    <div class="program-state-list"  ng-if="patientProgram.editing">
+        <div class="down-arrow-container">
+        </div>
+        <div class="state-list" ng-class="{'state-list-cutomPadding':patientProgram.states.length == 0}">
+            <table>
+                <tbody>
+                    <tr ng-repeat="state in patientProgram.states| orderBy:'auditInfo.dateCreated':true" ng-if="state.voided != true">
+                        <td>{{state.state.concept.display}}</td>
+                        <td ng-if="state.endDate">{{state.startDate | bahmniDate}} to {{state.endDate | bahmniDate}}</td>
+                        <td ng-if="!state.endDate">Started on {{state.startDate | bahmniDate}}</td>
+                        <td>By {{state.auditInfo.creator.display}} on {{state.auditInfo.dateCreated | bahmniDate}}</td>
+                        <td><i ng-class="{'fa fa-remove': !state.endDate}" ng-confirm-click="removePatientState(patientProgram)" confirm-message="Do you want to remove '{{state.state.concept.display}}'" ng-if="canRemovePatientState(state)" class="fa fa-remove"></i></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="program-actions">
+            <div class="program-action-container form" ng-if="hasProgramWorkflowStates(patientProgram)" ng-init="workflowStatesWithoutCurrentState = getWorkflowStatesWithoutCurrent(patientProgram)">
+                <select ng-model="programEdited.selectedState"
+                        ng-options="state.concept.display for state in workflowStatesWithoutCurrentState track by state.uuid">
+                    <option value="">Choose State</option>
+                </select>
+                <button class="fr ok_btn" ng-click="savePatientProgram(patientProgram)">Change State</button>
+            </div>
+            <div class="program-action-container form" ng-init="outComesForProgram = getOutcomes(patientProgram.program)">
+                <select ng-model="patientProgram.outcomeData"
+                        ng-options="outcomeSelected.display for outcomeSelected in outComesForProgram">
+                    <option value="">Choose OutCome</option>
+                </select>
+                <button class="fr ok_btn" ng-click="endPatientProgram(patientProgram)">End Program</button>
+            </div>
+        </div>
+    </div>
+</div>
