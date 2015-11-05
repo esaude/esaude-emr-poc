@@ -85,6 +85,10 @@ angular.module('bahmni.common.uicontrols.programmanagment')
             var isProgramSelected = function () {
                 return $scope.programSelected && $scope.programSelected.uuid;
             };
+            
+            $scope.setProgramSelected = function (program) {
+                $scope.programSelected = program;
+            };
 
             $scope.hasPatientEnrolledToSomePrograms = function () {
                 return !_.isEmpty($scope.activePrograms);
@@ -157,8 +161,9 @@ angular.module('bahmni.common.uicontrols.programmanagment')
                 return currentProgram.outcomesConcept ? currentProgram.outcomesConcept.setMembers : [];
             };
 
-            $scope.endPatientProgram = function (patientProgram) {
-                var dateCompleted = getCurrentDate();
+            $scope.editPatientProgram = function (patientProgram) {
+                var dateCompleted = DateUtil.parse(patientProgram.dateCompleted);
+                var dateEnrolled = patientProgram.dateEnrolled ? DateUtil.parse(patientProgram.dateEnrolled) : null;
                 var currentState = getCurrentState(patientProgram.states);
                 var currentStateDate = currentState ? DateUtil.parse(currentState.startDate) : null;
 
@@ -168,12 +173,13 @@ angular.module('bahmni.common.uicontrols.programmanagment')
                     return;
                 }
 
-                if (!isOutcomeSelected(patientProgram)) {
-                    return;
-                }
+//                if (!isOutcomeSelected(patientProgram)) {
+//                    return;
+//                }
 
                 var outcomeConceptUuid = patientProgram.outcomeData ? patientProgram.outcomeData.uuid : null;
-                spinner.forPromise(programService.endPatientProgram(patientProgram.uuid, dateCompleted, outcomeConceptUuid)
+                spinner.forPromise(programService.editPatientProgram(patientProgram.uuid, dateEnrolled, 
+                                    dateCompleted, outcomeConceptUuid)
                     .then(function () {
                         updateActiveProgramsList();
                     }));
