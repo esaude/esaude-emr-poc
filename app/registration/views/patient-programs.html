@@ -9,22 +9,28 @@
     <tbody>
         <tr ng-if="hasPatientEnrolledToSomePrograms()" ng-repeat="program in filteredActivePrograms">
             <td>
-                <button class="btn btn-primary btn-lg" type="button" data-toggle="modal" data-target="#editProgramModal" ng-click="setProgramSelected(program)">
+                <button class="btn btn-primary btn-lg" type="button" data-toggle="modal" data-target="#editProgramModal" 
+                        ng-click="setProgramSelected(program)">
                     {{program.display}}
                     Enrolled on: ({{program.dateEnrolled | date:"MM/dd/yyyy"}}) <span class="glyphicon glyphicon-pencil"></span>
                 </button>
             </td>
-            <td ng-if="program.states.length !== 0">
+            <td ng-if="program.states.length !== 0" ng-init="currentState = getCurrentProgramState(program.states)">
                 <button class="btn btn-primary btn-lg" type="button"  
-                        data-toggle="modal" data-target="#editProgramStateModal">
-                    {{program.states[program.states.length - 1].state.concept.display}}
-                    <span ng-if="program.states[program.states.length - 1].endDate !== null">
-                        to {{program.states[program.states.length - 1].endDate | date:"MM/dd/yyyy"}}
+                        data-toggle="modal" data-target="#editProgramStateModal" ng-click="setProgramSelected(program)">
+                    {{currentState.state.concept.display}}
+                    <span ng-if="currentState.endDate !== null">
+                        to {{currentState.endDate | date:"MM/dd/yyyy"}}
                     </span>
-                    <span ng-if="program.states[program.states.length - 1].endDate === null">
-                        from ({{program.states[program.states.length - 1].startDate | date:"MM/dd/yyyy"}})
+                    <span ng-if="currentState.endDate === null">
+                        from ({{currentState.startDate | date:"MM/dd/yyyy"}})
                     </span>
                     <span class="glyphicon glyphicon-pencil"></span>
+                </button>
+            </td>
+            <td ng-if="program.states.length === 0">
+                <button class="btn btn-primary btn-lg" type="button">
+                      <span class="glyphicon glyphicon-plus"></span>      
                 </button>
             </td>
             <td>
@@ -40,16 +46,19 @@
                     Completed on: ({{program.dateCompleted | date:"MM/dd/yyyy"}})
                 </button>
             </td>
-            <td ng-if="program.states.length !== 0">
+            <td ng-if="program.states.length !== 0" ng-init="currentState = getCurrentProgramState(program.states)">
                 <button class="btn btn-default btn-lg" type="button" disabled="disabled">
-                    {{program.states[program.states.length - 1].state.concept.display}}
-                    <span ng-if="program.states[program.states.length - 1].endDate !== null">
-                        to {{program.states[program.states.length - 1].endDate | date:"MM/dd/yyyy"}}
+                    {{currentState.state.concept.display}}
+                    <span ng-if="currentState.endDate !== null">
+                        to {{currentState.endDate | date:"MM/dd/yyyy"}}
                     </span>
-                    <span ng-if="program.states[program.states.length - 1].endDate === null">
-                        from ({{program.states[program.states.length - 1].startDate | date:"MM/dd/yyyy"}})
+                    <span ng-if="currentState.endDate === null">
+                        from ({{currentState.startDate | date:"MM/dd/yyyy"}})
                     </span>
                 </button>
+            </td>
+            <td ng-if="program.states.length === 0">
+                <p>No state</p>
             </td>
             <td>
                 <button class="btn btn-success btn-lg" type="button">

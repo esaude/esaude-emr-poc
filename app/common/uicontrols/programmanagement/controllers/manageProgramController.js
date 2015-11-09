@@ -3,10 +3,11 @@ angular.module('bahmni.common.uicontrols.programmanagment')
         function ($scope, $window, programService, spinner, $stateParams) {
             var DateUtil = Bahmni.Common.Util.DateUtil;
             $scope.programSelected = {};
+            $scope.programEnrollmentDate = null;
             $scope.workflowStateSelected = {};
             $scope.allPrograms = [];
             $scope.programWorkflowStates = [];
-            $scope.programEdited = {selectedState: ""};
+            $scope.programEdited = {selectedState: "", startDate: null};
             $scope.workflowStatesWithoutCurrentState = [];
             $scope.outComesForProgram = [];
             $scope.configName = $stateParams.configName;
@@ -51,6 +52,7 @@ angular.module('bahmni.common.uicontrols.programmanagment')
             var failureCallback = function (error) {
                 var fieldErrorMsg = findFieldErrorIfAny(error);
                 var errorMsg = _.isUndefined(fieldErrorMsg) ? "Failed to Save" : fieldErrorMsg;
+                console.log(errorMsg);
             };
 
             var findFieldErrorIfAny = function (error) {
@@ -88,6 +90,10 @@ angular.module('bahmni.common.uicontrols.programmanagment')
             
             $scope.setProgramSelected = function (program) {
                 $scope.programSelected = program;
+                if ($scope.hasProgramWorkflowStates(program)) {
+                    $scope.workflowStatesWithoutCurrentState = $scope.getWorkflowStatesWithoutCurrent(program);
+                    $scope.currentState = $scope.initCurrentState(program);
+                }
             };
 
             $scope.hasPatientEnrolledToSomePrograms = function () {
@@ -98,13 +104,19 @@ angular.module('bahmni.common.uicontrols.programmanagment')
                 return !_.isEmpty($scope.endedPrograms);
             };
 
-            $scope.enrollPatient = function () {
+            $scope.enrollPatient = function (program, programEnrollmentDate, state) {
+                $scope.programSelected = program;
                 if (!isProgramSelected()) {
                     return;
                 }
                 if (isThePatientAlreadyEnrolled()) {
                     return;
                 }
+                
+                $scope.workflowStateSelected = state;
+                $scope.programEnrollmentDate = DateUtil.parse(programEnrollmentDate);
+                
+                
                 var stateUuid = $scope.workflowStateSelected && $scope.workflowStateSelected.uuid ? $scope.workflowStateSelected.uuid : null;
                 spinner.forPromise(
                     programService.enrollPatientToAProgram($scope.patient.uuid, $scope.programSelected.uuid, $scope.programEnrollmentDate, stateUuid)
@@ -125,6 +137,14 @@ angular.module('bahmni.common.uicontrols.programmanagment')
                     return state.endDate == null && !state.voided;
                 });
             };
+            
+            $scope.getCurrentProgramState = function(states){
+                return getCurrentState(states);
+            };
+            
+            $scope.initCurrentState = function(patientProgram){
+                return getCurrentState(patientProgram.states);
+            };
 
             $scope.getWorkflowStatesWithoutCurrent = function (patientProgram) {
                 var currentState = getCurrentState(patientProgram.states);
@@ -138,18 +158,19 @@ angular.module('bahmni.common.uicontrols.programmanagment')
             };
 
             $scope.savePatientProgram = function (patientProgram) {
-                var startDate = getCurrentDate();
+                var startDate = DateUtil.parse($scope.programEdited.startDate);
                 var currentState = getCurrentState(patientProgram.states);
                 var currentStateDate = currentState ? DateUtil.parse(currentState.startDate) : null;
-
+                
                 if (DateUtil.isBeforeDate(startDate, currentStateDate)) {
                     var formattedCurrentStateDate = DateUtil.formatDateWithoutTime(currentStateDate);
                     return;
                 }
-
+                
                 if (!isProgramStateSelected()) {
                     return;
                 }
+                
                 spinner.forPromise(
                     programService.savePatientProgram(patientProgram.uuid, $scope.programEdited.selectedState.uuid, startDate)
                         .then(successCallback, failureCallback)
