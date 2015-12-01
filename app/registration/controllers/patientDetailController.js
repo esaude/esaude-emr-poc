@@ -1,34 +1,12 @@
 'use strict';
 
 angular.module('registration')
-        .controller('DetailPatientController', ["$rootScope", "$scope", "$stateParams", "$location", "patientService", "openmrsPatientMapper",
-                function ($rootScope, $scope, $stateParams, $location, patientService, patientMapper) {
+        .controller('DetailPatientController', ["$rootScope", "$scope", "$stateParams", "$location",
+                function ($rootScope, $scope, $stateParams, $location) {
             var patientUuid;
     
             (function () {
                 patientUuid = $stateParams.patientUuid;
-                
-                var searchPatientPromise = patientService.get(patientUuid);
-
-                searchPatientPromise.success(function (data) {
-                    $rootScope.patient = patientMapper.map(data);
-                    
-                    var searchPatientIdentifiersPromise = patientService.getPatientIdentifiers(patientUuid);
-
-                    searchPatientIdentifiersPromise.success(function (data) {
-                        angular.forEach(data.results, function (value) {
-                            $scope.patient.patientIdentifiers.push({type: {name: value.identifierType.display}, 
-                                identifier: value.identifier, 
-                                preferred: value.preferred});
-                        });
-                    });
-
-                    searchPatientIdentifiersPromise['finally'](function () {
-                    });
-                });
-                
-                searchPatientPromise['finally'](function () {
-                });
             })();
             
             $scope.initAttributes = function() {

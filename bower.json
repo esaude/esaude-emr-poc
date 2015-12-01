@@ -32,7 +32,9 @@
     "moment": "~2.10.6",
     "angular-datepicker": "~1.0.17",
     "angular-bootstrap-switch": "~0.4.1",
-    "bootstrap-switch": "~3.3.2"
+    "bootstrap-switch": "~3.3.2",
+    "zeroclipboard": "~2.2.0",
+    "ng-clip": "~0.2.6"
   },
   "resolutions": {
     "angular": "1.4.3"

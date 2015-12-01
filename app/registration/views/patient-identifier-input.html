@@ -31,13 +31,13 @@
             </tr>
         </thead>
         <tbody>  
-            <tr ng-repeat=" pi in patient.patientIdentifiers">
-                <td class="col-sm-4 control-label">{{pi.type.name}}</td>
+            <tr ng-repeat=" pi in patient.identifiers">
+                <td class="col-sm-4 control-label">{{pi.identifierType.display}}</td>
                 <td>
                     <div class="form-group has-success has-feedback" 
                          ng-class="{'has-error': idForm.{{pi.fieldName}}.$invalid, 'has-success': !idForm.{{pi.fieldName}}.$invalid}">
                         <input type="text" class="form-control input-lg keyboard-in" dynamic-name="pi.fieldName" 
-                               placeholder="{{pi.type.format}}" ng-model="pi.identifier" ng-pattern="{{pi.type.format}}">
+                               placeholder="{{pi.identifierType.format}}" ng-model="pi.identifier" ng-pattern="{{pi.identifierType.format}}">
                         <span ng-class="{'glyphicon glyphicon-remove form-control-feedback': idForm.{{pi.fieldName}}.$invalid, 
                                     'glyphicon glyphicon-ok form-control-feedback': !idForm.{{pi.fieldName}}.$invalid}"></span>
                     </div>

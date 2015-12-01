@@ -1,4 +1,4 @@
-angular.module('uiHelper')
+angular.module('bahmni.common.uiHelper')
 .directive('conceptAutocomplete', function ($parse, $http) {
     var link = function (scope, element, attrs, ngModelCtrl) {
         var source =  function(request) {

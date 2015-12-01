@@ -7,9 +7,7 @@ angular.module('home')
         var landingPagePath = "/dashboard";
         var loginPagePath = "/login";
         
-        init();
-        
-        function init () {
+        (function () {
             $scope.showMenu = true;
             $rootScope.loginUser = {};
             
@@ -21,7 +19,7 @@ angular.module('home')
                     locationPromise['finally'](function () {
                     });
             
-        }
+        })();
         
         if ($stateParams.showLoginMessage) {
             $scope.errorMessage = "You are not authenticated or your session expired. Please login.";

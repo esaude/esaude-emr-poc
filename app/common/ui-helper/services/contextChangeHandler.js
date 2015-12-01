@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('uiHelper')
+angular.module('bahmni.common.uiHelper')
  .service('contextChangeHandler', ['$rootScope', function($rootScope) {
 	var callbacks = [];
     var self = this;

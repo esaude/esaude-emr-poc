@@ -6,12 +6,15 @@
                 <h4 class="modal-title" id="addProgramModalLabel">New Program</h4>
             </div>
             <form class="form-horizontal">
+                <div class="alert alert-danger alert-dismissible content-border-margin" role="alert"  ng-show="errorMessage">
+                    <strong>{{errorMessage}}</strong> 
+                </div>
                 <div class="modal-body content-border-margin">
                     <div class="form-group form-group-lg">
                         <label class="control-label col-sm-4">Program:</label>
                         <div class="col-sm-8">
                             <select class="form-control" ng-model="programSelected" ng-options="program.name for program in allPrograms" 
-                                    data-ng-change="setWorkflowStates(programSelected)">
+                                    data-ng-change="setWorkflowStates(programSelected)" required>
                                 <option></option>
                             </select>
                             
@@ -30,7 +33,7 @@
                         <label class="control-label col-sm-4">Admission Date:</label>
                         <div class="input-group date col-sm-8">
                             <input type="text" class="form-control" date-time ng-model="$parent.programEnrollmentDate"
-                                min-view="date" auto-close="true" required/>
+                                   min-view="date" auto-close="true" required/>
                             <span class="input-group-addon">
                                 <span class="glyphicon glyphicon-calendar"></span>
                             </span>
@@ -42,7 +45,7 @@
                         <span class="glyphicon glyphicon-minus-sign"></span>
                     </button>
                     <button type="submit" ng-click="enrollPatient(programSelected, programEnrollmentDate, workflowStateSelected)" 
-                            class="btn btn-primary btn-lg" data-dismiss="modal">
+                            class="btn btn-primary btn-lg">
                         <span class="glyphicon glyphicon-floppy-disk"></span>
                     </button>
                 </div>
@@ -53,5 +56,6 @@
 <script>
     $('.modal').on('show.bs.modal', function(){
     $(this).find('form')[0].reset();
+    $('.alert').hide();
 });
 </script>

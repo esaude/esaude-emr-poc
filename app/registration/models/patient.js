@@ -16,18 +16,6 @@ angular.module('registration')
                 this.birthdate = age.calculateBirthDate(this.age);
             };
 
-            var generateIdentifier = function () {
-                if (this.registrationNumber && this.registrationNumber.length > 0) {
-                    this.identifier = this.identifierPrefix.name + this.registrationNumber;
-                }
-                return this.identifier;
-            };
-
-            var clearRegistrationNumber = function () {
-                this.registrationNumber = null;
-                this.identifier = null;
-            };
-
             var fullNameLocal = function () {
                 var givenNameLocal = this.givenNameLocal || this.givenName || "";
                 var middleNameLocal = this.middleNameLocal || this.middleName|| "";
@@ -44,15 +32,13 @@ angular.module('registration')
                 ,age: age.create()
                 ,birthdate: null
                 ,calculateAge: calculateAge
-                ,identifierPrefix: {}
-                ,generateIdentifier: generateIdentifier
-                ,clearRegistrationNumber: clearRegistrationNumber
                 ,image: '../images/blank-user.gif'
                 ,fullNameLocal: fullNameLocal
                 ,getImageData: getImageData
                 ,relationships: []
                 ,newlyAddedRelationships: [{}]
                 ,calculateBirthDate: calculateBirthDate
+                ,identifiers: []
             };
         };
 

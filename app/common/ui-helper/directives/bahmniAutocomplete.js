@@ -1,5 +1,5 @@
-angular.module('uiHelper')
-.directive('bahmniAutocomplete', function ($parse) {
+angular.module('bahmni.common.uiHelper')
+.directive('bahmniAutocomplete', function () {
     var link = function (scope, element, attrs, ngModelCtrl) {
         var source = scope.source();
         var responseMap = scope.responseMap();
@@ -11,7 +11,17 @@ angular.module('uiHelper')
         var validateIfNeeded = function(value){
            if(!scope.strictSelect) return;
             scope.isInvalid = (value !== scope.selectedValue);
-        }
+            if (_.isEmpty(value)){
+                scope.isInvalid = false;
+            }
+        };
+
+        scope.$watch('initialValue', function() {
+            if(scope.initialValue) {
+                scope.selectedValue = scope.initialValue;
+                scope.$apply();
+            }
+        });
 
         element.autocomplete({
             autofocus: true,
@@ -47,7 +57,14 @@ angular.module('uiHelper')
             }
         });
 
-        $(element).on('change', function() { validateIfNeeded($(element).val()); })
+        $(element).on('change', function() {
+            validateIfNeeded($(element).val()); }
+        );
+
+        $(element).keyup(function() {
+            validateIfNeeded($(element).val());
+            scope.$apply();
+        });
 
         scope.$watch('isInvalid', function(){
             ngModelCtrl.$setValidity('selection', !scope.isInvalid);
@@ -67,7 +84,8 @@ angular.module('uiHelper')
             blurOnSelect: '=',
             strictSelect: '=',
             validationMessage: '@',
-            isInvalid: "="
+            isInvalid: "=",
+            initialValue: "="
         }
-    }
+    };
 });

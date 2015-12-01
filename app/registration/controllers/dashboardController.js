@@ -10,15 +10,6 @@ angular.module('registration')
     
             function init() {
                 patientUuid = $stateParams.patientUuid;
-                
-                var searchPromise = patientService.get(patientUuid);
-
-                searchPromise.success(function (data) {
-                    $scope.patient = patientMapper.map(data);
-                });
-                
-                searchPromise['finally'](function () {
-                });
             }
 
             $scope.saveProgram = function () {

@@ -2,15 +2,15 @@
 
 angular.module('registration')
     .controller('CreatePatientController', ['$scope', '$state', '$location', 'patient', 'patientService', 
-                    'spinner', 'appService', '$http', 'localStorageService',
-        function ($scope, $state, $location, patientModel, patientService, spinner, appService, $http, localStorageService) {
+                    'spinner', 'appService', '$http', 'localStorageService', 'patientAttributeService',
+        function ($scope, $state, $location, patientModel, patientService, spinner, appService, $http, localStorageService,
+                    patientAttributeService) {
                 var dateUtil = Bahmni.Common.Util.DateUtil;
                 $scope.actions = {};
                 $scope.addressHierarchyConfigs = appService.getAppDescriptor().getConfigValue("addressHierarchy");
 
                 (function () {
                     $scope.patient = patientModel.create();
-                    $scope.patient.patientIdentifiers = [];
                     $scope.today = dateUtil.getDateWithoutTime(dateUtil.now());
                     //get patient identifier types
                     var searchPromise = patientService.getIdentifierTypes();
@@ -26,15 +26,16 @@ angular.module('registration')
                     $scope.errorMessage = null;
                     
                     var patientIdentifierType = $scope.patient.patientIdentifierType;
+                    console.log(patientIdentifierType);
                     if (patientIdentifierType !== null) {
                         //validate already contained
-                        var found = _.find($scope.patient.patientIdentifiers, function (chr) {
-                            return chr.type.name === patientIdentifierType.name;
+                        var found = _.find($scope.patient.identifiers, function (chr) {
+                            return chr.identifierType.display === patientIdentifierType.display;
                         });
                         
                         if(found === undefined) {
                             var fieldName = patientIdentifierType.name.trim().replace(/[^a-zA-Z0-9]/g, '');
-                            $scope.patient.patientIdentifiers.push({type: patientIdentifierType, 
+                            $scope.patient.identifiers.push({identifierType: patientIdentifierType, 
                                 identifier: null, preferred: false, 
                                 location: localStorageService.cookie.get("emr.location").uuid, 
                                 fieldName : fieldName});
@@ -43,15 +44,23 @@ angular.module('registration')
                         }
                     }
                 };
+                
+                $scope.getAutoCompleteList = function (attributeName, query, type) {
+                    return patientAttributeService.search(attributeName, query, type);
+                };
+                
+                $scope.getDataResults = function (data) {
+                    return  data.results;
+                };
 
                 $scope.removeIdentifier = function (identifier) {
                     $scope.errorMessage = null;
                     
-                    _.pull($scope.patient.patientIdentifiers, identifier);
+                    _.pull($scope.patient.identifiers, identifier);
                 };
 
                 $scope.setPreferredId = function (identifier) {
-                    angular.forEach($scope.patient.patientIdentifiers, function (p) {
+                    angular.forEach($scope.patient.identifiers, function (p) {
                         p.preferred = false; //set them all to false
                     });
                     identifier.preferred = true; //set the clicked one to true

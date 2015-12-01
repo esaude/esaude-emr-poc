@@ -58,13 +58,13 @@ Bahmni.Registration.CreatePatientRequestMapper = (function () {
     
     var setIdentifiers = function (patient) {
         var identifiers = [];
-        for (var i in patient.patientIdentifiers) {
-            var patientIdentifier = patient.patientIdentifiers[i];
+        for (var i in patient.identifiers) {
+            var patientIdentifier = patient.identifiers[i];
             
             identifiers.push({
                         identifier: patientIdentifier.identifier,
                         identifierType: {
-                           name: patientIdentifier.type.name
+                           name: patientIdentifier.identifierType.name
                         },
                         preferred: patientIdentifier.preferred,
                         location: patientIdentifier.location,

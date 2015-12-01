@@ -1,4 +1,4 @@
-angular.module('uiHelper')
+angular.module('bahmni.common.uiHelper')
     .service('backlinkService', function ($window) {
         var self = this;
         

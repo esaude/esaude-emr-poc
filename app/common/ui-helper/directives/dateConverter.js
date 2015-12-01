@@ -1,4 +1,4 @@
-angular.module('uiHelper').directive('dateConverter', ['$filter', function($filter) {
+angular.module('bahmni.common.uiHelper').directive('dateConverter', ['$filter', function($filter) {
     return {
         require: 'ngModel',
         link: function(scope, element, attrs, ngModelController) {

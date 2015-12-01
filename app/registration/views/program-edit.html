@@ -5,7 +5,10 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="editProgramModalLabel">Edit Program</h4>
             </div>
-            <form class="form-horizontal" ng-submit="updateProgram()">
+            <form class="form-horizontal">
+                <div class="alert alert-danger alert-dismissible content-border-margin" role="alert"  ng-show="errorMessage">
+                    <strong>{{errorMessage}}</strong> 
+                </div>
                 <div class="modal-body content-border-margin">
                     <div class="form-group form-group-lg">
                         <label class="control-label col-sm-4">Program:</label>
@@ -41,7 +44,7 @@
                         <span class="glyphicon glyphicon-minus-sign"></span>
                     </button>
                     <button type="submit" class="btn btn-primary btn-lg" 
-                            ng-click="editPatientProgram(programSelected)" data-dismiss="modal">
+                            ng-click="editPatientProgram(programSelected)">
                         <span class="glyphicon glyphicon-floppy-disk"></span>
                     </button>
                     <button type="button" class="btn btn-danger btn-lg">
@@ -55,5 +58,6 @@
 <script>
     $('.modal').on('show.bs.modal', function () {
         $(this).find('form')[0].reset();
+        $('.alert').hide();
     });
 </script>

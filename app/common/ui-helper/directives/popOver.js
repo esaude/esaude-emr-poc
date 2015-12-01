@@ -1,4 +1,4 @@
-angular.module('uiHelper')
+angular.module('bahmni.common.uiHelper')
     .directive('bmPopOver', function(){
         var controller = function($scope) {
             $scope.targetElements = [];

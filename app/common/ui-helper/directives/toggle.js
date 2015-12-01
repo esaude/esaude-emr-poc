@@ -1,4 +1,4 @@
-angular.module('uiHelper')
+angular.module('bahmni.common.uiHelper')
 .directive('toggle', function() {
 	var link = function($scope, element, attrs) {
 		$scope.$watch("toggle", function(value) {

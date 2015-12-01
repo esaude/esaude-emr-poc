@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('uiHelper')
+angular.module('bahmni.common.uiHelper')
     .directive('ngConfirmClick', function () {
         var link = function (scope, element, attr) {
             var msg = attr.confirmMessage || "Are you sure?";

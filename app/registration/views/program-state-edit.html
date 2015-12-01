@@ -6,6 +6,9 @@
                 <h4 class="modal-title" id="editProgramStateModalLabel">Edit Program State</h4>
             </div>
             <form class="form-horizontal">
+                <div class="alert alert-danger alert-dismissible content-border-margin" role="alert"  ng-show="errorMessage">
+                    <strong>{{errorMessage}}</strong> 
+                </div>
                 <div class="modal-body content-border-margin">
                     <div class="form-group form-group-lg">
                         <label class="control-label col-sm-4">State:</label>
@@ -39,7 +42,7 @@
                     </button>
                     <button type="submit" class="btn btn-primary btn-lg">
                         <span class="glyphicon glyphicon-floppy-disk" 
-                              ng-click="savePatientProgram(programSelected)" data-dismiss="modal"></span>
+                              ng-click="savePatientProgram(programSelected)"></span>
                     </button>
                     <button type="button" class="btn btn-danger btn-lg">
                         <span class="glyphicon glyphicon-remove-sign"></span>
@@ -50,7 +53,8 @@
     </div>
 </div>
 <script>
-    $('.modal').on('show.bs.modal', function(){
-    $(this).find('form')[0].reset();
-});
+    $('.modal').on('show.bs.modal', function() {
+        $(this).find('form')[0].reset();
+        $('.alert').hide();
+    });
 </script>

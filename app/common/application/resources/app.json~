@@ -1,0 +1,8 @@
+{
+  "applications" : [
+      {"name":"Registration", "url":"/registration", "logo":"images/hospital.png"},
+      {"name":"Clinic", "url":"/clinic", "logo":"images/clinic.png"},
+      {"name":"Pharmacy", "url":"/pharmacy", "logo":"images/medical.png"},
+      {"name":"Laboratory", "url":"/lab", "logo":"images/microscope.png"}
+  ]
+}

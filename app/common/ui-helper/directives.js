@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('uiHelper')
+angular.module('bahmni.common.uiHelper')
     .directive('nonBlank', function () {
         return function ($scope, element, attrs) {
             var addNonBlankAttrs = function () {
@@ -22,13 +22,14 @@ angular.module('uiHelper')
         var link = function ($scope, element, attrs, ngModel) {
             var maxDate = attrs.maxDate;
             var minDate = attrs.minDate || "-120y";
+            var format = attrs.dateFormat || 'dd-mm-yy';
             element.datepicker({
                 changeYear: true,
                 changeMonth: true,
                 maxDate: maxDate,
                 minDate: minDate,
                 yearRange: 'c-120:c+120',
-                dateFormat: 'dd-mm-yy',
+                dateFormat: format,
                 onSelect: function (dateText) {
                     $scope.$apply(function () {
                         ngModel.$setViewValue(dateText);
@@ -123,4 +124,22 @@ angular.module('uiHelper')
                 addPatternToElement();
             });
         }
+    })
+    .directive('validateOn', function(){
+        var link = function(scope, element, attrs, ngModelCtrl){
+            var validationMessage = attrs.validationMessage || 'Please enter a valid detail';
+
+            var setValidity = function (value) {
+                var valid = value? true: false;
+                ngModelCtrl.$setValidity('blank', valid);
+                element[0].setCustomValidity(!valid ?  validationMessage: '');
+            };
+            scope.$watch(attrs.validateOn, setValidity, true);
+        };
+
+        return {
+            link: link,
+            require: 'ngModel'
+        }
+
     });

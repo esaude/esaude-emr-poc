@@ -5,10 +5,13 @@
     <div class="panel-body">
         <form class="form-horizontal">
             <div class="form-group form-group-lg">
-                <label for="patient_name" class="col-sm-2 control-label">Name:</label>
+                <label for="givenName" class="col-sm-2 control-label">Name:</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control keyboard-in" id="patient_name" ng-model="patient.givenName"
-                           placeholder="First Name" title="Enter patient's first name.">
+                    <input type="text" class="form-control keyboard-in" id="givenName" ng-model="patient.givenName"
+                           placeholder="First Name" title="Enter patient's first name."
+                           non-blank pattern-validate
+                           my-autocomplete source="getAutoCompleteList" response-map="getDataResults"
+                           data-item-type="personName">
                 </div>
             </div>
             <div class="form-group form-group-lg">

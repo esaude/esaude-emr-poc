@@ -1,4 +1,4 @@
-angular.module('uiHelper')
+angular.module('bahmni.common.uiHelper')
     .directive('providerDirective', function() {
         var template = '<span>'+
                             '<span ng-if="creatorName != providerName">{{creatorName}} on behalf of </span>' +

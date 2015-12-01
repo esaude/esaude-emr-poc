@@ -1,7 +1,7 @@
 'use strict';
 
 angular
-    .module('home', ['ngRoute', 'ngCookies', 'ui.router', 'application', 'chart.js', 'uiHelper', 
+    .module('home', ['ngRoute', 'ngCookies', 'ui.router', 'application', 'chart.js', 'bahmni.common.uiHelper', 
                 'bahmni.common.appFramework', 'bahmni.common.domain'])
     .config(['$urlRouterProvider', '$stateProvider', '$httpProvider',
                 function ($urlRouterProvider, $stateProvider) {

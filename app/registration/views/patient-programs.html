@@ -34,11 +34,13 @@
                 </button>
             </td>
             <td>
-                <button class="btn btn-success btn-lg" type="button">
+                <button class="btn btn-success btn-lg" type="button" 
+                        data-toggle="collapse" data-target="#{{program.uuid}}" aria-expanded="false" aria-controls="{{program.uuid}}">
                     <span class="glyphicon glyphicon-eye-open"></span>
                 </button>
             </td>
         </tr>
+        
         <tr ng-if="hasPatientAnyPastPrograms()" ng-repeat="program in filteredNotReopenedPrograms">
             <td>
                 <button class="btn btn-default btn-lg" type="button" disabled="disabled">

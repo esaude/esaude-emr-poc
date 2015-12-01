@@ -1,19 +1,24 @@
-<div class="row bg-info-border bg-info content-border border-rouded-top"><!--patient header -->
-    <div><!-- patient name and identifier -->
-        <span class="col-md-6 header-text-lg">
-            <b>{{patient.givenName + " " + patient.familyName}}</b>
-        </span>
-        <span class="col-md-6 pull-right header-text-lg go-to-right">
-            {{patient.identifierType}}: <b>{{patient.identifier}}</b>
-        </span>
-    </div><!-- patient name and identifier -->
-    <div class="col-md-12"><!-- patient gender, age and phone number -->
-        <span>
-            <img src="../../images/{{patient.gender === 'F' ? 'female.png' : 'male.png'}}" class="img-responsive inline-align" width="24" height="24" alt="male">
-        </span>
-        <span>{{patient.age.years}}</span>
-        <span>({{patient.birthdate}})</span>
-        <!-- TODO: must check "Header Attribute Types" from openmrs configurations --> 
-        <span>Phone number: {{patient['Numero de Telefone']}}</span>
+<div class="row bg-info-border bg-info content-border border-rouded-top" ng-controller="PatientHeaderController"><!--patient header -->
+    <div class="col-md-6">
+        <div class="header-text-lg">
+            <b>{{patient.fullName}}</b>
+        </div>
+        <div><!-- patient gender, age and phone number -->
+            <span>
+                <img src="../../images/{{patient.gender === 'F' ? 'female.png' : 'male.png'}}" class="img-responsive inline-align" width="24" height="24" alt="male">
+            </span>
+            <span>{{patient.age.years}}</span>
+            <span>{{patient.birthdateEstimated ? '~': ''}}({{patient.birthdate}})</span>
+            <!-- TODO: must check "Header Attribute Types" from openmrs configurations --> 
+            <span ng-if="patient['Numero de Telefone']">Phone number: {{patient['Numero de Telefone']}}</span>
+        </div>
+    </div>
+    <div class="col-md-6 pull-right go-to-right">
+        <ul class="list-unstyled">
+            <li  ng-repeat="identifier in patient.identifiers" 
+                 ng-class="{'header-text-lg' : identifier.preferred}">
+                {{identifier.identifierType.display}}: <b>{{identifier.identifier}}</b>
+            </li>
+        </ul>
     </div>
 </div><!--patient header -->

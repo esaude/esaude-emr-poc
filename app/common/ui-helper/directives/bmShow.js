@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('uiHelper')
+angular.module('bahmni.common.uiHelper')
     .directive('bmShow', ['$rootScope', function ($rootScope) {
     var link = function ($scope,  element, attr) {
            $scope.$watch('bmShow', function() {

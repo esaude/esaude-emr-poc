@@ -7,8 +7,8 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="patientIdentifier in patient.patientIdentifiers">
-            <td class="col-sm-4 control-label">{{patientIdentifier.type.name}}</td>
+        <tr ng-repeat="patientIdentifier in patient.identifiers">
+            <td class="col-sm-4 control-label">{{patientIdentifier.identifierType.display}}</td>
             <td>{{patientIdentifier.identifier}}</td>
             <td>{{(patientIdentifier.preferred === true) ? "YES" : "NO"}}</td>
         </tr>

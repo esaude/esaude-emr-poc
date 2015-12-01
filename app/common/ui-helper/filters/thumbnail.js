@@ -1,4 +1,4 @@
-angular.module('uiHelper')
+angular.module('bahmni.common.uiHelper')
 .filter('thumbnail', function() {
 	return function(url) {
 	    if(url){

@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('uiHelper')
-    .factory('spinner', ['$timeout', function () {
+angular.module('bahmni.common.uiHelper')
+    .factory('spinner', [ function () {
         var tokens = [];
 
         var show = function () {
@@ -12,14 +12,14 @@ angular.module('uiHelper')
            }
            $('#overlay').stop().show();
            return token;
-        }
+        };
 
         var hide = function (token) {
             _.pull(tokens, token);
             if(tokens.length === 0) {
                 $('#overlay').fadeOut(300);
             }
-        }
+        };
 
         var forPromise = function(promise) {
             var token = show();
@@ -27,8 +27,15 @@ angular.module('uiHelper')
             return promise;
         };
 
+        var forAjaxPromise = function(promise) {
+            var token = show();
+            promise.always(function() { hide(token); });
+            return promise;
+        };
+
         return {
             forPromise: forPromise,
+            forAjaxPromise: forAjaxPromise,
             show: show,
             hide: hide
         }

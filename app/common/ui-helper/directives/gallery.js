@@ -1,4 +1,4 @@
-angular.module('uiHelper')
+angular.module('bahmni.common.uiHelper')
     .directive('bmGallery', ['$location', '$rootScope', '$compile', function ($location, $rootScope, $compile) {
 
         var controller = function ($scope) {
