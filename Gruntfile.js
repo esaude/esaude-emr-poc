@@ -12,6 +12,8 @@ module.exports = function (grunt) {
 
   grunt.loadNpmTasks('grunt-connect-proxy');
   
+  grunt.loadNpmTasks('grunt-string-replace');
+  
   // Automatically load required Grunt tasks
   require('jit-grunt')(grunt, {
     useminPrepare: 'grunt-usemin'
@@ -224,7 +226,6 @@ module.exports = function (grunt) {
         src: [
           '<%= yeoman.dist %>/scripts/{,*/}*.js',
           '<%= yeoman.dist %>/styles/{,*/}*.css',
-          '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
           '<%= yeoman.dist %>/styles/fonts/*'
         ]
       }
@@ -260,7 +261,6 @@ module.exports = function (grunt) {
       options: {
         assetsDirs: [
           '<%= yeoman.dist %>',
-          '<%= yeoman.dist %>/images',
           '<%= yeoman.dist %>/styles'
         ],
         patterns: {
@@ -379,6 +379,48 @@ module.exports = function (grunt) {
         configFile: 'test/karma.conf.js',
         singleRun: true
       }
+    },
+    
+    //replace javascript url
+    'string-replace': {
+      inline: {
+        files: {
+          'dist/': 'dist/**/index.html'
+        },
+        options: {
+          replacements: [
+            // place files inline example
+            {
+              pattern: '<script src="scripts/vendor.home.min.99f559ee.js"></script>',
+              replacement: '<script src="../scripts/vendor.home.min.99f559ee.js"></script>'
+            },
+            {
+              pattern: '<script src="scripts/home.min.45237698.js"></script>',
+              replacement: '<script src="../scripts/home.min.45237698.js"></script>'
+            },
+            {
+              pattern: '<link rel="stylesheet" href="styles/vendor.home.min.33a77086.css">',
+              replacement: '<link rel="stylesheet" href="../styles/vendor.home.min.33a77086.css">'
+            },
+            {
+              pattern: '<link rel="stylesheet" href="styles/main.min.f9080e53.css">',
+              replacement: '<link rel="stylesheet" href="../styles/main.min.f9080e53.css">'
+            },
+            {
+              pattern: '<script src="scripts/vendor.registration.min.725c0ce9.js"></script>',
+              replacement: '<script src="../scripts/vendor.registration.min.725c0ce9.js"></script>'
+            },
+            {
+              pattern: '<script src="scripts/registration.min.e98af807.js"></script>',
+              replacement: '<script src="../scripts/registration.min.e98af807.js"></script>'
+            },
+            {
+              pattern: '<link rel="stylesheet" href="styles/vendor.registration.min.4c5b7622.css">',
+              replacement: '<link rel="stylesheet" href="../styles/vendor.registration.min.4c5b7622.css">'
+            }
+          ]
+        }
+      }
     }
   });
 
@@ -422,7 +464,8 @@ module.exports = function (grunt) {
     'filerev',
     'usemin',
     'htmlmin',
-    'usemin:html'
+    'usemin:html',
+    'string-replace'
   ]);
 
   grunt.registerTask('default', [

@@ -121,5 +121,28 @@ angular
             .state('detailpatient.death', {
                 url: '/death',
                 templateUrl: 'views/patient-death.html'
+            })
+            .state('anamnesis', {
+                url: '/anamnesis/a/:patientUuid',
+                views: {
+                    'layout': { templateUrl: '../common/application/views/layout.html', controller: 'AnamnesisController'},
+                    'content@anamnesis': { templateUrl: '../anamnesis/views/anamnesis-add.html'}
+                }
+            })
+            .state('anamnesis.reference', {
+                url: '/reference',
+                templateUrl: '../anamnesis/views/anamnesis-reference-input.html'
+            })
+            .state('anamnesis.extra', {
+                url: '/extra',
+                templateUrl: '../anamnesis/views/anamnesis-extra-input.html'
+            })
+            .state('anamnesis.children', {
+                url: '/children',
+                templateUrl: '../anamnesis/views/anamnesis-children-input.html'
+            })
+            .state('anamnesis.confirm', {
+                url: '/confirm',
+                templateUrl: '../anamnesis/views/anamnesis-a-adult-confirm-input.html'
             });
     }]);

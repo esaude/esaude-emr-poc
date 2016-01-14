@@ -40,4 +40,8 @@ angular.module('registration')
             $scope.linkServicesList = function() {
                 $location.url("/services/" + patientUuid); // path not hash
             };
+            
+            $scope.linkAnamnesisA = function() {
+                $location.url("/anamnesis/a/" + patientUuid + "/reference"); // path not hash
+            };
         }]);
