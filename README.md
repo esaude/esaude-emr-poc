@@ -37,6 +37,35 @@ proxies: [
 10. Run `grunt serve` for preview.
 11. Open your web browser with the address //http://loocalhost:9000/home
 
-## Testing
+## Test
+
+### Pre-Requirements
+- apache2 web server
+
+1. Run the task `grunt build`. A distribution package will be generated in your project root folder named `dist`.
+2. Copy your `dist` into `/var/www/html/` and rename it to `poc`.
+3. Copy `bahmni_config` folder in the root of your project, into `/var/www/html/`.
+4. Copy the resources in `YOUR_PROJ_ROOT/app/commom/application/resources/` into `/var/www/html/poc/common/application/resources/`.
+5. Install and and activate apache's `mod_proxy`, if not yet installed and activated. You can find more info [here](https://www.digitalocean.com/community/tutorials/how-to-use-apache-http-server-as-reverse-proxy-using-mod_proxy-extension)
+6. Configure openmrs proxy and URL aliases in `/etc/apache2/sites-enabled/000-default.config`. Add the lines:
+```
+<VirtualHost>
+  ...
+  ProxyPass /openmrs http://localhost:8080/openmrs
+  ProxyPassReverse /openmrs http://localhost:8080/openmrs
+
+	Alias /poc /var/www/html/poc
+	Alias /bahmni_config /var/www/html/bahmni_config
+	Alias /images /var/www/html/poc/images
+
+	Redirect permanent /home /poc/home/
+	Redirect permanent /registration /poc/registration/
+
+</VirtualHost>
+```
+7. Restart your apache2 server `service apache2 restart`.
+8. Browse to http://localhost/poc/home
+
+## Unit Testing
 
 Running `grunt test` will run the unit tests with karma.
