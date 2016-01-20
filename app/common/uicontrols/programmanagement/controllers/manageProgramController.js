@@ -155,6 +155,16 @@ angular.module('bahmni.common.uicontrols.programmanagment')
                 return getCurrentState(states);
             };
             
+            //must have at least one state and non voided
+            $scope.hasValidProgramStateToShow = function (states) {
+                for(var i in states) {
+                    if(!states[i].voided) {
+                        return true;
+                    }
+                }
+                return false;
+            };
+            
             $scope.initCurrentState = function(patientProgram){
                 return getCurrentState(patientProgram.states);
             };
