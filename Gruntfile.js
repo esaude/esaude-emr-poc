@@ -391,32 +391,32 @@ module.exports = function (grunt) {
           replacements: [
             // place files inline example
             {
-              pattern: '<script src="scripts/vendor.home.min.99f559ee.js"></script>',
-              replacement: '<script src="../scripts/vendor.home.min.99f559ee.js"></script>'
+              pattern: '<script src="scripts/vendor.home.min.js"></script>',
+              replacement: '<script src="../scripts/vendor.home.min.js"></script>'
             },
             {
-              pattern: '<script src="scripts/home.min.45237698.js"></script>',
-              replacement: '<script src="../scripts/home.min.45237698.js"></script>'
+              pattern: '<script src="scripts/home.min.js"></script>',
+              replacement: '<script src="../scripts/home.min.js"></script>'
             },
             {
-              pattern: '<link rel="stylesheet" href="styles/vendor.home.min.33a77086.css">',
-              replacement: '<link rel="stylesheet" href="../styles/vendor.home.min.33a77086.css">'
+              pattern: '<link rel="stylesheet" href="styles/vendor.home.min.css">',
+              replacement: '<link rel="stylesheet" href="../styles/vendor.home.min.css">'
             },
             {
-              pattern: '<link rel="stylesheet" href="styles/main.min.f9080e53.css">',
-              replacement: '<link rel="stylesheet" href="../styles/main.min.f9080e53.css">'
+              pattern: '<link rel="stylesheet" href="styles/main.min.css">',
+              replacement: '<link rel="stylesheet" href="../styles/main.min.css">'
             },
             {
-              pattern: '<script src="scripts/vendor.registration.min.725c0ce9.js"></script>',
-              replacement: '<script src="../scripts/vendor.registration.min.725c0ce9.js"></script>'
+              pattern: '<script src="scripts/vendor.registration.min.js"></script>',
+              replacement: '<script src="../scripts/vendor.registration.min.js"></script>'
             },
             {
-              pattern: '<script src="scripts/registration.min.e98af807.js"></script>',
-              replacement: '<script src="../scripts/registration.min.e98af807.js"></script>'
+              pattern: '<script src="scripts/registration.min.js"></script>',
+              replacement: '<script src="../scripts/registration.min.js"></script>'
             },
             {
-              pattern: '<link rel="stylesheet" href="styles/vendor.registration.min.4c5b7622.css">',
-              replacement: '<link rel="stylesheet" href="../styles/vendor.registration.min.4c5b7622.css">'
+              pattern: '<link rel="stylesheet" href="styles/vendor.registration.min.css">',
+              replacement: '<link rel="stylesheet" href="../styles/vendor.registration.min.css">'
             }
           ]
         }
@@ -461,7 +461,6 @@ module.exports = function (grunt) {
     'concat',
     'copy:dist',
     'cssmin',
-    'filerev',
     'usemin',
     'htmlmin',
     'usemin:html',
