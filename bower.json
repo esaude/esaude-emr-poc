@@ -38,6 +38,6 @@
     "angular-bootstrap-checkbox": "~0.3.1"
   },
   "resolutions": {
-    "angular": "1.4.3"
+    "angular": "1.4.9"
   }
 }
