@@ -34,7 +34,8 @@
     "angular-bootstrap-switch": "~0.4.1",
     "bootstrap-switch": "~3.3.2",
     "zeroclipboard": "~2.2.0",
-    "ng-clip": "~0.2.6"
+    "ng-clip": "~0.2.6",
+    "angular-bootstrap-checkbox": "~0.3.1"
   },
   "resolutions": {
     "angular": "1.4.3"

@@ -127,7 +127,8 @@ angular
                 views: {
                     'layout': { templateUrl: '../common/application/views/layout.html', controller: 'AnamnesisController'},
                     'content@anamnesis': { templateUrl: '../anamnesis/views/anamnesis-add.html'}
-                }
+                },
+                resolve: { initialization: 'initialization' }
             })
             .state('anamnesis.reference', {
                 url: '/reference',

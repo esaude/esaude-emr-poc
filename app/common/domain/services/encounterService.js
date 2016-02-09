@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('bahmni.common.domain')
-    .service('encounterService', ['$http', '$q', '$rootScope', 'configurations', '$bahmniCookieStore',
-        function ($http, $q, $rootScope, configurations, $bahmniCookieStore) {
+    .service('encounterService', ['$http', '$q', '$rootScope', 'configurations', '$cookieStore',
+        function ($http, $q, $rootScope, configurations, $cookieStore) {
 
     this.buildEncounter = function(encounter){
         encounter.observations = encounter.observations || [];
@@ -10,15 +10,44 @@ angular.module('bahmni.common.domain')
             stripExtraConceptInfo(obs);
         });
 
-        var providerData = $bahmniCookieStore.get(Bahmni.Common.Constants.grantProviderAccessDataCookieName);
         encounter.providers = encounter.providers || [];
 
-        if(providerData && providerData.uuid){
-            encounter.providers.push( {"uuid" : providerData.uuid});
-        }else if ($rootScope.currentProvider && $rootScope.currentProvider.uuid) {
-            encounter.providers.push( {"uuid" : $rootScope.currentProvider.uuid });
+        var providerData = $cookieStore.get(Bahmni.Common.Constants.grantProviderAccessDataCookieName);
+        if(_.isEmpty(encounter.providers)) {
+            if (providerData && providerData.uuid) {
+                encounter.providers.push({"uuid": providerData.uuid});
+            } else if ($rootScope.currentProvider && $rootScope.currentProvider.uuid) {
+                encounter.providers.push({"uuid": $rootScope.currentProvider.uuid });
+            }
         }
         return encounter;
+    };
+
+    var getDefaultEncounterType = function () {
+        var url = Bahmni.Common.Constants.encounterTypeUrl;
+        return  $http.get(url + '/' + configurations.defaultEncounterType()).then(function (response) {
+            return response.data;
+        });
+    };
+
+    this.getEncounterType = function (programUuid) {
+        if(programUuid == null) {
+            return getDefaultEncounterType();
+        }
+        return $http.get(Bahmni.Common.Constants.entityMappingUrl, {
+            params: {
+                entityUuid: programUuid,
+                mappingType: 'program_encountertype',
+                s: 'byEntityAndMappingType'
+            },
+            withCredentials: true
+        }).then(function (response) {
+            var encounterType=response.data.results[0].mappings[0];
+            if(!encounterType) {
+                encounterType = getDefaultEncounterType();
+            }
+            return encounterType;
+        });
     };
 
     this.create = function (encounter) {
@@ -30,10 +59,10 @@ angular.module('bahmni.common.domain')
     };
 
     this.delete = function(encounterUuid, reason) {
-        return $http.delete(Bahmni.Common.Constants.encounterUrl + "/" + encounterUuid, {
+        return $http.delete(Bahmni.Common.Constants.bahmniEncounterUrl + "/" + encounterUuid, {
             params: {reason : reason}
         });
-    }
+    };
 
     var stripExtraConceptInfo = function(obs) {
         obs.concept = {uuid: obs.concept.uuid, name: obs.concept.name, dataType: obs.concept.dataType };
@@ -120,15 +149,14 @@ angular.module('bahmni.common.domain')
         return searchable.promise;
     };
 
-    this.activeEncounter = function (params) {
-        return $http.get(Bahmni.Common.Constants.bahmniEncounterUrl + '/active', {
-            params: params,
-            withCredentials : true
-        });
-    };
-
     this.find = function (params) {
         return $http.post(Bahmni.Common.Constants.bahmniEncounterUrl + '/find', params, {
+            withCredentials: true
+        });
+    };
+    this.findByEncounterUuid = function (encounterUuid) {
+        return $http.get(Bahmni.Common.Constants.bahmniEncounterUrl + '/' + encounterUuid, {
+            params: {includeAll : true},
             withCredentials: true
         });
     };

@@ -1,1 +1,1 @@
-angular.module('anamnesis', ['registration']);
+angular.module('anamnesis', ['registration', 'poc.common.formdisplay']);

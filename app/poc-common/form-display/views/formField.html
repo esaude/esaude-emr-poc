@@ -1,0 +1,71 @@
+<div class="form-group form-group-lg">
+    <label for="{{fieldId}}" class="col-sm-2 control-label">
+        {{formParts.form.fields[fieldUuid].field.name}}:
+        <span ng-if="formParts.form.fields[fieldUuid].field.required" class="asterick">*</span>
+    </label>
+    
+    <div class="col-sm-10" 
+         ng-if="formParts.form.fields[fieldUuid].fieldConcept.fieldType.display === 'Concept'">
+        <div ng-switch="formParts.form.fields[fieldUuid].fieldConcept.concept.datatype.display">
+            <div ng-switch-when="Text">
+                <input type="text" class="form-control keyboard-in" id="{{fieldId}}" 
+                       placeholder="{{formParts.form.fields[fieldUuid].field.name}}"
+                       ng-model="formParts.form.fields[fieldUuid].value">
+            </div>
+            
+            <div ng-switch-when="Numeric">
+                <input type="number" class="form-control keyboard-in" id="{{fieldId}}" 
+                       placeholder="{{formParts.form.fields[fieldUuid].field.name}}"
+                       ng-model="formParts.form.fields[fieldUuid].value">
+            </div>
+            
+            <div ng-switch-when="Datetime" class="input-group date">
+                <input type="text" class="form-control keyboard-in" id="{{fieldId}}" 
+                       placeholder="{{formParts.form.fields[fieldUuid].field.name}}"
+                       ng-model="formParts.form.fields[fieldUuid].value"
+                       date-time min-view="date" auto-close="true">
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+            
+            <div ng-switch-when="Coded">
+                <div class="bg-info-border border-rouded" ng-if="formParts.form.fields[fieldUuid].fieldConcept.selectMultiple">
+                    <label class="content-border-padding" ng-repeat="answer in formParts.form.fields[fieldUuid].fieldConcept.concept.answers">
+                        <checkbox largest
+                               id="{{answer.uuid}}"
+                               ng-value="{{answer}}"
+                               ng-model="formParts.form.fields[fieldUuid].value[answer.uuid]"></checkbox> {{answer.display}} 
+                    </label>
+                </div>
+                <div ng-if="!formParts.form.fields[fieldUuid].fieldConcept.selectMultiple">
+                    <div ng-if="formParts.form.fields[fieldUuid].fieldConcept.concept.answers.length > 3">
+                        <select class="form-control" 
+                                ng-model="formParts.form.fields[fieldUuid].value" 
+                                ng-options="answer.display for answer in formParts.form.fields[fieldUuid].fieldConcept.concept.answers">
+                            <option></option>
+                        </select>
+                    </div>
+                    <div class="bg-info-border border-rouded" 
+                        ng-if="formParts.form.fields[fieldUuid].fieldConcept.concept.answers.length === 3">
+                        <label class="content-border-padding" ng-repeat="answer in formParts.form.fields[fieldUuid].fieldConcept.concept.answers">
+                            <input type="radio" name="{{fieldUuid}}-singleSelect3RGroup" 
+                                   ng-value="{{answer}}"
+                                   ng-model="formParts.form.fields[fieldUuid].value"> {{answer.display}} 
+                        </label>
+                    </div>
+                    <div ng-if="formParts.form.fields[fieldUuid].fieldConcept.concept.answers.length === 2">
+                        <input type="checkbox" bs-switch switch-size="large" 
+                               switch-off-text="{{formParts.form.fields[fieldUuid].fieldConcept.concept.answers[0].display}}" 
+                               switch-on-text="{{formParts.form.fields[fieldUuid].fieldConcept.concept.answers[1].display}}" 
+                               switch-on-color="primary" switch-off-color="primary" 
+                               ng-model="formParts.form.fields[fieldUuid].value" 
+                               ng-true-value="{{JSON.stringify(formParts.form.fields[fieldUuid].fieldConcept.concept.answers[0].uuid)}}" 
+                               ng-false-value="{{JSON.stringify(formParts.form.fields[fieldUuid].fieldConcept.concept.answers[1].uuid)}}">
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>

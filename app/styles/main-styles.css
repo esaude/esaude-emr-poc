@@ -28,6 +28,10 @@ and open the template in the editor.
     margin: 5px 25px 5px 25px;
 }
 
+.content-border-padding {
+    padding: 10px;
+}
+
 .content-border-margin-regular {
     margin: 5px;
 }
