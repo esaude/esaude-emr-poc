@@ -1,13 +1,11 @@
 'use strict';
 
 angular.module('home')
-        .controller('DashboardController', ['$scope', 'applicationServiceMock', function ($scope, applicationServiceMock) {
+        .controller('DashboardController', ['$scope', 'applicationService', function ($scope, applicationService) {
             init();
 
             function init() {
-
-                var appsJson = {};
-                applicationServiceMock.getApps().then(function (appJson) {
+                applicationService.getApps().then(function (appJson) {
                     $scope.apps = eval(appJson.applications);
                 });
             }

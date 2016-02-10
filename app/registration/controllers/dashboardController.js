@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('registration')
-        .controller('DashboardController', ["$scope", "$location", "$state", "$stateParams", 
+        .controller('DashboardController', ["$rootScope", "$scope", "$location", "$state", "$stateParams", 
                         "programServiceMock", "patientService", "openmrsPatientMapper", 
-                    function ($scope, $location, $state, $stateParams, programServiceMock, patientService, patientMapper) {
+                    function ($rootScope, $scope, $location, $state, $stateParams, programServiceMock, patientService, patientMapper) {
             var patientUuid;
     
             init();
@@ -41,7 +41,12 @@ angular.module('registration')
                 $location.url("/services/" + patientUuid); // path not hash
             };
             
-            $scope.linkAnamnesisA = function() {
-                $location.url("/anamnesis/a/" + patientUuid + "/reference"); // path not hash
+            $scope.linkAnamnesisAAdult = function() {
+                $rootScope.formInfo = _.find($scope.forms, function(form) {
+                    return form.formId === Poc.Common.Constants.anamnesisAAdultForm; 
+                });
+                
+                $location.url("/anamnesis/a/" + patientUuid + "/" + Poc.Common.Constants.anamnesisAAdultForm + "/reference");
             };
+            
         }]);

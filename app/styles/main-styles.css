@@ -73,3 +73,22 @@ keyboard {
 #status-buttons span            { display:block; height:30px; margin:0 auto 10px; padding-top:5px; width:30px; 
     border-radius:50%; }
 #status-buttons a.active span   { background:#00BC8C; }
+
+input[type=radio] {
+    display: none;
+}
+input[type=radio] + label::before {
+    content: '';
+    display: inline-block;
+    border: 1px solid #000;
+    border-radius: 50%;
+    margin: 0 0.5em;
+}
+input[type=radio]:checked + label::before {
+    background-color: #00BC8C;
+}
+
+.radio-lx + label::before {
+    width: 2.0em;
+    height: 2.0em;
+}

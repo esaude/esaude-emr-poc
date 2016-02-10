@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('registration').factory('initialization',
-    ['$rootScope', 'configurations', 'authenticator', 'appService', 'spinner', 'Preferences',
-    function ($rootScope, configurations, authenticator, appService, spinner, preferences) {
+    ['$rootScope', 'configurations', 'authenticator', 'appService', 'spinner', 'Preferences', 'applicationService',
+    function ($rootScope, configurations, authenticator, appService, spinner, preferences, applicationService) {
         var getConfigs = function() {
             var configNames = ['encounterConfig', 'patientAttributesConfig', 'identifierSourceConfig', 'addressLevels', 'genderMap', 'relationshipTypeConfig'];
             return configurations.load(configNames).then(function () {
@@ -42,9 +42,16 @@ angular.module('registration').factory('initialization',
                 relationshipType.searchType = relationshipTypeMap[relationshipType.aIsToB] || "patient";
             });
         };
+        
+        var initAppConfig = function () {
+            applicationService.getApps().then(function (appJson) {
+                $rootScope.forms = eval(appJson.forms);
+            });
+        };
 
         return spinner.forPromise(authenticator.authenticateUser().then(initApp).then(getConfigs).then(initAppConfigs)
             .then(mapRelationsTypeWithSearch)
-            .then(loadValidators(appService.configBaseUrl(), "registration")));
+            .then(loadValidators(appService.configBaseUrl(), "registration"))
+            .then(initAppConfig));
     }]
 );

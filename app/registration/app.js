@@ -123,7 +123,7 @@ angular
                 templateUrl: 'views/patient-death.html'
             })
             .state('anamnesis', {
-                url: '/anamnesis/a/:patientUuid',
+                url: '/anamnesis/a/:patientUuid/:formUuid',
                 views: {
                     'layout': { templateUrl: '../common/application/views/layout.html', controller: 'AnamnesisController'},
                     'content@anamnesis': { templateUrl: '../anamnesis/views/anamnesis-add.html'}
@@ -132,15 +132,15 @@ angular
             })
             .state('anamnesis.reference', {
                 url: '/reference',
-                templateUrl: '../anamnesis/views/anamnesis-reference-input.html'
+                templateUrl: '../poc-common/form-display/views/form-part-input-template.html'
             })
             .state('anamnesis.extra', {
                 url: '/extra',
-                templateUrl: '../anamnesis/views/anamnesis-extra-input.html'
+                templateUrl: '../poc-common/form-display/views/form-part-input-template.html'
             })
             .state('anamnesis.children', {
                 url: '/children',
-                templateUrl: '../anamnesis/views/anamnesis-children-input.html'
+                templateUrl: '../poc-common/form-display/views/form-part-input-template.html'
             })
             .state('anamnesis.confirm', {
                 url: '/confirm',

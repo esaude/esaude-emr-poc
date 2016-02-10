@@ -1,6 +1,6 @@
 "use strict";
 
-angular.module('application').service('applicationServiceMock', function ($http) {
+angular.module('application').service('applicationService', function ($http) {
     var appUrl = "../common/application/resources/app.json";
 
     this.getApps = function ()
