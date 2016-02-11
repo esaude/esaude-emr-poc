@@ -1,0 +1,24 @@
+<ul class="list-group content-border-margin-regular"
+    ng-repeat="formField in formPart.fields" ng-init="fieldMeta = payload.form.fields[formField.id]">
+    <li class="list-group-item" ng-if="fieldMeta.fieldConcept.fieldType.display === 'Concept'">
+        <div class="row">
+        <label class="col-sm-2">{{fieldMeta.field.name}}: </label>
+        <div class="col-sm-10">
+            <div ng-if="fieldMeta.fieldConcept.concept.datatype.display === 'Text'">
+                {{fieldMeta.value}}
+            </div>
+            <div ng-if="fieldMeta.fieldConcept.concept.datatype.display === 'Numeric'">
+                {{fieldMeta.value}}
+            </div>
+            <div ng-if="fieldMeta.fieldConcept.concept.datatype.display === 'Coded'">
+                <div ng-if="fieldMeta.fieldConcept.selectMultiple" ng-repeat="value in fieldMeta.value">
+                    {{value.display}},&nbsp;
+                </div>
+                <div ng-if="!fieldMeta.fieldConcept.selectMultiple">
+                    {{fieldMeta.value.display}}
+                </div>
+            </div>
+        </div>
+        </div>
+    </li>
+</ul>

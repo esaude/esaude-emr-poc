@@ -1,0 +1,14 @@
+<div ng-repeat="part in formInfo.parts" class="panel panel-primary content-border-margin">
+    <div class="panel-heading">
+        <h3 class="panel-title">{{part.name}}</h3>
+    </div>
+
+    <field-read payload="formPayload" form-part="part"></field-read>
+    
+</div>
+
+<div class="row bg-info-border content-border border-rouded">
+    <button type="button" class="btn btn-primary btn-lg">
+        <span class="glyphicon glyphicon glyphicon glyphicon-floppy-disk"></span>
+    </button>
+</div>

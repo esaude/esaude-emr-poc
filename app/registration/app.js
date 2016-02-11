@@ -144,6 +144,6 @@ angular
             })
             .state('anamnesis.confirm', {
                 url: '/confirm',
-                templateUrl: '../anamnesis/views/anamnesis-a-adult-confirm-input.html'
+                templateUrl: '../poc-common/form-display/views/form-confirm-template.html'
             });
     }]);
