@@ -10,6 +10,9 @@
             <div ng-if="fieldMeta.fieldConcept.concept.datatype.display === 'Numeric'">
                 {{fieldMeta.value}}
             </div>
+            <div ng-if="fieldMeta.fieldConcept.concept.datatype.display === 'Datetime'">
+                {{fieldMeta.value | date:"MM/dd/yyyy"}}
+            </div>
             <div ng-if="fieldMeta.fieldConcept.concept.datatype.display === 'Coded'">
                 <div ng-if="fieldMeta.fieldConcept.selectMultiple" ng-repeat="value in fieldMeta.value">
                     {{value.display}},&nbsp;

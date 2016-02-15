@@ -51,10 +51,12 @@ angular.module('bahmni.common.domain')
     };
 
     this.create = function (encounter) {
-        encounter = this.buildEncounter(encounter);
+        //encounter = this.buildEncounter(encounter);
+        console.log(encounter);
 
-        return $http.post(Bahmni.Common.Constants.bahmniEncounterUrl, encounter, {
-            withCredentials:true
+        return $http.post(Bahmni.Common.Constants.encounterUrl, encounter, {
+            withCredentials:true,
+            headers: {"Accept": "application/json", "Content-Type": "application/json"}
         });
     };
 

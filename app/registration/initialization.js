@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('registration').factory('initialization',
-    ['$rootScope', 'configurations', 'authenticator', 'appService', 'spinner', 'Preferences', 'applicationService',
-    function ($rootScope, configurations, authenticator, appService, spinner, preferences, applicationService) {
+    ['$q', '$cookieStore', '$rootScope', 'configurations', 'authenticator', 'appService', 'spinner', 'Preferences', 'applicationService', 'userService',
+    function ($q, $cookieStore, $rootScope, configurations, authenticator, appService, spinner, preferences, applicationService, userService) {
         var getConfigs = function() {
             var configNames = ['encounterConfig', 'patientAttributesConfig', 'identifierSourceConfig', 'addressLevels', 'genderMap', 'relationshipTypeConfig'];
             return configurations.load(configNames).then(function () {
@@ -48,10 +48,26 @@ angular.module('registration').factory('initialization',
                 $rootScope.forms = eval(appJson.forms);
             });
         };
+        
+        var loadProvider = function () {
+            var deferrable = $q.defer();
+            
+            var currentUser = $cookieStore.get(Bahmni.Common.Constants.currentUser);
+            
+            userService.getUser(currentUser).success(function(data) {
+                userService.getProviderForUser(data.results[0].uuid).success(function(providers) {
+                    var providerUuid = (providers.results.length > 0) ? providers.results[0].uuid : undefined;
+                    $rootScope.currentProvider = { uuid: providerUuid };
+                    $rootScope.currentUser = data.results[0];
+                    deferrable.resolve(data.results[0]);
+                });
+            });
+        };
 
         return spinner.forPromise(authenticator.authenticateUser().then(initApp).then(getConfigs).then(initAppConfigs)
             .then(mapRelationsTypeWithSearch)
             .then(loadValidators(appService.configBaseUrl(), "registration"))
-            .then(initAppConfig));
+            .then(initAppConfig)
+            .then(loadProvider));
     }]
 );
