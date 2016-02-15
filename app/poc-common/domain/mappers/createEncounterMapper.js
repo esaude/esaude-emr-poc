@@ -7,8 +7,6 @@ Poc.Common.CreateEncounterRequestMapper = (function () {
 
     CreateEncounterRequestMapper.prototype.mapFromFormPayload = function (formPayload, formParts, patient, location, provider) {
         
-        createObsGroups(formPayload.form.fields, flattenFields(formParts));
-        
         var openMRSEncounter = {
             encounterType: formPayload.encounterType.uuid,
             encounterDatetime: this.currentDate,
@@ -16,29 +14,10 @@ Poc.Common.CreateEncounterRequestMapper = (function () {
             location: location,
             form: formPayload.form.uuid,
             provider: provider,
-            obs: createObs(formPayload.form.fields, formParts, patient, this.currentDate)
+            obs: createObs(formPayload.form.fields, flattenFields(formParts), patient)
         };
 
         return  openMRSEncounter;
-    };
-    
-    var createObs = function (fields, fornParts, patient, currentDate) {
-        var obs = [];
-        _.forEach(fornParts, function (part) {
-            _.forEach(part.fields, function (field) {
-                var formField = fields[field.id];
-                if (formField.value !== 'undefined' && formField.value != null) {
-                    obs.push({
-                        concept: formField.fieldConcept.concept.uuid,
-                        value: (isAnyObject(formField.value) &&
-                                formField.fieldConcept.concept.datatype.display === 'Coded') ? formField.value.uuid : formField.value,
-                        obsDatetime: currentDate,
-                        person: patient
-                    });
-                }
-            });
-        });
-        return obs;
     };
     
     var flattenFields = function (formParts) {
@@ -50,12 +29,19 @@ Poc.Common.CreateEncounterRequestMapper = (function () {
         return flatten;
     };
     
-    var createObsGroups = function (fields, flattenFields) {
-        var obs = {};
+    var createObsGroups = function (fields, flattenFields, person) {
+        var obsBroups = [];
         for (var key in fields) {
             var field = fields[key];
             //check if field is a concept set
             if (field.fieldConcept.concept.set) {
+                var obs = {
+                    concept: field.fieldConcept.concept.uuid,
+                    obsDatetime: Bahmni.Common.Util.DateUtil.now(),
+                    person: person,
+                    groupMembers: []
+                    
+                };
                 _.forEach(field.fieldConcept.concept.setMembers, function (member) {
                     var memberFieldUuid = _.findKey(fields, function(data) {
                         return data.fieldConcept.concept.uuid === member.uuid;
@@ -67,24 +53,48 @@ Poc.Common.CreateEncounterRequestMapper = (function () {
                     //set the member if removed
                     if (!_.isEmpty(removedMemberField)) {
                         var memberField = fields[removedMemberField[0]];
-                        console.log(memberField);
+//                        console.log(memberField);
+                        if (memberField.value !== 'undefined' && memberField.value != null) {
+                            obs.groupMembers.push({
+                                concept: memberField.fieldConcept.concept.uuid,
+                                value: (isAnyObject(memberField.value) &&
+                                        memberField.fieldConcept.concept.datatype.display === 'Coded') ? memberField.value.uuid : memberField.value,
+                                obsDatetime: Bahmni.Common.Util.DateUtil.now(),
+                                person: person
+                            });
+                        }
                     }
                 });
+                //add to collection if group has any member
+                if (!_.isEmpty(obs.groupMembers)) {
+                    obsBroups.push(obs);
+                }
             }
         };
+        return obsBroups;
     };
     
-    var findFieldByConcept = function (fields, conceptUuid) {
-        var fieldsArray = _.map(fields, function (field) {
-            return field;
+    var createNonObsGroups = function (fields, flattenFields, person) {
+        var obs = [];
+        _.forEach(flattenFields, function (field) {
+            var formField = fields[field];
+            if (formField.value !== 'undefined' && formField.value != null) {
+                obs.push({
+                    concept: formField.fieldConcept.concept.uuid,
+                    value: (isAnyObject(formField.value) &&
+                            formField.fieldConcept.concept.datatype.display === 'Coded') ? formField.value.uuid : formField.value,
+                    obsDatetime: Bahmni.Common.Util.DateUtil.now(),
+                    person: person
+                });
+            }
         });
-        
-        console.log(fieldsArray);
-
-//        return _.find(fields, function (field) {
-//            return field.fieldConcept.concept.uuid === conceptUuid;
-//        })
-    }
+        return obs;
+    };
+    
+    var createObs = function (fields, flattenFields, person) {
+        return _.union(createObsGroups(fields, flattenFields, person), 
+        createNonObsGroups(fields, flattenFields, person));
+    };
 
     function isAnyObject(value) {
         return value != null && typeof value === 'object';

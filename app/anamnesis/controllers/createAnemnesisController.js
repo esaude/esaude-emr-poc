@@ -55,8 +55,8 @@ angular.module('anamnesis')
                     $scope.patient.uuid,
                     location.uuid,
                     $rootScope.currentUser.person.uuid);//set date
-                    //encounterService.create(openMRSEncounter).success(successCallback);
-                    console.log(openMRSEncounter);
+                    encounterService.create(openMRSEncounter).success(successCallback);
+//                    console.log(openMRSEncounter);
                 };
                 
                 var successCallback = function (patientProfileData) {
