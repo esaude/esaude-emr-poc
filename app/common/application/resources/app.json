@@ -72,6 +72,10 @@
                       {
                           "name": "numberOfChildrenHIVPositive",
                           "id": "b8a9c890-c8f1-4957-8955-58a42415d8fb"
+                      },
+                      {
+                          "name": "HIV Exposure Method",
+                          "id": "99ab7d2a-c727-4f87-85a9-fb05f1dc0123"
                       }
                   ]
               }

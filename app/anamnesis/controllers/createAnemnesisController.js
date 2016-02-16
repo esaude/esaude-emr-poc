@@ -56,11 +56,11 @@ angular.module('anamnesis')
                     location.uuid,
                     $rootScope.currentUser.person.uuid);//set date
                     encounterService.create(openMRSEncounter).success(successCallback);
-//                    console.log(openMRSEncounter);
+                    console.log(openMRSEncounter);
                 };
                 
-                var successCallback = function (patientProfileData) {
-                    console.log(patientProfileData);
+                var successCallback = function (encounterProfileData) {
+                    console.log(encounterProfileData);
                 };
                 
         }]);

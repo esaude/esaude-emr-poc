@@ -34,7 +34,8 @@
                     <div class="content-border-padding" ng-repeat="answer in formParts.form.fields[fieldUuid].fieldConcept.concept.answers">
                         <checkbox largest
                                id="{{answer.uuid}}"
-                               ng-value="{{answer}}"
+                               ng-true-value="{{answer}}"
+                               ng-false-value="undefined"
                                ng-model="formParts.form.fields[fieldUuid].value[answer.uuid]"></checkbox> {{answer.display}} 
                     </div>
                 </div>
