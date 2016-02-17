@@ -6,12 +6,19 @@
     </label>
     <div class="col-sm-10" 
          ng-if="formParts.form.fields[fieldUuid].fieldConcept.fieldType.display === 'Concept'">
-        
+         
         <div ng-switch="formParts.form.fields[fieldUuid].fieldConcept.concept.datatype.display">
+           
+            <div ng-messages for="aForm.{{fieldId}}.$error" 
+                 ng-messages-include="../poc-common/form-display/views/error-messages.html"
+                 ng-show="showMessages">
+            </div>
+            
             <div ng-switch-when="Text">
                 <input type="text" name="{{fieldId}}" class="form-control keyboard-in" 
                        placeholder="{{formParts.form.fields[fieldUuid].field.name}}"
-                       ng-model="formParts.form.fields[fieldUuid].value" ng-required="{{formParts.form.fields[fieldUuid].field.required}}">
+                       ng-model="formParts.form.fields[fieldUuid].value" 
+                       ng-required="{{formParts.form.fields[fieldUuid].field.required}}">
             </div>
             
             <div ng-switch-when="Numeric">
@@ -70,12 +77,6 @@
                                ng-false-value="{{JSON.stringify(formParts.form.fields[fieldUuid].fieldConcept.concept.answers[1].uuid)}}">
                     </div>
                 </div>
-            </div>
-            <div ng-messages="aForm.{{fieldId}}.$invalid" 
-                 class="" role="alert">
-                <div ng-message="required">This field is required</div>
-                <div ng-message="minlength">This field is too short</div>
-                <div ng-message="maxlength">This field is too long</div>
             </div>
         </div>
     </div>

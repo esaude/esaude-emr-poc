@@ -4,10 +4,7 @@ angular.module('poc.common.formdisplay')
     .directive('formField', function () {
         
         var link = function (scope, element, atts, ctrl) {
-//            console.log(ctrl.submitted)
-//            scope.$watch('scope.$parent.submitted', function (validity) {
-//                console.log(validity);
-//            });
+            
         };
         
         return {
@@ -24,5 +21,8 @@ angular.module('poc.common.formdisplay')
     })
     .controller('FormFieldDirectiveController', function ($scope) {
         (function () {
+            $scope.$watch('$parent.submitted', function (value) {
+                $scope.showMessages = value;
+            });
         })();
     });
