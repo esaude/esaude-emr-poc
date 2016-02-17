@@ -3,6 +3,8 @@ angular.module('poc.common.formdisplay')
     .factory('formService', ['$http',function ($http) {
 
         var fetchByUuid = function(formUuid) {
+            var defer = $.Deferred();
+            
             return $http.get("/openmrs/ws/rest/v1/form" + "/" + formUuid, {
                 method: "GET",
                 params: {
@@ -22,7 +24,7 @@ angular.module('poc.common.formdisplay')
                         return fieldConcept;
                             });
                         });
-                return data;
+                return defer.resolve(data);
             });
         };
         

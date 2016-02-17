@@ -5,6 +5,8 @@ angular.module('anamnesis')
         function ($rootScope, localStorageService, $stateParams, $scope, $state, $location, spinner, patientAttributeService, formService, encounterService) {
                 
                 (function () {
+                    $scope.submitted = false;
+                    
                     var formUuid = $stateParams.formUuid;
                     
                     $scope.formInfo = _.find($scope.forms, function (form) {
@@ -29,12 +31,16 @@ angular.module('anamnesis')
                     $scope.currentFormPart = formPart;
                 };
                 
-                $scope.updateCurrentFormPart = function (nextSref) {
-                    
-                    $scope.currentFormPart = _.find($scope.formInfo.parts, function (formPart) {
-                        return formPart.sref === nextSref;
-                    });
-                    $state.go(Poc.Anamnesis.Constants.anamnesisSref + nextSref);
+                $scope.updateCurrentFormPart = function (nextSref, validity) {
+                    if (validity) {
+                        $scope.currentFormPart = _.find($scope.formInfo.parts, function (formPart) {
+                            return formPart.sref === nextSref;
+                        });
+                        $scope.submitted = false;
+                        $state.go(Poc.Anamnesis.Constants.anamnesisSref + nextSref);
+                    } else {
+                        $scope.submitted = true;
+                    }
                 };
                         
                 $scope.getAutoCompleteList = function (attributeName, query, type) {
@@ -43,6 +49,10 @@ angular.module('anamnesis')
 
                 $scope.getDataResults = function (data) {
                     return  data.results;
+                };
+                
+                $scope.compactName = function (name) {
+                    return name.trim().replace(/[^a-zA-Z0-9]/g, '');
                 };
                 
                 $scope.save = function () {

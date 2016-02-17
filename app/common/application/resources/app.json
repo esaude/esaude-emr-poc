@@ -59,7 +59,7 @@
                   "id": "3",
                   "name": "Children",
                   "sref": ".children",
-                  "nextSref": ".confirm",
+                  "nextSref": ".hivexp",
                   "fields": [
                       {
                           "name": "numberOfChildren",
@@ -72,7 +72,15 @@
                       {
                           "name": "numberOfChildrenHIVPositive",
                           "id": "b8a9c890-c8f1-4957-8955-58a42415d8fb"
-                      },
+                      }
+                  ]
+              },
+              {
+                  "id": "4",
+                  "name": "HIV Exposure",
+                  "sref": ".hivexp",
+                  "nextSref": ".confirm",
+                  "fields": [
                       {
                           "name": "HIV Exposure Method",
                           "id": "99ab7d2a-c727-4f87-85a9-fb05f1dc0123"
