@@ -6,6 +6,7 @@ angular.module('anamnesis')
                 
                 (function () {
                     $scope.submitted = false;
+                    $scope.visitedFields = [];
                     
                     var formUuid = $stateParams.formUuid;
                     

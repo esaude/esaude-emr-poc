@@ -24,5 +24,16 @@ angular.module('poc.common.formdisplay')
             $scope.$watch('$parent.submitted', function (value) {
                 $scope.showMessages = value;
             });
+            
+            $scope.$watch('aForm.' + $scope.fieldId + '.$valid', function (value) {
+                if (typeof value !== "undefined") {
+                    $scope.$parent.visitedFields[$scope.fieldUuid] = {
+                        uuid: $scope.fieldUuid,
+                        valid: value
+                    };
+                    console.log($scope.$parent.visitedFields);
+                }
+            });
+            
         })();
     });

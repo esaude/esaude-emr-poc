@@ -1,9 +1,17 @@
 <ul class="list-group content-border-margin-regular"
     ng-repeat="formField in formPart.fields" ng-init="fieldMeta = payload.form.fields[formField.id]">
-    <li class="list-group-item" ng-if="fieldMeta.fieldConcept.fieldType.display === 'Concept'">
+    <li class="list-group-item"
+        ng-if="fieldMeta.fieldConcept.fieldType.display === 'Concept'" ng-init="fieldValidity = getFieldValidity(formField.id)">
         <div class="row">
         <label class="col-sm-2">{{fieldMeta.field.name}}: </label>
         <div class="col-sm-10">
+            <span class="label label-danger" ng-if="!fieldValidity">
+                This field was never visited, please visit this field before save
+            </span>
+            <span class="label label-danger" ng-if="fieldValidity && !fieldValidity.valid">
+                {{fieldValidity.valid}}
+                This field didn't pass validation rules
+            </span>
             <div ng-if="fieldMeta.fieldConcept.concept.datatype.display === 'Text'">
                 {{fieldMeta.value}}
             </div>
