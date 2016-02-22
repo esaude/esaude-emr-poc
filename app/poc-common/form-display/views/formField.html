@@ -47,7 +47,8 @@
                                name="{{fieldId}}"
                                ng-true-value="{{answer}}"
                                ng-false-value="undefined"
-                               ng-model="formParts.form.fields[fieldUuid].value[answer.uuid]">
+                               ng-model="formParts.form.fields[fieldUuid].value[answer.uuid]"
+                               ng-required="{{formParts.form.fields[fieldUuid].field.required && !formParts.form.fields[fieldUuid].value}}">
                         </checkbox> {{answer.display}} 
                     </div>
                 </div>

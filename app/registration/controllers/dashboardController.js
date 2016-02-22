@@ -46,7 +46,8 @@ angular.module('registration')
                     return form.formId === Poc.Common.Constants.anamnesisAAdultForm; 
                 });
                 
-                $location.url("/anamnesis/a/" + patientUuid + "/" + Poc.Common.Constants.anamnesisAAdultForm + "/reference");
+                $location.url("/anamnesis/a/" + patientUuid + "/" + 
+                        Poc.Common.Constants.anamnesisAAdultForm + $scope.formInfo.parts[0].sref.replace(".", "/"));
             };
             
         }]);

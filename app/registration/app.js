@@ -52,7 +52,8 @@ angular
                 views: {
                     'layout': { templateUrl: '../common/application/views/layout.html', controller: 'CreatePatientController'},
                     'content@newpatient': { templateUrl: 'views/patient-add.html'}
-                }
+                },
+                resolve: { initialization: 'initialization' }
             })
             .state('newpatient.name', {
                 url: '/name',

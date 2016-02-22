@@ -31,7 +31,6 @@ angular.module('poc.common.formdisplay')
                         uuid: $scope.fieldUuid,
                         valid: value
                     };
-                    console.log($scope.$parent.visitedFields);
                 }
             });
             

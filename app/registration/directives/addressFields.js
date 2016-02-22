@@ -67,4 +67,8 @@ angular.module('registration')
                 });
             }
         };
+        
+        $scope.$watch('$parent.showMessages', function (value) {
+            $scope.showMessages = value;
+        });
     });
