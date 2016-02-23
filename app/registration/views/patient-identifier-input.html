@@ -36,6 +36,7 @@
                          ng-messages-include="../poc-common/form-display/views/error-messages.html"
                          ng-show="showMessages">
                         <span class="label label-danger" ng-message="pattern">This field must use the format {{pi.identifierType.format}}</span>
+                        <span class="label label-danger" ng-message="recordAvailable">This identifier is already in use</span>
                     </div>
                     {{pi.identifierType.display}}
                 </td>
@@ -43,6 +44,7 @@
                     <div ng-class="{'has-error': aForm.{{pi.fieldName}}.$invalid && showMessages}">
                         <input type="text" class="form-control input-lg keyboard-in" name="{{pi.fieldName}}" 
                                placeholder="{{pi.identifierType.format}}" ng-model="pi.identifier" ng-pattern="pi.identifierType.format"
+                               record-availability-validator="/ws/rest/v1/patient"
                                required>
                     </div>
                 </td>
