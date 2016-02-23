@@ -9,7 +9,7 @@ angular.module('poc.common.formdisplay')
             var url = attrs.recordAvailabilityValidator;
 
             function setAsAvailable(bool) {
-                ngModel.$setValidity('recordAvailable', bool);
+                ngModel.$setValidity('available', bool);
             }
 
             ngModel.$parsers.push(function (value) {

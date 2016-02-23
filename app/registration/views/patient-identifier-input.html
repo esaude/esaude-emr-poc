@@ -8,17 +8,15 @@
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <strong>{{errorMessage}}</strong> 
         </div>
-        <form class="form-horizontal">
-            <div class="form-group form-group-lg">
-                <label for="patient_identifier_type" class="col-sm-2 control-label">Identifier Type:</label>
-                <div class="col-sm-10">
-                    <select class="form-control" id="patient_identifier_type" ng-model="patient.patientIdentifierType" ng-change="selectIdentifierType()"
-                            ng-options="it.name for it in patientIdentifierTypes">
-                        <option></option>
-                    </select>
-                </div>
+        <div class="form-group form-group-lg">
+            <label for="patient_identifier_type" class="col-sm-2 control-label">Identifier Type:</label>
+            <div class="col-sm-10">
+                <select class="form-control" id="patient_identifier_type" ng-model="patient.patientIdentifierType" ng-change="selectIdentifierType()"
+                        ng-options="it.name for it in patientIdentifierTypes">
+                    <option></option>
+                </select>
             </div>
-        </form>
+        </div>
     </div>
     <table class="table">
         <thead>
@@ -35,8 +33,6 @@
                     <div ng-messages for="aForm.{{pi.fieldName}}.$error" 
                          ng-messages-include="../poc-common/form-display/views/error-messages.html"
                          ng-show="showMessages">
-                        <span class="label label-danger" ng-message="pattern">This field must use the format {{pi.identifierType.format}}</span>
-                        <span class="label label-danger" ng-message="recordAvailable">This identifier is already in use</span>
                     </div>
                     {{pi.identifierType.display}}
                 </td>
@@ -50,7 +46,7 @@
                 </td>
                 <td>
                     <input id="{{pi.fieldName}}_Rdo" class="radio-lx" type="radio" name="preferedIdRGroup" 
-                               ng-value="{{pi.preferred}}" ng-click="setPreferredId(pi)">
+                           ng-value="{{pi.preferred}}" ng-click="setPreferredId(pi)">
                     <label for="{{pi.fieldName}}_Rdo"></label>
                 </td>
                 <td>
@@ -66,7 +62,7 @@
 <div class="row bg-info-border content-border border-rouded">
     <button type="button" class="btn btn-success btn-lg"
             ng-click="stepForward('newpatient.death', aForm.$valid)">
-       <span class="glyphicon glyphicon glyphicon-step-forward"></span>
+        <span class="glyphicon glyphicon glyphicon-step-forward"></span>
     </button>
 </div>
 

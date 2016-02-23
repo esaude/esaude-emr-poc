@@ -3,41 +3,39 @@
         <h3 class="panel-title">Age/Birthdate</h3>
     </div>
     <div class="panel-body">
-        <form class="form-horizontal">
-            <label for="patientAge" class="col-sm-2 control-label"><b>Age/Birthdate:<span class="asterick">*</span></b></label>
-            <div class="col-sm-2 form-group-lg" 
-                 ng-class="{'has-error': aForm.patientAge.$invalid && showMessages}">
-                <div ng-messages for="aForm.patientAge.$error" 
-                     ng-messages-include="../poc-common/form-display/views/error-messages.html"
-                     ng-show="showMessages">
-                </div>
-                <input id="patientAge" name="patientAge" type="number" 
-                       ng-minlength="0" ng-maxlength="120" class="form-control" ng-model="patient.age.years"
-                       ng-change="patient.calculateBirthDate()"
+        <label for="patientAge" class="col-sm-2 control-label"><b>Age/Birthdate:<span class="asterick">*</span></b></label>
+        <div class="col-sm-2 form-group-lg" 
+             ng-class="{'has-error': aForm.patientAge.$invalid && showMessages}">
+            <div ng-messages for="aForm.patientAge.$error" 
+                 ng-messages-include="../poc-common/form-display/views/error-messages.html"
+                 ng-show="showMessages">
+            </div>
+            <input id="patientAge" name="patientAge" type="number" 
+                   ng-minlength="0" ng-maxlength="120" class="form-control" ng-model="patient.age.years"
+                   ng-change="patient.calculateBirthDate()"
+                   required>
+        </div>
+        <div class="col-sm-4 form-group-lg"
+             ng-class="{'has-error': aForm.patientBirthdate.$invalid && showMessages}">
+            <div ng-messages for="aForm.patientBirthdate.$error" 
+                 ng-messages-include="../poc-common/form-display/views/error-messages.html"
+                 ng-show="showMessages">
+            </div>
+            <div class="form-group date">
+                <input type="text" name="patientBirthdate" class="form-control" date-time ng-model="patient.birthdate" 
+                       min-view="date" auto-close="true" ng-change="patient.calculateAge()"
                        required>
+                <span class="glyphicon glyphicon-calendar form-control-feedback" aria-hidden="true"></span>
             </div>
-            <div class="col-sm-4 form-group-lg"
-                 ng-class="{'has-error': aForm.patientBirthdate.$invalid && showMessages}">
-                <div ng-messages for="aForm.patientBirthdate.$error" 
-                     ng-messages-include="../poc-common/form-display/views/error-messages.html"
-                     ng-show="showMessages">
-                </div>
-                <div class="form-group date">
-                    <input type="text" name="patientBirthdate" class="form-control" date-time ng-model="patient.birthdate" 
-                           min-view="date" auto-close="true" ng-change="patient.calculateAge()"
-                           required>
-                    <span class="glyphicon glyphicon-calendar form-control-feedback" aria-hidden="true"></span>
-                </div>
+        </div>
+        <div ng-show="aForm.patientBirthdate.$valid">
+            <label class="col-sm-2 control-label"><b>Estimated:</b></label>
+            <div class="col-sm-2">
+                <input type="checkbox" bs-switch switch-active="true" switch-size="large" 
+                       switch-off-text="NO" switch-on-text="YES" 
+                       ng-model="patient.birthdateEstimated">
             </div>
-            <div ng-show="aForm.patientBirthdate.$valid">
-                <label class="col-sm-2 control-label"><b>Estimated:</b></label>
-                <div class="col-sm-2">
-                    <input type="checkbox" bs-switch switch-active="true" switch-size="large" 
-                           switch-off-text="NO" switch-on-text="YES" 
-                           ng-model="patient.birthdateEstimated">
-                </div>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
