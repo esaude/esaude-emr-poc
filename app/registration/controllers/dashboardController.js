@@ -41,13 +41,13 @@ angular.module('registration')
                 $location.url("/services/" + patientUuid); // path not hash
             };
             
-            $scope.linkAnamnesisAAdult = function() {
-                $rootScope.formInfo = _.find($scope.forms, function(form) {
-                    return form.formId === Poc.Common.Constants.anamnesisAAdultForm; 
+            $rootScope.linkService = function(service) {
+                $rootScope.formInfo = _.find($scope.formLayout, function(data) {
+                    return data.formId === service.formId; 
                 });
                 
-                $location.url("/anamnesis/a/" + patientUuid + "/" + 
-                        Poc.Common.Constants.anamnesisAAdultForm + $scope.formInfo.parts[0].sref.replace(".", "/"));
+                $location.url(service.url + "/" + patientUuid + "/" + 
+                        service.formId + $scope.formInfo.parts[0].sref.replace(".", "/"));
             };
             
         }]);

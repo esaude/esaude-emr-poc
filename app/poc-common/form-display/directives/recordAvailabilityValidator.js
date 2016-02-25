@@ -28,9 +28,6 @@ angular.module('poc.common.formdisplay')
                     } else {
                         setAsAvailable(true);
                     }
-                })
-                .error(function () {
-                    setAsLoading(false);
                 });
 
                 return value;

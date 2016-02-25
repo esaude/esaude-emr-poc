@@ -3,7 +3,7 @@
 angular.module('bahmni.common.appFramework')
     .service('appService', ['$http', '$q', 'sessionService', '$rootScope', function ($http, $q, sessionService, $rootScope) {
         var currentUser = null;
-        var baseUrl = "/bahmni_config/openmrs/apps/";
+        var baseUrl = "/poc_config/openmrs/apps/";
         var appDescriptor = null;
         var self = this;
 
@@ -18,6 +18,44 @@ angular.module('bahmni.common.appFramework')
                     if (result.data.length > 0) {
                         appDescriptor.setTemplate(result.data[0]);
                     }
+                    deferrable.resolve(appDescriptor);
+                },
+                function (error) {
+                    if (error.status != 404) {
+                        deferrable.reject(error);
+                    } else {
+                        deferrable.resolve(appDescriptor);
+                    }
+                }
+            );
+            return deferrable.promise;
+        };
+        
+        var loadFormLayout = function (appDescriptor) {
+            var deferrable = $q.defer();
+            loadConfig(baseUrl + "/common/formLayout.json").then(
+                function (result) {
+                    appDescriptor.setFormLayout(result.data);
+                    
+                    deferrable.resolve(appDescriptor);
+                },
+                function (error) {
+                    if (error.status != 404) {
+                        deferrable.reject(error);
+                    } else {
+                        deferrable.resolve(appDescriptor);
+                    }
+                }
+            );
+            return deferrable.promise;
+        };
+        
+        var loadClinicalServices = function (appDescriptor) {
+            var deferrable = $q.defer();
+            loadConfig(baseUrl  + appDescriptor.contextPath +  "/clinicalServices.json").then(
+                function (result) {
+                    appDescriptor.setClinicalServices(result.data);
+                    
                     deferrable.resolve(appDescriptor);
                 },
                 function (error) {
@@ -119,9 +157,13 @@ angular.module('bahmni.common.appFramework')
             
 //            var loadCredentialsPromise = sessionService.loadCredentials();
 //            var loadProviderPromise = loadCredentialsPromise.then(sessionService.loadProviders);
-
+//
 //            promises.push(loadCredentialsPromise);
 //            promises.push(loadProviderPromise);
+
+            promises.push(loadFormLayout(appDescriptor));
+            promises.push(loadClinicalServices(appDescriptor));
+            
             if (opts.extension) {
                 promises.push(loadExtensions(appDescriptor, extensionFileName));
             }

@@ -10,7 +10,7 @@ angular.module('anamnesis')
                     
                     var formUuid = $stateParams.formUuid;
                     
-                    $scope.formInfo = _.find($scope.forms, function (form) {
+                    $scope.formInfo = _.find($scope.formLayout, function (form) {
                         return form.formId === formUuid;
                     });
                     

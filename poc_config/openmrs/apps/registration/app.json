@@ -1,22 +1,7 @@
 [
     {
-        "id": "bahmni.registration",
-        "instanceOf":"bahmni.template.registration",
-        "description": "Bahmni Patient Registration App",
-        "extensionPoints": [
-            {
-                "id": "org.bahmni.registration.patient.search.result.action",
-                "description": "Bahmni Patient Search Result Action"
-            },
-            {
-                "id": "org.bahmni.registration.patient.next",
-                "description": "After Bahmni Patient Registration, forward url configuration"
-            }
-        ],
-        "contextModel": [
-            "patientUuid",
-            "activeVisitUuid"
-        ],
+        "id": "poc.registration",
+        "description": "Poc Patient Registration App",
         "config" : {
              "additionalPatientInformation" : [
                 { "name":"Estado Civil", "display":true }
