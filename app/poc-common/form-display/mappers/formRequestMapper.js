@@ -3,7 +3,7 @@
 Poc.Common.FormRequestMapper = (function () {
     
     var mapFromOpenMRSForm = function (openMRSForm) {        
-        var service = {
+        return {
             encounterType: openMRSForm.encounterType,
             form: {
                 name: openMRSForm.display,
@@ -13,8 +13,57 @@ Poc.Common.FormRequestMapper = (function () {
                 
             }
         };
+    };
+    
+    var mapFromOpenMRSFormWithEncounter = function (openMRSForm, encounter) {
+        var formPayload = this.mapFromOpenMRSForm(openMRSForm);
+        formPayload.encounter = encounter.uuid;
         
-        return  service;
+        var filteredObs = filterObsWithoutGroups(encounter.obs);
+        
+        for (var field in formPayload.form.fields) {
+            var eachField = formPayload.form.fields[field];
+            eachField.value = {};
+            //find obs for field
+            _.forEach(filteredObs, function (obs) {
+                //compare field concept with obs concept
+                if(eachField.fieldConcept.concept.uuid === obs.concept.uuid) {
+                    //check if field is a group
+                    if (!eachField.fieldConcept.concept.set) {
+                        //multiple select filter
+                        if (eachField.fieldConcept.selectMultiple) {
+                            eachField.value[obs.value.uuid] = (_.isEmpty(eachField.fieldConcept.concept.answers)) ? 
+                                    obs.value : 
+                                            JSON.stringify(realValueOfField(eachField.fieldConcept.concept.answers, obs.value));
+                        } else {
+                            eachField.value = (_.isEmpty(eachField.fieldConcept.concept.answers)) ? 
+                                    obs.value : 
+                                            realValueOfField(eachField.fieldConcept.concept.answers, obs.value);
+                        }
+                    }
+                }
+
+            });
+        }
+        return formPayload;
+    };
+    
+    var realValueOfField = function (conceptAnswers, obsValue) {
+        return _.find(conceptAnswers, function (answer) {
+            return answer.uuid === obsValue.uuid;
+        });
+    };
+    
+    var filterObsWithoutGroups = function (observations) {
+        var plainObs = [];
+        _.forEach(observations, function (obs) {
+            if (obs.groupMembers !== null) {
+                plainObs = _.union(plainObs, obs.groupMembers);
+            } else {
+                plainObs.push(obs);
+            }     
+        });
+        return plainObs;
     };
     
     var createFormFields = function (formFields) {
@@ -32,14 +81,13 @@ Poc.Common.FormRequestMapper = (function () {
             fields[formField.uuid].field.pageNumber = formField.pageNumber,
             fields[formField.uuid].field.parent = formField.parent,
             fields[formField.uuid].field.uuid = formField.field.uuid,
-            formField.fieldConcept.success(function (data) {
-                fields[formField.uuid].fieldConcept = data;
-            })
+            fields[formField.uuid].fieldConcept = formField.fieldConcept;
         });    
         return fields;
     };
 
     return {
-        mapFromOpenMRSForm: mapFromOpenMRSForm
+        mapFromOpenMRSForm: mapFromOpenMRSForm,
+        mapFromOpenMRSFormWithEncounter: mapFromOpenMRSFormWithEncounter
     };
 })();

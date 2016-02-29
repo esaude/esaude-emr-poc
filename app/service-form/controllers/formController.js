@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('anamnesis')
-    .controller('AnamnesisController', ['$rootScope', 'localStorageService','$stateParams', '$scope', '$state',  '$location', 'spinner', 'patientAttributeService', 'formService', 'encounterService',
+angular.module('serviceform')
+    .controller('FormController', ['$rootScope', 'localStorageService','$stateParams', '$scope', '$state',  '$location', 'spinner', 'patientAttributeService', 'formService', 'encounterService',
         function ($rootScope, localStorageService, $stateParams, $scope, $state, $location, spinner, patientAttributeService, formService, encounterService) {
                 
                 (function () {
@@ -19,13 +19,7 @@ angular.module('anamnesis')
                     $scope.currentFormPart = _.find($scope.formInfo.parts, function (formPart) {
                         return formPart.sref === currentSref;
                     });
-                        
-                    formService.fetchByUuid(Poc.Anamnesis.Constants.anamnesisAAdultForm)
-                        .success(function (data) {
-                            $scope.formPayload = Poc.Common.FormRequestMapper.mapFromOpenMRSForm(data);
-                            console.log($scope.formPayload);
-                        });
-                    
+                    console.log($scope.formPayload);
                 })();
                 
                 $scope.stepInFormPart = function(formPart) {
@@ -38,7 +32,7 @@ angular.module('anamnesis')
                             return formPart.sref === nextSref;
                         });
                         $scope.submitted = false;
-                        $state.go(Poc.Anamnesis.Constants.anamnesisSref + nextSref);
+                        $state.go($scope.formInfo.sufix + nextSref);
                     } else {
                         $scope.submitted = true;
                     }
@@ -66,8 +60,13 @@ angular.module('anamnesis')
                     $scope.patient.uuid,
                     location.uuid,
                     $rootScope.currentUser.person.uuid);//set date
-                    encounterService.create(openMRSEncounter).success(successCallback);
-                    console.log(openMRSEncounter);
+                    
+                    if($rootScope.postAction === 'create') {
+                        encounterService.create(openMRSEncounter).success(successCallback);
+                    }
+                    if($rootScope.postAction === 'edit') {
+                        encounterService.update(openMRSEncounter, $rootScope.formPayload.encounter).success(successCallback);
+                    }
                 };
                 
                 var successCallback = function (encounterProfileData) {

@@ -126,8 +126,8 @@ angular
             .state('anamnesis', {
                 url: '/anamnesis/a/:patientUuid/:formUuid',
                 views: {
-                    'layout': { templateUrl: '../common/application/views/layout.html', controller: 'AnamnesisController'},
-                    'content@anamnesis': { templateUrl: '../anamnesis/views/anamnesis-add.html'}
+                    'layout': { templateUrl: '../common/application/views/layout.html', controller: 'FormController'},
+                    'content@anamnesis': { templateUrl: '../service-form/views/form-add.html'}
                 },
                 resolve: { initialization: 'initialization' }
             })

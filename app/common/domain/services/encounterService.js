@@ -58,6 +58,15 @@ angular.module('bahmni.common.domain')
             headers: {"Accept": "application/json", "Content-Type": "application/json"}
         });
     };
+    
+    this.update = function (encounter, uuid) {
+        //encounter = this.buildEncounter(encounter);
+
+        return $http.post(Bahmni.Common.Constants.encounterUrl + "/" + uuid, encounter, {
+            withCredentials:true,
+            headers: {"Accept": "application/json", "Content-Type": "application/json"}
+        });
+    };
 
     this.delete = function(encounterUuid, reason) {
         return $http.delete(Bahmni.Common.Constants.bahmniEncounterUrl + "/" + encounterUuid, {
@@ -167,7 +176,7 @@ angular.module('bahmni.common.domain')
             params:{
                 patient: patientUuid,
                 encounterType: encounterTypeUuid,
-                v: "custom:(uuid,provider,visit:(uuid,startDatetime,stopDatetime),obs:(uuid,concept:(uuid,name),groupMembers:(id,uuid,obsDatetime,value)))"
+                v: "custom:(uuid,encounterDatetime,provider,voided,visit:(uuid,startDatetime,stopDatetime),obs:(uuid,concept:(uuid,name),obsDatetime,value,groupMembers:(uuid,concept:(uuid,name),obsDatetime,value)))"
             },
             withCredentials : true
         });
@@ -183,6 +192,13 @@ angular.module('bahmni.common.domain')
             },
             withCredentials : true
         });
-    }
+    };
+    
+    this.filterRetiredEncoounters = function (encounters) {
+        return _.filter(encounters, function (encounter) {
+            return !encounter.voided;
+        });
+    };
+    
 }]);
 

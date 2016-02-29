@@ -12,8 +12,8 @@ angular.module('poc.common.formdisplay')
             
             _.forEach(formIds, function(uuid) {
                 if (!existingPromises[uuid]) {
-                existingPromises[uuid] = formService.getByUuid(uuid).then(function (response) {
-                    loadedForms[uuid] = response.data;
+                existingPromises[uuid] = formService.fetchByUuid(uuid).then(function (response) {
+                    loadedForms[uuid] = response;
                 });
                 promises.push(existingPromises[uuid]);
             }
