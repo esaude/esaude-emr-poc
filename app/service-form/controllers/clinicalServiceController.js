@@ -26,7 +26,6 @@ angular.module('serviceform')
             
             $rootScope.linkServiceEdit = function(service, encounter) {
                 $rootScope.postAction = "edit";
-                debugger;
                 
                 findFormInfo(service);
                 

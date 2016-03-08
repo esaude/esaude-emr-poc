@@ -19,6 +19,7 @@ angular.module('serviceform')
                     $scope.currentFormPart = _.find($scope.formInfo.parts, function (formPart) {
                         return formPart.sref === currentSref;
                     });
+                    
                     console.log($scope.formPayload);
                 })();
                 
@@ -53,19 +54,24 @@ angular.module('serviceform')
                 $scope.save = function () {
                     var currDate = Bahmni.Common.Util.DateUtil.now();
                     var location = localStorageService.cookie.get("emr.location");
-                    var encounterMapper = new Poc.Common.CreateEncounterRequestMapper(currDate);
                     
-                    var openMRSEncounter = encounterMapper.mapFromFormPayload($scope.formPayload, 
-                    $scope.formInfo.parts, 
-                    $scope.patient.uuid,
-                    location.uuid,
-                    $rootScope.currentUser.person.uuid);//set date
-                    
-                    if($rootScope.postAction === 'create') {
+                    if ($rootScope.postAction === 'create') {
+                        var encounterMapper = new Poc.Common.CreateEncounterRequestMapper(currDate);
+
+                        var openMRSEncounter = encounterMapper.mapFromFormPayload($scope.formPayload,
+                                $scope.formInfo.parts,
+                                $scope.patient.uuid,
+                                location.uuid,
+                                $rootScope.currentUser.person.uuid);//set date
                         encounterService.create(openMRSEncounter).success(successCallback);
                     }
                     if($rootScope.postAction === 'edit') {
-                        encounterService.update(openMRSEncounter, $rootScope.formPayload.encounter).success(successCallback);
+                        var encounterMapper = new Poc.Common.UpdateEncounterRequestMapper(currDate);
+                        
+                        var openMRSEncounter = encounterMapper.mapFromFormPayload($scope.formPayload,
+                                $scope.formInfo.parts,
+                                $scope.formPayload.encounter);//set date
+                        encounterService.update(openMRSEncounter).success(successCallback);
                     }
                 };
                 

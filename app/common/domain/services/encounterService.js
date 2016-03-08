@@ -59,10 +59,10 @@ angular.module('bahmni.common.domain')
         });
     };
     
-    this.update = function (encounter, uuid) {
+    this.update = function (encounter) {
         //encounter = this.buildEncounter(encounter);
 
-        return $http.post(Bahmni.Common.Constants.encounterUrl + "/" + uuid, encounter, {
+        return $http.post(Bahmni.Common.Constants.encounterUrl + "/" + encounter.uuid, encounter, {
             withCredentials:true,
             headers: {"Accept": "application/json", "Content-Type": "application/json"}
         });
