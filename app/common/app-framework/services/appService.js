@@ -3,21 +3,39 @@
 angular.module('bahmni.common.appFramework')
     .service('appService', ['$http', '$q', 'sessionService', '$rootScope', function ($http, $q, sessionService, $rootScope) {
         var currentUser = null;
-        var baseUrl = "/bahmni_config/openmrs/apps/";
+        var baseUrl = "/poc_config/openmrs/apps/";
         var appDescriptor = null;
         var self = this;
 
         var loadConfig = function (url) {
             return $http.get(url, {withCredentials: true});
         };
-
-        var loadTemplate = function (appDescriptor) {
+        
+        var loadFormLayout = function (appDescriptor) {
             var deferrable = $q.defer();
-            loadConfig(baseUrl + appDescriptor.contextPath + "/appTemplate.json").then(
+            loadConfig(baseUrl + "/common/formLayout.json").then(
                 function (result) {
-                    if (result.data.length > 0) {
-                        appDescriptor.setTemplate(result.data[0]);
+                    appDescriptor.setFormLayout(result.data);
+                    
+                    deferrable.resolve(appDescriptor);
+                },
+                function (error) {
+                    if (error.status != 404) {
+                        deferrable.reject(error);
+                    } else {
+                        deferrable.resolve(appDescriptor);
                     }
+                }
+            );
+            return deferrable.promise;
+        };
+        
+        var loadClinicalServices = function (appDescriptor) {
+            var deferrable = $q.defer();
+            loadConfig(baseUrl  + appDescriptor.contextPath +  "/clinicalServices.json").then(
+                function (result) {
+                    appDescriptor.setClinicalServices(result.data);
+                    
                     deferrable.resolve(appDescriptor);
                 },
                 function (error) {
@@ -51,57 +69,8 @@ angular.module('bahmni.common.appFramework')
             return deferrable.promise;
         };
 
-        var loadExtensions = function (appDescriptor, extensionFileName) {
-            var deferrable = $q.defer();
-            loadConfig(baseUrl + appDescriptor.extensionPath + extensionFileName).then(
-                function (result) {
-                    appDescriptor.setExtensions(result.data);
-                    deferrable.resolve(appDescriptor);
-                },
-                function (error) {
-                    if (error.status != 404) {
-                        deferrable.reject(error);
-                    } else {
-                        deferrable.resolve(appDescriptor);
-                    }
-                }
-            );
-            return deferrable.promise;
-        };
-
-        var loadPageConfig = function(pageName,appDescriptor){
-            var deferrable = $q.defer();
-            loadConfig(baseUrl + appDescriptor.contextPath + "/"+pageName+".json").then(
-                function (result) {
-                    if (result.data.length > 0) {
-                        appDescriptor.addConfigForPage(pageName,result.data);
-                    }
-                    deferrable.resolve(appDescriptor);
-                },
-                function (error) {
-                    if (error.status != 404) {
-                        deferrable.reject(error);
-                    } else {
-                        deferrable.resolve(appDescriptor);
-                    }
-                }
-            );
-            return deferrable.promise;
-        };
         this.getAppDescriptor = function () {
             return appDescriptor;
-        };
-
-        this.configBaseUrl =  function () {
-            return baseUrl;
-        };
-
-        this.loadConfig = function (name) {
-            return loadConfig(baseUrl + appDescriptor.contextPath + "/" + name);
-        };
-
-        this.loadMandatoryConfig = function(path) {
-            return $http.get(path);
         };
 
         this.initApp = function (appName, options, extensionFileSuffix, configPages) {
@@ -119,15 +88,13 @@ angular.module('bahmni.common.appFramework')
             
 //            var loadCredentialsPromise = sessionService.loadCredentials();
 //            var loadProviderPromise = loadCredentialsPromise.then(sessionService.loadProviders);
-
+//
 //            promises.push(loadCredentialsPromise);
 //            promises.push(loadProviderPromise);
-            if (opts.extension) {
-                promises.push(loadExtensions(appDescriptor, extensionFileName));
-            }
-            if (opts.template) {
-                promises.push(loadTemplate(appDescriptor));
-            }
+
+            promises.push(loadFormLayout(appDescriptor));
+            promises.push(loadClinicalServices(appDescriptor));
+            
             if (opts.app) {
                 promises.push(loadDefinition(appDescriptor));
             }

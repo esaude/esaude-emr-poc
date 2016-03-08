@@ -53,15 +53,29 @@ Poc.Common.CreateEncounterRequestMapper = (function () {
                     //set the member if removed
                     if (!_.isEmpty(removedMemberField)) {
                         var memberField = fields[removedMemberField[0]];
-//                        console.log(memberField);
                         if (memberField.value !== 'undefined' && memberField.value != null) {
-                            obs.groupMembers.push({
-                                concept: memberField.fieldConcept.concept.uuid,
-                                value: (isAnyObject(memberField.value) &&
-                                        memberField.fieldConcept.concept.datatype.display === 'Coded') ? memberField.value.uuid : memberField.value,
-                                obsDatetime: Bahmni.Common.Util.DateUtil.now(),
-                                person: person
-                            });
+                            //to accomodate multiple select
+                            if (memberField.fieldConcept.selectMultiple) {
+                                _.forEach(memberField.fieldConcept.concept.answers, function (answer) {
+                                    var answerValue = memberField.value[answer.uuid];
+                                    if (answerValue !== 'undefined' && answerValue != null) {
+                                        obs.groupMembers.push({
+                                            concept: memberField.fieldConcept.concept.uuid,
+                                            value: JSON.parse(answerValue).uuid,
+                                            obsDatetime: Bahmni.Common.Util.DateUtil.now(),
+                                            person: person
+                                        });
+                                    }
+                                });
+                            } else {
+                                obs.groupMembers.push({
+                                    concept: memberField.fieldConcept.concept.uuid,
+                                    value: (isAnyObject(memberField.value) &&
+                                            memberField.fieldConcept.concept.datatype.display === 'Coded') ? memberField.value.uuid : memberField.value,
+                                    obsDatetime: Bahmni.Common.Util.DateUtil.now(),
+                                    person: person
+                                });
+                            }
                         }
                     }
                 });
@@ -79,13 +93,28 @@ Poc.Common.CreateEncounterRequestMapper = (function () {
         _.forEach(flattenFields, function (field) {
             var formField = fields[field];
             if (formField.value !== 'undefined' && formField.value != null) {
-                obs.push({
-                    concept: formField.fieldConcept.concept.uuid,
-                    value: (isAnyObject(formField.value) &&
-                            formField.fieldConcept.concept.datatype.display === 'Coded') ? formField.value.uuid : formField.value,
-                    obsDatetime: Bahmni.Common.Util.DateUtil.now(),
-                    person: person
-                });
+                //to accomodate multiple select
+                if (formField.fieldConcept.selectMultiple) {
+                    _.forEach(formField.fieldConcept.concept.answers, function (answer) {
+                        var answerValue = formField.value[answer.uuid];
+                        if (answerValue !== 'undefined' && answerValue != null) {
+                            obs.push({
+                                concept: formField.fieldConcept.concept.uuid,
+                                value: JSON.parse(answerValue).uuid,
+                                obsDatetime: Bahmni.Common.Util.DateUtil.now(),
+                                person: person
+                            });
+                        }
+                    });
+                } else {
+                    obs.push({
+                        concept: formField.fieldConcept.concept.uuid,
+                        value: (isAnyObject(formField.value) &&
+                                formField.fieldConcept.concept.datatype.display === 'Coded') ? formField.value.uuid : formField.value,
+                        obsDatetime: Bahmni.Common.Util.DateUtil.now(),
+                        person: person
+                    });
+                }
             }
         });
         return obs;

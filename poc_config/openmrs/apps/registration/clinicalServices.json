@@ -1,0 +1,12 @@
+[
+    {
+        "formId": "d7e359fa-9ee3-4a8f-b1de-b76f6be8a73c",
+        "label": "POC: ANAMNESE A - ADULT",
+        "url": "/anamnesis/a",
+        "minOccur": "1",
+        "maxOccur": "1",
+        "constraints": {
+            "minAge": "15"
+        }
+    }
+]

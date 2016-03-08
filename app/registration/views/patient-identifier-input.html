@@ -8,19 +8,16 @@
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <strong>{{errorMessage}}</strong> 
         </div>
-        <form class="form-horizontal">
-            <div class="form-group form-group-lg">
-                <label for="patient_identifier_type" class="col-sm-2 control-label">Identifier Type:</label>
-                <div class="col-sm-10">
-                    <select class="form-control" id="patient_identifier_type" ng-model="patient.patientIdentifierType" ng-change="selectIdentifierType()"
-                            ng-options="it.name for it in patientIdentifierTypes">
-                        <option></option>
-                    </select>
-                </div>
+        <div class="form-group form-group-lg">
+            <label for="patient_identifier_type" class="col-sm-2 control-label">Identifier Type:</label>
+            <div class="col-sm-10">
+                <select class="form-control" id="patient_identifier_type" ng-model="patient.patientIdentifierType" ng-change="selectIdentifierType()"
+                        ng-options="it.name for it in patientIdentifierTypes">
+                    <option></option>
+                </select>
             </div>
-        </form>
+        </div>
     </div>
-    <form name="idForm">
     <table class="table">
         <thead>
             <tr>
@@ -30,38 +27,42 @@
                 <th></th>
             </tr>
         </thead>
-        <tbody>  
+        <tbody ng-init="listRequiredIdentifiers()">  
             <tr ng-repeat=" pi in patient.identifiers">
-                <td class="col-sm-4 control-label">{{pi.identifierType.display}}</td>
+                <td class="col-sm-4 control-label">
+                    <div ng-messages for="aForm.{{pi.fieldName}}.$error" 
+                         ng-messages-include="../poc-common/form-display/views/error-messages.html"
+                         ng-show="showMessages">
+                    </div>
+                    {{pi.identifierType.display}}
+                </td>
                 <td>
-                    <div class="form-group has-success has-feedback" 
-                         ng-class="{'has-error': idForm.{{pi.fieldName}}.$invalid, 'has-success': !idForm.{{pi.fieldName}}.$invalid}">
-                        <input type="text" class="form-control input-lg keyboard-in" dynamic-name="pi.fieldName" 
-                               placeholder="{{pi.identifierType.format}}" ng-model="pi.identifier" ng-pattern="{{pi.identifierType.format}}">
-                        <span ng-class="{'glyphicon glyphicon-remove form-control-feedback': idForm.{{pi.fieldName}}.$invalid, 
-                                    'glyphicon glyphicon-ok form-control-feedback': !idForm.{{pi.fieldName}}.$invalid}"></span>
+                    <div ng-class="{'has-error': aForm.{{pi.fieldName}}.$invalid && showMessages}">
+                        <input type="text" class="form-control input-lg keyboard-in" name="{{pi.fieldName}}" 
+                               placeholder="{{pi.identifierType.format}}" ng-model="pi.identifier" ng-pattern="pi.identifierType.format"
+                               record-availability-validator="/ws/rest/v1/patient"
+                               required>
                     </div>
                 </td>
                 <td>
-                    <label class="btn btn-success btn-lg">
-                        <input type="radio" autocomplete="off" name="preferedIdRGroup" 
-                               ng-value="{{pi.preferred}}" ng-click="setPreferredId(pi)">Preferred
-                    </label>
+                    <input id="{{pi.fieldName}}_Rdo" class="radio-lx" type="radio" name="preferedIdRGroup" 
+                           ng-value="{{pi.preferred}}" ng-click="setPreferredId(pi)">
+                    <label for="{{pi.fieldName}}_Rdo"></label>
                 </td>
                 <td>
-                    <button id="patient_identifier_remove_1" type="button" class="btn btn-danger btn-lg" ng-click="removeIdentifier(pi)">
+                    <button ng-show="!pi.identifierType.required" type="button" class="btn btn-danger btn-lg" ng-click="removeIdentifier(pi)">
                         <span class="glyphicon glyphicon-remove-sign"></span>
                     </button>
                 </td>
             </tr>
         </tbody>
     </table>
-    </form>
 </div><!-- identifier -->
 
 <div class="row bg-info-border content-border border-rouded">
-    <button type="button" class="btn btn-success btn-lg" ui-sref="newpatient.death">
-       <span class="glyphicon glyphicon glyphicon-step-forward"></span>
+    <button type="button" class="btn btn-success btn-lg"
+            ng-click="stepForward('newpatient.death', aForm.$valid)">
+        <span class="glyphicon glyphicon glyphicon-step-forward"></span>
     </button>
 </div>
 

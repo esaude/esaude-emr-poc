@@ -1,1 +1,0 @@
-angular.module('anamnesis', ['registration', 'poc.common.formdisplay']);

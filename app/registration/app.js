@@ -52,7 +52,8 @@ angular
                 views: {
                     'layout': { templateUrl: '../common/application/views/layout.html', controller: 'CreatePatientController'},
                     'content@newpatient': { templateUrl: 'views/patient-add.html'}
-                }
+                },
+                resolve: { initialization: 'initialization' }
             })
             .state('newpatient.name', {
                 url: '/name',
@@ -125,8 +126,8 @@ angular
             .state('anamnesis', {
                 url: '/anamnesis/a/:patientUuid/:formUuid',
                 views: {
-                    'layout': { templateUrl: '../common/application/views/layout.html', controller: 'AnamnesisController'},
-                    'content@anamnesis': { templateUrl: '../anamnesis/views/anamnesis-add.html'}
+                    'layout': { templateUrl: '../common/application/views/layout.html', controller: 'FormController'},
+                    'content@anamnesis': { templateUrl: '../service-form/views/form-add.html'}
                 },
                 resolve: { initialization: 'initialization' }
             })
@@ -140,6 +141,10 @@ angular
             })
             .state('anamnesis.children', {
                 url: '/children',
+                templateUrl: '../poc-common/form-display/views/form-part-input-template.html'
+            })
+            .state('anamnesis.hivexp', {
+                url: '/hivexp',
                 templateUrl: '../poc-common/form-display/views/form-part-input-template.html'
             })
             .state('anamnesis.confirm', {

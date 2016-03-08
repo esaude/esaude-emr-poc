@@ -15,6 +15,13 @@ angular.module('poc.common.formdisplay')
     })
     .controller('FieldReadDirectiveController', function ($scope) {
         (function () {
-            
         })();
+
+        $scope.stringToJson = function (str) {
+            return JSON.parse(str);
+        };
+        
+        $scope.getFieldValidity = function (fieldUuid) {
+            return $scope.$parent.visitedFields[fieldUuid];
+        };
     });

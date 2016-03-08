@@ -1,15 +1,16 @@
 'use strict';
 
 angular.module('registration')
-    .controller('CreatePatientController', ['$scope', '$state', '$location', 'patient', 'patientService', 
+    .controller('CreatePatientController', ['$rootScope', '$scope', '$state', '$location', 'patient', 'patientService', 
                     'spinner', 'appService', '$http', 'localStorageService', 'patientAttributeService',
-        function ($scope, $state, $location, patientModel, patientService, spinner, appService, $http, localStorageService,
+        function ($rootScope, $scope, $state, $location, patientModel, patientService, spinner, appService, $http, localStorageService,
                     patientAttributeService) {
                 var dateUtil = Bahmni.Common.Util.DateUtil;
                 $scope.actions = {};
                 $scope.addressHierarchyConfigs = appService.getAppDescriptor().getConfigValue("addressHierarchy");
 
                 (function () {
+                    $scope.showMessages = false;
                     $scope.patient = patientModel.create();
                     $scope.today = dateUtil.getDateWithoutTime(dateUtil.now());
                     //get patient identifier types
@@ -20,13 +21,40 @@ angular.module('registration')
                     });
                     searchPromise['finally'](function () {
                     });
+                    //list required identifier types
+                    
+                    
                 })();
+                
+                $scope.listRequiredIdentifiers = function () {
+                    if (!_.isEmpty($scope.patient.identifiers)) {
+                        return;
+                    }
+                    _.forEach ($scope.patientIdentifierTypes, function (value) {
+                        if (value.required) {
+                            var fieldName = value.name.trim().replace(/[^a-zA-Z0-9]/g, '');
+                            $scope.patient.identifiers.push({identifierType: value, 
+                                identifier: null, preferred: false, 
+                                location: localStorageService.cookie.get("emr.location").uuid, 
+                                fieldName : fieldName});
+                        }
+                    });  
+                };
+                
+                $scope.stepForward = function (sref, validity) {
+                    if (validity) {
+                        $scope.showMessages = false;
+                        $state.go(sref);
+                    } else {
+                        $scope.showMessages = true;
+                    }
+                };
 
                 $scope.selectIdentifierType = function () {
+                    
                     $scope.errorMessage = null;
                     
                     var patientIdentifierType = $scope.patient.patientIdentifierType;
-                    console.log(patientIdentifierType);
                     if (patientIdentifierType !== null) {
                         //validate already contained
                         var found = _.find($scope.patient.identifiers, function (chr) {

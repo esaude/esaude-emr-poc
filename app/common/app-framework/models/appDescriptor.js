@@ -7,13 +7,23 @@ Bahmni.Common.AppFramework.AppDescriptor = function (context, inheritContext, re
     this.extensionPoints = [];
     this.extensions = [];
     this.configs = [];
+    this.formLayout = [];
+    this.clinicalServices = [];
 
     this.extensionPath = context;
     this.contextPath = inheritContext ? context.split("/")[0] : context;
 
     var self = this;
+    
+    this.setFormLayout = function (formLayout) {      
+        self.formLayout = formLayout || [];
+    };
+    
+    this.setClinicalServices = function (clinicalServices) {      
+        self.clinicalServices = clinicalServices || [];
+    };
 
-    this.setExtensions = function(extensions) {
+    this.setExtensions = function (extensions) {
         extensions.forEach(function(extn) {
             var existing = self.extensionPoints.filter(function(ep) {
                 return ep.id == extn.extensionPointId;
@@ -153,5 +163,13 @@ Bahmni.Common.AppFramework.AppDescriptor = function (context, inheritContext, re
 
     this.getConfigForPage = function(pageName){
         return self.pageConfigs[pageName];
-    }
+    };
+    
+    this.getFormLayout = function () {      
+        return self.formLayout;
+    };
+    
+    this.getClinicalServices = function () {      
+        return self.clinicalServices;
+    };
 };

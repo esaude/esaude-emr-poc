@@ -98,8 +98,8 @@ module.exports = function (grunt) {
                 serveStatic('./bower_components')
               ),
               connect().use(
-                '/bahmni_config',
-                serveStatic('./bahmni_config')
+                '/poc_config',
+                serveStatic('./poc_config')
               ),
               connect().use(
                 '/app/styles',

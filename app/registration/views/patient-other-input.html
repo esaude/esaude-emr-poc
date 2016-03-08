@@ -3,18 +3,17 @@
         <h3 class="panel-title">Other Information</h3>
     </div>
     <div class="panel-body">
-        <form class="form-horizontal">
-            <div ng-repeat="attributeRow in patientConfiguration.customAttributeRows()">
-                <div class="form-group form-group-lg" ng-repeat="attribute in attributeRow">
-                    <ng-include src="'views/patientAttributeInformation.html'"></ng-include>
-                </div>
+        <div ng-repeat="attributeRow in patientConfiguration.customAttributeRows()">
+            <div class="form-group form-group-lg" ng-repeat="attribute in attributeRow">
+                <ng-include src="'views/patientAttributeInformation.html'"></ng-include>
             </div>
-        </form>
+        </div>
     </div>
 </div><!-- address -->
 
 <div class="row bg-info-border content-border border-rouded">
-    <button type="button" class="btn btn-success btn-lg" ui-sref="newpatient.identifier">
+    <button type="button" class="btn btn-success btn-lg"
+            ng-click="stepForward('newpatient.identifier', aForm.$valid)">
         <span class="glyphicon glyphicon glyphicon-step-forward"></span>
     </button>
 </div>
