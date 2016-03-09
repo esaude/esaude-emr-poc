@@ -47,6 +47,9 @@ angular.module('registration').factory('openmrsPatientMapper', ['patient', '$roo
                 patient.age = birthdate ? age.fromBirthDate(openmrsPatient.person.birthdate) : null;
                 patient.gender = openmrsPatient.person.gender;
                 patient.address = mapAddress(openmrsPatient.person.preferredAddress);
+                patient.dead = openmrsPatient.person.dead,
+                patient.causeOfDeath = (openmrsPatient.person.dead === true) ? openmrsPatient.person.causeOfDeath : null,
+                patient.deathDate = (openmrsPatient.person.dead === true) ? openmrsPatient.person.deathDate : null
                 //TODO: must get the identifier to display from openmrs configurations
                 patient.identifier = openmrsPatient.identifiers[0].identifier;
                 patient.identifierType = openmrsPatient.identifiers[0].identifierType.display;

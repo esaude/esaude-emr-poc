@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('registration')
-    .controller('PatientCommonController', ['$scope', '$location', '$state', 'patientAttributeService', 'patientService', 'localStorageService',
-        function ($scope, $location, $state, patientAttributeService, patientService, localStorageService) {
+    .controller('PatientCommonController', ['$scope', '$http', '$state', 'patientAttributeService', 'patientService', 'localStorageService',
+        function ($scope, $http, $state, patientAttributeService, patientService, localStorageService) {
             
                 var dateUtil = Bahmni.Common.Util.DateUtil;
                 
@@ -86,5 +86,49 @@ angular.module('registration')
                 
                 $scope.getDataResults = function (data) {
                     return  data.results;
+                };
+                
+                $scope.getDeathConcepts = function () {
+                    var deathConcept;
+                    var deathConceptValue;
+                    $http({
+                        url: '/openmrs/ws/rest/v1/systemsetting',
+                        method: 'GET',
+                        params: {
+                            q: 'concept.causeOfDeath',
+                            v: 'full'
+                        },
+                        withCredentials: true,
+                        transformResponse: [function(data){
+                            deathConcept = JSON.parse(data);
+                            deathConceptValue = deathConcept.results[0].value;
+                            $http.get(Bahmni.Common.Constants.conceptUrl, {
+                                params: {
+                                    q: deathConceptValue,
+                                    v: 'custom:(uuid,name,set,answers:(uuid,display,name:(uuid,name),retired))'
+                                },
+                                withCredentials: true
+                            }).then(function (results) {
+                                $scope.deathConcepts = results.data.results[0]!=null ? results.data.results[0].answers:[];
+                                $scope.deathConcepts = filterRetireDeathConcepts($scope.deathConcepts);
+                            });
+                        }]
+                    });
+                };
+                
+                var filterRetireDeathConcepts = function(deathConcepts){
+                    return _.filter(deathConcepts,function(concept){
+                        return !concept.retired;
+                    });
+                };
+                
+                $scope.selectIsDead = function(){
+                    if($scope.patient.causeOfDeath != null ||$scope.patient.deathDate != null){
+                        $scope.patient.dead = true;
+                    }
+                };
+
+                $scope.disableIsDead = function(){
+                    return ($scope.patient.causeOfDeath != null || $scope.patient.deathDate != null) && $scope.patient.dead;
                 };
         }]);
