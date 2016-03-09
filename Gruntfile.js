@@ -236,7 +236,8 @@ module.exports = function (grunt) {
     // additional tasks can operate on them
     useminPrepare: {
       html: ['<%= yeoman.app %>/home/index.html',
-             '<%= yeoman.app %>/registration/index.html'],
+             '<%= yeoman.app %>/registration/index.html',
+             '<%= yeoman.app %>/clinic/index.html'],
       css: '<%= yeoman.app %>/styles/**/*.css',
       options: {
         dest: '<%= yeoman.dist %>',
@@ -255,7 +256,8 @@ module.exports = function (grunt) {
     // Performs rewrites based on filerev and the useminPrepare configuration
     usemin: {
       html: ['<%= yeoman.dist %>/home/index.html',
-             '<%= yeoman.dist %>/registration/index.html'],
+             '<%= yeoman.dist %>/registration/index.html'
+             '<%= yeoman.dist %>/clinic/index.html'],
       css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
       js: ['<%= yeoman.dist %>/scripts/{,*/}*.js'],
       options: {
@@ -315,7 +317,8 @@ module.exports = function (grunt) {
                     src: [
                         'common/**/*.html',
                         'home/**/*.html',
-                        'registration/**/*.html'
+                        'registration/**/*.html',
+                        'clinic/**/*.html'
                     ],
                     //src: ['*.html'],
                     dest: '<%= yeoman.dist %>'
@@ -417,7 +420,20 @@ module.exports = function (grunt) {
             {
               pattern: '<link rel="stylesheet" href="styles/vendor.registration.min.css">',
               replacement: '<link rel="stylesheet" href="../styles/vendor.registration.min.css">'
+            },
+            {
+              pattern: '<script src="scripts/vendor.clinic.min.js"></script>',
+              replacement: '<script src="../scripts/vendor.clinic.min.js"></script>'
+            },
+            {
+              pattern: '<script src="scripts/clinic.min.js"></script>',
+              replacement: '<script src="../scripts/clinic.min.js"></script>'
+            },
+            {
+              pattern: '<link rel="stylesheet" href="styles/vendor.clinic.min.css">',
+              replacement: '<link rel="stylesheet" href="../styles/vendor.clinic.min.css">'
             }
+            
           ]
         }
       }

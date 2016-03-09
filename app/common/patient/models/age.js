@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('registration')
+angular.module('common.patient')
     .factory('age', [function () {
         var dateUtil = Bahmni.Common.Util.DateUtil;
 

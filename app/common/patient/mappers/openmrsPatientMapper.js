@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('registration').factory('openmrsPatientMapper', ['patient', '$rootScope', 'age',
+angular.module('common.patient').factory('openmrsPatientMapper', ['patient', '$rootScope', 'age',
     function (patientModel, $rootScope, age) {
         var whereAttributeTypeExists = function (attribute) {
                 return $rootScope.patientConfiguration.get(attribute.attributeType.uuid);
@@ -53,7 +53,7 @@ angular.module('registration').factory('openmrsPatientMapper', ['patient', '$roo
                 //TODO: must get the identifier to display from openmrs configurations
                 patient.identifier = openmrsPatient.identifiers[0].identifier;
                 patient.identifierType = openmrsPatient.identifiers[0].identifierType.display;
-                patient.image = Bahmni.Registration.Constants.patientImageURL + openmrsPatient.uuid + ".jpeg?q=" + new Date().toISOString();
+                patient.image = Poc.Patient.Constants.patientImageURL + openmrsPatient.uuid + ".jpeg?q=" + new Date().toISOString();
                 patient.registrationDate = parseDate(openmrsPatient.person.auditInfo.dateCreated);
                 mapAttributes(patient, openmrsPatient.person.attributes);
                 patient.identifiers = openmrsPatient.identifiers;

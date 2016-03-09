@@ -1,6 +1,6 @@
 'use strict';
 
-Bahmni.Registration.PatientConfig = (function () {
+Poc.Patient.PatientConfig = (function () {
 
     function PatientConfig(patientAttributeTypes, identifierSources, additionalPatientInformation ) {
         this.personAttributeTypes = patientAttributeTypes;

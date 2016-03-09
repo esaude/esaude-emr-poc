@@ -1,1 +1,1 @@
-angular.module('serviceform', ['registration', 'poc.common.formdisplay']);
+angular.module('serviceform', ['poc.common.formdisplay']);

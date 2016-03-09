@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('registration')
+angular.module('clinic')
         .controller('SearchController', ['$scope', '$location', 'patientService', 'openmrsPatientMapper',
     function ($scope, $location, patientService, patientMapper) {
             $scope.results = [];

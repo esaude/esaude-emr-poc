@@ -1,9 +1,8 @@
 'use strict';
 
 angular.module('registration')
-        .controller('DashboardController', ["$rootScope", "$scope", "$location", "$state", "$stateParams", 
-                        "patientService", "openmrsPatientMapper", 
-                    function ($rootScope, $scope, $location, $state, $stateParams, patientService, patientMapper) {
+        .controller('DashboardController', ["$scope", "$location", "$stateParams", 
+                    function ($scope, $location, $stateParams) {
             var patientUuid;
     
             init();

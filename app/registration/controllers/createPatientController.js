@@ -2,8 +2,8 @@
 
 angular.module('registration')
     .controller('CreatePatientController', ['$scope', '$location', 'patient', 'patientService', 
-                    'appService', '$http',
-        function ($scope, $location, patientModel, patientService, appService, $http) {
+                    'appService',
+        function ($scope, $location, patientModel, patientService, appService) {
                 
                 $scope.actions = {};
                 $scope.addressHierarchyConfigs = appService.getAppDescriptor().getConfigValue("addressHierarchy");

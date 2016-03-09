@@ -1,40 +1,76 @@
 'use strict';
 
-angular.module('bahmni.common.patient')
-    .service('patientService', ['$http', function ($http) {
+angular.module('common.patient')
+    .factory('patientService', ['$http', '$rootScope', function ($http, $rootScope) {
+        var openmrsUrl = Poc.Patient.Constants.openmrsUrl;
+        var baseOpenMRSRESTURL = Poc.Patient.Constants.baseOpenMRSRESTURL;
+
+        var search = function (query) {
+            return $http.get(openmrsUrl + "/ws/rest/v1/patient", {
+                method: "GET",
+                params: {
+                    q: query,
+                    identifier: query,
+                    v: "full"
+                     },
+                withCredentials: true
+            });
+        };
         
-        this.getPatient = function (uuid) {
-            var patient = $http.get(Bahmni.Common.Constants.openmrsUrl + "/ws/rest/v1/patient/" + uuid, {
+        var getIdentifierTypes = function () {
+            return $http.get(openmrsUrl + "/ws/rest/v1/patientidentifiertype", {
                 method: "GET",
                 params: {v: "full"},
                 withCredentials: true
             });
-            return patient;
         };
 
-        this.getRelationships = function(patientUuid){
-            return $http.get(Bahmni.Common.Constants.openmrsUrl + "/ws/rest/v1/relationship", {
+        var get = function (uuid) {
+            return $http.get(openmrsUrl + "/ws/rest/v1/patient/" + uuid, {
                 method: "GET",
-                params: {person: patientUuid, v: "full"},
+                params: {v: "full"},
+                withCredentials: true
+            });
+        };
+        
+        var getPatientIdentifiers = function (patientUuid) {
+            return $http.get(openmrsUrl + "/ws/rest/v1/patient/" + patientUuid + "/identifier", {
+                method: "GET",
                 withCredentials: true
             });
         };
 
-        this.findPatients = function (params) {
-            return $http.get("/openmrs/ws/rest/v1/bahmnicore/sql" , {
-                method: "GET",
-                params: params,
-                withCredentials: true
+        var generateIdentifier = function (patient) {
+            var idgenJson = {"identifierSourceName": patient.identifierPrefix.prefix};
+            return $http.post(openmrsUrl + "/ws/rest/v1/idgen", idgenJson, {
+                withCredentials: true,
+                headers: {"Accept": "text/plain", "Content-Type": "application/json"}
             });
         };
 
-        this.search = function (query, offset, identifier) {
-            offset = offset || 0;
-            return $http.get(Bahmni.Common.Constants.bahmniSearchUrl + "/patient", {
-                method: "GET",
-                params: {q: query, startIndex: offset, identifier: identifier},
-                withCredentials: true
+        var create = function (patient) {
+            var patientJson = new Bahmni.Registration.CreatePatientRequestMapper(moment()).mapFromPatient($rootScope.patientConfiguration.personAttributeTypes, patient);
+            return $http.post(baseOpenMRSRESTURL + "/patientprofile", patientJson, {
+                withCredentials: true,
+                headers: {"Accept": "application/json", "Content-Type": "application/json"}
+            });
+        };
+        
+        var update = function (patient, openMRSPatient) {
+            var patientJson = new Bahmni.Registration.UpdatePatientRequestMapper(moment()).mapFromPatient($rootScope.patientConfiguration.personAttributeTypes, openMRSPatient, patient);
+            return $http.post(baseOpenMRSRESTURL + "/patientprofile/" + openMRSPatient.uuid, patientJson, {
+                withCredentials: true,
+                headers: {"Accept": "application/json", "Content-Type": "application/json"}
             });
         };
 
-}]);
+        return {
+            search: search,
+            getIdentifierTypes: getIdentifierTypes,
+            create: create,
+            generateIdentifier: generateIdentifier,
+            update: update,
+            get: get,
+            getPatientIdentifiers: getPatientIdentifiers
+        };
+    }]);
