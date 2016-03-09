@@ -1,16 +1,19 @@
 'use strict';
 
 angular.module('registration')
-    .controller('CreatePatientController', ['$scope', '$location', 'patient', 'patientService', 
-                    'appService', '$http',
-        function ($scope, $location, patientModel, patientService, appService, $http) {
-                
-                $scope.actions = {};
-                $scope.addressHierarchyConfigs = appService.getAppDescriptor().getConfigValue("addressHierarchy");
+    .controller('UpdatePatientController', ['$scope', '$location', '$stateParams', 'patientService', 
+                    '$http', 'openmrsPatientMapper',
+        function ($scope, $location, $stateParams, patientService, $http, patientMapper) {
 
                 (function () {
-                    $scope.srefPrefix = "newpatient.";
-                    $scope.patient = patientModel.create();
+                    $scope.srefPrefix = "editpatient.";
+                    
+                    var uuid = $stateParams.patientUuid;
+                    
+                    patientService.get(uuid).success(function (openmrsPatient) {
+                        $scope.openMRSPatient = openmrsPatient;
+                        $scope.patient = patientMapper.map(openmrsPatient);
+                    });
                 })();
                 
                 $scope.getDeathConcepts = function () {
@@ -57,29 +60,14 @@ angular.module('registration')
                     return ($scope.patient.causeOfDeath != null || $scope.patient.deathDate != null) && $scope.patient.dead;
                 };
                 
-                $scope.initAttributes = function() {
-                    $scope.patientAttributes = [];
-                    angular.forEach($scope.patientConfiguration.customAttributeRows(), function (value) {
-                        angular.forEach(value, function (value) {
-                            $scope.patientAttributes.push(value);
-                        });
-                    });
-                };
-                
                 $scope.save = function () {
-                    var errMsg = Bahmni.Common.Util.ValidationUtil.validate($scope.patient,$scope.patientConfiguration.personAttributeTypes);
-                    if(errMsg){
-    //                   messagingService.showMessage('formError', errMsg);
-                        return;
-                    }
+                    patientService.update($scope.patient, $scope.openMRSPatient).success(successCallback);
+                };
 
-                    patientService.create($scope.patient).success(successCallback);
-                };
-                
-                var successCallback = function (patientProfileData) {
-                    $scope.patient.uuid = patientProfileData.patient.uuid;
-                    $scope.patient.name = patientProfileData.patient.person.names[0].display;
-                    $scope.patient.isNew = true;
-                    $location.url("/dashboard/" + $scope.patient.uuid);
-                };
+            var successCallback = function (patientProfileData) {
+                $scope.patient.uuid = patientProfileData.patient.uuid;
+                $scope.patient.name = patientProfileData.patient.person.names[0].display;
+                $scope.patient.isNew = true;
+                $location.url("/dashboard/" + $scope.patient.uuid);
+            };
         }]);

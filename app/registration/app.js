@@ -87,6 +87,46 @@ angular
                 url: '/confirm',
                 templateUrl: 'views/patient-confirm-input.html'
             })
+            .state('editpatient', {
+                url: '/patient/edit/:patientUuid',
+                views: {
+                    'layout': { templateUrl: '../common/application/views/layout.html', controller: 'UpdatePatientController'},
+                    'content@editpatient': { templateUrl: 'views/patient-add.html'}
+                },
+                resolve: { initialization: 'initialization' }
+            })
+            .state('editpatient.name', {
+                url: '/name',
+                templateUrl: 'views/patient-name-input.html'
+            })
+            .state('editpatient.gender', {
+                url: '/gender',
+                templateUrl: 'views/patient-gender-input.html'
+            })
+            .state('editpatient.age', {
+                url: '/age',
+                templateUrl: 'views/patient-age-input.html'
+            })
+            .state('editpatient.address', {
+                url: '/address',
+                templateUrl: 'views/patient-address-input.html'
+            })
+            .state('editpatient.other', {
+                url: '/other',
+                templateUrl: 'views/patient-other-input.html'
+            })
+            .state('editpatient.identifier', {
+                url: '/identifier',
+                templateUrl: 'views/patient-identifier-input.html'
+            })
+            .state('editpatient.death', {
+                url: '/death',
+                templateUrl: 'views/patient-death-input.html'
+            })
+            .state('editpatient.confirm', {
+                url: '/confirm',
+                templateUrl: 'views/patient-confirm-input.html'
+            })
             .state('visit', {
                 url: '/visit/:patientUuid',
                 views: {
