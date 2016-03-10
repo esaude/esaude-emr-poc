@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('registration')
-        .controller('DetailPatientController', ["$rootScope", "$scope", "$stateParams", "$location",
-                function ($rootScope, $scope, $stateParams, $location) {
+        .controller('DetailPatientController', ["$scope", "$stateParams", "$location",
+                function ($scope, $stateParams, $location) {
             var patientUuid;
     
             (function () {

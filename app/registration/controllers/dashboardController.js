@@ -1,9 +1,8 @@
 'use strict';
 
 angular.module('registration')
-        .controller('DashboardController', ["$rootScope", "$scope", "$location", "$state", "$stateParams", 
-                        "patientService", "openmrsPatientMapper", 
-                    function ($rootScope, $scope, $location, $state, $stateParams, patientService, patientMapper) {
+        .controller('DashboardController', ["$scope", "$location", "$stateParams", 
+                    function ($scope, $location, $stateParams) {
             var patientUuid;
     
             init();
@@ -28,13 +27,8 @@ angular.module('registration')
                 $location.url("/services/" + patientUuid); // path not hash
             };
             
-//            $rootScope.linkService = function(service) {
-//                $rootScope.formInfo = _.find($scope.formLayout, function(data) {
-//                    return data.formId === service.formId; 
-//                });
-//                
-//                $location.url(service.url + "/" + patientUuid + "/" + 
-//                        service.formId + $scope.formInfo.parts[0].sref.replace(".", "/"));
-//            };
+            $scope.linkPatientEdit = function() {
+                $location.url("/patient/edit/" + patientUuid + "/name"); // path not hash
+            };
             
         }]);

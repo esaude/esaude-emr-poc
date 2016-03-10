@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('registration')
+angular.module('common.patient')
     .factory('addressAttributeService', ['$http', function ($http) {
         var search = function(fieldName, query, parentField, parentName){
             var url = "/openmrs/module/addresshierarchy/ajax/getPossibleAddressHierarchyEntriesWithParents.form";

@@ -27,6 +27,41 @@ module.exports = function (grunt) {
     app: require('./bower.json').appPath || 'app',
     dist: 'dist'
   };
+  
+  var generateReplacement = function () {
+      var modules = ['home', 'registration', 'clinic'];
+      var replacements = [];
+      
+      for (var i in modules) {
+          var module = modules[i];
+          replacements.push(
+            {
+              pattern: '<script src="scripts/vendor.' + module + '.min.js"></script>',
+              replacement: '<script src="../scripts/vendor.' + module + '.min.js"></script>'
+            }
+          );
+          replacements.push(
+            {
+              pattern: '<script src="scripts/' + module + '.min.js"></script>',
+              replacement: '<script src="../scripts/' + module + '.min.js"></script>'
+            }
+          );
+          replacements.push(
+            {
+              pattern: '<link rel="stylesheet" href="styles/vendor.' + module + '.min.css">',
+              replacement: '<link rel="stylesheet" href="../styles/' + module + '.clinic.min.css">'
+            }
+          )
+      }
+      replacements.push(
+            {
+              pattern: '<link rel="stylesheet" href="styles/main.min.css">',
+              replacement: '<link rel="stylesheet" href="../styles/main.min.css">'
+            }
+      );
+      return replacements;
+          
+  };
 
   // Define the configuration for all the tasks
   grunt.initConfig({
@@ -236,7 +271,8 @@ module.exports = function (grunt) {
     // additional tasks can operate on them
     useminPrepare: {
       html: ['<%= yeoman.app %>/home/index.html',
-             '<%= yeoman.app %>/registration/index.html'],
+             '<%= yeoman.app %>/registration/index.html',
+             '<%= yeoman.app %>/clinic/index.html'],
       css: '<%= yeoman.app %>/styles/**/*.css',
       options: {
         dest: '<%= yeoman.dist %>',
@@ -255,7 +291,8 @@ module.exports = function (grunt) {
     // Performs rewrites based on filerev and the useminPrepare configuration
     usemin: {
       html: ['<%= yeoman.dist %>/home/index.html',
-             '<%= yeoman.dist %>/registration/index.html'],
+             '<%= yeoman.dist %>/registration/index.html',
+             '<%= yeoman.dist %>/clinic/index.html'],
       css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
       js: ['<%= yeoman.dist %>/scripts/{,*/}*.js'],
       options: {
@@ -315,7 +352,8 @@ module.exports = function (grunt) {
                     src: [
                         'common/**/*.html',
                         'home/**/*.html',
-                        'registration/**/*.html'
+                        'registration/**/*.html',
+                        'clinic/**/*.html'
                     ],
                     //src: ['*.html'],
                     dest: '<%= yeoman.dist %>'
@@ -388,42 +426,11 @@ module.exports = function (grunt) {
           'dist/': 'dist/**/index.html'
         },
         options: {
-          replacements: [
-            // place files inline example
-            {
-              pattern: '<script src="scripts/vendor.home.min.js"></script>',
-              replacement: '<script src="../scripts/vendor.home.min.js"></script>'
-            },
-            {
-              pattern: '<script src="scripts/home.min.js"></script>',
-              replacement: '<script src="../scripts/home.min.js"></script>'
-            },
-            {
-              pattern: '<link rel="stylesheet" href="styles/vendor.home.min.css">',
-              replacement: '<link rel="stylesheet" href="../styles/vendor.home.min.css">'
-            },
-            {
-              pattern: '<link rel="stylesheet" href="styles/main.min.css">',
-              replacement: '<link rel="stylesheet" href="../styles/main.min.css">'
-            },
-            {
-              pattern: '<script src="scripts/vendor.registration.min.js"></script>',
-              replacement: '<script src="../scripts/vendor.registration.min.js"></script>'
-            },
-            {
-              pattern: '<script src="scripts/registration.min.js"></script>',
-              replacement: '<script src="../scripts/registration.min.js"></script>'
-            },
-            {
-              pattern: '<link rel="stylesheet" href="styles/vendor.registration.min.css">',
-              replacement: '<link rel="stylesheet" href="../styles/vendor.registration.min.css">'
-            }
-          ]
+          replacements: generateReplacement()
         }
       }
     }
   });
-
 
   grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
     if (target === 'dist') {

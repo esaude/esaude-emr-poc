@@ -1,1 +1,2 @@
-angular.module('bahmni.common.patient', []);
+
+angular.module('common.patient', []);

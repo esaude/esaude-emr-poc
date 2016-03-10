@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('registration')
+angular.module('common.patient')
     .factory('patient', ['age', function (age) {
         var create = function () {
             var calculateAge = function () {

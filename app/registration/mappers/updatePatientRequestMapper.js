@@ -24,12 +24,16 @@ Bahmni.Registration.UpdatePatientRequestMapper = (function () {
                     birthdate: this.getBirthdate(patient.birthdate, patient.age),
                     birthdateEstimated: patient.birthdate === undefined || patient.birthdate === "",
                     gender: patient.gender,
-                    attributes: this.getMrsAttributes(openMRSPatient, patient, patientAttributeTypes)
+                    attributes: this.getMrsAttributes(openMRSPatient, patient, patientAttributeTypes),
+                    dead: patient.dead,
+                    causeOfDeath: (patient.dead === true) ? patient.causeOfDeath.uuid : null,
+                    deathDate: (patient.dead === true) ? patient.deathDate : null
                 }
             }
         };
 
         this.setImage(patient, openMRSPatientProfile);
+        openMRSPatientProfile.relationships = patient.relationships;
         return  openMRSPatientProfile;
     };
 
