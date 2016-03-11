@@ -1,1 +1,10 @@
 <div ng-include src="'../../common/patient/header/views/header.html'"></div><!--patient header -->
+
+<div class="bg-info-border content-border border-rouded">
+    <ul class="nav nav-tabs">
+        <li role="presentation" data-toggle="tab"><a ui-sref="dashboard.summary">Summary</a></li>
+        <li role="presentation" data-toggle="tab" class="active"><a ui-sref="dashboard.chart">Charts</a></li>
+        <li role="presentation" data-toggle="tab" class="active"><a ui-sref="dashboard.consultation">Consultation</a></li>
+    </ul> 
+    <div ui-view=""></div>
+</div>

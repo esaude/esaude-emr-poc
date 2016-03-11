@@ -8,12 +8,23 @@ and open the template in the editor.
     Author     : valerio
 */
 
+.panel-marginless-sides {
+    margin-left: -10px;
+    margin-right: -10px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+ 
 .go-to-right {
     text-align: right;
 }
 
 .go-to-center {
     text-align: center;
+}
+
+.go-to-left {
+    text-align: left;
 }
 
 .inline-align {
@@ -32,8 +43,19 @@ and open the template in the editor.
     padding: 10px;
 }
 
+.content-border-padding-li {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
 .content-border-margin-regular {
     margin: 5px;
+}
+
+.content-border-margin-regular-top {
+    margin-top: 5px
 }
 
 .header-text-lg {
