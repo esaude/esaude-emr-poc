@@ -1,0 +1,82 @@
+<div class="row content-border-margin-regular">
+    <div class="col-md-6">
+        <div class="panel panel-primary panel-marginless-sides">
+            <div class="panel-heading">
+                <h3 class="panel-title">Visit History</h3>
+            </div>
+            <div class="list-group" ng-repeat="visit in visits">
+                <div class="bg-info content-border-padding-li">
+                    Visit on {{visit[0].encounterDatetime | date:"MMM d, y"}}
+                </div>
+                <div class="list-group-item" ng-repeat="encounter in visit">
+                    <div>{{encounter.encounterType.display}} on {{encounter.encounterDatetime | date:"MMM d, y"}}, 
+                        by: {{encounter.provider.display}}</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="panel panel-primary panel-marginless-sides">
+            <div class="panel-heading">
+                <h3 class="panel-title">Diagnosis (Dx)</h3>
+            </div>
+            <div class="panel-body">
+                elements here...
+            </div>
+        </div>
+        
+        <div class="panel panel-primary panel-marginless-sides">
+            <div class="panel-heading">
+                <h3 class="panel-title">Prescriptions / Regimens</h3>
+            </div>
+            <div class="panel-body">
+                elements here...
+            </div>
+        </div>
+        
+        <div class="panel panel-primary panel-marginless-sides">
+            <div class="panel-heading">
+                <h3 class="panel-title">Vitals</h3>
+            </div>
+            <div class="panel-body">
+                elements here...
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panel-primary panel-marginless-sides">
+            <div class="panel-heading">
+                <h3 class="panel-title">Lab Results</h3>
+            </div>
+            <div class="panel-body">
+                elements here...
+            </div>
+        </div>
+        
+        <div class="panel panel-primary panel-marginless-sides">
+            <div class="panel-heading">
+                <h3 class="panel-title">Pharmacy ARV Pickups</h3>
+            </div>
+            <div class="panel-body">
+                elements here...
+            </div>
+        </div>
+        
+        <div class="panel panel-primary panel-marginless-sides">
+            <div class="panel-heading">
+                <h3 class="panel-title">Allergies</h3>
+            </div>
+            <div class="panel-body">
+                elements here...
+            </div>
+        </div>
+        
+        <div class="panel panel-primary panel-marginless-sides">
+            <div class="panel-heading">
+                <h3 class="panel-title">Program Enrollment Summary</h3>
+            </div>
+            <div class="panel-body">
+                elements here...
+            </div>
+        </div>
+    </div>
+</div>

@@ -21,5 +21,18 @@ angular
                     'content@dashboard': { templateUrl: 'views/dashboard.html'}
                 },
                 resolve: { initialization: 'initialization' }
+            })
+            .state('dashboard.summary', {
+                url: '/summary',
+                templateUrl: 'views/patient-summary.html', 
+                controller: 'PatientSummaryController'
+            })
+            .state('dashboard.chart', {
+                url: '/chart',
+                templateUrl: 'views/patient-chart.html'
+            })
+            .state('dashboard.consultation', {
+                url: '/consultation',
+                templateUrl: 'views/patient-consultation.html'
             });
     }]);
