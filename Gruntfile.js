@@ -11,14 +11,14 @@ module.exports = function (grunt) {
   require('time-grunt')(grunt);
 
   grunt.loadNpmTasks('grunt-connect-proxy');
-  
+
   grunt.loadNpmTasks('grunt-string-replace');
-  
+
   // Automatically load required Grunt tasks
   require('jit-grunt')(grunt, {
     useminPrepare: 'grunt-usemin'
   });
-  
+
   var serveStatic = require('serve-static');
   var proxySnippet = require('grunt-connect-proxy/lib/utils').proxyRequest;
 
@@ -27,11 +27,11 @@ module.exports = function (grunt) {
     app: require('./bower.json').appPath || 'app',
     dist: 'dist'
   };
-  
+
   var generateReplacement = function () {
       var modules = ['home', 'registration', 'clinic'];
       var replacements = [];
-      
+
       for (var i in modules) {
           var module = modules[i];
           replacements.push(
@@ -60,7 +60,7 @@ module.exports = function (grunt) {
             }
       );
       return replacements;
-          
+
   };
 
   // Define the configuration for all the tasks
@@ -151,13 +151,13 @@ module.exports = function (grunt) {
           port: 9001,
           middleware: function (connect) {
             return [
-              connect.static('.tmp'),
-              connect.static('test'),
+              serveStatic('.tmp'),
+              serveStatic('test'),
               connect().use(
                 '/bower_components',
-                connect.static('./bower_components')
+                serveStatic('./bower_components')
               ),
-              connect.static(appConfig.app)
+              serveStatic(appConfig.app)
             ];
           }
         }
@@ -174,7 +174,8 @@ module.exports = function (grunt) {
     jshint: {
       options: {
         jshintrc: '.jshintrc',
-        reporter: require('jshint-stylish')
+        reporter: require('jshint-stylish'),
+        force: true
       },
       all: {
         src: [
@@ -339,7 +340,7 @@ module.exports = function (grunt) {
           dest: '<%= yeoman.dist %>/images'
         }]
       }
-    },  
+    },
     htmlmin: {
         dist: {
             options: {
@@ -418,7 +419,7 @@ module.exports = function (grunt) {
         singleRun: true
       }
     },
-    
+
     //replace javascript url
     'string-replace': {
       inline: {
