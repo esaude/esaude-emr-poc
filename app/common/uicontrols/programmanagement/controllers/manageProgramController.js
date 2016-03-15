@@ -14,6 +14,7 @@ angular.module('bahmni.common.uicontrols.programmanagment')
 
             var updateActiveProgramsList = function () {
                 spinner.forPromise(programService.getPatientPrograms($stateParams.patientUuid).then(function (programs) {
+                    $scope.patientAllPrograms = _.union(programs.activePrograms, programs.endedPrograms);
                     $scope.activePrograms = programs.activePrograms;
                     $scope.endedPrograms = programs.endedPrograms;
                     $scope.notReopenedPrograms = filterReopenedPrograms($scope.activePrograms, $scope.endedPrograms);
