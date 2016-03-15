@@ -4,13 +4,16 @@
 
 # eSaude EMR Point of Care
 
+[![Build Status](https://img.shields.io/travis/esaude/poc-ui-prototype/master.svg)](https://travis-ci.org/esaude/poc-ui-prototype)
+[![Code Quality](https://img.shields.io/codacy/1fdea88d8c7d4c63bc73f42d6e17d3a2/master.svg)](https://www.codacy.com/app/psbrandt/esaude-poc-ui-prototype)
+[![Test Coverage](https://api.codacy.com/project/badge/coverage/1fdea88d8c7d4c63bc73f42d6e17d3a2)](https://coveralls.io/github/esaude/poc-ui-prototype)
+[![Dependencies](https://img.shields.io/david/esaude/poc-ui-prototype.svg)](https://david-dm.org/esaude/poc-ui-prototype)
+[![eSaude Version](https://omrs-shields.psbrandt.io/custom/esaude/v1.2.0/brightgreen?logo=esaude)](http://www.esaude.org/technical-resources/esaude-emr-versions)
+
 This project is an AngularJS application for point of care based on OpenMRS and using [Bahmni code](https://github.com/Bhamni/openmrs-module-bahmniapps).
 The UI was designed for tablet-like interfaces with touch screen and virtual keyboard.
 
-A demo of the system can be found [here](dev-vm2.esaude.org/home).
-
-This project is generated with [yo angular generator](https://github.com/yeoman/generator-angular)
-version 0.12.0.
+A demo of the system can be found [here](http://metadata.esaude.org/home).
 
 ## Setup (Development Environment)
 
@@ -35,7 +38,7 @@ npm install -g grunt
 npm install -g grunt-cli
 ````
 
-Clone this repository and change to it's directory:
+Clone this repository and change to its directory:
 
 ````bash
 git clone https://github.com/esaude/poc-ui-prototype.git
