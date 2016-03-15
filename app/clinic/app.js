@@ -29,7 +29,8 @@ angular
             })
             .state('dashboard.chart', {
                 url: '/chart',
-                templateUrl: 'views/patient-chart.html'
+                templateUrl: 'views/patient-chart.html',
+                controller: 'PatientChartController'
             })
             .state('dashboard.consultation', {
                 url: '/consultation',
