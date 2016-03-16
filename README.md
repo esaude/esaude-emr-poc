@@ -7,7 +7,7 @@
 [![Build Status](https://img.shields.io/travis/esaude/poc-ui-prototype/master.svg)](https://travis-ci.org/esaude/poc-ui-prototype)
 [![Code Quality](https://img.shields.io/codacy/1fdea88d8c7d4c63bc73f42d6e17d3a2/master.svg)](https://www.codacy.com/app/psbrandt/esaude-poc-ui-prototype)
 [![Test Coverage](https://api.codacy.com/project/badge/coverage/1fdea88d8c7d4c63bc73f42d6e17d3a2)](https://coveralls.io/github/esaude/poc-ui-prototype)
-[![Dependencies](https://img.shields.io/david/esaude/poc-ui-prototype.svg)](https://david-dm.org/esaude/poc-ui-prototype)
+[![Dependencies](https://img.shields.io/david/esaude/esaude-emr-poc.svg)](https://david-dm.org/esaude/poc-ui-prototype)
 [![eSaude Version](https://omrs-shields.psbrandt.io/custom/esaude/v1.2.0/brightgreen?logo=esaude)](http://www.esaude.org/technical-resources/esaude-emr-versions)
 
 This project is an AngularJS application for point of care based on OpenMRS and using [Bahmni code](https://github.com/Bhamni/openmrs-module-bahmniapps).
