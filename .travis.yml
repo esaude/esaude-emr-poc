@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+    - "4.0.0"
+before_install:
+    - export DISPLAY=:99.0
+    - sh -e /etc/init.d/xvfb start
+before_script:
+    - npm install -g bower grunt-cli codacy-coverage coveralls
+    - bower install
+after_script:
+    - cat coverage/**/lcov.info | codacy-coverage
+    - cat coverage/**/lcov.info | coveralls

@@ -1,5 +1,5 @@
 {
-  "name": "templatespoc",
+  "name": "esaude-emr-poc",
   "private": true,
   "devDependencies": {
     "async": "^0.9.2",
@@ -35,13 +35,13 @@
     "jasmine-core": "^2.3.4",
     "jit-grunt": "^0.9.1",
     "jshint-stylish": "^1.0.0",
-    "karma": "^0.13.8",
+    "karma": "^0.13.22",
     "karma-coverage": "^0.5.0",
     "karma-jasmine": "^0.3.6",
     "karma-phantomjs-launcher": "^0.2.1",
     "morgan": "^1.6.1",
     "opn": "^1.0.2",
-    "phantomjs": "^1.9.18",
+    "phantomjs-prebuilt": "^2.1.5",
     "portscanner": "^1.0.0",
     "serve": "^1.4.0",
     "serve-index": "^1.7.2",
@@ -55,5 +55,8 @@
   "dependencies": {
     "grunt-angular-templates": "^0.5.7",
     "matchdep": "^0.3.0"
+  },
+  "scripts": {
+    "test": "grunt test"
   }
 }
