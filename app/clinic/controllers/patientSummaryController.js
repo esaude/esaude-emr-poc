@@ -40,7 +40,7 @@ angular.module('clinic')
                 });
                 $scope[element] = filtered.reverse();
             });
-        }
+        };
         
         $scope.initVisitHistory = function () {
             encounterService.getEncountersOfPatient(patientUuid).success(function (data) {

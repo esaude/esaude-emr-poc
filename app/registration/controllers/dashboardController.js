@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('registration')
-        .controller('DashboardController', ["$scope", "$location", "$stateParams", 
-                    function ($scope, $location, $stateParams) {
+        .controller('DashboardController', ["$scope", "$location", "$stateParams", "alertService",
+                    function ($scope, $location, $stateParams, alertService) {
             var patientUuid;
     
             init();
@@ -29,6 +29,12 @@ angular.module('registration')
             
             $scope.linkPatientEdit = function() {
                 $location.url("/patient/edit/" + patientUuid + "/name"); // path not hash
+            };
+            
+            $scope.getAlerts = function () {
+                alertService.get(patientUuid).success(function (data) {
+                   $scope.flags = data.flags;
+                });
             };
             
         }]);

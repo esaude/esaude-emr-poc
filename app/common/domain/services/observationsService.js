@@ -4,10 +4,35 @@ angular.module('bahmni.common.domain')
     .service('observationsService', ['$http', function ($http) {
         
         this.filterByList = function (obsList, concepts) {
-            return _.filter(obsList, function (data) {
-                return _.includes(concepts, data.concept.uuid); 
+            var filtered = _.filter(obsList, function (data) {
+                return _.includes(concepts, data.concept.uuid);
             });
-        };            
+            //find inside groups
+            if(_.isEmpty(filtered)) {
+                _.forEach(obsList, function (data) {
+                   if(data.groupMembers !== null) {
+                       var groupFiltered = _.filter(data.groupMembers, function (member) {
+                            return _.includes(concepts, member.concept.uuid);
+                        });
+                        if(!_.isEmpty(groupFiltered)) {
+                            filtered = _.union(filtered, groupFiltered);
+                        }
+                   } 
+                });
+            }
+            return filtered;
+        };
+        
+        this.get = function (patientUuid, concept) {
+            return $http.get('/openmrs/ws/rest/v1/obs', {
+                params: {
+                    patient : patientUuid,
+                    concept : concept,
+                    v: "custom:(uuid,display,concept:(uuid,name),obsDatetime,value,groupMembers:(uuid,concept:(uuid,name),obsDatetime,value))"
+                },
+                withCredentials: true
+            });
+        };
                     
         this.findAll = function (patientUuid) {
             return $http.get('/openmrs/ws/rest/v1/obs', {
