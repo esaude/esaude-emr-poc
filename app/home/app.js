@@ -1,8 +1,7 @@
 'use strict';
 
 angular
-    .module('home', ['ngRoute', 'ngCookies', 'ui.router', 'application', 'chart.js', 'bahmni.common.uiHelper', 
-                'bahmni.common.appFramework', 'bahmni.common.domain'])
+    .module('home')
     .config(['$urlRouterProvider', '$stateProvider', '$httpProvider',
                 function ($urlRouterProvider, $stateProvider) {
         $urlRouterProvider.otherwise('/login');
@@ -12,7 +11,8 @@ angular
                 views: {
                     'layout': { templateUrl: '../common/application/views/layout.html', controller: 'LoginController'},
                     'content@login': { templateUrl: 'views/login.html'}
-                }
+                },
+                resolve: { initialization: 'initialization' }
             })
             .state('dashboard', {
                 url: '/dashboard',

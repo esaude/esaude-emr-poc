@@ -114,6 +114,17 @@ angular.module('bahmni.common.domain')
                 withCredentials: true
             });
         };
+        
+        configurationFunctions.defaultLocation = function() {
+            return $http.get("/openmrs/ws/rest/v1/systemsetting", {
+                method: "GET",
+                params: {
+                    q: 'default_location',
+                    v: 'full'
+                },
+                withCredentials: true
+            });
+        };
 
         configurationFunctions.relationshipTypeConfig = function() {
             return $http.get(Bahmni.Common.Constants.relationshipTypesUrl, {
@@ -141,7 +152,6 @@ angular.module('bahmni.common.domain')
             $q.all(promises).then(function () {
                 configurationsPromiseDefer.resolve(configurations);
             });
-
             return configurationsPromiseDefer.promise;
         };
 
