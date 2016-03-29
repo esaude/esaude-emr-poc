@@ -54,5 +54,5 @@ angular.module('bahmni.common.domain')
                 withCredentials: true
             });
 
-        }
+        };
     }]);

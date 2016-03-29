@@ -53,14 +53,14 @@ angular.module('authentication')
             });
         };
 
-        this.loginUser = function(username, password, location) {
+        this.loginUser = function(username, password) {
             var deferrable = $q.defer();
             createSession(username,password).success(function(data) {
                 if (data.authenticated) {
                     $cookieStore.put(Bahmni.Common.Constants.currentUser, username, {path: '/', expires: 7});
-                    if(location != undefined) {
+                    if($rootScope.location != undefined) {
                         localStorageService.cookie.remove("emr.location");
-                        localStorageService.cookie.set("emr.location", {name: location.display, uuid: location.uuid}, 7);
+                        localStorageService.cookie.set("emr.location", {name: $rootScope.location.display, uuid: $rootScope.location.uuid}, 7);
                     }
                     deferrable.resolve();
                 } else {

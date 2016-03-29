@@ -5,7 +5,7 @@ and open the template in the editor.
 */
 /* 
     Created on : Jul 9, 2015, 3:27:58 PM
-    Author     : valerio
+    Author     : eSaude
 */
 
 .panel-marginless-sides {
@@ -91,7 +91,7 @@ and open the template in the editor.
     padding-left: 5px;
 }
 
-b, li, td, th, p {
+b, li, th, p {
     font-size: 18px;
     vertical-align: middle;
 }
@@ -123,4 +123,8 @@ input[type=radio]:checked + label::before {
 .radio-lx + label::before {
     width: 2.0em;
     height: 2.0em;
+}
+
+.label {
+    font-size: 14px;
 }

@@ -1,5 +1,5 @@
 <div class="row content-border-margin-regular">
-    <div class="col-md-6">
+    <div class="col-sm-6">
         <div class="panel panel-primary panel-marginless-sides" ng-init="initVisitHistory()" >
             <div class="panel-heading">
                 <h3 class="panel-title">Visit History</h3>
@@ -15,34 +15,56 @@
             </div>
         </div>
         
-        <div class="panel panel-primary panel-marginless-sides">
+        <div class="panel panel-primary panel-marginless-sides" ng-init="initDiagnosis()">
             <div class="panel-heading">
                 <h3 class="panel-title">Diagnosis (Dx)</h3>
             </div>
-            <div class="panel-body">
-                elements here...
-            </div>
+            <table class="table">
+                <tbody>
+                    <tr ng-repeat="diagn in diagnosis">
+                        <td>{{diagn.concept.name.display}}</td>
+                        <td>{{isObject(diagn.value) ? diagn.value.display : diagn.value}}</td>
+                        <td>diagnosed on {{diagn.obsDatetime | date:"MMM d, y"}}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
         
-        <div class="panel panel-primary panel-marginless-sides">
+        <div class="panel panel-primary panel-marginless-sides" ng-init="initPrescriptions()">
             <div class="panel-heading">
                 <h3 class="panel-title">Prescriptions / Regimens</h3>
             </div>
-            <div class="panel-body">
-                elements here...
+            <div class="list-group" ng-repeat="encounter in prescriptions">
+                <div class="bg-info content-border-padding-li">
+                    Prescribed on {{encounter.encounterDatetime | date:"MMM d, y"}}
+                </div>
+                <div ng-repeat="obs in encounter.obs">
+                    <div class="list-group-item">
+                        {{obs.concept.name.display}}: 
+                        <span class="badge">{{isObject(obs.value) ? obs.value.display : obs.value}}</span>
+                    </div>
+                </div>
             </div>
         </div>
         
-        <div class="panel panel-primary panel-marginless-sides">
+        <div class="panel panel-primary panel-marginless-sides" ng-init="initVitals()">
             <div class="panel-heading">
                 <h3 class="panel-title">Vitals</h3>
             </div>
-            <div class="panel-body">
-                elements here...
+            <div class="list-group" ng-repeat="encounter in vitals">
+                <div class="bg-info content-border-padding-li">
+                    Captured on {{encounter.encounterDatetime | date:"MMM d, y"}}
+                </div>
+                <div ng-repeat="obs in encounter.obs">
+                    <div class="list-group-item">
+                        {{obs.concept.name.display}}: 
+                        <span class="badge">{{isObject(obs.value) ? obs.value.display : obs.value}}</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-sm-6">
         <div class="panel panel-primary panel-marginless-sides" ng-init="initLabResults()">
             <div class="panel-heading">
                 <h3 class="panel-title">Lab Results</h3>
@@ -72,30 +94,57 @@
             </div>
         </div>
         
-        <div class="panel panel-primary panel-marginless-sides">
+        <div class="panel panel-primary panel-marginless-sides" ng-init="initPharmacyPickups()">
             <div class="panel-heading">
                 <h3 class="panel-title">Pharmacy ARV Pickups</h3>
             </div>
-            <div class="panel-body">
-                elements here...
+            <div class="list-group" ng-repeat="visit in pickups">
+                <div class="bg-info content-border-padding-li">
+                    Dispensed on {{visit[0].encounterDatetime | date:"MMM d, y"}}
+                </div>
+                <div ng-repeat="encounter in visit">
+                    <div ng-repeat="obs in encounter.obs" class="list-group-item">
+                        {{obs.concept.name.display}}: 
+                            <span class="badge">{{isObject(obs.value) ? obs.value.display : obs.value}}</span>
+                    </div>
+                </div>
             </div>
         </div>
         
-        <div class="panel panel-primary panel-marginless-sides">
+        <div class="panel panel-primary panel-marginless-sides" ng-init="initAllergies()">
             <div class="panel-heading">
-                <h3 class="panel-title">Allergies</h3>
+                <h3 class="panel-title">Allergies/Side effects of ART</h3>
             </div>
-            <div class="panel-body">
-                elements here...
+            <div class="list-group" ng-repeat="encounter in allergies">
+                <div class="bg-info content-border-padding-li">
+                    Diagnosed on {{encounter.encounterDatetime | date:"MMM d, y"}}
+                </div>
+                <div ng-repeat="obs in encounter.obs" class="list-group-item">
+                    {{isObject(obs.value) ? obs.value.display : obs.value}}
+                </div>
             </div>
         </div>
         
-        <div class="panel panel-primary panel-marginless-sides">
+        <div class="panel panel-primary panel-marginless-sides" ng-controller="ManageProgramController">
             <div class="panel-heading">
                 <h3 class="panel-title">Program Enrollment Summary</h3>
             </div>
-            <div class="panel-body">
-                elements here...
+            <div class="list-group" ng-if="hasPatientEnrolledToSomePrograms()" ng-repeat="program in patientAllPrograms">
+                <div class="bg-info content-border-padding-li">
+                    <span class="label label-success" ng-if="!program.dateCompleted">A</span>
+                    <span class="label label-warning" ng-if="program.dateCompleted">P</span>
+                    <span>{{program.display}}</span>
+                    <span>Enrolled on: ({{program.dateEnrolled | date:"MM/dd/yyyy"}})</span>
+                    <span ng-if="program.dateCompleted">Completed on: ({{program.dateCompleted | date:"MM/dd/yyyy"}})</span>
+                </div>
+                <div ng-if="hasValidProgramStateToShow(program.states)" 
+                     ng-repeat="state in program.states" class="list-group-item">
+                    {{state.state.concept.display}}
+                    <span>from ({{state.startDate | date:"MM/dd/yyyy"}})</span>
+                    <span ng-if="state.endDate">
+                        to {{state.endDate | date:"MM/dd/yyyy"}}
+                    </span>
+                </div>
             </div>
         </div>
     </div>

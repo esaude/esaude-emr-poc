@@ -1,0 +1,22 @@
+<div class="row content-border-margin-regular">
+    <div class="col-sm-6">
+        <div class="panel panel-primary panel-marginless-sides" ng-init="initCd4Chart()">
+            <div class="panel-heading">
+                <h3 class="panel-title">CD4 Trend</h3>
+            </div>
+            <canvas id="line" class="chart chart-line" data="cd4data"
+                    labels="cd4labels" legend="true" series="cd4series">
+            </canvas> 
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="panel panel-primary panel-marginless-sides" ng-init="initImc()">
+            <div class="panel-heading">
+                <h3 class="panel-title">BMI</h3>
+            </div>
+            <canvas id="line" class="chart chart-line" data="bmidata"
+                    labels="bmilabels" legend="true" series="bmiseries">
+            </canvas> 
+        </div>
+    </div>
+</div>

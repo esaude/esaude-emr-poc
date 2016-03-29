@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('registration')
-        .controller('SearchController', ['$scope', '$location', 'patientService', 'openmrsPatientMapper',
-    function ($scope, $location, patientService, patientMapper) {
+        .controller('SearchController', ['$rootScope', '$scope', '$location', 'patientService', 'openmrsPatientMapper',
+    function ($rootScope, $scope, $location, patientService, patientMapper) {
             $scope.results = [];
             
             var searchBasedOnQueryParameters = function () {
@@ -42,6 +42,7 @@ angular.module('registration')
             };
             
             $scope.linkDashboard = function(patient) {
+                $rootScope.patient = patient;
                 $location.url("/dashboard/" + patient.uuid); // path not hash
             };
             

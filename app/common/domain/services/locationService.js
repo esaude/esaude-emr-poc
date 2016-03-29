@@ -8,9 +8,18 @@ angular.module('bahmni.common.domain')
                 cache: true
             });
         };
+        
+        var get = function (name) {
+            return $http.get(Bahmni.Common.Constants.locationUrl, {
+                params: {q: name},
+                cache: true,
+                withCredentials: true
+            });
+        };
 
         return {
-            getAllByTag: getAllByTag
+            getAllByTag: getAllByTag,
+            get: get
         };
 
     }]);
