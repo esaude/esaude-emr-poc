@@ -71,12 +71,18 @@ angular.module('serviceform')
                         var openMRSEncounter = encounterMapper.mapFromFormPayload($scope.formPayload,
                                 $scope.formInfo.parts,
                                 $scope.formPayload.encounter);//set date
-                        encounterService.update(openMRSEncounter).success(successCallback);
+                        console.log(openMRSEncounter);
+                        //encounterService.update(openMRSEncounter).success(successCallback);
                     }
                 };
                 
                 var successCallback = function (encounterProfileData) {
-                    console.log(encounterProfileData);
+                    $location.url('/dashboard/' + encounterProfileData.patient.uuid);
                 };
+                
+                $scope.linkDashboard = function () {
+                    $location.url('/dashboard/' + $rootScope.patient.uuid);
+                };
+                
                 
         }]);

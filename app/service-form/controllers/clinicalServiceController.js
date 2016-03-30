@@ -1,9 +1,8 @@
 'use strict';
 
 angular.module('serviceform')
-        .controller('ClinicalServiceController', ["$rootScope", "$scope", "$location", "$state", "$stateParams", 
-                        "patientService", "openmrsPatientMapper", "encounterService",
-                    function ($rootScope, $scope, $location, $state, $stateParams, patientService, patientMapper, encounterService) {
+        .controller('ClinicalServiceController', ["$rootScope", "$scope", "$location", "$stateParams", 
+                    function ($rootScope, $scope, $location, $stateParams) {
             var patientUuid;
     
             init();

@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('registration')
-    .controller('CreatePatientController', ['$scope', '$location', 'patient', 'patientService', 
-                    'appService',
-        function ($scope, $location, patientModel, patientService, appService) {
+    .controller('CreatePatientController', ['$rootScope', '$scope', '$location', 'patient', 'patientService',
+                    'appService', 'openmrsPatientMapper',
+        function ($rootScope, $scope, $location, patientModel, patientService, appService, patientMapper) {
                 
                 $scope.actions = {};
                 $scope.addressHierarchyConfigs = appService.getAppDescriptor().getConfigValue("addressHierarchy");
@@ -33,6 +33,7 @@ angular.module('registration')
                 };
                 
                 var successCallback = function (patientProfileData) {
+                    $rootScope.patient = patientMapper.map(patientProfileData.patient);
                     $scope.patient.uuid = patientProfileData.patient.uuid;
                     $scope.patient.name = patientProfileData.patient.person.names[0].display;
                     $scope.patient.isNew = true;

@@ -60,7 +60,7 @@ angular.module('registration')
             });
         };
         $scope.clearFields = function (fieldName) {
-            if(_.contains(autocompletedFields, fieldName)) {
+            if(_.includes(autocompletedFields, fieldName)) {
                 var childFields = autocompletedFields.slice(0, autocompletedFields.indexOf(fieldName));
                 childFields.forEach(function (childField) {
                     $scope.address[childField] = "";
