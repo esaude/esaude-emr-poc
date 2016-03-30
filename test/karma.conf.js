@@ -34,7 +34,7 @@ module.exports = function(config) {
       'bower_components/angular-ui-router/release/angular-ui-router.min.js',
       'bower_components/Chart.js/Chart.min.js',
       'bower_components/angular-chart.js/dist/angular-chart.min.js',
-      'bower_components/angular-smart-table/dist/smart-table.min.js',  
+      'bower_components/angular-smart-table/dist/smart-table.min.js',
       'bower_components/keyboard/dist/js/jquery.keyboard.extension-all.min.js',
       'bower_components/jquery-cookie/jquery.cookie.js',
       'bower_components/angular-cookies/angular-cookies.min.js',
@@ -67,6 +67,8 @@ module.exports = function(config) {
       'app/home/initialization.js',
       'app/home/app.js',
       'app/home/controllers/*.js',
+      // fixtures
+      'test/fixtures/**/*.json',
       // test files
       'test/spec/**/*.js'
     ],
@@ -75,10 +77,15 @@ module.exports = function(config) {
     exclude: [],
 
     preprocessors: {
-      'app/**/*.js': ['coverage']
+      'app/**/*.js': ['coverage'],
+      'test/fixtures/**/*.json': ['json_fixtures']
     },
 
-    reporters: ['progress', 'coverage'],
+    jsonFixturesPreprocessor: {
+      stripPrefix: 'test/fixtures/'
+    },
+
+    reporters: ['spec', 'coverage'],
 
     coverageReporter: {
       type: 'lcov',
@@ -104,7 +111,9 @@ module.exports = function(config) {
     plugins: [
       "karma-phantomjs-launcher",
       "karma-jasmine",
-      "karma-coverage"
+      "karma-coverage",
+      "karma-spec-reporter",
+      "karma-json-fixtures-preprocessor"
     ],
 
     // Continuous Integration mode
