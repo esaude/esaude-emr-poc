@@ -6,17 +6,18 @@
         <div class="form-group form-group-lg"
              ng-class="{'has-error': aForm.patientGender.$invalid && showMessages}">
             <label class="col-sm-2 control-label"><b>Gender:<span class="asterick">*</span></b></label>
-            <div ng-messages for="aForm.patientGender.$error" 
+            <div ng-messages for="aForm.genderHidden.$error" 
                  ng-messages-include="../poc-common/form-display/views/error-messages.html"
                  ng-show="showMessages">
             </div>
             <div class="col-sm-10 inline-align">
                 <img src="../../images/lady.png" width="48" height="48" alt="female">
-                <input type="checkbox" name="patientGender" bs-switch switch-active="true" switch-size="large" 
+                <input type="checkbox" name="patientGender" bs-switch switch-size="large" 
                        switch-off-text="Male" switch-on-text="Female" switch-on-color="primary" switch-off-color="primary" 
                        ng-model="patient.gender" ng-true-value="'F'" ng-false-value="'M'"
-                       required>
+                       >
                 <img src="../../images/man.png" width="48" height="48" alt="male">
+                <input type="hidden" name="genderHidden" ng-model="patient.gender" required>
             </div>
         </div>
     </div>
