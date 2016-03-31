@@ -1,0 +1,10 @@
+{
+  "results": [{
+    "uuid": "342ee9af-4b69-4447-ba3d-6e071e2e12b8",
+    "display": "CS Magoe",
+    "links": [{
+      "rel": "self",
+      "uri": "NEED-TO-CONFIGURE/ws/rest/v1/location/342ee9af-4b69-4447-ba3d-6e071e2e12b8"
+    }]
+  }]
+}

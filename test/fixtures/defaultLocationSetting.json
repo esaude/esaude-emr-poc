@@ -1,0 +1,18 @@
+{
+  "results": [{
+    "uuid": "e9ec957e-0c99-4824-98b8-4be7beb7f056",
+    "property": "default_location",
+    "value": "CS Magoe",
+    "description": "The name of the location to use as a system default",
+    "display": "General Settings - Default Location = CS Magoe",
+    "datatypeClassname": null,
+    "datatypeConfig": null,
+    "preferredHandlerClassname": null,
+    "handlerConfig": null,
+    "links": [{
+      "rel": "self",
+      "uri": "NEED-TO-CONFIGURE/ws/rest/v1/systemsetting/e9ec957e-0c99-4824-98b8-4be7beb7f056"
+    }],
+    "resourceVersion": "1.9"
+  }]
+}
