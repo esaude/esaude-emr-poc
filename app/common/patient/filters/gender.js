@@ -1,4 +1,4 @@
-angular.module('bahmni.common.patient')
+angular.module('common.patient')
 .filter('gender', function($rootScope) {
 	return function(genderChar) {
         if (genderChar == null) {

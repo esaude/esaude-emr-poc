@@ -16,11 +16,13 @@ module.exports = function(config) {
     // testing framework to use (jasmine/mocha/qunit/...)
     // as well as any additional frameworks (requirejs/chai/sinon/...)
     frameworks: [
-      "jasmine"
+      'jasmine',
+      'angular-filesort'
     ],
 
     // list of files / patterns to load in the browser
     files: [
+      // bower libraries
       // bower:js
       'bower_components/jquery/dist/jquery.min.js',
       'bower_components/angular/angular.min.js',
@@ -44,34 +46,21 @@ module.exports = function(config) {
       'bower_components/zeroclipboard/dist/ZeroClipboard.min.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
-      // application dependencies
-      'app/common/constants.js',
-      'app/common/application/init.js',
-      'app/common/application/services/applicationService.js',
-      'app/common/ui-helper/init.js',
-      'app/common/ui-helper/spinner.js',
-      'app/common/auth/init.js',
-      'app/common/auth/user.js',
-      'app/common/auth/userService.js',
-      'app/common/auth/authentication.js',
-      'app/common/domain/init.js',
-      'app/common/domain/services/locationService.js',
-      'app/common/domain/services/configurationService.js',
-      'app/common/config/init.js',
-      'app/common/config/services/configurations.js',
-      'app/common/app-framework/init.js',
-      'app/common/app-framework/models/appDescriptor.js',
-      'app/common/app-framework/services/appService.js',
-      // application files to test
-      'app/home/init.js',
-      'app/home/initialization.js',
-      'app/home/app.js',
-      'app/home/controllers/*.js',
+      // bundled libraries
+      'lib/modernizr.custom.80690.js',
+      // application files
+      'app/**/*.js',
       // fixtures
       'test/fixtures/**/*.json',
       // test files
       'test/spec/**/*.js'
     ],
+
+    angularFilesort: {
+      whitelist: [
+        'app/**/*.js',
+      ]
+    },
 
     // list of files / patterns to exclude
     exclude: [],
@@ -109,11 +98,12 @@ module.exports = function(config) {
 
     // Which plugins to enable
     plugins: [
-      "karma-phantomjs-launcher",
-      "karma-jasmine",
-      "karma-coverage",
-      "karma-spec-reporter",
-      "karma-json-fixtures-preprocessor"
+      'karma-phantomjs-launcher',
+      'karma-jasmine',
+      'karma-coverage',
+      'karma-spec-reporter',
+      'karma-json-fixtures-preprocessor',
+      'karma-angular-filesort'
     ],
 
     // Continuous Integration mode

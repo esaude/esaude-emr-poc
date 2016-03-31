@@ -1,4 +1,4 @@
-angular.module('bahmni.common.patient')
+angular.module('common.patient')
 .filter('dateToAge', function($filter) {
 	return function(birthDate, referenceDate) {
 		var DateUtil = Bahmni.Common.Util.DateUtil;
