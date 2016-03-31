@@ -2,8 +2,8 @@
 
 angular.module('home')
     .controller('LoginController', ['$rootScope', '$scope', '$location', 'sessionService', 'spinner', '$q', 
-                '$stateParams',
-        function ($rootScope, $scope, $location, sessionService, spinner, $q, $stateParams) {
+                '$stateParams', '$translate', '$cookieStore', 'localeService',
+        function ($rootScope, $scope, $location, sessionService, spinner, $q, $stateParams, $translate, $cookieStore, localeService) {
         var landingPagePath = "/dashboard";
         var loginPagePath = "/login";
         
@@ -11,7 +11,16 @@ angular.module('home')
             $scope.showMenu = true;
             $rootScope.loginUser = {};
             
+            localeService.allowedLocalesList().then(function (response) {
+                $scope.locales = response.data.replace(/\s+/g, '').split(',');
+                $scope.selectedLocale = $translate.use()? $translate.use() : $scope.locales[0];
+            });
+            
         })();
+
+        $scope.updateLocale = function (selectedLocale) {
+            $translate.use(selectedLocale);
+        };
         
         if ($stateParams.showLoginMessage) {
             $scope.errorMessage = "You are not authenticated or your session expired. Please login.";

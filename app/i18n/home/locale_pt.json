@@ -1,0 +1,14 @@
+{
+    "PAGE_TITLE_KEY": "Poc Inicio",
+    "LOGIN_LABEL_LOGIN_KEY": "Entrar",
+    "LOGIN_LABEL_USERNAME_KEY": "Utilizador",
+    "LOGIN_LABEL_PASSWORD_KEY": "Senha",
+    "LOGIN_LABEL_LOCATION_KEY": "Local/US",
+    "LOGIN_LABEL_LOGIN_ERROR_MESSAGE_KEY": "Não estás autenticado ou a tua sessão expirou. Por favor, faça login.",
+    "LOGIN_MESSAGE_ENTER_USERNAME_KEY": "Digite o teu utilizador",
+    "LOGIN_MESSAGE_ENTER_PASSWORD_KEY": "Digite a tua senha",
+    "LOGIN_LABEL_SELECT_LOCATION_KEY": "Escolha o local/US",
+    "LOGIN_LABEL_SELECT_LOCALE_KEY": "Escolha o país",
+    "HEADER_LABEL_LOGOUT_KEY": "Sair",
+    "HEADER_LABEL_SYNC_KEY": "Sinc"
+}
