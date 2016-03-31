@@ -64,10 +64,10 @@ angular.module('authentication')
                     }
                     deferrable.resolve();
                 } else {
-                   deferrable.reject('Authentication failed. Please try again.');   
+                   deferrable.reject('LOGIN_LABEL_LOGIN_ERROR_FAIL_KEY'); 
                 }
             }).error(function(){
-                deferrable.reject('Authentication failed. Please try again.');   
+                deferrable.reject('LOGIN_LABEL_LOGIN_ERROR_FAIL_KEY');   
             });
             return deferrable.promise;
         };
@@ -82,7 +82,7 @@ angular.module('authentication')
             if(!currentUser) {
                 this.destroy().then(function() {
                     $rootScope.$broadcast('event:auth-loginRequired');
-                    deferrable.reject("No User in session. Please login again.")
+                    deferrable.reject('LOGIN_LABEL_LOGIN_ERROR_NO_SESSION_USER_KEY')
                 });
                 return deferrable.promise;
             }
@@ -94,16 +94,16 @@ angular.module('authentication')
                             deferrable.resolve(data.results[0]);
                         }else{
                             self.destroy();
-                            deferrable.reject('You have not been setup as a Provider, please contact administrator.');
+                            deferrable.reject('LOGIN_LABEL_LOGIN_ERROR_NOT_PROVIDER');
                         }
                     }
                 ).error(function(){
                         self.destroy();
-                        deferrable.reject('Could not get provider for the current user.');
+                        deferrable.reject('LOGIN_LABEL_LOGIN_ERROR_NO_PROVIDER');
                     });
             }).error(function () {
                 self.destroy();
-                deferrable.reject('Could not get roles for the current user.');
+                deferrable.reject('LOGIN_LABEL_LOGIN_ERROR_NO_ROLES');
             });
             return deferrable.promise;
         };

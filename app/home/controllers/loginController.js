@@ -2,8 +2,8 @@
 
 angular.module('home')
     .controller('LoginController', ['$rootScope', '$scope', '$location', 'sessionService', 'spinner', '$q', 
-                '$stateParams', '$translate', '$cookieStore', 'localeService',
-        function ($rootScope, $scope, $location, sessionService, spinner, $q, $stateParams, $translate, $cookieStore, localeService) {
+                '$stateParams', '$translate', 'localeService',
+        function ($rootScope, $scope, $location, sessionService, spinner, $q, $stateParams, $translate, localeService) {
         var landingPagePath = "/dashboard";
         var loginPagePath = "/login";
         
@@ -23,7 +23,7 @@ angular.module('home')
         };
         
         if ($stateParams.showLoginMessage) {
-            $scope.errorMessage = "You are not authenticated or your session expired. Please login.";
+            $scope.errorMessageTranslateKey = "LOGIN_LABEL_LOGIN_ERROR_MESSAGE_KEY";
         }
         
         var redirectToLandingPageIfAlreadyAuthenticated = function () {
@@ -39,7 +39,7 @@ angular.module('home')
         }
         
         $scope.login = function () {
-            $scope.errorMessage = null;
+            $scope.errorMessageTranslateKey = null;
             $scope.dataLoading = true;
             var deferrable = $q.defer();
             sessionService.loginUser($scope.loginUser.username, $scope.loginUser.password).then(
@@ -50,14 +50,14 @@ angular.module('home')
                             deferrable.resolve();
                         },
                         function (error) {
-                            $scope.errorMessage = error;
+                            $scope.errorMessageTranslateKey = error;
                             $scope.dataLoading = false;
                             deferrable.reject(error);
                         }
                     )
                 },
                 function (error) {
-                    $scope.errorMessage = error;
+                    $scope.errorMessageTranslateKey = error;
                     deferrable.reject(error);
                 }
             );
