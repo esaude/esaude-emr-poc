@@ -19,8 +19,12 @@ angular.module('poc.common.clinicalservices')
             }
         };
     })
-    .controller('ClinicalServiceDirectiveController', ['$scope', 'encounterService', function ($scope, encounterService) {
+    .controller('ClinicalServiceDirectiveController', ['$scope', 'encounterService', 'patientService', 'openmrsPatientMapper', 
+                function ($scope, encounterService, patientService, patientMapper) {
         (function () {
+            patientService.get($scope.patientUuid).success(function (data) {
+                $scope.patient = patientMapper.map(data);
+            });
             
         })();
 

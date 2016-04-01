@@ -2,8 +2,8 @@
 
 angular.module('home')
     .controller('LoginController', ['$rootScope', '$scope', '$location', 'sessionService', 'spinner', '$q', 
-                '$stateParams', 'locationService',
-        function ($rootScope, $scope, $location, sessionService, spinner, $q, $stateParams, locationService) {
+                '$stateParams',
+        function ($rootScope, $scope, $location, sessionService, spinner, $q, $stateParams) {
         var landingPagePath = "/dashboard";
         var loginPagePath = "/login";
         

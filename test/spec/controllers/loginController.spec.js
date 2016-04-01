@@ -1,51 +1,17 @@
 describe('Controller: LoginController', function() {
+  var scope, q, controller, location, sessionService, stateParams;
+
   beforeEach(module('home'));
 
-  var scope, q, controller, location, sessionService, locationService, stateParams;
-
-  var dummyLocations = {
-    "results": [{
-      "uuid": "5c303ee9-ca10-43fc-829f-c9e45bb7748e",
-      "display": "Angonia",
-      "links": [{
-        "rel": "self",
-        "uri": "NEED-TO-CONFIGURE/ws/rest/v1/location/5c303ee9-ca10-43fc-829f-c9e45bb7748e"
-      }]
-    }, {
-      "uuid": "7fc3f286-15b1-465e-9013-b72916f58b2d",
-      "display": "Cahora Bassa",
-      "links": [{
-        "rel": "self",
-        "uri": "NEED-TO-CONFIGURE/ws/rest/v1/location/7fc3f286-15b1-465e-9013-b72916f58b2d"
-      }]
-    }, {
-      "uuid": "7863528a-35dc-453e-a671-73580ef78ba2",
-      "display": "Changara",
-      "links": [{
-        "rel": "self",
-        "uri": "NEED-TO-CONFIGURE/ws/rest/v1/location/7863528a-35dc-453e-a671-73580ef78ba2"
-      }]
-    }]
-  };
-
-  beforeEach(inject(function($controller, $rootScope, _$location_, _locationService_, _sessionService_, $q, $stateParams) {
+  beforeEach(inject(function($controller, $rootScope, _$location_, _sessionService_, $q, $stateParams) {
     scope = $rootScope.$new();
     q = $q;
     location = _$location_;
     controller = $controller;
     stateParams = $stateParams;
     sessionService = _sessionService_;
-    locationService = _locationService_;
 
-    // mock locationServer.getAllByTag
-    spyOn(locationService, 'getAllByTag').and.callFake(function() {
-      return {
-        success: function(callback) {
-          callback(dummyLocations);
-        },
-        finally: function() {}
-      };
-    });
+
 
     // mock sessionService.loginUser
     spyOn(sessionService, 'loginUser').and.callFake(function(testUser) {
@@ -75,45 +41,11 @@ describe('Controller: LoginController', function() {
     spyOn(location, 'path').and.callThrough();
   }));
 
-  it('should correctly set $scope.locations', function() {
-    // construct controller
-    controller('LoginController', {
-      $scope: scope,
-      $location: location,
-      restService: locationService,
-      sessionService: sessionService
-    });
-
-    expect(scope.locations).toEqual([{
-      "uuid": "5c303ee9-ca10-43fc-829f-c9e45bb7748e",
-      "display": "Angonia",
-      "links": [{
-        "rel": "self",
-        "uri": "NEED-TO-CONFIGURE/ws/rest/v1/location/5c303ee9-ca10-43fc-829f-c9e45bb7748e"
-      }]
-    }, {
-      "uuid": "7fc3f286-15b1-465e-9013-b72916f58b2d",
-      "display": "Cahora Bassa",
-      "links": [{
-        "rel": "self",
-        "uri": "NEED-TO-CONFIGURE/ws/rest/v1/location/7fc3f286-15b1-465e-9013-b72916f58b2d"
-      }]
-    }, {
-      "uuid": "7863528a-35dc-453e-a671-73580ef78ba2",
-      "display": "Changara",
-      "links": [{
-        "rel": "self",
-        "uri": "NEED-TO-CONFIGURE/ws/rest/v1/location/7863528a-35dc-453e-a671-73580ef78ba2"
-      }]
-    }]);
-  });
-
   it('should redirect the user to the landing page on successful login', function() {
     // construct controller
     controller('LoginController', {
       $scope: scope,
       $location: location,
-      restService: locationService,
       sessionService: sessionService
     });
 
@@ -122,8 +54,7 @@ describe('Controller: LoginController', function() {
 
     scope.loginUser = {
       username: 'testSuccessUser',
-      password: 'testSuccessPass',
-      currentLocation: 'testSuccessCurrentLocation'
+      password: 'testSuccessPass'
     };
 
     scope.login();
@@ -140,14 +71,12 @@ describe('Controller: LoginController', function() {
     controller('LoginController', {
       $scope: scope,
       $location: location,
-      restService: locationService,
       sessionService: sessionService
     });
 
     scope.loginUser = {
       username: 'testFailureUser',
-      password: 'testFailurePass',
-      currentLocation: 'testFailureCurrentLocation'
+      password: 'testFailurePass'
     };
 
     // perform login
@@ -165,7 +94,6 @@ describe('Controller: LoginController', function() {
     controller('LoginController', {
       $scope: scope,
       $location: location,
-      restService: locationService,
       sessionService: sessionService
     });
 
@@ -176,8 +104,7 @@ describe('Controller: LoginController', function() {
 
     scope.loginUser = {
       username: 'testSuccessUser',
-      password: 'testSuccessPass',
-      currentLocation: 'testSuccessCurrentLocation'
+      password: 'testSuccessPass'
     };
 
     // perform login
@@ -203,7 +130,6 @@ describe('Controller: LoginController', function() {
     controller('LoginController', {
       $scope: scope,
       $location: location,
-      restService: locationService,
       sessionService: sessionService
     });
 
@@ -221,7 +147,6 @@ describe('Controller: LoginController', function() {
     controller('LoginController', {
       $scope: scope,
       $location: location,
-      restService: locationService,
       sessionService: sessionService
     });
 

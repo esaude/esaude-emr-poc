@@ -16,59 +16,65 @@ module.exports = function(config) {
     // testing framework to use (jasmine/mocha/qunit/...)
     // as well as any additional frameworks (requirejs/chai/sinon/...)
     frameworks: [
-      "jasmine"
+      'jasmine',
+      'angular-filesort'
     ],
 
     // list of files / patterns to load in the browser
     files: [
+      // bower libraries
       // bower:js
-      'bower_components/jquery/dist/jquery.js',
-      'bower_components/angular/angular.js',
-      'bower_components/bootstrap/dist/js/bootstrap.js',
-      'bower_components/moment/moment.js',
-      'bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
-      'bower_components/jquery-ui/ui/jquery-ui.js',
+      'bower_components/jquery/dist/jquery.min.js',
+      'bower_components/angular/angular.min.js',
+      'bower_components/bootstrap/dist/js/bootstrap.min.js',
+      'bower_components/moment/min/moment.min.js',
+      'bower_components/jquery-ui/ui/minified/jquery-ui.min.js',
       'bower_components/keyboard/dist/js/jquery.keyboard.min.js',
       'bower_components/keyboard/dist/layouts/keyboard-layouts-combined.min.js',
       'bower_components/keyboard/dist/layouts/keyboard-layouts-greywyvern.min.js',
-      'bower_components/angular-route/angular-route.js',
-      'bower_components/angular-ui-router/release/angular-ui-router.js',
-      'bower_components/angular-mocks/angular-mocks.js',
-      'bower_components/angular-cookies/angular-cookies.js',
+      'bower_components/angular-route/angular-route.min.js',
+      'bower_components/angular-ui-router/release/angular-ui-router.min.js',
       'bower_components/Chart.js/Chart.min.js',
       'bower_components/angular-chart.js/dist/angular-chart.min.js',
-      'bower_components/ng-clip/dest/ng-clip.min.js',
+      'bower_components/angular-smart-table/dist/smart-table.min.js',
+      'bower_components/keyboard/dist/js/jquery.keyboard.extension-all.min.js',
+      'bower_components/jquery-cookie/jquery.cookie.js',
+      'bower_components/angular-cookies/angular-cookies.min.js',
+      'bower_components/lodash/dist/lodash.min.js',
       'bower_components/angular-local-storage/dist/angular-local-storage.min.js',
+      'bower_components/ng-clip/dest/ng-clip.min.js',
       'bower_components/zeroclipboard/dist/ZeroClipboard.min.js',
+      'bower_components/angular-mocks/angular-mocks.js',
       // endbower
-      // application dependencies
-      'app/common/application/init.js',
-      'app/common/application/services/applicationService.js',
-      'app/common/ui-helper/init.js',
-      'app/common/ui-helper/spinner.js',
-      'app/common/auth/init.js',
-      'app/common/auth/user.js',
-      'app/common/auth/userService.js',
-      'app/common/auth/authentication.js',
-      'app/common/domain/init.js',
-      'app/common/domain/services/locationService.js',
-      'app/common/app-framework/init.js',
-      'app/common/app-framework/models/appDescriptor.js',
-      'app/common/app-framework/services/appService.js',
-      // application files to test
-      'app/home/**/*.js',
+      // bundled libraries
+      'lib/modernizr.custom.80690.js',
+      // application files
+      'app/**/*.js',
+      // fixtures
+      'test/fixtures/**/*.json',
       // test files
       'test/spec/**/*.js'
     ],
+
+    angularFilesort: {
+      whitelist: [
+        'app/**/*.js',
+      ]
+    },
 
     // list of files / patterns to exclude
     exclude: [],
 
     preprocessors: {
-      'app/**/*.js': ['coverage']
+      'app/**/*.js': ['coverage'],
+      'test/fixtures/**/*.json': ['json_fixtures']
     },
 
-    reporters: ['progress', 'coverage'],
+    jsonFixturesPreprocessor: {
+      stripPrefix: 'test/fixtures/'
+    },
+
+    reporters: ['spec', 'coverage'],
 
     coverageReporter: {
       type: 'lcov',
@@ -92,9 +98,12 @@ module.exports = function(config) {
 
     // Which plugins to enable
     plugins: [
-      "karma-phantomjs-launcher",
-      "karma-jasmine",
-      "karma-coverage"
+      'karma-phantomjs-launcher',
+      'karma-jasmine',
+      'karma-coverage',
+      'karma-spec-reporter',
+      'karma-json-fixtures-preprocessor',
+      'karma-angular-filesort'
     ],
 
     // Continuous Integration mode
