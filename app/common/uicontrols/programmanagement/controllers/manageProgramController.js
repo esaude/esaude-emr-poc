@@ -24,7 +24,7 @@ angular.module('bahmni.common.uicontrols.programmanagment')
             };
             
             var filterReopenedPrograms = function (activePrograms, endedPrograms) {
-                var diff = _.intersection(_.pluck(activePrograms, "program.uuid"), _.pluck(endedPrograms, "program.uuid"));
+                var diff = _.intersection(_.map(activePrograms, "program.uuid"), _.map(endedPrograms, "program.uuid"));
                 return _.filter(endedPrograms, function(endedProgram) {
                     return !_.includes(diff, endedProgram.program.uuid);
                 });
