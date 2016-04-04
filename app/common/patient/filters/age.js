@@ -1,4 +1,4 @@
-angular.module('bahmni.common.patient')
+angular.module('common.patient')
 .filter('age', function() {
 	return function(age) {
 		if(age.years) return age.years + " y";
