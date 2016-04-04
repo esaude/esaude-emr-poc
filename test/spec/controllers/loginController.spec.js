@@ -1,7 +1,7 @@
 describe('Controller: LoginController', function() {
-  beforeEach(module('home'));
-
   var scope, q, controller, location, sessionService, stateParams;
+
+  beforeEach(module('home'));
 
   beforeEach(inject(function($controller, $rootScope, _$location_, _sessionService_, $q, $stateParams) {
     scope = $rootScope.$new();

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('home')
-        .controller('DashboardController', ['$scope', 'applicationService', function ($scope, applicationService) {
+        .controller('DashboardController', ['$scope', '$window', 'applicationService', function ($scope, $window, applicationService) {
             init();
 
             function init() {
@@ -11,7 +11,7 @@ angular.module('home')
             }
 
             $scope.linkApp = function (url) {
-                document.location = url;
+                $window.location.href = url;
             };
 
             $scope.barLabels = ['1st', '2nd', '3rd', '4th', '5th', 'Yest', 'Today'];
