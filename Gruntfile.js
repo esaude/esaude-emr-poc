@@ -49,7 +49,7 @@ module.exports = function (grunt) {
           replacements.push(
             {
               pattern: '<link rel="stylesheet" href="styles/vendor.' + module + '.min.css">',
-              replacement: '<link rel="stylesheet" href="../styles/' + module + '.clinic.min.css">'
+              replacement: '<link rel="stylesheet" href="../styles/vendor.' + module + '.min.css">'
             }
           )
       }
