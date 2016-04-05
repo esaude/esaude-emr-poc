@@ -55,10 +55,7 @@
   "engines": {
     "node": ">=0.10.0"
   },
-  "dependencies": {
-    "grunt-angular-templates": "^1.0.3",
-    "matchdep": "^1.0.1"
-  },
+  "dependencies": {},
   "scripts": {
     "test": "grunt test"
   }
