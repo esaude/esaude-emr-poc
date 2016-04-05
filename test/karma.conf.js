@@ -44,6 +44,11 @@ module.exports = function(config) {
       'bower_components/angular-local-storage/dist/angular-local-storage.min.js',
       'bower_components/ng-clip/dest/ng-clip.min.js',
       'bower_components/zeroclipboard/dist/ZeroClipboard.min.js',
+      'bower_components/angular-translate/angular-translate.min.js',
+      'bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
+      'bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.min.js',
+      'bower_components/angular-translate-storage-local/angular-translate-storage-local.js',
+      'bower_components/angular-translate-handler-log/angular-translate-handler-log.min.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       // bundled libraries

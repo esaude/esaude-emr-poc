@@ -2,8 +2,8 @@
 
 angular.module('home')
     .controller('LoginController', ['$rootScope', '$scope', '$location', 'sessionService', 'spinner', '$q', 
-                '$stateParams',
-        function ($rootScope, $scope, $location, sessionService, spinner, $q, $stateParams) {
+                '$stateParams', '$translate', 'localeService',
+        function ($rootScope, $scope, $location, sessionService, spinner, $q, $stateParams, $translate, localeService) {
         var landingPagePath = "/dashboard";
         var loginPagePath = "/login";
         
@@ -11,10 +11,19 @@ angular.module('home')
             $scope.showMenu = true;
             $rootScope.loginUser = {};
             
+            localeService.allowedLocalesList().then(function (response) {
+                $scope.locales = response.data.replace(/\s+/g, '').split(',');
+                $scope.selectedLocale = $translate.use()? $translate.use() : $scope.locales[0];
+            });
+            
         })();
+
+        $scope.updateLocale = function (selectedLocale) {
+            $translate.use(selectedLocale);
+        };
         
         if ($stateParams.showLoginMessage) {
-            $scope.errorMessage = "You are not authenticated or your session expired. Please login.";
+            $scope.errorMessageTranslateKey = "LOGIN_LABEL_LOGIN_ERROR_MESSAGE_KEY";
         }
         
         var redirectToLandingPageIfAlreadyAuthenticated = function () {
@@ -30,7 +39,7 @@ angular.module('home')
         }
         
         $scope.login = function () {
-            $scope.errorMessage = null;
+            $scope.errorMessageTranslateKey = null;
             $scope.dataLoading = true;
             var deferrable = $q.defer();
             sessionService.loginUser($scope.loginUser.username, $scope.loginUser.password).then(
@@ -41,14 +50,14 @@ angular.module('home')
                             deferrable.resolve();
                         },
                         function (error) {
-                            $scope.errorMessage = error;
+                            $scope.errorMessageTranslateKey = error;
                             $scope.dataLoading = false;
                             deferrable.reject(error);
                         }
                     )
                 },
                 function (error) {
-                    $scope.errorMessage = error;
+                    $scope.errorMessageTranslateKey = error;
                     deferrable.reject(error);
                 }
             );

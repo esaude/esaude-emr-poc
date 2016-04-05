@@ -117,10 +117,10 @@ mkdir /var/www/html/poc
 cp dist/* /var/www/html/poc/
 ````
 
-Then copy the `bahmni_config` directory in this repository to the `DocumentRoot`:
+Then copy the `poc_config` directory in this repository to the `DocumentRoot`:
 
 ````bash
-cp -r bahmni_config /var/www/html
+cp -r poc_config /var/www/html
 ````
 
 Next, configure which applications are shown on the home screen by copying the appropriate `app.json` file the correct location on the server:
@@ -140,11 +140,12 @@ Finally, configure the required `Alias` and `Proxy` directives in Apache by usin
   ProxyPassReverse /openmrs http://YOUR_ESAUDE_PLATFORM_SERVER:8080/openmrs
 
   Alias /poc /var/www/html/poc
-  Alias /bahmni_config /var/www/html/bahmni_config
+  Alias /poc_config /var/www/html/poc_config
   Alias /images /var/www/html/poc/images
 
   Redirect permanent /home /poc/home/
   Redirect permanent /registration /poc/registration/
+  Redirect permanent /clinic /poc/clinic/
 </VirtualHost>
 ````
 Make sure you replace `YOUR_ESAUDE_PLATFORM_SERVER` with the correct location of the eSaude EMR Platform instance you will be connecting to.

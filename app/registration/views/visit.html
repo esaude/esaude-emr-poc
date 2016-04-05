@@ -23,6 +23,7 @@
                             {{(nextConsultation) ? (nextConsultation.value | date:'MMM d, y h:mm:ss a'): 'NOT SCHEDULED'}}
                         </span>
                     </td>
+                    <td ng-if="!lastConsultation">NONE</td>
                 </tr>
                 <tr>
                     <td>

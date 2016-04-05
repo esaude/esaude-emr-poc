@@ -80,7 +80,7 @@ angular.module('bahmni.common.uicontrols.programmanagment')
             };
 
             var isThePatientAlreadyEnrolled = function () {
-                return _.pluck($scope.activePrograms, function (program) {
+                return _.map($scope.activePrograms, function (program) {
                         return program.program.uuid
                     }).indexOf($scope.programSelected.uuid) > -1;
             };
