@@ -56,8 +56,8 @@
     "node": ">=0.10.0"
   },
   "dependencies": {
-    "grunt-angular-templates": "^0.5.7",
-    "matchdep": "^0.3.0"
+    "grunt-angular-templates": "^1.0.3",
+    "matchdep": "^1.0.1"
   },
   "scripts": {
     "test": "grunt test"
