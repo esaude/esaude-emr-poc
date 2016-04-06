@@ -15,5 +15,16 @@
     "LOGIN_LABEL_SELECT_LOCATION_KEY": "Escolha o local/US",
     "LOGIN_LABEL_SELECT_LOCALE_KEY": "Escolha a língua",
     "HEADER_LABEL_LOGOUT_KEY": "Sair",
-    "HEADER_LABEL_SYNC_KEY": "Sinc"
+    "HEADER_LABEL_SYNC_KEY": "Sinc",
+    "APP_REGISTRATION": "Cadastro",
+    "APP_CLINIC": "Clinico",
+    "APP_PHARMACY": "Farmácia",
+    "APP_LAB": "Laboratório",
+    "APP_COUNSELING": "Aconselhamento",
+    "USER_DASHBOARD_ACTIVITIES": "Actividades",
+    "USER_DASHBOARD_LAST_ACTIVITIES": "Últimas Actividades",
+    "USER_DASHBOARD_FREQUENT_ACTIONS": "Acções Frequentes",
+    "USER_DASHBOARD_LOGGING": "Histórico de Entradas",
+    "USER_DASHBOARD_LAST_LOGIN": "Última entrada",
+    "USER_DASHBOARD_LONGEST_SESSION": "Sessão mais longa"
 }

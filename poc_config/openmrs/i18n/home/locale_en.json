@@ -15,5 +15,16 @@
     "LOGIN_LABEL_SELECT_LOCATION_KEY": "Select Location",
     "LOGIN_LABEL_SELECT_LOCALE_KEY": "Select Locale",
     "HEADER_LABEL_LOGOUT_KEY": "Logout",
-    "HEADER_LABEL_SYNC_KEY": "Sync"
+    "HEADER_LABEL_SYNC_KEY": "Sync",
+    "APP_REGISTRATION": "Registration",
+    "APP_CLINIC": "Clinic",
+    "APP_PHARMACY": "Pharmacy",
+    "APP_LAB": "Laboratory",
+    "APP_COUNSELING": "Counseling",
+    "USER_DASHBOARD_ACTIVITIES": "Activities",
+    "USER_DASHBOARD_LAST_ACTIVITIES": "Last Activities",
+    "USER_DASHBOARD_FREQUENT_ACTIONS": "Frequent Actions",
+    "USER_DASHBOARD_LOGGING": "Logging",
+    "USER_DASHBOARD_LAST_LOGIN": "Last login",
+    "USER_DASHBOARD_LONGEST_SESSION": "Longest session"
 }
