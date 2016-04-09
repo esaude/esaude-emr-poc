@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('bahmni.common.i18n',['pascalprecht.translate'])
+angular.module('bahmni.common.i18n')
     .provider('$bahmniTranslate', $bahmniTranslateProvider).
     filter('titleTranslate', ['$translate', function ($translate) {
         return function (input) {
