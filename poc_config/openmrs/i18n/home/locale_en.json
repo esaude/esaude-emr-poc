@@ -1,4 +1,8 @@
 {
+    "COMMON_HEADER_MENU_HOME": "Home",
+    "COMMON_HEADER_MENU_PROFILE": "My Profile",
+    "COMMON_HEADER_MENU_SUPPORT": "Support",
+    "COMMON_HEADER_MENU_LOGOUT": "Log out",
     "PAGE_TITLE_KEY": "Poc Home",
     "LOGIN_LABEL_LOGIN_KEY": "Login",
     "LOGIN_LABEL_USERNAME_KEY": "Username",

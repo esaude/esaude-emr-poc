@@ -1,4 +1,8 @@
 {
+    "COMMON_HEADER_MENU_HOME": "Início",
+    "COMMON_HEADER_MENU_PROFILE": "Meu Perfil",
+    "COMMON_HEADER_MENU_SUPPORT": "Suporte",
+    "COMMON_HEADER_MENU_LOGOUT": "Sair",
     "PAGE_TITLE_KEY": "Poc Inicio",
     "LOGIN_LABEL_LOGIN_KEY": "Entrar",
     "LOGIN_LABEL_USERNAME_KEY": "Utilizador",
