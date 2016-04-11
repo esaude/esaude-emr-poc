@@ -1,16 +1,16 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Type</th>
-            <th>Identifier</th>
-            <th>Preferred</th>
+            <th>{{'PATIENT_INFO_IDENTIFIER_TYPE' | translate}}</th>
+            <th>{{'PATIENT_INFO_IDENTIFIER_IDENTIFIER' | translate}}</th>
+            <th>{{'PATIENT_INFO_IDENTIFIER_PREFERRED' | translate}}</th>
         </tr>
     </thead>
     <tbody>
         <tr ng-repeat="patientIdentifier in patient.identifiers">
             <td class="col-sm-4 control-label">{{patientIdentifier.identifierType.display}}</td>
             <td>{{patientIdentifier.identifier}}</td>
-            <td>{{(patientIdentifier.preferred === true) ? "YES" : "NO"}}</td>
+            <td>{{(patientIdentifier.preferred === true) ? 'COMMON_YES' : 'COMMON_NO' | translate}}</td>
         </tr>
     </tbody>
 </table>
