@@ -26,5 +26,18 @@
     "USER_DASHBOARD_FREQUENT_ACTIONS": "Acções Frequentes",
     "USER_DASHBOARD_LOGGING": "Histórico de Entradas",
     "USER_DASHBOARD_LAST_LOGIN": "Última entrada",
-    "USER_DASHBOARD_LONGEST_SESSION": "Sessão mais longa"
+    "USER_DASHBOARD_LONGEST_SESSION": "Sessão mais longa",
+    "USER_DASHBOARD_1": "1o",
+    "USER_DASHBOARD_2": "2o",
+    "USER_DASHBOARD_3": "3o",
+    "USER_DASHBOARD_4": "4o",
+    "USER_DASHBOARD_5": "5o",
+    "USER_DASHBOARD_YEST": "Ontem",
+    "USER_DASHBOARD_TODAY": "Hoje",
+    "USER_DASHBOARD_CREATED": "Criado",
+    "USER_DASHBOARD_UPDATED": "Actualizado",
+    "USER_DASHBOARD_REMOVED": "Removido",
+    "USER_DASHBOARD_CREATED_RECORDS": "Registros Criados",
+    "USER_DASHBOARD_UPDATED_RECORDS": "Registros Actualizados",
+    "USER_DASHBOARD_REMOVED_RECORDS": "Registros Removidos"
 }
