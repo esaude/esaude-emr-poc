@@ -1,5 +1,5 @@
 describe('Factory: home/initialization', function() {
-  var initialization, $rootScope, q;
+  var initialization, $rootScope, q, $httpBackend;
 
   beforeEach(module('home'));
 
@@ -30,19 +30,34 @@ describe('Factory: home/initialization', function() {
     });
   }));
 
-  beforeEach(inject(function($injector /*, _initialization_ ,$q */ ) {
+  beforeEach(inject(function($injector) {
     q = $injector.get('$q');
     $rootScope = $injector.get('$rootScope');
     initialization = $injector.get('initialization');
+    $httpBackend = $injector.get('$httpBackend');
   }));
 
   it('injection should work correctly', function() {
+    // mock backend & ensure it gets called
+    $httpBackend.expectGET("../i18n/home/locale_en.json")
+      .respond({
+        data: window.__fixtures__['local_en']
+      });
+
     $rootScope.$apply();
+
     expect(initialization).toBeDefined();
   });
 
   it('should correctly load the default location', function() {
+    // mock backend & ensure it gets called
+    $httpBackend.expectGET("../i18n/home/locale_en.json")
+      .respond({
+        data: window.__fixtures__['local_en']
+      });
+
     $rootScope.$apply();
+
     expect($rootScope.location).toEqual(window.__fixtures__['locationCSMagoe'].results[0]);
   });
 });

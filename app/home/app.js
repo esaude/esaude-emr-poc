@@ -2,8 +2,8 @@
 
 angular
     .module('home')
-    .config(['$urlRouterProvider', '$stateProvider', '$httpProvider',
-                function ($urlRouterProvider, $stateProvider) {
+    .config(['$urlRouterProvider', '$stateProvider', '$bahmniTranslateProvider',
+                function ($urlRouterProvider, $stateProvider, $bahmniTranslateProvider) {
         $urlRouterProvider.otherwise('/login');
         $stateProvider
             .state('login', {
@@ -21,4 +21,5 @@ angular
                     'content@dashboard': { templateUrl: 'views/dashboard.html'}
                 }
             });
+            $bahmniTranslateProvider.init({app: 'home', shouldMerge: true});
     }]);

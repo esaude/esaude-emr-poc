@@ -1,17 +1,17 @@
 describe('Controller: LoginController', function() {
-  var scope, q, controller, location, sessionService, stateParams;
+  var scope, q, controller, location, sessionService, stateParams, mockLocaleService, $httpBackend;
 
   beforeEach(module('home'));
 
-  beforeEach(inject(function($controller, $rootScope, _$location_, _sessionService_, $q, $stateParams) {
+  beforeEach(inject(function($controller, $rootScope, _$location_, _sessionService_, $q, $stateParams, localeService, _$httpBackend_) {
     scope = $rootScope.$new();
     q = $q;
     location = _$location_;
     controller = $controller;
     stateParams = $stateParams;
     sessionService = _sessionService_;
-
-
+    mockLocaleService = localeService;
+    $httpBackend = _$httpBackend_;
 
     // mock sessionService.loginUser
     spyOn(sessionService, 'loginUser').and.callFake(function(testUser) {
@@ -37,6 +37,17 @@ describe('Controller: LoginController', function() {
       };
     });
 
+    // mock localService
+    spyOn(mockLocaleService, 'allowedLocalesList').and.callFake(function() {
+      var defer = $q.defer();
+
+      defer.resolve({
+        data: 'en, es, fr, it, pt'
+      });
+
+      return defer.promise;
+    });
+
     location.path('/login');
     spyOn(location, 'path').and.callThrough();
   }));
@@ -57,11 +68,18 @@ describe('Controller: LoginController', function() {
       password: 'testSuccessPass'
     };
 
+    // mock backend & ensure it gets called
+    $httpBackend.expectGET("../i18n/home/locale_en.json")
+      .respond({
+        data: window.__fixtures__['local_en']
+      });
+
     scope.login();
     scope.$apply();
 
     expect(sessionService.get).toHaveBeenCalled();
     expect(location.path).toHaveBeenCalledWith('/dashboard');
+    expect(mockLocaleService.allowedLocalesList).toHaveBeenCalled();
   });
 
   it('should stay on page and set $scope.errorMessage on invalid user/pass', function() {
@@ -79,6 +97,12 @@ describe('Controller: LoginController', function() {
       password: 'testFailurePass'
     };
 
+    // mock backend & ensure it gets called
+    $httpBackend.expectGET("../i18n/home/locale_en.json")
+      .respond({
+        data: window.__fixtures__['local_en']
+      });
+
     // perform login
     scope.login();
     scope.$apply();
@@ -86,7 +110,7 @@ describe('Controller: LoginController', function() {
     expect(sessionService.get).toHaveBeenCalled();
     expect(sessionService.loadCredentials).not.toHaveBeenCalled();
     expect(location.path).not.toHaveBeenCalledWith('/dashboard');
-    expect(scope.errorMessage).toEqual('invalid username or password');
+    expect(scope.errorMessageTranslateKey).toEqual('invalid username or password');
   });
 
   it('should stay on page and set $scope.errorMessage on failure to load credentiala', function() {
@@ -107,13 +131,18 @@ describe('Controller: LoginController', function() {
       password: 'testSuccessPass'
     };
 
+    $httpBackend.expectGET("../i18n/home/locale_en.json")
+      .respond({
+        data: window.__fixtures__['local_en']
+      });
+
     // perform login
     scope.login();
     scope.$apply();
 
     expect(sessionService.get).toHaveBeenCalled();
     expect(location.path).not.toHaveBeenCalledWith('/dashboard');
-    expect(scope.errorMessage).toEqual('failure to load credentials');
+    expect(scope.errorMessageTranslateKey).toEqual('failure to load credentials');
   });
 
   it('should redirect to the landing page if we are already logged in', function() {
@@ -150,6 +179,6 @@ describe('Controller: LoginController', function() {
       sessionService: sessionService
     });
 
-    expect(scope.errorMessage).toEqual('You are not authenticated or your session expired. Please login.');
+    expect(scope.errorMessageTranslateKey).toEqual('LOGIN_LABEL_LOGIN_ERROR_MESSAGE_KEY');
   });
 });

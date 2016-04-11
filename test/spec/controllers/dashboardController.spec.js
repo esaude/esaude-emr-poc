@@ -1,5 +1,5 @@
 describe('Controller: DashboardController', function() {
-  var scope, q, controller, location, applicationService, $window;
+  var scope, q, controller, location, applicationService, $window, $httpBackend;
 
   beforeEach(module('home'));
 
@@ -16,12 +16,13 @@ describe('Controller: DashboardController', function() {
     });
   });
 
-  beforeEach(inject(function($controller, $rootScope, _applicationService_, $q, $location) {
+  beforeEach(inject(function($controller, $rootScope, _applicationService_, $q, $location, _$httpBackend_) {
     q = $q;
     scope = $rootScope.$new();
     controller = $controller;
     location = $location;
     applicationService = _applicationService_;
+    $httpBackend = _$httpBackend_;
   }));
 
   it('should correctly set the list of apps on init', function() {
@@ -36,6 +37,11 @@ describe('Controller: DashboardController', function() {
       applicationService: applicationService
     });
 
+    // mock backend & ensure it gets called
+    $httpBackend.expectGET("../i18n/home/locale_en.json")
+      .respond({
+        data: window.__fixtures__['local_en']
+      });
     scope.$apply();
 
     expect(applicationService.getApps).toHaveBeenCalled();
