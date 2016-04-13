@@ -1,82 +1,86 @@
 [
     {
-        "formId": "d7e359fa-9ee3-4a8f-b1de-b76f6be8a73c",
+        "formId": "e28b6096-1d5f-11e0-b929-000c29ad1d07",
         "name": "POC: ANAMNESE A - ADULT",
         "sufix": "anamnesis",
         "parts": [
             {
                 "id": "1",
-                "name": "Person of Reference",
+                "name": "Pessoa de Referência",
                 "sref": ".reference",
                 "nextSref": ".extra",
                 "fields": [
                     {
-                        "name": "name",
-                        "id": "11b3ea5f-8128-4281-8c21-86450e654141"
+                        "name": "Nome",
+                        "id": "e29f8ac6-1d5f-11e0-b929-000c29ad1d07"
                     },
                     {
-                        "name": "surname",
-                        "id": "db8a0e20-9089-41d5-89d7-b83c3ff3f7cc"
+                        "name": "Apelido",
+                        "id": "e2a0bb8a-1d5f-11e0-b929-000c29ad1d07"
                     },
                     {
-                        "name": "contact",
-                        "id": "58e7df4d-c8c3-4cd9-a533-1bd120839d99"
+                        "name": "Tel",
+                        "id": "e29f7a72-1d5f-11e0-b929-000c29ad1d07"
                     }
                 ]
             },
             {
                 "id": "2",
-                "name": "Personal Info and Sexual Partners",
+                "name": "Info Pessoal e Parseiros Sexuais",
                 "sref": ".extra",
                 "nextSref": ".children",
                 "fields": [
                     {
-                        "name": "ocupation",
-                        "id": "a4b2c0f6-4961-45fc-b563-afed45ae43d2"
+                        "name": "Ocupação",
+                        "id": "e2a030ca-1d5f-11e0-b929-000c29ad1d07"
                     },
                     {
-                        "name": "education",
-                        "id": "ae176223-ac8c-4ba1-8dfa-3b5c70ea9490"
+                        "name": "Nível de Escolaridade",
+                        "id": "e2a0b41e-1d5f-11e0-b929-000c29ad1d07"
                     },
                     {
-                        "name": "numberOfHouseholdMembers",
-                        "id": "3d6c95b8-8c65-4ac8-b7ec-34947d133fb8"
+                        "name": "No de conviventes",
+                        "id": "e2a0b5fe-1d5f-11e0-b929-000c29ad1d07"
                     },
                     {
-                        "name": "hivStatusOfWives",
-                        "id": "d14c0e20-9934-4a34-a9bc-0331436d4222"
+                        "name": "Serologia HIV do(s) cônjuge(s)",
+                        "id": "e2a040ec-1d5f-11e0-b929-000c29ad1d07"
                     }
                 ]
             },
             {
                 "id": "3",
-                "name": "Children",
+                "name": "Filhos",
                 "sref": ".children",
-                "nextSref": ".hivexp",
+                "nextSref": ".social",
                 "fields": [
                     {
-                        "name": "numberOfChildren",
-                        "id": "9e1217de-4103-4371-84e1-71f63144574d"
+                        "name": "No de filhos",
+                        "id": "e2a0b248-1d5f-11e0-b929-000c29ad1d07"
                     },
                     {
-                        "name": "numberOfChildrenHIVTested",
-                        "id": "3dda7b14-e130-40f9-bbb7-33ed79370b84"
+                        "name": "No de filhos testados",
+                        "id": "e2a0a8e8-1d5f-11e0-b929-000c29ad1d07"
                     },
                     {
-                        "name": "numberOfChildrenHIVPositive",
-                        "id": "b8a9c890-c8f1-4957-8955-58a42415d8fb"
+                        "name": "No de filhos HIV+",
+                        "id": "e2a0abc2-1d5f-11e0-b929-000c29ad1d07"
                     }
                 ]
             },
             {
                 "id": "4",
-                "name": "HIV Exposure",
-                "sref": ".hivexp",
+                "name": "Social",
+                "sref": ".social",
                 "nextSref": ".confirm",
                 "fields": [
                     {
-                        "name": "HIV Exposure Method",
-                        "id": "27348644-299d-464e-9253-e1f85ca11486"
+                        "name": "Geleira em casa",
+                        "id": "e2a0963c-1d5f-11e0-b929-000c29ad1d07"
+                    },
+                    {
+                        "name": "Electricidade em casa",
+                        "id": "e29f803a-1d5f-11e0-b929-000c29ad1d07"
                     }
                 ]
             }

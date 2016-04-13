@@ -5,69 +5,40 @@ Poc.Common.UpdateEncounterRequestMapper = (function () {
         this.currentDate = currentDate;
     }
 
-    UpdateEncounterRequestMapper.prototype.mapFromFormPayload = function (formPayload, formParts, encounter) {
-        
-        var changedEncounter = changeEncounterValue(formPayload.form.fields,
-                                encounter);
-        var openMRSEncounter = {
-            obs: changedEncounter.obs,
-            uuid: changedEncounter.uuid
+    UpdateEncounterRequestMapper.prototype.mapFromFormPayload = function (newEncounter, oldEncounter) {
+        var encounter = {
+            uuid: oldEncounter.uuid,
+            obs: []
         };
-
-        return  openMRSEncounter;
-    };
-    
-    var changeEncounterValue = function (fields, encounter) {
-        for (var key in fields) {
-            var field = fields[key];
-            //consider multiple selections
-            if (field.fieldConcept.selectMultiple) {
-                //find encounter obs for field concept
-                var observations = _.filter(encounter.obs, function (data) {
-                    return data.concept.uuid === field.fieldConcept.concept.uuid;
-                });
-                _.forEach(observations, function (obs) {
-                    
-                    if (field.value[obs.value.uuid] !== 'undefined') {
-                        obs.concept = obs.concept.uuid;
-                        obs.value = JSON.parse(field.value[obs.value.uuid]).uuid;
-                        delete obs.groupMembers;
-                    }
-                });
-                //find encounter obs for field concept
-                var obs = _.find(encounter.obs, function (data) {
-                    return data.concept.uuid === field.fieldConcept.concept.uuid;
-                });
-                
-                //look for obs groupMember if not found previously
-                if (typeof obs === 'undefined') {
-                    _.forEach(encounter.obs, function (encObs) {
-                        if(encObs.groupMembers) {
-                            obs = _.find(encObs.groupMembers, function (data) {
-                                return data.concept.uuid === field.fieldConcept.concept.uuid;
-                            });
-                            if (obs) {
-                                obs.concept = obs.concept.uuid;
-                                obs.value = isAnyObject(field.value) ? field.value.uuid: field.value;
-                                delete obs.groupMembers;
-                            }
-                        }
-                    });
-                } else {
-                   obs.concept = obs.concept.uuid;
-                   obs.value = isAnyObject(field.value) ? field.value.uuid: field.value;
-                   if (_.isEmpty(obs.groupMembers)) {
-                       delete obs.groupMembers;
-                   }
-                }
-            }
-        };
+        findExistingObs(newEncounter.obs, oldEncounter.obs, encounter.obs);
         return encounter;
     };
     
-    function isAnyObject(value) {
-        return value != null && typeof value === 'object';
-    }
+    var findExistingObs = function (nObservations, oObservations, bObservations) {
+        //find new things to add, comparing to old
+        _.forEach(nObservations, function (newObs) {
+            //brand new obs
+            var obs = {
+                person: newObs.person,
+                obsDatetime: newObs.obsDatetime,
+                concept: newObs.concept
+            };
+            //find existing
+            var foundObs = _.find(oObservations, function (oldObs) {
+                return oldObs.concept.uuid === newObs.concept;
+            });
+            if (foundObs) {
+                obs.uuid = foundObs.uuid;
+                //must loock for menber if obs is a group
+                if (!_.isEmpty(newObs.groupMembers)) {
+                    obs.groupMembers = [];
+                    findExistingObs(newObs.groupMembers, foundObs.groupMembers, obs.groupMembers);
+                }
+            }
+            obs.value = newObs.value;
+            bObservations.push(obs);
+        });
+    };
     
     return UpdateEncounterRequestMapper;
     

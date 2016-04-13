@@ -2,17 +2,24 @@
 
 Poc.Common.FormRequestMapper = (function () {
     
-    var mapFromOpenMRSForm = function (openMRSForm) {        
+    var mapFromOpenMRSForm = function (openMRSForm) {
+        var fields = filterOnlyConceptFields(openMRSForm.formFields);
         return {
             encounterType: openMRSForm.encounterType,
             form: {
                 name: openMRSForm.display,
                 description: openMRSForm.description,
                 uuid: openMRSForm.uuid,
-                fields: createFormFields(openMRSForm.formFields)
+                fields: createFormFields(fields)
                 
             }
         };
+    };
+    
+    var filterOnlyConceptFields = function (fields) {
+        return _.pickBy(fields, function (o) {
+            return o.fieldConcept.concept;
+        });
     };
     
     var mapFromOpenMRSFormWithEncounter = function (openMRSForm, encounter) {

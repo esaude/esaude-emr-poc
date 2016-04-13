@@ -183,8 +183,8 @@ angular
                 url: '/children',
                 templateUrl: '../poc-common/form-display/views/form-part-input-template.html'
             })
-            .state('anamnesis.hivexp', {
-                url: '/hivexp',
+            .state('anamnesis.social', {
+                url: '/social',
                 templateUrl: '../poc-common/form-display/views/form-part-input-template.html'
             })
             .state('anamnesis.confirm', {

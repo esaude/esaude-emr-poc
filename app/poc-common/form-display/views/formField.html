@@ -76,14 +76,21 @@
                         </div>
                     </div>
                     <div ng-if="formParts.form.fields[fieldUuid].fieldConcept.concept.answers.length === 2">
-                        <input name="{{fieldId}}" type="checkbox" bs-switch switch-size="large" 
+                        <!--input type="checkbox" bs-switch switch-size="large" name="{{fieldId}}"
                                switch-off-text="{{formParts.form.fields[fieldUuid].fieldConcept.concept.answers[0].display}}" 
                                switch-on-text="{{formParts.form.fields[fieldUuid].fieldConcept.concept.answers[1].display}}" 
-                               switch-on-color="primary" switch-off-color="primary" 
+                               switch-on-color="primary" switch-off-color="default"
+                               ng-value="'{{formParts.form.fields[fieldUuid].fieldConcept.concept.answers[0].display}}'"
                                ng-model="formParts.form.fields[fieldUuid].value" 
-                               ng-true-value="{{JSON.stringify(formParts.form.fields[fieldUuid].fieldConcept.concept.answers[0].uuid)}}" 
-                               ng-false-value="{{JSON.stringify(formParts.form.fields[fieldUuid].fieldConcept.concept.answers[1].uuid)}}"
-                               ng-required="{{formParts.form.fields[fieldUuid].field.required && !formParts.form.fields[fieldUuid].value}}">
+                               ng-false-value="'{{formParts.form.fields[fieldUuid].fieldConcept.concept.answers[0]}}'" 
+                               ng-true-value="'{{formParts.form.fields[fieldUuid].fieldConcept.concept.answers[1]}}'"
+                               -->
+                        <checkbox largest
+                               name="{{fieldId}}"
+                               ng-true-value="{{formParts.form.fields[fieldUuid].fieldConcept.concept.answers[1]}}"
+                               ng-false-value="{{formParts.form.fields[fieldUuid].fieldConcept.concept.answers[0]}}"
+                               ng-model="formParts.form.fields[fieldUuid].value"
+                               ng-required="{{formParts.form.fields[fieldUuid].field.required}}">
                     </div>
                 </div>
             </div>
