@@ -19,8 +19,6 @@ angular.module('serviceform')
                     $scope.currentFormPart = _.find($scope.formInfo.parts, function (formPart) {
                         return formPart.sref === currentSref;
                     });
-                    
-                    console.log($scope.formPayload);
                 })();
                 
                 $scope.stepInFormPart = function(formPart) {
@@ -76,7 +74,6 @@ angular.module('serviceform')
                 };
                 
                 var successCallback = function (encounterProfileData) {
-                    console.log(encounterProfileData);
                     $location.url('/dashboard/' + encounterProfileData.patient.uuid);
                 };
                 
