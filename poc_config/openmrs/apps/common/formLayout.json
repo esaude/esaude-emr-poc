@@ -2,7 +2,7 @@
     {
         "formId": "e28b6096-1d5f-11e0-b929-000c29ad1d07",
         "name": "POC: ANAMNESE A - ADULT",
-        "sufix": "anamnesis",
+        "sufix": "anamnesis_a_adult",
         "parts": [
             {
                 "id": "1",

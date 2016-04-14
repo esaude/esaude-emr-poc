@@ -45,7 +45,6 @@ Poc.Common.FormRequestMapper = (function () {
                         }
                         else if (eachField.fieldConcept.concept.answers.length === 2) {
                             eachField.value = JSON.stringify(realValueOfField(eachField.fieldConcept.concept.answers, obs.value));
-                            debugger
                         }else {
                             eachField.value = (_.isEmpty(eachField.fieldConcept.concept.answers)) ? 
                                     obs.value : 

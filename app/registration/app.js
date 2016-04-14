@@ -2,6 +2,12 @@
 
 angular
     .module('registration')
+    .run(['$rootScope', '$state', '$stateParams',
+        function($rootScope, $state, $stateParams) {
+            $rootScope.$state = $state;
+            $rootScope.$stateParams = $stateParams;
+        }
+    ])
     .config(['$urlRouterProvider', '$stateProvider', '$bahmniTranslateProvider',
                 function ($urlRouterProvider, $stateProvider, $bahmniTranslateProvider) {
         $urlRouterProvider.otherwise('/search');
@@ -162,34 +168,54 @@ angular
             .state('detailpatient.death', {
                 url: '/death',
                 templateUrl: 'views/patient-death.html'
-            })
-            .state('anamnesis', {
-                url: '/anamnesis/a/:patientUuid/:formUuid',
-                views: {
-                    'layout': { templateUrl: '../common/application/views/layout.html', controller: 'FormController'},
-                    'content@anamnesis': { templateUrl: '../service-form/views/form-add.html'}
-                },
-                resolve: { initialization: 'initialization' }
-            })
-            .state('anamnesis.reference', {
-                url: '/reference',
-                templateUrl: '../poc-common/form-display/views/form-part-input-template.html'
-            })
-            .state('anamnesis.extra', {
-                url: '/extra',
-                templateUrl: '../poc-common/form-display/views/form-part-input-template.html'
-            })
-            .state('anamnesis.children', {
-                url: '/children',
-                templateUrl: '../poc-common/form-display/views/form-part-input-template.html'
-            })
-            .state('anamnesis.social', {
-                url: '/social',
-                templateUrl: '../poc-common/form-display/views/form-part-input-template.html'
-            })
-            .state('anamnesis.confirm', {
-                url: '/confirm',
-                templateUrl: '../poc-common/form-display/views/form-confirm-template.html'
             });
+            
+            $stateProviderRef = $stateProvider;
             $bahmniTranslateProvider.init({app: 'registration', shouldMerge: true});
+    }])
+    .run(['$rootScope', '$urlRouter', 'appService',
+        function($rootScope, $urlRouter, appService) {
+            var $state = $rootScope.$state;
+            
+            appService.initApp('registration', {'app': true, 'extension' : true }).then(function (data) {
+                _.forEach(data.getClinicalServices(), function (service) {
+                    var formLayout = _.find(data.getFormLayout(), function (layout) {
+                        return service.formId === layout.formId;
+                    });
+                    //create main state
+                    if (!$state.get(formLayout.sufix)) {
+                        var state = {
+                            url: service.url + "/:patientUuid/:formUuid",
+                            views: {},
+                            resolve: { initialization: 'initialization' }
+                        };
+                        state.views["layout"] = {
+                            templateUrl: '../common/application/views/layout.html', 
+                            controller: 'FormController'
+                        },
+                        state.views["content@" + formLayout.sufix] = {templateUrl: '../service-form/views/form-add.html'};
+                        $stateProviderRef.state(formLayout.sufix, state);
+                    }
+                    //create inner states
+                    _.forEach(formLayout.parts, function (part) {
+                        if (!$state.get(formLayout.sufix + part.sref)) {
+                            var innerState = {
+                                url: part.sref.replace('.','/'),
+                                templateUrl: '../poc-common/form-display/views/form-part-input-template.html'
+                            };
+                            $stateProviderRef.state(formLayout.sufix + part.sref, innerState);
+                        }
+                    });
+                    //confirm inner state
+                    if (!$state.get(formLayout.sufix + ".confirm")) {
+                        var confirmState = {
+                            url: '/confirm',
+                            templateUrl: '../poc-common/form-display/views/form-confirm-template.html'
+                        };
+                        $stateProviderRef.state(formLayout.sufix + ".confirm", confirmState);
+                    }
+                });
+            });
+            $urlRouter.sync();
+            $urlRouter.listen();
     }]);

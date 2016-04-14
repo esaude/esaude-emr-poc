@@ -3,3 +3,6 @@ angular.module('registration', ['ngRoute', 'ngCookies', 'ui.router', 'smart-tabl
                         'frapontillo.bootstrap-switch', 'bahmni.common.uicontrols.programmanagment', 'serviceform', 
                         'ui.checkbox', 'application', 'ngMessages', 'poc.common.clinicalservices', 'common.patient',
                         'pascalprecht.translate', 'bahmni.common.i18n']);
+//to be initialized by config inside app.js
+//needed in dynamic states
+var $stateProviderRef = null;
