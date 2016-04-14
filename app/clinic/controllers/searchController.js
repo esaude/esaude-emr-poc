@@ -24,7 +24,7 @@ angular.module('clinic')
                     searchPromise.success(function (data) {
                         $scope.results = mapPatient(data.results);
                         $scope.displayed = $scope.results;
-                        $scope.noResultsMessage = $scope.results.length === 0 ? "No results found" : null;
+                        $scope.noResultsMessage = $scope.results.length === 0 ? "SEARCH_PATIENT_NO_RESULT" : null;
                     });
                 }
             };

@@ -5,18 +5,18 @@
             <span>
                 <img ng-src="../../{{app.logo}}" width="120" height="82" alt="provider">
             </span>
-            <br/>{{app.name}}
+            <br/>{{app.name | translate}}
         </button>
     </div>
 </div>
 <div class="panel panel-primary content-border-margin">
     <div class="panel-heading">
-        <h3 class="panel-title">Activities</h3>
+        <h3 class="panel-title">{{'USER_DASHBOARD_ACTIVITIES' | translate}}</h3>
     </div>
     <div class="panel-body">
         <div class="panel panel-default inline-align col-md-6">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Last Activities</h3>
+                    <h3 class="panel-title">{{'USER_DASHBOARD_LAST_ACTIVITIES' | translate}}</h3>
                 </div>
             <div class="panel-body">
                 <canvas id="bar" class="chart chart-bar" data="barData"
@@ -25,7 +25,7 @@
             </div>
             <div class="panel panel-default inline-align col-md-6">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Frequent Actions</h3>
+                    <h3 class="panel-title">{{'USER_DASHBOARD_FREQUENT_ACTIONS' | translate}}</h3>
                 </div>
                 <div class="panel-body">
                     <canvas id="pie" class="chart chart-pie" data="pieData"
@@ -37,10 +37,10 @@
 
 <div class="panel panel-primary content-border-margin">
     <div class="panel-heading">
-        <h3 class="panel-title">Logging</h3>
+        <h3 class="panel-title">{{'USER_DASHBOARD_LOGGING' | translate}}</h3>
     </div>
     <div class="panel-body">
-        <p><b>Last login:</b> 2015-07-23 18:00:00</p>
-        <p><b>Longgest session:</b> 600 mins</p>
+        <p><b>{{'USER_DASHBOARD_LAST_LOGIN' | translate}}:</b> 2015-07-23 18:00:00</p>
+        <p><b>{{'USER_DASHBOARD_LONGEST_SESSION' | translate}}:</b> 600 mins</p>
     </div>
 </div>

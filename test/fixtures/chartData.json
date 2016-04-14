@@ -1,12 +1,12 @@
 {
-  "barLabels": ["1st", "2nd", "3rd", "4th", "5th", "Yest", "Today"],
-  "barSeries": ["Created", "Updated", "Removed"],
+  "barLabels": ["USER_DASHBOARD_1", "USER_DASHBOARD_2", "USER_DASHBOARD_3", "USER_DASHBOARD_4", "USER_DASHBOARD_5", "USER_DASHBOARD_YEST", "USER_DASHBOARD_TODAY"],
+  "barSeries": ["USER_DASHBOARD_CREATED", "USER_DASHBOARD_UPDATED", "USER_DASHBOARD_REMOVED"],
   "barData": [
     [65, 59, 80, 81, 56, 55, 40],
     [28, 48, 40, 19, 86, 27, 90],
     [28, 48, 40, 19, 86, 27, 90]
   ],
-  "pieLabels": ["Created Records", "Updated Records", "Removed Revords"],
+  "pieLabels": ["USER_DASHBOARD_CREATED_RECORDS", "USER_DASHBOARD_UPDATED_RECORDS", "USER_DASHBOARD_REMOVED_RECORDS"],
   "pieData": [500, 300, 100],
-  "pieSeries": ["Created", "Updated", "Removed"]
+  "pieSeries": ["USER_DASHBOARD_CREATED", "USER_DASHBOARD_UPDATED", "USER_DASHBOARD_REMOVED"]
 }

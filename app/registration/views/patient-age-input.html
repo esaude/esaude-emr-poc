@@ -1,9 +1,9 @@
 <div class="panel panel-primary content-border-margin"><!-- demographics -->
     <div class="panel-heading">
-        <h3 class="panel-title">Age/Birthdate</h3>
+        <h3 class="panel-title">{{'PATIENT_INFO_AGE' | translate}}/{{'PATIENT_INFO_BIRTHDATE' | translate}}</h3>
     </div>
     <div class="panel-body">
-        <label for="patientAge" class="col-sm-2 control-label"><b>Age/Birthdate:<span class="asterick">*</span></b></label>
+        <label for="patientAge" class="col-sm-2 control-label"><b>{{'PATIENT_INFO_AGE' | translate}}/{{'PATIENT_INFO_BIRTHDATE' | translate}}:<span class="asterick">*</span></b></label>
         <div class="col-sm-2 form-group-lg" 
              ng-class="{'has-error': aForm.patientAge.$invalid && showMessages}">
             <div ng-messages for="aForm.patientAge.$error" 
@@ -29,10 +29,10 @@
             </div>
         </div>
         <div ng-show="aForm.patientBirthdate.$valid">
-            <label class="col-sm-2 control-label"><b>Estimated:</b></label>
+            <label class="col-sm-2 control-label"><b>{{'PATIENT_INFO_ESTIMATED' | translate}}:</b></label>
             <div class="col-sm-2">
                 <input type="checkbox" bs-switch switch-active="true" switch-size="large" 
-                       switch-off-text="NO" switch-on-text="YES" 
+                       switch-off-text="{{'COMMON_NO' | translate}}" switch-on-text="{{'COMMON_YES' | translate}}" 
                        ng-model="patient.birthdateEstimated">
             </div>
         </div>

@@ -2,17 +2,17 @@
 
 <div class="row bg-info-border content-border border-rouded-top"><!-- program header controls -->
     <ul class="nav nav-tabs">
-        <li role="presentation" data-toggle="tab"><a ui-sref="detailpatient.demographic">Demographics</a></li>
-        <li role="presentation" data-toggle="tab" class="active"><a ui-sref="detailpatient.addresses">Addresses</a></li>
-        <li role="presentation" data-toggle="tab" class="active"><a ui-sref="detailpatient.attributes">Other Info</a></li>
-        <li role="presentation" data-toggle="tab" class="active"><a ui-sref="detailpatient.identifiers">Identifiers</a></li>
-        <li role="presentation" data-toggle="tab" class="active"><a ui-sref="detailpatient.death">Death Info</a></li>
+        <li role="presentation" data-toggle="tab"><a ui-sref="detailpatient.demographic">{{'PATIENT_INFO_DEMOGRAPHICS' | translate}}</a></li>
+        <li role="presentation" data-toggle="tab" class="active"><a ui-sref="detailpatient.addresses">{{'PATIENT_INFO_ADDRESSES' | translate}}</a></li>
+        <li role="presentation" data-toggle="tab" class="active"><a ui-sref="detailpatient.attributes">{{'PATIENT_INFO_OTHERS' | translate}}</a></li>
+        <li role="presentation" data-toggle="tab" class="active"><a ui-sref="detailpatient.identifiers">{{'PATIENT_INFO_IDENTIFIERS' | translate}}</a></li>
+        <li role="presentation" data-toggle="tab" class="active"><a ui-sref="detailpatient.death">{{'PATIENT_INFO_DEATH' | translate}}</a></li>
     </ul>
     <div ui-view=""></div>
 </div><!-- program header controls -->
 <div class="row bg-info-border content-border border-rouded-bottom go-to-right"><!-- visit header controls -->
-    <button type="button" class="btn btn-warning btn-lg">
-        <span class="glyphicon glyphicon-step-backward" ng-click="linkDashboard()"></span>
+    <button type="button" class="btn btn-warning btn-lg" ng-click="linkDashboard()">
+        <span class="glyphicon glyphicon-step-backward"></span>
     </button>
     <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addVisitModal">
         <span class="glyphicon glyphicon glyphicon-print"></span>
