@@ -1,12 +1,22 @@
 [
     {
         "formId": "e28b6096-1d5f-11e0-b929-000c29ad1d07",
-        "label": "POC: ANAMNESE A - ADULT",
+        "label": "ANAMNESE A - ADULTO",
         "url": "/anamnesis/a/adult",
         "minOccur": "1",
         "maxOccur": "1",
         "constraints": {
             "minAge": "15"
+        }
+    },
+    {
+        "formId": "e28b6b0e-1d5f-11e0-b929-000c29ad1d07",
+        "label": "ANAMNESE A - PEDIATRIA",
+        "url": "/anamnesis/a/child",
+        "minOccur": "1",
+        "maxOccur": "1",
+        "constraints": {
+            "maxAge": "14"
         }
     }
 ]

@@ -3,8 +3,8 @@
     <li class="list-group-item"
         ng-if="fieldMeta.fieldConcept.fieldType.display === 'Concept'" ng-init="fieldValidity = getFieldValidity(formField.id)">
         <div class="row">
-        <label class="col-sm-2">{{fieldMeta.field.name}}: </label>
-        <div class="col-sm-10">
+        <label class="col-sm-4">{{fieldMeta.field.name}}: </label>
+        <div class="col-sm-8">
             <span class="label label-danger" ng-if="!fieldValidity">
                 This field was never visited, please visit this field before save
             </span>
