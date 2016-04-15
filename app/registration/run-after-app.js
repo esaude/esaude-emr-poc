@@ -30,7 +30,8 @@ angular
                         if (!$state.get(formLayout.sufix + part.sref)) {
                             var innerState = {
                                 url: part.sref.replace('.','/'),
-                                templateUrl: '../poc-common/form-display/views/form-part-input-template.html'
+                                templateUrl: '../poc-common/form-display/views/form-part-input-template.html',
+                                resolve: { initialization: 'initialization' }
                             };
                             $stateProviderRef.state(formLayout.sufix + part.sref, innerState);
                         }
@@ -39,7 +40,8 @@ angular
                     if (!$state.get(formLayout.sufix + ".confirm")) {
                         var confirmState = {
                             url: '/confirm',
-                            templateUrl: '../poc-common/form-display/views/form-confirm-template.html'
+                            templateUrl: '../poc-common/form-display/views/form-confirm-template.html',
+                            resolve: { initialization: 'initialization' }
                         };
                         $stateProviderRef.state(formLayout.sufix + ".confirm", confirmState);
                     }

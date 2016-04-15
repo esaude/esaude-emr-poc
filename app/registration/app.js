@@ -25,19 +25,23 @@ angular
             .state('dashboard.program', {
                 url: '/program',
                 templateUrl: 'views/patient-programs.html', 
-                controller: 'ManageProgramController'
+                controller: 'ManageProgramController',
+                resolve: { initialization: 'initialization' }
             })
             .state('dashboard.visits', {
                 url: '/visits',
-                templateUrl: 'views/patient-visits.html'
+                templateUrl: 'views/patient-visits.html',
+                resolve: { initialization: 'initialization' }
             })
             .state('dashboard.services', {
                 url: '/services',
-                templateUrl: 'views/patient-services.html'
+                templateUrl: 'views/patient-services.html',
+                resolve: { initialization: 'initialization' }
             })
             .state('dashboard.alerts', {
                 url: '/alerts',
-                templateUrl: 'views/patient-alerts.html'
+                templateUrl: 'views/patient-alerts.html',
+                resolve: { initialization: 'initialization' }
             })
             .state('serviceslist', {
                 url: '/services/:patientUuid',
@@ -57,19 +61,23 @@ angular
             })
             .state('newpatient.name', {
                 url: '/name',
-                templateUrl: 'views/patient-name-input.html'
+                templateUrl: 'views/patient-name-input.html',
+                resolve: { initialization: 'initialization' }
             })
             .state('newpatient.gender', {
                 url: '/gender',
-                templateUrl: 'views/patient-gender-input.html'
+                templateUrl: 'views/patient-gender-input.html',
+                resolve: { initialization: 'initialization' }
             })
             .state('newpatient.age', {
                 url: '/age',
-                templateUrl: 'views/patient-age-input.html'
+                templateUrl: 'views/patient-age-input.html',
+                resolve: { initialization: 'initialization' }
             })
             .state('newpatient.address', {
                 url: '/address',
-                templateUrl: 'views/patient-address-input.html'
+                templateUrl: 'views/patient-address-input.html',
+                resolve: { initialization: 'initialization' }
             })
             .state('newpatient.other', {
                 url: '/other',
@@ -77,15 +85,18 @@ angular
             })
             .state('newpatient.identifier', {
                 url: '/identifier',
-                templateUrl: 'views/patient-identifier-input.html'
+                templateUrl: 'views/patient-identifier-input.html',
+                resolve: { initialization: 'initialization' }
             })
             .state('newpatient.death', {
                 url: '/death',
-                templateUrl: 'views/patient-death-input.html'
+                templateUrl: 'views/patient-death-input.html',
+                resolve: { initialization: 'initialization' }
             })
             .state('newpatient.confirm', {
                 url: '/confirm',
-                templateUrl: 'views/patient-confirm-input.html'
+                templateUrl: 'views/patient-confirm-input.html',
+                resolve: { initialization: 'initialization' }
             })
             .state('editpatient', {
                 url: '/patient/edit/:patientUuid',
@@ -97,35 +108,43 @@ angular
             })
             .state('editpatient.name', {
                 url: '/name',
-                templateUrl: 'views/patient-name-input.html'
+                templateUrl: 'views/patient-name-input.html',
+                resolve: { initialization: 'initialization' }
             })
             .state('editpatient.gender', {
                 url: '/gender',
-                templateUrl: 'views/patient-gender-input.html'
+                templateUrl: 'views/patient-gender-input.html',
+                resolve: { initialization: 'initialization' }
             })
             .state('editpatient.age', {
                 url: '/age',
-                templateUrl: 'views/patient-age-input.html'
+                templateUrl: 'views/patient-age-input.html',
+                resolve: { initialization: 'initialization' }
             })
             .state('editpatient.address', {
                 url: '/address',
-                templateUrl: 'views/patient-address-input.html'
+                templateUrl: 'views/patient-address-input.html',
+                resolve: { initialization: 'initialization' }
             })
             .state('editpatient.other', {
                 url: '/other',
-                templateUrl: 'views/patient-other-input.html'
+                templateUrl: 'views/patient-other-input.html',
+                resolve: { initialization: 'initialization' }
             })
             .state('editpatient.identifier', {
                 url: '/identifier',
-                templateUrl: 'views/patient-identifier-input.html'
+                templateUrl: 'views/patient-identifier-input.html',
+                resolve: { initialization: 'initialization' }
             })
             .state('editpatient.death', {
                 url: '/death',
-                templateUrl: 'views/patient-death-input.html'
+                templateUrl: 'views/patient-death-input.html',
+                resolve: { initialization: 'initialization' }
             })
             .state('editpatient.confirm', {
                 url: '/confirm',
-                templateUrl: 'views/patient-confirm-input.html'
+                templateUrl: 'views/patient-confirm-input.html',
+                resolve: { initialization: 'initialization' }
             })
             .state('visit', {
                 url: '/visit/:patientUuid',
@@ -145,23 +164,28 @@ angular
             })
             .state('detailpatient.demographic', {
                 url: '/demographic',
-                templateUrl: 'views/patient-demographics.html'
+                templateUrl: 'views/patient-demographics.html',
+                resolve: { initialization: 'initialization' }
             })
             .state('detailpatient.addresses', {
                 url: '/addresses',
-                templateUrl: 'views/patient-addresses.html'
+                templateUrl: 'views/patient-addresses.html',
+                resolve: { initialization: 'initialization' }
             })
             .state('detailpatient.attributes', {
                 url: '/attributes',
-                templateUrl: 'views/patient-attributes.html'
+                templateUrl: 'views/patient-attributes.html',
+                resolve: { initialization: 'initialization' }
             })
             .state('detailpatient.identifiers', {
                 url: '/identifiers',
-                templateUrl: 'views/patient-identifiers.html'
+                templateUrl: 'views/patient-identifiers.html',
+                resolve: { initialization: 'initialization' }
             })
             .state('detailpatient.death', {
                 url: '/death',
-                templateUrl: 'views/patient-death.html'
+                templateUrl: 'views/patient-death.html',
+                resolve: { initialization: 'initialization' }
             });
             
             $stateProviderRef = $stateProvider;

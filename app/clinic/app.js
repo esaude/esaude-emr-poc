@@ -25,16 +25,19 @@ angular
             .state('dashboard.summary', {
                 url: '/summary',
                 templateUrl: 'views/patient-summary.html', 
-                controller: 'PatientSummaryController'
+                controller: 'PatientSummaryController',
+                resolve: { initialization: 'initialization' }
             })
             .state('dashboard.chart', {
                 url: '/chart',
                 templateUrl: 'views/patient-chart.html',
-                controller: 'PatientChartController'
+                controller: 'PatientChartController',
+                resolve: { initialization: 'initialization' }
             })
             .state('dashboard.consultation', {
                 url: '/consultation',
-                templateUrl: 'views/patient-consultation.html'
+                templateUrl: 'views/patient-consultation.html',
+                resolve: { initialization: 'initialization' }
             });
             $bahmniTranslateProvider.init({app: 'clinical', shouldMerge: true});
     }]);
