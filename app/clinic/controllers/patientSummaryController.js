@@ -1,18 +1,14 @@
 'use strict';
 
 angular.module('clinic')
-        .controller('PatientSummaryController', ["$scope", "$location", "$stateParams", 
-                        "encounterService", "observationsService", "patientService", "openmrsPatientMapper",
-                    function ($scope, $location, $stateParams, encounterService, 
-                    observationsService, patientService, patientMapper) {
+        .controller('PatientSummaryController', ["$scope", "$rootScope", "$stateParams", 
+                        "encounterService", "observationsService",
+                    function ($scope, $rootScope, $stateParams, encounterService, 
+                    observationsService) {
         var patientUuid;
 
         (function () {
             patientUuid = $stateParams.patientUuid;
-            
-            patientService.get(patientUuid).success(function (data) {
-                $scope.patient = patientMapper.map(data);
-            });
         })();
         
         var filterGroupReverse = function (data, element) {

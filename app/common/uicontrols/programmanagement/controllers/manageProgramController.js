@@ -52,8 +52,7 @@ angular.module('bahmni.common.uicontrols.programmanagment')
 
             var failureCallback = function (error) {
                 var fieldErrorMsg = findFieldErrorIfAny(error);
-                var errorMsg = _.isUndefined(fieldErrorMsg) ? "Failed to Save" : fieldErrorMsg;
-                showMessage(errorMsg);
+                $scope.errorMessage = _.isUndefined(fieldErrorMsg) ? "Failed to Save" : fieldErrorMsg;
             };
 
             var findFieldErrorIfAny = function (error) {
@@ -109,15 +108,15 @@ angular.module('bahmni.common.uicontrols.programmanagment')
                 $scope.programSelected = null;
                 $scope.programSelected = program;
                 if (!isProgramSelected()) {
-                    showMessage("Please select a Program to Enroll the patient");
+                    showMessage("COMMON_PROGRAM_ENROLLMENT_ERROR_NO_PROGRAM");
                     return;
                 }
                 if(!programEnrollmentDate) {
-                    showMessage("Please select an admission date");
+                    showMessage("COMMON_PROGRAM_ENROLLMENT_ERROR_NO_ADMISSION_DATE");
                     return;
                 }
                 if (isThePatientAlreadyEnrolled()) {
-                    showMessage("Patient already enrolled to the Program");
+                    showMessage("COMMON_PROGRAM_ENROLLMENT_ERROR_ALREADY_ENROLLED");
                     return;
                 }
                 $scope.workflowStateSelected = null;
@@ -188,16 +187,16 @@ angular.module('bahmni.common.uicontrols.programmanagment')
                 
                 if (DateUtil.isBeforeDate(startDate, currentStateDate)) {
                     var formattedCurrentStateDate = DateUtil.formatDateWithoutTime(currentStateDate);
-                    showMessage("State cannot be started earlier than current state (" + formattedCurrentStateDate + ")");
+                    showMessage("COMMON_PROGRAM_ENROLLMENT_ERROR_STATE_EARLIER_START");
                     return;
                 }     
                 if (!isProgramStateSelected()) {
-                    showMessage("Please select a state to change.");
+                    showMessage("COMMON_PROGRAM_ENROLLMENT_ERROR_NO_STATE_TO_CHANGE");
                     return;
                 }
                 
                 if(!startDate) {
-                    showMessage("Please select the state start date");
+                    showMessage("COMMON_PROGRAM_ENROLLMENT_ERROR_NO_STATE_START_DATE");
                     return; 
                 }
                 
@@ -224,13 +223,13 @@ angular.module('bahmni.common.uicontrols.programmanagment')
                 var currentStateDate = currentState ? DateUtil.parse(currentState.startDate) : null;
                 
                 if(!dateEnrolled) {
-                    showMessage("Please select an admission date");
+                    showMessage("COMMON_PROGRAM_ENROLLMENT_ERROR_NO_ADMISSION_DATE");
                     return;
                 }
 
                 if (currentState && DateUtil.isBeforeDate(dateCompleted, currentStateDate)) {
                     var formattedCurrentStateDate = DateUtil.formatDateWithoutTime(currentStateDate);
-                    showMessage("Program cannot be ended earlier than current state (" + formattedCurrentStateDate + ")");
+                    showMessage("COMMON_PROGRAM_ENROLLMENT_ERROR_EARLIER_END");
                     return;
                 }
 

@@ -53,7 +53,7 @@ angular.module('registration')
                                 location: localStorageService.cookie.get("emr.location").uuid, 
                                 fieldName : fieldName});
                         } else {
-                            $scope.errorMessage = "The selected Patient Identifier Type is already contained.";
+                            $scope.errorMessage = "PATIENT_INFO_IDENTIFIER_ERROR_EXISTING";
                         }
                     }
                 };

@@ -1,6 +1,6 @@
 
 <div class="form-group form-group-lg">
-    <label for="death_date" class="col-sm-2 control-label">Date of death:</label>
+    <label for="death_date" class="col-sm-2 control-label">{{'PATIENT_INFO_DEATH_DATE' | translate}}:</label>
     <div class="col-sm-10">
         <input type="text" class="form-control" date-time id="death_date" ng-model="patient.deathDate" 
                ng-change="selectIsDead()" min-view="date" auto-close="true">
@@ -8,7 +8,7 @@
     </div>
 </div>
 <div class="form-group form-group-lg" ng-init="getDeathConcepts()">
-    <label for="death_reason" class="col-sm-2 control-label">Reason of death:
+    <label for="death_reason" class="col-sm-2 control-label">{{'PATIENT_INFO_DEATH_REASON' | translate}}:
         <span class="asterick" ng-if="patient.dead">*</span>
     </label>
     <div class="col-sm-10">
@@ -20,10 +20,10 @@
     </div>
 </div>
 <div class="form-group form-group-lg">
-    <label for="isDead" class="col-sm-2 control-label">Is Dead:</label>
+    <label for="isDead" class="col-sm-2 control-label">{{'PATIENT_INFO_DEAD' | translate}}:</label>
     <div class="col-sm-10">
         <input type="checkbox" id="isDead" bs-switch switch-active="true" switch-size="large" 
-               switch-off-text="NO" switch-on-text="YES" 
+               switch-off-text="{{'COMMON_NO' | translate}}" switch-on-text="{{'COMMON_YES' | translate}}" 
                ng-model="patient.dead" ng-disabled="disableIsDead()">
     </div>
 </div>

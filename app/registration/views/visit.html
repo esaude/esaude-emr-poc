@@ -2,46 +2,46 @@
     <div class="row bg-info-border bg-info content-border border-rouded-top"><!--visit header -->
         <div class="col-md-12 header-text-lg"><!-- last visit type and dates -->
             <img src="../../images/visit.png" class="img-responsive inline-align" width="24" height="24" alt="visit">
-            Last Visit: <span ng-if="lastVisit">{{lastVisit.visitType.name}} 
+            {{'REGISTRATION_LAST_VISIT' | translate}}: <span ng-if="lastVisit">{{lastVisit.visitType.name}} 
                 from {{lastVisit.startDatetime | date:'MMM d, y h:mm:ss a'}} to {{lastVisit.stopDatetime | date:'MMM d, y h:mm:ss a'}}</span>
-            <span ng-if="!lastVisit">NONE</span>
+            <span ng-if="!lastVisit">{{'COMMON_NONE' | translate}}</span>
         </div>
         <div class="col-md-12"><!-- patient gender, age and phone number -->
             <table>
                 <tr>
                     <td>
                         <img src="../../images/stsp.png" class="img-responsive inline-align" width="24" height="24" alt="visit">
-                        <span><b>Consultation -&nbsp;</b></span>
+                        <span><b>{{'COMMON_CONSULTATION' | translate}} -&nbsp;</b></span>
                     </td>
                     <td ng-if="lastConsultation">
-                        <span>last: </span>
+                        <span>{{'COMMON_LAST' | translate}}: </span>
                         <span>{{lastConsultation.encounterDatetime | date:'MMM d, y h:mm:ss a'}}</span> |
-                        <span>by:&nbsp;</span>
+                        <span>{{'COMMON_BY' | translate}}:&nbsp;</span>
                         <span>{{lastConsultation.provider.display}}</span> |
-                        <span>next: </span>
+                        <span>{{'COMMON_NEXT' | translate}}: </span>
                         <span class="label label-default" ng-class="{'label-warning': !nextConsultation}">
-                            {{(nextConsultation) ? (nextConsultation.value | date:'MMM d, y h:mm:ss a'): 'NOT SCHEDULED'}}
+                            {{(nextConsultation) ? (nextConsultation.value | date:'MMM d, y h:mm:ss a'): 'COMMON_NOT_SCHEDULED' | translate}}
                         </span>
                     </td>
-                    <td ng-if="!lastConsultation">NONE</td>
+                    <td ng-if="!lastConsultation">{{'COMMON_NONE' | translate}}</td>
                 </tr>
                 <tr>
                     <td>
                         <img src="../../images/pills.png" class="img-responsive inline-align" width="24" height="24" alt="visit">
-                        <span><b>Pharmacy -&nbsp;</b></span>
+                        <span><b>{{'COMMON_PHARMACY' | translate}} -&nbsp;</b></span>
                     </td>
                     <td ng-if="lastPharmacy">
-                        <span>last: </span>
+                        <span>{{'COMMON_LAST' | translate}}: </span>
                         <span>{{lastPharmacy.encounterDatetime | date:'MMM d, y h:mm:ss a'}}</span> | 
-                        <span>by:&nbsp;</span>
+                        <span>{{'COMMON_BY' | translate}}:&nbsp;</span>
                         <span>{{lastPharmacy.provider.display}}</span> | 
-                        <span>next: </span>
+                        <span>{{'COMMON_NEXT' | translate}}: </span>
                         <span class="label label-default" ng-class="{'label-warning': !nextPharmacy}">
-                            {{(nextPharmacy) ? (nextPharmacy.value | date:'MMM d, y h:mm:ss a'): 'NOT SCHEDULED'}}
+                            {{(nextPharmacy) ? (nextPharmacy.value | date:'MMM d, y h:mm:ss a'): 'COMMON_NOT_SCHEDULED' | translate}}
                         </span>
                     </td>
                     <td ng-if="!lastPharmacy">
-                        NONE
+                        {{'COMMON_NONE' | translate}}
                     </td>
                 </tr>
             </table>
@@ -49,7 +49,7 @@
     </div><!--visit header -->
     <div class="row bg-info-border content-border border-rouded-bottom go-to-right"><!-- visit header controls -->
         <button type="button" class="btn btn-primary btn-lg">
-            Check in
+            {{'COMMON_CHECKIN' | translate}}
             <span class="glyphicon glyphicon-log-in"></span>
         </button>
     </div><!-- visit header controls -->

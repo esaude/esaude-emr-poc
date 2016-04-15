@@ -1,25 +1,21 @@
 'use strict';
 
 angular.module('clinic')
-        .controller('PatientChartController', ["$scope", "$filter", "$location", "$stateParams", 
-                        "encounterService", "observationsService", "patientService", "openmrsPatientMapper",
-                    function ($scope, $filter, $location, $stateParams, encounterService, 
-                    observationsService, patientService, patientMapper) {
+        .controller('PatientChartController', ["$scope", "$filter", "$stateParams", 
+                        "encounterService", "observationsService",
+                    function ($scope, $filter, $stateParams, encounterService, 
+                    observationsService) {
         var patientUuid;
 
         (function () {
             patientUuid = $stateParams.patientUuid;
-            
-            patientService.get(patientUuid).success(function (data) {
-                $scope.patient = patientMapper.map(data);
-            });
 
         })();
         
         $scope.initCd4Chart = function () {
             var labEncounterUuid = "e2790f68-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
             var concepts = ["e1e68f26-1d5f-11e0-b929-000c29ad1d07", "e1d48fba-1d5f-11e0-b929-000c29ad1d07"];
-            var series = ["CD4 Count", "CD4%"];
+            var series = [$filter('translate')('CLINIC_PATIENT_CD4_COUNT'), $filter('translate')('CLINIC_PATIENT_CD4_PERCENT')];
             var name = "cd4";
             
             encounterService.getEncountersForEncounterType(patientUuid, labEncounterUuid)
@@ -33,7 +29,7 @@ angular.module('clinic')
                 "e1e2e934-1d5f-11e0-b929-000c29ad1d07",
                 "e1da52ba-1d5f-11e0-b929-000c29ad1d07"
             ];
-            var series = ["Weight (cm)", "Height (kg)", "BMI"];
+            var series = [$filter('translate')('CLINIC_PATIENT_WEIGHT'), $filter('translate')('CLINIC_PATIENT_HEIGHT'), $filter('translate')('CLINIC_PATIENT_BMI')];
             var name = "bmi";
             
             var adultFollowupEncounterUuid = "e278f956-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file

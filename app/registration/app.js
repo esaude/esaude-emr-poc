@@ -2,8 +2,8 @@
 
 angular
     .module('registration')
-    .config(['$urlRouterProvider', '$stateProvider', 
-                function ($urlRouterProvider, $stateProvider) {
+    .config(['$urlRouterProvider', '$stateProvider', '$bahmniTranslateProvider',
+                function ($urlRouterProvider, $stateProvider, $bahmniTranslateProvider) {
         $urlRouterProvider.otherwise('/search');
         $stateProvider
             .state('search', {
@@ -191,4 +191,5 @@ angular
                 url: '/confirm',
                 templateUrl: '../poc-common/form-display/views/form-confirm-template.html'
             });
+            $bahmniTranslateProvider.init({app: 'registration', shouldMerge: true});
     }]);

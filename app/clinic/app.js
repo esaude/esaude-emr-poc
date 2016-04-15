@@ -2,8 +2,8 @@
 
 angular
     .module('clinic')
-    .config(['$urlRouterProvider', '$stateProvider', 
-                function ($urlRouterProvider, $stateProvider) {
+    .config(['$urlRouterProvider', '$stateProvider', '$bahmniTranslateProvider',
+                function ($urlRouterProvider, $stateProvider, $bahmniTranslateProvider) {
         $urlRouterProvider.otherwise('/search');
         $stateProvider
             .state('search', {
@@ -36,4 +36,5 @@ angular
                 url: '/consultation',
                 templateUrl: 'views/patient-consultation.html'
             });
+            $bahmniTranslateProvider.init({app: 'clinical', shouldMerge: true});
     }]);
