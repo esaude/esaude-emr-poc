@@ -5,6 +5,7 @@
     "COMMON_HEADER_MENU_LOGOUT": "Log out",
     "PAGE_TITLE_KEY": "Poc Home",
     "LOGIN_LABEL_LOGIN_KEY": "Login",
+    "LOGIN_LABEL_LOGGEDIN_KEY": "Logged in as",
     "LOGIN_LABEL_USERNAME_KEY": "Username",
     "LOGIN_LABEL_PASSWORD_KEY": "Password",
     "LOGIN_LABEL_LOCATION_KEY": "Location",

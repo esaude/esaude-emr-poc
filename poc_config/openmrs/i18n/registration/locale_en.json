@@ -81,6 +81,7 @@
     "PATIENT_INFO_DEATH_DATE": "Date of death",
     "PATIENT_INFO_DEATH_REASON": "Reason of death",
     "PATIENT_INFO_DEAD": "Is Dead",
-    "PATIENT_INFO_NEW": "New Patient"
+    "PATIENT_INFO_NEW": "New Patient",
+    "LOGIN_LABEL_LOGGEDIN_KEY": "Logged in as"
     
 }

@@ -5,6 +5,7 @@
     "COMMON_HEADER_MENU_LOGOUT": "Sair",
     "PAGE_TITLE_KEY": "Poc Inicio",
     "LOGIN_LABEL_LOGIN_KEY": "Entrar",
+    "LOGIN_LABEL_LOGGEDIN_KEY": "Entrou como",
     "LOGIN_LABEL_USERNAME_KEY": "Utilizador",
     "LOGIN_LABEL_PASSWORD_KEY": "Senha",
     "LOGIN_LABEL_LOCATION_KEY": "Local/US",

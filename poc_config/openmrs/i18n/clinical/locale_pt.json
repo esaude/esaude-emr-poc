@@ -107,5 +107,6 @@
     "CLINIC_PATIENT_CD4_PERCENT": "CD4%",
     "CLINIC_PATIENT_WEIGHT": "Peso (kg)",
     "CLINIC_PATIENT_HEIGHT": "Altura (cm)",
-    "CLINIC_PATIENT_BMI": "IMC"
+    "CLINIC_PATIENT_BMI": "IMC",
+    "LOGIN_LABEL_LOGGEDIN_KEY": "Entrou como"
 }
