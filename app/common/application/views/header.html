@@ -5,11 +5,11 @@
     </div>
     <div class="col-md-6 go-to-right" ng-hide="showMenu"><!-- welcome and menu -->
         <div class="inline-align">
-            Welcome user! goes here
+          Logged in as {{ currentUser.person.preferredName.display }}
         </div>
         <div  class="inline-align"><!-- menu bar -->
             <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" type="button" 
+                <button class="btn btn-primary dropdown-toggle" type="button"
                         id="topMenu" data-toggle="dropdown">
                     <span class="glyphicon glyphicon-menu-hamburger"></span>
                 </button>
@@ -17,7 +17,7 @@
                     <li><a ng-href="/home"><span class="glyphicon glyphicon-home"></span> {{'COMMON_HEADER_MENU_HOME' | translate}}</a></li>
                     <li><a href="#"><span class="glyphicon glyphicon-user"></span> {{'COMMON_HEADER_MENU_PROFILE' | translate}}</a></li>
                     <li><a href="#"><span class="glyphicon glyphicon-question-sign"></span> {{'COMMON_HEADER_MENU_SUPPORT' | translate}}</a></li>
-                    <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> {{'COMMON_HEADER_MENU_LOGOUT' | translate}}</a></li>
+                    <li><a log-out><span class="glyphicon glyphicon-log-out"></span> {{'COMMON_HEADER_MENU_LOGOUT' | translate}}</a></li>
                 </ul>
             </div>
         </div>
