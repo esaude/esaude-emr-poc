@@ -164,8 +164,19 @@ module.exports = function (grunt) {
       },
       dist: {
         options: {
-          open: true,
-          base: '<%= yeoman.dist %>'
+          open: "http://localhost:9000/home/",
+          base: '<%= yeoman.dist %>',
+          livereload: false,
+          middleware: function (connect) {
+            return [
+              connect().use(
+                '/poc_config',
+                serveStatic('./poc_config')
+              ),
+              serveStatic(appConfig.dist),
+              proxySnippet
+            ];
+          }
         }
       }
     },
@@ -375,7 +386,8 @@ module.exports = function (grunt) {
             '.htaccess',
             '*.html',
             'images/{,*/}*.{webp}',
-            'styles/fonts/{,*/}*.*'
+            'styles/fonts/{,*/}*.*',
+            'common/application/resources/**/*.json'
           ]
         }, {
           expand: true,
@@ -435,7 +447,10 @@ module.exports = function (grunt) {
 
   grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
     if (target === 'dist') {
-      return grunt.task.run(['build', 'connect:dist:keepalive']);
+      return grunt.task.run([
+        'build',
+        'configureProxies',
+        'connect:dist:keepalive']);
     }
 
     grunt.task.run([
