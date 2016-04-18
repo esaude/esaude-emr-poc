@@ -6,7 +6,7 @@ Poc.Common.CreateEncounterRequestMapper = (function () {
     }
 
     CreateEncounterRequestMapper.prototype.mapFromFormPayload = function (formPayload, formParts, patient, location, provider) {
-        
+        var fields = filterOnlyConceptFields(formPayload.form.fields);
         var openMRSEncounter = {
             encounterType: formPayload.encounterType.uuid,
             encounterDatetime: this.currentDate,
@@ -14,10 +14,16 @@ Poc.Common.CreateEncounterRequestMapper = (function () {
             location: location,
             form: formPayload.form.uuid,
             provider: provider,
-            obs: createObs(formPayload.form.fields, flattenFields(formParts), patient)
+            obs: createObs(fields, flattenFields(formParts), patient)
         };
 
         return  openMRSEncounter;
+    };
+    
+    var filterOnlyConceptFields = function (fields) {
+        return _.pickBy(fields, function (o) {
+            return o.fieldConcept.concept;
+        });
     };
     
     var flattenFields = function (formParts) {
@@ -68,13 +74,25 @@ Poc.Common.CreateEncounterRequestMapper = (function () {
                                     }
                                 });
                             } else {
-                                obs.groupMembers.push({
-                                    concept: memberField.fieldConcept.concept.uuid,
-                                    value: (isAnyObject(memberField.value) &&
-                                            memberField.fieldConcept.concept.datatype.display === 'Coded') ? memberField.value.uuid : memberField.value,
-                                    obsDatetime: Bahmni.Common.Util.DateUtil.now(),
-                                    person: person
-                                });
+                                var value;                       
+                                if(memberField.fieldConcept.concept.datatype.display === 'Coded') {
+                                    if(_.isString(memberField.value)) {
+                                        value = JSON.parse(memberField.value).uuid;
+                                    } else {
+                                        value = memberField.value.uuid;
+                                    }
+                                } else {
+                                    value = memberField.value;
+                                }
+                                //only if obs has value
+                                if(typeof value !== 'undefined') {
+                                    obs.groupMembers.push({
+                                        concept: memberField.fieldConcept.concept.uuid,
+                                        value: value,
+                                        obsDatetime: Bahmni.Common.Util.DateUtil.now(),
+                                        person: person
+                                    });
+                                }
                             }
                         }
                     }

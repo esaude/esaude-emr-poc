@@ -2,17 +2,24 @@
 
 Poc.Common.FormRequestMapper = (function () {
     
-    var mapFromOpenMRSForm = function (openMRSForm) {        
+    var mapFromOpenMRSForm = function (openMRSForm) {
+        var fields = filterOnlyConceptFields(openMRSForm.formFields);
         return {
             encounterType: openMRSForm.encounterType,
             form: {
                 name: openMRSForm.display,
                 description: openMRSForm.description,
                 uuid: openMRSForm.uuid,
-                fields: createFormFields(openMRSForm.formFields)
+                fields: createFormFields(fields)
                 
             }
         };
+    };
+    
+    var filterOnlyConceptFields = function (fields) {
+        return _.pickBy(fields, function (o) {
+            return o.fieldConcept.concept;
+        });
     };
     
     var mapFromOpenMRSFormWithEncounter = function (openMRSForm, encounter) {
@@ -35,7 +42,10 @@ Poc.Common.FormRequestMapper = (function () {
                             eachField.value[obs.value.uuid] = (_.isEmpty(eachField.fieldConcept.concept.answers)) ? 
                                     obs.value : 
                                             JSON.stringify(realValueOfField(eachField.fieldConcept.concept.answers, obs.value));
-                        } else {
+                        }
+                        else if (eachField.fieldConcept.concept.answers.length === 2) {
+                            eachField.value = JSON.stringify(realValueOfField(eachField.fieldConcept.concept.answers, obs.value));
+                        }else {
                             eachField.value = (_.isEmpty(eachField.fieldConcept.concept.answers)) ? 
                                     obs.value : 
                                             realValueOfField(eachField.fieldConcept.concept.answers, obs.value);

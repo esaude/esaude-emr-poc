@@ -1,10 +1,10 @@
 <div ng-form="aForm" class="form-group form-group-lg"
      ng-class="{'has-error': aForm.{{fieldId}}.$invalid && $parent.submitted}">
-    <label class="col-sm-2 control-label">
+    <label class="col-sm-4 control-label">
         {{formParts.form.fields[fieldUuid].field.name}}:
         <span ng-if="formParts.form.fields[fieldUuid].field.required" class="asterick">*</span>
     </label>
-    <div class="col-sm-10" 
+    <div class="col-sm-8" 
          ng-if="formParts.form.fields[fieldUuid].fieldConcept.fieldType.display === 'Concept'">
          
         <div ng-switch="formParts.form.fields[fieldUuid].fieldConcept.concept.datatype.display">
@@ -66,24 +66,31 @@
                         ng-if="formParts.form.fields[fieldUuid].fieldConcept.concept.answers.length === 3">
                         <div class="content-border-padding" ng-repeat="answer in formParts.form.fields[fieldUuid].fieldConcept.concept.answers">
                             <input type="radio"
-                                   id="{{answer.uuid}}"
+                                   id="{{fieldId}}{{answer.uuid}}"
                                    class="radio-lx"
                                    name="{{fieldId}}" 
                                    ng-value="{{answer}}"
                                    ng-model="formParts.form.fields[fieldUuid].value"
                                    ng-required="{{formParts.form.fields[fieldUuid].field.required && !formParts.form.fields[fieldUuid].value}}">
-                            <label for="{{answer.uuid}}">{{answer.display}}</label>
+                            <label for="{{fieldId}}{{answer.uuid}}">{{answer.display}}</label>
                         </div>
                     </div>
                     <div ng-if="formParts.form.fields[fieldUuid].fieldConcept.concept.answers.length === 2">
-                        <input name="{{fieldId}}" type="checkbox" bs-switch switch-size="large" 
+                        <!--input type="checkbox" bs-switch switch-size="large" name="{{fieldId}}"
                                switch-off-text="{{formParts.form.fields[fieldUuid].fieldConcept.concept.answers[0].display}}" 
                                switch-on-text="{{formParts.form.fields[fieldUuid].fieldConcept.concept.answers[1].display}}" 
-                               switch-on-color="primary" switch-off-color="primary" 
+                               switch-on-color="primary" switch-off-color="default"
+                               ng-value="'{{formParts.form.fields[fieldUuid].fieldConcept.concept.answers[0].display}}'"
                                ng-model="formParts.form.fields[fieldUuid].value" 
-                               ng-true-value="{{JSON.stringify(formParts.form.fields[fieldUuid].fieldConcept.concept.answers[0].uuid)}}" 
-                               ng-false-value="{{JSON.stringify(formParts.form.fields[fieldUuid].fieldConcept.concept.answers[1].uuid)}}"
-                               ng-required="{{formParts.form.fields[fieldUuid].field.required && !formParts.form.fields[fieldUuid].value}}">
+                               ng-false-value="'{{formParts.form.fields[fieldUuid].fieldConcept.concept.answers[0]}}'" 
+                               ng-true-value="'{{formParts.form.fields[fieldUuid].fieldConcept.concept.answers[1]}}'"
+                               -->
+                        <checkbox largest
+                               name="{{fieldId}}"
+                               ng-true-value="{{formParts.form.fields[fieldUuid].fieldConcept.concept.answers[1]}}"
+                               ng-false-value="{{formParts.form.fields[fieldUuid].fieldConcept.concept.answers[0]}}"
+                               ng-model="formParts.form.fields[fieldUuid].value"
+                               ng-required="{{formParts.form.fields[fieldUuid].field.required}}">
                     </div>
                 </div>
             </div>

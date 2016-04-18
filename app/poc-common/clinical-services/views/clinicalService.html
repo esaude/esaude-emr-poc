@@ -13,7 +13,7 @@
                 <p>{{service.label}}</p>
             </div>
             <div class="col-sm-4">
-                <p>{{service.lastEncounterForService.encounterDatetime| date:"MM/dd/yyyy hh:mm"}}</p>
+                <p ng-if="service.lastEncounterForService">{{service.lastEncounterForService.encounterDatetime| date:"MM/dd/yyyy hh:mm"}}</p>
                 <p ng-if="!service.lastEncounterForService">
                     {{'COMMON_NONE' | translate}}
                 </p>
