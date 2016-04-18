@@ -1,5 +1,14 @@
 <div ng-include src="'../../common/patient/header/views/header.html'"></div><!--patient header -->
 
+<div class="row bg-info-border content-border border-rouded-top" ng-init="getAlerts()" ng-show="flags.length !== 0">
+    <div class="col-sm-12" ng-repeat="flag in flags">
+        <div class="alert alert-warning alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>Alerta:</strong> {{flag.message}}
+        </div>
+    </div> 
+</div>
+
 <div class="bg-info-border content-border border-rouded">
     <ul class="nav nav-tabs">
         <li role="presentation" data-toggle="tab"><a ui-sref="dashboard.summary">Summary</a></li>
