@@ -13,7 +13,7 @@ angular.module('bahmni.common.i18n')
             var mergeLocaleFile = function (options) {
                 var deferrable = $q.defer();
                 var fileURL = options.app + "/locale_" + options.key + ".json";
-                var mergedLocaleFile = loadFile(baseLocaleUrl + "/locale_" + options.key + ".json").then(
+                var mergedLocaleFile = loadFile(baseLocaleUrl + "locale_" + options.key + ".json").then(
                     function (baseResponse) {
                         return loadFile(customLocaleUrl + fileURL).then(function (customResponse) {
                             if (options.shouldMerge || options.shouldMerge === undefined) {

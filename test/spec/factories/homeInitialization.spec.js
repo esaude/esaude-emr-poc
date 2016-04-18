@@ -39,7 +39,7 @@ describe('Factory: home/initialization', function() {
 
   it('injection should work correctly', function() {
     // mock backend & ensure it gets called
-    $httpBackend.expectGET("../i18n/home/locale_en.json")
+    $httpBackend.expectGET("/poc_config/openmrs/i18n/common/locale_en.json")
       .respond({
         data: window.__fixtures__['local_en']
       });
@@ -51,7 +51,7 @@ describe('Factory: home/initialization', function() {
 
   it('should correctly load the default location', function() {
     // mock backend & ensure it gets called
-    $httpBackend.expectGET("../i18n/home/locale_en.json")
+    $httpBackend.expectGET("/poc_config/openmrs/i18n/common/locale_en.json")
       .respond({
         data: window.__fixtures__['local_en']
       });
