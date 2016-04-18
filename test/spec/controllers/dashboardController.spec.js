@@ -38,7 +38,7 @@ describe('Controller: DashboardController', function() {
     });
 
     // mock backend & ensure it gets called
-    $httpBackend.expectGET("../i18n/home/locale_en.json")
+    $httpBackend.expectGET("/poc_config/openmrs/i18n/common/locale_en.json")
       .respond({
         data: window.__fixtures__['local_en']
       });

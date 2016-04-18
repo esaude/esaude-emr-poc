@@ -2,29 +2,29 @@
     <div class="col-sm-6">
         <div class="panel panel-primary panel-marginless-sides" ng-init="initVisitHistory()" >
             <div class="panel-heading">
-                <h3 class="panel-title">Visit History</h3>
+                <h3 class="panel-title">{{'CLINIC_PATIENT_VISIT_HISTORY' | translate}}</h3>
             </div>
             <div class="list-group" ng-repeat="visit in visits">
                 <div class="bg-info content-border-padding-li">
-                    Visit on {{visit[0].encounterDatetime | date:"MMM d, y"}}
+                    {{'CLINIC_PATIENT_VISIT' | translate}} {{'COMMON_ON' | translate}} {{visit[0].encounterDatetime | date:"MMM d, y"}}
                 </div>
                 <div class="list-group-item" ng-repeat="encounter in visit">
-                    <div>{{encounter.encounterType.display}} on {{encounter.encounterDatetime | date:"MMM d, y"}}, 
-                        by: {{encounter.provider.display}}</div>
+                    <div>{{encounter.encounterType.display}} {{'COMMON_ON' | translate}} {{encounter.encounterDatetime | date:"MMM d, y"}}, 
+                        {{'COMMON_BY' | translate}}: {{encounter.provider.display}}</div>
                 </div>
             </div>
         </div>
         
         <div class="panel panel-primary panel-marginless-sides" ng-init="initDiagnosis()">
             <div class="panel-heading">
-                <h3 class="panel-title">Diagnosis (Dx)</h3>
+                <h3 class="panel-title">{{'CLINIC_PATIENT_DIAGNOSIS' | translate}}</h3>
             </div>
             <table class="table">
                 <tbody>
                     <tr ng-repeat="diagn in diagnosis">
                         <td>{{diagn.concept.name.display}}</td>
                         <td>{{isObject(diagn.value) ? diagn.value.display : diagn.value}}</td>
-                        <td>diagnosed on {{diagn.obsDatetime | date:"MMM d, y"}}</td>
+                        <td>{{'CLINIC_PATIENT_DIAGNOSED' | translate}} {{'COMMON_ON' | translate}} {{diagn.obsDatetime | date:"MMM d, y"}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -32,11 +32,11 @@
         
         <div class="panel panel-primary panel-marginless-sides" ng-init="initPrescriptions()">
             <div class="panel-heading">
-                <h3 class="panel-title">Prescriptions / Regimens</h3>
+                <h3 class="panel-title">{{'CLINIC_PATIENT_PRESCRIPTIONS' | translate}}/{{'CLINIC_PATIENT_REGIMENS' | translate}}</h3>
             </div>
             <div class="list-group" ng-repeat="encounter in prescriptions">
                 <div class="bg-info content-border-padding-li">
-                    Prescribed on {{encounter.encounterDatetime | date:"MMM d, y"}}
+                    {{'CLINIC_PATIENT_PRESCRIBED' | translate}} {{'COMMON_ON' | translate}} {{encounter.encounterDatetime | date:"MMM d, y"}}
                 </div>
                 <div ng-repeat="obs in encounter.obs">
                     <div class="list-group-item">
@@ -49,11 +49,11 @@
         
         <div class="panel panel-primary panel-marginless-sides" ng-init="initVitals()">
             <div class="panel-heading">
-                <h3 class="panel-title">Vitals</h3>
+                <h3 class="panel-title">{{'CLINIC_PATIENT_VITALS' | translate}}</h3>
             </div>
             <div class="list-group" ng-repeat="encounter in vitals">
                 <div class="bg-info content-border-padding-li">
-                    Captured on {{encounter.encounterDatetime | date:"MMM d, y"}}
+                    {{'CLINIC_PATIENT_CAPTURED' | translate}} {{'COMMON_ON' | translate}} {{encounter.encounterDatetime | date:"MMM d, y"}}
                 </div>
                 <div ng-repeat="obs in encounter.obs">
                     <div class="list-group-item">
@@ -67,11 +67,11 @@
     <div class="col-sm-6">
         <div class="panel panel-primary panel-marginless-sides" ng-init="initLabResults()">
             <div class="panel-heading">
-                <h3 class="panel-title">Lab Results</h3>
+                <h3 class="panel-title">{{'CLINIC_PATIENT_LAB' | translate}}</h3>
             </div>
             <div class="list-group" ng-repeat="visit in labs">
                 <div class="bg-info content-border-padding-li">
-                    Collected on {{visit[0].encounterDatetime | date:"MMM d, y"}}
+                    {{'CLINIC_PATIENT_COLLECTED' | translate}} {{'COMMON_ON' | translate}} {{visit[0].encounterDatetime | date:"MMM d, y"}}
                 </div>
                 <div ng-repeat="encounter in visit">
                     <div ng-repeat="obs in encounter.obs">
@@ -96,11 +96,11 @@
         
         <div class="panel panel-primary panel-marginless-sides" ng-init="initPharmacyPickups()">
             <div class="panel-heading">
-                <h3 class="panel-title">Pharmacy ARV Pickups</h3>
+                <h3 class="panel-title">{{'CLINIC_PATIENT_PHARMACY' | translate}}</h3>
             </div>
             <div class="list-group" ng-repeat="visit in pickups">
                 <div class="bg-info content-border-padding-li">
-                    Dispensed on {{visit[0].encounterDatetime | date:"MMM d, y"}}
+                    {{'CLINIC_PATIENT_DISPENSED' | translate}} {{'COMMON_ON' | translate}} {{visit[0].encounterDatetime | date:"MMM d, y"}}
                 </div>
                 <div ng-repeat="encounter in visit">
                     <div ng-repeat="obs in encounter.obs" class="list-group-item">
@@ -113,11 +113,11 @@
         
         <div class="panel panel-primary panel-marginless-sides" ng-init="initAllergies()">
             <div class="panel-heading">
-                <h3 class="panel-title">Allergies/Side effects of ART</h3>
+                <h3 class="panel-title">{{'CLINIC_PATIENT_ALLERGIES' | translate}}/{{'CLINIC_PATIENT_SIDE_EFFECTS' | translate}}</h3>
             </div>
             <div class="list-group" ng-repeat="encounter in allergies">
                 <div class="bg-info content-border-padding-li">
-                    Diagnosed on {{encounter.encounterDatetime | date:"MMM d, y"}}
+                    {{'CLINIC_PATIENT_DIAGNOSED' | translate}} {{'COMMON_ON' | translate}} {{encounter.encounterDatetime | date:"MMM d, y"}}
                 </div>
                 <div ng-repeat="obs in encounter.obs" class="list-group-item">
                     {{isObject(obs.value) ? obs.value.display : obs.value}}
@@ -127,22 +127,22 @@
         
         <div class="panel panel-primary panel-marginless-sides" ng-controller="ManageProgramController">
             <div class="panel-heading">
-                <h3 class="panel-title">Program Enrollment Summary</h3>
+                <h3 class="panel-title">{{'COMMON_PROGRAM_ENROLLMENT_SUMMARY_TITLE' | translate}}</h3>
             </div>
             <div class="list-group" ng-if="hasPatientEnrolledToSomePrograms()" ng-repeat="program in patientAllPrograms">
                 <div class="bg-info content-border-padding-li">
                     <span class="label label-success" ng-if="!program.dateCompleted">A</span>
                     <span class="label label-warning" ng-if="program.dateCompleted">P</span>
                     <span>{{program.display}}</span>
-                    <span>Enrolled on: ({{program.dateEnrolled | date:"MM/dd/yyyy"}})</span>
-                    <span ng-if="program.dateCompleted">Completed on: ({{program.dateCompleted | date:"MM/dd/yyyy"}})</span>
+                    <span>{{'COMMON_PROGRAM_ENROLLMENT_ENROLLED_ON' | translate}}: ({{program.dateEnrolled | date:"MM/dd/yyyy"}})</span>
+                    <span ng-if="program.dateCompleted">{{'COMMON_PROGRAM_ENROLLMENT_COMPLETED_ON' | translate}}: ({{program.dateCompleted | date:"MM/dd/yyyy"}})</span>
                 </div>
                 <div ng-if="hasValidProgramStateToShow(program.states)" 
                      ng-repeat="state in program.states" class="list-group-item">
                     {{state.state.concept.display}}
-                    <span>from ({{state.startDate | date:"MM/dd/yyyy"}})</span>
+                    <span>{{'COMMON_FROM' | translate}} ({{state.startDate | date:"MM/dd/yyyy"}})</span>
                     <span ng-if="state.endDate">
-                        to {{state.endDate | date:"MM/dd/yyyy"}}
+                        {{'COMMON_TO' | translate}} {{state.endDate | date:"MM/dd/yyyy"}}
                     </span>
                 </div>
             </div>

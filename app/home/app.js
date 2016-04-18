@@ -19,7 +19,8 @@ angular
                 views: {
                     'layout': { templateUrl: '../common/application/views/layout.html', controller: 'DashboardController'},
                     'content@dashboard': { templateUrl: 'views/dashboard.html'}
-                }
+                },
+                resolve: { initialization: 'initialization' }
             });
             $bahmniTranslateProvider.init({app: 'home', shouldMerge: true});
     }]);

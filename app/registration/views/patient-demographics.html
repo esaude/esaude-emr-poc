@@ -1,14 +1,14 @@
 <ul class="list-group content-border-margin-regular">
     <li class="list-group-item">
-        <b>Names: </b> {{patient.givenName}} {{patient.middleName}} {{patient.familyName}}
+        <b>{{'PATIENT_INFO_NAMES' | translate}}: </b> {{patient.givenName}} {{patient.middleName}} {{patient.familyName}}
     </li>
     <li class="list-group-item">
-        <b>Gender: </b> {{patient.gender}}
+        <b>{{'PATIENT_INFO_GENDER' | translate}}: </b> {{patient.gender}}
     </li>
     <li class="list-group-item">
-        <b>Birthdate: </b> {{patient.birthdate | date:"MM/dd/yyyy"}} <b> Estimated: </b> {{(patient.birthdateEstimated == true)? "YES" : "NO"}}
+        <b>{{'PATIENT_INFO_BIRTHDATE' | translate}}: </b> {{patient.birthdate | date:"MM/dd/yyyy"}} <b> {{'PATIENT_INFO_ESTIMATED' | translate}}: </b> {{(patient.birthdateEstimated == true)? 'COMMON_YES' : 'COMMON_NO' | translate}}
     </li>
     <li class="list-group-item">
-        <b>Age: </b> {{patient.age.years}}
+        <b>{{'PATIENT_INFO_AGE' | translate}}: </b> {{patient.age.years}}
     </li>
 </ul>

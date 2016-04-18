@@ -1,9 +1,9 @@
 <div class="content-border-margin">
     <div class="row">
-        <p class="col-sm-4"><b>Service/Form</b></p>
-        <p class="col-sm-4"><b>Last Service Date</b></p>
-        <p class="col-sm-2"><b>Created by</b></p>
-        <p class="col-sm-2"><b>Actions</b></p>
+        <p class="col-sm-4"><b>{{'COMMON_CLINICAL_SERVICE_HEADER_FORM' | translate}}</b></p>
+        <p class="col-sm-4"><b>{{'COMMON_CLINICAL_SERVICE_HEADER_LAST' | translate}}</b></p>
+        <p class="col-sm-2"><b>{{'COMMON_CLINICAL_SERVICE_HEADER_CREATOR' | translate}}</b></p>
+        <p class="col-sm-2"><b>{{'COMMON_CLINICAL_SERVICE_HEADER_ACTIONS' | translate}}</b></p>
     </div>
     <div class="list-group-item" ng-repeat="service in services" ng-init="initService(service)" 
          ng-if="(service.constraints.minAge && patient.age.years >= service.constraints.minAge) || 
@@ -13,9 +13,9 @@
                 <p>{{service.label}}</p>
             </div>
             <div class="col-sm-4">
-                <p>{{service.lastEncounterForService.encounterDatetime| date:"MM/dd/yyyy hh:mm"}}</p>
+                <p ng-if="service.lastEncounterForService">{{service.lastEncounterForService.encounterDatetime| date:"MM/dd/yyyy hh:mm"}}</p>
                 <p ng-if="!service.lastEncounterForService">
-                    NONE
+                    {{'COMMON_NONE' | translate}}
                 </p>
             </div>
             <div class="col-sm-2">
@@ -23,7 +23,7 @@
                     {{service.lastEncounterForService.provider.display}}
                 </p>
                 <p ng-if="!service.lastEncounterForService">
-                    NONE
+                    {{'COMMON_NONE' | translate}}
                 </p>
             </div>
             <div class="col-sm-2 go-to-right">
@@ -42,12 +42,12 @@
                         <tr ng-repeat="encounter in service.encountersForService">
                             <td>
                                 <button class="btn btn-primary btn-lg" type="button">
-                                    Date: {{encounter.encounterDatetime| date:"MM/dd/yyyy hh:mm"}} <span class="glyphicon glyphicon-eye-open"></span>
+                                    {{'COMMON_DATE' | translate}}: {{encounter.encounterDatetime| date:"MM/dd/yyyy hh:mm"}} <span class="glyphicon glyphicon-eye-open"></span>
                                 </button>
                             </td>
                             <td>
                                 <p>
-                                    <b>Created by:</b> {{encounter.provider.display}}
+                                    <b>{{'COMMON_CLINICAL_SERVICE_HEADER_CREATOR' | translate}}:</b> {{encounter.provider.display}}
                                 </p>
                             </td>
                             <td class="go-to-right">

@@ -1,6 +1,6 @@
 <div class="panel panel-primary content-border-margin"><!-- demographics -->
     <div class="panel-heading">
-        <h3 class="panel-title">Procurar Paciente</h3>
+        <h3 class="panel-title">{{'SEARCH_PATIENT' | translate}}</h3>
     </div>
     <div class="panel-body">
         <div class="row">
@@ -9,7 +9,7 @@
                     <span class="input-group-addon">
                         <span class=" glyphicon glyphicon glyphicon-search"></span>
                     </span>
-                    <input type="text" class="form-control input input-lg keyboard-in" ng-model="searchText" ng-change="change(searchText)" placeholder="NID or name...">
+                    <input type="text" class="form-control input input-lg keyboard-in" ng-model="searchText" ng-change="change(searchText)" placeholder="{{'SEARCH_PATIENT_PLACEHOLDER' | translate}}">
                 </div>
             </div>
             <div class="col-sm-2">
@@ -26,12 +26,12 @@
         <table st-table="results" st-safe-src="displayed" class="table table-striped">
             <thead>
                 <tr>
-                    <th>NID</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Gender</th>
-                    <th>Age</th>
-                    <th>Birthdate</th>
+                    <th>{{'SEARCH_PATIENT_NID' | translate}}</th>
+                    <th>{{'SEARCH_PATIENT_FIRSTNAME' | translate}}</th>
+                    <th>{{'SEARCH_PATIENT_LASTNAME' | translate}}</th>
+                    <th>{{'SEARCH_PATIENT_GENDER' | translate}}</th>
+                    <th>{{'SEARCH_PATIENT_AGE' | translate}}</th>
+                    <th>{{'SEARCH_PATIENT_BIRTHDATE' | translate}}</th>
                 </tr>
             </thead>
             <tbody>
@@ -47,7 +47,7 @@
             <tfoot>
                 <tr ng-show="noResultsMessage">
                     <td colspan="6" class="text-center">
-                        {{noResultsMessage}}
+                        {{noResultsMessage | translate}}
                     </td>
                 </tr>
                 <tr>
