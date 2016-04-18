@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('registration')
+angular.module('patient.details')
         .controller('DetailPatientController', ["$scope", "$stateParams", "$location",
                 function ($scope, $stateParams, $location) {
             var patientUuid;

@@ -201,5 +201,36 @@
                 ]
             }
         ]
+    },
+    {
+        "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
+        "name": "VITALS - ADULTO",
+        "sufix": "vitals_adult",
+        "parts": [
+            {
+                "id": "1",
+                "name": "Vitals",
+                "sref": ".vitals",
+                "nextSref": ".confirm",
+                "fields": [
+                    {
+                        "name": "Temperatura",
+                        "id": "e292af4a-1d5f-11e0-b929-000c29ad1d07"
+                    },
+                    {
+                        "name": "Peso",
+                        "id": "e292b454-1d5f-11e0-b929-000c29ad1d07"
+                    },
+                    {
+                        "name": "Altura",
+                        "id": "e292b558-1d5f-11e0-b929-000c29ad1d07"
+                    },
+                    {
+                        "name": "Pressão Arterial",
+                        "id": "e292b648-1d5f-11e0-b929-000c29ad1d07"
+                    }
+                ]
+            }
+        ]
     }
 ]

@@ -4,11 +4,12 @@ angular.module('clinic').factory('initialization',
     ['$cookieStore', '$rootScope', 'configurations', 'authenticator', 'appService', 'spinner', 'userService', 'formLoader',
     function ($cookieStore, $rootScope, configurations, authenticator, appService, spinner, userService, formLoader) {
         var getConfigs = function () {
-            var configNames = ['patientAttributesConfig'];
+            var configNames = ['patientAttributesConfig', 'addressLevels'];
             return configurations.load(configNames).then(function () {
                 var mandatoryPersonAttributes = appService.getAppDescriptor().getConfigValue("mandatoryPersonAttributes");
                 var patientAttributeTypes = new Poc.Patient.PatientAttributeTypeMapper().mapFromOpenmrsPatientAttributeTypes(configurations.patientAttributesConfig(), mandatoryPersonAttributes);
                 $rootScope.patientConfiguration = new Poc.Patient.PatientConfig(patientAttributeTypes.personAttributeTypes, configurations.identifierSourceConfig(), appService.getAppDescriptor().getConfigValue("additionalPatientInformation"));
+                $rootScope.addressLevels = configurations.addressLevels();
             });
         };
         

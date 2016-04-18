@@ -243,11 +243,6 @@ angular.module('bahmni.common.uicontrols.programmanagment')
                     .then(function () {
                         updateActiveProgramsList();
                     }));
-                
-                $(function () {
-                    $('#editProgramModal').modal('toggle');
-                });
-                $scope.errorMessage = null;
             };
 
             $scope.toggleEdit = function (program) {

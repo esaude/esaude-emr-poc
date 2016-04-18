@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('registration')
+angular.module('patient.details')
     .filter('valueofaddress', function() {
           return function(input, scope) {
               input = input || '';
