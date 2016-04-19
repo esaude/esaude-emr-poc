@@ -110,6 +110,5 @@
     "CLINIC_PATIENT_WEIGHT": "Weight (kg)",
     "CLINIC_PATIENT_HEIGHT": "Height (cm)",
     "CLINIC_PATIENT_BMI": "BMI",
-    "CLINIC_ALERT" : "Alert",
     "LOGIN_LABEL_LOGGEDIN_KEY": "Logged in as"
 }

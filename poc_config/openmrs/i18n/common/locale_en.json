@@ -47,6 +47,7 @@
     "COMMON_CLINICAL_SERVICE_HEADER_LAST": "Last date",
     "COMMON_CLINICAL_SERVICE_HEADER_CREATOR": "Created by",
     "COMMON_CLINICAL_SERVICE_HEADER_ACTIONS": "Actions",
+    "COMMON_ALERT":"Alert",
     "SEARCH_PATIENT": "Search Patient",
     "SEARCH_PATIENT_PLACEHOLDER": "NID or name...",
     "SEARCH_PATIENT_NID": "NID",
@@ -110,5 +111,11 @@
     "CLINIC_PATIENT_WEIGHT": "Weight (kg)",
     "CLINIC_PATIENT_HEIGHT": "Height (cm)",
     "CLINIC_PATIENT_BMI": "BMI",
-    "LOGIN_LABEL_LOGGEDIN_KEY": "Logged in as"
+    "LOGIN_LABEL_LOGGEDIN_KEY": "Logged in as",
+    "THERAPEUTIC_REGIME_ADULTS" : "The sugested line is TDF/3TC/EFV",
+    "THERAPEUTIC_REGIME_CHILDREN" : "The sugested line is D4T/3TC/NVP",
+    "ONE_ENCOUNTER_NO_CD4" : "CD4 test is required",
+    "NO_CD4_6_TO_6_MONTHS" : "CD4 test is required",
+    "ELIGIBLE" : "Patient should start ARV treatment",
+    "CTZ_PROPHILAXIS" : "Patient should stop using CTZ Prophylaxis"
 }
