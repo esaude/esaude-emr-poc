@@ -31,10 +31,4 @@ angular.module('registration')
                 $location.url("/patient/edit/" + patientUuid + "/name"); // path not hash
             };
             
-            $scope.getAlerts = function () {
-                alertService.get(patientUuid).success(function (data) {
-                   $scope.flags = data.flags;
-                });
-            };
-            
         }]);
