@@ -10,3 +10,11 @@ before_script:
 after_script:
     - cat coverage/**/lcov.info | codacy-coverage
     - cat coverage/**/lcov.info | coveralls
+before_deploy:
+    - grunt build:package
+deploy:
+  provider: bintray
+  file: "bintray.json"
+  user: "psbrandt"
+  key: $BINTRAY_API_KEY
+  dry-run: false
