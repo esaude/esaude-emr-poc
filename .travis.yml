@@ -1,20 +1,28 @@
 language: node_js
 node_js:
-    - "4.0.0"
+  - "4.0.0"
+addons:
+  apt:
+    packages:
+      - sshpass
 before_install:
-    - export DISPLAY=:99.0
-    - sh -e /etc/init.d/xvfb start
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
 before_script:
-    - npm install -g bower grunt-cli codacy-coverage coveralls
-    - bower install --force-latest
+  - npm install -g bower grunt-cli codacy-coverage coveralls
+  - bower install --force-latest
 after_script:
-    - cat coverage/**/lcov.info | codacy-coverage
-    - cat coverage/**/lcov.info | coveralls
+  - cat coverage/**/lcov.info | codacy-coverage
+  - cat coverage/**/lcov.info | coveralls
 before_deploy:
-    - grunt build:package
+  - grunt build:package
 deploy:
   provider: bintray
   file: "bintray.json"
   user: "psbrandt"
   key: $BINTRAY_API_KEY
   dry-run: false
+  on:
+    branch: master
+after_deploy:
+  - sshpass -p$TRAVIS_USER_PASSWORD ssh -o StrictHostKeyChecking=no travis@dev.esaude.org 'curl -sL https://raw.githubusercontent.com/esaude/esaude-poc-docker/master/scripts/dev-server-deploy.sh | bash'

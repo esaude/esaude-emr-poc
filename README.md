@@ -64,7 +64,7 @@ In order for Grunt to forward the REST calls made to the OpenMRS platform to the
 proxies: [
     {
         context: '/openmrs',
-        host: 'localhost',
+        host: 'localhost',      // or your DOCKER_HOST if you're using Docker
         port: 8080,
         https: true,
         xforward: true
@@ -122,7 +122,7 @@ Finally, configure the required `Alias` and `Proxy` directives in Apache by usin
 
 ````aconf
 <VirtualHost *:80>
-  DocumentRoot /usr/local/apache2/htdocs
+  DocumentRoot /var/www/html
 
   ProxyPass /openmrs http://YOUR_ESAUDE_PLATFORM_SERVER:8080/openmrs
   ProxyPassReverse /openmrs http://YOUR_ESAUDE_PLATFORM_SERVER:8080/openmrs
