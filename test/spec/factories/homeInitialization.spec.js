@@ -28,6 +28,16 @@ describe('Factory: home/initialization', function() {
         return p.promise;
       }
     });
+    // mock appService
+    $provide.value('appService', {
+      initApp: function() {
+        var p = q.defer();
+        p.resolve({
+          data: window.__fixtures__['home_app']
+        });
+        return p.promise;
+      }
+    });
   }));
 
   beforeEach(inject(function($injector) {
