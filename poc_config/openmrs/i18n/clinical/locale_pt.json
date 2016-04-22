@@ -108,5 +108,11 @@
     "CLINIC_PATIENT_WEIGHT": "Peso (kg)",
     "CLINIC_PATIENT_HEIGHT": "Altura (cm)",
     "CLINIC_PATIENT_BMI": "IMC",
-    "LOGIN_LABEL_LOGGEDIN_KEY": "Entrou como"
+    "LOGIN_LABEL_LOGGEDIN_KEY": "Entrou como",
+    "THERAPEUTIC_REGIME_ADULTS" : "Alinha de tratamento sugerida é TDF/3TC/EFV",
+    "THERAPEUTIC_REGIME_CHILDREN" : "A linha de tratamento sugerida é D4T/3TC/NVP",
+    "ONE_ENCOUNTER_NO_CD4" : "O paciente tem em falta o teste de CD4",
+    "NO_CD4_6_TO_6_MONTHS" : "O paciente tem em falta o teste de CD4",
+    "ELIGIBLE" : "O paciente deve iniciar o TARV",
+    "CTZ_PROPHILAXIS" : "O Paciente deve suspender a profilaxia com CTZ"
 }
