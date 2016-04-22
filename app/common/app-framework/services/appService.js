@@ -73,12 +73,11 @@ angular.module('bahmni.common.appFramework')
             return appDescriptor;
         };
 
-        this.initApp = function (appName, options, extensionFileSuffix, configPages) {
+        this.initApp = function (appName, options) {
 
             var appLoader = $q.defer();
-            var extensionFileName = extensionFileSuffix ? "/extension-" + extensionFileSuffix + ".json" : "/extension.json";
             var promises = [];
-            var opts = options || {'app': true, 'extension': true};
+            var opts = options || {'app': true, 'extension': true, 'service': false};
 
             var inheritAppContext = (opts.inherit == undefined) ? true : opts.inherit;
 
@@ -86,27 +85,23 @@ angular.module('bahmni.common.appFramework')
                 return currentUser;
             });
             
-//            var loadCredentialsPromise = sessionService.loadCredentials();
-//            var loadProviderPromise = loadCredentialsPromise.then(sessionService.loadProviders);
-//
-//            promises.push(loadCredentialsPromise);
-//            promises.push(loadProviderPromise);
+            var loadCredentialsPromise = sessionService.loadCredentials();
+            var loadProviderPromise = loadCredentialsPromise.then(sessionService.loadProviders);
 
-            promises.push(loadFormLayout(appDescriptor));
-            promises.push(loadClinicalServices(appDescriptor));
+            promises.push(loadCredentialsPromise);
+            promises.push(loadProviderPromise);
+
+            if (opts.service) {
+                promises.push(loadFormLayout(appDescriptor));
+                promises.push(loadClinicalServices(appDescriptor));
+            }
             
             if (opts.app) {
                 promises.push(loadDefinition(appDescriptor));
             }
-            if(!_.isEmpty(configPages)){
-                configPages.forEach(function(configPage){
-                    promises.push(loadPageConfig(configPage,appDescriptor));
-                });
-            }
             $q.all(promises).then(function (results) {
                 currentUser = results[0];
                 appLoader.resolve(appDescriptor);
-                $rootScope.$broadcast('event:appExtensions-loaded');
             }, function (errors) {
                 appLoader.reject(errors);
             });

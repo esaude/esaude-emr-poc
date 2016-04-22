@@ -122,7 +122,7 @@ Bahmni.Common = Bahmni.Common || {};
         rootScopeRetrospectiveEntry: 'retrospectiveEntry.encounterDate',
         patientFileConceptName: 'Patient file',
         serverErrorMessages: serverErrorMessages,
-        currentUser:'bahmni.user',
+        currentUser:'user',
         retrospectivePrivilege:'app:clinical:retrospective',
         nutritionalConceptName:'Nutritional Values',
         messageForNoObservation: "No observations captured for this visit.",

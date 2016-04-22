@@ -223,7 +223,10 @@
                     },
                     {
                         "name": "Altura",
-                        "id": "e292b558-1d5f-11e0-b929-000c29ad1d07"
+                        "id": "e292b558-1d5f-11e0-b929-000c29ad1d07",
+                        "logic": {
+                            "DEFAULT_IS_LAST": "e1e2e934-1d5f-11e0-b929-000c29ad1d07"
+                        }
                     },
                     {
                         "name": "Pressão Arterial",

@@ -124,7 +124,7 @@ module.exports = function (grunt) {
         ],
       livereload: {
         options: {
-          open: "http://localhost:9000/home/",
+          open: "http://0.0.0.0:9000/home/",
           middleware: function (connect) {
             return [
               serveStatic('.tmp'),

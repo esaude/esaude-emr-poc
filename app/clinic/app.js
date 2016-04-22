@@ -4,10 +4,16 @@ angular
     .module('clinic')
     .config(['$urlRouterProvider', '$stateProvider', '$bahmniTranslateProvider',
                 function ($urlRouterProvider, $stateProvider, $bahmniTranslateProvider) {
-        $urlRouterProvider.otherwise('/search');
+//        $urlRouterProvider.otherwise('/search');
+        $urlRouterProvider.otherwise(function ($injector) {
+            var $state = $injector.get('$state');
+            $state.go('search');
+        });
+        
         $stateProvider
             .state('search', {
                 url: '/search',
+                reloadOnSearch: false,
                 views: {
                     'layout': { templateUrl: '../common/application/views/layout.html', controller: 'SearchController'},
                     'content@search': { templateUrl: 'views/search.html'}
