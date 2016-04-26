@@ -3,7 +3,7 @@
         <div class="col-md-12 header-text-lg"><!-- last visit type and dates -->
             <img src="../../images/visit.png" class="img-responsive inline-align" width="24" height="24" alt="visit">
             {{'REGISTRATION_LAST_VISIT' | translate}}: <span ng-if="lastVisit">{{lastVisit.visitType.name}} 
-                from {{lastVisit.startDatetime | date:'MMM d, y h:mm:ss a'}} to {{lastVisit.stopDatetime | date:'MMM d, y h:mm:ss a'}}</span>
+                {{'COMMON_FROM' | translate}} {{lastVisit.startDatetime | date:'MMM d, y h:mm:ss a'}} to {{lastVisit.stopDatetime | date:'MMM d, y h:mm:ss a'}}</span>
             <span ng-if="!lastVisit">{{'COMMON_NONE' | translate}}</span>
         </div>
         <div class="col-md-12"><!-- patient gender, age and phone number -->

@@ -29,7 +29,7 @@ module.exports = function (grunt) {
   };
 
   var generateReplacement = function () {
-      var modules = ['home', 'registration', 'clinic'];
+      var modules = ['home', 'registration', 'clinic', 'vitals'];
       var replacements = [];
 
       for (var i in modules) {
@@ -284,6 +284,7 @@ module.exports = function (grunt) {
     useminPrepare: {
       html: ['<%= yeoman.app %>/home/index.html',
              '<%= yeoman.app %>/registration/index.html',
+             '<%= yeoman.app %>/vitals/index.html',
              '<%= yeoman.app %>/clinic/index.html'],
       css: '<%= yeoman.app %>/styles/**/*.css',
       options: {
@@ -304,6 +305,7 @@ module.exports = function (grunt) {
     usemin: {
       html: ['<%= yeoman.dist %>/home/index.html',
              '<%= yeoman.dist %>/registration/index.html',
+             '<%= yeoman.dist %>/vitals/index.html',
              '<%= yeoman.dist %>/clinic/index.html'],
       css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
       js: ['<%= yeoman.dist %>/scripts/{,*/}*.js'],
@@ -365,6 +367,7 @@ module.exports = function (grunt) {
                         'common/**/*.html',
                         'home/**/*.html',
                         'registration/**/*.html',
+                        'vitals/**/*.html',
                         'clinic/**/*.html'
                     ],
                     //src: ['*.html'],
