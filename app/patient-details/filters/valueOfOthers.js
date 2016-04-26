@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('registration')
+angular.module('patient.details')
     .filter('valueofothers', function() {
           return function(input, scope) {
               var attrubuteName = input.name || '';

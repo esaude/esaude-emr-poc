@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('registration')
+angular.module('patient.details')
     .directive("dynamicName",function($compile){
         return {
             restrict:"A",

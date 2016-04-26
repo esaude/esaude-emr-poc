@@ -1,3 +1,14 @@
-<div class="row content-border-margin-regular">
-    Coming soon
+<div class="content-border-margin-regular">
+    <div class="panel panel-primary" ng-controller="ManageProgramController" >
+        <div class="panel-heading">
+            <h3 class="panel-title">{{'COMMON_PROGRAM_ENROLLMENT_TITLE'| translate}}</h3>
+        </div>
+        <div ng-include src="'../common/uicontrols/programmanagement/views/patient-programs-active.html'"></div>
+    </div>
+    <div class="panel panel-primary" ng-controller="ClinicalServiceController" >
+        <div class="panel-heading">
+            <h3 class="panel-title">{{'COMMON_CLINIC_SERVICES_TITLE'| translate}}</h3>
+        </div>
+        <clinical-service patient-uuid="patient.uuid" encounter-datetime="" services="clinicalServices"></clinical-service>
+    </div>
 </div>
