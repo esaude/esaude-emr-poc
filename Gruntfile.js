@@ -14,6 +14,8 @@ module.exports = function (grunt) {
 
   grunt.loadNpmTasks('grunt-string-replace');
 
+  grunt.loadNpmTasks('grunt-zip');
+
   // Automatically load required Grunt tasks
   require('jit-grunt')(grunt, {
     useminPrepare: 'grunt-usemin'
@@ -210,7 +212,8 @@ module.exports = function (grunt) {
           src: [
             '.tmp',
             '<%= yeoman.dist %>/{,*/}*',
-            '!<%= yeoman.dist %>/.git{,*/}*'
+            '!<%= yeoman.dist %>/.git{,*/}*',
+            'esaude-emr-poc*.zip'
           ]
         }]
       },
@@ -445,7 +448,23 @@ module.exports = function (grunt) {
           replacements: generateReplacement()
         }
       }
+    },
+
+    // Building the distributable package
+    zip: {
+      'using-router': {
+        router: function (filepath) {
+          if(filepath.startsWith('dist')) {
+            return filepath.replace('dist', 'poc');
+          }
+
+          return filepath;
+        },
+      src: ['dist/**/*', 'poc_config/**/*'],
+      dest: 'esaude-emr-poc.zip'
     }
+  }
+
   });
 
   grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
@@ -479,19 +498,28 @@ module.exports = function (grunt) {
     'karma'
   ]);
 
-  grunt.registerTask('build', [
-    'clean:dist',
-    'useminPrepare',
-    'concurrent:dist',
-    'autoprefixer',
-    'concat',
-    'copy:dist',
-    'cssmin',
-    'usemin',
-    'htmlmin',
-    'usemin:html',
-    'string-replace'
-  ]);
+  grunt.registerTask('build', 'Build the distributable', function(target) {
+    var tasks = [
+      'clean:dist',
+      'useminPrepare',
+      'concurrent:dist',
+      'autoprefixer',
+      'concat',
+      'copy:dist',
+      'cssmin',
+      'usemin',
+      'htmlmin',
+      'usemin:html',
+      'string-replace'
+    ];
+
+    if(target == 'package') {
+      tasks.push('zip');
+      return grunt.task.run(tasks);
+    } else {
+      return grunt.task.run(tasks);
+    }
+  });
 
   grunt.registerTask('default', [
     'newer:jshint',
