@@ -1,7 +1,7 @@
 'use strict';
 
 angular
-    .module('clinic')
+    .module('vitals')
     .config(['$urlRouterProvider', '$stateProvider', '$bahmniTranslateProvider',
                 function ($urlRouterProvider, $stateProvider, $bahmniTranslateProvider) {
 //        $urlRouterProvider.otherwise('/search');
@@ -25,23 +25,6 @@ angular
                     'layout': { templateUrl: '../common/application/views/layout.html', controller: 'DashboardController'},
                     'content@dashboard': { templateUrl: 'views/dashboard.html'}
                 },
-                resolve: { initialization: 'initialization' }
-            })
-            .state('dashboard.summary', {
-                url: '/summary',
-                templateUrl: 'views/patient-summary.html', 
-                controller: 'PatientSummaryController',
-                resolve: { initialization: 'initialization' }
-            })
-            .state('dashboard.chart', {
-                url: '/chart',
-                templateUrl: 'views/patient-chart.html',
-                controller: 'PatientChartController',
-                resolve: { initialization: 'initialization' }
-            })
-            .state('dashboard.consultation', {
-                url: '/consultation',
-                templateUrl: 'views/patient-consultation.html',
                 resolve: { initialization: 'initialization' }
             })
             .state('detailpatient', {
@@ -79,5 +62,5 @@ angular
             });
             
             $stateProviderRef = $stateProvider;
-            $bahmniTranslateProvider.init({app: 'clinical', shouldMerge: true});
+            $bahmniTranslateProvider.init({app: 'vitals', shouldMerge: true});
     }]);

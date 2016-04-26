@@ -5,9 +5,13 @@ angular.module('poc.common.formdisplay')
 
         var logicFunctions = {};
 
-        configurationFunctions.encounterConfig = function () {
-            return $http.get(Bahmni.Common.Constants.encounterConfigurationUrl, {
-                params: {"callerContext": "REGISTRATION_CONCEPTS"},
+        logicFunctions.defaultValueIsLastEntry = function (concept) {
+            return $http.get('/openmrs/ws/rest/v1/obs', {
+                params: {
+                    patient : patientUuid,
+                    concept : concept,
+                    v: "custom:(uuid,display,concept:(uuid,name),obsDatetime,value,groupMembers:(uuid,concept:(uuid,name),obsDatetime,value))"
+                },
                 withCredentials: true
             });
         };
@@ -155,6 +159,6 @@ angular.module('poc.common.formdisplay')
         };
 
         return {
-            getConfigurations: getLogics
+            getLogics: getLogics
         };
     }]);

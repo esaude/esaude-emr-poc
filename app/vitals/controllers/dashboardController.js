@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('clinic')
+angular.module('vitals')
         .controller('DashboardController', ["$rootScope", "$scope", "$location", "$stateParams", "patientService", "openmrsPatientMapper", "alertService", function ($rootScope, $scope, $location, $stateParams, patientService, patientMapper, alertService) {
             var patientUuid;
     
@@ -20,11 +20,5 @@ angular.module('clinic')
             
             $scope.linkPatientDetail = function() {
                 $location.url("/patient/detail/" + patientUuid + "/demographic"); // path not hash
-            };
-            
-            $scope.getAlerts = function () {
-                alertService.get(patientUuid).success(function (data) {
-                   $scope.flags = data.flags;
-                });
             }; 
         }]);

@@ -18,5 +18,25 @@
         "constraints": {
             "maxAge": "14"
         }
+    },
+    {
+        "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
+        "label": "VITAIS - ADULTO",
+        "url": "/vitals/adult",
+        "minOccur": "0",
+        "maxOccur": "-1",
+        "constraints": {
+            "minAge": "15"
+        }
+    },
+    {
+        "formId": "e28ac028-1d5f-11e0-b929-000c29ad1d07",
+        "label": "VITAIS - PEDIATRIA",
+        "url": "/vitals/child",
+        "minOccur": "0",
+        "maxOccur": "-1",
+        "constraints": {
+            "maxAge": "14"
+        }
     }
 ]
