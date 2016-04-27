@@ -2,9 +2,10 @@
 
 angular
     .module('clinic')
-    .config(['$urlRouterProvider', '$stateProvider', '$bahmniTranslateProvider',
-                function ($urlRouterProvider, $stateProvider, $bahmniTranslateProvider) {
-//        $urlRouterProvider.otherwise('/search');
+    .config(['$urlRouterProvider', '$stateProvider', '$bahmniTranslateProvider', '$httpProvider',
+                function ($urlRouterProvider, $stateProvider, $bahmniTranslateProvider, $httpProvider) {
+        // to prevent the browser from displaying a password pop-up in case of an authentication error
+        $httpProvider.defaults.headers.common['Disable-WWW-Authenticate'] = 'true';
         $urlRouterProvider.otherwise(function ($injector) {
             var $state = $injector.get('$state');
             $state.go('search');
