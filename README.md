@@ -127,10 +127,13 @@ Finally, configure the required `Alias` and `Proxy` directives in Apache by usin
   ProxyPass /openmrs http://YOUR_ESAUDE_PLATFORM_SERVER:8080/openmrs
   ProxyPassReverse /openmrs http://YOUR_ESAUDE_PLATFORM_SERVER:8080/openmrs
 
+  Alias /poc /var/www/html/poc
+  Alias /poc_config /var/www/html/poc_config
   Alias /images /var/www/html/poc/images
 
   Redirect permanent /home /poc/home/
   Redirect permanent /registration /poc/registration/
+  Redirect permanent /vitals /poc/vitals/
 
   RedirectMatch ^/$ /home
 </VirtualHost>
