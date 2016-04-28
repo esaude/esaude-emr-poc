@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('clinic')
+angular.module('common.patient')
         .controller('PatientHeaderController', ["$rootScope", "$stateParams", 
                         "patientService", "openmrsPatientMapper", 
                     function ($rootScope, $stateParams, patientService, patientMapper) {
