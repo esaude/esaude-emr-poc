@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('clinic')
-        .controller('SearchController', ['$scope', '$location', 'patientService', 'openmrsPatientMapper',
-    function ($scope, $location, patientService, patientMapper) {
+angular.module('application')
+        .controller('SearchController', ['$rootScope', '$scope', '$location', 'patientService', 'openmrsPatientMapper', 'spinner',
+    function ($rootScope, $scope, $location, patientService, patientMapper, spinner) {
             $scope.results = [];
             
             var searchBasedOnQueryParameters = function () {
@@ -11,7 +11,7 @@ angular.module('clinic')
                         $scope.searchText);
                     searchPromise['finally'](function () {
                     });
-                    return searchPromise;
+                    return spinner.forPromise(searchPromise);
                 }
             };
             
@@ -42,6 +42,7 @@ angular.module('clinic')
             };
             
             $scope.linkDashboard = function(patient) {
+                $rootScope.patient = patient;
                 $location.url("/dashboard/" + patient.uuid); // path not hash
             };
             
