@@ -366,6 +366,9 @@ module.exports = function (grunt) {
                     cwd: '<%= yeoman.app %>',
                     src: [
                         'common/**/*.html',
+                        'poc-common/**/*.html',
+                        'patient-details/**/*.html',
+                        'service-form/**/*.html',
                         'home/**/*.html',
                         'registration/**/*.html',
                         'clinic/**/*.html'
