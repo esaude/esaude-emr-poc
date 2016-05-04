@@ -204,12 +204,12 @@
     },
     {
         "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
-        "name": "VITALS - ADULTO",
+        "name": "VITAIS - ADULTO",
         "sufix": "vitals_adult",
         "parts": [
             {
                 "id": "1",
-                "name": "Vitals",
+                "name": "Vitais",
                 "sref": ".vitals",
                 "nextSref": ".confirm",
                 "fields": [
@@ -225,12 +225,42 @@
                         "name": "Altura",
                         "id": "e292b558-1d5f-11e0-b929-000c29ad1d07",
                         "logic": {
-                            "DEFAULT_IS_LAST": "e1e2e934-1d5f-11e0-b929-000c29ad1d07"
+                            "defaultValueIsLastEntry": "e1e2e934-1d5f-11e0-b929-000c29ad1d07"
                         }
                     },
                     {
                         "name": "Pressão Arterial",
                         "id": "e292b648-1d5f-11e0-b929-000c29ad1d07"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "formId": "e28ac028-1d5f-11e0-b929-000c29ad1d07",
+        "name": "VITAIS - PEDIATRIA",
+        "sufix": "vitals_child",
+        "parts": [
+            {
+                "id": "1",
+                "name": "Vitais",
+                "sref": ".vitals",
+                "nextSref": ".confirm",
+                "fields": [
+                    {
+                        "name": "Temperatura",
+                        "id": "e2938e56-1d5f-11e0-b929-000c29ad1d07"
+                    },
+                    {
+                        "name": "Peso",
+                        "id": "e2939130-1d5f-11e0-b929-000c29ad1d07"
+                    },
+                    {
+                        "name": "Estatura",
+                        "id": "e2939036-1d5f-11e0-b929-000c29ad1d07",
+                        "logic": {
+                            "defaultValueIsLastEntry": "e1e2e934-1d5f-11e0-b929-000c29ad1d07"
+                        }
                     }
                 ]
             }

@@ -24,6 +24,7 @@ module.exports = function(config) {
     files: [
       // bower libraries
       // bower:js
+      'bower_components/q/q.js',
       'bower_components/jquery/dist/jquery.min.js',
       'bower_components/angular/angular.min.js',
       'bower_components/bootstrap/dist/js/bootstrap.min.js',
@@ -57,6 +58,8 @@ module.exports = function(config) {
       'app/**/*.js',
       // fixtures
       'test/fixtures/**/*.json',
+      //test utils
+      'test/support/**/*.js',
       // test files
       'test/spec/**/*.js'
     ],

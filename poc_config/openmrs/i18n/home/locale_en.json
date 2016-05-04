@@ -26,6 +26,7 @@
     "APP_PHARMACY": "Pharmacy",
     "APP_LAB": "Laboratory",
     "APP_COUNSELING": "Counseling",
+    "APP_VITALS": "Vitals",
     "USER_DASHBOARD_ACTIVITIES": "Activities",
     "USER_DASHBOARD_LAST_ACTIVITIES": "Last Activities",
     "USER_DASHBOARD_FREQUENT_ACTIONS": "Frequent Actions",

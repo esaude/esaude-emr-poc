@@ -5,7 +5,7 @@
     <title></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
-    <!-- build:css styles/vendor.registration.min.css -->
+    <!-- build:css styles/vendor.vitals.min.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="../../bower_components/jquery-ui/themes/ui-lightness/jquery-ui.css">
     <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.min.css" />
@@ -21,12 +21,12 @@
   </head>
   <body>
       <div  class="container-fluid">
-          <div ng-app="registration">
+          <div ng-app="vitals">
               <div ui-view="layout"></div>
           </div>
       </div>
 
-      <!-- build:js scripts/vendor.registration.min.js -->
+      <!-- build:js scripts/vendor.vitals.min.js -->
       <!-- bower:js -->
       <script src="../../bower_components/jquery/dist/jquery.min.js"></script>
       <script src="../../bower_components/angular/angular.min.js"></script>
@@ -59,7 +59,7 @@
       <!-- endbower -->
       <!-- endbuild -->
 
-      <!-- build:js scripts/registration.min.js -->
+      <!-- build:js scripts/vitals.min.js -->
       <script src="../poc-common/constants.js"></script>
       <script src="../poc-common/form-display/init.js"></script>
       <script src="../poc-common/form-display/services/formService.js"></script>
@@ -137,8 +137,8 @@
       
       <script src="../common/application/init.js"></script>
       <script src="../common/application/services/adminConfigService.js"></script>
-      <script src="../common/application/services/applicationService.js"></script>
       <script src="../common/application/services/formStateAutoGen.js"></script>
+      <script src="../common/application/services/applicationService.js"></script>
       <script src="../common/application/controllers/searchController.js"></script>
 
       <script src="../common/uicontrols/init.js"></script>
@@ -162,23 +162,21 @@
       <script src="../patient-details/directives/dynamicElementName.js"></script>
       <script src="../patient-details/filters/valueOfAddress.js"></script>
       <script src="../patient-details/filters/valueOfOthers.js"></script>
+      
+      <script src="../patient-details/init.js"></script>
+      <script src="../patient-details/controllers/patientDetailController.js"></script>     
+      <script src="../patient-details/directives/addressFields.js"></script>
+      <script src="../patient-details/directives/dynamicElementName.js"></script>
+      <script src="../patient-details/filters/valueOfAddress.js"></script>
+      <script src="../patient-details/filters/valueOfOthers.js"></script>
 
       <script src="init.js"></script>
       <script src="initialization.js"></script>
       <script src="run-before-app.js"></script>
       <script src="app.js"></script>
       <script src="run-after-app.js"></script>
-      <script src="constants.js"></script>
-      <script src="defaults.js"></script>
+      <script src="controllers/vitalsController.js"></script>
       <script src="controllers/dashboardController.js"></script>
-      <script src="controllers/patientController.js"></script>
-      <script src="controllers/createPatientController.js"></script>
-      <script src="controllers/updatePatientController.js"></script>
-      <script src="controllers/patientCommonController.js"></script>
-      <script src="controllers/servicesListController.js"></script>
-      <script src="controllers/visitController.js"></script>
-      <script src="mappers/createPatientRequestMapper.js"></script>
-      <script src="mappers/updatePatientRequestMapper.js"></script>
       <!-- endbuild -->
   </body>
 </html>

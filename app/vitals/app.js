@@ -1,11 +1,10 @@
 'use strict';
 
 angular
-    .module('clinic')
-    .config(['$urlRouterProvider', '$stateProvider', '$bahmniTranslateProvider', '$httpProvider',
-                function ($urlRouterProvider, $stateProvider, $bahmniTranslateProvider, $httpProvider) {
-        // to prevent the browser from displaying a password pop-up in case of an authentication error
-        $httpProvider.defaults.headers.common['Disable-WWW-Authenticate'] = 'true';
+    .module('vitals')
+    .config(['$urlRouterProvider', '$stateProvider', '$bahmniTranslateProvider',
+                function ($urlRouterProvider, $stateProvider, $bahmniTranslateProvider) {
+//        $urlRouterProvider.otherwise('/search');
         $urlRouterProvider.otherwise(function ($injector) {
             var $state = $injector.get('$state');
             $state.go('search');
@@ -26,23 +25,6 @@ angular
                     'layout': { templateUrl: '../common/application/views/layout.html', controller: 'DashboardController'},
                     'content@dashboard': { templateUrl: 'views/dashboard.html'}
                 },
-                resolve: { initialization: 'initialization' }
-            })
-            .state('dashboard.summary', {
-                url: '/summary',
-                templateUrl: 'views/patient-summary.html', 
-                controller: 'PatientSummaryController',
-                resolve: { initialization: 'initialization' }
-            })
-            .state('dashboard.chart', {
-                url: '/chart',
-                templateUrl: 'views/patient-chart.html',
-                controller: 'PatientChartController',
-                resolve: { initialization: 'initialization' }
-            })
-            .state('dashboard.consultation', {
-                url: '/consultation',
-                templateUrl: 'views/patient-consultation.html',
                 resolve: { initialization: 'initialization' }
             })
             .state('detailpatient', {
@@ -80,5 +62,5 @@ angular
             });
             
             $stateProviderRef = $stateProvider;
-            $bahmniTranslateProvider.init({app: 'clinical', shouldMerge: true});
+            $bahmniTranslateProvider.init({app: 'vitals', shouldMerge: true});
     }]);
