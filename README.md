@@ -135,6 +135,7 @@ Finally, configure the required `Alias` and `Proxy` directives in Apache by usin
   Redirect permanent /registration /poc/registration/
   Redirect permanent /vitals /poc/vitals/
   Redirect permanent /clinic /poc/clinic/
+  Redirect permanent /common /poc/common/
 
   RedirectMatch ^/$ /home
 </VirtualHost>
