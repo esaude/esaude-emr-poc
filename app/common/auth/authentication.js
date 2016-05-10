@@ -30,7 +30,7 @@ angular.module('authentication')
                 function ($rootScope, $http, $q, $cookies, userService, localStorageService) {
         var sessionResourcePath = '/openmrs/ws/rest/v1/session';
 
-        var createSession = function(username, password){
+        var createSession = function(username, password) {
             return $http.get(sessionResourcePath, {
                 headers: {'Authorization': 'Basic ' + window.btoa(username + ':' + password)},
                 cache: false
@@ -61,8 +61,11 @@ angular.module('authentication')
                     if($rootScope.location != undefined) {
                         localStorageService.cookie.remove("emr.location");
                         localStorageService.cookie.set("emr.location", {name: $rootScope.location.display, uuid: $rootScope.location.uuid}, 7);
+                        deferrable.resolve();
+                    } else {
+                        self.destroy();
+                        deferrable.reject('LOGIN_LABEL_LOGIN_ERROR_NO_DEFAULT_LOCATION');
                     }
-                    deferrable.resolve();
                 } else {
                    deferrable.reject('LOGIN_LABEL_LOGIN_ERROR_FAIL_KEY'); 
                 }

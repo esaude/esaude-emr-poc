@@ -9,7 +9,7 @@ angular.module('home')
                 return configurations.load(configNames).then(function () {
                     var defaultLocation = configurations.defaultLocation().value;
                     locationService.get(defaultLocation).then(function (data) {
-                        $rootScope.location = data.data.results[0]
+                        $rootScope.location = data.data.results[0];
                     });
                 });
             };
