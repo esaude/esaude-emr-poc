@@ -79,14 +79,14 @@ module.exports = function (grunt) {
 //      },
       js: {
         files: ['<%= yeoman.app %>/scripts/{,*/}*.js'],
-        tasks: ['newer:jshint:all'],
+        tasks: ['lint'],
         options: {
           livereload: '<%= connect.options.livereload %>'
         }
       },
       jsTest: {
         files: ['test/spec/{,*/}*.js'],
-        tasks: ['newer:jshint:test', 'karma']
+        tasks: ['lint', 'karma']
       },
       styles: {
         files: ['<%= yeoman.app %>/styles/{,*/}*.css'],
@@ -184,24 +184,13 @@ module.exports = function (grunt) {
     },
 
     // Make sure code styles are up to par and there are no obvious mistakes
-    jshint: {
-      options: {
-        jshintrc: '.jshintrc',
-        reporter: require('jshint-stylish'),
-        force: true
-      },
-      all: {
-        src: [
-          'Gruntfile.js',
-          '<%= yeoman.app %>/{,*/}*.js'
-        ]
-      },
-      test: {
-        options: {
-          jshintrc: 'test/.jshintrc'
-        },
-        src: ['test/spec/{,*/}*.js']
-      }
+    eslint: {
+      all: [
+        'Gruntfile.js',
+        'app/**/*.js',
+        'test/karma.conf.js',
+        'test/spec/**/*.js'
+      ]
     },
 
     // Empties folders to start fresh
@@ -493,7 +482,14 @@ module.exports = function (grunt) {
     grunt.task.run(['serve:' + target]);
   });
 
+  grunt.registerTask('lint', [
+    'force:on', // TODO: Allow the task to fail once we've fixed all existing errors
+    'eslint',
+    'force:off'
+  ]);
+
   grunt.registerTask('test', [
+    'lint',
     'clean:server',
     'concurrent:test',
     'autoprefixer',
@@ -503,6 +499,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', 'Build the distributable', function(target) {
     var tasks = [
+      'lint',
       'clean:dist',
       'useminPrepare',
       'concurrent:dist',
@@ -525,7 +522,7 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('default', [
-    'newer:jshint',
+    'lint',
     'test',
     'build'
   ]);
