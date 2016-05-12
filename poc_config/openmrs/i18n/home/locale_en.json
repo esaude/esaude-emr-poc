@@ -19,6 +19,7 @@
     "LOGIN_MESSAGE_ENTER_PASSWORD_KEY": "Enter your password",
     "LOGIN_LABEL_SELECT_LOCATION_KEY": "Select Location",
     "LOGIN_LABEL_SELECT_LOCALE_KEY": "Select Locale",
+    "LOGIN_LABEL_LOGIN_ERROR_NO_DEFAULT_LOCATION": "No default location found. Please contact your system administrator.",
     "HEADER_LABEL_LOGOUT_KEY": "Logout",
     "HEADER_LABEL_SYNC_KEY": "Sync",
     "APP_REGISTRATION": "Registration",
