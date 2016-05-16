@@ -76,5 +76,11 @@ angular.module('bahmni.common.domain')
                 withCredentials: true
             });
         };
+        
+        this.filterRetiredObs = function (observations) {
+        return _.filter(observations, function (obs) {
+            return !obs.voided;
+        });
+    };
 
     }]);

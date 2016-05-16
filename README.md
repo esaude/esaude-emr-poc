@@ -7,7 +7,7 @@
 [![Build Status](https://img.shields.io/travis/esaude/esaude-emr-poc/master.svg)](https://travis-ci.org/esaude/esaude-emr-poc)
 [![Code Quality](https://img.shields.io/codacy/10ea6c2d88674139b37cae5fa73cc8f6/master.svg)](https://www.codacy.com/app/psbrandt/esaude-esaude-emr-poc)
 [![Test Coverage](https://api.codacy.com/project/badge/coverage/10ea6c2d88674139b37cae5fa73cc8f6)](https://coveralls.io/github/esaude/esaude-emr-poc)
-[![Dependencies](https://img.shields.io/david/esaude/esaude-emr-poc.svg)](https://david-dm.org/esaude/esaude-emr-poc)
+[![Dependency Status](https://gemnasium.com/badges/github.com/esaude/esaude-emr-poc.svg)](https://gemnasium.com/github.com/esaude/esaude-emr-poc)
 [![eSaude Version](https://omrs-shields.psbrandt.io/custom/esaude/v1.2.0/brightgreen?logo=esaude)](http://www.esaude.org/technical-resources/esaude-emr-versions)
 
 This project is an AngularJS application for point of care based on OpenMRS and using [Bahmni code](https://github.com/Bhamni/openmrs-module-bahmniapps).
@@ -64,7 +64,7 @@ In order for Grunt to forward the REST calls made to the OpenMRS platform to the
 proxies: [
     {
         context: '/openmrs',
-        host: 'localhost',
+        host: 'localhost',      // or your DOCKER_HOST if you're using Docker
         port: 8080,
         https: true,
         xforward: true
@@ -90,15 +90,17 @@ Running `grunt test` will run the unit tests with karma.
 
 ## Setup (Staging & Production)
 
-To deploy eSaude EMR POC to a staging or production, it is necessary deploy the distributable to a web server such as Apache or Nginx.
+To deploy eSaude EMR POC to a staging or production, it is necessary deploy the distributable package to a web server such as Apache or Nginx.
 
-To start, follow the steps described in the **Package Managers & Dependencies** section above and then execute the following to build the distributable:
+The latest build from the master branch can be downloaded [here](https://bintray.com/artifact/download/esaude/poc/esaude-emr-poc-master.zip).
+
+To build the distributable package from source, follow the steps described in the **Package Managers & Dependencies** section above and then execute the following to build the package:
 
 ````bash
-grunt build
+grunt build:package
 ````
 
-This will create a directory called `dist`, which can be deployed to your web server.
+This will create an archive called `esaude-emr-poc-master.zip`, which can be deployed to your web server.
 
 ### Apache Configuration
 
@@ -110,24 +112,10 @@ sudo apt-get install apache2
 
 Make sure that the `mod_proxy` and `mod_proxy_http` modules are loaded. See [here](https://www.digitalocean.com/community/tutorials/how-to-use-apache-http-server-as-reverse-proxy-using-mod_proxy-extension) for detailed instructions.
 
-Copy the contents of the distributable to a directory named `poc` in Apache's `DocumentRoot`. On Ubuntu this can be done as follows:
+Extract the contents of the distributable package to Apache's `DocumentRoot`. On Ubuntu this can be done as follows:
 
 ````bash
-mkdir /var/www/html/poc
-cp dist/* /var/www/html/poc/
-````
-
-Then copy the `poc_config` directory in this repository to the `DocumentRoot`:
-
-````bash
-cp -r poc_config /var/www/html
-````
-
-Next, configure which applications are shown on the home screen by copying the appropriate `app.json` file the correct location on the server:
-
-````bash
-mkdir -p /var/www/html/poc/common/application/resources
-cp app/commom/application/resources/* /var/www/html/poc/common/application/resources/
+unzip /tmp/esaude-emr-poc-master.zip -d /var/www/html/
 ````
 
 Finally, configure the required `Alias` and `Proxy` directives in Apache by using the following `VirtualHost` file (e.g. `/etc/apache2/sites-enabled/000-default`)
@@ -145,9 +133,14 @@ Finally, configure the required `Alias` and `Proxy` directives in Apache by usin
 
   Redirect permanent /home /poc/home/
   Redirect permanent /registration /poc/registration/
+  Redirect permanent /vitals /poc/vitals/
   Redirect permanent /clinic /poc/clinic/
+  Redirect permanent /common /poc/common/
+
+  RedirectMatch ^/$ /home
 </VirtualHost>
 ````
+
 Make sure you replace `YOUR_ESAUDE_PLATFORM_SERVER` with the correct location of the eSaude EMR Platform instance you will be connecting to.
 
 Restart Apache for the changes to take effect:

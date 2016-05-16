@@ -8,7 +8,7 @@ angular.module('authentication')
             }
 
             function error(response) {
-                if (response.status === 401) {
+                if (response.status === 401 || response.status === 403) {
                     $rootScope.$broadcast('event:auth-loginRequired');
                 }
                 return $q.reject(response);
@@ -20,15 +20,17 @@ angular.module('authentication')
             };
         }];
         $httpProvider.interceptors.push(interceptor);
-    }).run(['$rootScope', '$window', function ($rootScope, $window) {
+    }).run(['$rootScope', '$window', '$timeout', function ($rootScope, $window, $timeout) {
         $rootScope.$on('event:auth-loginRequired', function () {
-            $window.location = "../home/#/login?showLoginMessage=true";
+            $timeout(function(){
+                $window.location = "../home/#/login?showLoginMessage=true";
+            });
         });
-    }]).service('sessionService', ['$rootScope', '$http', '$q', '$cookieStore', 'userService', 'localStorageService', 
-                function ($rootScope, $http, $q, $cookieStore, userService, localStorageService) {
+    }]).service('sessionService', ['$rootScope', '$http', '$q', '$cookies', 'userService', 'localStorageService', 
+                function ($rootScope, $http, $q, $cookies, userService, localStorageService) {
         var sessionResourcePath = '/openmrs/ws/rest/v1/session';
 
-        var createSession = function(username, password){
+        var createSession = function(username, password) {
             return $http.get(sessionResourcePath, {
                 headers: {'Authorization': 'Basic ' + window.btoa(username + ':' + password)},
                 cache: false
@@ -45,10 +47,8 @@ angular.module('authentication')
 
         this.destroy = function(){
             return $http.delete(sessionResourcePath).success(function(data){
-                delete $.cookie(Bahmni.Common.Constants.currentUser, null, {path: "/"});
-                delete $.cookie(Bahmni.Common.Constants.currentUser, null, {path: "/"});
-                delete $.cookie(Bahmni.Common.Constants.retrospectiveEntryEncounterDateCookieName, null, {path: "/"});
-                delete $.cookie(Bahmni.Common.Constants.grantProviderAccessDataCookieName, null, {path: "/"});
+                $cookies.remove(Bahmni.Common.Constants.currentUser, {path: '/'});
+                localStorageService.cookie.remove("emr.location");
                 $rootScope.currentUser = null;
             });
         };
@@ -57,12 +57,15 @@ angular.module('authentication')
             var deferrable = $q.defer();
             createSession(username,password).success(function(data) {
                 if (data.authenticated) {
-                    $cookieStore.put(Bahmni.Common.Constants.currentUser, username, {path: '/', expires: 7});
+                    $cookies.put(Bahmni.Common.Constants.currentUser, username, {path: '/'});
                     if($rootScope.location != undefined) {
                         localStorageService.cookie.remove("emr.location");
                         localStorageService.cookie.set("emr.location", {name: $rootScope.location.display, uuid: $rootScope.location.uuid}, 7);
+                        deferrable.resolve();
+                    } else {
+                        self.destroy();
+                        deferrable.reject('LOGIN_LABEL_LOGIN_ERROR_NO_DEFAULT_LOCATION');
                     }
-                    deferrable.resolve();
                 } else {
                    deferrable.reject('LOGIN_LABEL_LOGIN_ERROR_FAIL_KEY'); 
                 }
@@ -78,7 +81,7 @@ angular.module('authentication')
 
         this.loadCredentials = function () {
             var deferrable = $q.defer();
-            var currentUser = $cookieStore.get(Bahmni.Common.Constants.currentUser);
+            var currentUser = $cookies.get(Bahmni.Common.Constants.currentUser);
             if(!currentUser) {
                 this.destroy().then(function() {
                     $rootScope.$broadcast('event:auth-loginRequired');
@@ -120,7 +123,7 @@ angular.module('authentication')
                 $rootScope.currentProvider = { uuid: providerUuid };
              });
         };
-    }]).factory('authenticator', ['$rootScope', '$q', '$window', 'sessionService', function ($rootScope, $q, $window, sessionService) {
+    }]).factory('authenticator', ['$rootScope', '$q', 'sessionService', function ($rootScope, $q, sessionService) {
         var authenticateUser = function () {
             var defer = $q.defer();
             var sessionDetails = sessionService.get();

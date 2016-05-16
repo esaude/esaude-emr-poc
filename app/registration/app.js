@@ -2,9 +2,15 @@
 
 angular
     .module('registration')
-    .config(['$urlRouterProvider', '$stateProvider', '$bahmniTranslateProvider',
-                function ($urlRouterProvider, $stateProvider, $bahmniTranslateProvider) {
-        $urlRouterProvider.otherwise('/search');
+    .config(['$urlRouterProvider', '$stateProvider', '$bahmniTranslateProvider', '$httpProvider',
+                function ($urlRouterProvider, $stateProvider, $bahmniTranslateProvider, $httpProvider) {
+        // to prevent the browser from displaying a password pop-up in case of an authentication error
+        $httpProvider.defaults.headers.common['Disable-WWW-Authenticate'] = 'true';
+        $urlRouterProvider.otherwise(function ($injector) {
+            var $state = $injector.get('$state');
+            $state.go('search');
+        });
+        
         $stateProvider
             .state('search', {
                 url: '/search',
@@ -24,7 +30,7 @@ angular
             })
             .state('dashboard.program', {
                 url: '/program',
-                templateUrl: 'views/patient-programs.html', 
+                templateUrl: '../common/uicontrols/programmanagement/views/patient-programs.html', 
                 controller: 'ManageProgramController',
                 resolve: { initialization: 'initialization' }
             })
@@ -158,33 +164,33 @@ angular
                 url: '/patient/detail/:patientUuid',
                 views: {
                     'layout': { templateUrl: '../common/application/views/layout.html', controller: 'DetailPatientController'},
-                    'content@detailpatient': { templateUrl: 'views/patient-details.html'}
+                    'content@detailpatient': { templateUrl: '../patient-details/views/patient-details.html'}
                 },
                 resolve: { initialization: 'initialization' }
             })
             .state('detailpatient.demographic', {
                 url: '/demographic',
-                templateUrl: 'views/patient-demographics.html',
+                templateUrl: '../patient-details/views/patient-demographics.html',
                 resolve: { initialization: 'initialization' }
             })
             .state('detailpatient.addresses', {
                 url: '/addresses',
-                templateUrl: 'views/patient-addresses.html',
+                templateUrl: '../patient-details/views/patient-addresses.html',
                 resolve: { initialization: 'initialization' }
             })
             .state('detailpatient.attributes', {
                 url: '/attributes',
-                templateUrl: 'views/patient-attributes.html',
+                templateUrl: '../patient-details/views/patient-attributes.html',
                 resolve: { initialization: 'initialization' }
             })
             .state('detailpatient.identifiers', {
                 url: '/identifiers',
-                templateUrl: 'views/patient-identifiers.html',
+                templateUrl: '../patient-details/views/patient-identifiers.html',
                 resolve: { initialization: 'initialization' }
             })
             .state('detailpatient.death', {
                 url: '/death',
-                templateUrl: 'views/patient-death.html',
+                templateUrl: '../patient-details/views/patient-death.html',
                 resolve: { initialization: 'initialization' }
             });
             

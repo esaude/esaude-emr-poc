@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('home')
-    .controller('LoginController', ['$rootScope', '$scope', '$location', 'sessionService', 'spinner', '$q', 
-                '$stateParams', '$translate', 'localeService',
-        function ($rootScope, $scope, $location, sessionService, spinner, $q, $stateParams, $translate, localeService) {
+    .controller('LoginController', ['$rootScope', '$scope', '$location', 'sessionService', 'spinner', '$q',
+                '$stateParams', '$translate', 'localeService', '$window',
+        function ($rootScope, $scope, $location, sessionService, spinner, $q, $stateParams, $translate, localeService, $window) {
         var landingPagePath = "/dashboard";
         var loginPagePath = "/login";
         
@@ -63,6 +63,7 @@ angular.module('home')
             );
             spinner.forPromise(deferrable.promise).then(
                 function () {
+                    $window.location.reload();
                     $location.path(landingPagePath);
                 }
             );

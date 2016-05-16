@@ -14,6 +14,8 @@ module.exports = function (grunt) {
 
   grunt.loadNpmTasks('grunt-string-replace');
 
+  grunt.loadNpmTasks('grunt-zip');
+
   // Automatically load required Grunt tasks
   require('jit-grunt')(grunt, {
     useminPrepare: 'grunt-usemin'
@@ -29,7 +31,7 @@ module.exports = function (grunt) {
   };
 
   var generateReplacement = function () {
-      var modules = ['home', 'registration', 'clinic'];
+      var modules = ['home', 'registration', 'clinic', 'vitals'];
       var replacements = [];
 
       for (var i in modules) {
@@ -77,14 +79,14 @@ module.exports = function (grunt) {
 //      },
       js: {
         files: ['<%= yeoman.app %>/scripts/{,*/}*.js'],
-        tasks: ['newer:jshint:all'],
+        tasks: ['lint'],
         options: {
           livereload: '<%= connect.options.livereload %>'
         }
       },
       jsTest: {
         files: ['test/spec/{,*/}*.js'],
-        tasks: ['newer:jshint:test', 'karma']
+        tasks: ['lint', 'karma']
       },
       styles: {
         files: ['<%= yeoman.app %>/styles/{,*/}*.css'],
@@ -124,7 +126,7 @@ module.exports = function (grunt) {
         ],
       livereload: {
         options: {
-          open: "http://localhost:9000/home/",
+          open: "http://0.0.0.0:9000/home/",
           middleware: function (connect) {
             return [
               serveStatic('.tmp'),
@@ -164,31 +166,31 @@ module.exports = function (grunt) {
       },
       dist: {
         options: {
-          open: true,
-          base: '<%= yeoman.dist %>'
+          open: "http://localhost:9000/home/",
+          base: '<%= yeoman.dist %>',
+          livereload: false,
+          middleware: function (connect) {
+            return [
+              connect().use(
+                '/poc_config',
+                serveStatic('./poc_config')
+              ),
+              serveStatic(appConfig.dist),
+              proxySnippet
+            ];
+          }
         }
       }
     },
 
     // Make sure code styles are up to par and there are no obvious mistakes
-    jshint: {
-      options: {
-        jshintrc: '.jshintrc',
-        reporter: require('jshint-stylish'),
-        force: true
-      },
-      all: {
-        src: [
-          'Gruntfile.js',
-          '<%= yeoman.app %>/{,*/}*.js'
-        ]
-      },
-      test: {
-        options: {
-          jshintrc: 'test/.jshintrc'
-        },
-        src: ['test/spec/{,*/}*.js']
-      }
+    eslint: {
+      all: [
+        'Gruntfile.js',
+        'app/**/*.js',
+        'test/karma.conf.js',
+        'test/spec/**/*.js'
+      ]
     },
 
     // Empties folders to start fresh
@@ -199,7 +201,8 @@ module.exports = function (grunt) {
           src: [
             '.tmp',
             '<%= yeoman.dist %>/{,*/}*',
-            '!<%= yeoman.dist %>/.git{,*/}*'
+            '!<%= yeoman.dist %>/.git{,*/}*',
+            'esaude-emr-poc*.zip'
           ]
         }]
       },
@@ -273,6 +276,7 @@ module.exports = function (grunt) {
     useminPrepare: {
       html: ['<%= yeoman.app %>/home/index.html',
              '<%= yeoman.app %>/registration/index.html',
+             '<%= yeoman.app %>/vitals/index.html',
              '<%= yeoman.app %>/clinic/index.html'],
       css: '<%= yeoman.app %>/styles/**/*.css',
       options: {
@@ -293,6 +297,7 @@ module.exports = function (grunt) {
     usemin: {
       html: ['<%= yeoman.dist %>/home/index.html',
              '<%= yeoman.dist %>/registration/index.html',
+             '<%= yeoman.dist %>/vitals/index.html',
              '<%= yeoman.dist %>/clinic/index.html'],
       css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
       js: ['<%= yeoman.dist %>/scripts/{,*/}*.js'],
@@ -352,8 +357,12 @@ module.exports = function (grunt) {
                     cwd: '<%= yeoman.app %>',
                     src: [
                         'common/**/*.html',
+                        'poc-common/**/*.html',
+                        'patient-details/**/*.html',
+                        'service-form/**/*.html',
                         'home/**/*.html',
                         'registration/**/*.html',
+                        'vitals/**/*.html',
                         'clinic/**/*.html'
                     ],
                     //src: ['*.html'],
@@ -375,7 +384,8 @@ module.exports = function (grunt) {
             '.htaccess',
             '*.html',
             'images/{,*/}*.{webp}',
-            'styles/fonts/{,*/}*.*'
+            'styles/fonts/{,*/}*.*',
+            'common/application/resources/**/*.json'
           ]
         }, {
           expand: true,
@@ -430,12 +440,31 @@ module.exports = function (grunt) {
           replacements: generateReplacement()
         }
       }
+    },
+
+    // Building the distributable package
+    zip: {
+      'using-router': {
+        router: function (filepath) {
+          if(filepath.startsWith('dist')) {
+            return filepath.replace('dist', 'poc');
+          }
+
+          return filepath;
+        },
+      src: ['dist/**/*', 'poc_config/**/*'],
+      dest: 'esaude-emr-poc.zip'
     }
+  }
+
   });
 
   grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
     if (target === 'dist') {
-      return grunt.task.run(['build', 'connect:dist:keepalive']);
+      return grunt.task.run([
+        'build',
+        'configureProxies',
+        'connect:dist:keepalive']);
     }
 
     grunt.task.run([
@@ -453,7 +482,14 @@ module.exports = function (grunt) {
     grunt.task.run(['serve:' + target]);
   });
 
+  grunt.registerTask('lint', [
+    'force:on', // TODO: Allow the task to fail once we've fixed all existing errors
+    'eslint',
+    'force:off'
+  ]);
+
   grunt.registerTask('test', [
+    'lint',
     'clean:server',
     'concurrent:test',
     'autoprefixer',
@@ -461,22 +497,32 @@ module.exports = function (grunt) {
     'karma'
   ]);
 
-  grunt.registerTask('build', [
-    'clean:dist',
-    'useminPrepare',
-    'concurrent:dist',
-    'autoprefixer',
-    'concat',
-    'copy:dist',
-    'cssmin',
-    'usemin',
-    'htmlmin',
-    'usemin:html',
-    'string-replace'
-  ]);
+  grunt.registerTask('build', 'Build the distributable', function(target) {
+    var tasks = [
+      'lint',
+      'clean:dist',
+      'useminPrepare',
+      'concurrent:dist',
+      'autoprefixer',
+      'concat',
+      'copy:dist',
+      'cssmin',
+      'usemin',
+      'htmlmin',
+      'usemin:html',
+      'string-replace'
+    ];
+
+    if(target == 'package') {
+      tasks.push('zip');
+      return grunt.task.run(tasks);
+    } else {
+      return grunt.task.run(tasks);
+    }
+  });
 
   grunt.registerTask('default', [
-    'newer:jshint',
+    'lint',
     'test',
     'build'
   ]);

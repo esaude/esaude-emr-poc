@@ -8,8 +8,6 @@ angular.module('clinic')
     
             function init() {
                 patientUuid = $stateParams.patientUuid;
-                
-                patientUuid = $stateParams.patientUuid;
             
                 patientService.get(patientUuid).success(function (data) {
                     $rootScope.patient = patientMapper.map(data);
@@ -19,10 +17,14 @@ angular.module('clinic')
             $scope.linkSearch = function() {
                 $location.url("/search"); // path not hash
             };
-    
+            
+            $scope.linkPatientDetail = function() {
+                $location.url("/patient/detail/" + patientUuid + "/demographic"); // path not hash
+            };
+            
             $scope.getAlerts = function () {
                 alertService.get(patientUuid).success(function (data) {
                    $scope.flags = data.flags;
                 });
-            };
-}]);
+            }; 
+        }]);

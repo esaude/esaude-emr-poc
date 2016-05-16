@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('registration').factory('initialization',
-    ['$cookieStore', '$rootScope', 'configurations', 'authenticator', 'appService', 'spinner', 'userService', 'formLoader',
-    function ($cookieStore, $rootScope, configurations, authenticator, appService, spinner, userService, formLoader) {
+    ['$cookies', '$rootScope', 'configurations', 'authenticator', 'appService', 'spinner', 'userService', 'formLoader',
+    function ($cookies, $rootScope, configurations, authenticator, appService, spinner, userService, formLoader) {
         var getConfigs = function () {
             var configNames = ['patientAttributesConfig', 'addressLevels', 'genderMap'];
             return configurations.load(configNames).then(function () {
@@ -29,11 +29,11 @@ angular.module('registration').factory('initialization',
         };
 
         var initApp = function() {
-            return appService.initApp('registration', {'app': true, 'extension' : true });
+            return appService.initApp('registration', {'app': true, 'extension' : true, 'service': true });
         };
         
         var loadUser = function () {       
-            var currentUser = $cookieStore.get(Bahmni.Common.Constants.currentUser);
+            var currentUser = $cookies.get(Bahmni.Common.Constants.currentUser);
             
             userService.getUser(currentUser).success(function(data) {
                 $rootScope.currentUser = data.results[0];

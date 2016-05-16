@@ -17,7 +17,7 @@ angular.module('bahmni.common.uiHelper')
         var hide = function (token) {
             _.pull(tokens, token);
             if(tokens.length === 0) {
-                $('#overlay').fadeOut(300);
+                $('#overlay').fadeOut(500);
             }
         };
 

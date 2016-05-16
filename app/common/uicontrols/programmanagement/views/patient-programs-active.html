@@ -1,0 +1,63 @@
+<table class="table table-responsive">
+    <thead>
+        <tr>
+            <th>{{'COMMON_PROGRAM_NAME' | translate}}</th>
+            <th>{{'COMMON_DATE' | translate}}</th>
+            <th>{{'COMMON_STATE' | translate}}</th>
+            <th>{{'COMMON_DETAILS' | translate}}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-if="hasPatientEnrolledToSomePrograms()" ng-repeat="program in filteredActivePrograms">
+            <td>
+                <button class="btn btn-primary btn-lg" type="button" data-toggle="modal" data-target="#editProgramModal" 
+                        ng-click="setProgramSelected(program)">
+                    {{program.display}}
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </button>
+            </td>
+            <td>
+                {{'COMMON_PROGRAM_ENROLLMENT_ENROLLED_ON' | translate}}: ({{program.dateEnrolled | date:"MM/dd/yyyy"}})
+            </td>
+            <td ng-if="hasValidProgramStateToShow(program.states)" ng-init="currentState = getCurrentProgramState(program.states)">
+                <button class="btn btn-primary btn-lg" type="button"  
+                        data-toggle="modal" data-target="#editProgramStateModal" ng-click="setProgramSelected(program)">
+                    {{currentState.state.concept.display}}
+                    <span ng-if="currentState.endDate !== null">
+                        {{'COMMON_TO' | translate}} {{currentState.endDate | date:"MM/dd/yyyy"}}
+                    </span>
+                    <span ng-if="currentState.endDate === null">
+                        {{'COMMON_FROM' | translate}} ({{currentState.startDate | date:"MM/dd/yyyy"}})
+                    </span>
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </button>
+            </td>
+            <td ng-if="!hasValidProgramStateToShow(program.states)">
+                <button class="btn btn-primary btn-lg" type="button">
+                      <span class="glyphicon glyphicon-plus"></span>      
+                </button>
+            </td>
+            <td>
+                <button ng-if="hasValidProgramStateToShow(program.states)" class="btn btn-success btn-lg" type="button"
+                        data-toggle="modal" data-target="#detailProgramModal" ng-click="setProgramSelected(program)">
+                    <span class="glyphicon glyphicon-eye-open"></span>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="4" class="go-to-right">
+                <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addProgramModal">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+<!-- modal dialogs -->
+<div ng-include src="'../common/uicontrols/programmanagement/views/program-add.html'"></div>
+<div ng-include src="'../common/uicontrols/programmanagement/views/program-edit.html'"></div>
+<div ng-include src="'../common/uicontrols/programmanagement/views/program-state-edit.html'"></div>
+<div ng-include src="'../common/uicontrols/programmanagement/views/program-detail.html'"></div>

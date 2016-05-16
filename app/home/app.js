@@ -2,17 +2,22 @@
 
 angular
     .module('home')
-    .config(['$urlRouterProvider', '$stateProvider', '$bahmniTranslateProvider',
-                function ($urlRouterProvider, $stateProvider, $bahmniTranslateProvider) {
-        $urlRouterProvider.otherwise('/login');
+    .config(['$urlRouterProvider', '$stateProvider', '$bahmniTranslateProvider', '$httpProvider',
+                function ($urlRouterProvider, $stateProvider, $bahmniTranslateProvider, $httpProvider) {
+        // to prevent the browser from displaying a password pop-up in case of an authentication error
+        $httpProvider.defaults.headers.common['Disable-WWW-Authenticate'] = 'true';
+        $urlRouterProvider.otherwise(function ($injector) {
+            var $state = $injector.get('$state');
+            $state.go('dashboard');
+        });
+        
         $stateProvider
             .state('login', {
                 url: '/login?showLoginMessage',
                 views: {
                     'layout': { templateUrl: '../common/application/views/layout.html', controller: 'LoginController'},
                     'content@login': { templateUrl: 'views/login.html'}
-                },
-                resolve: { initialization: 'initialization' }
+                }
             })
             .state('dashboard', {
                 url: '/dashboard',
