@@ -1,0 +1,40 @@
+.header{
+    border: 1px dotted #1aac9b;
+    width: 480px;
+    padding: 0 10px 0 10px;
+    float: right;
+}
+
+.header h3{
+    color: #fff;
+    text-align: center;
+    background-color: #1aac9b;
+    padding: 10px 10px;
+    font-weight: bold;
+}
+
+
+.logo-header {
+    border: 1px dotted #1aac9b;
+    width: 170px;
+}
+
+.logo-header h4, .logo-header h5{
+    text-align: center;
+}
+
+
+.logo-header img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.clear {
+    clear: both;
+}
+
+hr {
+    
+    border: 1px dotted #1aac9b;
+}
