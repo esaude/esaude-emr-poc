@@ -36,12 +36,14 @@
             </thead>
             <tbody>
                 <tr ng-repeat="patient in results" ng-click="linkDashboard(patient)">
+                  <div ng-hide="patient.dead">
                     <td>{{patient.identifier}}</td>
                     <td>{{patient.givenName}}</td>
                     <td>{{patient.familyName}}</td>
                     <td>{{patient.gender}}</td>
                     <td>{{patient.age.years}}</td>
                     <td>{{patient.birthdate | date}}</td>
+                  </div>
                 </tr>
             </tbody>
             <tfoot>
