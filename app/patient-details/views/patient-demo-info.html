@@ -1,0 +1,62 @@
+<link rel="stylesheet" href="../styles/patient-demo-info.css"/>
+<div class="header">
+    <h3 class="panel-title"> {{'PATIENT_DAILY_HOSPITAL_PROCESS' | translate}}</h3>
+    <div class="form-horizontal">
+        <div>
+            <label><strong>{{'PATIENT_INFO_NAMES' | translate}}: </strong> <i ng-bind="patient.fullName" ></i> </label>
+        </div>
+        <div>
+            <label><strong>{{'PATIENT_INFO_SURNAME' | translate}}: </strong> <i ng-bind="patient.familyName" /></label>
+        </div>
+        <div>
+            <label><strong>{{'PATIENT_INFO_GENDER' | translate}}/{{'PATIENT_INFO_BIRTHDATE' | translate}}/{{'PATIENT_INFO_AGE' | translate}}: </strong> <i ng-bind="patient.gender" /> / <i ng-bind="patient.birthdate" /> / <i ng-bind="patient.age.years" /> </label>
+        </div>
+        <div>
+            <label><strong>{{'PATIENT_INFO_IDENTIFIER_IDENTIFIER' | translate}}/{{'PATIENT_INFO_IDENTIFIER_TYPE' | translate}}: </strong> <i ng-bind="patient.identifier" /> (<i ng-bind="patient.identifierType" />)</label>
+        </div>
+        <div>
+            <label><strong>{{'COMMON_DISTRICT' | translate}}/{{'COMMON_CITY' | translate}}: </strong> <i ng-bind="patient.Distrito" /> </label>
+        </div>
+        <div>
+            <label><strong>{{'COMMON_LOCALITY' | translate}}/{{'COMMON_NEIGHBORHOOD' | translate}}: </strong> <i ng-bind="patient.address.address5" /> </label>
+        </div>
+        <div>
+            <label><strong>{{'COMMON_CELL' | translate}}/{{'COMMON_BLOCK' | translate}}: </strong> <i ng-bind="patient.address.address3" /> </label>
+        </div>
+        <div>
+            <label><strong>{{'COMMON_AVENUE' | translate}}/{{'COMMON_STREET' | translate}}/{{'COMMON_HOUSE' | translate}}: </strong> <i ng-bind="patient.address.display" /> </label>
+        </div>
+
+        <!--<hr/>
+
+        <div>
+            <label><strong>Pessoa de referência</strong></label><br/>
+            <label>Nome: </label>
+            <label>Apelido: </label>
+            <label>Tel.: </label>
+        </div>
+
+        <hr/>
+
+        <div>
+            <label><strong>Profissão/Ocupação: </strong></label>
+            <label><strong>Nível de Escolaridade: </strong></label>
+        </div>
+        <div>
+            <label><strong>Telefone de contacto: </strong></label>
+            <label><strong>N° de conviventes: </strong></label>
+        </div>
+
+        -->
+    </div>
+</div>
+
+<div class="logo-header">
+    <img src="../../images/moz-flag.png" width="60" height="60" align="middle">
+    <h4>{{'COMMON_REPUBLIC_OF_MOZAMBIQUE' | translate}}</h4>
+    <h5>{{'COMMON_HEALTH_NATIONAL_SERVICE' | translate}}</h5>
+</div>
+
+<div class="clear"></div>
+
+<hr/>

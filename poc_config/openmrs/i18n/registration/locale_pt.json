@@ -82,5 +82,6 @@
     "PATIENT_INFO_DEATH_REASON": "Motivo de morte",
     "PATIENT_INFO_DEAD": "Obitou",
     "PATIENT_INFO_NEW": "Registrar novo paciente",
-    "LOGIN_LABEL_LOGGEDIN_KEY": "Entrou como"
+    "LOGIN_LABEL_LOGGEDIN_KEY": "Entrou como",
+    "PATIENT_DAILY_HOSPITAL_PROCESS" : "PROCESSO HOSPITAL DE DIA"
 }
