@@ -9,6 +9,7 @@
 [![Test Coverage](https://api.codacy.com/project/badge/coverage/10ea6c2d88674139b37cae5fa73cc8f6)](https://coveralls.io/github/esaude/esaude-emr-poc)
 [![Dependency Status](https://gemnasium.com/badges/github.com/esaude/esaude-emr-poc.svg)](https://gemnasium.com/github.com/esaude/esaude-emr-poc)
 [![eSaude Version](https://omrs-shields.psbrandt.io/custom/esaude/v1.2.0/brightgreen?logo=esaude)](http://www.esaude.org/technical-resources/esaude-emr-versions)
+[![eSaude Slack](https://slack.esaude.org/badge.svg)](https://slack.esaude.org)
 
 This project is an AngularJS application for point of care based on OpenMRS and using [Bahmni code](https://github.com/Bhamni/openmrs-module-bahmniapps).
 The UI was designed for tablet-like interfaces with touch screen and virtual keyboard.
