@@ -1,0 +1,18 @@
+{
+  "package": {
+    "name": "distributable",
+    "repo": "poc",
+    "subject": "esaude"
+  },
+  "version": {
+    "name": "__RELEASE_VERSION__"
+  },
+  "files": [{
+    "includePattern": "esaude-emr-poc.zip",
+    "uploadPattern": "esaude-emr-poc-__RELEASE_VERSION__.zip",
+    "matrixParams": {
+      "override": 1
+    }
+  }],
+  "publish": true
+}
