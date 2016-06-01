@@ -16,13 +16,21 @@ after_script:
   - cat coverage/**/lcov.info | coveralls
 before_deploy:
   - grunt build:package
+  - sed -i "s/__RELEASE_VERSION__/$TRAVIS_TAG/g" bintray-release.json
 deploy:
-  provider: bintray
-  file: "bintray.json"
-  user: "psbrandt"
-  key: $BINTRAY_API_KEY
-  dry-run: false
-  on:
-    branch: master
+  - provider: bintray
+    file: "bintray.json"
+    user: "psbrandt"
+    key: $BINTRAY_API_KEY
+    dry-run: false
+    on:
+      branch: master
+  - provider: bintray
+    file: "bintray-release.json"
+    user: "psbrandt"
+    key: $BINTRAY_API_KEY
+    dry-run: false
+    on:
+      tags: true
 after_deploy:
   - sshpass -p$TRAVIS_USER_PASSWORD ssh -o StrictHostKeyChecking=no travis@dev.esaude.org 'curl -sL https://raw.githubusercontent.com/esaude/esaude-poc-docker/master/scripts/dev-server-deploy.sh | bash'

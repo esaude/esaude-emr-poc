@@ -62,7 +62,9 @@
   },
   "dependencies": {},
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt test",
+    "create-version": "npm --no-git-tag-version version",
+    "publish-version": "git tag $(node -e \"console.log(require('./package.json').version);\") && git push --tags"
   },
   "repository": {
     "type": "git",
