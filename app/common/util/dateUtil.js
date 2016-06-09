@@ -92,7 +92,7 @@ Bahmni.Common.Util.DateUtil = {
     },
 
     getDate: function (dateTime) {
-        return moment(this.parse(dateTime)).startOf('day').toDate();
+        return moment(this.parse(dateTime)).toDate();
     },
 
     parse: function(dateString){
@@ -243,5 +243,9 @@ Bahmni.Common.Util.DateUtil = {
 
     parseServerDateToDate: function(longDate){
         return longDate ? moment(longDate,"YYYY-MM-DDTHH:mm:ss.SSS").toDate() : null;
+    },
+
+    removeOffset: function(dateString){
+        return _.replace(dateString, '+0000', '');
     }
 };

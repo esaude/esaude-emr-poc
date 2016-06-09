@@ -1,12 +1,12 @@
 <div ng-controller="VisitController">
     <div class="row bg-info-border bg-info content-border border-rouded-top"><!--visit header -->
-        <div class="col-md-12 header-text-lg"><!-- last visit type and dates -->
+        <div class="col-sm-12 header-text-lg"><!-- last visit type and dates -->
             <img src="../../images/visit.png" class="img-responsive inline-align" width="24" height="24" alt="visit">
             {{'REGISTRATION_LAST_VISIT' | translate}}: <span ng-if="lastVisit">{{lastVisit.visitType.name}} 
                 {{'COMMON_FROM' | translate}} {{lastVisit.startDatetime | date:'MMM d, y h:mm:ss a'}} to {{lastVisit.stopDatetime | date:'MMM d, y h:mm:ss a'}}</span>
             <span ng-if="!lastVisit">{{'COMMON_NONE' | translate}}</span>
         </div>
-        <div class="col-md-12"><!-- patient gender, age and phone number -->
+        <div class="col-sm-12"><!-- patient gender, age and phone number -->
             <table>
                 <tr>
                     <td>
@@ -47,8 +47,20 @@
             </table>
         </div>
     </div><!--visit header -->
+    <div class="row bg-info-border content-border header-text-lg">
+        <div ng-if="lastUnclosedVisit">
+            <span class="glyphicon glyphicon-ban-circle"></span> <span>Has an unterminated visit of {{lastUnclosedVisit.visitType.display}}, started on {{lastUnclosedVisit.startDatetime | date:'MMM d, y h:mm:ss a'}}</span>
+        </div>
+        <div ng-if="todayVisit">
+            <span class="glyphicon glyphicon-info-sign"></span> <span>Checked in today to {{todayVisit.visitType.display}} at {{todayVisit.startDatetime | date:'MMM d, y h:mm:ss a'}}</span>
+        </div>
+        <div ng-if="!todayVisit && !lastUnclosedVisit">
+            <span class="glyphicon glyphicon-warning-sign"></span> <span>Not checked in yet Today</span>
+        </div>
+    </div>
+
     <div class="row bg-info-border content-border border-rouded-bottom go-to-right"><!-- visit header controls -->
-        <button type="button" class="btn btn-primary btn-lg">
+        <button type="button" class="btn btn-primary btn-lg" ng-disabled="disableCheckin" ng-click="checkIn()">
             {{'COMMON_CHECKIN' | translate}}
             <span class="glyphicon glyphicon-log-in"></span>
         </button>

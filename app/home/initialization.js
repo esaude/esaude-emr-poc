@@ -8,8 +8,10 @@ angular.module('home')
                 var configNames = ['defaultLocation'];
                 return configurations.load(configNames).then(function () {
                     var defaultLocation = configurations.defaultLocation().value;
+                    debugger
                     locationService.get(defaultLocation).then(function (data) {
                         $rootScope.location = data.data.results[0];
+                        debugger
                     });
                 });
             };
