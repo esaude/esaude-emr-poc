@@ -9,8 +9,9 @@ angular.module('vitals').factory('initialization',
                 var mandatoryPersonAttributes = appService.getAppDescriptor().getConfigValue("mandatoryPersonAttributes");
                 var patientAttributeTypes = new Poc.Patient.PatientAttributeTypeMapper().mapFromOpenmrsPatientAttributeTypes(configurations.patientAttributesConfig(), mandatoryPersonAttributes);
                 $rootScope.patientConfiguration = new Poc.Patient.PatientConfig(patientAttributeTypes.personAttributeTypes, configurations.identifierSourceConfig(), appService.getAppDescriptor().getConfigValue("additionalPatientInformation"));
-                $rootScope.addressLevels = configurations.addressLevels();
                 $rootScope.encounterTypes = appService.getAppDescriptor().getConfigValue("encounterTypes");
+                $rootScope.landingPageAfterSearch = appService.getAppDescriptor().getConfigValue("landingPageAfterSearch");
+                $rootScope.addressLevels = configurations.addressLevels();
             });
         };
         

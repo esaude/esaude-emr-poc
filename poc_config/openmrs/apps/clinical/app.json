@@ -3,7 +3,8 @@
         "id": "poc.clinic",
         "description": "Poc Patient Clinical App",
         "config" : {
-             "additionalPatientInformation" : []
+             "additionalPatientInformation" : [],
+             "landingPageAfterSearch": "'/dashboard/' + patient.uuid + '/summary'"
         }
     }
 ]

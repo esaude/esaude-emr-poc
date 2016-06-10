@@ -43,7 +43,7 @@ angular.module('application')
             
             $scope.linkDashboard = function(patient) {
                 $rootScope.patient = patient;
-                $location.url("/dashboard/" + patient.uuid); // path not hash
+                $location.url(eval($rootScope.landingPageAfterSearch)); // path not hash
             };
             
             $scope.linkPatientNew = function() {
