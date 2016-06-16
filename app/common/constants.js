@@ -148,6 +148,7 @@ Bahmni.Common = Bahmni.Common || {};
         conceptSetRepresentationForOrderFulfillmentConfig: representation,
         entityMappingUrl: RESTWS_V1 + "/entitymapping",
         encounterTypeUrl: RESTWS_V1+"/encountertype",
+        cohortUrl: RESTWS_V1+"/reportingrest/cohort",
         defaultExtensionName: "default",
         bahmniBacteriologyResultsUrl: BACTERIOLOGY + "/specimen",
         formDataUrl: RESTWS_V1 + "/obs"

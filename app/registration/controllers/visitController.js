@@ -21,7 +21,7 @@ angular.module('registration')
                 });
                 
                 encounterService.getEncountersForEncounterType(patientUuid, 
-                    ($scope.patient.age.years >= 15) ? $rootScope.encounterTypes.followUpAdult : 
+                    ($rootScope.patient.age.years >= 15) ? $rootScope.encounterTypes.followUpAdult : 
                                                                 $rootScope.encounterTypes.followUpChild)
                             .success(function (data) {
                                 var last = _.maxBy(data.results, 'encounterDatetime');
@@ -66,7 +66,6 @@ angular.module('registration')
                         dateUtil.parseDatetime(lastVisit.stopDatetime) >= now) {
                         $scope.todayVisit = lastVisit;
                         $scope.disableCheckin = true;
-                        debugger
                     }
                 }
             };

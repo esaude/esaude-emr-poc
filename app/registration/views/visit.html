@@ -64,5 +64,12 @@
             {{'COMMON_CHECKIN' | translate}}
             <span class="glyphicon glyphicon-log-in"></span>
         </button>
+        <button type="button" class="btn btn-primary btn-lg" ng-disabled="!todayVisit" ng-click="assignPrivider()"
+        data-toggle="modal" data-target="#visitProviderModal" >
+            {{'COMMON_ASSIGN_PROVIDER' | translate}}
+            <span class="glyphicon glyphicon-check"></span>
+        </button>
     </div><!-- visit header controls -->
 </div>
+
+<div ng-include src="'./views/visit-provider.html'"></div>

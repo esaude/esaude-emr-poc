@@ -181,6 +181,16 @@ angular.module('bahmni.common.domain')
             withCredentials : true
         });
     };
+
+    this.getEncountersForEncounterTypeAllPatients = function(encounterTypeUuid) {
+        return $http.get(Bahmni.Common.Constants.encounterUrl, {
+            params:{
+                encounterType: encounterTypeUuid,
+                v: "custom:(uuid,patient,encounterDatetime,provider,voided,visit:(uuid,startDatetime,stopDatetime),obs:(uuid,concept:(uuid,name),obsDatetime,value,groupMembers:(uuid,concept:(uuid,name),obsDatetime,value)))"
+            },
+            withCredentials : true
+        });
+    };
     
     this.getEncountersOfPatient = function(patientUuid) {
         return $http.get(Bahmni.Common.Constants.encounterUrl, {

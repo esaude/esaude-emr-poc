@@ -25,7 +25,7 @@ angular.module('clinic')
             var childFollowupEncounterUuid = "e278fce4-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
             
             encounterService.getEncountersForEncounterType(patientUuid, 
-            ($scope.patient.age.years >= 15) ? adultFollowupEncounterUuid : childFollowupEncounterUuid)
+            ($rootScope.patient.age.years >= 15) ? adultFollowupEncounterUuid : childFollowupEncounterUuid)
                     .success(function (data) {
                 var nonRetired = encounterService.filterRetiredEncoounters(data.results);
                 _.forEach(nonRetired, function (encounter) {
