@@ -9,7 +9,7 @@ angular.module('clinic')
             $scope.hasSchedules = false;
     
             function init() {
-                var cohortMarckedAndCheckedInByProvider = '3b996750-8463-470a-adaa-2bec6eafe873';
+                var cohortMarckedAndCheckedInByProvider = '4993705e-eeb4-46b4-b594-96854393ff55';
 
                 cohortService.getWithParams(cohortMarckedAndCheckedInByProvider, {providerUuid: $rootScope.currentProvider.uuid}).success(function (data) {
                         $scope.cohortMembers = data.members;
