@@ -7,17 +7,31 @@
              ng-class="{'has-error': aForm.givenName.$invalid && showMessages}">
             <label for="givenName" class="col-sm-2 control-label">{{'PATIENT_INFO_NAME' | translate}}:<span class="asterick">*</span></label>
             <div class="col-sm-10">
-                <div ng-messages for="aForm.givenName.$error" 
+                <div ng-messages for="aForm.givenName.$error"
                      ng-messages-include="../poc-common/form-display/views/error-messages.html"
                      ng-show="showMessages">
                 </div>
-                <input type="text" class="form-control keyboard-in" id="givenName" name="givenName" 
+                <input type="text" class="form-control keyboard-in" id="givenName" name="givenName"
                        ng-model="patient.givenName"
                        placeholder="{{'PATIENT_INFO_NAME_PLACEHOLDER' | translate}}" title="Enter patient's first name."
                        my-autocomplete source="getAutoCompleteList" response-map="getDataResults"
                        data-item-type="personName"
                        required>
             </div>
+        </div>
+        <div class="form-group form-group-lg"
+             ng-class="{'has-error': aForm.patientSurname.$invalid && showMessages}">
+          <label for="patientSurname" class="col-sm-2 control-label">{{'PATIENT_INFO_SURNAME' | translate}}:<span class="asterick">*</span></label>
+          <div class="col-sm-10">
+            <div ng-messages for="aForm.patientSurname.$error"
+                 ng-messages-include="../poc-common/form-display/views/error-messages.html"
+                 ng-show="showMessages">
+            </div>
+            <input type="text" class="form-control keyboard-in" id="patientSurname" name="patientSurname"
+                   ng-model="patient.familyName"
+                   placeholder="{{'PATIENT_INFO_SURNAME_PLACEHOLDER' | translate}}" title="Enter patient's last name."
+                   required>
+          </div>
         </div>
         <div class="form-group form-group-lg">
             <label for="patient_muddle_name" class="col-sm-2 control-label">{{'PATIENT_INFO_MIDDLE_NAME' | translate}}:</label>
@@ -26,20 +40,56 @@
                        placeholder="{{'PATIENT_INFO_MIDDLE_NAME_PLACEHOLDER' | translate}}" title="Enter patient's middle name.">
             </div>
         </div>
-        <div class="form-group form-group-lg"
-             ng-class="{'has-error': aForm.patientSurname.$invalid && showMessages}">
-            <label for="patientSurname" class="col-sm-2 control-label">{{'PATIENT_INFO_SURNAME' | translate}}:<span class="asterick">*</span></label>
-            <div class="col-sm-10">
-                <div ng-messages for="aForm.patientSurname.$error" 
-                     ng-messages-include="../poc-common/form-display/views/error-messages.html"
-                     ng-show="showMessages">
-                </div>
-                <input type="text" class="form-control keyboard-in" id="patientSurname" name="patientSurname" 
-                       ng-model="patient.familyName"
-                       placeholder="{{'PATIENT_INFO_SURNAME_PLACEHOLDER' | translate}}" title="Enter patient's last name."
-                       required>
-            </div>
+
+      <div id="ng-similarpatients" ng-controller="SimilarPatients">
+        <script type="text/javascript">
+          jQuery(function() {
+
+            function updateController(controllerId, update){
+              var scope = angular.element(document.getElementById(controllerId)).scope();
+              scope.$apply(update(scope));
+            }
+
+            jQuery('input[name="givenName"], input[name="patientSurname"]').change(function() {
+              var givenName = jQuery('input[name="givenName"]').val();
+              var familyName = jQuery('input[name="patientSurname"]').val();
+               updateController('ng-similarpatients', function (scope) {
+                scope.givenName = givenName;
+                scope.familyName = familyName;
+                scope.refresh();
+              });
+            });
+          });
+        </script>
+        <div ng-show="result.length"><h2>{{ 'SIMILAR_PATIENTS' | translate }}</h2></div>
+        <div ng-show="result.length">
+
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th>{{'SEARCH_PATIENT_NID' | translate}}</th>
+              <th>{{'SEARCH_PATIENT_FIRSTNAME' | translate}}</th>
+              <th>{{'PATIENT_INFO_MIDDLE_NAME' | translate}}</th>
+              <th>{{'SEARCH_PATIENT_LASTNAME' | translate}}</th>
+              <th>{{'SEARCH_PATIENT_GENDER' | translate}}</th>
+              <th>{{'SEARCH_PATIENT_AGE' | translate}}</th>
+              <th>{{'SEARCH_PATIENT_BIRTHDATE' | translate}}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="patient in result" ng-click="loadPatientToDashboard(patient)">
+              <td>{{patient.identifier}}</td>
+              <td>{{patient.givenName}}</td>
+              <td>{{patient.middleName}}</td>
+              <td>{{patient.familyName}}</td>
+              <td>{{patient.gender}}</td>
+              <td>{{patient.age.years}}</td>
+              <td>{{patient.birthdate | date}}</td>
+            </tr>
+            </tbody>
+          </table>
         </div>
+      </div>
     </div>
 </div><!-- demographics -->
 
