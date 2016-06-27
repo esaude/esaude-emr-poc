@@ -2,7 +2,7 @@
     <div class="panel-heading">
         <h3 class="panel-title">{{'PATIENT_INFO_NAME' | translate}}</h3>
     </div>
-    <div class="panel-body">
+    <div class="panel-body" ng-controller="SimilarPatients">
         <div class="form-group form-group-lg"
              ng-class="{'has-error': aForm.givenName.$invalid && showMessages}">
             <label for="givenName" class="col-sm-2 control-label">{{'PATIENT_INFO_NAME' | translate}}:<span class="asterick">*</span></label>
@@ -12,7 +12,7 @@
                      ng-show="showMessages">
                 </div>
                 <input type="text" class="form-control keyboard-in" id="givenName" name="givenName"
-                       ng-model="patient.givenName"
+                       ng-model="patient.givenName" ng-change="refresh()"
                        placeholder="{{'PATIENT_INFO_NAME_PLACEHOLDER' | translate}}" title="Enter patient's first name."
                        my-autocomplete source="getAutoCompleteList" response-map="getDataResults"
                        data-item-type="personName"
@@ -28,7 +28,7 @@
                  ng-show="showMessages">
             </div>
             <input type="text" class="form-control keyboard-in" id="patientSurname" name="patientSurname"
-                   ng-model="patient.familyName"
+                   ng-model="patient.familyName" ng-change="refresh()"
                    placeholder="{{'PATIENT_INFO_SURNAME_PLACEHOLDER' | translate}}" title="Enter patient's last name."
                    required>
           </div>
@@ -41,26 +41,7 @@
             </div>
         </div>
 
-      <div id="ng-similarpatients" ng-controller="SimilarPatients">
-        <script type="text/javascript">
-          jQuery(function() {
-
-            function updateController(controllerId, update){
-              var scope = angular.element(document.getElementById(controllerId)).scope();
-              scope.$apply(update(scope));
-            }
-
-            jQuery('input[name="givenName"], input[name="patientSurname"]').change(function() {
-              var givenName = jQuery('input[name="givenName"]').val();
-              var familyName = jQuery('input[name="patientSurname"]').val();
-               updateController('ng-similarpatients', function (scope) {
-                scope.givenName = givenName;
-                scope.familyName = familyName;
-                scope.refresh();
-              });
-            });
-          });
-        </script>
+      <div id="ng-similarpatients">
         <div ng-show="result.length"><h2>{{ 'SIMILAR_PATIENTS' | translate }}</h2></div>
         <div ng-show="result.length">
 

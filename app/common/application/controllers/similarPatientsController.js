@@ -4,13 +4,11 @@
   angular.module('application')
     .controller('SimilarPatients', ['$rootScope', '$scope', '$location', 'patientService', 'openmrsPatientMapper',
       function ($rootScope, $scope, $location, patientService, patientMapper) {
-
-        $scope.givenName = '';
-        $scope.familyName = '';
+        
         $scope.result = [];
 
         $scope.refresh = function () {
-          var query = $scope.givenName + ' ' + $scope.familyName;
+          var query = $scope.patient.givenName + ' ' + $scope.patient.familyName;
           var searchPromise = patientService.search(
             query).success(function (data) {
             $scope.result = mapPatient(data.results);
