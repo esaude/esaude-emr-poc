@@ -84,5 +84,7 @@
     "PATIENT_INFO_NEW": "Registrar novo paciente",
     "LOGIN_LABEL_LOGGEDIN_KEY": "Entrou como",
     "PATIENT_DAILY_HOSPITAL_PROCESS" : "PROCESSO HOSPITAL DE DIA",
-    "SIMILAR_PATIENTS": "Pacientes similares"
+    "SIMILAR_PATIENTS": "Pacientes similares",
+    "PATIENT_INFO_OTHER_NAMES_PLACEHOLDER": "Outros nomes",
+    "PATIENT_INFO_OTHER_NAMES" : "Outros nomes"
 }
