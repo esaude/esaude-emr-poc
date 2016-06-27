@@ -59,9 +59,20 @@ angular.module('common.patient').factory('openmrsPatientMapper', ['patient', '$r
                 patient.identifiers = openmrsPatient.identifiers;
                 patient.uuid = openmrsPatient.uuid;
                 return patient;
+            },
+            mapPatient = function(results) {
+              var preparedResults = [];
+              for (var patientIndex in results) {
+                var result = results[patientIndex];
+                var patient = map(result);
+
+                preparedResults.push(patient);
+              }
+              return preparedResults;
             };
 
         return {
-            map: map
+            map: map,
+            mapPatient: mapPatient
         };
     }]);
