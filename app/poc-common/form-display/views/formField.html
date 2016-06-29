@@ -1,13 +1,13 @@
 <div ng-form="aForm" class="form-group form-group-lg"
-     ng-class="{'has-error': aForm.{{fieldId}}.$invalid && $parent.submitted}">
+     ng-class="{'has-error': aForm.{{fieldId}}.$invalid && $parent.submitted}" ng-init="initFieldModel()">
     <label class="col-sm-4 control-label">
-        {{formParts.form.fields[fieldUuid].field.name}}:
-        <span ng-if="formParts.form.fields[fieldUuid].field.required" class="asterick">*</span>
+        {{fieldModel.field.name}}:
+        <span ng-if="fieldModel.field.required" class="asterick">*</span>
     </label>
     <div class="col-sm-8" 
-         ng-if="formParts.form.fields[fieldUuid].fieldConcept.fieldType.display === 'Concept'">
+         ng-if="fieldModel.fieldConcept.fieldType.display === 'Concept'">
          
-        <div ng-switch="formParts.form.fields[fieldUuid].fieldConcept.concept.datatype.display">
+        <div ng-switch="fieldModel.fieldConcept.concept.datatype.display">
            
             <div ng-messages for="aForm.{{fieldId}}.$error" 
                  ng-messages-include="../poc-common/form-display/views/error-messages.html"
@@ -16,66 +16,66 @@
             
             <div ng-switch-when="Text">
                 <input type="text" name="{{fieldId}}" class="form-control keyboard-in" 
-                       placeholder="{{formParts.form.fields[fieldUuid].field.name}}"
-                       ng-model="formParts.form.fields[fieldUuid].value" 
-                       ng-required="{{formParts.form.fields[fieldUuid].field.required}}">
+                       placeholder="{{fieldModel.field.name}}"
+                       ng-model="fieldModel.value" 
+                       ng-required="{{fieldModel.field.required}}">
             </div>
             
             <div ng-switch-when="Numeric">
                 <input name="{{fieldId}}" type="number" class="form-control keyboard-in" 
-                       placeholder="{{formParts.form.fields[fieldUuid].field.name}}"
-                       ng-model="formParts.form.fields[fieldUuid].value"
-                       ng-required="{{formParts.form.fields[fieldUuid].field.required}}">
+                       placeholder="{{fieldModel.field.name}}"
+                       ng-model="fieldModel.value"
+                       ng-required="{{fieldModel.field.required}}">
             </div>
             
             <div ng-switch-when="Datetime" class="input-group date">
                 <input name="{{fieldId}}" type="text" class="form-control keyboard-in" 
-                       placeholder="{{formParts.form.fields[fieldUuid].field.name}}"
-                       ng-model="formParts.form.fields[fieldUuid].value"
+                       placeholder="{{fieldModel.field.name}}"
+                       ng-model="fieldModel.value"
                        date-time min-view="date" auto-close="true"
-                       ng-required="{{formParts.form.fields[fieldUuid].field.required}}">
+                       ng-required="{{fieldModel.field.required}}">
                 <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
             </div>
             
             <div ng-switch-when="Coded">
-                <div class="bg-info-border border-rouded" ng-if="formParts.form.fields[fieldUuid].fieldConcept.selectMultiple">
-                    <div class="content-border-padding" ng-repeat="answer in formParts.form.fields[fieldUuid].fieldConcept.concept.answers">
+                <div class="bg-info-border border-rouded" ng-if="fieldModel.fieldConcept.selectMultiple">
+                    <div class="content-border-padding" ng-repeat="answer in fieldModel.fieldConcept.concept.answers">
                         <checkbox largest
                                id="{{answer.uuid}}"
                                name="{{fieldId}}"
                                ng-true-value="{{answer}}"
                                ng-false-value="undefined"
-                               ng-model="formParts.form.fields[fieldUuid].value[answer.uuid]"
-                               ng-required="{{formParts.form.fields[fieldUuid].field.required && !formParts.form.fields[fieldUuid].value}}">
+                               ng-model="fieldModel.value[answer.uuid]"
+                               ng-required="{{fieldModel.field.required && !fieldModel.value}}">
                         </checkbox> {{answer.display}} 
                     </div>
                 </div>
-                <div ng-if="!formParts.form.fields[fieldUuid].fieldConcept.selectMultiple">
-                    <div ng-if="formParts.form.fields[fieldUuid].fieldConcept.concept.answers.length > 3">
+                <div ng-if="!fieldModel.fieldConcept.selectMultiple">
+                    <div ng-if="fieldModel.fieldConcept.concept.answers.length > 3">
                         <select name="{{fieldId}}" class="form-control" 
-                                ng-model="formParts.form.fields[fieldUuid].value" 
-                                ng-options="answer.display for answer in formParts.form.fields[fieldUuid].fieldConcept.concept.answers"
-                                ng-required="{{formParts.form.fields[fieldUuid].field.required}}">
+                                ng-model="fieldModel.value" 
+                                ng-options="answer.display for answer in fieldModel.fieldConcept.concept.answers"
+                                ng-required="{{fieldModel.field.required}}">
                             <option></option>
                         </select>
                     </div>
                     <div class="bg-info-border border-rouded" 
                          ng-class="{'bg-error-border': aForm.{{fieldId}}.$invalid && showMessages}" 
-                        ng-if="formParts.form.fields[fieldUuid].fieldConcept.concept.answers.length === 3">
-                        <div class="content-border-padding" ng-repeat="answer in formParts.form.fields[fieldUuid].fieldConcept.concept.answers">
+                        ng-if="fieldModel.fieldConcept.concept.answers.length === 3">
+                        <div class="content-border-padding" ng-repeat="answer in fieldModel.fieldConcept.concept.answers">
                             <input type="radio"
                                    id="{{fieldId}}{{answer.uuid}}"
                                    class="radio-lx"
                                    name="{{fieldId}}" 
                                    ng-value="{{answer}}"
-                                   ng-model="formParts.form.fields[fieldUuid].value"
-                                   ng-required="{{formParts.form.fields[fieldUuid].field.required && !formParts.form.fields[fieldUuid].value}}">
+                                   ng-model="fieldModel.value"
+                                   ng-required="{{fieldModel.field.required && !fieldModel.value}}">
                             <label for="{{fieldId}}{{answer.uuid}}">{{answer.display}}</label>
                         </div>
                     </div>
-                    <div ng-if="formParts.form.fields[fieldUuid].fieldConcept.concept.answers.length === 2">
+                    <div ng-if="fieldModel.fieldConcept.concept.answers.length === 2">
                         <!--input type="checkbox" bs-switch switch-size="large" name="{{fieldId}}"
                                switch-off-text="{{formParts.form.fields[fieldUuid].fieldConcept.concept.answers[0].display}}" 
                                switch-on-text="{{formParts.form.fields[fieldUuid].fieldConcept.concept.answers[1].display}}" 
@@ -87,10 +87,10 @@
                                -->
                         <checkbox largest
                                name="{{fieldId}}"
-                               ng-true-value="{{formParts.form.fields[fieldUuid].fieldConcept.concept.answers[1]}}"
-                               ng-false-value="{{formParts.form.fields[fieldUuid].fieldConcept.concept.answers[0]}}"
-                               ng-model="formParts.form.fields[fieldUuid].value"
-                               ng-required="{{formParts.form.fields[fieldUuid].field.required}}">
+                               ng-true-value="{{fieldModel.fieldConcept.concept.answers[1]}}"
+                               ng-false-value="{{fieldModel.fieldConcept.concept.answers[0]}}"
+                               ng-model="fieldModel.value"
+                               ng-required="{{fieldModel.field.required}}">
                     </div>
                 </div>
             </div>
