@@ -43,7 +43,7 @@ Poc.Common.FormRequestMapper = (function () {
                                     obs.value : 
                                             JSON.stringify(realValueOfField(eachField.fieldConcept.concept.answers, obs.value));
                         }
-                        else if (eachField.fieldConcept.concept.answers.length === 2) {
+                        else if (eachField.fieldConcept.concept.answers.length === 2 && isTrueFalseQuestion(eachField.fieldConcept.concept.answers)) {
                             eachField.value = JSON.stringify(realValueOfField(eachField.fieldConcept.concept.answers, obs.value));
                         }else {
                             eachField.value = (_.isEmpty(eachField.fieldConcept.concept.answers)) ? 
@@ -55,7 +55,16 @@ Poc.Common.FormRequestMapper = (function () {
 
             });
         }
+        console.log(formPayload);
         return formPayload;
+    };
+    
+    var isTrueFalseQuestion = function (question) {
+        var found = _.find(question, function (answer) {
+            return answer.uuid === "e1d81b62-1d5f-11e0-b929-000c29ad1d07" || 
+                    answer.uuid === "e1d81c70-1d5f-11e0-b929-000c29ad1d07";
+        });
+        return typeof found !== "undefined";
     };
     
     var realValueOfField = function (conceptAnswers, obsValue) {

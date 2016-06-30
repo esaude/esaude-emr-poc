@@ -265,5 +265,72 @@
                 ]
             }
         ]
+    },
+    {
+        "formId": "4472a624-6165-48bb-aaa9-18c9b7d48512",
+        "name": "ATS/UATS",
+        "sufix": "ats",
+        "parts": [
+            {
+                "id": "1",
+                "name": "Parte 1",
+                "sref": ".part1",
+                "nextSref": ".part2",
+                "fields": [
+                    {
+                        "name": "Escolaridade",
+                        "id": "c04d7d73-f1b1-4fa9-b186-595bee9a9a1c"
+                    },
+                    {
+                        "name": "Ocupação",
+                        "id": "46dd11c3-d079-4c89-960b-7e3b77fc84e8"
+                    },
+                    {
+                        "name": "Tipo Aconselhamento",
+                        "id": "68f1ac31-ee45-45d8-8964-59bdae578424"
+                    }
+                ]
+            },
+            {
+                "id": "2",
+                "name": "Parte 2",
+                "sref": ".part2",
+                "nextSref": ".part3",
+                "fields": [
+                    {
+                        "name": "Motivo de Visita",
+                        "id": "7d4b13b5-89e3-4abc-a505-d05d06a11041"
+                    },
+                    {
+                        "name": "Tipo Visita",
+                        "id": "150cbd9b-d676-4170-a381-3d6d0ddffcce"
+                    },
+                    {
+                        "name": "Rastreio",
+                        "id": "10d05019-5c8b-4b77-8f77-e3a994499e5b"
+                    }
+                ]
+            },
+            {
+                "id": "3",
+                "name": "Parte 3",
+                "sref": ".part3",
+                "nextSref": ".confirm",
+                "fields": [
+                    {
+                        "name": "Determine",
+                        "id": "24ed1c40-2978-42b6-b068-9cc39fa1d9b0"
+                    },
+                    {
+                        "name": "Unigold",
+                        "id": "d85c18c3-8418-4346-9bf3-dd36d2ee62b1"
+                    },
+                    {
+                        "name": "Resiltado",
+                        "id": "3810965a-dd1b-4eea-841b-afc176df05ce"
+                    }
+                ]
+            }
+        ]
     }
 ]

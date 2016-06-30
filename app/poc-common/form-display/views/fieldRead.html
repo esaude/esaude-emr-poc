@@ -29,7 +29,12 @@
                 </div>
                 <div ng-if="!fieldMeta.fieldConcept.selectMultiple">
                     <div ng-if="fieldMeta.fieldConcept.concept.answers.length === 2">
-                        {{stringToJson(fieldMeta.value).display}}
+                        <div ng-if="isTrueFalseQuestion(fieldMeta.fieldConcept.concept.answers)">
+                            {{stringToJson(fieldMeta.value).display}}
+                        </div>
+                        <div ng-if="!isTrueFalseQuestion(fieldMeta.fieldConcept.concept.answers)">
+                            {{fieldMeta.value.display}}
+                        </div>
                     </div>
                     <div ng-if="fieldMeta.fieldConcept.concept.answers.length !== 2">
                         {{fieldMeta.value.display}}
