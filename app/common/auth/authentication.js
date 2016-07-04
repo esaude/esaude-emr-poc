@@ -26,8 +26,8 @@ angular.module('authentication')
                 $window.location = "../home/#/login?showLoginMessage=true";
             });
         });
-    }]).service('sessionService', ['$rootScope', '$http', '$q', '$cookies', 'userService', 'localStorageService', 
-                function ($rootScope, $http, $q, $cookies, userService, localStorageService) {
+    }]).service('sessionService', ['$rootScope', '$http', '$q', '$cookies', 'userService', 'localStorageService', 'esaudeConfigurations',
+                function ($rootScope, $http, $q, $cookies, userService, localStorageService, configurations ) {
         var sessionResourcePath = '/openmrs/ws/rest/v1/session';
 
         var createSession = function(username, password) {
@@ -52,9 +52,9 @@ angular.module('authentication')
                 $rootScope.currentUser = null;
             });
         };
-
         this.loginUser = function(username, password) {
             var deferrable = $q.defer();
+            configurations.loadDefaultLocation();
             createSession(username,password).success(function(data) {
                 if (data.authenticated) {
                     $cookies.put(Bahmni.Common.Constants.currentUser, username, {path: '/'});
@@ -67,10 +67,10 @@ angular.module('authentication')
                         deferrable.reject('LOGIN_LABEL_LOGIN_ERROR_NO_DEFAULT_LOCATION');
                     }
                 } else {
-                   deferrable.reject('LOGIN_LABEL_LOGIN_ERROR_FAIL_KEY'); 
+                   deferrable.reject('LOGIN_LABEL_LOGIN_ERROR_FAIL_KEY');
                 }
             }).error(function(){
-                deferrable.reject('LOGIN_LABEL_LOGIN_ERROR_FAIL_KEY');   
+                deferrable.reject('LOGIN_LABEL_LOGIN_ERROR_FAIL_KEY');
             });
             return deferrable.promise;
         };
