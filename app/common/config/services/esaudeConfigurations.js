@@ -1,5 +1,5 @@
-( function () {
-  angular.module('bahmni.common.config')
+'use strict';
+ angular.module('bahmni.common.config')
     .service('esaudeConfigurations', ['$rootScope', 'configurations', 'locationService', function ($rootScope, configurations, locationService) {
 
       this.loadDefaultLocation = function () {
@@ -12,5 +12,3 @@
         });
       };
   }]);
-
-});
