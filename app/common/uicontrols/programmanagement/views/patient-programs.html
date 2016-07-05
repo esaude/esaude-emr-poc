@@ -5,10 +5,11 @@
             <th>{{'COMMON_DATE' | translate}}</th>
             <th>{{'COMMON_STATE' | translate}}</th>
             <th>{{'COMMON_DETAILS' | translate}}</th>
+            <th>{{'COMMON_OUTCOME' | translate}}</th>
         </tr>
     </thead>
     <tbody>
-        <tr ng-if="hasPatientEnrolledToSomePrograms()" ng-repeat="program in filteredActivePrograms">
+        <tr ng-if="hasPatientEnrolledToSomePrograms()" ng-repeat="program in activePrograms">
             <td>
                 <button class="btn btn-primary btn-lg" type="button" data-toggle="modal" data-target="#editProgramModal" 
                         ng-click="setProgramSelected(program)">
@@ -43,12 +44,19 @@
                     <span class="glyphicon glyphicon-eye-open"></span>
                 </button>
             </td>
+            <td ng-if="program.outcome">
+                {{program.outcome.display}}
+            </td>
+            <td ng-if="!program.outcome">
+            </td>
         </tr>
         
-        <tr ng-if="hasPatientAnyPastPrograms()" ng-repeat="program in filteredNotReopenedPrograms">
+        <tr ng-if="hasPatientAnyPastPrograms()" ng-repeat="program in endedPrograms">
             <td>
-                <button class="btn btn-default btn-lg" type="button" disabled="disabled">
+                <button class="btn btn-default btn-lg" type="button" 
+                         data-toggle="modal" data-target="#editProgramModal" ng-click="setProgramSelected(program)">
                     {{program.display}}
+                    <span class="glyphicon glyphicon-pencil"></span>
                 </button>
             </td>
             <td>
@@ -74,11 +82,16 @@
                     <span class="glyphicon glyphicon-eye-open"></span>
                 </button>
             </td>
+            <td ng-if="program.outcome">
+                {{program.outcome.display}}
+            </td>
+            <td ng-if="!program.outcome">
+            </td>
         </tr>
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="4" class="go-to-right">
+            <td colspan="5" class="go-to-right">
                 <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addProgramModal">
                     <span class="glyphicon glyphicon-plus"></span>
                 </button>

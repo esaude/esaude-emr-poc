@@ -45,9 +45,13 @@ angular.module('application')
             };
             
             $scope.linkDashboard = function(patient) {
-                patientService.get(patient.uuid).success(function (data) {
-                    $rootScope.patient = patientMapper.map(data);
-                });
+                if (patient.age) {
+                    $rootScope.patient = patient;
+                } else {
+                    patientService.get(patient.uuid).success(function (data) {
+                        $rootScope.patient = patientMapper.map(data);
+                    });
+                }
                 $location.url(eval($rootScope.landingPageAfterSearch)); // path not hash
             };
             

@@ -17,24 +17,8 @@ angular.module('bahmni.common.uicontrols.programmanagment')
                     $scope.patientAllPrograms = _.union(programs.activePrograms, programs.endedPrograms);
                     $scope.activePrograms = programs.activePrograms;
                     $scope.endedPrograms = programs.endedPrograms;
-                    $scope.notReopenedPrograms = filterReopenedPrograms($scope.activePrograms, $scope.endedPrograms);
-                    $scope.filteredActivePrograms = filterUniqueProgram($scope.activePrograms);
-                    $scope.filteredNotReopenedPrograms = filterUniqueProgram($scope.notReopenedPrograms);
                 }));
             };
-            
-            var filterReopenedPrograms = function (activePrograms, endedPrograms) {
-                var diff = _.intersection(_.map(activePrograms, "program.uuid"), _.map(endedPrograms, "program.uuid"));
-                return _.filter(endedPrograms, function(endedProgram) {
-                    return !_.includes(diff, endedProgram.program.uuid);
-                });
-            };
-            
-            var filterUniqueProgram = function (programs) {
-                return _.uniq(programs, function(n) {
-                  return n.program.uuid;
-                });
-            }
 
             var init = function () {
                 spinner.forPromise(programService.getAllPrograms().then(function(programs) {
@@ -45,6 +29,7 @@ angular.module('bahmni.common.uicontrols.programmanagment')
 
             var successCallback = function (data) {
                 $scope.programEdited.selectedState = null;
+                $scope.programEdited.startDate = null;
                 $scope.programSelected = null;
                 $scope.workflowStateSelected = null;
                 updateActiveProgramsList();
@@ -53,6 +38,7 @@ angular.module('bahmni.common.uicontrols.programmanagment')
             var failureCallback = function (error) {
                 var fieldErrorMsg = findFieldErrorIfAny(error);
                 $scope.errorMessage = _.isUndefined(fieldErrorMsg) ? "Failed to Save" : fieldErrorMsg;
+                successCallback();
             };
 
             var findFieldErrorIfAny = function (error) {
@@ -130,7 +116,6 @@ angular.module('bahmni.common.uicontrols.programmanagment')
                     programService.enrollPatientToAProgram($scope.patient.uuid, $scope.programSelected.uuid, $scope.programEnrollmentDate, stateUuid)
                         .then(successCallback, failureCallback)
                 );
-        
                 $(function () {
                     $('#addProgramModal').modal('toggle');
                 });
@@ -139,6 +124,15 @@ angular.module('bahmni.common.uicontrols.programmanagment')
 
             var isProgramStateSelected = function () {
                 return objectDeepFind($scope, "programEdited.selectedState.uuid");
+            };
+            
+            $scope.getOutcomes = function (program) {
+                var currentProgram = _.find($scope.allPrograms, {uuid: program.uuid});
+                return currentProgram.outcomesConcept ? currentProgram.outcomesConcept.answers : [];
+            };
+            
+            $scope.hasOutcomes = function (program) {
+                return program.outcomesConcept && !_.isEmpty(program.outcomesConcept.answers);
             };
 
             var isOutcomeSelected = function (patientProgram) {
@@ -199,21 +193,15 @@ angular.module('bahmni.common.uicontrols.programmanagment')
                     showMessage("COMMON_PROGRAM_ENROLLMENT_ERROR_NO_STATE_START_DATE");
                     return; 
                 }
-                
                 spinner.forPromise(
                     programService.savePatientProgram(patientProgram.uuid, $scope.programEdited.selectedState.uuid, startDate)
                         .then(successCallback, failureCallback)
                 );
         
                 $(function () {
-                    $('#editProgramModal').modal('toggle');
+                    $('#editProgramStateModal').modal('toggle');
                 });
                 $scope.errorMessage = null;
-            };
-
-            $scope.getOutcomes = function (program) {
-                var currentProgram = _.findWhere($scope.allPrograms, {uuid: program.uuid});
-                return currentProgram.outcomesConcept ? currentProgram.outcomesConcept.setMembers : [];
             };
 
             $scope.editPatientProgram = function (patientProgram) {
@@ -237,12 +225,17 @@ angular.module('bahmni.common.uicontrols.programmanagment')
 //                    return;
 //                }
 
-                var outcomeConceptUuid = patientProgram.outcomeData ? patientProgram.outcomeData.uuid : null;
+                var outcomeConceptUuid = patientProgram.outcome ? patientProgram.outcome.uuid : null;
                 spinner.forPromise(programService.editPatientProgram(patientProgram.uuid, dateEnrolled, 
                                     dateCompleted, outcomeConceptUuid)
                     .then(function () {
                         updateActiveProgramsList();
                     }));
+                    
+                $(function () {
+                    $('#editProgramModal').modal('toggle');
+                });
+                $scope.errorMessage = null;
             };
 
             $scope.toggleEdit = function (program) {
@@ -302,10 +295,6 @@ angular.module('bahmni.common.uicontrols.programmanagment')
 
             $scope.hasProgramWorkflowStates = function (patientProgram) {
                 return !_.isEmpty(getStates(patientProgram.program));
-            };
-
-            $scope.hasOutcomes = function (program) {
-                return program.outcomesConcept && !_.isEmpty(program.outcomesConcept.setMembers);
             };
             
             var showMessage = function (msg) {
