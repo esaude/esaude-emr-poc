@@ -108,6 +108,7 @@
     "CLINIC_PATIENT_WEIGHT": "Peso (kg)",
     "CLINIC_PATIENT_HEIGHT": "Altura (cm)",
     "CLINIC_PATIENT_BMI": "IMC",
+    "CLINIC_PATIENT_CURRENT_STATE": "Estado Actual",
     "LOGIN_LABEL_LOGGEDIN_KEY": "Entrou como",
     "THERAPEUTIC_REGIME_ADULTS" : "Alinha de tratamento sugerida é TDF/3TC/EFV",
     "THERAPEUTIC_REGIME_CHILDREN" : "A linha de tratamento sugerida é D4T/3TC/NVP",

@@ -2,45 +2,18 @@
 
 angular.module('clinic')
         .controller('PatientSummaryController', ["$scope", "$rootScope", "$stateParams", 
-                        "encounterService", "observationsService",
+                        "encounterService", "observationsService", "commonService",
                     function ($scope, $rootScope, $stateParams, encounterService, 
-                    observationsService) {
+                    observationsService, commonService) {
         var patientUuid;
 
         (function () {
             patientUuid = $stateParams.patientUuid;
         })();
         
-        var filterGroupReverse = function (data, element) {
-            var nonRetired = encounterService.filterRetiredEncoounters(data.results);
-            var grouped = _.groupBy(nonRetired, function (element) {
-                return Bahmni.Common.Util.DateUtil.getDate(element.encounterDatetime);
-            });
-            var reversed = _.values(grouped).reverse();
-            $scope[element] = reversed;
-        };
-        
-        var filterGroupReverseObs = function (concepts, element) {
-            var adultFollowupEncounterUuid = "e278f956-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
-            var childFollowupEncounterUuid = "e278fce4-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
-            
-            encounterService.getEncountersForEncounterType(patientUuid, 
-            ($rootScope.patient.age.years >= 15) ? adultFollowupEncounterUuid : childFollowupEncounterUuid)
-                    .success(function (data) {
-                var nonRetired = encounterService.filterRetiredEncoounters(data.results);
-                _.forEach(nonRetired, function (encounter) {
-                    encounter.obs = observationsService.filterByList(encounter.obs, concepts);
-                });
-                var filtered = _.filter(nonRetired, function (encounter) {
-                    return !_.isEmpty(encounter.obs);
-                });
-                $scope[element] = filtered.reverse();
-            });
-        };
-        
         $scope.initVisitHistory = function () {
             encounterService.getEncountersOfPatient(patientUuid).success(function (data) {
-                filterGroupReverse(data, "visits");
+                $scope.visits = commonService.filterGroupReverse(data);
             });
         };
         
@@ -48,7 +21,7 @@ angular.module('clinic')
             var labEncounterUuid = "e2790f68-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
             
             encounterService.getEncountersForEncounterType(patientUuid, labEncounterUuid).success(function (data) {
-                filterGroupReverse(data, "labs");
+                $scope.labs = commonService.filterGroupReverse(data);
             });
         };
         
@@ -82,7 +55,7 @@ angular.module('clinic')
             var pharmacyEncounterUuid = "e279133c-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
             
             encounterService.getEncountersForEncounterType(patientUuid, pharmacyEncounterUuid).success(function (data) {
-                filterGroupReverse(data, "pickups");
+                $scope.pickups = commonService.filterGroupReverse(data);
             });
         };
         
@@ -91,13 +64,35 @@ angular.module('clinic')
                 "e1d9ee10-1d5f-11e0-b929-000c29ad1d07",
                 "e1d9ead2-1d5f-11e0-b929-000c29ad1d07",
                 "e1de8862-1d5f-11e0-b929-000c29ad1d07"
-            ];//TODO: create in configuration file         
-            filterGroupReverseObs(concepts, "prescriptions");
+            ];//TODO: create in configuration file
+            
+            var adultFollowupEncounterUuid = "e278f956-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
+            var childFollowupEncounterUuid = "e278fce4-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
+            
+            var patient = commonService.deferPatient($rootScope.patient);
+            
+            encounterService.getEncountersForEncounterType(patient.uuid, 
+            (patient.age.years >= 15) ? adultFollowupEncounterUuid : childFollowupEncounterUuid)
+                    .success(function (data) {
+                        $scope.prescriptions = commonService.filterGroupReverseFollowupObs(concepts, data.results);
+                        
+            });
         };
         
         $scope.initAllergies = function () { 
-            var concepts = ["e1e07ece-1d5f-11e0-b929-000c29ad1d07", "e1da757e-1d5f-11e0-b929-000c29ad1d07"];          
-            filterGroupReverseObs(concepts, "allergies");
+            var concepts = ["e1e07ece-1d5f-11e0-b929-000c29ad1d07", "e1da757e-1d5f-11e0-b929-000c29ad1d07"];
+            
+            var adultFollowupEncounterUuid = "e278f956-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
+            var childFollowupEncounterUuid = "e278fce4-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
+            
+            var patient = commonService.deferPatient($rootScope.patient);
+            
+            encounterService.getEncountersForEncounterType(patient.uuid, 
+            (patient.age.years >= 15) ? adultFollowupEncounterUuid : childFollowupEncounterUuid)
+                    .success(function (data) {
+                        $scope.allergies = commonService.filterGroupReverseFollowupObs(concepts, data.results);
+                        
+            });
         };
         
         $scope.initVitals = function () {          
@@ -107,7 +102,18 @@ angular.module('clinic')
                 "e1e2e70e-1d5f-11e0-b929-000c29ad1d07",
                 "e1e2e3d0-1d5f-11e0-b929-000c29ad1d07"
             ];//TODO: create in configuration file
-            filterGroupReverseObs(concepts, "vitals");
+            
+            var adultFollowupEncounterUuid = "e278f956-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
+            var childFollowupEncounterUuid = "e278fce4-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
+            
+            var patient = commonService.deferPatient($rootScope.patient);
+            
+            encounterService.getEncountersForEncounterType(patient.uuid, 
+            (patient.age.years >= 15) ? adultFollowupEncounterUuid : childFollowupEncounterUuid)
+                    .success(function (data) {
+                        $scope.vitals = commonService.filterGroupReverseFollowupObs(concepts, data.results);
+                        
+            });
         };
         
         $scope.isObject = function (value) {
