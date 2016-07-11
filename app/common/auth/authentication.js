@@ -26,8 +26,8 @@ angular.module('authentication')
                 $window.location = "../home/#/login?showLoginMessage=true";
             });
         });
-    }]).service('sessionService', ['$rootScope', '$http', '$q', '$cookies', 'userService', 'localStorageService', 'esaudeConfigurations',
-                function ($rootScope, $http, $q, $cookies, userService, localStorageService, configurations ) {
+    }]).service('sessionService', ['$rootScope', '$http', '$q', '$cookies', 'userService', 'localStorageService',
+                function ($rootScope, $http, $q, $cookies, userService, localStorageService ) {
         var sessionResourcePath = '/openmrs/ws/rest/v1/session';
 
         var createSession = function(username, password) {
@@ -54,7 +54,6 @@ angular.module('authentication')
         };
         this.loginUser = function(username, password) {
             var deferrable = $q.defer();
-            configurations.loadDefaultLocation();
             createSession(username,password).success(function(data) {
                 if (data.authenticated) {
                     $cookies.put(Bahmni.Common.Constants.currentUser, username, {path: '/'});

@@ -2,8 +2,8 @@
 
 angular.module('home')
     .controller('LoginController', ['$rootScope', '$scope', '$location', 'sessionService', 'spinner', '$q',
-                '$stateParams', '$translate', 'localeService', '$window', '$route',
-        function ($rootScope, $scope, $location, sessionService, spinner, $q, $stateParams, $translate, localeService, $window, $route) {
+                '$stateParams', '$translate', 'localeService', '$window', '$route', 'esaudeConfigurations',
+        function ($rootScope, $scope, $location, sessionService, spinner, $q, $stateParams, $translate, localeService, $window, $route, esaudeConfigurations) {
         var landingPagePath = "/dashboard";
         var loginPagePath = "/login";
 
@@ -63,10 +63,14 @@ angular.module('home')
             );
             spinner.forPromise(deferrable.promise).then(
                 function () {
-                    $route.reload();
-                    //$window.location.reload();
+                    //$route.reload();
+                    $window.location.reload();
                     $location.path(landingPagePath);
                 }
             );
         };
+
+          $scope.initializeLocation = function () {
+            esaudeConfigurations.loadDefaultLocation();
+          };
     }]);
