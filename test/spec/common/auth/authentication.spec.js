@@ -40,14 +40,13 @@ describe("Authentication", function () {
 
 
     describe("Should aouthenticate", function () {
-        it("login must occur with success", inject(['sessionService', '$rootScope', function (sessionService, $rootScope) {
-            var deferrable = jasmine.createSpyObj('deferrable', ['reject', 'promise']);
-            $q.defer.and.returnValue(deferrable);
-            sessionService.loadDefaultLocation()
-            sessionService.loadCredentials();
+      it("login must occur with success", inject(['sessionService', '$rootScope', 'locationService', 'esaudeConfigurations', function (sessionService, $rootScope, locationService, config ) {
+        var deferrable = jasmine.createSpyObj('deferrable', ['reject', 'promise']);
+        $q.defer.and.returnValue(deferrable);
+        sessionService.loadCredentials();
 
-            expect(deferrable.reject).not.toHaveBeenCalled();
-        }]));
+        expect(deferrable.reject).not.toHaveBeenCalled();
+      }]));
 
     });
 
