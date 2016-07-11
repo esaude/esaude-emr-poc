@@ -219,18 +219,28 @@
                     },
                     {
                         "name": "Peso",
-                        "id": "e292b454-1d5f-11e0-b929-000c29ad1d07"
+                        "id": "e292b454-1d5f-11e0-b929-000c29ad1d07",
+                        "logics": {
+                            "calculateOnChange": "e1e2e826-1d5f-11e0-b929-000c29ad1d07,/,(,e1e2e934-1d5f-11e0-b929-000c29ad1d07,*,2,)"
+                        }
                     },
                     {
                         "name": "Altura",
                         "id": "e292b558-1d5f-11e0-b929-000c29ad1d07",
-                        "logic": {
+                        "logics": {
                             "defaultValueIsLastEntry": "e1e2e934-1d5f-11e0-b929-000c29ad1d07"
                         }
                     },
                     {
                         "name": "Pressão Arterial",
                         "id": "e292b648-1d5f-11e0-b929-000c29ad1d07"
+                    },
+                    {
+                        "name": "BMI",
+                        "id": "11a7377a-0277-4be5-92c9-ed210add65da",
+                        "logics": {
+                            "calculateWithLastObs": "e1e2e826-1d5f-11e0-b929-000c29ad1d07,/,(,e1e2e934-1d5f-11e0-b929-000c29ad1d07,*,2,)"
+                        }
                     }
                 ]
             }
@@ -258,7 +268,7 @@
                     {
                         "name": "Estatura",
                         "id": "e2939036-1d5f-11e0-b929-000c29ad1d07",
-                        "logic": {
+                        "logics": {
                             "defaultValueIsLastEntry": "e1e2e934-1d5f-11e0-b929-000c29ad1d07"
                         }
                     }

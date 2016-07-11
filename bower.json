@@ -46,7 +46,8 @@
     "angular-translate-loader-static-files": "*",
     "angular-translate-storage-local": "*",
     "angular-translate-handler-log": "*",
-    "moment-timezone": "^0.5.4"
+    "moment-timezone": "^0.5.4",
+    "validator-js": "^5.4.0"
   },
   "resolutions": {
     "angular": "~1.5.0",

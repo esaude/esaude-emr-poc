@@ -5,8 +5,9 @@ angular.module('application')
             'spinner', 'observationsService', 'commonService',
     function ($rootScope, $scope, $location, patientService, patientMapper, spinner, observationsService, commonService) {
             $scope.results = [];
+
             var dateUtil = Bahmni.Common.Util.DateUtil;
-            
+
             var searchBasedOnQueryParameters = function () {
                 if (hasSearchParameters()) {
                     var searchPromise = patientService.search(
@@ -16,11 +17,11 @@ angular.module('application')
                     return spinner.forPromise(searchPromise);
                 }
             };
-            
+
             var hasSearchParameters = function () {
                 return $scope.searchText.trim().length > 0;
             };
-            
+
             var showSearchResults = function (searchPromise) {
                 if (searchPromise) {
                     searchPromise.success(function (data) {
@@ -43,7 +44,7 @@ angular.module('application')
                     showSearchResults(searchBasedOnQueryParameters(text));
                 }
             };
-            
+
             $scope.linkDashboard = function(patient) {
                 if (patient.age) {
                     $rootScope.patient = patient;
@@ -54,7 +55,7 @@ angular.module('application')
                 }
                 $location.url(eval($rootScope.landingPageAfterSearch)); // path not hash
             };
-            
+
             $scope.linkPatientNew = function() {
                 $location.url("/patient/new/name"); // path not hash
             };
