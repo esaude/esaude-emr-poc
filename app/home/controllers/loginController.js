@@ -63,8 +63,8 @@ angular.module('home')
             );
             spinner.forPromise(deferrable.promise).then(
                 function () {
-                    //$route.reload();
-                    $window.location.reload();
+                    $route.reload();
+                    //$window.location.reload();
                     $location.path(landingPagePath);
                 }
             );
