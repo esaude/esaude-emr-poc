@@ -29,7 +29,7 @@ angular.module('poc.common.clinicalservices')
         })();
 
         $scope.initService = function (service) {
-            var formPayload = $scope.$parent.serviceForms[service.formId];
+            var formPayload = $scope.$parent.serviceForms[service.id];
             
             encounterService.getEncountersForEncounterType($scope.patientUuid, formPayload.encounterType.uuid)
                     .success(function (data) {
@@ -40,7 +40,23 @@ angular.module('poc.common.clinicalservices')
                         service.encountersForService = sortedEncounters;
                         service.lastEncounterForService = sortedEncounters[0];
                         service.list = false;
-                    });
+            });
+            checkContraints(service);
+        };
+        
+        var checkContraints = function (service) {
+            service.showService = false;
+            
+            if (service.constraints.minAge && 
+                    $scope.$parent.patient.age.years >= service.constraints.minAge) {
+                service.showService = true;
+            }
+            
+            if (service.constraints.maxAge && 
+                    $scope.$parent.patient.age.years <= service.constraints.maxAge) {
+                service.showService = true;
+            }
+            
         };
         
         $scope.linkAdd = function (service) {

@@ -1,5 +1,6 @@
 [
     {
+        "id": "001",
         "formId": "e28b6096-1d5f-11e0-b929-000c29ad1d07",
         "name": "ANAMNESE A - ADULTO",
         "sufix": "anamnesis_a_adult",
@@ -88,6 +89,7 @@
     },
     
     {
+        "id": "002",
         "formId": "e28b6b0e-1d5f-11e0-b929-000c29ad1d07",
         "name": "ANAMNESE A - PEDIATRIA",
         "sufix": "anamnesis_a_child",
@@ -203,6 +205,7 @@
         ]
     },
     {
+        "id": "003",
         "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
         "name": "VITAIS - ADULTO",
         "sufix": "vitals_adult",
@@ -234,19 +237,13 @@
                     {
                         "name": "Pressão Arterial",
                         "id": "e292b648-1d5f-11e0-b929-000c29ad1d07"
-                    },
-                    {
-                        "name": "BMI",
-                        "id": "11a7377a-0277-4be5-92c9-ed210add65da",
-                        "logics": {
-                            "calculateWithLastObs": "e1e2e826-1d5f-11e0-b929-000c29ad1d07,/,(,e1e2e934-1d5f-11e0-b929-000c29ad1d07,*,2,)"
-                        }
                     }
                 ]
             }
         ]
     },
     {
+        "id": "004",
         "formId": "e28ac028-1d5f-11e0-b929-000c29ad1d07",
         "name": "VITAIS - PEDIATRIA",
         "sufix": "vitals_child",
@@ -277,6 +274,7 @@
         ]
     },
     {
+        "id": "005",
         "formId": "4472a624-6165-48bb-aaa9-18c9b7d48512",
         "name": "ATS/UATS",
         "sufix": "ats",
@@ -338,6 +336,26 @@
                     {
                         "name": "Resiltado",
                         "id": "3810965a-dd1b-4eea-841b-afc176df05ce"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "006",
+        "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
+        "name": "OMS ESTADIO",
+        "sufix": "oms_adult",
+        "parts": [
+            {
+                "id": "1",
+                "name": "ESTADIO I",
+                "sref": ".stage1",
+                "nextSref": ".confirm",
+                "fields": [
+                    {
+                        "name": "ESTADIO",
+                         "id": "e29399fa-1d5f-11e0-b929-000c29ad1d07"
                     }
                 ]
             }

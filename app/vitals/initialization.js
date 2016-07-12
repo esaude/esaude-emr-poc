@@ -11,12 +11,13 @@ angular.module('vitals').factory('initialization',
                 $rootScope.patientConfiguration = new Poc.Patient.PatientConfig(patientAttributeTypes.personAttributeTypes, configurations.identifierSourceConfig(), appService.getAppDescriptor().getConfigValue("additionalPatientInformation"));
                 $rootScope.encounterTypes = appService.getAppDescriptor().getConfigValue("encounterTypes");
                 $rootScope.landingPageAfterSearch = appService.getAppDescriptor().getConfigValue("landingPageAfterSearch");
+                $rootScope.defaultVisitTypes = appService.getAppDescriptor().getConfigValue("defaultVisitTypes");
                 $rootScope.addressLevels = configurations.addressLevels();
             });
         };
         
         var initForms = function () {
-           formLoader.load(_.map(appService.getAppDescriptor().getClinicalServices(), "formId")).then(function (data) {
+           formLoader.load(appService.getAppDescriptor().getClinicalServices()).then(function (data) {
                $rootScope.serviceForms = data;
            });
         };

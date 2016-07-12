@@ -6,12 +6,12 @@ angular.module('application')
         var gen = function (data, _$state_, $stateProviderRef) {
             _.forEach(data.getClinicalServices(), function (service) {
                     var formLayout = _.find(data.getFormLayout(), function (layout) {
-                        return service.formId === layout.formId;
+                        return service.id === layout.id;
                     });
                     //create main state
                     if (!_$state_.get(formLayout.sufix)) {
                         var state = {
-                            url: service.url + "/:patientUuid/:formUuid",
+                            url: service.url + "/:patientUuid/:formId",
                             views: {},
                             resolve: { initialization: 'initialization' }
                         };

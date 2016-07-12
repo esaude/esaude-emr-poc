@@ -1,5 +1,6 @@
 [
     {
+        "id": "003",
         "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
         "label": "VITAIS - ADULTO",
         "url": "/vitals/adult",
@@ -10,6 +11,7 @@
         }
     },
     {
+        "id": "004",
         "formId": "e28ac028-1d5f-11e0-b929-000c29ad1d07",
         "label": "VITAIS - PEDIATRIA",
         "url": "/vitals/child",
@@ -17,6 +19,17 @@
         "maxOccur": "-1",
         "constraints": {
             "maxAge": "14"
+        }
+    },
+    {
+        "id": "006",
+        "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
+        "label": "OMS ESTADIO - ADULTO",
+        "url": "/oms/adult",
+        "minOccur": "0",
+        "maxOccur": "-1",
+        "constraints": {
+            "minAge": "15"
         }
     }
 ]
