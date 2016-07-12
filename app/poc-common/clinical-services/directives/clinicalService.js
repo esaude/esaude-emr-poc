@@ -29,7 +29,7 @@ angular.module('poc.common.clinicalservices')
         })();
 
         $scope.initService = function (service) {
-            var formPayload = $scope.$parent.serviceForms[service.formId];
+            var formPayload = $scope.$parent.serviceForms[service.id];
             
             encounterService.getEncountersForEncounterType($scope.patientUuid, formPayload.encounterType.uuid)
                     .success(function (data) {

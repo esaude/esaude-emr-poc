@@ -5,17 +5,17 @@ angular.module('poc.common.formdisplay')
         
         var existingPromises = {};
 
-        var load = function (formIds) {
+        var load = function (forms) {
             var promiseDefer = $q.defer();
             var promises = [];
             var loadedForms = [];
             
-            _.forEach(formIds, function(uuid) {
-                if (!existingPromises[uuid]) {
-                existingPromises[uuid] = formService.fetchByUuid(uuid).then(function (response) {
-                    loadedForms[uuid] = response;
+            _.forEach(forms, function(form) {
+                if (!existingPromises[form.id]) {
+                existingPromises[form.id] = formService.fetchByUuid(form.formId).then(function (response) {
+                    loadedForms[form.id] = response;
                 });
-                promises.push(existingPromises[uuid]);
+                promises.push(existingPromises[form.id]);
             }
             });
             $q.all(promises).then(function () {

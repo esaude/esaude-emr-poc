@@ -13,10 +13,10 @@ angular.module('serviceform')
                     $scope.visitedFields = [];
                     $scope.hasVisitToday = false;
                     
-                    var formUuid = $stateParams.formUuid;
+                    var formId = $stateParams.formId;
                     
                     $scope.formInfo = _.find($scope.formLayout, function (form) {
-                        return form.formId === formUuid;
+                        return form.id === formId;
                     });
                     
                     var currentSref = $state.current.url.replace("/", ".");

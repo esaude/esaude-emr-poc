@@ -17,7 +17,7 @@ angular.module('registration').factory('initialization',
         };
         
         var initForms = function () {
-           formLoader.load(_.map(appService.getAppDescriptor().getClinicalServices(), "formId")).then(function (data) {
+           formLoader.load(appService.getAppDescriptor().getClinicalServices()).then(function (data) {
                $rootScope.serviceForms = data;
            });
         };

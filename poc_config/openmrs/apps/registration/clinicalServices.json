@@ -1,5 +1,6 @@
 [
     {
+        "id": "001",
         "formId": "e28b6096-1d5f-11e0-b929-000c29ad1d07",
         "label": "ANAMNESE A - ADULTO",
         "url": "/anamnesis/a/adult",
@@ -10,6 +11,7 @@
         }
     },
     {
+        "id": "002",
         "formId": "e28b6b0e-1d5f-11e0-b929-000c29ad1d07",
         "label": "ANAMNESE A - PEDIATRIA",
         "url": "/anamnesis/a/child",
@@ -20,6 +22,7 @@
         }
     },
     {
+        "id": "003",
         "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
         "label": "VITAIS - ADULTO",
         "url": "/vitals/adult",
@@ -30,6 +33,7 @@
         }
     },
     {
+        "id": "004",
         "formId": "e28ac028-1d5f-11e0-b929-000c29ad1d07",
         "label": "VITAIS - PEDIATRIA",
         "url": "/vitals/child",
@@ -40,6 +44,7 @@
         }
     },
     {
+        "id": "005",
         "formId": "4472a624-6165-48bb-aaa9-18c9b7d48512",
         "label": "ATS/UATS",
         "url": "/ats/services",
