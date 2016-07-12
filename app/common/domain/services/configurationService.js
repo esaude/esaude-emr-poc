@@ -121,7 +121,8 @@ angular.module('bahmni.common.domain')
                 params: {
                     q: 'default_location',
                     v: 'full'
-                }
+                },
+                withCredentials: false
             });
         };
 
