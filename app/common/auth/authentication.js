@@ -20,10 +20,14 @@ angular.module('authentication')
             };
         }];
         $httpProvider.interceptors.push(interceptor);
-    }).run(['$rootScope', '$window', '$timeout', function ($rootScope, $window, $timeout) {
+    }).run(['$rootScope', '$window', '$timeout', 'sessionService', function ($rootScope, $window, $timeout, sessionService) {
         $rootScope.$on('event:auth-loginRequired', function () {
             $timeout(function(){
-                $window.location = "../home/#/login?showLoginMessage=true";
+            	sessionService.destroy().then(
+                    function () {
+                        $window.location = "../home/#/login?showLoginMessage=true";
+                    }
+                );
             });
         });
     }]).service('sessionService', ['$rootScope', '$http', '$q', '$cookies', 'userService', 'localStorageService', 

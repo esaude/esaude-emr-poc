@@ -13,7 +13,7 @@ angular.module('bahmni.common.domain')
             return $http.get(Bahmni.Common.Constants.locationUrl, {
                 params: {q: name},
                 cache: true,
-                withCredentials: true
+                withCredentials: false
             });
         };
 
