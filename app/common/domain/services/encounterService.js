@@ -58,7 +58,7 @@ angular.module('bahmni.common.domain')
             headers: {"Accept": "application/json", "Content-Type": "application/json"}
         });
     };
-    
+
     this.update = function (encounter) {
         //encounter = this.buildEncounter(encounter);
 
@@ -181,7 +181,7 @@ angular.module('bahmni.common.domain')
             withCredentials : true
         });
     };
-    
+
     this.getEncountersOfPatient = function(patientUuid) {
         return $http.get(Bahmni.Common.Constants.encounterUrl, {
             params:{
@@ -203,12 +203,12 @@ angular.module('bahmni.common.domain')
             withCredentials : true
         });
     };
-    
+
     this.filterRetiredEncoounters = function (encounters) {
         return _.filter(encounters, function (encounter) {
             return !encounter.voided;
         });
     };
-    
+
 }]);
 

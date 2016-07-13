@@ -2,7 +2,7 @@
 
 angular.module('bahmni.common.domain')
     .service('observationsService', ['$http', function ($http) {
-        
+
         this.filterByList = function (obsList, concepts) {
             var filtered = _.filter(obsList, function (data) {
                 return _.includes(concepts, data.concept.uuid);
@@ -17,12 +17,12 @@ angular.module('bahmni.common.domain')
                         if(!_.isEmpty(groupFiltered)) {
                             filtered = _.union(filtered, groupFiltered);
                         }
-                   } 
+                   }
                 });
             }
             return filtered;
         };
-        
+
         this.get = function (patientUuid, concept) {
             return $http.get('/openmrs/ws/rest/v1/obs', {
                 params: {
@@ -33,7 +33,7 @@ angular.module('bahmni.common.domain')
                 withCredentials: true
             });
         };
-                    
+
         this.findAll = function (patientUuid) {
             return $http.get('/openmrs/ws/rest/v1/obs', {
                 params: {
@@ -76,7 +76,7 @@ angular.module('bahmni.common.domain')
                 withCredentials: true
             });
         };
-        
+
         this.filterRetiredObs = function (observations) {
         return _.filter(observations, function (obs) {
             return !obs.voided;
