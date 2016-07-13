@@ -5,9 +5,6 @@
       function ($scope, $rootScope, $stateParams, encounterService, obsService) {
 
         var patientUuid= $stateParams.patientUuid;
-        var adultFollowupEncounterUuid = "e278f956-1d5f-11e0-b929-000c29ad1d07";
-        var childFollowupEncounterUuid = "e278fce4-1d5f-11e0-b929-000c29ad1d07";
-        var labEncounterTypeUuid = "e2790f68-1d5f-11e0-b929-000c29ad1d07";
 
 
         var filterGroupReverse = function (data, element) {
@@ -21,7 +18,7 @@
 
         var filterGroupReverseObs = function (concepts, element) {
           encounterService.getEncountersForEncounterType(patientUuid,
-            ($scope.patient.age.years >= 15) ? adultFollowupEncounterUuid : childFollowupEncounterUuid)
+            ($scope.patient.age.years >= 15) ? Bahmni.Clinic.Constants.ADULT_FOLLOWUP_ENCOUTER_UUID : Bahmni.Clinic.Constants.CHILD_FOLLOWUP_ENCOUNTER_UUID)
             .success(function (data) {
               var nonRetired = encounterService.filterRetiredEncoounters(data.results);
               _.forEach(nonRetired, function (encounter) {
@@ -35,17 +32,15 @@
         };
 
         $scope.initLabResults = function () {
-          encounterService.getEncountersForEncounterType(patientUuid, labEncounterTypeUuid).success(function (data) {
-            filterGroupReverse(data, "lab");
+          encounterService.getEncountersForEncounterType(patientUuid, Bahmni.Clinic.Constants.LAB_ENCOUNTER_TYPE_UUID).success(function (data) {
+            filterGroupReverse(data, "labs");
           });
         };
 
         $scope.initVitals = function () {
           var conceptsUuids =
-          ["e1e2e934-1d5f-11e0-b929-000c29ad1d07", "e1e2e4e8-1d5f-11e0-b929-000c29ad1d07",
-          "e1e2e826-1d5f-11e0-b929-000c29ad1d07", "e1da52ba-1d5f-11e0-b929-000c29ad1d07",
-          "e1e2e70e-1d5f-11e0-b929-000c29ad1d07", "e1e2e3d0-1d5f-11e0-b929-000c29ad1d07"
-          ];
+          [Bahmni.Clinic.Constants.SYSTOLIC_BLOOD_PRESSURE, Bahmni.Clinic.Constants.DIASTOLIC_BLOOD_PRESSURE ,
+            Bahmni.Clinic.Constants.WEIGHT_KG, Bahmni.Clinic.Constants.HEIGHT_CM, Bahmni.Clinic.Constants.TEMPERATURE];
           filterGroupReverseObs(conceptsUuids, "vitals");
         };
 
