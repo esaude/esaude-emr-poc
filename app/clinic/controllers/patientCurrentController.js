@@ -5,9 +5,11 @@
       function ($scope, $rootScope, $stateParams, encounterService, obsService) {
 
         var patientUuid= $stateParams.patientUuid;
+        $scope.initLabResults = initLabResults();
+        $scope.initVitals = initVitals();
 
 
-        var filterGroupReverse = function (data, element) {
+        function filterGroupReverseEncounters(data, element) {
           var nonRetired = encounterService.filterRetiredEncoounters(data.results);
           var grouped = _.groupBy(nonRetired, function (element) {
             return Bahmni.Common.Util.DateUtil.getDate(element.encounterDatetime);
@@ -16,7 +18,7 @@
           $scope[element] = reversed;
         };
 
-        var filterGroupReverseObs = function (concepts, element) {
+        function filterGroupReverseObs(concepts, element) {
           encounterService.getEncountersForEncounterType(patientUuid,
             ($scope.patient.age.years >= 15) ? Bahmni.Clinic.Constants.ADULT_FOLLOWUP_ENCOUTER_UUID : Bahmni.Clinic.Constants.CHILD_FOLLOWUP_ENCOUNTER_UUID)
             .success(function (data) {
@@ -31,17 +33,21 @@
             });
         };
 
-        $scope.initLabResults = function () {
+        function initLabResults() {
           encounterService.getEncountersForEncounterType(patientUuid, Bahmni.Clinic.Constants.LAB_ENCOUNTER_TYPE_UUID).success(function (data) {
-            filterGroupReverse(data, "labs");
+            filterGroupReverseEncounters(data, "labResults");
           });
         };
 
-        $scope.initVitals = function () {
+        function initVitals() {
           var conceptsUuids =
           [Bahmni.Clinic.Constants.SYSTOLIC_BLOOD_PRESSURE, Bahmni.Clinic.Constants.DIASTOLIC_BLOOD_PRESSURE ,
             Bahmni.Clinic.Constants.WEIGHT_KG, Bahmni.Clinic.Constants.HEIGHT_CM, Bahmni.Clinic.Constants.TEMPERATURE];
           filterGroupReverseObs(conceptsUuids, "vitals");
+        };
+
+        $scope.isObject = function (value) {
+          return _.isObject(value);
         };
 
       }]);

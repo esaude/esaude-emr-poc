@@ -22,11 +22,11 @@
       <div class="panel-heading">
         <h3 class="panel-title">{{'CLINIC_PATIENT_LAB' | translate}}</h3>
       </div>
-      <div class="list-group" ng-repeat="visit in labs">
+      <div class="list-group" ng-repeat="lab in labResults">
         <div class="bg-info content-border-padding-li">
-          {{'CLINIC_PATIENT_COLLECTED' | translate}} {{'COMMON_ON' | translate}} {{visit[0].encounterDatetime | date:"MMM d, y"}}
+          {{'CLINIC_PATIENT_COLLECTED' | translate}} {{'COMMON_ON' | translate}} {{lab[0].encounterDatetime | date:"MMM d, y"}}
         </div>
-        <div ng-repeat="encounter in visit">
+        <div ng-repeat="encounter in lab">
           <div ng-repeat="obs in encounter.obs">
             <div ng-if="obs.groupMembers">
               <div ng-repeat="member in obs.groupMembers">
