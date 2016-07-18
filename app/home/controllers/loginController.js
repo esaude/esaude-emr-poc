@@ -2,30 +2,30 @@
 
 angular.module('home')
     .controller('LoginController', ['$rootScope', '$scope', '$location', 'sessionService', 'spinner', '$q',
-                '$stateParams', '$translate', 'localeService', '$window',
-        function ($rootScope, $scope, $location, sessionService, spinner, $q, $stateParams, $translate, localeService, $window) {
+                '$stateParams', '$translate', 'localeService', '$window', '$route', 'esaudeConfigurations',
+        function ($rootScope, $scope, $location, sessionService, spinner, $q, $stateParams, $translate, localeService, $window, $route, esaudeConfigurations) {
         var landingPagePath = "/dashboard";
         var loginPagePath = "/login";
-        
+
         (function () {
             $scope.showMenu = true;
             $rootScope.loginUser = {};
-            
+
             localeService.allowedLocalesList().then(function (response) {
                 $scope.locales = response.data.replace(/\s+/g, '').split(',');
                 $scope.selectedLocale = $translate.use()? $translate.use() : $scope.locales[0];
             });
-            
+
         })();
 
         $scope.updateLocale = function (selectedLocale) {
             $translate.use(selectedLocale);
         };
-        
+
         if ($stateParams.showLoginMessage) {
             $scope.errorMessageTranslateKey = "LOGIN_LABEL_LOGIN_ERROR_MESSAGE_KEY";
         }
-        
+
         var redirectToLandingPageIfAlreadyAuthenticated = function () {
             sessionService.get().success(function (data) {
                 if (data.authenticated) {
@@ -33,11 +33,11 @@ angular.module('home')
                 }
             });
         };
-        
+
         if ($location.path() === loginPagePath) {
             redirectToLandingPageIfAlreadyAuthenticated();
         }
-        
+
         $scope.login = function () {
             $scope.errorMessageTranslateKey = null;
             $scope.dataLoading = true;
@@ -63,9 +63,14 @@ angular.module('home')
             );
             spinner.forPromise(deferrable.promise).then(
                 function () {
-                    $window.location.reload();
+                    $route.reload();
+                    //$window.location.reload();
                     $location.path(landingPagePath);
                 }
             );
         };
+
+          $scope.initializeLocation = function () {
+            esaudeConfigurations.loadDefaultLocation();
+          };
     }]);
