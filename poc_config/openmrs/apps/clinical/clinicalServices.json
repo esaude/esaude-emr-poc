@@ -29,7 +29,8 @@
         "minOccur": "0",
         "maxOccur": "-1",
         "constraints": {
-            "minAge": "15"
+            "minAge": "15",
+            "requireChekin": true
         }
     }
 ]

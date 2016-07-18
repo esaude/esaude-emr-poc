@@ -2,7 +2,7 @@
     {
         "id": "001",
         "formId": "e28b6096-1d5f-11e0-b929-000c29ad1d07",
-        "name": "ANAMNESE A - ADULTO",
+        "name": "INFO SOCIAL - ADULTO",
         "sufix": "anamnesis_a_adult",
         "parts": [
             {
@@ -27,7 +27,7 @@
             },
             {
                 "id": "2",
-                "name": "Info Pessoal e Parseiros Sexuais",
+                "name": "Info Pessoal e Parceiros Sexuais",
                 "sref": ".extra",
                 "nextSref": ".children",
                 "fields": [
@@ -91,7 +91,7 @@
     {
         "id": "002",
         "formId": "e28b6b0e-1d5f-11e0-b929-000c29ad1d07",
-        "name": "ANAMNESE A - PEDIATRIA",
+        "name": "INFO SOCIAL - PEDIATRIA",
         "sufix": "anamnesis_a_child",
         "parts": [
             {

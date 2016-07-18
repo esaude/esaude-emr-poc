@@ -57,6 +57,10 @@ angular.module('poc.common.clinicalservices')
                 service.showService = true;
             }
             
+            if (service.constraints.requireCheckin) {
+                service.showService = false;
+            }
+            
         };
         
         $scope.linkAdd = function (service) {
