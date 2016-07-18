@@ -265,7 +265,7 @@
                     {
                         "name": "Estatura",
                         "id": "e2939036-1d5f-11e0-b929-000c29ad1d07",
-                        "logics": {
+                        "logics ": {
                             "defaultValueIsLastEntry": "e1e2e934-1d5f-11e0-b929-000c29ad1d07"
                         }
                     }
@@ -351,11 +351,66 @@
                 "id": "1",
                 "name": "ESTADIO I",
                 "sref": ".stage1",
+                "nextSref": ".stage2",
+                "fields": [
+                    {
+                        "name": "ESTADIO I",
+                         "id": "d7870f17-c91e-4e0f-b0db-eca7df93d128"
+                    }
+                ]
+            },
+
+            {
+                "id": "2",
+                "name": "ESTADIO II",
+                "sref": ".stage2",
+                "nextSref": ".stage3",
+                "fields": [
+                    {
+                        "name": "ESTADIO II",
+                         "id": "904c92e8-8f32-44a1-9126-d4173fc65ab6"
+                    }
+                ]
+            },
+
+            {
+                "id": "3",
+                "name": "ESTADIO III",
+                "sref": ".stage3",
+                "nextSref": ".stage4",
+                "fields": [
+                    {
+                        "name": "ESTADIO III",
+                         "id": "bd03f34d-c438-4052-b83a-b530ee8c7c0a"
+                    }
+                ]
+            },
+
+            {
+                "id": "4",
+                "name": "ESTADIO IV",
+                "sref": ".stage4",
+                "nextSref": ".stage5",
+                "fields": [
+                    {
+                        "name": "ESTADIO IV",
+                        "id": "b23769cb-f6c7-4fe0-b1b2-5187f283a40b"
+                    }
+                ]
+            },
+
+             {
+                "id": "5",
+                "name": "ESTADIO",
+                "sref": ".stage5",
                 "nextSref": ".confirm",
                 "fields": [
                     {
                         "name": "ESTADIO",
-                         "id": "e29399fa-1d5f-11e0-b929-000c29ad1d07"
+                        "id": "e29399fa-1d5f-11e0-b929-000c29ad1d07",
+                        "logics": {
+                            "calculateWHOStage": "e1e53c02-1d5f-11e0-b929-000c29ad1d07"
+                        }
                     }
                 ]
             }
