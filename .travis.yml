@@ -33,4 +33,4 @@ deploy:
     on:
       tags: true
 after_deploy:
-  - sshpass -p$TRAVIS_USER_PASSWORD ssh -o StrictHostKeyChecking=no travis@dev.esaude.org 'curl -sL https://raw.githubusercontent.com/esaude/esaude-poc-docker/master/scripts/dev-server-deploy.sh | bash'
+  - sh scripts/deploy.sh
