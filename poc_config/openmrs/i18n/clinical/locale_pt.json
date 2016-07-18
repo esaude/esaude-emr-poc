@@ -114,5 +114,6 @@
     "ONE_ENCOUNTER_NO_CD4" : "O paciente tem em falta o teste de CD4",
     "NO_CD4_6_TO_6_MONTHS" : "O paciente tem em falta o teste de CD4(por mais de 6 meses)",
     "ELIGIBLE" : "O paciente deve iniciar o TARV",
-    "CTZ_PROPHILAXIS" : "O Paciente deve suspender a profilaxia com CTZ"
+    "CTZ_PROPHILAXIS" : "O Paciente deve suspender a profilaxia com CTZ",
+    "CLINIC_PATIENT_CURRENT_STATUS" : "Estado clínico atual"
 }

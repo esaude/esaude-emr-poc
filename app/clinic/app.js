@@ -10,7 +10,7 @@ angular
             var $state = $injector.get('$state');
             $state.go('search');
         });
-        
+
         $stateProvider
             .state('search', {
                 url: '/search',
@@ -30,7 +30,7 @@ angular
             })
             .state('dashboard.summary', {
                 url: '/summary',
-                templateUrl: 'views/patient-summary.html', 
+                templateUrl: 'views/patient-summary.html',
                 controller: 'PatientSummaryController',
                 resolve: { initialization: 'initialization' }
             })
@@ -44,6 +44,12 @@ angular
                 url: '/consultation',
                 templateUrl: 'views/patient-consultation.html',
                 resolve: { initialization: 'initialization' }
+            })
+            .state('dashboard.current', {
+              url: '/current',
+              templateUrl: 'views/patient-current.html',
+              controller: 'PatientCurrentController',
+              resolve: { initialization: 'initialization' }
             })
             .state('detailpatient', {
                 url: '/patient/detail/:patientUuid',
@@ -78,7 +84,7 @@ angular
                 templateUrl: '../patient-details/views/patient-death.html',
                 resolve: { initialization: 'initialization' }
             });
-            
+
             $stateProviderRef = $stateProvider;
             $bahmniTranslateProvider.init({app: 'clinical', shouldMerge: true});
     }]);
