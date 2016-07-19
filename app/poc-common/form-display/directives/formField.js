@@ -26,18 +26,15 @@ angular.module('poc.common.formdisplay')
         var formLogic = {};
         
         formLogic.defaultValueIsLastEntry = function (param) {
-            
             observationsService.get($rootScope.patient.uuid, param).success(function (data) {
                 var nonRetired = observationsService.filterRetiredObs(data.results);
 
                 if (!_.isEmpty(nonRetired)) {
                     var last = _.maxBy(nonRetired, 'obsDatetime');
-
-                    if(last.value.datatype.display === "Coded") {
+                    if(last.value.datatype && last.value.datatype.display === "Coded") {
                         $scope.fieldModel.value = realValueOfField($scope.fieldModel.fieldConcept.concept.answers, last.value);
                         return;
                     }
-                    
                     $scope.fieldModel.value = last.value; 
                }
             });
