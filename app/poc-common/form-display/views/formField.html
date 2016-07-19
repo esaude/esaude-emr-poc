@@ -57,7 +57,8 @@
                         <select name="{{fieldId}}" class="form-control" 
                                 ng-model="fieldModel.value" 
                                 ng-options="answer.display for answer in fieldModel.fieldConcept.concept.answers"
-                                ng-required="{{fieldModel.field.required}}">
+                                ng-required="{{fieldModel.field.required}}"
+                                ng-disabled="{{field.disabled}}">
                             <option></option>
                         </select>
                     </div>
