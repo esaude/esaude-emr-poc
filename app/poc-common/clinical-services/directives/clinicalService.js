@@ -57,8 +57,12 @@ angular.module('poc.common.clinicalservices')
                 service.showService = true;
             }
             
-            if (service.constraints.requireCheckin) {
-                service.showService = false;
+            if (service.constraints.requireChekin) {
+                if ($scope.$parent.hasVisitToday) {
+                    service.showService = true;
+                } else {
+                    service.showService = false;
+                }
             }
             
         };
