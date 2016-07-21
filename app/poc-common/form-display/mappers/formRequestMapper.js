@@ -30,30 +30,34 @@ Poc.Common.FormRequestMapper = (function () {
         
         for (var field in formPayload.form.fields) {
             var eachField = formPayload.form.fields[field];
+            eachField.value = {};
             //find obs for field
             _.forEach(filteredObs, function (obs) {
                 //compare field concept with obs concept
                 if(eachField.fieldConcept.concept.uuid === obs.concept.uuid) {
-                    eachField.value = {};
-                    //check if field is a group
-                    if (!eachField.fieldConcept.concept.set) {
-                        //multiple select filter
-                        if (eachField.fieldConcept.selectMultiple) {
-                            eachField.value[obs.value.uuid] = (_.isEmpty(eachField.fieldConcept.concept.answers)) ? 
-                                    obs.value : 
-                                            JSON.stringify(realValueOfField(eachField.fieldConcept.concept.answers, obs.value));
-                        }
-                        else if (eachField.fieldConcept.concept.answers.length === 2 && isTrueFalseQuestion(eachField.fieldConcept.concept.answers)) {
-                            eachField.value = JSON.stringify(realValueOfField(eachField.fieldConcept.concept.answers, obs.value));
-                        }else {
-                            eachField.value = (_.isEmpty(eachField.fieldConcept.concept.answers)) ? 
-                                    obs.value : 
-                                            realValueOfField(eachField.fieldConcept.concept.answers, obs.value);
-                        }
+                    
+                    //multiple select filter
+                    if (eachField.fieldConcept.selectMultiple) {
+                        eachField.value[obs.value.uuid] = (_.isEmpty(eachField.fieldConcept.concept.answers)) ? 
+                                obs.value : 
+                                        JSON.stringify(realValueOfField(eachField.fieldConcept.concept.answers, obs.value));
                     }
+                    else if (eachField.fieldConcept.concept.answers.length === 2 && isTrueFalseQuestion(eachField.fieldConcept.concept.answers)) {
+                        eachField.value = JSON.stringify(realValueOfField(eachField.fieldConcept.concept.answers, obs.value));
+                    }else {
+                        eachField.value = (_.isEmpty(eachField.fieldConcept.concept.answers)) ? 
+                                obs.value : 
+                                        realValueOfField(eachField.fieldConcept.concept.answers, obs.value);
+                    }
+
                 }
 
             });
+
+            if(_.isEmpty(eachField.value)){
+                eachField.value = undefined;
+            }
+
         }
         console.log(formPayload);
         return formPayload;
