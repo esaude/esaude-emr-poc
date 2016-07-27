@@ -1,0 +1,33 @@
+<div class="bg-info-border content-border-padding content-border-margin-regular-bottom border-rouded panel-marginless-top">
+    <form class="form-horizontal">
+        <div class="alert alert-danger alert-dismissible content-border-margin" role="alert"  ng-show="errorMessage">
+            <strong>{{errorMessage| translate}}</strong> 
+        </div>
+        <div class="modal-body">
+            <div class="form-group form-group-lg">
+                <label class="control-label col-sm-4">{{'CLINICAL_OBSERVATIONS'| translate}}:</label>
+                <div class="col-sm-8">
+                    <textarea class="form-control" rows="5" id="comment" ng-model="newNote.observation" ng-required="true"></textarea>
+                </div>
+            </div>
+            <div class="form-group form-group-lg">
+                <label class="control-label col-sm-4">{{'CLINICAL_OBSERVATIONS_PRIORITY'| translate}}:</label>
+                <div class="col-sm-8">
+                    <select class="form-control" ng-model="newNote.priority" 
+                            ng-options="priority.label for priority in notes.priorities" ng-required="true">
+                        <option></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-warning btn-lg" ng-click="notes.show = false">
+                <span class="glyphicon glyphicon-minus-sign"></span>
+            </button>
+            <button type="submit" ng-click="addNote()" 
+                    class="btn btn-primary btn-lg">
+                <span class="glyphicon glyphicon-floppy-disk"></span>
+            </button>
+        </div>
+    </form>
+</div>

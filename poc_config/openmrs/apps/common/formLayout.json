@@ -237,6 +237,14 @@
                     {
                         "name": "Pressão Arterial",
                         "id": "e292b648-1d5f-11e0-b929-000c29ad1d07"
+                    },
+                    {
+                        "name": "Frequencia Cardiaca",
+                        "id": "a32767e4-3b41-411e-ad5d-a989cedaab40"
+                    },
+                    {
+                        "name": "Frequencia Respiratoria",
+                        "id": "da5764e3-8a5d-4e14-8712-79adfe52a0b6"
                     }
                 ]
             }
@@ -268,6 +276,14 @@
                         "logics ": {
                             "defaultValueIsLastEntry": "e1e2e934-1d5f-11e0-b929-000c29ad1d07"
                         }
+                    },
+                    {
+                        "name": "Frequencia Cardiaca",
+                        "id": "1abdb9ec-acad-4a7c-820f-5de3642a02aa"
+                    },
+                    {
+                        "name": "Frequencia Respiratoria",
+                        "id": "69ae6e37-586a-482c-bbff-02a7bfaacb5e"
                     }
                 ]
             }

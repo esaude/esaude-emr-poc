@@ -30,11 +30,11 @@ Poc.Common.FormRequestMapper = (function () {
         
         for (var field in formPayload.form.fields) {
             var eachField = formPayload.form.fields[field];
+            eachField.value = {};
             //find obs for field
             _.forEach(filteredObs, function (obs) {
                 //compare field concept with obs concept
                 if(eachField.fieldConcept.concept.uuid === obs.concept.uuid) {
-                    eachField.value = {};
                     //check if field is a group
                     if (!eachField.fieldConcept.concept.set) {
                         //multiple select filter
@@ -54,6 +54,7 @@ Poc.Common.FormRequestMapper = (function () {
                 }
 
             });
+            if(_.isEmpty(eachField.value)) eachField.value = undefined;
         }
         console.log(formPayload);
         return formPayload;

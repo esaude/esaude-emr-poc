@@ -11,7 +11,7 @@
                      ng-messages-include="../poc-common/form-display/views/error-messages.html"
                      ng-show="showMessages">
                 </div>
-                <input type="text" name="patientBirthdate" class="form-control" date-time ng-model="patient.birthdate" 
+                <input type="text" name="patientBirthdate" class="form-control" date-time format="yyyy-MM-dd" ng-model="patient.birthdate" 
                            min-view="date" auto-close="true" date-chenge="{{patient.calculateAge()}}" max-date="{{today}}"
                            required>
             </div>

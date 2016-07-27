@@ -1,10 +1,30 @@
 <div class="content-border-margin-regular">
-    <div class="panel panel-primary" ng-controller="ManageProgramController" >
+    <div ng-controller="NotesController">
+        <div class="alert alert-warning alert-dismissible" role="alert"
+             ng-class="{'alert alert-warning': note.priority.id === 'warning', 
+                        'alert alert-info': note.priority.id === 'info',
+                        'alert alert-danger': note.priority.id === 'wrrong',
+                        'alert alert-success': note.priority.id === 'success'}">
+            <button type="button" class="close btn-lg content-border-margin-regular-sides " data-dismiss="alert" aria-label="Close">
+                <span class="glyphicon glyphicon-remove-circle"></span>
+            </button>
+            <button type="button" class="close btn-lg content-border-margin-regular-sides">
+                <span class="glyphicon glyphicon-list-alt"></span>
+            </button>
+            <button type="button" class="close btn-lg content-border-margin-regular-sides" ng-click="notes.show = true">
+                <span class="glyphicon glyphicon-plus"></span>
+            </button>
+            <strong>{{note.priority.label}}!</strong> {{note.observation}}<br/><strong>{{'COMMON_BY'| translate}}</strong> {{note.creator}}
+        </div>
+        <div ng-include src="'../clinic/views/notes-add.html'" ng-show="notes.show"></div>
+    </div>
+    
+    <!--div class="panel panel-primary" ng-controller="ManageProgramController" >
         <div class="panel-heading">
             <h3 class="panel-title">{{'COMMON_PROGRAM_ENROLLMENT_TITLE'| translate}}</h3>
         </div>
         <div ng-include src="'../common/uicontrols/programmanagement/views/patient-programs.html'"></div>
-    </div>
+    </div-->
     <div class="panel panel-primary" ng-controller="ClinicalServiceController" >
         <div class="panel-heading">
             <h3 class="panel-title">{{'COMMON_CLINIC_SERVICES_TITLE'| translate}}</h3>

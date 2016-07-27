@@ -21,6 +21,9 @@ angular.module('poc.common.clinicalservices')
     })
     .controller('ClinicalServiceDirectiveController', ['$scope', 'encounterService', 'patientService', 'openmrsPatientMapper', 
                 function ($scope, encounterService, patientService, patientMapper) {
+        
+        var dateUtil = Bahmni.Common.Util.DateUtil;
+        
         (function () {
             patientService.get($scope.patientUuid).success(function (data) {
                 $scope.patient = patientMapper.map(data);
@@ -39,6 +42,11 @@ angular.module('poc.common.clinicalservices')
                         }).reverse();
                         service.encountersForService = sortedEncounters;
                         service.lastEncounterForService = sortedEncounters[0];
+                        service.hasEntryToday = false;
+                        if ($scope.$parent.todayVisit && service.lastEncounterForService) {
+                            service.hasEntryToday = (dateUtil.diffInDaysRegardlessOfTime($scope.$parent.todayVisit.startDatetime, 
+                                        service.lastEncounterForService.encounterDatetime) === 0) ? true : false;
+                        }
                         service.list = false;
             });
             checkContraints(service);
@@ -65,6 +73,17 @@ angular.module('poc.common.clinicalservices')
                 }
             }
             
+        };
+        
+        $scope.checkRestrictionsToAdd = function (service) {
+            var canAdd;
+            if (service.maxOccur < 0 || service.encountersForService.length < service.maxOccur) {
+                canAdd = true;
+                if (service.hasEntryToday) {
+                    canAdd = false;
+                }
+            }
+            return canAdd;
         };
         
         $scope.linkAdd = function (service) {
