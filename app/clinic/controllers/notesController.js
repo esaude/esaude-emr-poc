@@ -15,7 +15,7 @@ angular.module('clinic')
         
         $scope.addNote = function () {
             $scope.newNote.creator = "Super User";
-            $scope.newNote.datetime = dateUtil.now;
+            $scope.newNote.datetime = dateUtil.now();
             $scope.notes.obs.push($scope.newNote);
             $scope.note = $scope.newNote;
             //clean

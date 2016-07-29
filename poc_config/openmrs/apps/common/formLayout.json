@@ -235,8 +235,12 @@
                         }
                     },
                     {
-                        "name": "Pressão Arterial",
+                        "name": "Pressão Arterial Sistolica",
                         "id": "e292b648-1d5f-11e0-b929-000c29ad1d07"
+                    },
+                    {
+                        "name": "Pressão Arterial Diastolica",
+                        "id": "e293ed7e-1d5f-11e0-b929-000c29ad1d07"
                     },
                     {
                         "name": "Frequencia Cardiaca",

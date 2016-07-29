@@ -54,7 +54,7 @@ Poc.Common.FormRequestMapper = (function () {
                 }
 
             });
-            if(_.isEmpty(eachField.value)) eachField.value = undefined;
+            if(eachField.value.length === 0) eachField.value = undefined;
         }
         console.log(formPayload);
         return formPayload;
