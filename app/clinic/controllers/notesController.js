@@ -2,9 +2,9 @@
 
 angular.module('clinic')
         .controller('NotesController', ["$scope", "$filter", "$stateParams", 
-                        "encounterService", "observationsService",
+                        "encounterService", "observationsService", "formLoader",
                     function ($scope, $filter, $stateParams, encounterService, 
-                    observationsService) {
+                    observationsService, formLoader) {
                   
         var dateUtil = Bahmni.Common.Util.DateUtil;
         var patientUuid;

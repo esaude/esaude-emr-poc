@@ -15,10 +15,16 @@
             </div>
             
             <div ng-switch-when="Text">
-                <input type="text" name="{{fieldId}}" class="form-control keyboard-in" 
+                <input ng-if="!field.textSize" type="text" name="{{fieldId}}" class="form-control keyboard-in" 
                        placeholder="{{fieldModel.field.name}}"
                        ng-model="fieldModel.value" 
                        ng-required="{{fieldModel.field.required}}">
+                
+                <textarea ng-if="field.textSize" type="text" name="{{fieldId}}" class="form-control keyboard-in" 
+                       placeholder="{{fieldModel.field.name}}"
+                       ng-model="fieldModel.value"
+                       size="{{field.textSize}}"
+                       ng-required="{{fieldModel.field.required}}"></textarea>
             </div>
             
             <div ng-switch-when="Numeric">
@@ -33,6 +39,17 @@
                        placeholder="{{fieldModel.field.name}}"
                        ng-model="fieldModel.value"
                        date-time min-view="date" auto-close="true"
+                       ng-required="{{fieldModel.field.required}}">
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+            
+            <div ng-switch-when="Date" class="input-group date">
+                <input name="{{fieldId}}" type="text" class="form-control keyboard-in" 
+                       placeholder="{{fieldModel.field.name}}"
+                       ng-model="fieldModel.value"
+                       date-time format="yyyy-MM-dd" min-view="date" auto-close="true"
                        ng-required="{{fieldModel.field.required}}">
                 <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>

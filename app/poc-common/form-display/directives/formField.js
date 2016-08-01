@@ -82,6 +82,7 @@ angular.module('poc.common.formdisplay')
             
             $scope.initFieldModel = function () {
                 $scope.fieldModel = $scope.formParts.form.fields[$scope.fieldUuid];
+                debugger
 
                 if(!$scope.fieldModel.value) {
                    loadField()

@@ -53,17 +53,7 @@ angular.module('poc.common.clinicalservices')
         };
         
         var checkContraints = function (service) {
-            service.showService = false;
-            
-            if (service.constraints.minAge && 
-                    $scope.$parent.patient.age.years >= service.constraints.minAge) {
-                service.showService = true;
-            }
-            
-            if (service.constraints.maxAge && 
-                    $scope.$parent.patient.age.years <= service.constraints.maxAge) {
-                service.showService = true;
-            }
+            service.showService = true;
             
             if (service.constraints.requireChekin) {
                 if ($scope.$parent.hasVisitToday) {
@@ -71,6 +61,16 @@ angular.module('poc.common.clinicalservices')
                 } else {
                     service.showService = false;
                 }
+            }
+            
+            if (service.constraints.minAge && 
+                    $scope.$parent.patient.age.years < service.constraints.minAge) {
+                service.showService = false;
+            }
+            
+            if (service.constraints.maxAge && 
+                    $scope.$parent.patient.age.years > service.constraints.maxAge) {
+                service.showService = false;
             }
             
         };
