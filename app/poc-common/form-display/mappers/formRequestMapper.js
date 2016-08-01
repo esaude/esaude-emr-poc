@@ -35,28 +35,26 @@ Poc.Common.FormRequestMapper = (function () {
             _.forEach(filteredObs, function (obs) {
                 //compare field concept with obs concept
                 if(eachField.fieldConcept.concept.uuid === obs.concept.uuid) {
-                    //check if field is a group
-                    if (!eachField.fieldConcept.concept.set) {
-                        //multiple select filter
-                        if (eachField.fieldConcept.selectMultiple) {
-                            eachField.value[obs.value.uuid] = (_.isEmpty(eachField.fieldConcept.concept.answers)) ? 
-                                    obs.value : 
-                                            JSON.stringify(realValueOfField(eachField.fieldConcept.concept.answers, obs.value));
-                        }
-                        else if (eachField.fieldConcept.concept.answers.length === 2 && isTrueFalseQuestion(eachField.fieldConcept.concept.answers)) {
-                            eachField.value = JSON.stringify(realValueOfField(eachField.fieldConcept.concept.answers, obs.value));
-                        }else {
-                            eachField.value = (_.isEmpty(eachField.fieldConcept.concept.answers)) ? 
-                                    obs.value : 
-                                            realValueOfField(eachField.fieldConcept.concept.answers, obs.value);
-                        }
+                    
+                    //multiple select filter
+                    if (eachField.fieldConcept.selectMultiple) {
+                        eachField.value[obs.value.uuid] = (_.isEmpty(eachField.fieldConcept.concept.answers)) ? 
+                                obs.value : 
+                                        JSON.stringify(realValueOfField(eachField.fieldConcept.concept.answers, obs.value));
                     }
+                    else if (eachField.fieldConcept.concept.answers.length === 2 && isTrueFalseQuestion(eachField.fieldConcept.concept.answers)) {
+                        eachField.value = JSON.stringify(realValueOfField(eachField.fieldConcept.concept.answers, obs.value));
+                    }else {
+                        eachField.value = (_.isEmpty(eachField.fieldConcept.concept.answers)) ? 
+                                obs.value : 
+                                        realValueOfField(eachField.fieldConcept.concept.answers, obs.value);
+                    }
+
                 }
 
             });
             if(eachField.value.length === 0) eachField.value = undefined;
         }
-        console.log(formPayload);
         return formPayload;
     };
     
