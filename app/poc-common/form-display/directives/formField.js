@@ -33,7 +33,7 @@ angular.module('poc.common.formdisplay')
                 if (!_.isEmpty(nonRetired)) {
                     var last = _.maxBy(nonRetired, 'obsDatetime');
 
-                    if(last.value.datatype.display === "Coded") {
+                    if(last.value.datatype && last.value.datatype.display === "Coded") {
                         $scope.fieldModel.value = realValueOfField($scope.fieldModel.fieldConcept.concept.answers, last.value);
                         return;
                     }
@@ -123,45 +123,15 @@ angular.module('poc.common.formdisplay')
             });
         };
 
-        var whoStagesMap = [
-                                {uuid: "e1d9055e-1d5f-11e0-b929-000c29ad1d07", name: "ESTADIO I", value: "1"},
-                                {uuid: "e1d9066c-1d5f-11e0-b929-000c29ad1d07", name: "ESTADIO II", value: "2"},
-                                {uuid: "e1d9077a-1d5f-11e0-b929-000c29ad1d07", name: "ESTADIO III", value: "3"},
-                                {uuid: "e1d90888-1d5f-11e0-b929-000c29ad1d07", name: "ESTADIO VI", value: "4"}
-
-                           ];
-
-        var getWhoToCompare = function(whoStageUuid){
-            return _.find(whoStagesMap, function (stage) {
-                return stage.uuid === whoStageUuid;
-            });
-        };
-
 
         formLogic.calculateWHOStage = function(param){
 
-            // observationsService.get($rootScope.patient.uuid, param).success(function (data) {
-            //     var nonRetired = observationsService.filterRetiredObs(data.results);
+            var whoStages = $scope.fieldModel.fieldConcept.concept.answers;
 
-            //     if (!_.isEmpty(nonRetired)) {
+            var firstField = 0;
+            var lastPart = 4;
 
-                    var whoStages = $scope.fieldModel.fieldConcept.concept.answers;
-                    // var lastObs = _.maxBy(nonRetired, 'obsDatetime');
-
-                    // var lastWhoStage = _.find(whoStages, function(stage){
-                    //     return stage.uuid === lastObs.value.uuid;
-                    // });
-
-                    var firstField = 0;
-                    var lastPart = 4;
-
-                    comuteWHOStage(firstField, lastPart, whoStages);
-
-                    // if(getWhoToCompare(lastWhoStage.uuid).value > getWhoToCompare($scope.fieldModel.value.uuid).value){
-                    //      $scope.fieldModel.value = lastWhoStage; 
-                    // }
-                //}
-            //});
+            comuteWHOStage(firstField, lastPart, whoStages);
         }
 
 
