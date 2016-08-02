@@ -91,6 +91,12 @@ angular.module('poc.common.formdisplay')
             return typeof found !== "undefined";
         };
 
+        $scope.getConceptInAnswers = function (answres, conceptUuid) {
+            return _.find(answres, function (answer) {
+                return answer.uuid === conceptUuid;
+            });
+        };
+
         var realValueOfField = function (conceptAnswers, obsValue) {
             return _.find(conceptAnswers, function (answer) {
                 return answer.uuid === obsValue.uuid;

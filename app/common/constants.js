@@ -19,6 +19,13 @@ Bahmni.Common = Bahmni.Common || {};
         "setMembers:(uuid,name,names,conceptClass," +
         "setMembers:(uuid,name,names,conceptClass," +
         "setMembers:(uuid,name,names,conceptClass))))";
+    
+    var messageTypeRepresentation = {
+            "feb94661-9f27-4a63-972f-39ebb63c7022": "success",
+            "a1822bef-5bef-44b5-89d7-9dcf261731c1": "info",
+            "5456047f-8e81-4f68-b061-5ee10a2f0a11": "warning",
+            "9b9c21dc-e1fb-4cd9-a947-186e921fa78c": "error"
+        };
 
     Bahmni.Common.Constants = {
         dateFormat: "dd/mm/yyyy",
@@ -151,6 +158,17 @@ Bahmni.Common = Bahmni.Common || {};
         cohortUrl: RESTWS_V1+"/reportingrest/cohort",
         defaultExtensionName: "default",
         bahmniBacteriologyResultsUrl: BACTERIOLOGY + "/specimen",
-        formDataUrl: RESTWS_V1 + "/obs"
+        formDataUrl: RESTWS_V1 + "/obs",
+        adultFollowupEncounterUuid: "e278f956-1d5f-11e0-b929-000c29ad1d07",
+        childFollowupEncounterUuid: "e278fce4-1d5f-11e0-b929-000c29ad1d07",
+        pocCurrentStoryEncounterUuid: "782da6c5-3931-4ab5-8e10-2c647ee1cf9d",
+        typeOfMessageConceptUuid: "fbe61748-a080-4eef-bfff-c47954794f10",
+        observationStoryConceptuuid: "694d4767-d8c4-40e2-a68b-a8f3bac8524a",
+        successConceptuuid: "feb94661-9f27-4a63-972f-39ebb63c7022",
+        informationConceptuuid: "a1822bef-5bef-44b5-89d7-9dcf261731c1",
+        warningConceptUuid: "5456047f-8e81-4f68-b061-5ee10a2f0a11",
+        errorConceptUuid: "9b9c21dc-e1fb-4cd9-a947-186e921fa78c",
+        messageTypeRepresentation: messageTypeRepresentation
+
     };
 })();
