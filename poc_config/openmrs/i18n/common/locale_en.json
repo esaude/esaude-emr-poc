@@ -1,10 +1,12 @@
 {
+    "COMMON_OUTCOME": "Outcome",
     "COMMON_MALE": "Male",
     "COMMON_FEMALE": "Female",
     "COMMON_YES": "YES",
     "COMMON_NO": "NO",
     "COMMON_DATE": "Date",
     "COMMON_ON": "on",
+    "COMMON_AT": "at",
     "COMMON_TO": "to",
     "COMMON_FROM": "from",
     "COMMON_STATE": "State",
@@ -59,6 +61,7 @@
     "COMMON_CLINICAL_SERVICE_HEADER_CREATOR": "Created by",
     "COMMON_CLINICAL_SERVICE_HEADER_ACTIONS": "Actions",
     "COMMON_ALERT":"Alert",
+    "COMMON_ASSIGN_PROVIDER": "Assign Provider",
     "SEARCH_PATIENT": "Search Patient",
     "SEARCH_PATIENT_PLACEHOLDER": "NID or name...",
     "SEARCH_PATIENT_NID": "NID",
@@ -67,6 +70,7 @@
     "SEARCH_PATIENT_GENDER": "Gender",
     "SEARCH_PATIENT_AGE": "Age",
     "SEARCH_PATIENT_BIRTHDATE": "Birth Date",
+    "SEARCH_SCHEDULE_STATUS": "Scheduled for",
     "SEARCH_PATIENT_NO_RESULT": "No results found",
     "REGISTRATION_LAST_VISIT": "Last Visit",
     "PATIENT_INFO_DEMOGRAPHICS": "Demographics",
@@ -128,5 +132,11 @@
     "ONE_ENCOUNTER_NO_CD4" : "CD4 test is required",
     "NO_CD4_6_TO_6_MONTHS" : "CD4 test is required",
     "ELIGIBLE" : "Patient should start ARV treatment",
-    "CTZ_PROPHILAXIS" : "Patient should stop using CTZ Prophylaxis"
+    "CTZ_PROPHILAXIS" : "Patient should stop using CTZ Prophylaxis",
+    "SCHEDULE_LIST_PATIENT": "Scheduled for consultation",
+    "SCHEDULE_HASNT_SCHEDULES": "No shcedules made for today",
+    "SCHEDULE_PATIENT": "Patient",
+    "SCHEDULE_DATE_SCHEDULED": "Scheduled on",
+    "SCHEDULE_SCHEDULED_BY": "Scheduled by",
+    "SCHEDULE_LAST_SEEN": "Last seen"
 }

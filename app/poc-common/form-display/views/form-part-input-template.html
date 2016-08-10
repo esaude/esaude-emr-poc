@@ -5,14 +5,14 @@
         </div>
         <div class="panel-body">
 
-            <form-field ng-repeat="field in currentFormPart.fields" form-parts="formPayload" 
+            <form-field ng-repeat="field in currentFormPart.fields" field="field" form-parts="formPayload" 
                         field-uuid="field.id" field-id="compactName(field.name)">
             </form-field>
 
         </div>
     </div>
 
-    <div class="row bg-info-border content-border border-rouded">
+    <div class="row bg-info-border content-border border-rouded go-to-right">
         <button type="button" class="btn btn-success btn-lg"
                 ng-click="updateCurrentFormPart(currentFormPart.nextSref, aForm.$valid)">
             <span class="glyphicon glyphicon glyphicon-step-forward"></span>

@@ -14,7 +14,14 @@ and open the template in the editor.
     margin-bottom: 5px;
     margin-top: 5px;
 }
+.panel-marginless-top {
+    margin-top: -10px;
+}
 
+.panel-marginless-bottom {
+    margin-bottom: -5px;
+}
+ 
 .go-to-right {
     text-align: right;
 }
@@ -54,8 +61,17 @@ and open the template in the editor.
     margin: 5px;
 }
 
+.content-border-margin-regular-bottom {
+    margin-bottom: 5px
+}
+
 .content-border-margin-regular-top {
     margin-top: 5px
+}
+
+.content-border-margin-regular-sides {
+    margin-left: 2px;
+    margin-right: 2px;
 }
 
 .header-text-lg {

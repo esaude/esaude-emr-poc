@@ -83,7 +83,7 @@
     "PATIENT_INFO_DEATH_REASON": "Motivo de morte",
     "PATIENT_INFO_DEAD": "Obitou",
     "PATIENT_INFO_NEW": "Registrar novo paciente",
-    "CLINIC_PATIENT_SUMMARY": "Resumo",
+    "CLINIC_PATIENT_CHART_SUMMARY": "Processo Clínico",
     "CLINIC_PATIENT_VISIT_HISTORY": "Histórico de Visitas",
     "CLINIC_PATIENT_VISIT": "Visita",
     "CLINIC_PATIENT_DIAGNOSIS": "Diagnosticos (Dx)",
@@ -108,6 +108,7 @@
     "CLINIC_PATIENT_WEIGHT": "Peso (kg)",
     "CLINIC_PATIENT_HEIGHT": "Altura (cm)",
     "CLINIC_PATIENT_BMI": "IMC",
+    "CLINIC_PATIENT_CURRENT_STATE": "Estado Actual",
     "LOGIN_LABEL_LOGGEDIN_KEY": "Entrou como",
     "THERAPEUTIC_REGIME_ADULTS" : "Alinha de tratamento sugerida é TDF/3TC/EFV",
     "THERAPEUTIC_REGIME_CHILDREN" : "A linha de tratamento sugerida é D4T/3TC/NVP",
@@ -115,5 +116,11 @@
     "NO_CD4_6_TO_6_MONTHS" : "O paciente tem em falta o teste de CD4(por mais de 6 meses)",
     "ELIGIBLE" : "O paciente deve iniciar o TARV",
     "CTZ_PROPHILAXIS" : "O Paciente deve suspender a profilaxia com CTZ",
+    "CLINICAL_OBSERVATIONS": "Observações",
+    "CLINICAL_OBSERVATIONS_PRIORITY": "Prioridade",
+    "CLINICAL_OBSERVATIONS_INFO": "Informação",
+    "CLINICAL_OBSERVATIONS_WARNING": "Precaução",
+    "CLINICAL_OBSERVATIONS_WRRONG": "Erro",
+    "CLINICAL_OBSERVATIONS_SUCCESS": "Sucesso",
     "CLINIC_PATIENT_CURRENT_STATUS" : "Estado clínico atual"
 }

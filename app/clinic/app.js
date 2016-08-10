@@ -40,6 +40,12 @@ angular
                 controller: 'PatientChartController',
                 resolve: { initialization: 'initialization' }
             })
+            .state('dashboard.actual', {
+                url: '/actual',
+                templateUrl: 'views/patient-actual.html',
+                controller: 'PatientActualController',
+                resolve: { initialization: 'initialization' }
+            })
             .state('dashboard.consultation', {
                 url: '/consultation',
                 templateUrl: 'views/patient-consultation.html',

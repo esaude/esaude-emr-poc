@@ -4,6 +4,19 @@
     </div>
     <div class="panel-body">
         <div class="form-group form-group-lg"
+             ng-class="{'has-error': aForm.patientBirthdate.$invalid && showMessages}">
+            <label class="col-sm-2 control-label"><b>{{'PATIENT_INFO_BIRTHDATE' | translate}}:<span class="asterick">*</span></b></label>
+            <div class="col-sm-5">
+                <div ng-messages for="aForm.patientBirthdate.$error" 
+                     ng-messages-include="../poc-common/form-display/views/error-messages.html"
+                     ng-show="showMessages">
+                </div>
+                <input type="text" name="patientBirthdate" class="form-control" date-time format="yyyy-MM-dd" ng-model="patient.birthdate" 
+                           min-view="date" auto-close="true" date-chenge="{{patient.calculateAge()}}" max-date="{{today}}"
+                           required>
+            </div>
+        </div>
+        <div class="form-group form-group-lg"
              ng-class="{'has-error': aForm.patientAge.$invalid && showMessages}">
             <label for="patientAge" class="col-sm-2 control-label"><b>{{'PATIENT_INFO_AGE' | translate}}:<span class="asterick">*</span></b></label>
             <div class="col-sm-2">
@@ -17,19 +30,6 @@
                        required>
             </div>
         </div>
-        <div class="form-group form-group-lg"
-             ng-class="{'has-error': aForm.patientBirthdate.$invalid && showMessages}">
-            <label class="col-sm-2 control-label"><b>{{'PATIENT_INFO_BIRTHDATE' | translate}}:<span class="asterick">*</span></b></label>
-            <div class="col-sm-5">
-                <div ng-messages for="aForm.patientBirthdate.$error" 
-                     ng-messages-include="../poc-common/form-display/views/error-messages.html"
-                     ng-show="showMessages">
-                </div>
-                <input type="text" name="patientBirthdate" class="form-control" date-time ng-model="patient.birthdate" 
-                           min-view="date" auto-close="true" date-chenge="{{patient.calculateAge()}}" max-date="{{today}}"
-                           required>
-            </div>
-        </div>
         <div class="form-group form-group-lg" ng-show="aForm.patientBirthdate.$valid">
             <label for="birthdateEstimated" class="col-sm-2 control-label"><b>{{'PATIENT_INFO_ESTIMATED' | translate}}:</b></label>
             <div class="col-sm-3">
@@ -41,7 +41,7 @@
     </div>
 </div>
 
-<div class="row bg-info-border content-border border-rouded">
+<div class="row bg-info-border content-border border-rouded go-to-right">
     <button type="button" class="btn btn-success btn-lg"
             ng-click="stepForward('address', aForm.$valid)">
         <span class="glyphicon glyphicon glyphicon-step-forward"></span>

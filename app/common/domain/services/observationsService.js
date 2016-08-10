@@ -28,7 +28,7 @@ angular.module('bahmni.common.domain')
                 params: {
                     patient : patientUuid,
                     concept : concept,
-                    v: "custom:(uuid,display,concept:(uuid,name),obsDatetime,value,groupMembers:(uuid,concept:(uuid,name),obsDatetime,value))"
+                    v: "custom:(uuid,display,encounter:(encounterDatetime,encounterType,provider:(display,uuid)),voided,concept:(uuid,name),obsDatetime,value,groupMembers:(uuid,concept:(uuid,name),obsDatetime,value))"
                 },
                 withCredentials: true
             });

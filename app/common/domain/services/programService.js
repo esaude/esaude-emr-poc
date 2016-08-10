@@ -8,7 +8,7 @@ angular.module('bahmni.common.domain')
                 _.forEach(allPrograms, function (program) {
                     program.allWorkflows = filterRetiredWorkflowsAndStates(program.allWorkflows);
                     if (program.outcomesConcept) {
-                        program.outcomesConcept.setMembers = filterRetiredOutcomes(program.outcomesConcept.setMembers);
+                        program.outcomesConcept.answers = filterRetiredOutcomes(program.outcomesConcept.answers);
                     }
                 });
                 return allPrograms;

@@ -62,8 +62,8 @@ angular.module('authentication')
                 if (data.authenticated) {
                     $cookies.put(Bahmni.Common.Constants.currentUser, username, {path: '/'});
                     if($rootScope.location != undefined) {
-                        localStorageService.cookie.remove("emr.location");
-                        localStorageService.cookie.set("emr.location", {name: $rootScope.location.display, uuid: $rootScope.location.uuid}, 7);
+                        localStorageService.cookie.remove(Poc.Common.Constants.location);
+                        localStorageService.cookie.set(Poc.Common.Constants.location, {name: $rootScope.location.display, uuid: $rootScope.location.uuid}, 7);
                         deferrable.resolve();
                     } else {
                         self.destroy();

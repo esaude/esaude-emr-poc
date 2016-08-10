@@ -29,6 +29,7 @@
                     <th>{{'SEARCH_PATIENT_GENDER' | translate}}</th>
                     <th>{{'SEARCH_PATIENT_AGE' | translate}}</th>
                     <th>{{'SEARCH_PATIENT_BIRTHDATE' | translate}}</th>
+                    <th>{{'SEARCH_SCHEDULE_STATUS' | translate}}</th>
                 </tr>
             </thead>
             <tbody>
@@ -40,17 +41,64 @@
                     <td>{{patient.gender}}</td>
                     <td>{{patient.age.years}}</td>
                     <td>{{patient.birthdate | date}}</td>
+                    <td>
+                        <span ng-if="patient.scheduledTo" class="label label-default" 
+                        ng-class="{'label label-default': patient.scheduledTo === 'P', 
+                        'label label-success': patient.scheduledTo === 'A',
+                        'label label-primary': patient.scheduledTo === 'F'}">
+                            {{patient.scheduledTo}} - {{patient.nextConsultation | date}}
+                        </span>
+                    </td>
                   </div>
                 </tr>
             </tbody>
             <tfoot>
                 <tr ng-show="noResultsMessage">
-                    <td colspan="6" class="text-center">
+                    <td colspan="7" class="text-center">
                         {{noResultsMessage | translate}}
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="6" class="text-center">
+                    <td colspan="7" class="text-center">
+                        <div  st-items-by-page="12" st-displayed-pages="7" st-pagination=""></div>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+<!-- scheduled list -->
+<div class="panel panel-success content-border-margin" ng-controller="ScheduleListController"><!-- demographics -->
+    <div class="panel-heading">
+        <h3 class="panel-title">{{'SCHEDULE_LIST_PATIENT' | translate}}</h3>
+    </div>
+    <div class="panel-body">
+        <table st-table="cohortMembers" st-safe-src="" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>{{'SCHEDULE_PATIENT' | translate}}</th>
+                    <th>{{'SCHEDULE_DATE_SCHEDULED' | translate}}</th>
+                    <th>{{'COMMON_BY' | translate}}</th>
+                    <th>{{'SCHEDULE_LAST_SEEN' | translate}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="patient in cohortMembers" ng-init="getLastConsultationAndVisit()" ng-click="linkDashboard(patient)">
+                    <td>{{patient.display}}</td>
+                    <td>{{patient.scheduledInfo.encounter.encounterDatetime | date:"MMM d, y h:mm:ss a"}}</td>
+                    <td>{{patient.scheduledInfo.encounter.provider.display}}</td>
+                    <td ng-if="patient.lastVisit">{{patient.lastVisit.startDatetime | date:"MMM d, y h:mm:ss a"}} {{'COMMON_AT' | translate}} {{patient.lastVisit.visitType.name}}</td>
+                    <td ng-if="!patient.lastVisit">{{'COMMON_NONE' | translate}}</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr ng-show="!hasSchedules">
+                    <td colspan="4" class="text-center">
+                        {{SCHEDULE_HASNT_SCHEDULES | translate}}
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4" class="text-center">
                         <div  st-items-by-page="12" st-displayed-pages="7" st-pagination=""></div>
                     </td>
                 </tr>

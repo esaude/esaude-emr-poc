@@ -15,15 +15,14 @@
         <a ui-sref-active="active" ui-sref=".address"><span class="label label-primary">4</span> {{'PATIENT_INFO_ADDRESS' | translate}}</a>
         <a ui-sref-active="active" ui-sref=".other"><span class="label label-primary">5</span> {{'PATIENT_INFO_OTHERS' | translate}}</a>
         <a ui-sref-active="active" ui-sref=".identifier"><span class="label label-primary">6</span> {{'PATIENT_INFO_IDENTIFIERS' | translate}}</a>
-        <a ui-sref-active="active" ui-sref=".death"><span class="label label-primary">7</span> {{'PATIENT_INFO_DEATH' | translate}}</a>
     </div>
 </div>
 
     <div ui-view ng-controller="PatientCommonController"></div>
 
-    <div class="row bg-info-border content-border border-rouded-bottom go-to-right" ng-controller="PatientController"><!-- visit header controls -->
+    <div class="row bg-info-border content-border border-rouded-bottom go-to-left" ng-controller="PatientController"><!-- visit header controls -->
     <button type="button" class="btn btn-warning btn-lg" ng-click="linkSearch()">
-        <span class="glyphicon glyphicon-step-backward"></span>
+        <span class="glyphicon glyphicon-minus-sign"></span>
     </button>
 </div><!-- visit header controls -->
 </form>

@@ -1,7 +1,8 @@
 [
     {
+        "id": "001",
         "formId": "e28b6096-1d5f-11e0-b929-000c29ad1d07",
-        "name": "ANAMNESE A - ADULTO",
+        "name": "INFO SOCIAL - ADULTO",
         "sufix": "anamnesis_a_adult",
         "parts": [
             {
@@ -26,7 +27,7 @@
             },
             {
                 "id": "2",
-                "name": "Info Pessoal e Parseiros Sexuais",
+                "name": "Info Pessoal e Parceiros Sexuais",
                 "sref": ".extra",
                 "nextSref": ".children",
                 "fields": [
@@ -88,8 +89,9 @@
     },
     
     {
+        "id": "002",
         "formId": "e28b6b0e-1d5f-11e0-b929-000c29ad1d07",
-        "name": "ANAMNESE A - PEDIATRIA",
+        "name": "INFO SOCIAL - PEDIATRIA",
         "sufix": "anamnesis_a_child",
         "parts": [
             {
@@ -203,6 +205,7 @@
         ]
     },
     {
+        "id": "003",
         "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
         "name": "VITAIS - ADULTO",
         "sufix": "vitals_adult",
@@ -219,24 +222,40 @@
                     },
                     {
                         "name": "Peso",
-                        "id": "e292b454-1d5f-11e0-b929-000c29ad1d07"
+                        "id": "e292b454-1d5f-11e0-b929-000c29ad1d07",
+                        "logics": {
+                            "calculateOnChange": "e1e2e826-1d5f-11e0-b929-000c29ad1d07,/,(,e1e2e934-1d5f-11e0-b929-000c29ad1d07,*,2,)"
+                        }
                     },
                     {
                         "name": "Altura",
                         "id": "e292b558-1d5f-11e0-b929-000c29ad1d07",
-                        "logic": {
+                        "logics": {
                             "defaultValueIsLastEntry": "e1e2e934-1d5f-11e0-b929-000c29ad1d07"
                         }
                     },
                     {
-                        "name": "Pressão Arterial",
+                        "name": "Pressão Arterial Sistolica",
                         "id": "e292b648-1d5f-11e0-b929-000c29ad1d07"
+                    },
+                    {
+                        "name": "Pressão Arterial Diastolica",
+                        "id": "e293ed7e-1d5f-11e0-b929-000c29ad1d07"
+                    },
+                    {
+                        "name": "Frequencia Cardiaca",
+                        "id": "a32767e4-3b41-411e-ad5d-a989cedaab40"
+                    },
+                    {
+                        "name": "Frequencia Respiratoria",
+                        "id": "da5764e3-8a5d-4e14-8712-79adfe52a0b6"
                     }
                 ]
             }
         ]
     },
     {
+        "id": "004",
         "formId": "e28ac028-1d5f-11e0-b929-000c29ad1d07",
         "name": "VITAIS - PEDIATRIA",
         "sufix": "vitals_child",
@@ -258,9 +277,214 @@
                     {
                         "name": "Estatura",
                         "id": "e2939036-1d5f-11e0-b929-000c29ad1d07",
-                        "logic": {
+                        "logics ": {
                             "defaultValueIsLastEntry": "e1e2e934-1d5f-11e0-b929-000c29ad1d07"
                         }
+                    },
+                    {
+                        "name": "Frequencia Cardiaca",
+                        "id": "1abdb9ec-acad-4a7c-820f-5de3642a02aa"
+                    },
+                    {
+                        "name": "Frequencia Respiratoria",
+                        "id": "69ae6e37-586a-482c-bbff-02a7bfaacb5e"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "005",
+        "formId": "4472a624-6165-48bb-aaa9-18c9b7d48512",
+        "name": "ATS/UATS",
+        "sufix": "ats",
+        "parts": [
+            {
+                "id": "1",
+                "name": "Parte 1",
+                "sref": ".part1",
+                "nextSref": ".part2",
+                "fields": [
+                    {
+                        "name": "Escolaridade",
+                        "id": "c04d7d73-f1b1-4fa9-b186-595bee9a9a1c"
+                    },
+                    {
+                        "name": "Ocupação",
+                        "id": "46dd11c3-d079-4c89-960b-7e3b77fc84e8"
+                    },
+                    {
+                        "name": "Tipo Aconselhamento",
+                        "id": "68f1ac31-ee45-45d8-8964-59bdae578424"
+                    }
+                ]
+            },
+            {
+                "id": "2",
+                "name": "Parte 2",
+                "sref": ".part2",
+                "nextSref": ".part3",
+                "fields": [
+                    {
+                        "name": "Motivo de Visita",
+                        "id": "7d4b13b5-89e3-4abc-a505-d05d06a11041"
+                    },
+                    {
+                        "name": "Tipo Visita",
+                        "id": "150cbd9b-d676-4170-a381-3d6d0ddffcce"
+                    },
+                    {
+                        "name": "Rastreio",
+                        "id": "10d05019-5c8b-4b77-8f77-e3a994499e5b"
+                    }
+                ]
+            },
+            {
+                "id": "3",
+                "name": "Parte 3",
+                "sref": ".part3",
+                "nextSref": ".confirm",
+                "fields": [
+                    {
+                        "name": "Determine",
+                        "id": "24ed1c40-2978-42b6-b068-9cc39fa1d9b0"
+                    },
+                    {
+                        "name": "Unigold",
+                        "id": "d85c18c3-8418-4346-9bf3-dd36d2ee62b1"
+                    },
+                    {
+                        "name": "Resiltado",
+                        "id": "3810965a-dd1b-4eea-841b-afc176df05ce"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "006",
+        "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
+        "name": "OMS ESTADIO - ADULTO",
+        "sufix": "oms_adult",
+        "parts": [
+            {
+                "id": "1",
+                "name": "ESTADIO I",
+                "sref": ".stage1",
+                "nextSref": ".stage2",
+                "fields": [
+                    {
+                        "name": "ESTADIO I",
+                         "id": "d7870f17-c91e-4e0f-b0db-eca7df93d128"
+                    }
+                ]
+            },
+
+            {
+                "id": "2",
+                "name": "ESTADIO II",
+                "sref": ".stage2",
+                "nextSref": ".stage3",
+                "fields": [
+                    {
+                        "name": "ESTADIO II",
+                         "id": "904c92e8-8f32-44a1-9126-d4173fc65ab6"
+                    }
+                ]
+            },
+
+            {
+                "id": "3",
+                "name": "ESTADIO III",
+                "sref": ".stage3",
+                "nextSref": ".stage4",
+                "fields": [
+                    {
+                        "name": "ESTADIO III",
+                         "id": "bd03f34d-c438-4052-b83a-b530ee8c7c0a"
+                    }
+                ]
+            },
+
+            {
+                "id": "4",
+                "name": "ESTADIO IV",
+                "sref": ".stage4",
+                "nextSref": ".stage5",
+                "fields": [
+                    {
+                        "name": "ESTADIO IV",
+                        "id": "b23769cb-f6c7-4fe0-b1b2-5187f283a40b"
+                    }
+                ]
+            },
+
+             {
+                "id": "5",
+                "name": "ESTADIO",
+                "sref": ".stage5",
+                "nextSref": ".confirm",
+                "fields": [
+                    {
+                        "name": "ESTADIO",
+                        "id": "e29399fa-1d5f-11e0-b929-000c29ad1d07",
+                        "disabled" : true,
+                        "logics": {
+                            "calculateWHOStage": "e1e53c02-1d5f-11e0-b929-000c29ad1d07"
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "007",
+        "formId": "65896366-17b2-4c3e-9cce-440edcfe7b4e",
+        "name": "OBS STORY",
+        "sufix": "obs_story",
+        "parts": [
+            {
+                "id": "1",
+                "name": "CURRENT STORY",
+                "sref": ".current_story",
+                "nextSref": ".confirm",
+                "fields": [
+                    {
+                        "name": "notes",
+                         "id": "24045d41-df1a-42c5-a323-5bcb98b6b291",
+                         "textSize": "8"
+                    },
+                    {
+                        "name": "message type",
+                         "id": "d277616c-66b7-49c2-b7c4-dee202bf3d34"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "008",
+        "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
+        "name": "DIAGNOSTICOS - ADULTO",
+        "sufix": "diagnostc_adult",
+        "parts": [
+            {
+                "id": "1",
+                "name": "Rastreio de TB",
+                "sref": ".rastreio_tb",
+                "nextSref": ".confirm",
+                "fields": [
+                    {
+                        "name": "Rastreio de ITS (Tem sintomas sugestivas para ITS)?",
+                        "id": "f48e94e9-fce6-4b98-b55f-a4bf36365142"
+                    },
+                    {
+                        "name": "Rastreio de TB (Tem sintomas sugestivas para TB)?",
+                        "id": "f0e7e2a1-334e-4691-9f2c-df22c4faf656"
+                    },
+                    {
+                        "name": "Data de Inicio",
+                        "id": "8c1e8e02-cbeb-49e3-89cc-7e28eae598c1"
                     }
                 ]
             }

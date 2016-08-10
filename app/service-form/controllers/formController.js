@@ -1,23 +1,46 @@
 'use strict';
 
 angular.module('serviceform')
-    .controller('FormController', ['$rootScope', 'localStorageService','$stateParams', '$scope', '$state',  '$location', 'spinner', 'patientAttributeService', 'formService', 'encounterService',
-        function ($rootScope, localStorageService, $stateParams, $scope, $state, $location, spinner, patientAttributeService, formService, encounterService) {
+    .controller('FormController', ['$rootScope', 'localStorageService','$stateParams', '$scope', '$state',  
+                    '$location', 'patientAttributeService', 'encounterService', 'visitService', 'commonService',
+        function ($rootScope, localStorageService, $stateParams, $scope, $state, 
+                    $location, patientAttributeService, encounterService, visitService, commonService) {
                 
-                (function () {
+            var dateUtil = Bahmni.Common.Util.DateUtil;
+            
+            (function () {
                     $scope.submitted = false;
                     $scope.visitedFields = [];
+                    $scope.hasVisitToday = false;
                     
-                    var formUuid = $stateParams.formUuid;
+                    var formId = $stateParams.formId;
                     
                     $scope.formInfo = _.find($scope.formLayout, function (form) {
-                        return form.formId === formUuid;
+                        return form.id === formId;
                     });
                     
                     var currentSref = $state.current.url.replace("/", ".");
                     
                     $scope.currentFormPart = _.find($scope.formInfo.parts, function (formPart) {
                         return formPart.sref === currentSref;
+                    });
+                    //initialize visit info in scope
+                    visitService.search({patient: $scope.patient.uuid, v: "full"})
+                        .success(function (data) {
+                            var nonRetired = commonService.filterRetired(data.results);
+                            //in case the patient has an active visit
+                            if (!_.isEmpty(nonRetired)) {
+                                var lastVisit = _.maxBy(nonRetired, 'startDatetime');
+                                var now = dateUtil.now();
+                                //is last visit todays
+                                if (dateUtil.parseDatetime(lastVisit.startDatetime) <= now && 
+                                    dateUtil.parseDatetime(lastVisit.stopDatetime) >= now) {
+                                    $scope.hasVisitToday = true;
+                                    $scope.todayVisit = lastVisit;
+                                } else {
+                                    $scope.hasVisitToday = false;
+                                }
+                            }
                     });
                 })();
                 
@@ -62,18 +85,51 @@ angular.module('serviceform')
                             $rootScope.currentUser.person.uuid);//set date
                     
                     if ($rootScope.postAction === 'create') {
-                        encounterService.create(openMRSEncounter).success(successCallback);
+                        //in case the service has a date mark
+                        if ($rootScope.maskedOn) {
+                            var obs = {
+                                concept: $rootScope.maskedOn,
+                                obsDatetime: dateUtil.now(),
+                                person: openMRSEncounter.patient,
+                                value: dateUtil.getDateInDatabaseFormat(dateUtil.now())
+                            };
+                            openMRSEncounter.obs.push(obs);
+                        }
+                        
+                        if ($scope.hasVisitToday) {
+                            encounterService.create(openMRSEncounter).success(encounterSuccessCallback);
+                        } else {
+                            checkIn().then(encounterService.create(openMRSEncounter).success(encounterSuccessCallback));
+                        }
                     }
-                    if($rootScope.postAction === 'edit') {
+                    
+                    if ($rootScope.postAction === 'edit') {
                         var encounterMapper = new Poc.Common.UpdateEncounterRequestMapper(currDate);
                         
                         var editEncounter = encounterMapper.mapFromFormPayload(openMRSEncounter,
                                 $scope.formPayload.encounter);//set date
-                        encounterService.update(editEncounter).success(successCallback);
+                        encounterService.update(editEncounter).success(encounterSuccessCallback);
                     }
                 };
                 
-                var successCallback = function (encounterProfileData) {
+                var checkIn = function () {
+                    var visitType = _.find($rootScope.defaultVisitTypes, function (o) {
+                            return o.occurOn === "following";
+                        });
+                    var location = localStorageService.cookie.get("emr.location");
+                    //create visit object
+                    var visit = {
+                        patient: $scope.patient.uuid,
+                        visitType: visitType.uuid,
+                        location: location.uuid,
+                        startDatetime: dateUtil.now(),
+                        stopDatetime: dateUtil.endOfToday()
+                    };
+                    return visitService.create(visit);
+                };
+                
+                var encounterSuccessCallback = function (encounterProfileData) {
+                    $scope.hasVisitToday = true;
                     $location.url('/dashboard/' + encounterProfileData.patient.uuid);
                 };
                 

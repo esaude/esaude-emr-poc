@@ -1,10 +1,31 @@
 <div class="content-border-margin-regular">
-    <div class="panel panel-primary" ng-controller="ManageProgramController" >
+    <div ng-controller="NotesController">
+        <div ng-if="showNotes" class="alert-dismissible" role="alert"
+             ng-class="{'alert alert-warning': messageTypeMapping === 'warning', 
+                        'alert alert-info': messageTypeMapping === 'info',
+                        'alert alert-danger': messageTypeMapping === 'wrrong',
+                        'alert alert-success': messageTypeMapping === 'success'}">
+            <button type="button" class="close btn-lg content-border-margin-regular-sides " data-dismiss="alert" aria-label="Close">
+                <span class="glyphicon glyphicon-remove-circle"></span>
+            </button>
+            <button type="button" class="close btn-lg content-border-margin-regular-sides">
+                <span class="glyphicon glyphicon-list-alt"></span>
+            </button>
+            <button type="button" class="close btn-lg content-border-margin-regular-sides" ng-click="notes.show = true">
+                <span class="glyphicon glyphicon-plus"></span>
+            </button>
+            <strong>{{lastNotesMessageType.value.display}}!</strong> {{lastNotesStory.value}}
+            <br/><strong>{{'COMMON_BY'| translate}}</strong> {{lastNotes.provider.display}} <strong>{{'COMMON_ON'| translate}}</strong> {{lastNotes.encounterDatetime | date:"MM/dd/yyyy"}}
+        </div>
+        <div ng-include src="'../clinic/views/notes-add.html'" ng-show="notes.show"></div>
+    </div>
+    
+    <!--div class="panel panel-primary" ng-controller="ManageProgramController" >
         <div class="panel-heading">
             <h3 class="panel-title">{{'COMMON_PROGRAM_ENROLLMENT_TITLE'| translate}}</h3>
         </div>
-        <div ng-include src="'../common/uicontrols/programmanagement/views/patient-programs-active.html'"></div>
-    </div>
+        <div ng-include src="'../common/uicontrols/programmanagement/views/patient-programs.html'"></div>
+    </div-->
     <div class="panel panel-primary" ng-controller="ClinicalServiceController" >
         <div class="panel-heading">
             <h3 class="panel-title">{{'COMMON_CLINIC_SERVICES_TITLE'| translate}}</h3>

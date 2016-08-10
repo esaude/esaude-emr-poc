@@ -15,12 +15,23 @@ angular.module('serviceform')
                 $rootScope.postAction = "create";
                 
                 findFormInfo(service);
-                
-                $rootScope.formPayload = Poc.Common.FormRequestMapper
-                        .mapFromOpenMRSForm($scope.serviceForms[service.formId]);
+                //in case the patient has chacked in
+                if (service.hasEntryToday) {
+                    //procede like editing
+                    $rootScope.formPayload = Poc.Common.FormRequestMapper
+                        .mapFromOpenMRSFormWithEncounter($scope.serviceForms[service.id], service.lastEncounterForService);
+                } else {
+                    $rootScope.formPayload = Poc.Common.FormRequestMapper
+                            .mapFromOpenMRSForm($scope.serviceForms[service.id]);
+                }
+                //in case the service has a date mark
+                if (service.markedOn) {
+                    $rootScope.maskedOn = service.markedOn;
+                }
                 
                 $location.url(service.url + "/" + patientUuid + "/" + 
-                        service.formId + $scope.formInfo.parts[0].sref.replace(".", "/"));
+                        service.id + $scope.formInfo.parts[0].sref.replace(".", "/"));
+
             };
             
             $rootScope.linkServiceEdit = function(service, encounter) {
@@ -29,15 +40,15 @@ angular.module('serviceform')
                 findFormInfo(service);
                 
                 $rootScope.formPayload = Poc.Common.FormRequestMapper
-                        .mapFromOpenMRSFormWithEncounter($scope.serviceForms[service.formId], encounter);
+                        .mapFromOpenMRSFormWithEncounter($scope.serviceForms[service.id], encounter);
                 
                 $location.url(service.url + "/" + patientUuid + "/" + 
-                        service.formId + $scope.formInfo.parts[0].sref.replace(".", "/"));
+                        service.id + $scope.formInfo.parts[0].sref.replace(".", "/"));
             };
             
             var findFormInfo = function (service) {
                 $rootScope.formInfo = _.find($scope.formLayout, function(data) {
-                    return data.formId === service.formId; 
+                    return data.id === service.id;
                 });
             };
             

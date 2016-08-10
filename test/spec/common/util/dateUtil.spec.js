@@ -192,13 +192,13 @@ describe('DateUtil', function () {
             expect(dateUtil.getDayNumber(fromDate, toDate)).toBe(1);
         });
 
-        it('should return 2 when date and reference date are in differnt days and difference is less than 24 hrs', function () {
+        it('should return 1 when date and reference date are in differnt days and difference is less than 24 hrs', function () {
             var fromDate = new Date();
-            fromDate.setHours(22, 30, 0, 0, 0);
+            fromDate.setHours(20, 30, 0, 0, 0);
             var toDate = new Date();
-            toDate.setHours(10, 30, 0, 0, 0);
+            toDate.setHours(8, 30, 0, 0, 0);
             toDate.setDate(toDate.getDate()+1);
-            expect(dateUtil.getDayNumber(fromDate, toDate)).toBe(2);
+            expect(dateUtil.getDayNumber(fromDate, toDate)).toBe(1);
         });
 
         it('should return 2 when date and reference date are in differnt days and difference is between 24 hrs to 48 hrs', function () {

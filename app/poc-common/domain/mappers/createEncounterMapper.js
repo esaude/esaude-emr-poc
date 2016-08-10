@@ -52,14 +52,13 @@ Poc.Common.CreateEncounterRequestMapper = (function () {
                     var memberFieldUuid = _.findKey(fields, function(data) {
                         return data.fieldConcept.concept.uuid === member.uuid;
                     });
-                    
                     var removedMemberField = _.remove(flattenFields, function (data) {
                         return data === memberFieldUuid;
                     });
                     //set the member if removed
                     if (!_.isEmpty(removedMemberField)) {
                         var memberField = fields[removedMemberField[0]];
-                        if (memberField.value !== 'undefined' && memberField.value != null) {
+                        if (memberField.value !== 'undefined' && memberField.value !== null) {
                             //to accomodate multiple select
                             if (memberField.fieldConcept.selectMultiple) {
                                 _.forEach(memberField.fieldConcept.concept.answers, function (answer) {

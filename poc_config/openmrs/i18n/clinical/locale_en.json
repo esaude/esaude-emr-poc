@@ -83,7 +83,7 @@
     "PATIENT_INFO_DEATH_REASON": "Reason of death",
     "PATIENT_INFO_DEAD": "Is Dead",
     "PATIENT_INFO_NEW": "New Patient",
-    "CLINIC_PATIENT_SUMMARY": "Summary",
+    "CLINIC_PATIENT_CHART_SUMMARY": "Patient Chart",
     "CLINIC_PATIENT_VISIT_HISTORY": "Visit History",
     "CLINIC_PATIENT_VISIT": "Visit",
     "CLINIC_PATIENT_DIAGNOSIS": "Diagnosis (Dx)",
@@ -110,6 +110,14 @@
     "CLINIC_PATIENT_WEIGHT": "Weight (kg)",
     "CLINIC_PATIENT_HEIGHT": "Height (cm)",
     "CLINIC_PATIENT_BMI": "BMI",
+    "CLINIC_PATIENT_CURRENT_STATE": "Current State",
+    "LOGIN_LABEL_LOGGEDIN_KEY": "Logged in as",
+    "CLINICAL_OBSERVATIONS": "Observations",
+    "CLINICAL_OBSERVATIONS_PRIORITY": "Priority",
+    "CLINICAL_OBSERVATIONS_INFO": "Information",
+    "CLINICAL_OBSERVATIONS_WARNING": "Warning",
+    "CLINICAL_OBSERVATIONS_WRRONG": "Wrrong",
+    "CLINICAL_OBSERVATIONS_SUCCESS": "Success",
     "LOGIN_LABEL_LOGGEDIN_KEY": "Logged in as",
     "CLINIC_PATIENT_CURRENT_STATUS" : "Current clinical status"
 }
