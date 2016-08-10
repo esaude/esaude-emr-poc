@@ -1,0 +1,51 @@
+<div class="row content-border-margin-regular">
+  <div class="col-sm-6">
+    <div class="panel panel-primary panel-marginless-sides" ng-init="initVitals()">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{'CLINIC_PATIENT_VITALS' | translate}}</h3>
+      </div>
+      <div class="list-group" ng-repeat="encounter in vitals">
+        <div class="bg-info content-border-padding-li">
+          {{'CLINIC_PATIENT_CAPTURED' | translate}} {{'COMMON_ON' | translate}} {{encounter.encounterDatetime | date:"MMM d, y"}}
+        </div>
+        <div ng-repeat="obs in encounter.obs">
+          <div class="list-group-item">
+            {{obs.concept.name.display}}:
+            <span class="badge">{{isObject(obs.value) ? obs.value.display : obs.value}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="panel panel-primary panel-marginless-sides" ng-init="initLabResults()">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{'CLINIC_PATIENT_LAB' | translate}}</h3>
+      </div>
+      <div class="list-group" ng-repeat="lab in labResults">
+        <div class="bg-info content-border-padding-li">
+          {{'CLINIC_PATIENT_COLLECTED' | translate}} {{'COMMON_ON' | translate}} {{lab[0].encounterDatetime | date:"MMM d, y"}}
+        </div>
+        <div ng-repeat="encounter in lab">
+          <div ng-repeat="obs in encounter.obs">
+            <div ng-if="obs.groupMembers">
+              <div ng-repeat="member in obs.groupMembers">
+                <div class="list-group-item">
+                  {{obs.concept.name.display}} - {{member.concept.name.display}}:
+                  <span class="badge">{{isObject(member.value) ? member.value.display : member.value}}</span>
+                </div>
+              </div>
+            </div>
+            <div ng-if="!obs.groupMembers">
+              <div class="list-group-item">
+                {{obs.concept.name.display}}:
+                <span class="badge">{{isObject(obs.value) ? obs.value.display : obs.value}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

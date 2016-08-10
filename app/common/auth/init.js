@@ -2,4 +2,4 @@
 var Bahmni = Bahmni || {};
 Bahmni.Auth = Bahmni.Auth || {};
 
-angular.module('authentication', ['ui.router', 'LocalStorageModule']);
+angular.module('authentication', ['ui.router', 'LocalStorageModule', 'bahmni.common.config']);
