@@ -37,6 +37,7 @@ Poc.Common.CreateEncounterRequestMapper = (function () {
     
     var createObsGroups = function (fields, flattenFields, person) {
         var obsBroups = [];
+        debugger;
         for (var key in fields) {
             var field = fields[key];
             //check if field is a concept set
@@ -128,7 +129,7 @@ Poc.Common.CreateEncounterRequestMapper = (function () {
                     obs.push({
                         concept: formField.fieldConcept.concept.uuid,
                         value: (isAnyObject(formField.value) &&
-                                formField.fieldConcept.concept.datatype.display === 'Coded') ? formField.value.uuid : formField.value,
+                                formField.fieldConcept.concept.datatype.display === 'Coded') ? ensureObject(formField.value).uuid : formField.value,
                         obsDatetime: Bahmni.Common.Util.DateUtil.now(),
                         person: person
                     });
@@ -144,7 +145,43 @@ Poc.Common.CreateEncounterRequestMapper = (function () {
     };
 
     function isAnyObject(value) {
-        return value != null && typeof value === 'object';
+        var isObj;
+
+        if(value !== null && value !== undefined && typeof value === 'object') {
+            return true;
+        } else if (typeof value === 'string') {
+            try {
+                isObj = JSON.parse(value);
+
+                if(typeof isObj === 'object') {
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch(err) {
+                return false;
+            }
+        }
+    }
+
+    function ensureObject(value) {
+        var isObj;
+
+        if(typeof value === 'object') {
+            return value;
+        } else if (typeof value === 'string') {
+            try {
+                isObj = JSON.parse(value);
+
+                if(typeof isObj === 'object') {
+                    return isObj;
+                } else {
+                    return null;
+                }
+            } catch(err) {
+                return null;
+            }
+        }
     }
 
     return CreateEncounterRequestMapper;

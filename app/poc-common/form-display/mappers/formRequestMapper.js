@@ -26,18 +26,21 @@ Poc.Common.FormRequestMapper = (function () {
         var formPayload = this.mapFromOpenMRSForm(openMRSForm);
         formPayload.encounter = encounter;
         
+        console.log(openMRSForm);
         var filteredObs = filterObsWithoutGroups(encounter.obs);
         
         for (var field in formPayload.form.fields) {
             var eachField = formPayload.form.fields[field];
-            eachField.value = {};
+            eachField.value = undefined;
             //find obs for field
             _.forEach(filteredObs, function (obs) {
                 //compare field concept with obs concept
                 if(eachField.fieldConcept.concept.uuid === obs.concept.uuid) {
-                    
+                   ; 
                     //multiple select filter
                     if (eachField.fieldConcept.selectMultiple) {
+                        eachField.value = {};
+                        
                         eachField.value[obs.value.uuid] = (_.isEmpty(eachField.fieldConcept.concept.answers)) ? 
                                 obs.value : 
                                         JSON.stringify(realValueOfField(eachField.fieldConcept.concept.answers, obs.value));
@@ -49,12 +52,13 @@ Poc.Common.FormRequestMapper = (function () {
                                 obs.value : 
                                         realValueOfField(eachField.fieldConcept.concept.answers, obs.value);
                     }
-
                 }
 
             });
-            if(eachField.value.length === 0) eachField.value = undefined;
         }
+
+      
+
         return formPayload;
     };
     
@@ -62,6 +66,7 @@ Poc.Common.FormRequestMapper = (function () {
         var found = _.find(question, function (answer) {
             return answer.uuid === "e1d81b62-1d5f-11e0-b929-000c29ad1d07" || 
                     answer.uuid === "e1d81c70-1d5f-11e0-b929-000c29ad1d07";
+
         });
         return typeof found !== "undefined";
     };

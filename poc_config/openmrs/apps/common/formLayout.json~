@@ -121,7 +121,6 @@
                 "nextSref": ".mother_b",
                 "fields": [
                     {
-                      
                         "name": "Nome",
                         "id": "e2a0c5bc-1d5f-11e0-b929-000c29ad1d07"
                     },
@@ -448,7 +447,7 @@
                 "id": "1",
                 "name": "Rastreio de TB",
                 "sref": ".rastreio_tb",
-                "nextSref": ".profilaxia1",
+                "nextSref": ".confirm",
                 "fields": [
                     {
                         "name": "Rastreio de ITS (Tem sintomas sugestivas para ITS)?",
@@ -461,112 +460,7 @@
                     {
                         "name": "Data de Inicio",
                         "id": "a2fda180-923d-426b-999a-27053b239c2a"
-                    },
-                    {
-                        "name": "Data de Fim",
-                        "id": "0fcf9f12-2f0c-462f-81ad-b9f0bc65bfea"
                     }
-                ]
-            },
-            {
-                "id": "2",
-                "name": "PROFILAXIAS",
-                "sref": ".profilaxia1",
-                "nextSref": ".profilaxia2",
-                "fields": [
-                    {
-                        "name": "Profilaxia com Cotrimoxazol",
-                        "id": "5294e15e-fa75-4c81-8593-33eb49d9cf56"
-                    },
-
-                    {
-                        "name": "Data de Inicio",
-                        "id": "2b71e477-ce1f-4563-b577-1dd6f98c3097"
-                    },
-                    {
-                        "name": "Data de Fim",
-                        "id": "93302556-6113-4bf6-967f-ac2f266a35be"
-                    }
-                   
-                ]
-            },
-            {
-                "id": "3",
-                "name": "PROFILAXIAS",
-                "sref": ".profilaxia2",
-                "nextSref": ".profilaxia3",
-                "fields": [
-                     {
-                        "name": "Profilaxia com Isoniazida",
-                        "id": "fa6a769d-39a9-44eb-9d36-d3b11e3d44ac"
-                    },
-
-                    {
-                        "name": "Data de Inicio",
-                        "id": "5fc349f2-a694-4a0c-803e-ccbb5402bd53"
-                    },
-                    {
-                        "name": "Data de Fim",
-                        "id": "fc046c9b-6399-4d43-a1b1-d46117985ef1"
-                    }
-                   
-                ]
-            },
-            {
-                "id": "4",
-                "name": "PROFILAXIAS",
-                "sref": ".profilaxia3",
-                "nextSref": ".diagnosticos",
-                "fields": [
-                    {
-                        "name": "Profilaxia Da Meningite Criptocócica",
-                        "id": "01b783f3-e972-411f-8d8b-980d8aad7f4e"
-                    },
-
-                    {
-                        "name": "Data de Inicio",
-                        "id": "e6551ba8-7bb8-4b69-8f17-cca5048621b7"
-                    },
-                    {
-                        "name": "Data de Fim",
-                        "id": "fce0e153-215d-422d-985b-d36a3fed687b"
-                    }
-                   
-                ]
-            },
-
-            {
-                "id": "5",
-                "name": "OBSERVAÇÕES CLINICAS",
-                "sref": ".diagnosticos",
-                "nextSref": ".confirm",
-                "fields": [
-                    {
-                        "name": "Exames na cabeca e pescoco",
-                        "id": "6d2fb060-e530-45ca-82ce-7b9cf2afda69",
-                        "textSize":"8"
-                    }, 
-                    {
-                        "name": "Exames no torax",
-                        "id": "d6b742a0-e8a5-493f-8b7b-4f7e32464574",
-                        "textSize":"8"
-                    },
-                    {
-                        "name": "Exames no Abdomen",
-                        "id": "f63aff74-c5b6-49a5-b883-094100a137bb",
-                        "textSize":"8"
-                    },
-                    {
-                        "name": "Exames nos membros superiores e inferiores",
-                        "id": "3634395b-4802-4e42-aa48-8335baecf76e",
-                        "textSize":"8"
-                    },
-                    {
-                        "name": "Outros diagnosticos",
-                        "id": "e2939310-1d5f-11e0-b929-000c29ad1d07"
-                    }
-
-                    
                 ]
             }
         ]

@@ -83,6 +83,7 @@ angular.module('serviceform')
                             $scope.patient.uuid,
                             location.uuid,
                             $rootScope.currentUser.person.uuid);//set date
+                    console.log(openMRSEncounter);
                     
                     if ($rootScope.postAction === 'create') {
                         if($scope.hasVisitToday) {
