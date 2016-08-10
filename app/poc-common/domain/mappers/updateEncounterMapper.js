@@ -25,7 +25,7 @@ Poc.Common.UpdateEncounterRequestMapper = (function () {
             };
             //find existing
             var foundObs = _.find(oObservations, function (oldObs) {
-                return oldObs.concept.uuid === newObs.concept;
+                return oldObs.value.uuid === newObs.value;
             });
             if (foundObs) {
                 obs.uuid = foundObs.uuid;
