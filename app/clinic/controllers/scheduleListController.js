@@ -1,15 +1,14 @@
 'use strict';
 
 angular.module('clinic')
-        .controller('ScheduleListController', ['$rootScope', '$scope', 'patientService', 
-            'commonService', 'cohortService', 'openmrsPatientMapper', 'observationsService', 'visitService',
-                    function ($rootScope, $scope, patientService, 
-                        commonService, cohortService, patientMapper, observationsService, visitService) {
+        .controller('ScheduleListController', ['$rootScope', '$scope', 
+            'commonService', 'cohortService', 'observationsService', 'visitService',
+                    function ($rootScope, $scope, commonService, cohortService, observationsService, visitService) {
 
             $scope.hasSchedules = false;
     
             function init() {
-                var cohortMarckedAndCheckedInByProvider = 'ba110338-2f12-4a36-b2df-4abd5ae7c23e';
+                var cohortMarckedAndCheckedInByProvider = '2276035c-4b15-49c7-be31-dd11f7ac4246';
 
                 cohortService.getWithParams(cohortMarckedAndCheckedInByProvider, {providerUuid: $rootScope.currentProvider.uuid}).success(function (data) {
                         $scope.cohortMembers = data.members;

@@ -236,6 +236,10 @@ Bahmni.Common.Util.DateUtil = {
         }
         return to;
     },
+    
+    getDateInDatabaseFormat: function (date) {
+        return moment(date).format('YYYY-MM-DD HH:MM:SS');
+    },
 
     parseLongDateToServerFormat: function(longDate){
         return longDate ? moment(longDate).format("YYYY-MM-DDTHH:mm:ss.SSS") : null;

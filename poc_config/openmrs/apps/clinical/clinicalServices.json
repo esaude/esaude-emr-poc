@@ -8,7 +8,8 @@
         "maxOccur": "-1",
         "constraints": {
             "minAge": "15"
-        }
+        },
+        "markedOn": "283e551d-a470-4280-84fd-8f409f3caf7a"
     },
     {
         "id": "004",
@@ -19,7 +20,8 @@
         "maxOccur": "-1",
         "constraints": {
             "maxAge": "14"
-        }
+        },
+        "markedOn": "283e551d-a470-4280-84fd-8f409f3caf7a"
     },
     {
         "id": "006",
@@ -31,7 +33,8 @@
         "constraints": {
             "minAge": "15",
             "requireChekin": true
-        }
+        },
+        "markedOn": "2afd6fda-3003-4a68-bfa2-9a4e2ab2773d"
     },
     {
         "id": "007",
@@ -41,7 +44,7 @@
         "minOccur": "0",
         "maxOccur": "-1",
         "constraints": {
-            "requireChekin": false
+            "requireChekin": true
         }
     },
     {
@@ -53,7 +56,8 @@
         "maxOccur": "-1",
         "constraints": {
             "minAge": "15",
-            "requireChekin": false
-        }
+            "requireChekin": true
+        },
+        "markedOn": "4bea5235-1ef3-45a3-a7de-c33850c74422"
     }
 ]

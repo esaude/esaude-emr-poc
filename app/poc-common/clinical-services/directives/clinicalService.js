@@ -40,12 +40,26 @@ angular.module('poc.common.clinicalservices')
                         var sortedEncounters = _.sortBy(nonVoidedEncounters, function (encounter) {
                             return moment(encounter.encounterDatetime).toDate();
                         }).reverse();
-                        service.encountersForService = sortedEncounters;
+                        if (service.markedOn) {
+                            var filteredEncounters = _.filter(sortedEncounters, function (e) {
+                                var foundObs = _.find(e.obs, function (o) {
+                                    return o.concept.uuid === service.markedOn;
+                                });
+                                return typeof foundObs !== "undefined";
+                            });
+                            service.encountersForService = filteredEncounters;
+                        } else {
+                            service.encountersForService = sortedEncounters;
+                        }
                         service.lastEncounterForService = sortedEncounters[0];
                         service.hasEntryToday = false;
                         if ($scope.$parent.todayVisit && service.lastEncounterForService) {
                             service.hasEntryToday = (dateUtil.diffInDaysRegardlessOfTime($scope.$parent.todayVisit.startDatetime, 
                                         service.lastEncounterForService.encounterDatetime) === 0) ? true : false;
+                            //in case the service has a markedOn
+                            if (service.markedOn && service.hasEntryToday) {
+                                
+                            }
                         }
                         service.list = false;
             });
@@ -80,7 +94,14 @@ angular.module('poc.common.clinicalservices')
             if (service.maxOccur < 0 || service.encountersForService.length < service.maxOccur) {
                 canAdd = true;
                 if (service.hasEntryToday) {
-                    canAdd = false;
+                    if (service.markedOn) {
+                        var foundMark = _.find(service.lastEncounterForService.obs, function (o) {
+                            return o.concept.uuid === service.markedOn;
+                        });
+                        if (foundMark) canAdd = false;
+                    } else {
+                        canAdd = false;
+                    }
                 }
             }
             return canAdd;

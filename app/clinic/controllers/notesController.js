@@ -5,9 +5,9 @@ angular.module('clinic')
                         "encounterService", "observationsService",
                     function ($scope, $filter, $stateParams, encounterService, 
                     observationsService) {
-                  
-        var dateUtil = Bahmni.Common.Util.DateUtil;
+        
         var patientUuid;
+        $scope.showNotes = true;
         
 
         (function () {
@@ -16,6 +16,11 @@ angular.module('clinic')
             encounterService.getEncountersForEncounterType(patientUuid, Bahmni.Common.Constants.pocCurrentStoryEncounterUuid)
                     .success(function (data) {
                         var nonRetired = encounterService.filterRetiredEncoounters(data.results);
+                        
+                        if (_.isEmpty(nonRetired)) {
+                            $scope.showNotes = false;
+                            return;
+                        }
                         $scope.allNotes = nonRetired;
                         $scope.lastNotes = _.maxBy(nonRetired, 'encounterDatetime');
                         $scope.lastNotesMessageType = _.find($scope.lastNotes.obs, function (o) {

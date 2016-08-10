@@ -85,13 +85,25 @@ angular.module('serviceform')
                             $rootScope.currentUser.person.uuid);//set date
                     
                     if ($rootScope.postAction === 'create') {
-                        if($scope.hasVisitToday) {
+                        //in case the service has a date mark
+                        if ($rootScope.maskedOn) {
+                            var obs = {
+                                concept: $rootScope.maskedOn,
+                                obsDatetime: dateUtil.now(),
+                                person: openMRSEncounter.patient,
+                                value: dateUtil.getDateInDatabaseFormat(dateUtil.now())
+                            };
+                            openMRSEncounter.obs.push(obs);
+                        }
+                        
+                        if ($scope.hasVisitToday) {
                             encounterService.create(openMRSEncounter).success(encounterSuccessCallback);
                         } else {
                             checkIn().then(encounterService.create(openMRSEncounter).success(encounterSuccessCallback));
                         }
                     }
-                    if($rootScope.postAction === 'edit') {
+                    
+                    if ($rootScope.postAction === 'edit') {
                         var encounterMapper = new Poc.Common.UpdateEncounterRequestMapper(currDate);
                         
                         var editEncounter = encounterMapper.mapFromFormPayload(openMRSEncounter,
