@@ -7,7 +7,8 @@
         "minOccur": "1",
         "maxOccur": "-1",
         "constraints": {
-            "minAge": "15"
+            "minAge": "15",
+            "requireChekin": true
         }
     },
     {
@@ -18,7 +19,8 @@
         "minOccur": "1",
         "maxOccur": "1",
         "constraints": {
-            "maxAge": "14"
+            "maxAge": "14",
+            "requireChekin": true
         }
     },
     {
@@ -51,7 +53,8 @@
         "minOccur": "0",
         "maxOccur": "-1",
         "constraints": {
-            "minAge": "15"
+            "minAge": "15",
+            "requireChekin": true
         }
     }
 ]

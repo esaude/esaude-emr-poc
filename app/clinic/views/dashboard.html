@@ -18,7 +18,7 @@
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <strong>{{'COMMON_ALERT' | translate}}:</strong> {{flag.name | translate}}
         </div>
-    </div> 
+    </div>
 </div>
 
 <div ng-include src="'views/patient-state.html'"></div><!--patient header -->
@@ -29,6 +29,7 @@
         <li role="presentation" data-toggle="tab" class="active"><a ui-sref="dashboard.chart">{{'CLINIC_PATIENT_CHARTS' | translate}}</a></li>
         <li role="presentation" data-toggle="tab" class="active"><a ui-sref="dashboard.actual">{{'CLINIC_PATIENT_CURRENT_STATE' | translate}}</a></li>
         <li role="presentation" data-toggle="tab" class="active"><a ui-sref="dashboard.consultation">{{'CLINIC_PATIENT_CONSULTATION' | translate}}</a></li>
-    </ul> 
+        <li role="presentation" data-toggle="tab" class="active"><a ui-sref="dashboard.current">{{'CLINIC_PATIENT_CURRENT_STATUS' | translate}}</a></li>
+    </ul>
     <div ui-view=""></div>
 </div>

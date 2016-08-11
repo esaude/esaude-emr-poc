@@ -16,6 +16,8 @@ module.exports = function (grunt) {
 
   grunt.loadNpmTasks('grunt-zip');
 
+  grunt.loadNpmTasks('grunt-gitinfo');
+
   // Automatically load required Grunt tasks
   require('jit-grunt')(grunt, {
     useminPrepare: 'grunt-usemin'
@@ -67,6 +69,30 @@ module.exports = function (grunt) {
 
   // Define the configuration for all the tasks
   grunt.initConfig({
+    gitinfo: {},
+
+    replace: {
+      dist: {
+        options: {
+          patterns: [
+            {
+              match: 'COMMIT',
+              replacement:  '<%= gitinfo.local.branch.current.shortSHA %>'
+            },
+            {
+              match: 'VERSION',
+              replacement: function() {
+                var packageJSON = grunt.file.readJSON('package.json');
+                return packageJSON.version;
+              }
+            }
+          ]
+        },
+        files: [
+          {expand: true, flatten: true, src: ['app/common/application/views/footer.html'], dest: 'dist/common/application/views/'}
+        ]
+      }
+    },
 
     // Project settings
     yeoman: appConfig,
@@ -500,6 +526,7 @@ module.exports = function (grunt) {
   grunt.registerTask('build', 'Build the distributable', function(target) {
     var tasks = [
       'lint',
+      'gitinfo',
       'clean:dist',
       'useminPrepare',
       'concurrent:dist',
@@ -510,7 +537,8 @@ module.exports = function (grunt) {
       'usemin',
       'htmlmin',
       'usemin:html',
-      'string-replace'
+      'string-replace',
+      'replace'
     ];
 
     if(target == 'package') {
