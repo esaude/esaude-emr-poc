@@ -35,7 +35,6 @@ Poc.Common.FormRequestMapper = (function () {
             _.forEach(filteredObs, function (obs) {
                 //compare field concept with obs concept
                 if(eachField.fieldConcept.concept.uuid === obs.concept.uuid) {
-                   ; 
                     //multiple select filter
                     if (eachField.fieldConcept.selectMultiple) {
                         eachField.value = {};
