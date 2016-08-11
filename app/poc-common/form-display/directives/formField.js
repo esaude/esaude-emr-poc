@@ -35,20 +35,19 @@ angular.module('poc.common.formdisplay')
                     if(last.value.datatype && last.value.datatype.display === "Coded") {
                         $scope.fieldModel.value = realValueOfField($scope.fieldModel.fieldConcept.concept.answers, last.value);
                         return;
-                        console.log($scope.fieldModel.value);
+                       
                     }
                     $scope.fieldModel.value = last.value; 
                }
             });
         };
 
-        formLogic.getYesNo = function (param) {
-          
-           if(param==$scope.fieldUuid && !_.isEmpty(param)){
-           /// $scope.fieldModel.value=$scope.fieldModel.value[1]; 
-            //return;
-            
-           }
+        formLogic.seeData = function (data) {
+
+          if (valueYes == "e1d81b62-1d5f-11e0-b929-000c29ad1d07"){
+           
+
+          }
         };
         
         formLogic.calculateOnChange = function (param) {
@@ -95,7 +94,7 @@ angular.module('poc.common.formdisplay')
         
         $scope.isTrueFalseQuestion = function (question) {
             var found = _.find(question, function (answer) {
-               // console.log(JSON.parse(JSON.stringify(answer)));
+               
 
                 return answer.uuid === "e1d81b62-1d5f-11e0-b929-000c29ad1d07" || 
                         answer.uuid === "e1d81c70-1d5f-11e0-b929-000c29ad1d07";
@@ -106,14 +105,14 @@ angular.module('poc.common.formdisplay')
         $scope.getConceptInAnswers = function (answres, conceptUuid) {
             return _.find(answres, function (answer) {
                 return answer.uuid === conceptUuid;
-                 //console.log(answer);
+                
             });
         };
 
         var realValueOfField = function (conceptAnswers, obsValue) {
             return _.find(conceptAnswers, function (answer) {
                 return answer.uuid === obsValue.uuid;
-                 //console.log(answer);
+            
             });
         };
 

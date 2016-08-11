@@ -15,7 +15,6 @@ Bahmni.Common.Domain.ObservationValueMapper = function () {
             return obs.value === true ? "Yes" : obs.value === false ? "No" : obs.value;
         }
         if(type === 'Coded' || typeof obs.value === 'object') {
-            debugger;
             return obs.value ? (obs.value.shortName ? obs.value.shortName : (obs.value.name ? obs.value.name : obs.value)) : "";
         }
 

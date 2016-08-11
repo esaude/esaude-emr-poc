@@ -26,7 +26,6 @@ Poc.Common.FormRequestMapper = (function () {
         var formPayload = this.mapFromOpenMRSForm(openMRSForm);
         formPayload.encounter = encounter;
         
-        console.log(openMRSForm);
         var filteredObs = filterObsWithoutGroups(encounter.obs);
         
         for (var field in formPayload.form.fields) {

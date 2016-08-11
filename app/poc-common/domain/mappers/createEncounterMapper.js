@@ -37,7 +37,7 @@ Poc.Common.CreateEncounterRequestMapper = (function () {
     
     var createObsGroups = function (fields, flattenFields, person) {
         var obsBroups = [];
-        debugger;
+        
         for (var key in fields) {
             var field = fields[key];
             //check if field is a concept set

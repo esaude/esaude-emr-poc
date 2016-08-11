@@ -18,7 +18,7 @@ angular.module('poc.common.formdisplay')
         })();
 
         $scope.stringToJson = function (str) {
-            //console.log(str);
+          
             return JSON.parse(str);
         };
         

@@ -476,7 +476,9 @@
                 "fields": [
                     {
                         "name": "Profilaxia com Cotrimoxazol",
-                        "id": "5294e15e-fa75-4c81-8593-33eb49d9cf56"
+                        "id": "5294e15e-fa75-4c81-8593-33eb49d9cf56",
+                        "logics":{"seeData":"c3fa62c3-61ef-4cc5-a46b-8d96a345f48c"
+                        }
                     },
 
                     {
@@ -498,7 +500,9 @@
                 "fields": [
                      {
                         "name": "Profilaxia com Isoniazida",
-                        "id": "fa6a769d-39a9-44eb-9d36-d3b11e3d44ac"
+                        "id": "fa6a769d-39a9-44eb-9d36-d3b11e3d44ac",
+                        "logics":{"seeData":"c3fa62c3-61ef-4cc5-a46b-8d96a345f48c"
+                        }
                     },
 
                     {
@@ -520,7 +524,9 @@
                 "fields": [
                     {
                         "name": "Profilaxia Da Meningite Criptocócica",
-                        "id": "01b783f3-e972-411f-8d8b-980d8aad7f4e"
+                        "id": "01b783f3-e972-411f-8d8b-980d8aad7f4e",
+                        "logics":{"seeData":"c3fa62c3-61ef-4cc5-a46b-8d96a345f48c"
+                        }
                     },
 
                     {
