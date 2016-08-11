@@ -103,10 +103,6 @@ angular.module('poc.common.formdisplay')
         $scope.getConceptInAnswers = function (answres, conceptUuid) {
             return _.find(answres, function (answer) {
                 return answer.uuid === conceptUuid;
-<<<<<<< HEAD
-                
-=======
->>>>>>> 2bc472d18f5e0a385f8840f8485813d37073381f
             });
         };
 
