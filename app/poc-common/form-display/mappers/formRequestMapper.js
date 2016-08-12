@@ -35,7 +35,6 @@ Poc.Common.FormRequestMapper = (function () {
             _.forEach(filteredObs, function (obs) {
                 //compare field concept with obs concept
                 if(eachField.fieldConcept.concept.uuid === obs.concept.uuid) {
-                    
                     //multiple select filter
                     if (eachField.fieldConcept.selectMultiple) {
                         eachField.value = {};
@@ -55,6 +54,9 @@ Poc.Common.FormRequestMapper = (function () {
 
             });
         }
+
+      
+
         return formPayload;
     };
     
@@ -62,6 +64,7 @@ Poc.Common.FormRequestMapper = (function () {
         var found = _.find(question, function (answer) {
             return answer.uuid === "e1d81b62-1d5f-11e0-b929-000c29ad1d07" || 
                     answer.uuid === "e1d81c70-1d5f-11e0-b929-000c29ad1d07";
+
         });
         return typeof found !== "undefined";
     };

@@ -35,10 +35,17 @@ angular.module('poc.common.formdisplay')
                     if(last.value.datatype && last.value.datatype.display === "Coded") {
                         $scope.fieldModel.value = realValueOfField($scope.fieldModel.fieldConcept.concept.answers, last.value);
                         return;
+                       
                     }
                     $scope.fieldModel.value = last.value; 
                }
             });
+        };
+
+        formLogic.seeData = function (data) {
+
+          if (data == "e1d81b62-1d5f-11e0-b929-000c29ad1d07"){
+          }
         };
         
         formLogic.calculateOnChange = function (param) {
@@ -85,6 +92,8 @@ angular.module('poc.common.formdisplay')
         
         $scope.isTrueFalseQuestion = function (question) {
             var found = _.find(question, function (answer) {
+               
+
                 return answer.uuid === "e1d81b62-1d5f-11e0-b929-000c29ad1d07" || 
                         answer.uuid === "e1d81c70-1d5f-11e0-b929-000c29ad1d07";
             });
@@ -100,6 +109,7 @@ angular.module('poc.common.formdisplay')
         var realValueOfField = function (conceptAnswers, obsValue) {
             return _.find(conceptAnswers, function (answer) {
                 return answer.uuid === obsValue.uuid;
+            
             });
         };
 
@@ -133,6 +143,7 @@ angular.module('poc.common.formdisplay')
                             });
 
                             $scope.fieldModel.value = whoStage;
+                            
                             return;
                         };
                     }

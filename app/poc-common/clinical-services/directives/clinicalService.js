@@ -21,6 +21,7 @@ angular.module('poc.common.clinicalservices')
     })
     .controller('ClinicalServiceDirectiveController', ['$scope', 'encounterService', 'patientService', 'openmrsPatientMapper', 
                 function ($scope, encounterService, patientService, patientMapper) {
+
         
         var dateUtil = Bahmni.Common.Util.DateUtil;
         
@@ -33,7 +34,7 @@ angular.module('poc.common.clinicalservices')
 
         $scope.initService = function (service) {
             var formPayload = $scope.$parent.serviceForms[service.id];
-            
+        
             encounterService.getEncountersForEncounterType($scope.patientUuid, formPayload.encounterType.uuid)
                     .success(function (data) {
                         var nonVoidedEncounters = encounterService.filterRetiredEncoounters(data.results);
