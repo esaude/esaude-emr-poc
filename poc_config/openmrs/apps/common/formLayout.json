@@ -245,12 +245,12 @@
                     },
                     {
                         "name": "Frequencia Cardiaca",
-                        "id": "95c5a7ad-c43e-4a0f-8886-ee3cba1b863d"
+                        "id": "a32767e4-3b41-411e-ad5d-a989cedaab40"
                     },
                     {
                         "name": "Frequencia Respiratoria",
-                        "id": "3d3f50c8-ae49-4f5d-a64a-c957e734662a"
-                    }
+                        "id": "da5764e3-8a5d-4e14-8712-79adfe52a0b6"
+					}
                 ]
             }
         ]
@@ -289,7 +289,7 @@
                     {
                         "name": "Frequencia Respiratoria",
                         "id": "69ae6e37-586a-482c-bbff-02a7bfaacb5e"
-                    }
+					}
                 ]
             }
         ]
@@ -439,6 +439,31 @@
         ]
     },
     {
+        "id": "007",
+        "formId": "65896366-17b2-4c3e-9cce-440edcfe7b4e",
+        "name": "OBS STORY",
+        "sufix": "obs_story",
+        "parts": [
+            {
+                "id": "1",
+                "name": "CURRENT STORY",
+                "sref": ".current_story",
+                "nextSref": ".confirm",
+                "fields": [
+                    {
+                        "name": "notes",
+                         "id": "24045d41-df1a-42c5-a323-5bcb98b6b291",
+                         "textSize": "8"
+                    },
+                    {
+                        "name": "message type",
+                         "id": "d277616c-66b7-49c2-b7c4-dee202bf3d34"
+                    }
+                ]
+            }
+        ]
+	},
+    {
         "id": "008",
         "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
         "name": "DIAGNOSTICOS - ADULTO",
@@ -448,133 +473,22 @@
                 "id": "1",
                 "name": "Rastreio de TB",
                 "sref": ".rastreio_tb",
-                "nextSref": ".profilaxia1",
-                "fields": [
-                    {
-                        "name": "Rastreio de ITS (Tem sintomas sugestivas para ITS)?",
-                        "id": "824a6cdb-2a64-4b04-9589-fe84ea4168db"
-                    },
-                    {
-                        "name": "Rastreio de TB (Tem sintomas sugestivas para TB)?",
-                        "id": "c3fa62c3-61ef-4cc5-a46b-8d96a345f48c"
-                    },
-                    {
-                        "name": "Data de Inicio",
-                        "id": "a2fda180-923d-426b-999a-27053b239c2a"
-                    },
-                    {
-                        "name": "Data de Fim",
-                        "id": "0fcf9f12-2f0c-462f-81ad-b9f0bc65bfea"
-                    }
-                ]
-            },
-            {
-                "id": "2",
-                "name": "PROFILAXIAS",
-                "sref": ".profilaxia1",
-                "nextSref": ".profilaxia2",
-                "fields": [
-                    {
-                        "name": "Profilaxia com Cotrimoxazol",
-                        "id": "5294e15e-fa75-4c81-8593-33eb49d9cf56",
-                        "logics":{"seeData":"c3fa62c3-61ef-4cc5-a46b-8d96a345f48c"
-                        }
-                    },
-
-                    {
-                        "name": "Data de Inicio",
-                        "id": "2b71e477-ce1f-4563-b577-1dd6f98c3097"
-                    },
-                    {
-                        "name": "Data de Fim",
-                        "id": "93302556-6113-4bf6-967f-ac2f266a35be"
-                    }
-                   
-                ]
-            },
-            {
-                "id": "3",
-                "name": "PROFILAXIAS",
-                "sref": ".profilaxia2",
-                "nextSref": ".profilaxia3",
-                "fields": [
-                     {
-                        "name": "Profilaxia com Isoniazida",
-                        "id": "fa6a769d-39a9-44eb-9d36-d3b11e3d44ac",
-                        "logics":{"seeData":"c3fa62c3-61ef-4cc5-a46b-8d96a345f48c"
-                        }
-                    },
-
-                    {
-                        "name": "Data de Inicio",
-                        "id": "5fc349f2-a694-4a0c-803e-ccbb5402bd53"
-                    },
-                    {
-                        "name": "Data de Fim",
-                        "id": "fc046c9b-6399-4d43-a1b1-d46117985ef1"
-                    }
-                   
-                ]
-            },
-            {
-                "id": "4",
-                "name": "PROFILAXIAS",
-                "sref": ".profilaxia3",
-                "nextSref": ".diagnosticos",
-                "fields": [
-                    {
-                        "name": "Profilaxia Da Meningite Criptocócica",
-                        "id": "01b783f3-e972-411f-8d8b-980d8aad7f4e",
-                        "logics":{"seeData":"c3fa62c3-61ef-4cc5-a46b-8d96a345f48c"
-                        }
-                    },
-
-                    {
-                        "name": "Data de Inicio",
-                        "id": "e6551ba8-7bb8-4b69-8f17-cca5048621b7"
-                    },
-                    {
-                        "name": "Data de Fim",
-                        "id": "fce0e153-215d-422d-985b-d36a3fed687b"
-                    }
-                   
-                ]
-            },
-
-            {
-                "id": "5",
-                "name": "OBSERVAÇÕES CLINICAS",
-                "sref": ".diagnosticos",
                 "nextSref": ".confirm",
                 "fields": [
                     {
-                        "name": "Exames na cabeca e pescoco",
-                        "id": "6d2fb060-e530-45ca-82ce-7b9cf2afda69",
-                        "textSize":"8"
-                    }, 
-                    {
-                        "name": "Exames no torax",
-                        "id": "d6b742a0-e8a5-493f-8b7b-4f7e32464574",
-                        "textSize":"8"
+                        "name": "Rastreio de ITS (Tem sintomas sugestivas para ITS)?",
+                        "id": "f48e94e9-fce6-4b98-b55f-a4bf36365142"
                     },
                     {
-                        "name": "Exames no Abdomen",
-                        "id": "f63aff74-c5b6-49a5-b883-094100a137bb",
-                        "textSize":"8"
+                        "name": "Rastreio de TB (Tem sintomas sugestivas para TB)?",
+                        "id": "f0e7e2a1-334e-4691-9f2c-df22c4faf656"
                     },
                     {
-                        "name": "Exames nos membros superiores e inferiores",
-                        "id": "3634395b-4802-4e42-aa48-8335baecf76e",
-                        "textSize":"8"
-                    },
-                    {
-                        "name": "Outros diagnosticos",
-                        "id": "e2939310-1d5f-11e0-b929-000c29ad1d07"
+                        "name": "Data de Inicio",
+                        "id": "8c1e8e02-cbeb-49e3-89cc-7e28eae598c1"
                     }
-
-                    
                 ]
             }
         ]
-    }
+	}
 ]

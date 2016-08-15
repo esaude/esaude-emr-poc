@@ -12,16 +12,16 @@
                     <p>{{service.label}} {{showService}}</p>
                 </div>
                 <div class="col-sm-4">
-                    <p ng-if="service.lastEncounterForService">{{service.lastEncounterForService.encounterDatetime| date:"MM/dd/yyyy hh:mm"}}</p>
-                    <p ng-if="!service.lastEncounterForService">
+                    <p ng-if="service.lastEncounterForServiceMarked">{{service.lastEncounterForServiceDate | date:"MM/dd/yyyy hh:mm"}}</p>
+                    <p ng-if="!service.lastEncounterForServiceMarked">
                         {{'COMMON_NONE'| translate}}
                     </p>
                 </div>
                 <div class="col-sm-2">
-                    <p ng-if="service.lastEncounterForService">
-                        {{service.lastEncounterForService.provider.display}}
+                    <p ng-if="service.lastEncounterForServiceMarked">
+                        {{service.lastEncounterForServiceMarked.provider.display}}
                     </p>
-                    <p ng-if="!service.lastEncounterForService">
+                    <p ng-if="!service.lastEncounterForServiceMarked">
                         {{'COMMON_NONE'| translate}}
                     </p>
                 </div>

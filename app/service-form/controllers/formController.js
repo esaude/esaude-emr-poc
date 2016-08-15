@@ -87,15 +87,7 @@ angular.module('serviceform')
                     
                     if ($rootScope.postAction === 'create') {
                         //in case the service has a date mark
-                        if ($rootScope.maskedOn) {
-                            var obs = {
-                                concept: $rootScope.maskedOn,
-                                obsDatetime: dateUtil.now(),
-                                person: openMRSEncounter.patient,
-                                value: dateUtil.getDateInDatabaseFormat(dateUtil.now())
-                            };
-                            openMRSEncounter.obs.push(obs);
-                        }
+                        openMRSEncounter = addMappedDateObs(openMRSEncounter);
                         
                         if ($scope.hasVisitToday) {
                             encounterService.create(openMRSEncounter).success(encounterSuccessCallback);
@@ -104,7 +96,10 @@ angular.module('serviceform')
                         }
                     }
                     
-                    if ($rootScope.postAction === 'edit') {
+                    if ($rootScope.postAction === 'edit' || $rootScope.postAction === 'add') {
+                        if ($rootScope.postAction === 'add') {
+                            openMRSEncounter = addMappedDateObs(openMRSEncounter);
+                        }
                         var encounterMapper = new Poc.Common.UpdateEncounterRequestMapper(currDate);
                         
                         var editEncounter = encounterMapper.mapFromFormPayload(openMRSEncounter,
@@ -112,6 +107,20 @@ angular.module('serviceform')
                         encounterService.update(editEncounter).success(encounterSuccessCallback);
                     }
                 };
+                
+                var addMappedDateObs = function (openMRSEncounter) {
+                    //in case the service has a date mark
+                    if ($rootScope.maskedOn) {
+                        var obs = {
+                            concept: $rootScope.maskedOn,
+                            obsDatetime: dateUtil.now(),
+                            person: openMRSEncounter.patient,
+                            value: dateUtil.getDateInDatabaseFormat(dateUtil.now())
+                        };
+                        openMRSEncounter.obs.push(obs);
+                    }
+                    return openMRSEncounter;
+                }
                 
                 var checkIn = function () {
                     var visitType = _.find($rootScope.defaultVisitTypes, function (o) {

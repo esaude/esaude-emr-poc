@@ -19,7 +19,7 @@ angular.module('serviceform')
                     //procede like editing
                     $rootScope.formPayload = Poc.Common.FormRequestMapper
                         .mapFromOpenMRSFormWithEncounter($scope.serviceForms[service.id], service.lastEncounterForService);
-                    $rootScope.postAction = "edit";
+                    $rootScope.postAction = "add";//add obs to existing encounter
                 } else {
                     $rootScope.formPayload = Poc.Common.FormRequestMapper
                             .mapFromOpenMRSForm($scope.serviceForms[service.id]);
