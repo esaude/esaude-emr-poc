@@ -12,17 +12,18 @@ angular.module('serviceform')
             }
             
             $rootScope.linkServiceAdd = function(service) {
-                $rootScope.postAction = "create";
                 
                 findFormInfo(service);
-                //in case the patient has chacked in
+                //in case the patient has a service today in
                 if (service.hasEntryToday) {
                     //procede like editing
                     $rootScope.formPayload = Poc.Common.FormRequestMapper
                         .mapFromOpenMRSFormWithEncounter($scope.serviceForms[service.id], service.lastEncounterForService);
+                    $rootScope.postAction = "edit";
                 } else {
                     $rootScope.formPayload = Poc.Common.FormRequestMapper
                             .mapFromOpenMRSForm($scope.serviceForms[service.id]);
+                    $rootScope.postAction = "create";
                 }
                 //in case the service has a date mark
                 if (service.markedOn) {

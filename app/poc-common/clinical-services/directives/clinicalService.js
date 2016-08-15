@@ -51,15 +51,11 @@ angular.module('poc.common.clinicalservices')
                         } else {
                             service.encountersForService = sortedEncounters;
                         }
-                        service.lastEncounterForService = sortedEncounters[0];
+                        service.lastEncounterForService = service.encountersForService[0];
                         service.hasEntryToday = false;
                         if ($scope.$parent.todayVisit && service.lastEncounterForService) {
                             service.hasEntryToday = (dateUtil.diffInDaysRegardlessOfTime($scope.$parent.todayVisit.startDatetime, 
                                         service.lastEncounterForService.encounterDatetime) === 0) ? true : false;
-                            //in case the service has a markedOn
-                            if (service.markedOn && service.hasEntryToday) {
-                                
-                            }
                         }
                         service.list = false;
             });
