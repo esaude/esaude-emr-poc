@@ -10,7 +10,7 @@ angular.module('clinic')
             function init() {
                 var cohortMarckedAndCheckedInByProvider = '2276035c-4b15-49c7-be31-dd11f7ac4246';
 
-                cohortService.getWithParams(cohortMarckedAndCheckedInByProvider, {providerUuid: $rootScope.currentProvider.uuid}).success(function (data) {
+                cohortService.getWithParams(Bahmni.Common.Constants.cohortMarkedForConsultationAndCheckedInUuid, {providerUuid: $rootScope.currentProvider.uuid}).success(function (data) {
                         $scope.cohortMembers = data.members;
                         $scope.hasSchedules = true;
 
@@ -19,7 +19,7 @@ angular.module('clinic')
 
             $scope.getLastConsultationAndVisit = function () {
                 _.forEach($scope.cohortMembers, function (member) {
-                    observationsService.get(member.uuid, 'e1dae630-1d5f-11e0-b929-000c29ad1d07')
+                    observationsService.get(member.uuid, Bahmni.Common.Constants.nextConsultationDateUuid)
                         .success(function (data) {
                             //skip if doesn't have next consultation
                             var nonRetired = commonService.filterRetired(data.results);
