@@ -84,6 +84,7 @@ angular.module('serviceform')
                             location.uuid,
                             $rootScope.currentUser.person.uuid);//set date
                     
+                    
                     if ($rootScope.postAction === 'create') {
                         //in case the service has a date mark
                         if ($rootScope.maskedOn) {
