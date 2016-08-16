@@ -41,12 +41,6 @@ angular.module('poc.common.formdisplay')
                }
             });
         };
-
-        formLogic.seeData = function (data) {
-
-          if (data == "e1d81b62-1d5f-11e0-b929-000c29ad1d07"){
-          }
-        };
         
         formLogic.calculateOnChange = function (param) {
         };
