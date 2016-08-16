@@ -169,8 +169,8 @@ Bahmni.Common = Bahmni.Common || {};
         warningConceptUuid: "5456047f-8e81-4f68-b061-5ee10a2f0a11",
         errorConceptUuid: "9b9c21dc-e1fb-4cd9-a947-186e921fa78c",
         messageTypeRepresentation: messageTypeRepresentation,
-        cohortMarkedForConsultationUuid: "aaeabe1c-60ce-45e0-a771-9876ed0de7e1",
-        cohortMarkedForConsultationAndCheckedInUuid: "4993705e-eeb4-46b4-b594-96854393ff55",
+        cohortMarkedForConsultationUuid: "eca2b927-4ee3-47e3-9c19-a72805891d8d",
+        cohortMarkedForConsultationAndCheckedInUuid: "d00c4b2e-7c13-4d05-9f87-8a9c4b07ad52",
         nextConsultationDateUuid: "e1dae630-1d5f-11e0-b929-000c29ad1d07"
 
     };
