@@ -58,16 +58,4 @@ describe('Factory: home/initialization', function() {
 
     expect(initialization).toBeDefined();
   });
-
-  it('should correctly load the default location', function() {
-    // mock backend & ensure it gets called
-    $httpBackend.expectGET("/poc_config/openmrs/i18n/common/locale_en.json")
-      .respond({
-        data: window.__fixtures__['local_en']
-      });
-
-    $rootScope.$apply();
-
-    expect($rootScope.location).toEqual(window.__fixtures__['locationCSMagoe'].results[0]);
-  });
 });

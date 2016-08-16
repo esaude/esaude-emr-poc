@@ -1,20 +1,15 @@
 describe('Controller: LoginController', function() {
-  var scope, q, controller, location, sessionService, stateParams, mockLocaleService, $httpBackend, $window;
+  var scope, q, controller, location, sessionService, stateParams, mockLocaleService, $httpBackend, $window; 
 
   beforeEach(module('home'));
   
-  beforeEach(function() {
-    // mock $window
-    $window = {
-      location: {
-        reload: jasmine.createSpy()
-      }
-    };
+  beforeEach(function () {
+      $window = {location: {reload: jasmine.createSpy()}};
 
-    module(function($provide) {
-      $provide.value('$window', $window);
+      module(function ($provide) {
+          $provide.value('$window', $window);
+      });
     });
-  });
 
   beforeEach(inject(function($controller, $rootScope, _$location_, _sessionService_, $q, $stateParams, localeService, _$httpBackend_) {
     scope = $rootScope.$new();
@@ -91,7 +86,7 @@ describe('Controller: LoginController', function() {
     scope.$apply();
 
     expect(sessionService.get).toHaveBeenCalled();
-    expect(location.path).toHaveBeenCalledWith('/dashboard');
+    expect($window.location.reload).toHaveBeenCalled();
     expect(mockLocaleService.allowedLocalesList).toHaveBeenCalled();
   });
 
@@ -183,7 +178,7 @@ describe('Controller: LoginController', function() {
   });
 
   it('should show session expired message if indicated by state', function() {
-    stateParams.showLoginMessage = true;
+    stateParams.showLoginMessage = 'LOGIN_LABEL_LOGIN_ERROR_MESSAGE_KEY';
 
     // construct controller
     controller('LoginController', {
