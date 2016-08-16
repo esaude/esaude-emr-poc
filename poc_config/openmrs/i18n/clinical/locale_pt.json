@@ -122,5 +122,6 @@
     "CLINICAL_OBSERVATIONS_WARNING": "Precaução",
     "CLINICAL_OBSERVATIONS_WRRONG": "Erro",
     "CLINICAL_OBSERVATIONS_SUCCESS": "Sucesso",
-    "CLINIC_PATIENT_CURRENT_STATUS" : "Estado clínico atual"
+    "CLINIC_PATIENT_CURRENT_STATUS" : "Estado clínico atual",
+    "HISTORICAL_DRUG_START_DATE_TARV" : "Inicio de tratamento TARV"
 }
