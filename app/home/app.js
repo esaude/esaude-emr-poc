@@ -13,7 +13,7 @@ angular
         
         $stateProvider
             .state('login', {
-                url: '/login?showLoginMessage',
+                url: '/login?showLoginMessage=LOGIN_LABEL_LOGIN_ERROR_MESSAGE_KEY',
                 views: {
                     'layout': { templateUrl: '../common/application/views/layout.html', controller: 'LoginController'},
                     'content@login': { templateUrl: 'views/login.html'}
