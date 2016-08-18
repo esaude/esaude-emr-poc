@@ -52,7 +52,9 @@
   "resolutions": {
     "angular": "~1.5.0",
     "d3": "~3.5.16",
-    "nvd3": "~1.8.2"
+    "nvd3": "~1.8.2",
+    "lodash": "4.6.1",
+    "angular-translate": "~2.11.1"
   },
   "devDependencies": {
     "q": "1.0.1"

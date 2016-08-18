@@ -119,5 +119,6 @@
     "CLINICAL_OBSERVATIONS_WRRONG": "Wrrong",
     "CLINICAL_OBSERVATIONS_SUCCESS": "Success",
     "LOGIN_LABEL_LOGGEDIN_KEY": "Logged in as",
-    "CLINIC_PATIENT_CURRENT_STATUS" : "Current clinical status"
+    "CLINIC_PATIENT_CURRENT_STATUS" : "Current clinical status",
+  "HISTORICAL_DRUG_START_DATE_TARV": "Start Date Tarv"
 }
