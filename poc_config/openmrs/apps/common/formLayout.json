@@ -245,12 +245,12 @@
                     },
                     {
                         "name": "Frequencia Cardiaca",
-                        "id": "95c5a7ad-c43e-4a0f-8886-ee3cba1b863d"
+                        "id": "a32767e4-3b41-411e-ad5d-a989cedaab40"
                     },
                     {
                         "name": "Frequencia Respiratoria",
-                        "id": "3d3f50c8-ae49-4f5d-a64a-c957e734662a"
-                    }
+                        "id": "da5764e3-8a5d-4e14-8712-79adfe52a0b6"
+					}
                 ]
             }
         ]
@@ -289,7 +289,7 @@
                     {
                         "name": "Frequencia Respiratoria",
                         "id": "69ae6e37-586a-482c-bbff-02a7bfaacb5e"
-                    }
+					}
                 ]
             }
         ]
@@ -439,6 +439,31 @@
         ]
     },
     {
+        "id": "007",
+        "formId": "65896366-17b2-4c3e-9cce-440edcfe7b4e",
+        "name": "OBS STORY",
+        "sufix": "obs_story",
+        "parts": [
+            {
+                "id": "1",
+                "name": "CURRENT STORY",
+                "sref": ".current_story",
+                "nextSref": ".confirm",
+                "fields": [
+                    {
+                        "name": "notes",
+                         "id": "24045d41-df1a-42c5-a323-5bcb98b6b291",
+                         "textSize": "8"
+                    },
+                    {
+                        "name": "message type",
+                         "id": "d277616c-66b7-49c2-b7c4-dee202bf3d34"
+                    }
+                ]
+            }
+        ]
+	},
+    {
         "id": "008",
         "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
         "name": "DIAGNOSTICOS - ADULTO",
@@ -576,5 +601,5 @@
                 ]
             }
         ]
-    }
+	}
 ]

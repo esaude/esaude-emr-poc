@@ -53,14 +53,21 @@ angular.module('poc.common.clinicalservices')
                             service.encountersForService = sortedEncounters;
                         }
                         service.lastEncounterForService = sortedEncounters[0];
+                        service.lastEncounterForServiceMarked = service.encountersForService[0];
+                        
+                        if (service.lastEncounterForServiceMarked) {
+                            if (service.markedOn) {
+                                service.lastEncounterForServiceDate = _.find(service.lastEncounterForServiceMarked.obs, function (o) {
+                                    return o.concept.uuid === service.markedOn;
+                                }).value;
+                            } else {
+                                service.lastEncounterForServiceDate = service.lastEncounterForServiceMarked.encounterDatetime;
+                            }
+                        }
                         service.hasEntryToday = false;
                         if ($scope.$parent.todayVisit && service.lastEncounterForService) {
                             service.hasEntryToday = (dateUtil.diffInDaysRegardlessOfTime($scope.$parent.todayVisit.startDatetime, 
                                         service.lastEncounterForService.encounterDatetime) === 0) ? true : false;
-                            //in case the service has a markedOn
-                            if (service.markedOn && service.hasEntryToday) {
-                                
-                            }
                         }
                         service.list = false;
             });

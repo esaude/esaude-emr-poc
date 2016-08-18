@@ -1,5 +1,5 @@
 describe('Controller: DashboardController', function() {
-  var scope, q, controller, location, applicationService, $window, $httpBackend;
+  var scope, q, controller, location, applicationService, $window, $httpBackend, locationService;
 
   beforeEach(module('home'));
 
@@ -16,12 +16,13 @@ describe('Controller: DashboardController', function() {
     });
   });
 
-  beforeEach(inject(function($controller, $rootScope, _applicationService_, $q, $location, _$httpBackend_) {
+  beforeEach(inject(function($controller, $rootScope, _applicationService_, $q, $location, _$httpBackend_, _locationService_) {
     q = $q;
     scope = $rootScope.$new();
     controller = $controller;
     location = $location;
     applicationService = _applicationService_;
+    locationService = _locationService_,
     $httpBackend = _$httpBackend_;
   }));
 
@@ -30,6 +31,16 @@ describe('Controller: DashboardController', function() {
 
     // mock applicationService.getApps
     spyOn(applicationService, 'getApps').and.returnValue(q.when(appJsonFixture));
+    
+    // mock locationService.get
+    spyOn(locationService, 'get').and.callFake(function() {
+      return {
+        success: function(callback) {
+          var data = window.__fixtures__['defaultLocationSetting'].results[0];
+          callback(data);
+        }
+      };
+    });
 
     // construct controller
     controller('DashboardController', {
@@ -42,6 +53,13 @@ describe('Controller: DashboardController', function() {
       .respond({
         data: window.__fixtures__['local_en']
       });
+    
+    // mock backend & ensure it gets called
+    $httpBackend.expectGET("/openmrs/ws/rest/v1/systemsetting?q=default_location&v=full")
+      .respond({
+        data: 'CS Chitima'
+      });
+      
     scope.$apply();
 
     expect(applicationService.getApps).toHaveBeenCalled();

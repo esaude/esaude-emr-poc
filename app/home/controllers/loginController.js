@@ -2,8 +2,8 @@
 
 angular.module('home')
     .controller('LoginController', ['$rootScope', '$scope', '$location', 'sessionService', 'spinner', '$q',
-                '$stateParams', '$translate', 'localeService', '$window', '$route', 'esaudeConfigurations',
-        function ($rootScope, $scope, $location, sessionService, spinner, $q, $stateParams, $translate, localeService, $window, $route, esaudeConfigurations) {
+                '$stateParams', '$translate', 'localeService', '$window',
+        function ($rootScope, $scope, $location, sessionService, spinner, $q, $stateParams, $translate, localeService, $window) {
         var landingPagePath = "/dashboard";
         var loginPagePath = "/login";
 
@@ -23,7 +23,7 @@ angular.module('home')
         };
 
         if ($stateParams.showLoginMessage) {
-            $scope.errorMessageTranslateKey = "LOGIN_LABEL_LOGIN_ERROR_MESSAGE_KEY";
+            $scope.errorMessageTranslateKey = $stateParams.showLoginMessage;
         }
 
         var redirectToLandingPageIfAlreadyAuthenticated = function () {
@@ -33,25 +33,22 @@ angular.module('home')
                 }
             });
         };
-
+        
         if ($location.path() === loginPagePath) {
             redirectToLandingPageIfAlreadyAuthenticated();
         }
 
         $scope.login = function () {
             $scope.errorMessageTranslateKey = null;
-            $scope.dataLoading = true;
             var deferrable = $q.defer();
             sessionService.loginUser($scope.loginUser.username, $scope.loginUser.password).then(
                 function () {
                     sessionService.loadCredentials().then(
                         function () {
-                            $rootScope.$broadcast('event:auth-loggedin');
                             deferrable.resolve();
                         },
                         function (error) {
                             $scope.errorMessageTranslateKey = error;
-                            $scope.dataLoading = false;
                             deferrable.reject(error);
                         }
                     )
@@ -63,14 +60,8 @@ angular.module('home')
             );
             spinner.forPromise(deferrable.promise).then(
                 function () {
-                    $route.reload();
-                    //$window.location.reload();
-                    $location.path(landingPagePath);
+                    $window.location.reload();
                 }
             );
         };
-
-          $scope.initializeLocation = function () {
-            esaudeConfigurations.loadDefaultLocation();
-          };
     }]);

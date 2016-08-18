@@ -9,7 +9,7 @@ angular.module('authentication')
 
             function error(response) {
                 if (response.status === 401 || response.status === 403) {
-                    $rootScope.$broadcast('event:auth-loginRequired');
+                    $rootScope.$broadcast('event:auth-loginRequired', 'LOGIN_LABEL_LOGIN_ERROR_MESSAGE_KEY');
                 }
                 return $q.reject(response);
             }
@@ -21,11 +21,13 @@ angular.module('authentication')
         }];
         $httpProvider.interceptors.push(interceptor);
     }).run(['$rootScope', '$window', '$timeout', 'sessionService', function ($rootScope, $window, $timeout, sessionService) {
-        $rootScope.$on('event:auth-loginRequired', function () {
+        $rootScope.$on('event:auth-loginRequired', function (event, data) {
+            console.log(event);
+            console.log(data);
             $timeout(function(){
             	sessionService.destroy().then(
                     function () {
-                        $window.location = "../home/#/login?showLoginMessage=true";
+                        $window.location = "../home/#/login?showLoginMessage=" + data;
                     }
                 );
             });
@@ -61,14 +63,7 @@ angular.module('authentication')
             createSession(username,password).success(function(data) {
                 if (data.authenticated) {
                     $cookies.put(Bahmni.Common.Constants.currentUser, username, {path: '/'});
-                    if($rootScope.location != undefined) {
-                        localStorageService.cookie.remove(Poc.Common.Constants.location);
-                        localStorageService.cookie.set(Poc.Common.Constants.location, {name: $rootScope.location.display, uuid: $rootScope.location.uuid}, 7);
-                        deferrable.resolve();
-                    } else {
-                        self.destroy();
-                        deferrable.reject('LOGIN_LABEL_LOGIN_ERROR_NO_DEFAULT_LOCATION');
-                    }
+                    deferrable.resolve();
                 } else {
                    deferrable.reject('LOGIN_LABEL_LOGIN_ERROR_FAIL_KEY');
                 }
@@ -87,7 +82,7 @@ angular.module('authentication')
             var currentUser = $cookies.get(Bahmni.Common.Constants.currentUser);
             if(!currentUser) {
                 this.destroy().then(function() {
-                    $rootScope.$broadcast('event:auth-loginRequired');
+                    $rootScope.$broadcast('event:auth-loginRequired', 'LOGIN_LABEL_LOGIN_ERROR_MESSAGE_KEY');
                     deferrable.reject('LOGIN_LABEL_LOGIN_ERROR_NO_SESSION_USER_KEY')
                 });
                 return deferrable.promise;
@@ -96,7 +91,6 @@ angular.module('authentication')
                 userService.getProviderForUser(data.results[0].uuid).success(function(providers){
                         if(!_.isEmpty(providers.results) && hasAnyActiveProvider(providers.results)){
                             $rootScope.currentUser = new Bahmni.Auth.User(data.results[0]);
-                            $rootScope.$broadcast('event:user-credentialsLoaded', data.results[0]);
                             deferrable.resolve(data.results[0]);
                         }else{
                             self.destroy();
@@ -134,13 +128,13 @@ angular.module('authentication')
                 if (data.authenticated) {
                     defer.resolve();
                 } else {
-                    defer.reject('User not authenticated');
-                    $rootScope.$broadcast('event:auth-loginRequired');
+                    defer.reject('LOGIN_LABEL_LOGIN_ERROR_MESSAGE_KEY');
+                    $rootScope.$broadcast('event:auth-loginRequired', 'LOGIN_LABEL_LOGIN_ERROR_MESSAGE_KEY');
                 }
             });
             sessionDetails.error(function(data){
-                defer.reject('User not authenticated');
-                $rootScope.$broadcast('event:auth-loginRequired');
+                defer.reject('LOGIN_LABEL_LOGIN_ERROR_MESSAGE_KEY');
+                $rootScope.$broadcast('event:auth-loginRequired', 'LOGIN_LABEL_LOGIN_ERROR_MESSAGE_KEY');
             });
             return defer.promise;
         }
