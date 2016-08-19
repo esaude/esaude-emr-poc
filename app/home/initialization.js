@@ -1,11 +1,14 @@
 'use strict';
 
 angular.module('home')
-    .factory('initialization', ['spinner', 'appService',
-        function (spinner, appService) {
+    .factory('initialization', ['spinner', 'appService', '$q',
+        function (spinner, appService, $q) {
 
             var initApp = function() {
-                return appService.initApp('home', {'app': true, 'extension' : true, 'service': false });
+                var deferred = $q.defer();
+                appService.initApp('home', {'app': true, 'extension' : true, 'service': false });
+                deferred.resolve();
+                return deferred.promise;
             };
             return spinner.forPromise(initApp());
         }
