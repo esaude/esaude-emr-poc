@@ -22,8 +22,6 @@ angular.module('authentication')
         $httpProvider.interceptors.push(interceptor);
     }).run(['$rootScope', '$window', '$timeout', 'sessionService', function ($rootScope, $window, $timeout, sessionService) {
         $rootScope.$on('event:auth-loginRequired', function (event, data) {
-            console.log(event);
-            console.log(data);
             $timeout(function(){
             	sessionService.destroy().then(
                     function () {
