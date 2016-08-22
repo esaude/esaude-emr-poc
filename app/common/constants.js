@@ -21,11 +21,11 @@ Bahmni.Common = Bahmni.Common || {};
         "setMembers:(uuid,name,names,conceptClass))))";
     
     var messageTypeRepresentation = {
-            "feb94661-9f27-4a63-972f-39ebb63c7022": "success",
-            "a1822bef-5bef-44b5-89d7-9dcf261731c1": "info",
-            "5456047f-8e81-4f68-b061-5ee10a2f0a11": "warning",
-            "9b9c21dc-e1fb-4cd9-a947-186e921fa78c": "error"
-        };
+        "feb94661-9f27-4a63-972f-39ebb63c7022": "success",
+        "a1822bef-5bef-44b5-89d7-9dcf261731c1": "info",
+        "5456047f-8e81-4f68-b061-5ee10a2f0a11": "warning",
+        "9b9c21dc-e1fb-4cd9-a947-186e921fa78c": "error"
+    };
 
     Bahmni.Common.Constants = {
         dateFormat: "dd/mm/yyyy",
