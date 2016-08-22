@@ -60,7 +60,7 @@ angular.module('home')
             );
             spinner.forPromise(deferrable.promise).then(
                 function () {
-                    $window.location.reload();
+                    $location.path(landingPagePath).search({});
                 }
             );
         };
