@@ -1,15 +1,20 @@
 describe('Controller: LoginController', function() {
-  var scope, q, controller, location, sessionService, stateParams, mockLocaleService, $httpBackend, $window; 
+  var scope, q, controller, location, sessionService, stateParams, mockLocaleService, $httpBackend, $window;
 
   beforeEach(module('home'));
   
-  beforeEach(function () {
-      $window = {location: {reload: jasmine.createSpy()}};
+  beforeEach(function() {
+    // mock $window
+    $window = {
+      location: {
+        reload: jasmine.createSpy()
+      }
+    };
 
-      module(function ($provide) {
-          $provide.value('$window', $window);
-      });
+    module(function($provide) {
+      $provide.value('$window', $window);
     });
+  });
 
   beforeEach(inject(function($controller, $rootScope, _$location_, _sessionService_, $q, $stateParams, localeService, _$httpBackend_) {
     scope = $rootScope.$new();
@@ -86,7 +91,7 @@ describe('Controller: LoginController', function() {
     scope.$apply();
 
     expect(sessionService.get).toHaveBeenCalled();
-    expect($window.location.reload).toHaveBeenCalled();
+    expect(location.path).toHaveBeenCalledWith('/dashboard');
     expect(mockLocaleService.allowedLocalesList).toHaveBeenCalled();
   });
 
