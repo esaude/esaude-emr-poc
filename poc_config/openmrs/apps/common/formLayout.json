@@ -87,7 +87,7 @@
             }
         ]
     },
-    
+
     {
         "id": "002",
         "formId": "e28b6b0e-1d5f-11e0-b929-000c29ad1d07",
@@ -121,7 +121,7 @@
                 "nextSref": ".mother_b",
                 "fields": [
                     {
-                      
+
                         "name": "Nome",
                         "id": "e2a0c5bc-1d5f-11e0-b929-000c29ad1d07"
                     },
@@ -219,13 +219,21 @@
                 "fields": [
                     {
                         "name": "Temperatura",
-                        "id": "e292af4a-1d5f-11e0-b929-000c29ad1d07"
+                        "id": "e292af4a-1d5f-11e0-b929-000c29ad1d07",
+                        "constraints": {
+                            "min": "25",
+                            "max": "43"
+                        }
                     },
                     {
                         "name": "Peso",
                         "id": "e292b454-1d5f-11e0-b929-000c29ad1d07",
                         "logics": {
                             "calculateOnChange": "e1e2e826-1d5f-11e0-b929-000c29ad1d07,/,(,e1e2e934-1d5f-11e0-b929-000c29ad1d07,*,2,)"
+                        },
+                        "constraints": {
+                            "min": "0",
+                            "max": "250"
                         }
                     },
                     {
@@ -233,24 +241,40 @@
                         "id": "e292b558-1d5f-11e0-b929-000c29ad1d07",
                         "logics": {
                             "defaultValueIsLastEntry": "e1e2e934-1d5f-11e0-b929-000c29ad1d07"
+                        },
+                        "constraints": {
+                            "min": "10",
+                            "max": "228"
                         }
                     },
                     {
                         "name": "Pressão Arterial Sistolica",
-                        "id": "e292b648-1d5f-11e0-b929-000c29ad1d07"
+                        "id": "e292b648-1d5f-11e0-b929-000c29ad1d07",
+                        "constraints": {
+                            "min": "0",
+                            "max": "250"
+                        }
                     },
                     {
                         "name": "Pressão Arterial Diastolica",
-                        "id": "e293ed7e-1d5f-11e0-b929-000c29ad1d07"
+                        "id": "e293ed7e-1d5f-11e0-b929-000c29ad1d07",
+                        "constraints": {
+                            "min": "0",
+                            "max": "150"
+                        }
                     },
                     {
                         "name": "Frequencia Cardiaca",
-                        "id": "a32767e4-3b41-411e-ad5d-a989cedaab40"
+                        "id": "83cec426-ddce-4c01-a366-9a60bbcc371b",
+                        "constraints": {
+                            "min": "0",
+                            "max": "230"
+                    }
                     },
                     {
                         "name": "Frequencia Respiratoria",
-                        "id": "da5764e3-8a5d-4e14-8712-79adfe52a0b6"
-					}
+                        "id": "5d0d0957-bf98-4508-9499-3047b67a9c3a"
+                    }
                 ]
             }
         ]
@@ -269,27 +293,43 @@
                 "fields": [
                     {
                         "name": "Temperatura",
-                        "id": "e2938e56-1d5f-11e0-b929-000c29ad1d07"
+                        "id": "e2938e56-1d5f-11e0-b929-000c29ad1d07",
+                        "constraints": {
+                            "min": "25",
+                            "max": "43"
+                        }
                     },
                     {
                         "name": "Peso",
-                        "id": "e2939130-1d5f-11e0-b929-000c29ad1d07"
+                        "id": "e2939130-1d5f-11e0-b929-000c29ad1d07",
+                        "constraints": {
+                            "min": "0",
+                            "max": "250"
+                        }
                     },
                     {
                         "name": "Estatura",
                         "id": "e2939036-1d5f-11e0-b929-000c29ad1d07",
                         "logics ": {
                             "defaultValueIsLastEntry": "e1e2e934-1d5f-11e0-b929-000c29ad1d07"
+                        },
+                        "constraints": {
+                            "min": "10",
+                            "max": "228"
                         }
                     },
                     {
                         "name": "Frequencia Cardiaca",
-                        "id": "1abdb9ec-acad-4a7c-820f-5de3642a02aa"
+                        "id": "1abdb9ec-acad-4a7c-820f-5de3642a02aa",
+                        "constraints": {
+                            "min": "0",
+                            "max": "230"
+                        }
                     },
                     {
                         "name": "Frequencia Respiratoria",
                         "id": "69ae6e37-586a-482c-bbff-02a7bfaacb5e"
-					}
+		    }
                 ]
             }
         ]
@@ -514,7 +554,7 @@
                         "name": "Data de Fim",
                         "id": "93302556-6113-4bf6-967f-ac2f266a35be"
                     }
-                   
+
                 ]
             },
             {
@@ -538,7 +578,7 @@
                         "name": "Data de Fim",
                         "id": "fc046c9b-6399-4d43-a1b1-d46117985ef1"
                     }
-                   
+
                 ]
             },
             {
@@ -562,7 +602,7 @@
                         "name": "Data de Fim",
                         "id": "fce0e153-215d-422d-985b-d36a3fed687b"
                     }
-                   
+
                 ]
             },
 
@@ -576,7 +616,7 @@
                         "name": "Exames na cabeca e pescoco",
                         "id": "6d2fb060-e530-45ca-82ce-7b9cf2afda69",
                         "textSize":"8"
-                    }, 
+                    },
                     {
                         "name": "Exames no torax",
                         "id": "d6b742a0-e8a5-493f-8b7b-4f7e32464574",
@@ -597,139 +637,140 @@
                         "id": "e2939310-1d5f-11e0-b929-000c29ad1d07"
                     }
 
-                    
+
                 ]
             }
         ]
-	}, 
-    { 
-        "id": "009", 
-        "formId": "e28ac028-1d5f-11e0-b929-000c29ad1d07", 
-        "name": "DIAGNOSTICOS - PEDIATRIA", 
-        "sufix": "diagnostc_child", 
-        "parts": [ 
-            { 
-                "id": "1", 
-                "name": "Rastreio de TB", 
-                "sref": ".rastreio_tb", 
-                "nextSref": ".profilaxia1", 
-                "fields": [ 
-                    { 
-                        "name": "Resultado de BK (POS/NEG)", 
-                        "id": "86a29cf1-6fd2-4bae-a239-a282a5edd11b" 
-                    }, 
-                    { 
-                        "name": "Rastreio de TB (Tem sintomas sugestivas para TB)?", 
-                        "id": "c0d9974a-4a1c-4b95-97fc-4c39e658502f" 
-                    }, 
-                    { 
-                        "name": "Data de Inicio", 
-                        "id": "6c0d2b75-b929-4beb-b1a7-5bb714d6f6d5" 
-                    }, 
-                    { 
-                        "name": "Data de Fim", 
-                        "id": "67ef8b0f-5de1-4b70-add8-4510a2accaa9" 
-                    } 
-                ] 
-            }, 
-            { 
-                "id": "2", 
-                "name": "PROFILAXIAS", 
-                "sref": ".profilaxia1", 
-                "nextSref": ".profilaxia2", 
-                "fields": [ 
-                    { 
-                        "name": "Profilaxia com Cotrimoxazol", 
-                        "id": "fcb11548-455e-4cdf-a9c0-3f8ce2860358" 
-                    }, 
+	},
+    {
+        "id": "009",
+        "formId": "e28ac028-1d5f-11e0-b929-000c29ad1d07",
+        "name": "DIAGNOSTICOS - PEDIATRIA",
+        "sufix": "diagnostc_child",
+        "parts": [
+            {
+                "id": "1",
+                "name": "Rastreio de TB",
+                "sref": ".rastreio_tb",
+                "nextSref": ".profilaxia1",
+                "fields": [
+                    {
+                        "name": "Resultado de BK (POS/NEG)",
+                        "id": "86a29cf1-6fd2-4bae-a239-a282a5edd11b"
+                    },
+                    {
+                        "name": "Rastreio de TB (Tem sintomas sugestivas para TB)?",
+                        "id": "c0d9974a-4a1c-4b95-97fc-4c39e658502f"
+                    },
+                    {
+                        "name": "Data de Inicio",
+                        "id": "6c0d2b75-b929-4beb-b1a7-5bb714d6f6d5"
+                    },
+                    {
+                        "name": "Data de Fim",
+                        "id": "67ef8b0f-5de1-4b70-add8-4510a2accaa9"
+                    }
+                ]
+            },
+            {
+                "id": "2",
+                "name": "PROFILAXIAS",
+                "sref": ".profilaxia1",
+                "nextSref": ".profilaxia2",
+                "fields": [
+                    {
+                        "name": "Profilaxia com Cotrimoxazol",
+                        "id": "fcb11548-455e-4cdf-a9c0-3f8ce2860358"
+                    },
 
-                    { 
-                        "name": "Data de Inicio", 
-                        "id": "5911800b-bee2-4c96-b119-01d80faa8761" 
-                    }, 
-                    { 
-                        "name": "Data de Fim", 
-                        "id": "c1dd8b69-1ce6-47f6-9c07-e38ce38f0762" 
-                    } 
-                   
-                ] 
-            }, 
-            { 
-                "id": "3", 
-                "name": "PROFILAXIAS", 
-                "sref": ".profilaxia2", 
-                "nextSref": ".profilaxia3", 
-                "fields": [ 
-                     { 
-                        "name": "Profilaxia com Isoniazida", 
-                        "id": "643d075a-ec08-460c-8737-b8055cd7d53b" 
-                    }, 
+                    {
+                        "name": "Data de Inicio",
+                        "id": "5911800b-bee2-4c96-b119-01d80faa8761"
+                    },
+                    {
+                        "name": "Data de Fim",
+                        "id": "c1dd8b69-1ce6-47f6-9c07-e38ce38f0762"
+                    }
 
-                    { 
-                        "name": "Data de Inicio", 
-                        "id": "8478aa22-8998-4c28-b1fc-f04efae5fae2" 
-                    }, 
-                    { 
-                        "name": "Data de Fim", 
-                        "id": "54d3f623-da08-414b-8841-031f41da7a88" 
-                    } 
-                   
-                ] 
-            }, 
-            { 
-                "id": "4", 
-                "name": "PROFILAXIAS", 
-                "sref": ".profilaxia3", 
-                "nextSref": ".diagnosticos", 
-                "fields": [ 
-                    { 
-                        "name": "Profilaxia Da Meningite Criptocócica", 
-                        "id": "3aafaae2-c619-404c-b9a1-82e621881b1d" 
-                    }, 
+                ]
+            },
+            {
+                "id": "3",
+                "name": "PROFILAXIAS",
+                "sref": ".profilaxia2",
+                "nextSref": ".profilaxia3",
+                "fields": [
+                     {
+                        "name": "Profilaxia com Isoniazida",
+                        "id": "643d075a-ec08-460c-8737-b8055cd7d53b"
+                    },
 
-                    { 
-                        "name": "Data de Inicio", 
-                        "id": "ed354e72-2f96-43a6-ab28-45c21bd34785" 
-                    }, 
-                    { 
-                        "name": "Data de Fim", 
-                        "id": "a69d5cde-e92b-4ba3-8a6a-c123dfd8e100" 
-                    } 
-                   
-                ] 
-            }, 
-            { 
-                "id": "5", 
-                "name": "OBSERVAÇÕES CLINICAS", 
-                "sref": ".diagnosticos", 
-                "nextSref": ".confirm", 
-                "fields": [ 
-                    { 
-                        "name": "Exames na cabeca e pescoco", 
-                        "id": "3be36552-5a5f-4f89-9488-df8e3890e9b9", 
-                        "textSize":"8" 
-                    }, 
-                    { 
-                        "name": "Exames no torax", 
-                        "id": "c803c131-b56a-4876-8511-0bffb1c1162c", 
-                        "textSize":"8" 
-                    }, 
-                    { 
-                        "name": "Exames no Abdomen", 
-                        "id": "39ce7671-574e-4448-90c8-d3e251d4af56", 
-                        "textSize":"8" 
-                    }, 
-                    { 
-                        "name": "Exames nos membros superiores e inferiores", 
-                        "id": "8cfe4be4-f4a4-42aa-ab19-725d330138cf", 
-                        "textSize":"8" 
-                    }, 
-                    { 
-                        "name": "Outros diagnosticos", 
-                        "id": "b65ca6a2-0a62-4499-b32c-e5c1578f4dee" 
-                    }                    
-                ] 
-            } 
-        ] 
-    } 
+                    {
+                        "name": "Data de Inicio",
+                        "id": "8478aa22-8998-4c28-b1fc-f04efae5fae2"
+                    },
+                    {
+                        "name": "Data de Fim",
+                        "id": "54d3f623-da08-414b-8841-031f41da7a88"
+                    }
+
+                ]
+            },
+            {
+                "id": "4",
+                "name": "PROFILAXIAS",
+                "sref": ".profilaxia3",
+                "nextSref": ".diagnosticos",
+                "fields": [
+                    {
+                        "name": "Profilaxia Da Meningite Criptocócica",
+                        "id": "3aafaae2-c619-404c-b9a1-82e621881b1d"
+                    },
+
+                    {
+                        "name": "Data de Inicio",
+                        "id": "ed354e72-2f96-43a6-ab28-45c21bd34785"
+                    },
+                    {
+                        "name": "Data de Fim",
+                        "id": "a69d5cde-e92b-4ba3-8a6a-c123dfd8e100"
+                    }
+
+                ]
+            },
+            {
+                "id": "5",
+                "name": "ANAMNESE",
+                "sref": ".diagnosticos",
+                "nextSref": ".confirm",
+                "fields": [
+                    {
+                        "name": "Exames na cabeca e pescoco",
+                        "id": "3be36552-5a5f-4f89-9488-df8e3890e9b9",
+                        "textSize":"8"
+                    },
+                    {
+                        "name": "Exames no torax",
+                        "id": "c803c131-b56a-4876-8511-0bffb1c1162c",
+                        "textSize":"8"
+                    },
+                    {
+                        "name": "Exames no Abdomen",
+                        "id": "39ce7671-574e-4448-90c8-d3e251d4af56",
+                        "textSize":"8"
+                    },
+                    {
+                        "name": "Exames nos membros superiores e inferiores",
+                        "id": "8cfe4be4-f4a4-42aa-ab19-725d330138cf",
+                        "textSize":"8"
+                    },
+                    {
+                        "name": "Outros diagnosticos",
+                        "id": "b65ca6a2-0a62-4499-b32c-e5c1578f4dee"
+                    }
+                ]
+            }
+        ]
+    }
+
 ]
