@@ -7,20 +7,7 @@ describe('mergeLocaleFilesService', function () {
     var baseFile = {"KEY1" : "This is base key"};
     var customFile = {"KEY1" : "This is custom key"};
 
-    beforeEach(function(){
-        module('bahmni.common.i18n');
-        module(function ($provide){
-            _$http = jasmine.createSpyObj('$http', ['get']);
-            $provide.value('$http', _$http);
-            $provide.value('$q', Q);
-            $provide.value('mergeService', mergeService);
-        });
-
-        mergeService = jasmine.createSpyObj('mergeService', ['merge']);
-        inject(function (_mergeLocaleFilesService_) {
-            mergeLocaleFilesService = _mergeLocaleFilesService_;
-        });
-    });
+    beforeEach();
 
     it('merge when both base, custom configs are there', function(done){
         _$http.get.and.callFake(function(param) {

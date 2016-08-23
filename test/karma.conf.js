@@ -82,7 +82,7 @@ module.exports = function(config) {
       stripPrefix: 'test/fixtures/'
     },
 
-    reporters: ['spec', 'coverage'],
+    reporters: ['spec', 'progress', 'coverage'],
 
     coverageReporter: {
       type: 'lcov',
