@@ -8,8 +8,6 @@ angular.module('clinic')
             $scope.hasSchedules = false;
     
             function init() {
-                var cohortMarckedAndCheckedInByProvider = '2276035c-4b15-49c7-be31-dd11f7ac4246';
-
                 cohortService.getWithParams(Bahmni.Common.Constants.cohortMarkedForConsultationAndCheckedInUuid, {providerUuid: $rootScope.currentProvider.uuid}).success(function (data) {
                         $scope.cohortMembers = data.members;
                         $scope.hasSchedules = true;

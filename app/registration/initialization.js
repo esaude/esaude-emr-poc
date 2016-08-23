@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('registration').factory('initialization',
-    ['$q', '$cookies', '$rootScope', 'configurations', 'authenticator', 'appService', 'spinner', 'userService', 'formLoader',
-    function ($q, $cookies, $rootScope, configurations, authenticator, appService, spinner, userService, formLoader) {
+    ['$cookies', '$rootScope', 'configurations', 'authenticator', 'appService', 'spinner', 'userService', 'formLoader',
+    function ($cookies, $rootScope, configurations, authenticator, appService, spinner, userService, formLoader) {
         var getConfigs = function () {
             var configNames = ['patientAttributesConfig', 'addressLevels', 'genderMap'];
             return configurations.load(configNames).then(function () {
@@ -17,33 +17,21 @@ angular.module('registration').factory('initialization',
         };
         
         var initForms = function () {
-           var deferred = $q.defer();
            formLoader.load(appService.getAppDescriptor().getClinicalServices()).then(function (data) {
                $rootScope.serviceForms = data;
-               deferred.resolve();
            });
-           return deferred.promise;
         };
         
         var initClinicalServices = function () {
-            var deferred = $q.defer();
             $rootScope.clinicalServices = appService.getAppDescriptor().getClinicalServices();
-            deferred.resolve();
-            return deferred.promise;
         };
         
         var initFormLayout = function () {
-            var deferred = $q.defer();
             $rootScope.formLayout = appService.getAppDescriptor().getFormLayout();
-            deferred.resolve();
-            return deferred.promise;
         };
 
         var initApp = function() {
-            var deferred = $q.defer();
             appService.initApp('registration', {'app': true, 'extension' : true, 'service': true });
-            deferred.resolve();
-            return deferred.promise;
         };
         
         var loadUser = function () {       

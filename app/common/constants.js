@@ -171,7 +171,8 @@ Bahmni.Common = Bahmni.Common || {};
         messageTypeRepresentation: messageTypeRepresentation,
         cohortMarkedForConsultationUuid: "eca2b927-4ee3-47e3-9c19-a72805891d8d",
         cohortMarkedForConsultationAndCheckedInUuid: "d00c4b2e-7c13-4d05-9f87-8a9c4b07ad52",
-        nextConsultationDateUuid: "e1dae630-1d5f-11e0-b929-000c29ad1d07"
+        nextConsultationDateUuid: "e1dae630-1d5f-11e0-b929-000c29ad1d07",
+        providerUrl: RESTWS_V1 + "/provider"
 
     };
 })();

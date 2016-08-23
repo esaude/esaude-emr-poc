@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('clinic').factory('initialization',
-    ['$q', '$cookies', '$rootScope', 'configurations', 'authenticator', 'appService', 'spinner', 'userService', 'formLoader',
-    function ($q, $cookies, $rootScope, configurations, authenticator, appService, spinner, userService, formLoader) {
+    ['$q', '$cookies', '$rootScope', 'configurations', 'authenticator', 'appService', 'spinner', 'userService', 'formLoader', 'sessionService',
+    function ($q, $cookies, $rootScope, configurations, authenticator, appService, spinner, userService, formLoader, sessionService) {
         var getConfigs = function () {
             var configNames = ['patientAttributesConfig', 'addressLevels'];
             return configurations.load(configNames).then(function () {
@@ -16,33 +16,21 @@ angular.module('clinic').factory('initialization',
         };
         
         var initForms = function () {
-           var deferred = $q.defer();
            formLoader.load(appService.getAppDescriptor().getClinicalServices()).then(function (data) {
                $rootScope.serviceForms = data;
-               deferred.resolve();
            });
-           return deferred.promise;
         };
         
         var initClinicalServices = function () {
-            var deferred = $q.defer();
             $rootScope.clinicalServices = appService.getAppDescriptor().getClinicalServices();
-            deferred.resolve();
-            return deferred.promise;
         };
         
         var initFormLayout = function () {
-            var deferred = $q.defer();
             $rootScope.formLayout = appService.getAppDescriptor().getFormLayout();
-            deferred.resolve();
-            return deferred.promise;
         };
 
         var initApp = function() {
-            var deferred = $q.defer();
-            appService.initApp('clinical', {'app': true, 'extension' : true, 'service': true });
-            deferred.resolve();
-            return deferred.promise;
+            return appService.initApp('clinical', {'app': true, 'extension' : true, 'service': true });
         };
         
         var loadUser = function () {       
@@ -52,6 +40,13 @@ angular.module('clinic').factory('initialization',
                 $rootScope.currentUser = data.results[0];
             });
         };
+        
+        var loadProvider = function () {
+            return sessionService.loadProviders($rootScope.currentUser).success(function (data) {
+                var providerUuid = (data.results.length > 0) ? data.results[0].uuid : undefined;
+                $rootScope.currentProvider = {uuid: providerUuid};
+            });
+        }
 
         return spinner.forPromise(authenticator.authenticateUser()
                 .then(initApp)
@@ -59,6 +54,7 @@ angular.module('clinic').factory('initialization',
                 .then(loadUser)
                 .then(initFormLayout)
                 .then(initForms)
-                .then(initClinicalServices));
+                .then(initClinicalServices)
+                .then(loadProvider));
     }]
 );
