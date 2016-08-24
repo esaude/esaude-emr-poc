@@ -31,13 +31,13 @@ angular.module('registration').factory('initialization',
         };
 
         var initApp = function() {
-            return appService.initApp('registration', {'app': true, 'extension' : true, 'service': true });
+            appService.initApp('registration', {'app': true, 'extension' : true, 'service': true });
         };
         
         var loadUser = function () {       
             var currentUser = $cookies.get(Bahmni.Common.Constants.currentUser);
             
-            userService.getUser(currentUser).success(function(data) {
+            return userService.getUser(currentUser).success(function(data) {
                 $rootScope.currentUser = data.results[0];
             });
         };
