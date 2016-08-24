@@ -10,6 +10,10 @@ else
   POC_VERSION="$TRAVIS_TAG"
 fi
 
+# Notify to slack
+SLACK_MESSAGE="New eSaude POC version ($POC_VERSION) published <https://bintray.com/esaude/poc/distributable|here>"
+curl -X POST --data-urlencode 'payload={"username": "eSaude Bintray", "text": "'"$SLACK_MESSAGE"'", "icon_url": "https://bintray.com/assets/favicon.png"}' $SLACK_WEBHOOK_URL
+
 body='{
   "request": {
     "branch":"master",
