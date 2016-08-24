@@ -62,7 +62,6 @@
   "engines": {
     "node": ">=0.10.0"
   },
-  "dependencies": {},
   "scripts": {
     "test": "grunt test",
     "create-version": "npm --no-git-tag-version version",
@@ -82,5 +81,8 @@
   "bugs": {
     "url": "https://github.com/esaude/esaude-emr-poc/issues"
   },
-  "homepage": "https://github.com/esaude/esaude-emr-poc#readme"
+  "homepage": "https://github.com/esaude/esaude-emr-poc#readme",
+  "dependencies": {
+    "angular-chart.js": "^1.0.2"
+  }
 }
