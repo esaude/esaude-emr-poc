@@ -34,10 +34,10 @@ angular.module('vitals').factory('initialization',
             return appService.initApp('vitals', {'app': true, 'extension' : true, 'service': true });
         };
         
-        var loadUser = function () {       
+        var loadUser = function () {
             var currentUser = $cookies.get(Bahmni.Common.Constants.currentUser);
             
-            userService.getUser(currentUser).success(function(data) {
+            return userService.getUser(currentUser).success(function(data) {
                 $rootScope.currentUser = data.results[0];
             });
         };

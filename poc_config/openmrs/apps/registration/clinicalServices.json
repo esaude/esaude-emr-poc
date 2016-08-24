@@ -46,17 +46,5 @@
             "maxAge": "14"
         },
         "markedOn": "283e551d-a470-4280-84fd-8f409f3caf7a"
-    },
-    {
-        "id": "005",
-        "formId": "4472a624-6165-48bb-aaa9-18c9b7d48512",
-        "label": "ATS/UATS",
-        "url": "/ats/services",
-        "minOccur": "0",
-        "maxOccur": "-1",
-        "constraints": {
-            "minAge": "15",
-            "requireChekin": true
-        }
     }
 ]

@@ -86,10 +86,7 @@ angular.module('bahmni.common.appFramework')
             });
             
             var loadCredentialsPromise = sessionService.loadCredentials();
-            var loadProviderPromise = loadCredentialsPromise.then(sessionService.loadProviders);
-
             promises.push(loadCredentialsPromise);
-            promises.push(loadProviderPromise);
 
             if (opts.service) {
                 promises.push(loadFormLayout(appDescriptor));

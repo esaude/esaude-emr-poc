@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('clinic').factory('initialization',
-    ['$cookies', '$rootScope', 'configurations', 'authenticator', 'appService', 'spinner', 'userService', 'formLoader',
-    function ($cookies, $rootScope, configurations, authenticator, appService, spinner, userService, formLoader) {
+    ['$q', '$cookies', '$rootScope', 'configurations', 'authenticator', 'appService', 'spinner', 'userService', 'formLoader', 'sessionService',
+    function ($q, $cookies, $rootScope, configurations, authenticator, appService, spinner, userService, formLoader, sessionService) {
         var getConfigs = function () {
             var configNames = ['patientAttributesConfig', 'addressLevels'];
             return configurations.load(configNames).then(function () {
@@ -36,10 +36,17 @@ angular.module('clinic').factory('initialization',
         var loadUser = function () {       
             var currentUser = $cookies.get(Bahmni.Common.Constants.currentUser);
             
-            userService.getUser(currentUser).success(function(data) {
+            return userService.getUser(currentUser).success(function(data) {
                 $rootScope.currentUser = data.results[0];
             });
         };
+        
+        var loadProvider = function () {
+            return sessionService.loadProviders($rootScope.currentUser).success(function (data) {
+                var providerUuid = (data.results.length > 0) ? data.results[0].uuid : undefined;
+                $rootScope.currentProvider = {uuid: providerUuid};
+            });
+        }
 
         return spinner.forPromise(authenticator.authenticateUser()
                 .then(initApp)
@@ -47,6 +54,7 @@ angular.module('clinic').factory('initialization',
                 .then(loadUser)
                 .then(initFormLayout)
                 .then(initForms)
-                .then(initClinicalServices));
+                .then(initClinicalServices)
+                .then(loadProvider));
     }]
 );
