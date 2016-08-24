@@ -11,5 +11,5 @@ then
   echo "Not deploying to test because this is not a tag.";
 else
   echo "Deploying to test because this is a tag."
-  sshpass -p$TRAVIS_TEST_USER_PASSWORD ssh -o StrictHostKeyChecking=no travis@test-ssh.esaude.org 'curl -sL https://raw.githubusercontent.com/esaude/esaude-poc-docker/master/scripts/dev-server-deploy.sh | bash';
+  sshpass -p$TRAVIS_TEST_USER_PASSWORD ssh -o StrictHostKeyChecking=no travis@test-ssh.esaude.org 'curl -sL https://raw.githubusercontent.com/esaude/esaude-poc-docker/master/scripts/dev-server-deploy.sh | POC_VERSION='"$TRAVIS_TAG"' bash';
 fi
