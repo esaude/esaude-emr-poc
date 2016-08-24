@@ -123,5 +123,10 @@
     "CLINICAL_OBSERVATIONS_WRRONG": "Erro",
     "CLINICAL_OBSERVATIONS_SUCCESS": "Sucesso",
     "CLINIC_PATIENT_CURRENT_STATUS" : "Estado clínico atual",
-    "HISTORICAL_DRUG_START_DATE_TARV" : "Inicio de tratamento TARV"
+
+    "HISTORICAL_DRUG_START_DATE_TARV": "Data de Inicio do TARV",
+    "CLINIC_LAB_RESULTS": "Resultados do Laboratório",
+    "CLINIC_PATIENT_HGB_COUNT": "HGB Absoluto",
+    "CLINIC_PATIENT_HIV_VIRAL_LOAD":"HIV CARGA VIRAL",
+    "CLINIC_PATIENT_SERUM_ALBUMIN": "Albumina"
 }
