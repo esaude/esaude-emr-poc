@@ -14,32 +14,7 @@ describe('programService', function () {
     var mockAppService = jasmine.createSpyObj('appDescriptor', ['getAppDescriptor']);
     mockAppService.getAppDescriptor.and.returnValue(mockAppDescriptor);
 
-    beforeEach(function () {
-        appService.getAppDescriptor.and.returnValue({
-            getConfig: function () {
-                return {
-                    program: ""
-                }
-            },
-            getConfigValue: function () {
-                return {
-                    mandatoryProgramAttributes: ""
-                }
-            }
-        });
-
-        module('bahmni.common.domain');
-        module('bahmni.common.uicontrols.programmanagment');
-        module(function ($provide) {
-            $provide.value('appService', appService);
-        });
-
-        inject(function (_$rootScope_, _programService_, $httpBackend) {
-            rootScope = _$rootScope_;
-            programService = _programService_;
-            mockBackend = $httpBackend
-        });
-    });
+    beforeEach();
 
     it('should fetch all programs from backend and filter programs containing retired workflows and outcomes', function () {
         var allPrograms = [
@@ -248,7 +223,7 @@ describe('programService', function () {
                 ]
             }
         };
-        
+
         mockBackend.whenGET('/openmrs/ws/rest/v1/programenrollment?patient=somePatientUuid&v=full').respond(data.data);
 
         programService.getPatientPrograms(patientUuid).then(function (response) {

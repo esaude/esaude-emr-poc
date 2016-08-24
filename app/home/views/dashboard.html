@@ -14,22 +14,23 @@
         <h3 class="panel-title">{{'USER_DASHBOARD_ACTIVITIES' | translate}}</h3>
     </div>
     <div class="panel-body">
-        <div class="panel panel-default inline-align col-md-6">
+        <div class="panel panel-default inline-align col-md-6" ng-init="">
                 <div class="panel-heading">
                     <h3 class="panel-title">{{'USER_DASHBOARD_LAST_ACTIVITIES' | translate}}</h3>
                 </div>
             <div class="panel-body">
-                <canvas id="bar" class="chart chart-bar" data="barData"
-                        labels="barLabels" series="barSeries" legend="true"></canvas>
+                <canvas id="bar" class="chart chart-bar" chart-data="barData"
+                        chart-labels="barLabels" chart-series="barSeries" legend="true"></canvas>
+
             </div>
             </div>
-            <div class="panel panel-default inline-align col-md-6">
+            <div class="panel panel-default inline-align col-md-6" ng-init="">
                 <div class="panel-heading">
                     <h3 class="panel-title">{{'USER_DASHBOARD_FREQUENT_ACTIONS' | translate}}</h3>
                 </div>
                 <div class="panel-body">
-                    <canvas id="pie" class="chart chart-pie" data="pieData"
-                            labels="pieLabels"  series="pieSeries" legend="true"></canvas>
+                    <canvas id="pie" class="chart chart-pie" chart-data="pieData"
+                            chart-labels="pieLabels"  chart-series="pieSeries" legend="true"></canvas>
                 </div>
             </div>
     </div>
