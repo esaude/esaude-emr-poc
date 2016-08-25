@@ -219,13 +219,21 @@
                 "fields": [
                     {
                         "name": "Temperatura",
-                        "id": "e292af4a-1d5f-11e0-b929-000c29ad1d07"
+                        "id": "e292af4a-1d5f-11e0-b929-000c29ad1d07",
+                        "constraints": {
+                            "min": "25",
+                            "max": "43"
+                        }
                     },
                     {
                         "name": "Peso",
                         "id": "e292b454-1d5f-11e0-b929-000c29ad1d07",
                         "logics": {
                             "calculateOnChange": "e1e2e826-1d5f-11e0-b929-000c29ad1d07,/,(,e1e2e934-1d5f-11e0-b929-000c29ad1d07,*,2,)"
+                        },
+                        "constraints": {
+                            "min": "0",
+                            "max": "250"
                         }
                     },
                     {
@@ -233,24 +241,40 @@
                         "id": "e292b558-1d5f-11e0-b929-000c29ad1d07",
                         "logics": {
                             "defaultValueIsLastEntry": "e1e2e934-1d5f-11e0-b929-000c29ad1d07"
+                        },
+                        "constraints": {
+                            "min": "10",
+                            "max": "228"
                         }
                     },
                     {
                         "name": "Pressão Arterial Sistolica",
-                        "id": "e292b648-1d5f-11e0-b929-000c29ad1d07"
+                        "id": "e292b648-1d5f-11e0-b929-000c29ad1d07",
+                        "constraints": {
+                            "min": "0",
+                            "max": "250"
+                        }
                     },
                     {
                         "name": "Pressão Arterial Diastolica",
-                        "id": "e293ed7e-1d5f-11e0-b929-000c29ad1d07"
+                        "id": "e293ed7e-1d5f-11e0-b929-000c29ad1d07",
+                        "constraints": {
+                            "min": "0",
+                            "max": "150"
+                        }
                     },
                     {
                         "name": "Frequencia Cardiaca",
-                        "id": "a32767e4-3b41-411e-ad5d-a989cedaab40"
+                        "id": "a32767e4-3b41-411e-ad5d-a989cedaab40",
+                        "constraints": {
+                            "min": "0",
+                            "max": "230"
+                        }
                     },
                     {
                         "name": "Frequencia Respiratoria",
                         "id": "da5764e3-8a5d-4e14-8712-79adfe52a0b6"
-					}
+                    }
                 ]
             }
         ]
@@ -269,27 +293,43 @@
                 "fields": [
                     {
                         "name": "Temperatura",
-                        "id": "e2938e56-1d5f-11e0-b929-000c29ad1d07"
+                        "id": "e2938e56-1d5f-11e0-b929-000c29ad1d07",
+                        "constraints": {
+                            "min": "25",
+                            "max": "43"
+                        }
                     },
                     {
                         "name": "Peso",
-                        "id": "e2939130-1d5f-11e0-b929-000c29ad1d07"
+                        "id": "e2939130-1d5f-11e0-b929-000c29ad1d07",
+                        "constraints": {
+                            "min": "0",
+                            "max": "250"
+                        }
                     },
                     {
                         "name": "Estatura",
                         "id": "e2939036-1d5f-11e0-b929-000c29ad1d07",
                         "logics ": {
                             "defaultValueIsLastEntry": "e1e2e934-1d5f-11e0-b929-000c29ad1d07"
+                        },
+                        "constraints": {
+                            "min": "10",
+                            "max": "228"
                         }
                     },
                     {
                         "name": "Frequencia Cardiaca",
-                        "id": "1abdb9ec-acad-4a7c-820f-5de3642a02aa"
+                        "id": "1abdb9ec-acad-4a7c-820f-5de3642a02aa",
+                        "constraints": {
+                            "min": "0",
+                            "max": "230"
+                        }
                     },
                     {
                         "name": "Frequencia Respiratoria",
                         "id": "69ae6e37-586a-482c-bbff-02a7bfaacb5e"
-					}
+		    }
                 ]
             }
         ]
