@@ -80,6 +80,7 @@ angular.module('clinic')
 
         });
 
+        $scope["colors"] = ['#F44336','#283593', '#43A047','#FB8C00','#46BFBD','#FDB45C'] ;
         $scope["options"] =
         {
           legend: {display: true},
