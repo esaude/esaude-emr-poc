@@ -5,7 +5,7 @@ describe('localeService', function () {
     var localeService;
     var _$http;
     var localesList = "en, es, fr";
-    var defaultLocale = "en";
+    var defaultLocale = "pt";
 
     beforeEach(function(){
         module('bahmni.common.domain');

@@ -51,6 +51,19 @@ module.exports = function(config) {
       'bower_components/angular-translate-storage-local/angular-translate-storage-local.js',
       'bower_components/angular-translate-handler-log/angular-translate-handler-log.min.js',
       'bower_components/angular-mocks/angular-mocks.js',
+
+      'bower_components/angular-smart-table/dist/smart-table.min.js',
+     'bower_components/angular-datepicker/dist/angular-datepicker.min.js',
+    'bower_components/bootstrap-switch/dist/js/bootstrap-switch.min.js',
+    'bower_components/angular-bootstrap-switch/dist/angular-bootstrap-switch.min.js',
+    'bower_components/ng-clip/dest/ng-clip.min.js',
+    'bower_components/zeroclipboard/dist/ZeroClipboard.min.js',
+    'bower_components/angular-bootstrap-checkbox/angular-bootstrap-checkbox.js',
+    'bower_components/angular-messages/angular-messages.min.js',
+     'bower_components/d3/d3.min.js',
+    'bower_components/nvd3/build/nv.d3.min.js',
+    'bower_components/angularjs-nvd3-directives/dist/angularjs-nvd3-directives.min.js',
+
       // endbower
       // bundled libraries
       'lib/modernizr.custom.80690.js',
@@ -59,14 +72,14 @@ module.exports = function(config) {
       // fixtures
       'test/fixtures/**/*.json',
       //test utils
-      'test/support/**/*.js',
+      'test/spec/support/**/*.js',
       // test files
       'test/spec/**/*.js'
     ],
 
     angularFilesort: {
       whitelist: [
-        'app/**/*.js',
+        'app/**/*.js'
       ]
     },
 
@@ -122,7 +135,7 @@ module.exports = function(config) {
 
     // level of logging
     // possible values: LOG_DISABLE || LOG_ERROR || LOG_WARN || LOG_INFO || LOG_DEBUG
-    logLevel: config.LOG_INFO,
+    logLevel: config.LOG_INFO
 
     // Uncomment the following lines if you are using grunt's server to run the tests
     // proxies: {

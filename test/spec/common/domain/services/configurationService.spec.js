@@ -25,18 +25,18 @@ describe('configurationService', function () {
     }));
 
     it('should fetch encounterConfig from backend', function () {
-        configurationservice.getConfigurations(['encounterConfig'])
+        configurationservice.getConfigurations(['encounterConfig']);
         expect(_$http.get.calls.mostRecent().args[0]).toEqual(Bahmni.Common.Constants.encounterConfigurationUrl);
         expect(_$http.get.calls.mostRecent().args[1].params.callerContext).toEqual("REGISTRATION_CONCEPTS");
     });
 
     it('should fetch patientConfig from backend', function () {
-        configurationservice.getConfigurations(['patientConfig'])
+        configurationservice.getConfigurations(['patientConfig']);
         expect(_$http.get.calls.mostRecent().args[0]).toEqual(Bahmni.Common.Constants.patientConfigurationUrl);
     });
 
     it('should fetch patientAttributesConfig from backend', function () {
-        configurationservice.getConfigurations(['patientAttributesConfig'])
+        configurationservice.getConfigurations(['patientAttributesConfig']);
         expect(_$http.get.calls.mostRecent().args[0]).toEqual(Bahmni.Common.Constants.personAttributeTypeUrl);
         expect(_$http.get.calls.mostRecent().args[1].params.v).toEqual("full");
     });
@@ -111,4 +111,6 @@ describe('configurationService', function () {
         expect(_$http.get.calls.mostRecent().args[0]).toEqual(Bahmni.Common.Constants.globalPropertyUrl);
         expect(_$http.get.calls.mostRecent().args[1].params.property).toEqual("mrs.genders");
     });
+
+
 });
