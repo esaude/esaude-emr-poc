@@ -5,19 +5,9 @@
         <h3 class="panel-title">{{'CLINIC_LAB_RESULTS' | translate}}</h3>
       </div>
       <canvas id="line" class="chart chart-line" chart-data="labResultsdata" chart-labels="labResultslabels"
-              chart-series="labResultsseries" chart-options="options" legend="true">
+              chart-series="labResultsseries" chart-options="options" chart-colors="colors" legend="true">
       </canvas>
     </div>
-  </div>
-
-  <div class="col-sm-6">
-    <div class="panel panel-primary panel-marginless-sides" ng-init="initImc()">
-      <div class="panel-heading">
-        <h3 class="panel-title">{{'CLINIC_PATIENT_CHARTS_BMI' | translate}}</h3>
-      </div>
-      <canvas id="bar" class="chart chart-bar" chart-data="bmidata"
-              chart-labels="bmilabels" legend="true" chart-options="options" chart-series="bmiseries">
-      </canvas>
-    </div>
-  </div>
+  </di>
 </div>
+  </div>

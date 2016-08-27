@@ -23,7 +23,6 @@
     "angular-route": "~1.4.3",
     "angular-ui-router": "~0.2.15",
     "angular-smart-table": "~2.1.1",
-    "angular-chart.js": "~0.7.2",
     "angular-cookies": "~1.4.3",
     "lodash": "4.6.1",
     "jquery-cookie": "~1.4.1",
@@ -47,7 +46,8 @@
     "angular-translate-storage-local": "*",
     "angular-translate-handler-log": "*",
     "moment-timezone": "^0.5.4",
-    "validator-js": "^5.4.0"
+    "validator-js": "^5.4.0",
+    "angular-chart.js": "1.0.0-alpha1"
   },
   "resolutions": {
     "angular": "~1.5.0",

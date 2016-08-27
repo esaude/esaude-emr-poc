@@ -31,7 +31,9 @@
                 <input name="{{fieldId}}" type="number" class="form-control keyboard-in" 
                        placeholder="{{fieldModel.field.name}}"
                        ng-model="fieldModel.value"
-                       ng-required="{{fieldModel.field.required}}">
+                       ng-required="{{fieldModel.field.required}}"
+                       ng-min="{{(field.constraints) ? field.constraints.min : ''}}"
+                       ng-max="{{(field.constraints) ? field.constraints.max : ''}}">
             </div>
             
             <div ng-switch-when="Datetime" class="input-group date">
