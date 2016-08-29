@@ -265,15 +265,15 @@
                     },
                     {
                         "name": "Frequencia Cardiaca",
-                        "id": "a32767e4-3b41-411e-ad5d-a989cedaab40",
+                        "id": "83cec426-ddce-4c01-a366-9a60bbcc371b",
                         "constraints": {
                             "min": "0",
                             "max": "230"
-                        }
+                    }
                     },
                     {
                         "name": "Frequencia Respiratoria",
-                        "id": "da5764e3-8a5d-4e14-8712-79adfe52a0b6"
+                        "id": "5d0d0957-bf98-4508-9499-3047b67a9c3a"
                     }
                 ]
             }
