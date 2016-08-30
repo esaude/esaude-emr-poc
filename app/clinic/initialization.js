@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('clinic').factory('initialization',
-    ['$q', '$cookies', '$rootScope', 'configurations', 'authenticator', 'appService', 'spinner', 'userService', 'formLoader', 'sessionService',
-    function ($q, $cookies, $rootScope, configurations, authenticator, appService, spinner, userService, formLoader, sessionService) {
+    ['$cookies', '$rootScope', 'configurations', 'authenticator', 'appService', 'spinner', 'userService', 'formLoader', 'sessionService',
+    function ($cookies, $rootScope, configurations, authenticator, appService, spinner, userService, formLoader, sessionService) {
         var getConfigs = function () {
             var configNames = ['patientAttributesConfig', 'addressLevels'];
             return configurations.load(configNames).then(function () {

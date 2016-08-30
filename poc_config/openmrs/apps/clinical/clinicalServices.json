@@ -40,7 +40,7 @@
 
         "id": "007",
         "formId": "65896366-17b2-4c3e-9cce-440edcfe7b4e",
-        "label": "RELATO DE OBSERVAÇÃO",
+        "label": "ANAMNESE - HISTÓRIA ACTUAL",
         "url": "/story",
         "minOccur": "0",
         "maxOccur": "-1",
