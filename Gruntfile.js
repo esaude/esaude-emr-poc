@@ -103,6 +103,11 @@ module.exports = function (grunt) {
 //        files: ['bower.json'],
 //        tasks: ['wiredep']
 //      },
+        all: {
+          options: { livereload: true },
+          files: ['lib/*.js'],
+          tasks: ['jshint']
+        },
       js: {
         files: ['<%= yeoman.app %>/scripts/{,*/}*.js'],
         tasks: ['lint'],
@@ -335,7 +340,7 @@ module.exports = function (grunt) {
           '<%= yeoman.dist %>/styles'
         ],
         patterns: {
-          js: [[/(images\/[^''""]*\.(png|jpg|jpeg|gif|webp|svg))/g, 'Replacing references to images']]
+          js: [[/(images\/[^'']*\.(png|jpg|jpeg|gif|webp|svg))/g, 'Replacing references to images']]
         }
       }
     },
