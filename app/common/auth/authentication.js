@@ -145,7 +145,7 @@ angular.module('authentication')
                     scope.$apply(function() {
                         sessionService.destroy().then(
                             function () {
-                                $window.location = "../home/#/login";
+                                $window.location = "../home/index.html#/login";
                             }
                         );
                     });

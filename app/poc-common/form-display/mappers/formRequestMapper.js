@@ -37,7 +37,7 @@ Poc.Common.FormRequestMapper = (function () {
                 if(eachField.fieldConcept.concept.uuid === obs.concept.uuid) {
                     //multiple select filter
                     if (eachField.fieldConcept.selectMultiple) {
-                        eachField.value = {};
+                        if (typeof eachField.value === "undefined") eachField.value = {};
                         
                         eachField.value[obs.value.uuid] = (_.isEmpty(eachField.fieldConcept.concept.answers)) ? 
                                 obs.value : 

@@ -59,7 +59,7 @@ Poc.Common.CreateEncounterRequestMapper = (function () {
                     //set the member if removed
                     if (!_.isEmpty(removedMemberField)) {
                         var memberField = fields[removedMemberField[0]];
-                        if (memberField.value !== 'undefined' && memberField.value !== null) {
+                        if (typeof memberField.value !== 'undefined' && memberField.value !== null) {
                             //to accomodate multiple select
                             if (memberField.fieldConcept.selectMultiple) {
                                 _.forEach(memberField.fieldConcept.concept.answers, function (answer) {
@@ -110,7 +110,7 @@ Poc.Common.CreateEncounterRequestMapper = (function () {
         var obs = [];
         _.forEach(flattenFields, function (field) {
             var formField = fields[field];
-            if (formField.value !== 'undefined' && formField.value != null) {
+            if (typeof formField.value !== 'undefined' && formField.value != null) {
                 //to accomodate multiple select
                 if (formField.fieldConcept.selectMultiple) {
                     _.forEach(formField.fieldConcept.concept.answers, function (answer) {
