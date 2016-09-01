@@ -69,6 +69,7 @@ module.exports = function(config) {
       'lib/modernizr.custom.80690.js',
       // application files
       'app/**/*.js',
+      'app/common/**/*.js',
       // fixtures
       'test/fixtures/**/*.json',
       //test utils
