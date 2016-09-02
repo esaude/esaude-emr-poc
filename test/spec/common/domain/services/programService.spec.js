@@ -248,7 +248,7 @@ describe('programService', function () {
                 ]
             }
         };
-        
+
         mockBackend.whenGET('/openmrs/ws/rest/v1/programenrollment?patient=somePatientUuid&v=full').respond(data.data);
 
         programService.getPatientPrograms(patientUuid).then(function (response) {
@@ -277,7 +277,7 @@ describe('programService', function () {
             required: false
         }];
 
-        mockBackend.whenPOST('/openmrs/ws/rest/v1/programenrollment').respond(function (method, url, data, headers) {
+        mockBackend.whenPOST('/openmrs/ws/rest/v1/programenrollment').respond(function (method, url, data) {
             expect(method).toEqual('POST');
             data = JSON.parse(data);
             expect(url).toEqual(Bahmni.Common.Constants.programEnrollPatientUrl);
@@ -317,7 +317,7 @@ describe('programService', function () {
         var patientProgramUuid = "somePatientProgramUuid";
         var content = "SampleContent";
 
-        mockBackend.whenPOST('/openmrs/ws/rest/v1/programenrollment/somePatientProgramUuid').respond(function (method, url, data, headers) {
+        mockBackend.whenPOST('/openmrs/ws/rest/v1/programenrollment/somePatientProgramUuid').respond(function (method, url, data) {
             expect(url).toEqual(Bahmni.Common.Constants.programEnrollPatientUrl + "/" + patientProgramUuid);
             expect(JSON.parse(data).states[0].state.uuid).toEqual(content);
             return [200, {}, {}];
@@ -326,4 +326,6 @@ describe('programService', function () {
         mockBackend.flush();
 
     });
+
+
 });
