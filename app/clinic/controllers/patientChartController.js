@@ -24,7 +24,7 @@ angular.module('clinic')
         var adultFollowupEncounterUuid = "e278f956-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
         var childFollowupEncounterUuid = "e278fce4-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
 
-        //TODO: Fix, show diffenrent graphs for adult and child
+        //TODO: Fix, show different graphs for adult and child
 
         encounterService.getEncountersForEncounterType(patientUuid,
           ($scope.patient.age.years >= 15) ? adultFollowupEncounterUuid : childFollowupEncounterUuid)
@@ -80,6 +80,7 @@ angular.module('clinic')
 
         });
 
+        $scope["colors"] = ['#F44336','#283593', '#43A047','#FB8C00','#46BFBD','#FDB45C'] ;
         $scope["options"] =
         {
           legend: {display: true},

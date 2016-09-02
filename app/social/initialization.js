@@ -1,17 +1,17 @@
 'use strict';
 
-angular.module('registration').factory('initialization',
+angular.module('social').factory('initialization',
     ['$cookies', '$rootScope', 'configurations', 'authenticator', 'appService', 'spinner', 'userService', 'formLoader',
     function ($cookies, $rootScope, configurations, authenticator, appService, spinner, userService, formLoader) {
         var getConfigs = function () {
-            var configNames = ['patientAttributesConfig', 'addressLevels', 'genderMap'];
+            var configNames = ['patientAttributesConfig', 'addressLevels'];
             return configurations.load(configNames).then(function () {
                 var mandatoryPersonAttributes = appService.getAppDescriptor().getConfigValue("mandatoryPersonAttributes");
                 var patientAttributeTypes = new Poc.Patient.PatientAttributeTypeMapper().mapFromOpenmrsPatientAttributeTypes(configurations.patientAttributesConfig(), mandatoryPersonAttributes);
                 $rootScope.patientConfiguration = new Poc.Patient.PatientConfig(patientAttributeTypes.personAttributeTypes, configurations.identifierSourceConfig(), appService.getAppDescriptor().getConfigValue("additionalPatientInformation"));
                 $rootScope.encounterTypes = appService.getAppDescriptor().getConfigValue("encounterTypes");
-                $rootScope.defaultVisitTypes = appService.getAppDescriptor().getConfigValue("defaultVisitTypes");
                 $rootScope.landingPageAfterSearch = appService.getAppDescriptor().getConfigValue("landingPageAfterSearch");
+                $rootScope.defaultVisitTypes = appService.getAppDescriptor().getConfigValue("defaultVisitTypes");
                 $rootScope.addressLevels = configurations.addressLevels();
             });
         };
@@ -31,10 +31,10 @@ angular.module('registration').factory('initialization',
         };
 
         var initApp = function() {
-            appService.initApp('registration', {'app': true, 'extension' : true, 'service': true });
+            return appService.initApp('social', {'app': true, 'extension' : true, 'service': true });
         };
         
-        var loadUser = function () {       
+        var loadUser = function () {
             var currentUser = $cookies.get(Bahmni.Common.Constants.currentUser);
             
             return userService.getUser(currentUser).success(function(data) {

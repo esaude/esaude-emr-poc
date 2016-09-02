@@ -31,7 +31,7 @@ describe('Controller: DashboardController', function() {
 
     // mock applicationService.getApps
     spyOn(applicationService, 'getApps').and.returnValue(q.when(appJsonFixture));
-    
+
     // mock locationService.get
     spyOn(locationService, 'get').and.callFake(function() {
       return {
@@ -53,13 +53,13 @@ describe('Controller: DashboardController', function() {
       .respond({
         data: window.__fixtures__['local_en']
       });
-    
+
     // mock backend & ensure it gets called
     $httpBackend.expectGET("/openmrs/ws/rest/v1/systemsetting?q=default_location&v=full")
       .respond({
         data: 'CS Chitima'
       });
-      
+
     scope.$apply();
 
     expect(applicationService.getApps).toHaveBeenCalled();

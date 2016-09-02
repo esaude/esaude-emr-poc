@@ -24,6 +24,7 @@
     "HEADER_LABEL_LOGOUT_KEY": "Logout",
     "HEADER_LABEL_SYNC_KEY": "Sync",
     "APP_REGISTRATION": "Registration",
+    "APP_SOCIAL": "Social",
     "APP_CLINIC": "Clinic",
     "APP_PHARMACY": "Pharmacy",
     "APP_LAB": "Laboratory",

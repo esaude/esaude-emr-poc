@@ -33,7 +33,7 @@ module.exports = function (grunt) {
   };
 
   var generateReplacement = function () {
-      var modules = ['home', 'registration', 'clinic', 'vitals'];
+      var modules = ['home', 'registration', 'social', 'clinic', 'vitals'];
       var replacements = [];
 
       for (var i in modules) {
@@ -103,6 +103,11 @@ module.exports = function (grunt) {
 //        files: ['bower.json'],
 //        tasks: ['wiredep']
 //      },
+        all: {
+          options: { livereload: true },
+          files: ['lib/*.js'],
+          tasks: ['jshint']
+        },
       js: {
         files: ['<%= yeoman.app %>/scripts/{,*/}*.js'],
         tasks: ['lint'],
@@ -302,6 +307,7 @@ module.exports = function (grunt) {
     useminPrepare: {
       html: ['<%= yeoman.app %>/home/index.html',
              '<%= yeoman.app %>/registration/index.html',
+             '<%= yeoman.app %>/social/index.html',
              '<%= yeoman.app %>/vitals/index.html',
              '<%= yeoman.app %>/clinic/index.html'],
       css: '<%= yeoman.app %>/styles/**/*.css',
@@ -323,6 +329,7 @@ module.exports = function (grunt) {
     usemin: {
       html: ['<%= yeoman.dist %>/home/index.html',
              '<%= yeoman.dist %>/registration/index.html',
+             '<%= yeoman.dist %>/social/index.html',
              '<%= yeoman.dist %>/vitals/index.html',
              '<%= yeoman.dist %>/clinic/index.html'],
       css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
@@ -333,7 +340,7 @@ module.exports = function (grunt) {
           '<%= yeoman.dist %>/styles'
         ],
         patterns: {
-          js: [[/(images\/[^''""]*\.(png|jpg|jpeg|gif|webp|svg))/g, 'Replacing references to images']]
+          js: [[/(images\/[^'']*\.(png|jpg|jpeg|gif|webp|svg))/g, 'Replacing references to images']]
         }
       }
     },
@@ -388,6 +395,7 @@ module.exports = function (grunt) {
                         'service-form/**/*.html',
                         'home/**/*.html',
                         'registration/**/*.html',
+                        'social/**/*.html',
                         'vitals/**/*.html',
                         'clinic/**/*.html'
                     ],

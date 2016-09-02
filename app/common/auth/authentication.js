@@ -21,11 +21,11 @@ angular.module('authentication')
         }];
         $httpProvider.interceptors.push(interceptor);
     }).run(['$rootScope', '$window', '$timeout', 'sessionService', function ($rootScope, $window, $timeout, sessionService) {
-        $rootScope.$on('event:auth-loginRequired', function (event, data) {
+        $rootScope.$on('event:auth-loginRequired', function () {
             $timeout(function(){
             	sessionService.destroy().then(
                     function () {
-                        $window.location = "../home/#/login?showLoginMessage=" + data;
+                        $window.location = "../home/index.html#/login";
                     }
                 );
             });
@@ -107,15 +107,12 @@ angular.module('authentication')
         };
 
         this.loadProviders = function(userInfo) {
-            return $http.get("/openmrs/ws/rest/v1/provider", {
+            return $http.get(Bahmni.Common.Constants.providerUrl, {
                  method: "GET",
                  params: {
                      user: userInfo.uuid
                  },
                  cache: false
-             }).success(function (data) {
-                var providerUuid = (data.results.length > 0) ? data.results[0].uuid : undefined;
-                $rootScope.currentProvider = { uuid: providerUuid };
              });
         };
     }]).factory('authenticator', ['$rootScope', '$q', 'sessionService', function ($rootScope, $q, sessionService) {
