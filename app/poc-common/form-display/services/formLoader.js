@@ -6,6 +6,7 @@ angular.module('poc.common.formdisplay')
         var existingPromises = {};
 
         var load = function (forms) {
+            //debugger
             var promiseDefer = $q.defer();
             var promises = [];
             var loadedForms = [];
