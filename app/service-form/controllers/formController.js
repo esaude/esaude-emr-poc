@@ -139,8 +139,8 @@ angular.module('serviceform')
                 };
                 
                 var encounterSuccessCallback = function (encounterProfileData) {
-                    $scope.hasVisitToday = true;
-                    $location.url('/dashboard/' + encounterProfileData.patient.uuid);
+                    $rootScope.hasVisitToday = true;
+                    $location.url('/dashboard/' + encounterProfileData.patient.uuid + '/services');
                 };
                 
                 $scope.linkDashboard = function () {

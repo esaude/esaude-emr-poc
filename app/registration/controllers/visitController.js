@@ -97,6 +97,7 @@ angular.module('registration')
                 $scope.todayVisit = visitProfileData;
                 $scope.todayVisit.startDatetime = dateUtil.removeOffset($scope.todayVisit.startDatetime);
                 $scope.todayVisit.stopDatetime = dateUtil.removeOffset($scope.todayVisit.stopDatetime);
+                $rootScope.hasVisitToday = true;
                 $scope.disableCheckin = true;
             };
 

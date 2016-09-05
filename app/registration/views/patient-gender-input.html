@@ -12,10 +12,12 @@
             </div>
             <div class="col-sm-10 inline-align">
                 <img src="../../images/lady.png" width="48" height="48" alt="female">
-                <input type="checkbox" name="patientGender" bs-switch switch-size="large" 
-                       switch-off-text="{{'COMMON_MALE' | translate}}" switch-on-text="{{'COMMON_FEMALE' | translate}}" switch-on-color="primary" switch-off-color="primary" 
-                       ng-model="patient.gender" ng-true-value="'F'" ng-false-value="'M'"
-                       >
+                <input type="radio" name="patientGender" id="patientGenderF" class="radio-lx"
+                       ng-model="patient.gender" ng-value="'F'">
+                <label for="patientGenderF">{{'COMMON_FEMALE' | translate}}</label>
+                <input type="radio" name="patientGender" id="patientGenderM" class="radio-lx"
+                       ng-model="patient.gender" ng-value="'M'">
+                <label for="patientGenderM">{{'COMMON_MALE' | translate}}</label>
                 <img src="../../images/man.png" width="48" height="48" alt="male">
                 <input type="hidden" name="genderHidden" ng-model="patient.gender" required>
             </div>
