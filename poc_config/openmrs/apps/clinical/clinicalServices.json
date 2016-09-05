@@ -60,5 +60,18 @@
             "requireChekin": true
         },
         "markedOn": "4bea5235-1ef3-45a3-a7de-c33850c74422"
+    },
+    {
+        "id": "009",
+        "formId": "e28ac028-1d5f-11e0-b929-000c29ad1d07",
+        "label": "DIAGNOSTICOS - PEDIATRIA",
+        "url": "/diagnostics/child",
+        "minOccur": "0",
+        "maxOccur": "-1",
+        "constraints": {
+            "maxAge": "14",
+            "requireChekin": true
+        }
     }
+
 ]

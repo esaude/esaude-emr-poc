@@ -53,4 +53,15 @@ describe('Registration Visit Service', function () {
         expect(mockHttp.post.calls.mostRecent().args[1].withCredentials).toBeTruthy();
     });
 
+  it("Should post visit details to create visit url", function () {
+    var visitDetails = {patientUuid: "uuid"};
+
+    visitService.create(visitDetails);
+
+    expect(mockHttp.post).toHaveBeenCalled();
+    expect(mockHttp.post.calls.mostRecent().args[0]).toBe(openmrsUrl);
+    expect(mockHttp.post.calls.mostRecent().args[1]).toBe(visitDetails);
+    expect(mockHttp.post.calls.mostRecent().args[2].withCredentials).toBeTruthy();
+  });
+
 });

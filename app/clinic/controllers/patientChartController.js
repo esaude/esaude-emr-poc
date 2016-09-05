@@ -95,14 +95,14 @@ angular.module('clinic')
                 type: 'linear',
                 display: true,
                 position: 'left',
-                ticks: {max: 100, min: 0, stepSize: 10}
+                ticks: {max: 80, min: 0, stepSize: 10}
               },
               {
                 id: 'serieA',
                 type: 'linear',
                 display: true,
                 position: 'right',
-                ticks: {stepSize: 10, min: 40, max: 100}
+                ticks: {stepSize: 10, min: 40, max: 110}
               }]
           },
           pointDotRadius: 10
