@@ -4,6 +4,7 @@
         "description": "Poc Social Info App",
         "config" : {
             "landingPageAfterSearch": "'/dashboard/' + patient.uuid",
+            "landingPageAfterSave": "'/dashboard/' + encounterProfileData.patient.uuid",
             "encounterTypes" : {},
             "defaultVisitTypes" : [
                 {"name": "FIRST CONSULTATION", "uuid": "64a510a1-fbf4-465f-acd2-cd37bc321cee", "occurOn": "first"}
