@@ -140,7 +140,7 @@ angular.module('serviceform')
                 
                 var encounterSuccessCallback = function (encounterProfileData) {
                     $rootScope.hasVisitToday = true;
-                    $location.url('/dashboard/' + encounterProfileData.patient.uuid + '/services');
+                    $location.url(eval($rootScope.landingPageAfterSave));
                 };
                 
                 $scope.linkDashboard = function () {
