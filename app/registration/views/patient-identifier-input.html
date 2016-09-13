@@ -6,7 +6,7 @@
     <div class="panel-body">
         <div class="alert alert-danger alert-dismissible" role="alert"  ng-show="errorMessage">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <strong>{{errorMessage | translate}}</strong> 
+            <strong>{{errorMessage | translate}}</strong>
         </div>
         <div class="form-group form-group-lg">
             <label for="patient_identifier_type" class="col-sm-2 control-label">{{'PATIENT_INFO_IDENTIFIER_TYPE_FULL' | translate}}:</label>
@@ -24,13 +24,14 @@
                 <th>{{'PATIENT_INFO_IDENTIFIER_TYPE' | translate}}</th>
                 <th>{{'PATIENT_INFO_IDENTIFIER_IDENTIFIER' | translate}}</th>
                 <th>{{'PATIENT_INFO_IDENTIFIER_PREFERRED' | translate}}</th>
-                <th></th>
+              <th></th>
+              <th> Mascara/Formato de Indentificador </th>
             </tr>
         </thead>
-        <tbody ng-init="listRequiredIdentifiers()">  
+        <tbody ng-init="listRequiredIdentifiers()">
             <tr ng-repeat=" pi in patient.identifiers">
                 <td class="col-sm-4 control-label">
-                    <div ng-messages for="aForm.{{pi.fieldName}}.$error" 
+                    <div ng-messages for="aForm.{{pi.fieldName}}.$error"
                          ng-messages-include="../poc-common/form-display/views/error-messages.html"
                          ng-show="showMessages">
                     </div>
@@ -38,14 +39,15 @@
                 </td>
                 <td>
                     <div ng-class="{'has-error': aForm.{{pi.fieldName}}.$invalid && showMessages}">
-                        <input type="text" class="form-control input-lg keyboard-in" name="{{pi.fieldName}}" 
+                        <input type="text" class="form-control input-lg keyboard-in" name="{{pi.fieldName}}"
                                placeholder="{{pi.identifierType.format}}" ng-model="pi.identifier" ng-pattern="pi.identifierType.format"
                                record-availability-validator="/ws/rest/v1/patient"
                                required>
+
                     </div>
                 </td>
                 <td>
-                    <input id="{{pi.fieldName}}_Rdo" class="radio-lx" type="radio" name="preferedIdRGroup" 
+                    <input id="{{pi.fieldName}}_Rdo" class="radio-lx" type="radio" name="preferedIdRGroup"
                            ng-value="{{pi.preferred}}" ng-click="setPreferredId(pi)">
                     <label for="{{pi.fieldName}}_Rdo"></label>
                 </td>
@@ -54,6 +56,8 @@
                         <span class="glyphicon glyphicon-remove-sign"></span>
                     </button>
                 </td>
+                <td><label class="alert ">{{pi.identifierType.format}} </label></td>
+
             </tr>
         </tbody>
     </table>
@@ -65,5 +69,3 @@
         <span class="glyphicon glyphicon glyphicon-step-forward"></span>
     </button>
 </div>
-
-<!--script src="../../scripts/virtual-keyboard.js" type="text/javascript"></script-->
