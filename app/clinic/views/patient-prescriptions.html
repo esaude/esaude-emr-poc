@@ -1,0 +1,147 @@
+<div class="row content-border-margin-regular">
+    <div class="col-sm-5">
+        <div class="panel panel-primary panel-marginless-sides">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{'CLINIC_PRESCRIPTION_DRUG'| translate}}</h3>
+            </div>
+            <div class="panel-body">
+                <form class="form-horizontal">
+                    <div class="form-group form-group-lg">
+                        <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_DRUG_NAME'| translate}}:<span class="asterick">*</span></label>
+                        <div class="col-sm-9">
+                            <select class="form-control" ng-model="prescription.drug.name"
+                                    ng-options="drug.display for drug in regimen.answers" required>
+                                <option></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg">
+                        <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_DOSE'| translate}}:<span class="asterick">*</span></label>
+                        <div class="col-sm-3">
+                            <input type="number" class="form-control keyboard-in"
+                                   ng-model="prescription.drug.dose"
+                                   placeholder="{{'CLINIC_PRESCRIPTION_DOSE' | translate}}"
+                                   required>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg">
+                        <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_UNITS'| translate}}:<span class="asterick">*</span></label>
+                        <div class="col-sm-9">
+                            <select class="form-control" ng-model="prescription.drug.unit"
+                                    ng-options="unit.name for unit in units" required>
+                                <option></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg">
+                        <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_POSOLOGY'| translate}}:<span class="asterick">*</span></label>
+                        <div class="col-sm-9">
+                            <select class="form-control" ng-model="prescription.drug.frequency"
+                                    ng-options="frequency.name for frequency in frequencies" required>
+                                <option></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg">
+                        <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_ROUTE'| translate}}:<span class="asterick">*</span></label>
+                        <div class="col-sm-9">
+                            <select class="form-control" ng-model="prescription.drug.route"
+                                    ng-options="route.name for route in routes" required>
+                                <option></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg">
+                        <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_DURATION'| translate}}:<span class="asterick">*</span></label>
+                        <div class="col-sm-3">
+                            <input type="number" class="form-control keyboard-in"
+                                   ng-model="prescription.drug.duration"
+                                   placeholder="{{'CLINIC_PRESCRIPTION_DURATION' | translate}}"
+                                   required>
+                        </div>
+                        <div class="col-sm-3">
+                            <select class="form-control" ng-model="prescription.drug.durationUnit"
+                                    ng-options="durationUnit.name for durationUnit in durationUnits" required>
+                                <option></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg">
+                        <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_RECOMMENDATION'| translate}}:<span class="asterick">*</span></label>
+                        <div class="col-sm-9">
+                            <select class="form-control" ng-model="prescription.drug.instruction"
+                                    ng-options="instruction.name for instruction in instructions" required>
+                                <option></option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="panel-footer go-to-right">
+                <button class="btn btn-primary btn-lg" type="button" ng-click="addToList(prescription)">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-7">
+        <div class="panel panel-primary panel-marginless-sides">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{'CLINIC_PRESCRIPTION_NEW'| translate}}</h3>
+            </div>
+            <ul class="list-group">
+                <li class="list-group-item list-group-item-success" ng-repeat="listPrescription in listedPrescriptions">
+                    <span><strong>{{listPrescription.drug.name.display}}</strong> {{listPrescription.drug.dose}} 
+                        {{listPrescription.drug.unit.name}}, {{listPrescription.drug.frequency.name}}, 
+                        {{listPrescription.drug.route.name}} - {{listPrescription.drug.duration}} 
+                        {{listPrescription.drug.durationUnit.name}} ({{listPrescription.drug.instruction.name}})</span>
+                    <span>
+                        <button type="button" class="close btn-lg content-border-margin-regular-sides">
+                            <span class="glyphicon glyphicon-remove-circle"></span>
+                        </button>
+                        <button type="button" class="close btn-lg content-border-margin-regular-sides">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </button>
+                    </span>
+                </li>
+
+            </ul>
+            <div class="panel-footer go-to-right" ng-show="showNewPrescriptionsControlls">
+                <button class="btn btn-danger btn-lg" type="button" ng-click="">
+                    <span class="glyphicon glyphicon-remove-sign"></span>
+                </button>
+                <button class="btn btn-primary btn-lg" type="button" ng-click="save()">
+                    <span class="glyphicon glyphicon-floppy-disk"></span>
+                </button>
+            </div>
+        </div>
+        
+        
+        
+        <div class="panel panel-primary panel-marginless-sides" ng-init="initPrescriptions()">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{'CLINIC_PRESCRIPTION_PRESCRIBED'| translate}}</h3>
+            </div>
+            <div class="list-group" ng-repeat="existingPrescription in existingPrescriptions">
+                <div class="bg-info content-border-padding-li">
+                    {{'CLINIC_PATIENT_PRESCRIBED' | translate}} {{'COMMON_ON' | translate}} {{existingPrescription.prescriptionDate | date:"MMM d, y"}}
+                </div>
+                <div class="list-group-item" ng-repeat="presc in existingPrescription.values">
+                    <span class="text-lg"><strong>{{presc.name.display}}</strong> {{presc.dose}} 
+                        {{presc.unit.name}}, {{presc.frequency.name}}, 
+                        {{presc.route.name}} - {{presc.duration}} 
+                        {{presc.durationUnit.name}} ({{presc.instruction.name}})</span>
+                    <span>
+                        <button type="button" class="close btn-lg content-border-margin-regular-sides">
+                            <span class="glyphicon glyphicon-remove-circle"></span>
+                        </button>
+                        <button type="button" class="close btn-lg content-border-margin-regular-sides">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
