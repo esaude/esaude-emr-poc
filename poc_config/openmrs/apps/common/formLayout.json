@@ -511,7 +511,7 @@
         "parts": [
             {
                 "id": "1",
-                "name": "Rastreio de TB",
+                "name": "Rastreios e TB",
                 "sref": ".rastreio_tb",
                 "nextSref": ".profilaxia1",
                 "fields": [
@@ -535,7 +535,7 @@
             },
             {
                 "id": "2",
-                "name": "PROFILAXIAS",
+                "name": "PROFILAXIAS I",
                 "sref": ".profilaxia1",
                 "nextSref": ".profilaxia2",
                 "fields": [
@@ -559,7 +559,7 @@
             },
             {
                 "id": "3",
-                "name": "PROFILAXIAS",
+                "name": "PROFILAXIAS II",
                 "sref": ".profilaxia2",
                 "nextSref": ".profilaxia3",
                 "fields": [
@@ -583,7 +583,7 @@
             },
             {
                 "id": "4",
-                "name": "PROFILAXIAS",
+                "name": "PROFILAXIAS III",
                 "sref": ".profilaxia3",
                 "nextSref": ".diagnosticos",
                 "fields": [
@@ -608,7 +608,7 @@
 
             {
                 "id": "5",
-                "name": "OBSERVAÇÕES CLINICAS",
+                "name": "EXAME FÍSICO",
                 "sref": ".diagnosticos",
                 "nextSref": ".confirm",
                 "fields": [
@@ -650,7 +650,7 @@
         "parts": [
             {
                 "id": "1",
-                "name": "Rastreio de TB",
+                "name": "Rastreios e TB",
                 "sref": ".rastreio_tb",
                 "nextSref": ".profilaxia1",
                 "fields": [
@@ -674,7 +674,7 @@
             },
             {
                 "id": "2",
-                "name": "PROFILAXIAS",
+                "name": "PROFILAXIAS I",
                 "sref": ".profilaxia1",
                 "nextSref": ".profilaxia2",
                 "fields": [
@@ -696,7 +696,7 @@
             },
             {
                 "id": "3",
-                "name": "PROFILAXIAS",
+                "name": "PROFILAXIAS II",
                 "sref": ".profilaxia2",
                 "nextSref": ".profilaxia3",
                 "fields": [
@@ -718,7 +718,7 @@
             },
             {
                 "id": "4",
-                "name": "PROFILAXIAS",
+                "name": "PROFILAXIAS III",
                 "sref": ".profilaxia3",
                 "nextSref": ".diagnosticos",
                 "fields": [
@@ -740,7 +740,7 @@
             },
             {
                 "id": "5",
-                "name": "ANAMNESE",
+                "name": "EXAME FÍSICO",
                 "sref": ".diagnosticos",
                 "nextSref": ".confirm",
                 "fields": [
@@ -772,5 +772,4 @@
             }
         ]
     }
-
 ]

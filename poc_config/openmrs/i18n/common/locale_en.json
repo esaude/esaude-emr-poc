@@ -138,5 +138,13 @@
     "SCHEDULE_PATIENT": "Patient",
     "SCHEDULE_DATE_SCHEDULED": "Scheduled on",
     "SCHEDULE_SCHEDULED_BY": "Scheduled by",
-    "SCHEDULE_LAST_SEEN": "Last seen"
+    "SCHEDULE_LAST_SEEN": "Last seen",
+    "ERROR_REQUIRED": "This field is required",
+    "ERROR_TOO_SHORT": "This field is too short",
+    "ERROR_TOO_BIG": "This field is too long",
+    "ERROR_INVALID_EMAIL": "This needs to be a valid email",
+    "ERROR_INVALID_FORMAT": "This field format is incorrect",
+    "ERROR_ALREADY_IN_USE": "This field value is already in use",
+    "ERROR_TOO_BIG": "The value is too big for this field",
+    "ERROR_TOO_SMALL": "The value is too small for this field"
 }

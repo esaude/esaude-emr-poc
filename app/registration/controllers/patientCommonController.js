@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('registration')
-    .controller('PatientCommonController', ['$scope', '$http', '$state', 'patientAttributeService', 'patientService', 'localStorageService',
-        function ($scope, $http, $state, patientAttributeService, patientService, localStorageService) {
+    .controller('PatientCommonController', ['$scope', '$http', '$state', 'patientAttributeService', 'patientService', 'localStorageService', 'spinner',
+        function ($scope, $http, $state, patientAttributeService, patientService, localStorageService, spinner) {
             
                 var dateUtil = Bahmni.Common.Util.DateUtil;
                 
@@ -17,6 +17,7 @@ angular.module('registration')
                     });
                     searchPromise['finally'](function () {
                     });
+                    spinner.forPromise(searchPromise);
                 })();
                 
                 $scope.listRequiredIdentifiers = function () {

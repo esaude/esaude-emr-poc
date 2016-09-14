@@ -82,14 +82,14 @@ angular.module('bahmni.common.domain')
         });
     };
 
-            var searchWithoutEncounterDate = function (visitUuid) {
-                return $http.post(Bahmni.Common.Constants.bahmniEncounterUrl + '/find', {
-                    visitUuids: [visitUuid],
-                    includeAll: Bahmni.Common.Constants.includeAllObservations
-                }, {
-                    withCredentials: true
-                });
-            };
+    var searchWithoutEncounterDate = function (visitUuid) {
+        return $http.post(Bahmni.Common.Constants.bahmniEncounterUrl + '/find', {
+            visitUuids: [visitUuid],
+            includeAll: Bahmni.Common.Constants.includeAllObservations
+        }, {
+            withCredentials: true
+        });
+    };
 
     this.search = function (visitUuid,encounterDate) {
         if (!encounterDate) return searchWithoutEncounterDate(visitUuid);
