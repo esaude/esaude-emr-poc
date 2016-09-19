@@ -121,6 +121,14 @@
   "CLINIC_LAB_RESULTS": "Lab Results",
   "CLINIC_PATIENT_HGB_COUNT": "HGB Count",
   "CLINIC_PATIENT_HIV_VIRAL_LOAD":"HIV VIRAL LOAD",
-  "CLINIC_PATIENT_SERUM_ALBUMIN":"Serum Albumin"
+  "CLINIC_PATIENT_SERUM_ALBUMIN":"Serum Albumin",
+  "TUBERCULOSIS_DRUG_TREATMENT_START_DATE":"Start Date of TB Treatment",
+  "TUBERCULOSIS PROPHYLAXIS STARTED":"Tuberculosis Treatment",
+  "START DRUGS":"Start of Treatment ",
+  "HISTORICAL_DRUG_START_DATE":"Start Date of TARV",
+  "PREVIOUS_ANTIRETROVIRAL_DRUGS_USED_FOR_TREATMENT": "Antiretroviral Drugs User for Treatment",
+  "ANTIRETROVIRAL_PLAN": "Gestao de TARV",
+  "START_DRUGS": "Start Drugs",
+  "REGIMEN":"Regimen"
 
 }

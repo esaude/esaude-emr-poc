@@ -1,25 +1,28 @@
 <div class="row content-border-margin-regular">
     <div class="col-sm-6">
-        <div class="panel panel-primary panel-marginless-sides" ng-init="initVisitHistory()" >
+      <div class="panel panel-primary panel-marginless-sides" ng-init="initVisitHistory()"
+           ng-click="showDivVisit=!showDivVisit">
             <div class="panel-heading">
                 <h3 class="panel-title">{{'CLINIC_PATIENT_VISIT_HISTORY' | translate}}</h3>
             </div>
-            <div class="list-group" ng-repeat="visit in visits">
+        <div class="list-group" ng-repeat="visit in visits" ng-show="showDivVisit">
                 <div class="bg-info content-border-padding-li">
                     {{'CLINIC_PATIENT_VISIT' | translate}} {{'COMMON_ON' | translate}} {{visit[0].encounterDatetime | date:"MMM d, y"}}
                 </div>
                 <div class="list-group-item" ng-repeat="encounter in visit">
-                    <div>{{encounter.encounterType.display}} {{'COMMON_ON' | translate}} {{encounter.encounterDatetime | date:"MMM d, y"}}, 
+                  <div>{{encounter.encounterType.display}} {{'COMMON_ON' | translate}} {{encounter.encounterDatetime |
+                    date:"MMM d, y"}},
                         {{'COMMON_BY' | translate}}: {{encounter.provider.display}}</div>
                 </div>
             </div>
         </div>
-        
-        <div class="panel panel-primary panel-marginless-sides" ng-init="initDiagnosis()">
+
+      <div class="panel panel-primary panel-marginless-sides" ng-init="initDiagnosis()"
+           ng-click="showDivDiagnosis=!showDivDiagnosis">
             <div class="panel-heading">
                 <h3 class="panel-title">{{'CLINIC_PATIENT_DIAGNOSIS' | translate}}</h3>
             </div>
-            <table class="table">
+        <table class="table" ng-show="showDivDiagnosis">
                 <tbody>
                     <tr ng-repeat="diagn in diagnosis">
                         <td>{{diagn.concept.name.display}}</td>
@@ -29,35 +32,37 @@
                 </tbody>
             </table>
         </div>
-        
-        <div class="panel panel-primary panel-marginless-sides" ng-init="initPrescriptions()">
+
+      <div class="panel panel-primary panel-marginless-sides" ng-init="initPrescriptions()"
+           ng-click="showDivPrescriptions=!showDivPrescriptions">
             <div class="panel-heading">
                 <h3 class="panel-title">{{'CLINIC_PATIENT_PRESCRIPTIONS' | translate}}/{{'CLINIC_PATIENT_REGIMENS' | translate}}</h3>
             </div>
-            <div class="list-group" ng-repeat="encounter in prescriptions">
+        <div class="list-group" ng-repeat="encounter in prescriptions" ng-show="showDivPrescriptions">
                 <div class="bg-info content-border-padding-li">
                     {{'CLINIC_PATIENT_PRESCRIBED' | translate}} {{'COMMON_ON' | translate}} {{encounter.encounterDatetime | date:"MMM d, y"}}
                 </div>
                 <div ng-repeat="obs in encounter.obs">
                     <div class="list-group-item">
-                        {{obs.concept.name.display}}: 
+                      {{obs.concept.name.display}}:
                         <span class="badge">{{isObject(obs.value) ? obs.value.display : obs.value}}</span>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <div class="panel panel-primary panel-marginless-sides" ng-init="initVitals()">
+
+      <div class="panel panel-primary panel-marginless-sides" ng-init="initVitals()"
+           ng-click="showDivVitals=!showDivVitals">
             <div class="panel-heading">
                 <h3 class="panel-title">{{'CLINIC_PATIENT_VITALS' | translate}}</h3>
             </div>
-            <div class="list-group" ng-repeat="encounter in vitals">
+        <div class="list-group" ng-repeat="encounter in vitals" ng-show="showDivVitals">
                 <div class="bg-info content-border-padding-li">
                     {{'CLINIC_PATIENT_CAPTURED' | translate}} {{'COMMON_ON' | translate}} {{encounter.encounterDatetime | date:"MMM d, y"}}
                 </div>
                 <div ng-repeat="obs in encounter.obs">
                     <div class="list-group-item">
-                        {{obs.concept.name.display}}: 
+                      {{obs.concept.name.display}}:
                         <span class="badge">{{isObject(obs.value) ? obs.value.display : obs.value}}</span>
                     </div>
                 </div>
@@ -65,11 +70,12 @@
         </div>
     </div>
     <div class="col-sm-6">
-        <div class="panel panel-primary panel-marginless-sides" ng-init="initLabResults()">
+      <div class="panel panel-primary panel-marginless-sides" ng-init="initLabResults()"
+           ng-click="showDivLAB=!showDivLAB">
             <div class="panel-heading">
                 <h3 class="panel-title">{{'CLINIC_PATIENT_LAB' | translate}}</h3>
             </div>
-            <div class="list-group" ng-repeat="visit in labs">
+        <div class="list-group" ng-repeat="visit in labs" ng-show="showDivLAB">
                 <div class="bg-info content-border-padding-li">
                     {{'CLINIC_PATIENT_COLLECTED' | translate}} {{'COMMON_ON' | translate}} {{visit[0].encounterDatetime | date:"MMM d, y"}}
                 </div>
@@ -85,7 +91,7 @@
                         </div>
                         <div ng-if="!obs.groupMembers">
                             <div class="list-group-item">
-                                {{obs.concept.name.display}}: 
+                              {{obs.concept.name.display}}:
                                 <span class="badge">{{isObject(obs.value) ? obs.value.display : obs.value}}</span>
                             </div>
                         </div>
@@ -93,29 +99,31 @@
                 </div>
             </div>
         </div>
-        
-        <div class="panel panel-primary panel-marginless-sides" ng-init="initPharmacyPickups()">
+
+      <div class="panel panel-primary panel-marginless-sides" ng-init="initPharmacyPickups()"
+           ng-click="showDivPharmacy=!showDivPharmacy">
             <div class="panel-heading">
                 <h3 class="panel-title">{{'CLINIC_PATIENT_PHARMACY' | translate}}</h3>
             </div>
-            <div class="list-group" ng-repeat="visit in pickups">
+        <div class="list-group" ng-repeat="visit in pickups" ng-show="showDivPharmacy">
                 <div class="bg-info content-border-padding-li">
                     {{'CLINIC_PATIENT_DISPENSED' | translate}} {{'COMMON_ON' | translate}} {{visit[0].encounterDatetime | date:"MMM d, y"}}
                 </div>
                 <div ng-repeat="encounter in visit">
                     <div ng-repeat="obs in encounter.obs" class="list-group-item">
-                        {{obs.concept.name.display}}: 
+                      {{obs.concept.name.display}}:
                             <span class="badge">{{isObject(obs.value) ? obs.value.display : obs.value}}</span>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <div class="panel panel-primary panel-marginless-sides" ng-init="initAllergies()">
+
+      <div class="panel panel-primary panel-marginless-sides" ng-init="initAllergies()"
+           ng-click="showDivAllergies=!showDivAllergies">
             <div class="panel-heading">
                 <h3 class="panel-title">{{'CLINIC_PATIENT_ALLERGIES' | translate}}/{{'CLINIC_PATIENT_SIDE_EFFECTS' | translate}}</h3>
             </div>
-            <div class="list-group" ng-repeat="encounter in allergies">
+        <div class="list-group" ng-repeat="encounter in allergies" ng-show="showDivAllergies">
                 <div class="bg-info content-border-padding-li">
                     {{'CLINIC_PATIENT_DIAGNOSED' | translate}} {{'COMMON_ON' | translate}} {{encounter.encounterDatetime | date:"MMM d, y"}}
                 </div>
@@ -124,7 +132,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="panel panel-primary panel-marginless-sides" ng-controller="ManageProgramController">
             <div class="panel-heading">
                 <h3 class="panel-title">{{'COMMON_PROGRAM_ENROLLMENT_SUMMARY_TITLE' | translate}}</h3>
@@ -137,8 +145,8 @@
                     <span>{{'COMMON_PROGRAM_ENROLLMENT_ENROLLED_ON' | translate}}: ({{program.dateEnrolled | date:"MM/dd/yyyy"}})</span>
                     <span ng-if="program.dateCompleted">{{'COMMON_PROGRAM_ENROLLMENT_COMPLETED_ON' | translate}}: ({{program.dateCompleted | date:"MM/dd/yyyy"}})</span>
                 </div>
-                <div ng-if="hasValidProgramStateToShow(program.states)" 
-                     ng-repeat="state in program.states" class="list-group-item">
+              <div ng-if="hasValidProgramStateToShow(program.states)"
+                   ng-repeat="state in program.states" class="list-group-item">
                     {{state.state.concept.display}}
                     <span>{{'COMMON_FROM' | translate}} ({{state.startDate | date:"MM/dd/yyyy"}})</span>
                     <span ng-if="state.endDate">
