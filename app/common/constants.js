@@ -30,6 +30,9 @@ Bahmni.Common = Bahmni.Common || {};
     var drugPrescriptionConvSet = {
         arvDrugs: {uuid: "e1d83e4e-1d5f-11e0-b929-000c29ad1d07"},
         otherDrugs: {uuid: "e1de3092-1d5f-11e0-b929-000c29ad1d07"},
+        artPlan: {uuid: "e1d9ee10-1d5f-11e0-b929-000c29ad1d07"},
+        interruptedReason: {uuid: "e1d9ead2-1d5f-11e0-b929-000c29ad1d07"},
+        changeReason: {uuid: "e1de8862-1d5f-11e0-b929-000c29ad1d07"},
         dosageAmount: {uuid: "e1de8966-1d5f-11e0-b929-000c29ad1d07"},
         dosingUnits: {uuid: "9d66a447-10e8-11e5-9009-0242ac110012"},
         dosgeFrequency: {uuid: "5368f4d6-10e7-11e5-9009-0242ac110012"},
@@ -194,7 +197,8 @@ Bahmni.Common = Bahmni.Common || {};
         drugPrescriptionConvSet: drugPrescriptionConvSet,
         prescriptionConvSetConcept: "e1de8b5a-1d5f-11e0-b929-000c29ad1d07",
         followupAdultFormUuid: "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
-        followupChildFormUuid: "e28ac028-1d5f-11e0-b929-000c29ad1d07"
+        followupChildFormUuid: "e28ac028-1d5f-11e0-b929-000c29ad1d07",
+        artInterruptedPlanUuid: "e1d9f36a-1d5f-11e0-b929-000c29ad1d07"
 
     };
 })();

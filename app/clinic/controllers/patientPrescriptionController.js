@@ -26,6 +26,7 @@ angular.module('clinic')
                     fieldModel.model = foundModel;
                 }
             });
+            
             var encounterType = ($rootScope.patient.age.years >= 15) ? Bahmni.Common.Constants.adultFollowupEncounterUuid : 
                         Bahmni.Common.Constants.childFollowupEncounterUuid;
                 
@@ -183,11 +184,47 @@ angular.module('clinic')
             if ($scope.fieldType === "ARV") {
                 $scope.isArt = true;
                 $scope.isOthers = false;
+                
+                observationsService.get(patientUuid, Bahmni.Common.Constants.drugPrescriptionConvSet.arvDrugs.uuid)
+                        .success(function (data) {
+                    var nonRetired = commonService.filterRetired(data.results);
+                    var maxObs = _.maxBy(nonRetired, 'obsDatetime');
+                    var swappedObsToConcept = swapObsToConceptAnswer(maxObs, $scope.fieldModels.arvDrugs.model.answers);
+                    $scope.fieldModels.arvDrugs.value = swappedObsToConcept;
+                    $scope.fieldModels.arvDrugs.oldValue = swappedObsToConcept;
+                });       
             } else {
                 $scope.isArt = false;
                 $scope.isOthers = true;
+                $scope.isPlanChanged = false;
             }
         };
+        
+        var swapObsToConceptAnswer = function (obs, conceptAnswers) {
+            return _.find(conceptAnswers, function (answer) {
+                return obs.value.uuid === answer.uuid;
+            });       
+        };
+        
+        $scope.validatePlan = function () {
+            if ($scope.fieldModels.artPlan.value.uuid === 
+                    Bahmni.Common.Constants.artInterruptedPlanUuid) {
+                $scope.isPlanInterrupted = true;
+            } else {
+                $scope.isPlanInterrupted = false;
+            }
+        };
+        
+        $scope.$watch('fieldModels.arvDrugs.value', function(newValue) {
+            if (!_.isUndefined($scope.fieldModels.arvDrugs.oldValue) && 
+                    (newValue.uuid !== $scope.fieldModels.arvDrugs.oldValue.uuid)) {
+                $scope.isPlanChanged = true;
+            } else {
+                $scope.isPlanChanged = false;
+                if ($scope.fieldModels.changeReason.value) 
+                    $scope.fieldModels.changeReason.value = undefined;
+            }
+        });
         
         init();
     }]);

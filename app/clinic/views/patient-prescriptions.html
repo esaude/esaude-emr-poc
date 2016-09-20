@@ -47,6 +47,46 @@
                         </div>
                     </div>
                     <div class="form-group form-group-lg"
+                         ng-class="{'has-error': prescriptionForm.artPlan.$invalid && showMessages}" ng-show="isArt">
+                        <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_ARV_PLAN'| translate}}:<span class="asterick">*</span></label>
+                        <div class="col-sm-9">
+                            <div ng-messages for="prescriptionForm.artPlan.$error" 
+                                 ng-messages-include="../poc-common/form-display/views/error-messages.html"
+                                 ng-show="showMessages"></div>
+                            <select name="artPlan" class="form-control" ng-model="fieldModels.artPlan.value"
+                                    ng-options="plan.display for plan in fieldModels.artPlan.model.answers" ng-required="isArt"
+                                    ng-change="validatePlan()">
+                                <option></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg"
+                         ng-class="{'has-error': prescriptionForm.interruptedReason.$invalid && showMessages}" ng-show="isPlanInterrupted">
+                        <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_ARV_PLAN_INTERRUPDED_REASON'| translate}}:<span class="asterick">*</span></label>
+                        <div class="col-sm-9">
+                            <div ng-messages for="prescriptionForm.interruptedReason.$error" 
+                                 ng-messages-include="../poc-common/form-display/views/error-messages.html"
+                                 ng-show="showMessages"></div>
+                            <select name="interruptedReason" class="form-control" ng-model="fieldModels.interruptedReason.value"
+                                    ng-options="reason.display for reason in fieldModels.interruptedReason.model.answers" ng-required="isPlanInterrupted">
+                                <option></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg"
+                         ng-class="{'has-error': prescriptionForm.changeReason.$invalid && showMessages}" ng-show="isPlanChanged">
+                        <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_ARV_CHANGE_REASON_REASON'| translate}}:<span class="asterick">*</span></label>
+                        <div class="col-sm-9">
+                            <div ng-messages for="prescriptionForm.changeReason.$error" 
+                                 ng-messages-include="../poc-common/form-display/views/error-messages.html"
+                                 ng-show="showMessages"></div>
+                            <select name="changeReason" class="form-control" ng-model="fieldModels.changeReason.value"
+                                    ng-options="reason.display for reason in fieldModels.changeReason.model.answers" ng-required="isPlanChanged">
+                                <option></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg"
                          ng-class="{'has-error': prescriptionForm.dosageAmount.$invalid && showMessages}">
                         <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_DOSE'| translate}}:<span class="asterick">*</span></label>
                         <div class="col-sm-3">
@@ -186,7 +226,7 @@
                     {{'CLINIC_PATIENT_PRESCRIBED' | translate}} {{'COMMON_ON' | translate}} {{existingPrescription.prescriptionDate | date:"MMM d, y"}}
                 </div>
                 <div class="list-group-item" ng-repeat="presc in existingPrescription.models">
-                    <span class="text-lg"><strong>{{presc.arvDrugs.value.display}}</strong> {{presc.dosageAmount.value}} 
+                    <span class="text-lg"><strong>{{(presc.arvDrugs.value) ? presc.arvDrugs.value.display: presc.otherDrugs.value.display}}</strong> {{presc.dosageAmount.value}} 
                         {{presc.dosingUnits.value.display}}, {{presc.dosgeFrequency.value.display}}, 
                         {{presc.drugRoute.value.display}} - {{presc.duration.value}} 
                         {{presc.durationUnits.value.display}} ({{presc.dosingInstructions.value.display}})</span>
