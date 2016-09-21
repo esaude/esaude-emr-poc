@@ -9,6 +9,8 @@ angular.module('clinic')
         var markedOn = "488e6803-c7db-43b2-8911-8d5d2a8472fd";
         var dateUtil = Bahmni.Common.Util.DateUtil;
         $scope.showMessages = false;
+        $scope.hasEntryToday = false;//there is no followup encouter for the patient today
+        $scope.hasServiceToday = false;//there is no prescription service for the patient today
 
         var init = function() {
             patientUuid = $stateParams.patientUuid;
@@ -111,34 +113,62 @@ angular.module('clinic')
                 value: dateUtil.getDateInDatabaseFormat(datetime)
             };
             obs.push(markedOnObs);
-            //build new encounter
-            var encounter = {
-                encounterType: ($rootScope.patient.age.years >= 15) ? Bahmni.Common.Constants.adultFollowupEncounterUuid : 
-                        Bahmni.Common.Constants.childFollowupEncounterUuid,
-                form: ($rootScope.patient.age.years >= 15) ? Bahmni.Common.Constants.followupAdultFormUuid : 
-                        Bahmni.Common.Constants.followupChildFormUuid,
-                encounterDatetime: datetime,
-                location: localStorageService.cookie.get("emr.location").uuid,
-                patient: patientUuid,
-                provider: $rootScope.currentUser.person.uuid,
-                obs: obs
-            };
             
-            encounterService.create(encounter).success(encounterSuccessCallback);
+            if ($scope.hasEntryToday) {
+                //copy existing encounter
+                var encounter = {
+                    uuid: $scope.todaysEncounter.uuid,
+                    provider: $rootScope.currentUser.person.uuid,
+                    obs: obs
+                };
+                encounterService.update(encounter).success(encounterSuccessCallback);
+            } else {
+                //build new encounter
+                var encounter = {
+                    encounterType: ($rootScope.patient.age.years >= 15) ? Bahmni.Common.Constants.adultFollowupEncounterUuid : 
+                            Bahmni.Common.Constants.childFollowupEncounterUuid,
+                    form: ($rootScope.patient.age.years >= 15) ? Bahmni.Common.Constants.followupAdultFormUuid : 
+                            Bahmni.Common.Constants.followupChildFormUuid,
+                    encounterDatetime: datetime,
+                    location: localStorageService.cookie.get("emr.location").uuid,
+                    patient: patientUuid,
+                    provider: $rootScope.currentUser.person.uuid,
+                    obs: obs
+                };
+
+                encounterService.create(encounter).success(encounterSuccessCallback);
+            }
         };
         
         var encounterSuccessCallback = function (encounterProfileData) {
             loadSavedPrescriptions(encounterProfileData.patient.uuid, encounterProfileData.encounterType.uuid);
             $scope.listedPrescriptions = [];
+            isPrescriptionControl();
         };
         
         var loadSavedPrescriptions = function (patient, encounterType) {
             encounterService.getEncountersForEncounterType(patient, encounterType).success(function (data) {
+                    if (_.isEmpty(data.results)) return;
+                    
                     $scope.existingPrescriptions = [];
                     var nonVoidedEncounters = encounterService.filterRetiredEncoounters(data.results);
                     var sortedEncounters = _.sortBy(nonVoidedEncounters, function (encounter) {
                         return moment(encounter.encounterDatetime).toDate();
                     }).reverse();
+                    //get todays entry
+                    var lastEncounter = _.maxBy(sortedEncounters, "encounterDatetime");
+                    if (dateUtil.diffInDaysRegardlessOfTime(lastEncounter.encounterDatetime, 
+                                        dateUtil.now()) === 0) {
+                        $scope.todaysEncounter = lastEncounter;
+                        $scope.hasEntryToday = true;
+                        //find markedOn concept
+                        var markedOnInfo = _.find(lastEncounter.obs, function (o) {
+                            return o.concept.uuid === markedOn;
+                        });
+                        
+                        if (!_.isUndefined(markedOnInfo)) $scope.hasServiceToday = true;
+                    };
+                    
                     var filteredEncounters = _.filter(sortedEncounters, function (e) {
                         var foundObs = _.find(e.obs, function (o) {
                             return o.concept.uuid === markedOn;
@@ -189,9 +219,12 @@ angular.module('clinic')
                         .success(function (data) {
                     var nonRetired = commonService.filterRetired(data.results);
                     var maxObs = _.maxBy(nonRetired, 'obsDatetime');
-                    var swappedObsToConcept = swapObsToConceptAnswer(maxObs, $scope.fieldModels.arvDrugs.model.answers);
-                    $scope.fieldModels.arvDrugs.value = swappedObsToConcept;
-                    $scope.fieldModels.arvDrugs.oldValue = swappedObsToConcept;
+                    
+                    if (maxObs) {
+                        var swappedObsToConcept = swapObsToConceptAnswer(maxObs, $scope.fieldModels.arvDrugs.model.answers);
+                        $scope.fieldModels.arvDrugs.value = swappedObsToConcept;
+                        $scope.fieldModels.arvDrugs.oldValue = swappedObsToConcept;
+                    }
                 });       
             } else {
                 $scope.isArt = false;
@@ -216,6 +249,8 @@ angular.module('clinic')
         };
         
         $scope.$watch('fieldModels.arvDrugs.value', function(newValue) {
+            if (_.isUndefined(newValue)) return;
+            
             if (!_.isUndefined($scope.fieldModels.arvDrugs.oldValue) && 
                     (newValue.uuid !== $scope.fieldModels.arvDrugs.oldValue.uuid)) {
                 $scope.isPlanChanged = true;
