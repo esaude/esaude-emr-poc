@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<org.openmrs.layout.web.address.AddressTemplate>
+   <nameMappings class="properties">
+      <property name="address" value="Location.administrativePost" />
+      <property name="street" value="Location.street" />
+      <property name="startDate" value="PersonAddress.startDate" />
+      <property name="country" value="Location.country" />
+      <property name="endDate" value="personAddress.endDate" />
+      <property name="stateProvince" value="Location.stateProvince" />
+      <property name="neighborhood" value="Location.sublocation" />
+      <property name="locality" value="Location.location" />
+      <property name="cell" value="Location.cell" />
+      <property name="countryDistrict" value="Location.district" />
+   </nameMappings>
+   <sizeMappings class="properties">
+      <property name="administrativePost" value="40" />
+      <property name="street" value="150" />
+      <property name="startDate" value="10" />
+      <property name="country" value="10" />
+      <property name="endDate" value="10" />
+      <property name="stateProvince" value="13" />
+      <property name="neighborhood" value="40" />
+      <property name="locality" value="40" />
+      <property name="cell" value="40" />
+      <property name="countryDistrict" value="20" />
+   </sizeMappings>
+   <elementDefaults class="properties">
+      <property name="country" value="Moçambique" />
+      <property name="stateProvince" value="Tete" />
+   </elementDefaults>
+   <lineByLineFormat>
+      <string>countryDistrict administrativePost</string>
+      <string>locality neighborhood</string>
+      <string>cell street</string>
+      <string>startDate endDate</string>
+   </lineByLineFormat>
+</org.openmrs.layout.web.address.AddressTemplate>

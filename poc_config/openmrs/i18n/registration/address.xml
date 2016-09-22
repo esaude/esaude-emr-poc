@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<org.openmrs.layout.web.address.AddressTemplate>
+   <nameMappings class="properties">
+      <property name="address2" value="Location.address2" />
+      <property name="address1" value="Location.address1" />
+      <property name="startDate" value="PersonAddress.startDate" />
+      <property name="country" value="Location.country" />
+      <property name="endDate" value="personAddress.endDate" />
+      <property name="stateProvince" value="Location.stateProvince" />
+      <property name="address5" value="Location.sublocation" />
+      <property name="address6" value="Location.location" />
+      <property name="address3" value="Location.cell" />
+      <property name="countyDistrict" value="Location.district" />
+   </nameMappings>
+   <sizeMappings class="properties">
+      <property name="address2" value="40" />
+      <property name="address1" value="150" />
+      <property name="startDate" value="10" />
+      <property name="country" value="10" />
+      <property name="endDate" value="10" />
+      <property name="stateProvince" value="13" />
+      <property name="address5" value="40" />
+      <property name="address6" value="40" />
+      <property name="address3" value="40" />
+      <property name="countyDistrict" value="20" />
+   </sizeMappings>
+   <elementDefaults class="properties">
+      <property name="country" value="Moçambique" />
+      <property name="stateProvince" value="Tete" />
+   </elementDefaults>
+   <lineByLineFormat>
+      <string>countyDistrict address2</string>
+      <string>address6 address5</string>
+      <string>address3 address1</string>
+      <string>startDate endDate</string>
+   </lineByLineFormat>
+</org.openmrs.layout.web.address.AddressTemplate>

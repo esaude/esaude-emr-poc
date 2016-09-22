@@ -1,4 +1,4 @@
-<div class="row bg-info-border content-border border-rouded"><!--patient header -->
+<div class="row bg-info-border content-border border-rouded" ng-init="initPatientState()"><!--patient header -->
 
   <div class="col-md-4 well well-sm panel-marginless-bottom" ng-repeat="patientState in patientStates">
     <p ng-class="capitalize"> {{patientState.exam}} :
