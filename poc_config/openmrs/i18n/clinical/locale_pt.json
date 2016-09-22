@@ -145,5 +145,16 @@
     "CLINIC_PRESCRIPTION_ARV_PLAN_INTERRUPDED_REASON": "Motivo de Interrupção",
     "CLINIC_PRESCRIPTION_ARV_PLAN_INTERRUPDED_FOR": "Interrompeu por",
     "CLINIC_PRESCRIPTION_ARV_CHANGE_REASON_REASON": "Motivo Mudança ARV",
-    "CLINIC_PRESCRIPTION_ARV_CHANGE_FOR": "Alterou por"
+    "CLINIC_PRESCRIPTION_ARV_CHANGE_FOR": "Alterou por",
+    "CLINIC_LAB_RESULTS": "Resultados do Laboratório",
+    "CLINIC_PATIENT_HGB_COUNT": "HGB Absoluto",
+    "CLINIC_PATIENT_HIV_VIRAL_LOAD":"HIV CARGA VIRAL",
+    "CLINIC_PATIENT_SERUM_ALBUMIN": "Albumina",
+    "TUBERCULOSIS_DRUG_TREATMENT_START_DATE": "Data de Inicio de Tratamento TB",
+    "TUBERCULOSIS_PROPHYLAXIS_STARTED": "Em Tratemento TB",
+    "HISTORICAL_DRUG_START_DATE": "Data de Inicio de TARV",
+    "PREVIOUS_ANTIRETROVIRAL_DRUGS_USED_FOR_TREATMENT": "Medicamentos anti-retrovirais utilizados para o tratamento",
+    "ANTIRETROVIRAL_PLAN": "Gestao de TARV",
+    "START_DRUGS": "Inicio TARV",
+    "REGIMEN": "Regime"
 }

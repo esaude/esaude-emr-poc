@@ -72,19 +72,6 @@
             "maxAge": "14",
             "requireChekin": true
         }
-    },
-    {
-        "id": "010",
-        "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
-        "label": "PRESCRIÇÃO - ADULTO",
-        "url": "/prescription/adult",
-        "minOccur": "0",
-        "maxOccur": "-1",
-        "constraints": {
-            "minAge": "15",
-            "requireChekin": true
-        },
-        "markedOn": "488e6803-c7db-43b2-8911-8d5d2a8472fd"
     }
 
 ]

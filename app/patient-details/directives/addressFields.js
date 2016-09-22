@@ -14,15 +14,19 @@ angular.module('patient.details')
         };
     })
     .controller('AddressFieldsDirectiveController', function ($scope, addressAttributeService) {
-        var addressLevelsCloneInDescendingOrder = $scope.addressLevels.slice(0).reverse();
-        $scope.addressLevelsChunks = Bahmni.Common.Util.ArrayUtil.chunk(addressLevelsCloneInDescendingOrder, 2);
-        var addressLevelsNamesInDescendingOrder = addressLevelsCloneInDescendingOrder.map(function (addressLevel) {
+        var addressLevelsCloneInAscendingOrder = $scope.addressLevels;
+        $scope.addressLevelsChunks = Bahmni.Common.Util.ArrayUtil.chunk(addressLevelsCloneInAscendingOrder, 2);
+
+        var addressLevelsInAscendingOrder = addressLevelsCloneInAscendingOrder.map(function (addressLevel) {
             return addressLevel.addressField;
         });
         var autocompletedFields = [];
         $scope.addressFieldSelected = function (fieldName) {
             return function (addressFieldItem) {
-                var parentFields = addressLevelsNamesInDescendingOrder.slice(addressLevelsNamesInDescendingOrder.indexOf(fieldName) + 1);
+                var startAddress = 0;
+                var endAddress = addressLevelsInAscendingOrder.indexOf(fieldName) ;
+
+                var parentFields = addressLevelsInAscendingOrder.slice(startAddress, endAddress).reverse();
                 var parent = addressFieldItem.addressField.parent;
                 parentFields.forEach(function (parentField) {
                     if (!parent) return;
@@ -67,7 +71,7 @@ angular.module('patient.details')
                 });
             }
         };
-        
+
         $scope.$watch('$parent.showMessages', function (value) {
             $scope.showMessages = value;
         });

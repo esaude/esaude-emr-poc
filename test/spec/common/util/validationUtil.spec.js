@@ -13,7 +13,7 @@ describe('ValidationUtil', function () {
   var complexObject, objectConfiguration;
   beforeEach(function () {
     complexObject = {
-      "name": "valerio",
+      "name": "don joe",
       "age": {days: 7},
       "address": {
         "addr1": "addr1",
@@ -38,7 +38,7 @@ describe('ValidationUtil', function () {
     customValidator["date"] = jasmine.createSpyObj('date', ['method']);
     customValidator["date"].method.and.returnValue(true);
     ValidationUtil.validate(complexObject, objectConfiguration);
-    expect(customValidator["name"].method).toHaveBeenCalledWith("name", "valerio", objectConfiguration.one);
+    expect(customValidator["name"].method).toHaveBeenCalledWith("name", "don joe", objectConfiguration.one);
     expect(customValidator["age.days"].method).toHaveBeenCalledWith("age.days", 7, undefined);
     //expect(customValidator["date"].method).toHaveBeenCalledWith("date", date, undefined);
   });
