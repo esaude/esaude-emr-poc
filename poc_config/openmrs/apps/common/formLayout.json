@@ -37,7 +37,8 @@
                     },
                     {
                         "name": "Nível de Escolaridade",
-                        "id": "e2a0b41e-1d5f-11e0-b929-000c29ad1d07"
+                        "id": "e2a0b41e-1d5f-11e0-b929-000c29ad1d07",
+                        "searchBySource": "919246ff-6bfc-42fc-8213-69d2d1ce0db7"
                     },
                     {
                         "name": "No de conviventes",

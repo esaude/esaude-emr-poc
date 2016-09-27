@@ -2,7 +2,7 @@ angular.module('bahmni.common.uiHelper')
 .directive('conceptAutocomplete', function ($parse, $http) {
     var link = function (scope, element, attrs, ngModelCtrl) {
         var source =  function(request) {
-            return $http.get(Bahmni.Common.Constants.conceptUrl, { params: {q: request.term, memberOf: scope.conceptSetUuid, answerTo: scope.codedConceptName, v: "custom:(uuid,name)"}});
+            return $http.get(Bahmni.Common.Constants.conceptUrl, { params: {source: scope.conceptSourceUuid, q: request.term, memberOf: scope.conceptSetUuid, answerTo: scope.codedConceptName, v: "custom:(uuid,name,display)"}});
         };
         var minLength = scope.minLength || 2;
 
@@ -41,7 +41,8 @@ angular.module('bahmni.common.uiHelper')
             conceptSetUuid: '=',
             codedConceptName: '=',
             minLength: '=',
-            blurOnSelect: '='
+            blurOnSelect: '=',
+            conceptSourceUuid: "="
         }
     }
 });
