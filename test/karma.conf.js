@@ -3,7 +3,7 @@
 // Generated on 2015-07-07 using
 // generator-karma 1.0.0
 
-module.exports = function(config) {
+module.exports = function (config) {
   'use strict';
 
   config.set({
@@ -53,16 +53,18 @@ module.exports = function(config) {
       'bower_components/angular-mocks/angular-mocks.js',
 
       'bower_components/angular-smart-table/dist/smart-table.min.js',
-     'bower_components/angular-datepicker/dist/angular-datepicker.min.js',
-    'bower_components/bootstrap-switch/dist/js/bootstrap-switch.min.js',
-    'bower_components/angular-bootstrap-switch/dist/angular-bootstrap-switch.min.js',
-    'bower_components/ng-clip/dest/ng-clip.min.js',
-    'bower_components/zeroclipboard/dist/ZeroClipboard.min.js',
-    'bower_components/angular-bootstrap-checkbox/angular-bootstrap-checkbox.js',
-    'bower_components/angular-messages/angular-messages.min.js',
-     'bower_components/d3/d3.min.js',
-    'bower_components/nvd3/build/nv.d3.min.js',
-    'bower_components/angularjs-nvd3-directives/dist/angularjs-nvd3-directives.min.js',
+      'bower_components/angular-datepicker/dist/angular-datepicker.min.js',
+      'bower_components/bootstrap-switch/dist/js/bootstrap-switch.min.js',
+      'bower_components/angular-bootstrap-switch/dist/angular-bootstrap-switch.min.js',
+      'bower_components/ng-clip/dest/ng-clip.min.js',
+      'bower_components/zeroclipboard/dist/ZeroClipboard.min.js',
+      'bower_components/angular-bootstrap-checkbox/angular-bootstrap-checkbox.js',
+      'bower_components/angular-messages/angular-messages.min.js',
+      'bower_components/d3/d3.min.js',
+      'bower_components/nvd3/build/nv.d3.min.js',
+      'bower_components/angularjs-nvd3-directives/dist/angularjs-nvd3-directives.min.js',
+      'bower_components/select2/select2.min.js',
+      'bower_components/angular-ui-select2/src/select2.js',
 
       // endbower
       // bundled libraries
