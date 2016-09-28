@@ -26,6 +26,21 @@ Bahmni.Common = Bahmni.Common || {};
         "5456047f-8e81-4f68-b061-5ee10a2f0a11": "warning",
         "9b9c21dc-e1fb-4cd9-a947-186e921fa78c": "error"
     };
+    
+    var drugPrescriptionConvSet = {
+        arvDrugs: {uuid: "e1d83d4a-1d5f-11e0-b929-000c29ad1d07"},
+        otherDrugs: {uuid: "e1de3092-1d5f-11e0-b929-000c29ad1d07"},
+        artPlan: {uuid: "e1d9ee10-1d5f-11e0-b929-000c29ad1d07"},
+        interruptedReason: {uuid: "e1d9ead2-1d5f-11e0-b929-000c29ad1d07"},
+        changeReason: {uuid: "e1de8862-1d5f-11e0-b929-000c29ad1d07"},
+        dosageAmount: {uuid: "e1de8966-1d5f-11e0-b929-000c29ad1d07"},
+        dosingUnits: {uuid: "9d66a447-10e8-11e5-9009-0242ac110012"},
+        dosgeFrequency: {uuid: "5368f4d6-10e7-11e5-9009-0242ac110012"},
+        drugRoute: {uuid: "9d6a9238-10e8-11e5-9009-0242ac110012"},
+        duration: {uuid: "e1de27a0-1d5f-11e0-b929-000c29ad1d07"},
+        durationUnits: {uuid: "9d6f0bea-10e8-11e5-9009-0242ac110012"},
+        dosingInstructions: {uuid: "9d73c2a7-10e8-11e5-9009-0242ac110012"}
+    };
 
     Bahmni.Common.Constants = {
         dateFormat: "dd/mm/yyyy",
@@ -172,7 +187,12 @@ Bahmni.Common = Bahmni.Common || {};
         cohortMarkedForConsultationUuid: "eca2b927-4ee3-47e3-9c19-a72805891d8d",
         cohortMarkedForConsultationAndCheckedInUuid: "d00c4b2e-7c13-4d05-9f87-8a9c4b07ad52",
         nextConsultationDateUuid: "e1dae630-1d5f-11e0-b929-000c29ad1d07",
-        providerUrl: RESTWS_V1 + "/provider"
+        providerUrl: RESTWS_V1 + "/provider",
+        drugPrescriptionConvSet: drugPrescriptionConvSet,
+        prescriptionConvSetConcept: "ac465c58-68ef-4a19-88ae-c7f72e89a2b2",
+        followupAdultFormUuid: "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
+        followupChildFormUuid: "e28ac028-1d5f-11e0-b929-000c29ad1d07",
+        artInterruptedPlanUuid: "e1d9f36a-1d5f-11e0-b929-000c29ad1d07"
 
     };
 })();

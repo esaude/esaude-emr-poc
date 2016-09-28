@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="../../bower_components/angular-datepicker/dist/angular-datepicker.min.css">
     <link rel="stylesheet" href="../../bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css"/>
     <link rel="stylesheet" href="../../bower_components/nvd3/build/nv.d3.min.css"/>
+    <link rel="stylesheet" href="../../bower_components/select2/select2.css"/>
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css styles/main.min.css -->
@@ -62,6 +63,8 @@
       <script src="../../bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.min.js"></script>
       <script src="../../bower_components/angular-translate-storage-local/angular-translate-storage-local.js"></script>
       <script src="../../bower_components/angular-translate-handler-log/angular-translate-handler-log.min.js"></script>
+      <script src="../../bower_components/select2/select2.min.js"></script>
+      <script src="../../bower_components/angular-ui-select2/src/select2.js"></script>
       <!-- endbower -->
       <!-- endbuild -->
 
@@ -96,7 +99,6 @@
       <script src="../common/constants.js"></script>
       <script src="../common/util/init.js"></script>
       <script src="../common/util/dateUtil.js"></script>
-      <script src="../common/util/validationUtil.js"></script>
       <script src="../common/util/dynamicResourceLoader.js"></script>
       <script src="../common/util/arrayUtil.js"></script>
       <script src="../common/util/httpErrorInterceptor.js"></script>
@@ -127,6 +129,7 @@
       <script src="../common/domain/services/alertService.js"></script>
       <script src="../common/domain/services/commonService.js"></script>
       <script src="../common/domain/services/cohortService.js"></script>
+      <script src="../common/domain/services/conceptService.js"></script>
 
       <script src="../common/config/init.js"></script>
       <script src="../common/config/services/configurations.js"></script>
@@ -190,6 +193,8 @@
       <script src="controllers/patientActualController.js"></script>
       <script src="controllers/notesController.js"></script>
       <script src="controllers/patientCurrentController.js"></script>
+      <script src="controllers/patientPrescriptionController.js"></script>
+      <script src="controllers/patientHeaderController.js"></script>
       <!-- endbuild -->
   </body>
 </html>
