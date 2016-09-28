@@ -60,13 +60,19 @@
             
             <div ng-switch-when="Coded">
                 <div ng-if="field.searchBySource">
-                  <input type="text" name="{{fieldId}}" id="{{fieldId}}" class="form-control keyboard-in" 
+                  <!--input type="text" name="{{fieldId}}" id="{{fieldId}}" class="form-control keyboard-in" 
                        placeholder="{{fieldModel.field.name}}"
                        ng-model="fieldModel.value" 
                        ng-required="{{fieldModel.field.required}}"
                        concept-autocomplete
-                       concept-source-uuid="field.searchBySource"
-                       min-length="3">
+                       concept-source-uuid="field.searchBySource"-->
+                  <input type="text" name="{{fieldId}}" 
+                    ng-model="fieldModel.value" 
+                    uib-typeahead="concept as concept.display for concept in getConcepts($viewValue)" 
+                    typeahead-loading="loadingLocations" 
+                    typeahead-no-results="noResults" 
+                    class="form-control keyboard-in" 
+                    ng-required="{{fieldModel.field.required}}">
                 </div>
                 <div ng-if="!field.searchBySource">
                   <div class="bg-info-border border-rouded" ng-if="fieldModel.fieldConcept.selectMultiple">
