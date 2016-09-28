@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('clinic')
-        .controller('PatientPrescriptionController', ["$scope", "$rootScope", "$stateParams", 
+        .controller('PatientPrescriptionController', ["$scope", "$rootScope", "$stateParams",
                         "encounterService", "observationsService", "commonService", "conceptService", "localStorageService",
-                    function ($scope, $rootScope, $stateParams, encounterService, 
+                    function ($scope, $rootScope, $stateParams, encounterService,
                     observationsService, commonService, conceptService, localStorageService) {
         var patientUuid;
         var markedOn = "488e6803-c7db-43b2-8911-8d5d2a8472fd";
@@ -16,9 +16,9 @@ angular.module('clinic')
             patientUuid = $stateParams.patientUuid;
             $scope.listedPrescriptions = [];
             $scope.existingPrescriptions = [];
-            
+
             $scope.fieldModels = angular.copy(Bahmni.Common.Constants.drugPrescriptionConvSet);
-            
+
             conceptService.get(Bahmni.Common.Constants.prescriptionConvSetConcept).success(function (data) {
                 for (var key in $scope.fieldModels) {
                     var fieldModel = $scope.fieldModels[key];
@@ -28,20 +28,20 @@ angular.module('clinic')
                     fieldModel.model = foundModel;
                 }
             });
-            
-            var encounterType = ($rootScope.patient.age.years >= 15) ? Bahmni.Common.Constants.adultFollowupEncounterUuid : 
+
+            var encounterType = ($rootScope.patient.age.years >= 15) ? Bahmni.Common.Constants.adultFollowupEncounterUuid :
                         Bahmni.Common.Constants.childFollowupEncounterUuid;
-                
+
             loadSavedPrescriptions(patientUuid, encounterType);
-                
+
         };
-        
+
         var resetFieldModel = function () {
             for (var key in $scope.fieldModels) {
                 $scope.fieldModels[key].value = undefined;
             }
         };
-        
+
         $scope.add = function (valid) {
             if (!valid) {
                 $scope.showMessages = true;
@@ -53,29 +53,29 @@ angular.module('clinic')
             $scope.showMessages = false;
             $scope.fieldType = undefined;
         };
-        
+
          $scope.remove = function (item) {
              _.pull($scope.listedPrescriptions, item);
              isPrescriptionControl();
          };
-         
+
          $scope.edit = function (item) {
              $scope.fieldModels = angular.copy(item);
              _.pull($scope.listedPrescriptions, item);
              isPrescriptionControl();
-         }
-         
+         };
+
          var isPrescriptionControl = function () {
              if (_.isEmpty($scope.listedPrescriptions)) {
                  $scope.showNewPrescriptionsControlls = false;
              }
-         }
-        
+         };
+
         $scope.save = function () {
             //build obs
             var obs = [];
             var datetime = dateUtil.now();
-            
+
             _.forEach($scope.listedPrescriptions, function (element) {
                 //create group observation
                 var obsConvSetGroup = {
@@ -87,9 +87,9 @@ angular.module('clinic')
                 //create obs for grouped fields
                 for (var key in element) {
                     var field = element[key];
-                    
+
                     if (_.isUndefined(field.value)) continue;
-                    
+
                     var observations = {
                         concept: field.model.uuid,
                         obsDatetime: datetime,
@@ -113,7 +113,7 @@ angular.module('clinic')
                 value: dateUtil.getDateInDatabaseFormat(datetime)
             };
             obs.push(markedOnObs);
-            
+
             if ($scope.hasEntryToday) {
                 //copy existing encounter
                 var encounter = {
@@ -125,9 +125,9 @@ angular.module('clinic')
             } else {
                 //build new encounter
                 var encounter = {
-                    encounterType: ($rootScope.patient.age.years >= 15) ? Bahmni.Common.Constants.adultFollowupEncounterUuid : 
+                    encounterType: ($rootScope.patient.age.years >= 15) ? Bahmni.Common.Constants.adultFollowupEncounterUuid :
                             Bahmni.Common.Constants.childFollowupEncounterUuid,
-                    form: ($rootScope.patient.age.years >= 15) ? Bahmni.Common.Constants.followupAdultFormUuid : 
+                    form: ($rootScope.patient.age.years >= 15) ? Bahmni.Common.Constants.followupAdultFormUuid :
                             Bahmni.Common.Constants.followupChildFormUuid,
                     encounterDatetime: datetime,
                     location: localStorageService.cookie.get("emr.location").uuid,
@@ -139,17 +139,17 @@ angular.module('clinic')
                 encounterService.create(encounter).success(encounterSuccessCallback);
             }
         };
-        
+
         var encounterSuccessCallback = function (encounterProfileData) {
             loadSavedPrescriptions(encounterProfileData.patient.uuid, encounterProfileData.encounterType.uuid);
             $scope.listedPrescriptions = [];
             isPrescriptionControl();
         };
-        
+
         var loadSavedPrescriptions = function (patient, encounterType) {
             encounterService.getEncountersForEncounterType(patient, encounterType).success(function (data) {
                     if (_.isEmpty(data.results)) return;
-                    
+
                     $scope.existingPrescriptions = [];
                     var nonVoidedEncounters = encounterService.filterRetiredEncoounters(data.results);
                     var sortedEncounters = _.sortBy(nonVoidedEncounters, function (encounter) {
@@ -157,7 +157,7 @@ angular.module('clinic')
                     }).reverse();
                     //get todays entry
                     var lastEncounter = _.maxBy(sortedEncounters, "encounterDatetime");
-                    if (dateUtil.diffInDaysRegardlessOfTime(lastEncounter.encounterDatetime, 
+                    if (dateUtil.diffInDaysRegardlessOfTime(lastEncounter.encounterDatetime,
                                         dateUtil.now()) === 0) {
                         $scope.todaysEncounter = lastEncounter;
                         $scope.hasEntryToday = true;
@@ -165,11 +165,11 @@ angular.module('clinic')
                         var markedOnInfo = _.find(lastEncounter.obs, function (o) {
                             return o.concept.uuid === markedOn;
                         });
-                        
+
                         if (!_.isUndefined(markedOnInfo)) $scope.hasServiceToday = true;
                     };
-                    
-                    var filteredEncounters = _.filter(sortedEncounters, function (e) {
+
+              var filteredEncounters = _.filter(sortedEncounters, function (e) {
                         var foundObs = _.find(e.obs, function (o) {
                             return o.concept.uuid === markedOn;
                         });
@@ -186,11 +186,11 @@ angular.module('clinic')
                             return o.concept.uuid === markedOn;
                         });
                         existingModels.prescriptionDate = markedOnInfo.value;
-                        
+
                         var existingPrescriptionSets = _.filter(encounter.obs, function (o) {
                             return o.concept.uuid === Bahmni.Common.Constants.prescriptionConvSetConcept;
                         });
-                        
+
                         _.forEach(existingPrescriptionSets, function (pSet) {
                             var existingModel = angular.copy(Bahmni.Common.Constants.drugPrescriptionConvSet);
                             for (var key in existingModel) {
@@ -199,7 +199,7 @@ angular.module('clinic')
                                     return element.concept.uuid === m.uuid;
                                 });
                                 if (_.isUndefined(foundModel)) continue;
-                                
+
                                 m.model = foundModel.concept;
                                 m.value = foundModel.value;
                             }
@@ -209,57 +209,57 @@ angular.module('clinic')
                     });
             });
         };
-        
+
         $scope.selectDrugType = function () {
             if ($scope.fieldType === "ARV") {
                 $scope.isArt = true;
                 $scope.isOthers = false;
-                
+
                 observationsService.get(patientUuid, Bahmni.Common.Constants.drugPrescriptionConvSet.arvDrugs.uuid)
                         .success(function (data) {
                     var nonRetired = commonService.filterRetired(data.results);
                     var maxObs = _.maxBy(nonRetired, 'obsDatetime');
-                    
+
                     if (maxObs) {
                         var swappedObsToConcept = swapObsToConceptAnswer(maxObs, $scope.fieldModels.arvDrugs.model.answers);
                         $scope.fieldModels.arvDrugs.value = swappedObsToConcept;
                         $scope.fieldModels.arvDrugs.oldValue = swappedObsToConcept;
                     }
-                });       
+                });
             } else {
                 $scope.isArt = false;
                 $scope.isOthers = true;
                 $scope.isPlanChanged = false;
             }
         };
-        
+
         var swapObsToConceptAnswer = function (obs, conceptAnswers) {
             return _.find(conceptAnswers, function (answer) {
                 return obs.value.uuid === answer.uuid;
-            });       
+            });
         };
-        
+
         $scope.validatePlan = function () {
-            if ($scope.fieldModels.artPlan.value.uuid === 
+            if ($scope.fieldModels.artPlan.value.uuid ===
                     Bahmni.Common.Constants.artInterruptedPlanUuid) {
                 $scope.isPlanInterrupted = true;
             } else {
                 $scope.isPlanInterrupted = false;
             }
         };
-        
+
         $scope.$watch('fieldModels.arvDrugs.value', function(newValue) {
             if (_.isUndefined(newValue)) return;
-            
-            if (!_.isUndefined($scope.fieldModels.arvDrugs.oldValue) && 
+
+            if (!_.isUndefined($scope.fieldModels.arvDrugs.oldValue) &&
                     (newValue.uuid !== $scope.fieldModels.arvDrugs.oldValue.uuid)) {
                 $scope.isPlanChanged = true;
             } else {
                 $scope.isPlanChanged = false;
-                if ($scope.fieldModels.changeReason.value) 
+                if ($scope.fieldModels.changeReason.value)
                     $scope.fieldModels.changeReason.value = undefined;
             }
         });
-        
+
         init();
     }]);
