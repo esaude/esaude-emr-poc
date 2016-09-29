@@ -524,10 +524,6 @@
                         "id": "c3fa62c3-61ef-4cc5-a46b-8d96a345f48c"
                     },
                     {
-                        "name": "Tratamento de Tuberculose",
-                        "id": "ca8b6994-2d1b-4cc4-8384-a65159051680"
-                    },
-                    {
                         "name": "Data de Inicio",
                         "id": "a2fda180-923d-426b-999a-27053b239c2a"
                     },
@@ -546,26 +542,20 @@
                     {
                         "name": "Profilaxia com Cotrimoxazol",
                         "id": "5294e15e-fa75-4c81-8593-33eb49d9cf56",
-                        "logics": {
-                            "fireEvent": "disable-field"
-                        }
+                        "fireHideEvent": "disable-field-cotrimoxazol"
                     },
 
                     {
                         "name": "Data de Inicio",
                         "id": "2b71e477-ce1f-4563-b577-1dd6f98c3097",
-                        "logics": {
-                            "listenEvent": "disable-field"
-                        },
+                        "listenHideEvent": "disable-field-cotrimoxazol",
                         "hidden": true,
                         "required":false
                     },
                     {
                         "name": "Data de Fim",
                         "id": "93302556-6113-4bf6-967f-ac2f266a35be",
-                        "logics": {
-                            "listenEvent": "disable-field"
-                        },
+                        "listenHideEvent": "disable-field-cotrimoxazol",
                         "hidden": true,
                         "required":false
                     }
@@ -581,26 +571,22 @@
                      {
                         "name": "Profilaxia com Isoniazida",
                         "id": "fa6a769d-39a9-44eb-9d36-d3b11e3d44ac",
-                        "logics": {
-                            "fireEvent": "disable-field-izoniazida"
-                        }
+                        "fireHideEvent": "disable-field-izoniazida"
                     },
 
                     {
                         "name": "Data de Inicio",
                         "id": "5fc349f2-a694-4a0c-803e-ccbb5402bd53",
                         "hidden": true,
-                        "logics": {
-                            "listenEvent": "disable-field-izoniazida"
-                        }
+                        "listenHideEvent": "disable-field-izoniazida",
+                        "required":false
                     },
                     {
                         "name": "Data de Fim",
                         "id": "fc046c9b-6399-4d43-a1b1-d46117985ef1",
                         "hidden": true,
-                        "logics": {
-                            "listenEvent": "disable-field-izoniazida"
-                        }
+                        "listenHideEvent": "disable-field-izoniazida",
+                        "required":false
                     }
 
                 ]
@@ -614,26 +600,22 @@
                     {
                         "name": "Profilaxia Da Meningite Criptocócica",
                         "id": "01b783f3-e972-411f-8d8b-980d8aad7f4e",
-                        "logics": {
-                            "fireEvent": "disable-field-criptococia"
-                        }
+                            "fireHideEvent": "disable-field-criptococia"
                     },
 
                     {
                         "name": "Data de Inicio",
                         "id": "e6551ba8-7bb8-4b69-8f17-cca5048621b7",
                         "hidden": true,
-                        "logics": {
-                            "listenEvent": "disable-field-criptococia"
-                        }
+                        "listenHideEvent": "disable-field-criptococia",
+                        "required":false
                     },
                     {
                         "name": "Data de Fim",
                         "id": "fce0e153-215d-422d-985b-d36a3fed687b",
                         "hidden": true,
-                        "logics": {
-                            "listenEvent": "disable-field-criptococia"
-                        }
+                        "listenHideEvent": "disable-field-criptococia",
+                        "required":false
                     }
 
                 ]
