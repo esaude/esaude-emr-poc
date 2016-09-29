@@ -25,6 +25,36 @@ angular.module('poc.common.formdisplay')
             
         var formLogic = {};
         
+         var fireEvent = function (event) {
+             if (event === "disable-field" || event === "disable-field-izoniazida" || event === "disable-field-izoniazida" || event === "disable-field-criptococia") {
+                 $scope.$watch('aForm.' + $scope.fieldId + '.$viewValue', function (newVal, oldVal) {
+                     if (newVal !== oldVal && !_.isUndefined(oldVal)) {
+                         debugger
+                         $rootScope.$broadcast(event, newVal);
+                     }
+                 });
+             }
+         };
+
+         var listenEvent = function (event) {
+             debugger
+             if (event === "disable-field" || event === "disable-field-izoniazida" || event === "disable-field-izoniazida" || event === "disable-field-criptococia") {
+                 debugger
+                 $scope.$on(event, function (event, val) {
+                     var valJson = JSON.parse(val);
+                     debugger
+                     if (valJson.display === "YES") {
+                         $scope.field.hidden = false;
+                         $scope.field.required= true;
+
+                     } else {
+                         $scope.field.hidden = true;
+                         $scope.field.required= false;
+                     }
+                 });
+             }
+         };
+
         formLogic.defaultValueIsLastEntry = function (param) {
             observationsService.get($rootScope.patient.uuid, param).success(function (data) {
                 var nonRetired = observationsService.filterRetiredObs(data.results);
@@ -52,6 +82,9 @@ angular.module('poc.common.formdisplay')
             $scope.$watch('$parent.submitted', function (value) {
                 $scope.showMessages = value;
             });
+            $scope.$watch('$parent.submitted', function (value) {
+                $scope.showMessages = value;
+            });
             
             $scope.$watch('aForm.' + $scope.fieldId + '.$valid', function (value) {
                 if (typeof value !== "undefined") {
@@ -62,6 +95,14 @@ angular.module('poc.common.formdisplay')
                 }
             });
             
+            if (!_.isUndefined($scope.field.logics) && $scope.field.logics.fireEvent) {
+                fireEvent($scope.field.logics.fireEvent);
+            }
+
+            if (!_.isUndefined($scope.field.logics) && $scope.field.logics.listenEvent) {
+                listenEvent($scope.field.logics.listenEvent);
+            }
+
             $scope.initFieldModel = function () {
                 $scope.fieldModel = $scope.formParts.form.fields[$scope.fieldUuid];
 
@@ -146,4 +187,4 @@ angular.module('poc.common.formdisplay')
             }
         }
 
-    }]);
+}]);
