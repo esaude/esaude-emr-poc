@@ -9,7 +9,6 @@
                 This field was never visited, please visit this field before save
             </span>
             <span class="label label-danger" ng-if="fieldValidity && !fieldValidity.valid">
-                {{fieldValidity.valid}}
                 This field didn't pass validation rules
             </span>
             <div ng-if="fieldMeta.fieldConcept.concept.datatype.display === 'Text'">

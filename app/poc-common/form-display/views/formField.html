@@ -59,67 +59,78 @@
             </div>
             
             <div ng-switch-when="Coded">
-                <div class="bg-info-border border-rouded" ng-if="fieldModel.fieldConcept.selectMultiple">
-                    <div class="content-border-padding" ng-repeat="answer in fieldModel.fieldConcept.concept.answers">
-                        <checkbox largest
-                               id="{{answer.uuid}}"
-                               name="{{fieldId}}"
-                               ng-true-value="{{answer}}"
-                               ng-false-value="undefined"
-                               ng-model="fieldModel.value[answer.uuid]"
-                               ng-required="{{fieldModel.field.required && !fieldModel.value}}">
-                        </checkbox> {{answer.display}} 
-                    </div>
+                <div ng-if="field.searchBySource">
+                  <input type="text" name="{{fieldId}}" 
+                    ng-model="fieldModel.value" 
+                    uib-typeahead="concept as concept.display for concept in getConcepts($viewValue)" 
+                    typeahead-loading="loadingLocations" 
+                    typeahead-no-results="noResults" 
+                    class="form-control keyboard-in" 
+                    ng-required="{{fieldModel.field.required}}">
                 </div>
-                <div ng-if="!fieldModel.fieldConcept.selectMultiple">
-                    <div ng-if="fieldModel.fieldConcept.concept.answers.length > 3">
-                        <select name="{{fieldId}}" class="form-control" 
-                                ng-model="fieldModel.value" 
-                                ng-options="answer.display for answer in fieldModel.fieldConcept.concept.answers"
-                                ng-required="{{fieldModel.field.required}}"
-                                ng-disabled="{{field.disabled}}">
-                            <option></option>
-                        </select>
-                    </div>
-                    <div class="bg-info-border border-rouded" 
-                         ng-class="{'bg-error-border': aForm.{{fieldId}}.$invalid && showMessages}" 
-                        ng-if="fieldModel.fieldConcept.concept.answers.length === 3">
-                        <div class="content-border-padding" ng-repeat="answer in fieldModel.fieldConcept.concept.answers">
-                            <input type="radio"
-                                   id="{{fieldId}}{{answer.uuid}}"
-                                   class="radio-lx"
-                                   name="{{fieldId}}" 
-                                   ng-value="{{answer}}"
-                                   ng-model="fieldModel.value"
-                                   ng-required="{{fieldModel.field.required && !fieldModel.value}}">
-                            <label for="{{fieldId}}{{answer.uuid}}">{{answer.display}}</label>
-                        </div>
-                    </div>
-                    <div ng-if="fieldModel.fieldConcept.concept.answers.length === 2">
-                        <div ng-if="isTrueFalseQuestion(fieldModel.fieldConcept.concept.answers)">
-                            <checkbox largest
-                               name="{{fieldId}}"
-                               ng-true-value="{{getConceptInAnswers(fieldModel.fieldConcept.concept.answers, 'e1d81b62-1d5f-11e0-b929-000c29ad1d07')}}"
-                               ng-false-value="{{getConceptInAnswers(fieldModel.fieldConcept.concept.answers, 'e1d81c70-1d5f-11e0-b929-000c29ad1d07')}}"
-                               ng-model="fieldModel.value"
-                               ng-required="{{fieldModel.field.required}}">
-                        </div>
-                        
-                        <div class="bg-info-border border-rouded" 
-                             ng-class="{'bg-error-border': aForm.{{fieldId}}.$invalid && showMessages}" 
-                            ng-if="!isTrueFalseQuestion(fieldModel.fieldConcept.concept.answers)">
-                            <div class="content-border-padding" ng-repeat="answer in fieldModel.fieldConcept.concept.answers">
-                                <input type="radio"
-                                       id="{{fieldId}}{{answer.uuid}}"
-                                       class="radio-lx"
-                                       name="{{fieldId}}" 
-                                       ng-value="{{answer}}"
-                                       ng-model="fieldModel.value"
-                                       ng-required="{{fieldModel.field.required && !fieldModel.value}}">
-                                <label for="{{fieldId}}{{answer.uuid}}">{{answer.display}}</label>
-                            </div>
-                        </div> 
-                </div>
+                <div ng-if="!field.searchBySource">
+                  <div class="bg-info-border border-rouded" ng-if="fieldModel.fieldConcept.selectMultiple">
+                      <div class="content-border-padding" ng-repeat="answer in fieldModel.fieldConcept.concept.answers">
+                          <checkbox largest
+                                 id="{{answer.uuid}}"
+                                 name="{{fieldId}}"
+                                 ng-true-value="{{answer}}"
+                                 ng-false-value="undefined"
+                                 ng-model="fieldModel.value[answer.uuid]"
+                                 ng-required="{{fieldModel.field.required && !fieldModel.value}}">
+                          </checkbox> {{answer.display}} 
+                      </div>
+                  </div>
+                  <div ng-if="!fieldModel.fieldConcept.selectMultiple">
+                      <div ng-if="fieldModel.fieldConcept.concept.answers.length > 3">
+                          <select name="{{fieldId}}" class="form-control" 
+                                  ng-model="fieldModel.value" 
+                                  ng-options="answer.display for answer in fieldModel.fieldConcept.concept.answers"
+                                  ng-required="{{fieldModel.field.required}}"
+                                  ng-disabled="{{field.disabled}}">
+                              <option></option>
+                          </select>
+                      </div>
+                      <div class="bg-info-border border-rouded" 
+                           ng-class="{'bg-error-border': aForm.{{fieldId}}.$invalid && showMessages}" 
+                          ng-if="fieldModel.fieldConcept.concept.answers.length === 3">
+                          <div class="content-border-padding" ng-repeat="answer in fieldModel.fieldConcept.concept.answers">
+                              <input type="radio"
+                                     id="{{fieldId}}{{answer.uuid}}"
+                                     class="radio-lx"
+                                     name="{{fieldId}}" 
+                                     ng-value="{{answer}}"
+                                     ng-model="fieldModel.value"
+                                     ng-required="{{fieldModel.field.required && !fieldModel.value}}">
+                              <label for="{{fieldId}}{{answer.uuid}}">{{answer.display}}</label>
+                          </div>
+                      </div>
+                      <div ng-if="fieldModel.fieldConcept.concept.answers.length === 2">
+                          <div ng-if="isTrueFalseQuestion(fieldModel.fieldConcept.concept.answers)">
+                              <checkbox largest
+                                 name="{{fieldId}}"
+                                 ng-true-value="{{getConceptInAnswers(fieldModel.fieldConcept.concept.answers, 'e1d81b62-1d5f-11e0-b929-000c29ad1d07')}}"
+                                 ng-false-value="{{getConceptInAnswers(fieldModel.fieldConcept.concept.answers, 'e1d81c70-1d5f-11e0-b929-000c29ad1d07')}}"
+                                 ng-model="fieldModel.value"
+                                 ng-required="{{fieldModel.field.required}}">
+                          </div>
+                          
+                          <div class="bg-info-border border-rouded" 
+                               ng-class="{'bg-error-border': aForm.{{fieldId}}.$invalid && showMessages}" 
+                              ng-if="!isTrueFalseQuestion(fieldModel.fieldConcept.concept.answers)">
+                              <div class="content-border-padding" ng-repeat="answer in fieldModel.fieldConcept.concept.answers">
+                                  <input type="radio"
+                                         id="{{fieldId}}{{answer.uuid}}"
+                                         class="radio-lx"
+                                         name="{{fieldId}}" 
+                                         ng-value="{{answer}}"
+                                         ng-model="fieldModel.value"
+                                         ng-required="{{fieldModel.field.required && !fieldModel.value}}">
+                                  <label for="{{fieldId}}{{answer.uuid}}">{{answer.display}}</label>
+                              </div>
+                          </div> 
+                  </div>
+              </div>
             </div>
         </div>
     </div>
