@@ -20,7 +20,7 @@ angular.module('poc.common.formdisplay')
             }
         };
     })
-    .controller('FormFieldDirectiveController', ['$rootScope', '$scope', 'observationsService', function ($rootScope, 
+    .controller('FormFieldDirectiveController', ['$http', '$rootScope', '$scope', 'observationsService', function ($http, $rootScope, 
         $scope, observationsService) {
             
         var formLogic = {};
@@ -119,7 +119,7 @@ angular.module('poc.common.formdisplay')
         }
 
 
-        var comuteWHOStage = function(firstField, lastPart, whoStages){
+        var comuteWHOStage = function(firstField, lastPart, whoStages) {
 
             for (var i = 0; i < lastPart; i++) {
 
@@ -144,6 +144,18 @@ angular.module('poc.common.formdisplay')
 
                 });
             }
-        }
+        };
+
+        $scope.getConcepts =  function(request) {
+            if (request.length < 2) return;
+
+            return $http.get(Bahmni.Common.Constants.conceptUrl, 
+                { params: {source: $scope.field.searchBySource, q: request, v: "custom:(uuid,name,display)"}})
+            .then(function(response) {
+              return response.data.results.map(function(concept) {
+                return {'value': concept.name.name, 'concept': concept, uuid: concept.uuid, display: concept.display};
+              });
+            });
+        };
 
     }]);

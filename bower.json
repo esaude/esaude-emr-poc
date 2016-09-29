@@ -47,7 +47,9 @@
     "angular-translate-handler-log": "*",
     "moment-timezone": "^0.5.4",
     "validator-js": "^5.4.0",
-    "angular-chart.js": "1.0.0-alpha1"
+    "angular-chart.js": "1.0.0-alpha1",
+    "angular-bootstrap": "^2.1.4",
+    "angular-ui-select2": "^0.0.5"
   },
   "resolutions": {
     "angular": "~1.5.0",

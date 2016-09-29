@@ -1,30 +1,31 @@
 'use strict';
 
 angular.module('clinic')
-        .controller('DashboardController', ["$rootScope", "$scope", "$location", "$stateParams", "patientService", "openmrsPatientMapper", "alertService", function ($rootScope, $scope, $location, $stateParams, patientService, patientMapper, alertService) {
+  .controller('DashboardController', ["$rootScope", "$scope", "$location", "$stateParams", "$filter", "patientService", "openmrsPatientMapper",
+    "alertService",
+    function ($rootScope, $scope, $location, $stateParams, $filter, patientService, patientMapper, alertService) {
             var patientUuid;
-    
+
             init();
-    
             function init() {
                 patientUuid = $stateParams.patientUuid;
-            
+
                 patientService.get(patientUuid).success(function (data) {
                     $rootScope.patient = patientMapper.map(data);
                 });
             }
-            
-            $scope.linkSearch = function() {
+
+      $scope.linkSearch = function() {
                 $location.url("/search"); // path not hash
             };
-            
-            $scope.linkPatientDetail = function() {
+
+      $scope.linkPatientDetail = function() {
                 $location.url("/patient/detail/" + patientUuid + "/demographic"); // path not hash
             };
-            
-            $scope.getAlerts = function () {
+
+      $scope.getAlerts = function () {
                 alertService.get(patientUuid).success(function (data) {
                    $scope.flags = data.flags;
                 });
-            }; 
-        }]);
+      };
+    }]);
