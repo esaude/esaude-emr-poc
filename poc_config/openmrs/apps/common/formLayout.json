@@ -609,8 +609,8 @@
             {
                 "id": "5",
                 "name": "EXAME FÍSICO",
-                "sref": ".diagnosticos",
-                "nextSref": ".confirm",
+                "sref": ".exams",
+                "nextSref": ".diagnosis",
                 "fields": [
                     {
                         "name": "Exames na cabeca e pescoco",
@@ -638,6 +638,19 @@
                     }
 
 
+                ]
+            },
+
+             {
+                "id": "6",
+                "name": "DIAGNOSTICOS",
+                "sref": ".diagnosis",
+                "nextSref": ".confirm",
+                "fields": [
+                    {
+                        "name": "Diagnostico 1",
+                        "id": "6d6094bf-77b7-41cc-90a9-683d866d787c"
+                    }
                 ]
             }
         ]
