@@ -21,13 +21,14 @@
     </div>
 </div>
 
-<div ng-include src="'views/patient-state.html'"></div><!--patient header -->
+<div ng-include src="'views/patient-state.html'" ng-controller="PatientHeaderController"></div><!--patient header -->
 
 <div class="bg-info-border content-border border-rouded">
     <ul class="nav nav-tabs">
         <li role="presentation" data-toggle="tab"><a ui-sref="dashboard.summary">{{'CLINIC_PATIENT_CHART_SUMMARY' | translate}}</a></li>
         <li role="presentation" data-toggle="tab" class="active"><a ui-sref="dashboard.chart">{{'CLINIC_PATIENT_CHARTS' | translate}}</a></li>
         <li role="presentation" data-toggle="tab" class="active"><a ui-sref="dashboard.consultation">{{'CLINIC_PATIENT_CONSULTATION' | translate}}</a></li>
+        <li ng-if="hasVisitToday" role="presentation" data-toggle="tab" class="active"><a ui-sref="dashboard.prescriptions">{{'CLINIC_PATIENT_PRESCRIPTIONS' | translate}}</a></li>
         <li role="presentation" data-toggle="tab" class="active"><a ui-sref="dashboard.current">{{'CLINIC_PATIENT_CURRENT_STATUS' | translate}}</a></li>
     </ul>
     <div ui-view=""></div>

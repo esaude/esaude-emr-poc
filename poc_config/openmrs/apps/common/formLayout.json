@@ -491,12 +491,12 @@
                 "nextSref": ".confirm",
                 "fields": [
                     {
-                        "name": "notes",
+                        "name": "Notas",
                          "id": "24045d41-df1a-42c5-a323-5bcb98b6b291",
                          "textSize": "8"
                     },
                     {
-                        "name": "message type",
+                        "name": "Tipo de Menságem",
                          "id": "d277616c-66b7-49c2-b7c4-dee202bf3d34"
                     }
                 ]

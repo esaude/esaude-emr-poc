@@ -1,0 +1,265 @@
+<div class="row content-border-margin-regular">
+    <div class="col-sm-5">
+        <div class="panel panel-primary panel-marginless-sides">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{'CLINIC_PRESCRIPTION_DRUG'| translate}}</h3>
+            </div>
+            <div class="panel-body">
+                <form name="prescriptionForm" class="form-horizontal">
+                    <div class="form-group form-group-lg"
+                         ng-class="{'has-error': prescriptionForm.drugType.$invalid && showMessages}">
+                        <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_DRUG_TYPE'| translate}}:<span class="asterick">*</span></label>
+                        <div class="col-sm-9">
+                            <div ng-messages for="prescriptionForm.drugType.$error" 
+                                 ng-messages-include="../poc-common/form-display/views/error-messages.html"
+                                 ng-show="showMessages"></div>
+                            <select name="drugType" class="form-control" ng-model="fieldType" required ng-change="selectDrugType()">
+                                <option></option>
+                                <option>ARV</option>
+                                <option>NON ARV</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg"
+                         ng-class="{'has-error': prescriptionForm.arvDrugs.$invalid && showMessages}" ng-show="isArt">
+                        <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_DRUG'| translate}}:<span class="asterick">*</span></label>
+                        <div class="col-sm-9">
+                            <div ng-messages for="prescriptionForm.arvDrugs.$error" 
+                                 ng-messages-include="../poc-common/form-display/views/error-messages.html"
+                                 ng-show="showMessages"></div>
+                            <select name="arvDrugs" class="form-control" ng-model="fieldModels.arvDrugs.value"
+                                    ng-options="drug.display for drug in fieldModels.arvDrugs.model.answers" ng-required="isArt">
+                                <option></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg"
+                         ng-class="{'has-error': prescriptionForm.otherDrugs.$invalid && showMessages}" ng-show="isOthers">
+                        <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_DRUG'| translate}}:<span class="asterick">*</span></label>
+                        <div class="col-sm-9">
+                            <div ng-messages for="prescriptionForm.otherDrugs.$error" 
+                                 ng-messages-include="../poc-common/form-display/views/error-messages.html"
+                                 ng-show="showMessages"></div>
+                            <select name="otherDrugs" class="form-control" ng-model="fieldModels.otherDrugs.value"
+                                    ng-options="drug.display for drug in fieldModels.otherDrugs.model.answers" ng-required="isOthers">
+                                <option></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg"
+                         ng-class="{'has-error': prescriptionForm.artPlan.$invalid && showMessages}" ng-show="isArt">
+                        <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_ARV_PLAN'| translate}}:<span class="asterick">*</span></label>
+                        <div class="col-sm-9">
+                            <div ng-messages for="prescriptionForm.artPlan.$error" 
+                                 ng-messages-include="../poc-common/form-display/views/error-messages.html"
+                                 ng-show="showMessages"></div>
+                            <select name="artPlan" class="form-control" ng-model="fieldModels.artPlan.value"
+                                    ng-options="plan.display for plan in fieldModels.artPlan.model.answers" ng-required="isArt"
+                                    ng-change="validatePlan()">
+                                <option></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg"
+                         ng-class="{'has-error': prescriptionForm.interruptedReason.$invalid && showMessages}" ng-show="isPlanInterrupted">
+                        <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_ARV_PLAN_INTERRUPDED_REASON'| translate}}:<span class="asterick">*</span></label>
+                        <div class="col-sm-9">
+                            <div ng-messages for="prescriptionForm.interruptedReason.$error" 
+                                 ng-messages-include="../poc-common/form-display/views/error-messages.html"
+                                 ng-show="showMessages"></div>
+                            <select name="interruptedReason" class="form-control" ng-model="fieldModels.interruptedReason.value"
+                                    ng-options="reason.display for reason in fieldModels.interruptedReason.model.answers" ng-required="isPlanInterrupted">
+                                <option></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg"
+                         ng-class="{'has-error': prescriptionForm.changeReason.$invalid && showMessages}" ng-show="isPlanChanged">
+                        <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_ARV_CHANGE_REASON_REASON'| translate}}:<span class="asterick">*</span></label>
+                        <div class="col-sm-9">
+                            <div ng-messages for="prescriptionForm.changeReason.$error" 
+                                 ng-messages-include="../poc-common/form-display/views/error-messages.html"
+                                 ng-show="showMessages"></div>
+                            <select name="changeReason" class="form-control" ng-model="fieldModels.changeReason.value"
+                                    ng-options="reason.display for reason in fieldModels.changeReason.model.answers" ng-required="isPlanChanged">
+                                <option></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg"
+                         ng-class="{'has-error': prescriptionForm.dosageAmount.$invalid && showMessages}">
+                        <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_DOSE'| translate}}:<span class="asterick">*</span></label>
+                        <div class="col-sm-3">
+                            <div ng-messages for="prescriptionForm.dosageAmount.$error" 
+                                 ng-messages-include="../poc-common/form-display/views/error-messages.html"
+                                 ng-show="showMessages"></div>
+                            <input name="dosageAmount" type="number" class="form-control keyboard-in"
+                                   ng-model="fieldModels.dosageAmount.value"
+                                   placeholder="{{'CLINIC_PRESCRIPTION_DOSE' | translate}}"
+                                   required>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg" 
+                         ng-class="{'has-error': prescriptionForm.dosingUnits.$invalid && showMessages}">
+                        <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_UNITS'| translate}}:<span class="asterick">*</span></label>
+                        <div class="col-sm-9">
+                            <div ng-messages for="prescriptionForm.dosingUnits.$error" 
+                                 ng-messages-include="../poc-common/form-display/views/error-messages.html"
+                                 ng-show="showMessages"></div>
+                            <select name="dosingUnits" class="form-control" ng-model="fieldModels.dosingUnits.value"
+                                    ng-options="unit.display for unit in fieldModels.dosingUnits.model.answers" required>
+                                <option></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg"
+                         ng-class="{'has-error': prescriptionForm.dosgeFrequency.$invalid && showMessages}">
+                        <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_POSOLOGY'| translate}}:<span class="asterick">*</span></label>
+                        <div class="col-sm-9">
+                            <div ng-messages for="prescriptionForm.dosgeFrequency.$error" 
+                                 ng-messages-include="../poc-common/form-display/views/error-messages.html"
+                                 ng-show="showMessages"></div>
+                            <select name="dosgeFrequency" class="form-control" ng-model="fieldModels.dosgeFrequency.value"
+                                    ng-options="frequency.display for frequency in fieldModels.dosgeFrequency.model.answers" required>
+                                <option></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg"
+                         ng-class="{'has-error': prescriptionForm.drugRoute.$invalid && showMessages}">
+                        <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_ROUTE'| translate}}:<span class="asterick">*</span></label>
+                        <div class="col-sm-9">
+                            <div ng-messages for="prescriptionForm.drugRoute.$error" 
+                                 ng-messages-include="../poc-common/form-display/views/error-messages.html"
+                                 ng-show="showMessages"></div>
+                            <select name="drugRoute" class="form-control" ng-model="fieldModels.drugRoute.value"
+                                    ng-options="route.display for route in fieldModels.drugRoute.model.answers" required>
+                                <option></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg"
+                         ng-class="{'has-error': prescriptionForm.duration.$invalid && showMessages}">
+                        <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_DURATION'| translate}}:<span class="asterick">*</span></label>
+                        <div class="col-sm-3">
+                            <div ng-messages for="prescriptionForm.duration.$error" 
+                                 ng-messages-include="../poc-common/form-display/views/error-messages.html"
+                                 ng-show="showMessages"></div>
+                            <input name="duration" type="number" class="form-control keyboard-in"
+                                   ng-model="fieldModels.duration.value"
+                                   placeholder="{{'CLINIC_PRESCRIPTION_DURATION' | translate}}"
+                                   required>
+                        </div>
+                        <div class="col-sm-3"
+                             ng-class="{'has-error': prescriptionForm.durationUnits.$invalid && showMessages}">
+                            <div ng-messages for="prescriptionForm.durationUnits.$error" 
+                                 ng-messages-include="../poc-common/form-display/views/error-messages.html"
+                                 ng-show="showMessages"></div>
+                            <select name="durationUnits" class="form-control" ng-model="fieldModels.durationUnits.value"
+                                    ng-options="durationUnit.display for durationUnit in fieldModels.durationUnits.model.answers" required>
+                                <option></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg"
+                         ng-class="{'has-error': prescriptionForm.dosingInstructions.$invalid && showMessages}">
+                        <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_RECOMMENDATION'| translate}}:<span class="asterick">*</span></label>
+                        <div class="col-sm-9">
+                            <div ng-messages for="prescriptionForm.dosingInstructions.$error" 
+                                 ng-messages-include="../poc-common/form-display/views/error-messages.html"
+                                 ng-show="showMessages"></div>
+                            <select name="dosingInstructions" class="form-control" ng-model="fieldModels.dosingInstructions.value"
+                                    ng-options="instruction.display for instruction in fieldModels.dosingInstructions.model.answers" required>
+                                <option></option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="panel-footer go-to-right">
+                <button class="btn btn-primary btn-lg" type="button" ng-click="add(prescriptionForm.$valid)"
+                        ng-disabled="hasServiceToday">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-7">
+        <div class="panel panel-primary panel-marginless-sides">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{'CLINIC_PRESCRIPTION_NEW'| translate}}</h3>
+            </div>
+            <div class="list-group">
+                <div class="list-group-item list-group-item-success" ng-repeat="listPrescription in listedPrescriptions">
+                    <span><strong>{{(listPrescription.arvDrugs.value) ? listPrescription.arvDrugs.value.display: listPrescription.otherDrugs.value.display}}</strong> {{listPrescription.dosageAmount.value}} 
+                        {{listPrescription.dosingUnits.value.display}}, {{listPrescription.dosgeFrequency.value.display}}, 
+                        {{listPrescription.drugRoute.value.display}} - {{listPrescription.duration.value}} 
+                        {{listPrescription.durationUnits.value.display}}, {{listPrescription.dosingInstructions.value.display}}</span>
+                    <span ng-if="listPrescription.artPlan.value">
+                        <strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN'| translate}}:</strong> {{listPrescription.artPlan.value.display}}
+                    </span>
+                    <span ng-if="listPrescription.interruptedReason.value">
+                        <strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN_INTERRUPDED_FOR'| translate}}:</strong> {{listPrescription.interruptedReason.value.display}}
+                    </span>
+                    <span ng-if="listPrescription.changeReason.value">
+                        <strong>{{'CLINIC_PRESCRIPTION_ARV_CHANGE_FOR'| translate}}:</strong> {{listPrescription.changeReason.value.display}}
+                    </span>
+                    <span>
+                        <button type="button" class="close btn-lg content-border-margin-regular-sides" ng-click="remove(listPrescription)">
+                            <span class="glyphicon glyphicon-remove-circle"></span>
+                        </button>
+                        <button type="button" class="close btn-lg content-border-margin-regular-sides" ng-click="edit(listPrescription)">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </button>
+                    </span>
+                </div>
+
+            </div>
+            <div class="panel-footer go-to-right" ng-show="showNewPrescriptionsControlls">
+                <button class="btn btn-danger btn-lg" type="button" ng-click="">
+                    <span class="glyphicon glyphicon-remove-sign"></span>
+                </button>
+                <button class="btn btn-primary btn-lg" type="button" ng-click="save()">
+                    <span class="glyphicon glyphicon-floppy-disk"></span>
+                </button>
+            </div>
+        </div>
+        
+        
+        
+        <div class="panel panel-primary panel-marginless-sides" ng-init="initPrescriptions()">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{'CLINIC_PRESCRIPTION_PRESCRIBED'| translate}}</h3>
+            </div>
+            <div class="list-group" ng-repeat="existingPrescription in existingPrescriptions">
+                <div class="bg-info content-border-padding-li">
+                    {{'CLINIC_PATIENT_PRESCRIBED' | translate}} {{'COMMON_ON' | translate}} {{existingPrescription.prescriptionDate | date:"MMM d, y"}}
+                </div>
+                <div class="list-group-item" ng-repeat="presc in existingPrescription.models">
+                    <span class="text-lg"><strong>{{(presc.arvDrugs.value) ? presc.arvDrugs.value.display: presc.otherDrugs.value.display}}</strong> {{presc.dosageAmount.value}} 
+                        {{presc.dosingUnits.value.display}}, {{presc.dosgeFrequency.value.display}}, 
+                        {{presc.drugRoute.value.display}} - {{presc.duration.value}} 
+                        {{presc.durationUnits.value.display}} ({{presc.dosingInstructions.value.display}})</span>
+                    <span ng-if="presc.artPlan.value">
+                        <strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN'| translate}}:</strong> {{presc.artPlan.value.display}}
+                    </span>
+                    <span ng-if="presc.interruptedReason.value">
+                        <strong> {{'CLINIC_PRESCRIPTION_ARV_PLAN_INTERRUPDED_FOR'| translate}}:</strong> {{presc.interruptedReason.value.display}}
+                    </span>
+                    <span ng-if="presc.changeReason.value">
+                        <strong>{{'CLINIC_PRESCRIPTION_ARV_CHANGE_FOR'| translate}}:</strong> {{presc.changeReason.value.display}}
+                    </span>
+                    <span>
+                        <button type="button" class="close btn-lg content-border-margin-regular-sides">
+                            <span class="glyphicon glyphicon-remove-circle"></span>
+                        </button>
+                        <button type="button" class="close btn-lg content-border-margin-regular-sides">
+                            <span class="glyphicon glyphicon-repeat"></span>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

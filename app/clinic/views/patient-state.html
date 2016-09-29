@@ -1,11 +1,15 @@
-<div class="row bg-info-border content-border border-rouded"><!--patient header -->
-    <div class="col-md-4 well well-sm panel-marginless-bottom">
-        <p>CD4: <span class="label label-danger">300</span> desde: 2016-5-14</p>
-        <p>Carga Viral: <span class="label label-primary">200</span> desde: 2016-5-14</p>
-        <p>Estadio OMS: <span class="label label-primary">II</span> desde: 2016-5-14</p>
-    </div>
+<div class="row bg-info-border content-border border-rouded" ng-init="initPatientState()"><!--patient header -->
+
+  <div class="col-md-4 well well-sm panel-marginless-bottom" ng-repeat="patientState in patientStates">
+    <p ng-class="capitalize"> {{patientState.exam}} :
+      <span class="label label-danger">{{patientState.result}}</span> desde: {{labDate}}</p>
+  </div>
+  <!-- TODO:  Filter correct observations  -->
     <div class="col-md-8 well well-sm panel-marginless-bottom">
-        <p>Em TARV: <span class="label label-primary">SIM</span> desde: 2016-5-14</p>
+
+      <p>Estadio OMS: <span class="label label-primary">II</span> desde: 2016-5-14</p>
+
+      <p>Em TARV: <span class="label label-primary">SIM</span> desde: 2016-5-14</p>
         <p>Em tratamento TB: <span class="label label-primary">NÃO</span></p>
         <p>Regime: <span class="label label-primary">ZIDOVUDINE + LAMIVUDINE + NEVIRAPINE</span> desde: 2016-5-14</p>
     </div>

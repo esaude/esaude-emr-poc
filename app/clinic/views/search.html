@@ -12,13 +12,6 @@
                     <input type="text" class="form-control input input-lg keyboard-in" ng-model="searchText" ng-change="change(searchText)" placeholder="{{'SEARCH_PATIENT_PLACEHOLDER' | translate}}">
                 </div>
             </div>
-            <!--<div class="col-sm-2">
-                <button type="button" class="btn btn-default btn-lg">
-                    <span>
-                        <img src="../../images/fingerprint_zoom.png" class="img-responsive" width="24" height="24" alt="provider">
-                    </span>
-                </button>
-            </div>-->
         </div>
         <table st-table="results" st-safe-src="displayed" class="table table-striped">
             <thead>
@@ -42,8 +35,8 @@
                     <td>{{patient.age.years}}</td>
                     <td>{{patient.birthdate | date}}</td>
                     <td>
-                        <span ng-if="patient.scheduledTo" class="label label-default" 
-                        ng-class="{'label label-default': patient.scheduledTo === 'P', 
+                        <span ng-if="patient.scheduledTo" class="label label-default"
+                        ng-class="{'label label-default': patient.scheduledTo === 'P',
                         'label label-success': patient.scheduledTo === 'A',
                         'label label-primary': patient.scheduledTo === 'F'}">
                             {{patient.scheduledTo}} - {{patient.nextConsultation | date}}

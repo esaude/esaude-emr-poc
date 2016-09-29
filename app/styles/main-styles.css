@@ -21,7 +21,7 @@ and open the template in the editor.
 .panel-marginless-bottom {
     margin-bottom: -5px;
 }
- 
+
 .go-to-right {
     text-align: right;
 }
@@ -107,7 +107,7 @@ and open the template in the editor.
     padding-left: 5px;
 }
 
-b, li, th, p {
+b, li, th, p .text-lg {
     font-size: 18px;
     vertical-align: middle;
 }
@@ -179,4 +179,8 @@ input[type=radio]:checked + label::before {
     float: right;
     color: #337ABA;
     font-weight: bold;
+}
+
+p.capitalize {
+  text-transform: capitalize;
 }
