@@ -491,12 +491,12 @@
                 "nextSref": ".confirm",
                 "fields": [
                     {
-                        "name": "notes",
+                        "name": "Notas",
                          "id": "24045d41-df1a-42c5-a323-5bcb98b6b291",
                          "textSize": "8"
                     },
                     {
-                        "name": "message type",
+                        "name": "Tipo de Menságem",
                          "id": "d277616c-66b7-49c2-b7c4-dee202bf3d34"
                     }
                 ]
@@ -640,7 +640,6 @@
 
                 ]
             },
-
              {
                 "id": "6",
                 "name": "DIAGNOSTICOS",
@@ -649,7 +648,17 @@
                 "fields": [
                     {
                         "name": "Diagnostico 1",
-                        "id": "6d6094bf-77b7-41cc-90a9-683d866d787c"
+                        "id": "32b61bab-156b-4d6e-a938-644287e69b81",
+                        "searchBySource": "3f65bd34-26fe-102b-80cb-0017a47871b2"
+                    },
+                    {
+                        "name": "Diagnostico 2",
+                        "id": "d516b911-032b-4ffc-9bc9-01978eb0ba41",
+                        "searchBySource": "3f65bd34-26fe-102b-80cb-0017a47871b2"
+                    },
+                    {
+                        "name": "Diagnostico 3",
+                        "id": "e2939310-1d5f-11e0-b929-000c29ad1d07"
                     }
                 ]
             }
@@ -733,7 +742,7 @@
                 "id": "4",
                 "name": "PROFILAXIAS III",
                 "sref": ".profilaxia3",
-                "nextSref": ".diagnosticos",
+                "nextSref": ".exams",
                 "fields": [
                     {
                         "name": "Profilaxia Da Meningite Criptocócica",
@@ -754,8 +763,8 @@
             {
                 "id": "5",
                 "name": "EXAME FÍSICO",
-                "sref": ".diagnosticos",
-                "nextSref": ".confirm",
+                "sref": ".exams",
+                "nextSref": ".diagnosis",
                 "fields": [
                     {
                         "name": "Exames na cabeca e pescoco",
@@ -780,6 +789,28 @@
                     {
                         "name": "Outros diagnosticos",
                         "id": "b65ca6a2-0a62-4499-b32c-e5c1578f4dee"
+                    }
+                ]
+            },
+             {
+                "id": "6",
+                "name": "DIAGNOSTICOS",
+                "sref": ".diagnosis",
+                "nextSref": ".confirm",
+                "fields": [
+                    {
+                        "name": "Diagnostico 1",
+                        "id": "d9e77865-6b9f-4130-a768-72b9df4a69ba",
+                        "searchBySource": "3f65bd34-26fe-102b-80cb-0017a47871b2"
+                    },
+                    {
+                        "name": "Diagnostico 2",
+                        "id": "c117109f-7eca-464c-9660-f2d17d4cdfd5",
+                        "searchBySource": "3f65bd34-26fe-102b-80cb-0017a47871b2"
+                    },
+                    {
+                        "name": "Diagnostico 3",
+                        "id": "e293e11c-1d5f-11e0-b929-000c29ad1d07"
                     }
                 ]
             }
