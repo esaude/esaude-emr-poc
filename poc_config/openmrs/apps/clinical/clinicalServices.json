@@ -37,6 +37,19 @@
         "markedOn": "2afd6fda-3003-4a68-bfa2-9a4e2ab2773d"
     },
     {
+
+        "id": "007",
+        "formId": "65896366-17b2-4c3e-9cce-440edcfe7b4e",
+        "label": "ASPECTOS RELEVANTES",
+        "url": "/story",
+        "minOccur": "0",
+        "maxOccur": "-1",
+        "constraints": {
+            "requireChekin": true
+        }
+
+    },
+    {
         "id": "008",
         "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
         "label": "DIAGNOSTICOS - ADULTO",
