@@ -28,6 +28,7 @@ module.exports = function (config) {
       'bower_components/jquery/dist/jquery.min.js',
       'bower_components/angular/angular.min.js',
       'bower_components/bootstrap/dist/js/bootstrap.min.js',
+      'bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
       'bower_components/moment/min/moment.min.js',
       'bower_components/jquery-ui/ui/minified/jquery-ui.min.js',
       'bower_components/keyboard/dist/js/jquery.keyboard.min.js',
