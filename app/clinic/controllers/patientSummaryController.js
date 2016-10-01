@@ -59,24 +59,42 @@ angular.module('clinic')
             });
         };
         
-        $scope.initPrescriptions = function () {      
-            var concepts = ["e1d83d4a-1d5f-11e0-b929-000c29ad1d07", 
-                "e1d9ee10-1d5f-11e0-b929-000c29ad1d07",
-                "e1d9ead2-1d5f-11e0-b929-000c29ad1d07",
-                "e1de8862-1d5f-11e0-b929-000c29ad1d07"
-            ];//TODO: create in configuration file
-            
-            var adultFollowupEncounterUuid = "e278f956-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
-            var childFollowupEncounterUuid = "e278fce4-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
-            
+        $scope.initPrescriptions = function () {     
+            var concepts = [Bahmni.Common.Constants.prescriptionConvSetConcept];
+
             var patient = commonService.deferPatient($rootScope.patient);
+            var adultFollowupEncounterUuid = Bahmni.Common.Constants.adultFollowupEncounterUuid;
+            var childFollowupEncounterUuid = Bahmni.Common.Constants.childFollowupEncounterUuid;
             
             encounterService.getEncountersForEncounterType(patient.uuid, 
             (patient.age.years >= 15) ? adultFollowupEncounterUuid : childFollowupEncounterUuid)
                     .success(function (data) {
-                        $scope.prescriptions = commonService.filterGroupReverseFollowupObs(concepts, data.results);
-                        
-            });
+                        var filteredResults = commonService.filterGroupReverseFollowupObs(concepts, data.results);
+                        $scope.prescriptions = [];
+
+                        _.forEach(filteredResults, function (filteredResult) {
+                            var existingModels = {
+                                prescriptionDate: filteredResult.encounterDatetime,
+                                models: []
+                            };
+
+                            _.forEach(filteredResult.obs, function (pSet) {
+                                var existingModel = angular.copy(Bahmni.Common.Constants.drugPrescriptionConvSet);
+                                for (var key in existingModel) {
+                                    var m = existingModel[key];
+                                    var foundModel = _.find(pSet.groupMembers, function (element) {
+                                        return element.concept.uuid === m.uuid;
+                                    });
+                                    if (_.isUndefined(foundModel)) continue;
+                                    
+                                    m.model = foundModel.concept;
+                                    m.value = foundModel.value;
+                                }
+                                existingModels.models.push(existingModel);
+                            });
+                            $scope.prescriptions.push(existingModels);
+                        });
+                    });
         };
         
         $scope.initAllergies = function () { 
