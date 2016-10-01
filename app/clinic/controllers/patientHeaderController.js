@@ -28,40 +28,32 @@ angular.module('clinic')
           });
 
         //TODO: Fix concept translation reference and synonyms, answers
-        var conceptsTreatment = ["e1d9f7a2-1d5f-11e0-b929-000c29ad1d07",
-          "e1d9ee10-1d5f-11e0-b929-000c29ad1d07",
-          "e1d9ead2-1d5f-11e0-b929-000c29ad1d07",
-          "e1de8862-1d5f-11e0-b929-000c29ad1d07",
-          "e1d85906-1d5f-11e0-b929-000c29ad1d07",
-          "e2404d72-1d5f-11e0-b929-000c29ad1d07",
-          "e1d9ef28-1d5f-11e0-b929-000c29ad1d07",
-          "e1d83e4e-1d5f-11e0-b929-000c29ad1d07"];
+        var conceptsTreatment = [
+          "e1e53c02-1d5f-11e0-b929-000c29ad1d07",
+          "e1d9fbda-1d5f-11e0-b929-000c29ad1d07",
+          "e1d83d4a-1d5f-11e0-b929-000c29ad1d07"
+        ];
 
-        var seriesFollowUp = [$filter('translate')('TUBERCULOSIS_PROPHYLAXIS_STARTED'),
-          $filter('translate')('ANTIRETROVIRAL PLAN'),
-          $filter('translate')('HISTORICAL_DRUG_START_DATE'),
-          $filter('translate')('TUBERCULOSIS_DRUG_TREATMENT_START_DATE'),
-          $filter('translate')('TUBERCULOSIS_DRUG_TREATMENT_START_DATE'),
-          $filter('translate')('ANTIRETROVIRAL_PLAN'),
-          $filter('translate')('REGIMEN')];
+        var seriesFollowUp = [
+          $filter('translate')('CURRENT_WHO_HIV_STAGE'),
+          $filter('translate')('TUBERCULOSIS_TREATMENT_PLAN'),
+          $filter('translate')('PREVIOUS_ANTIRETROVIRAL_DRUGS_USED_FOR_TREATMENT')];
 
         var adultFollowupEncounterUuid = "e278f956-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
         var childFollowupEncounterUuid = "e278fce4-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
 
         var patient = commonService.deferPatient($rootScope.patient);
-        var patientPrescriptions = [];
 
         encounterService.getEncountersForEncounterType(patient.uuid,
           (patient.age.years >= 15) ? adultFollowupEncounterUuid : childFollowupEncounterUuid)
           .success(function (data) {
-            patientPrescriptions = commonService.filterGroupReverseFollowupObs("e1d9ef28-1d5f-11e0-b929-000c29ad1d07", data.results);
+            patientPrescriptions = commonService.filterGroupReverseFollowupObs(conceptsTreatment, data.results);
 
             var filteredFollowup = filterObs(data, conceptsTreatment, seriesFollowUp, "followUp");
+            //TODO: Add infant and pregnant women
             var encounterType = ((patient.age.years >= 15) ? adultFollowupEncounterUuid : childFollowupEncounterUuid);
-            $scope.patientFollowups = createStateData(filteredFollowup, conceptsTreatment, seriesFollowUp, "followUp");
 
-
-            $scope.patientPrescriptions = patientPrescriptions[0];
+            $scope.patientPrescription = filteredFollowup;
           });
       };
 
@@ -74,11 +66,9 @@ angular.module('clinic')
         _.forEach(sliced, function (encounter) {
           encounter.obs = observationsService.filterByList(encounter.obs, concepts);
         });
-        var filtered = _.filter(sliced, function (encounter) {
+        return _.filter(sliced, function (encounter) {
           return !_.isEmpty(encounter.obs);
         });
-
-        return filtered;
       };
 
       var createStateData = function (encounters, concepts, seriesLabs, state) {
@@ -97,10 +87,19 @@ angular.module('clinic')
             data[key].push((found) ? found.value : null);
           });
         });
-        var lastDate = $scope[state + "dates"].length - 1;
+
+        var datesArraySize = $scope[state + "dates"].length;
+        var lastDate = 0;
+        if (datesArraySize != 0)
+          lastDate = datesArraySize - 1;
+
         $scope.labDate = $scope[state + "dates"][lastDate];
         $scope[state + "Data"] = data;
-        var lastObs = (data.length) - 1;
+
+        var obsArraySize = data.length;
+        var lastObs = 0;
+        if (obsArraySize != 0)
+          lastObs = obsArraySize - 1;
 
         angular.forEach(seriesLabs, function (value, key) {
           var exam = value;
