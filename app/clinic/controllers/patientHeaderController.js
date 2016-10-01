@@ -98,15 +98,16 @@ angular.module('clinic')
 
         var obsArraySize = data.length;
         var lastObs = 0;
-        if (obsArraySize != 0)
-          lastObs = obsArraySize - 1;
-
-        angular.forEach(seriesLabs, function (value, key) {
-          var exam = value;
-          var result = data[key][lastObs];
-          var state = {"exam": exam, "result": result};
-          patientStates.push(state);
-        });
+        if (obsArraySize != 0) {
+          angular.forEach(seriesLabs, function (value, key) {
+            var exam = value;
+            var result = data[key][lastObs];
+            var state = {"exam": exam, "result": result};
+            patientStates.push(state);
+          });
+        } else {
+          $scope.nopatientState = "CLINICAL_OBSERVATIONS_INFO_UNAVAILABLE";
+        }
 
         return patientStates;
       }

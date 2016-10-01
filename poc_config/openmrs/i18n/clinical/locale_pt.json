@@ -164,5 +164,6 @@
   "WHO_STAGE_3_PEDS": "Estadio 3 Pediatra",
   "WHO_STAGE_4_PEDS": "Estadio 4 Pediatra",
   "YES": "SIM",
-  "NO": "NÃO"
+  "NO": "NÃO",
+  "CLINICAL_OBSERVATIONS_INFO_UNAVAILABLE": "Informação Clinica de Paciente Vazia"
 }
