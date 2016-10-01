@@ -542,17 +542,22 @@
                     {
                         "name": "Profilaxia com Cotrimoxazol",
                         "id": "5294e15e-fa75-4c81-8593-33eb49d9cf56",
-                        "logics":{"seeData":"c3fa62c3-61ef-4cc5-a46b-8d96a345f48c"
-                        }
+                        "fireHideEvent": "disable-field-cotrimoxazol"
                     },
 
                     {
                         "name": "Data de Inicio",
-                        "id": "2b71e477-ce1f-4563-b577-1dd6f98c3097"
+                        "id": "2b71e477-ce1f-4563-b577-1dd6f98c3097",
+                        "listenHideEvent": "disable-field-cotrimoxazol",
+                        "hidden": true,
+                        "required":false
                     },
                     {
                         "name": "Data de Fim",
-                        "id": "93302556-6113-4bf6-967f-ac2f266a35be"
+                        "id": "93302556-6113-4bf6-967f-ac2f266a35be",
+                        "listenHideEvent": "disable-field-cotrimoxazol",
+                        "hidden": true,
+                        "required":false
                     }
 
                 ]
@@ -566,17 +571,22 @@
                      {
                         "name": "Profilaxia com Isoniazida",
                         "id": "fa6a769d-39a9-44eb-9d36-d3b11e3d44ac",
-                        "logics":{"seeData":"c3fa62c3-61ef-4cc5-a46b-8d96a345f48c"
-                        }
+                        "fireHideEvent": "disable-field-izoniazida"
                     },
 
                     {
                         "name": "Data de Inicio",
-                        "id": "5fc349f2-a694-4a0c-803e-ccbb5402bd53"
+                        "id": "5fc349f2-a694-4a0c-803e-ccbb5402bd53",
+                        "hidden": true,
+                        "listenHideEvent": "disable-field-izoniazida",
+                        "required":false
                     },
                     {
                         "name": "Data de Fim",
-                        "id": "fc046c9b-6399-4d43-a1b1-d46117985ef1"
+                        "id": "fc046c9b-6399-4d43-a1b1-d46117985ef1",
+                        "hidden": true,
+                        "listenHideEvent": "disable-field-izoniazida",
+                        "required":false
                     }
 
                 ]
@@ -590,17 +600,22 @@
                     {
                         "name": "Profilaxia Da Meningite Criptocócica",
                         "id": "01b783f3-e972-411f-8d8b-980d8aad7f4e",
-                        "logics":{"seeData":"c3fa62c3-61ef-4cc5-a46b-8d96a345f48c"
-                        }
+                            "fireHideEvent": "disable-field-criptococia"
                     },
 
                     {
                         "name": "Data de Inicio",
-                        "id": "e6551ba8-7bb8-4b69-8f17-cca5048621b7"
+                        "id": "e6551ba8-7bb8-4b69-8f17-cca5048621b7",
+                        "hidden": true,
+                        "listenHideEvent": "disable-field-criptococia",
+                        "required":false
                     },
                     {
                         "name": "Data de Fim",
-                        "id": "fce0e153-215d-422d-985b-d36a3fed687b"
+                        "id": "fce0e153-215d-422d-985b-d36a3fed687b",
+                        "hidden": true,
+                        "listenHideEvent": "disable-field-criptococia",
+                        "required":false
                     }
 
                 ]
@@ -609,8 +624,8 @@
             {
                 "id": "5",
                 "name": "EXAME FÍSICO",
-                "sref": ".diagnosticos",
-                "nextSref": ".confirm",
+                "sref": ".exams",
+                "nextSref": ".diagnosis",
                 "fields": [
                     {
                         "name": "Exames na cabeca e pescoco",
@@ -637,7 +652,28 @@
                         "id": "e2939310-1d5f-11e0-b929-000c29ad1d07"
                     }
 
-
+                ]
+            },
+             {
+                "id": "6",
+                "name": "DIAGNOSTICOS",
+                "sref": ".diagnosis",
+                "nextSref": ".confirm",
+                "fields": [
+                    {
+                        "name": "Diagnostico 1",
+                        "id": "32b61bab-156b-4d6e-a938-644287e69b81",
+                        "searchBySource": "3f65bd34-26fe-102b-80cb-0017a47871b2"
+                    },
+                    {
+                        "name": "Diagnostico 2",
+                        "id": "d516b911-032b-4ffc-9bc9-01978eb0ba41",
+                        "searchBySource": "3f65bd34-26fe-102b-80cb-0017a47871b2"
+                    },
+                    {
+                        "name": "Diagnostico 3",
+                        "id": "e2939310-1d5f-11e0-b929-000c29ad1d07"
+                    }
                 ]
             }
         ]
@@ -720,7 +756,7 @@
                 "id": "4",
                 "name": "PROFILAXIAS III",
                 "sref": ".profilaxia3",
-                "nextSref": ".diagnosticos",
+                "nextSref": ".exams",
                 "fields": [
                     {
                         "name": "Profilaxia Da Meningite Criptocócica",
@@ -741,8 +777,8 @@
             {
                 "id": "5",
                 "name": "EXAME FÍSICO",
-                "sref": ".diagnosticos",
-                "nextSref": ".confirm",
+                "sref": ".exams",
+                "nextSref": ".diagnosis",
                 "fields": [
                     {
                         "name": "Exames na cabeca e pescoco",
@@ -767,6 +803,28 @@
                     {
                         "name": "Outros diagnosticos",
                         "id": "b65ca6a2-0a62-4499-b32c-e5c1578f4dee"
+                    }
+                ]
+            },
+             {
+                "id": "6",
+                "name": "DIAGNOSTICOS",
+                "sref": ".diagnosis",
+                "nextSref": ".confirm",
+                "fields": [
+                    {
+                        "name": "Diagnostico 1",
+                        "id": "d9e77865-6b9f-4130-a768-72b9df4a69ba",
+                        "searchBySource": "3f65bd34-26fe-102b-80cb-0017a47871b2"
+                    },
+                    {
+                        "name": "Diagnostico 2",
+                        "id": "c117109f-7eca-464c-9660-f2d17d4cdfd5",
+                        "searchBySource": "3f65bd34-26fe-102b-80cb-0017a47871b2"
+                    },
+                    {
+                        "name": "Diagnostico 3",
+                        "id": "e293e11c-1d5f-11e0-b929-000c29ad1d07"
                     }
                 ]
             }
