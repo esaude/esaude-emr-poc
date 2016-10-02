@@ -38,15 +38,24 @@
             <div class="panel-heading">
                 <h3 class="panel-title">{{'CLINIC_PATIENT_PRESCRIPTIONS' | translate}}/{{'CLINIC_PATIENT_REGIMENS' | translate}}</h3>
             </div>
-        <div class="list-group" ng-repeat="encounter in prescriptions" ng-hide="showDivPrescriptions">
+        <div class="list-group" ng-repeat="presc in prescriptions" ng-hide="showDivPrescriptions">
                 <div class="bg-info content-border-padding-li">
-                    {{'CLINIC_PATIENT_PRESCRIBED' | translate}} {{'COMMON_ON' | translate}} {{encounter.encounterDatetime | date:"MMM d, y"}}
+                    {{'CLINIC_PATIENT_PRESCRIBED' | translate}} {{'COMMON_ON' | translate}} {{presc.prescriptionDate | date:"MMM d, y"}}
                 </div>
-                <div ng-repeat="obs in encounter.obs">
-                    <div class="list-group-item">
-                      {{obs.concept.name.display}}:
-                        <span class="badge">{{isObject(obs.value) ? obs.value.display : obs.value}}</span>
-                    </div>
+                <div class="list-group-item" ng-repeat="model in presc.models">
+                    <span class="text-lg"><strong>{{(model.arvDrugs.value) ? model.arvDrugs.value.display: model.otherDrugs.value.display}}</strong> {{model.dosageAmount.value}}
+                        {{model.dosingUnits.value.display}}, {{model.dosgeFrequency.value.display}},
+                        {{model.drugRoute.value.display}} - {{model.duration.value}}
+                        {{model.durationUnits.value.display}} ({{model.dosingInstructions.value.display}})</span>
+                    <span ng-if="model.artPlan.value">
+                        <strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN'| translate}}:</strong> {{model.artPlan.value.display}}
+                    </span>
+                    <span ng-if="model.interruptedReason.value">
+                        <strong> {{'CLINIC_PRESCRIPTION_ARV_PLAN_INTERRUPDED_FOR'| translate}}:</strong> {{model.interruptedReason.value.display}}
+                    </span>
+                    <span ng-if="model.changeReason.value">
+                        <strong>{{'CLINIC_PRESCRIPTION_ARV_CHANGE_FOR'| translate}}:</strong> {{model.changeReason.value.display}}
+                    </span>
                 </div>
             </div>
         </div>
