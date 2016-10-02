@@ -61,7 +61,7 @@ angular.module('clinic')
 
         $scope.initPrescriptions = function () {
             var concepts = [Bahmni.Common.Constants.prescriptionConvSetConcept];
-
+        }
 
         $scope.initPrescriptions = function () {
             var concepts = ["e1d83d4a-1d5f-11e0-b929-000c29ad1d07",
@@ -148,4 +148,5 @@ angular.module('clinic')
         $scope.isObject = function (value) {
             return _.isObject(value);
         };
+
     }]);
