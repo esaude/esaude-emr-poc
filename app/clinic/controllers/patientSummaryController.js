@@ -62,17 +62,6 @@ angular.module('clinic')
         $scope.initPrescriptions = function () {
             var concepts = [Bahmni.Common.Constants.prescriptionConvSetConcept];
 
-
-        $scope.initPrescriptions = function () {
-            var concepts = ["e1d83d4a-1d5f-11e0-b929-000c29ad1d07",
-                "e1d9ee10-1d5f-11e0-b929-000c29ad1d07",
-                "e1d9ead2-1d5f-11e0-b929-000c29ad1d07",
-                "e1de8862-1d5f-11e0-b929-000c29ad1d07"
-            ];//TODO: create in configuration file
-
-            var adultFollowupEncounterUuid = "e278f956-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
-            var childFollowupEncounterUuid = "e278fce4-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
-
             var patient = commonService.deferPatient($rootScope.patient);
             var adultFollowupEncounterUuid = Bahmni.Common.Constants.adultFollowupEncounterUuid;
             var childFollowupEncounterUuid = Bahmni.Common.Constants.childFollowupEncounterUuid;
