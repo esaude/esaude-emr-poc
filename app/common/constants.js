@@ -192,7 +192,8 @@ Bahmni.Common = Bahmni.Common || {};
         prescriptionConvSetConcept: "ac465c58-68ef-4a19-88ae-c7f72e89a2b2",
         followupAdultFormUuid: "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
         followupChildFormUuid: "e28ac028-1d5f-11e0-b929-000c29ad1d07",
-        artInterruptedPlanUuid: "e1d9f36a-1d5f-11e0-b929-000c29ad1d07"
+        artInterruptedPlanUuid: "e1d9f36a-1d5f-11e0-b929-000c29ad1d07",
+        pocMappingPrescriptionDateConceptUuid: "488e6803-c7db-43b2-8911-8d5d2a8472fd"
 
     };
 })();
