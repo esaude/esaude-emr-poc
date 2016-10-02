@@ -23,8 +23,13 @@ angular.module('clinic')
 
         encounterService.getEncountersForEncounterType(patientUuid, labEncounterUuid)
           .success(function (data) {
-            var filteredLabs = filterObs(data, conceptsLabs, seriesLabs, name);
-            $scope.patientStates = createStateData(filteredLabs, conceptsLabs, seriesLabs, name);
+
+            if (data.results.length != 0) {
+              var filteredLabs = filterObs(data, conceptsLabs, seriesLabs, name);
+              $scope.patientStates = createStateData(filteredLabs, conceptsLabs, seriesLabs, name);
+            } else {
+              $scope.nopatientState = "CLINICAL_OBSERVATIONS_INFO_EMPTY";
+            }
           });
 
         //TODO: Fix concept translation reference and synonyms, answers
@@ -49,11 +54,14 @@ angular.module('clinic')
           .success(function (data) {
             patientPrescriptions = commonService.filterGroupReverseFollowupObs(conceptsTreatment, data.results);
 
-            var filteredFollowup = filterObs(data, conceptsTreatment, seriesFollowUp, "followUp");
+            if (data.results.length != 0) {
+              $scope.patientPrescription = filterObs(data, conceptsTreatment, seriesFollowUp, "followUp");
+            } else {
+              $scope.noWHOStage = "CLINICAL_WHO_STAGE_EMPTY";
+            }
             //TODO: Add infant and pregnant women
             var encounterType = ((patient.age.years >= 15) ? adultFollowupEncounterUuid : childFollowupEncounterUuid);
 
-            $scope.patientPrescription = filteredFollowup;
           });
       };
 
@@ -96,7 +104,7 @@ angular.module('clinic')
         $scope.labDate = $scope[state + "dates"][lastDate];
         $scope[state + "Data"] = data;
 
-        var obsArraySize = data.length;
+        var obsArraySize = data[0].length;
         var lastObs = 0;
         if (obsArraySize != 0) {
           lastObs = obsArraySize - 1;
@@ -106,10 +114,7 @@ angular.module('clinic')
             var state = {"exam": exam, "result": result};
             patientStates.push(state);
           });
-        } else {
-          $scope.nopatientState = "CLINICAL_OBSERVATIONS_INFO_UNAVAILABLE";
         }
-
         return patientStates;
       }
     }

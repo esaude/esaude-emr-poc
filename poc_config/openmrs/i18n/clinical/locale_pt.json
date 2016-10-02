@@ -165,5 +165,6 @@
   "WHO_STAGE_4_PEDS": "Estadio 4 Pediatra",
   "YES": "SIM",
   "NO": "NÃO",
-  "CLINICAL_OBSERVATIONS_INFO_UNAVAILABLE": "Informação Clinica de Paciente Vazia"
+  "CLINICAL_OBSERVATIONS_INFO_EMPTY": "Informação Laboratorial de Paciente Vazia",
+  "CLINICAL_WHO_STAGE_EMPTY":"Paciente nao possui ESTADIO OMS"
 }
