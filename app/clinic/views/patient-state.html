@@ -1,16 +1,25 @@
-<div class="row bg-info-border content-border border-rouded" ng-init="initPatientState()"><!--patient header -->
-
-  <div class="col-md-4 well well-sm panel-marginless-bottom" ng-repeat="patientState in patientStates">
-    <p ng-class="capitalize"> {{patientState.exam}} :
-      <span class="label label-danger">{{patientState.result}}</span> desde: {{labDate}}</p>
-  </div>
-  <!-- TODO:  Filter correct observations  -->
-    <div class="col-md-8 well well-sm panel-marginless-bottom">
-
-      <p>Estadio OMS: <span class="label label-primary">II</span> desde: 2016-5-14</p>
-
-      <p>Em TARV: <span class="label label-primary">SIM</span> desde: 2016-5-14</p>
-        <p>Em tratamento TB: <span class="label label-primary">NÃO</span></p>
-        <p>Regime: <span class="label label-primary">ZIDOVUDINE + LAMIVUDINE + NEVIRAPINE</span> desde: 2016-5-14</p>
+<div ng-show="!nopatientState">
+  <div class="row bg-info-border content-border border-rouded" ng-init="initPatientState()"><!--patient header -->
+    <div class="col-sm-4 well well-sm panel-marginless-bottom">
+      <div ng-repeat="patientState in patientStates">
+        <p ng-class="capitalize"><strong> {{patientState.exam}} :</strong>
+          <span class="label label-danger">{{patientState.result}}</span> desde: {{labDate}}</p>
+      </div>
     </div>
-</div><!--patient header -->
+
+    <div class="col-sm-8 well well-sm panel-marginless-bottom">
+      <div ng-repeat="encounter in patientPrescription">
+        <p ng-repeat="obs in encounter.obs">
+          <strong> {{obs.concept.name.display | translate }} : </strong>
+          <span class="label label-primary">{{obs.value.display | translate}}</span>
+
+          <span>desde: {{obs.obsDatetime | date:"MMM d, y" }}</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row bg-info-border content-border border-rouded" ng-show="nopatientState">
+    <div class="label label-warning">{{nopatientState | translate}} </div>
+</div>
+<!--patient header -->
