@@ -39,8 +39,8 @@ angular.module('clinic')
           $filter('translate')('TUBERCULOSIS_TREATMENT_PLAN'),
           $filter('translate')('PREVIOUS_ANTIRETROVIRAL_DRUGS_USED_FOR_TREATMENT')];
 
-        var adultFollowupEncounterUuid = "e278f956-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
-        var childFollowupEncounterUuid = "e278fce4-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
+        var adultFollowupEncounterUuid = Bahmni.Common.Constants.adultFollowupEncounterUuid;
+        var childFollowupEncounterUuid = Bahmni.Common.Constants.childFollowupEncounterUuid;
 
         var patient = commonService.deferPatient($rootScope.patient);
 
@@ -99,6 +99,7 @@ angular.module('clinic')
         var obsArraySize = data.length;
         var lastObs = 0;
         if (obsArraySize != 0) {
+          lastObs = obsArraySize - 1;
           angular.forEach(seriesLabs, function (value, key) {
             var exam = value;
             var result = data[key][lastObs];
