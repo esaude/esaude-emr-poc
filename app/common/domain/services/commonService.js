@@ -29,7 +29,7 @@ angular.module('bahmni.common.domain')
             var nonRetired = encounterService.filterRetiredEncoounters(results);
 
             //TODO: Fix null referece
-            _.forEach(angular.copy(nonRetired), function (encounter) {
+            _.forEach(nonRetired, function (encounter) {
                 encounter.obs = observationsService.filterByList(encounter.obs, concepts);
             });
             var filtered = _.filter(nonRetired, function (encounter) {
