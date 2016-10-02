@@ -549,15 +549,13 @@
                         "name": "Data de Inicio",
                         "id": "2b71e477-ce1f-4563-b577-1dd6f98c3097",
                         "listenHideEvent": "disable-field-cotrimoxazol",
-                        "hidden": true,
-                        "required":false
+                        "hidden": true
                     },
                     {
                         "name": "Data de Fim",
                         "id": "93302556-6113-4bf6-967f-ac2f266a35be",
                         "listenHideEvent": "disable-field-cotrimoxazol",
-                        "hidden": true,
-                        "required":false
+                        "hidden": true
                     }
 
                 ]
@@ -578,15 +576,13 @@
                         "name": "Data de Inicio",
                         "id": "5fc349f2-a694-4a0c-803e-ccbb5402bd53",
                         "hidden": true,
-                        "listenHideEvent": "disable-field-izoniazida",
-                        "required":false
+                        "listenHideEvent": "disable-field-izoniazida"
                     },
                     {
                         "name": "Data de Fim",
                         "id": "fc046c9b-6399-4d43-a1b1-d46117985ef1",
                         "hidden": true,
-                        "listenHideEvent": "disable-field-izoniazida",
-                        "required":false
+                        "listenHideEvent": "disable-field-izoniazida"
                     }
 
                 ]
@@ -724,15 +720,13 @@
                         "name": "Data de Inicio",
                         "id": "5911800b-bee2-4c96-b119-01d80faa8761",
                         "listenHideEvent": "disable-field-cotrimoxazol",
-                        "hidden": true,
-                        "required":false
+                        "hidden": true
                     },
                     {
                         "name": "Data de Fim",
                         "id": "c1dd8b69-1ce6-47f6-9c07-e38ce38f0762",
                         "listenHideEvent": "disable-field-cotrimoxazol",
-                        "hidden": true,
-                        "required":false
+                        "hidden": true
                     }
 
                 ]
@@ -753,14 +747,12 @@
                         "name": "Data de Inicio",
                         "id": "8478aa22-8998-4c28-b1fc-f04efae5fae2",
                         "listenHideEvent": "disable-field-izoniazida",
-                        "required":false,
                         "hidden": true
                     },
                     {
                         "name": "Data de Fim",
                         "id": "54d3f623-da08-414b-8841-031f41da7a88",
                         "listenHideEvent": "disable-field-izoniazida",
-                        "required":false,
                         "hidden": true
                     }
 
@@ -783,15 +775,13 @@
                         "name": "Data de Inicio",
                         "id": "ed354e72-2f96-43a6-ab28-45c21bd34785",
                         "hidden": true,
-                        "listenHideEvent": "disable-field-criptococia",
-                        "required":false
+                        "listenHideEvent": "disable-field-criptococia"
                     },
                     {
                         "name": "Data de Fim",
                         "id": "a69d5cde-e92b-4ba3-8a6a-c123dfd8e100",
                         "hidden": true,
-                        "listenHideEvent": "disable-field-criptococia",
-                        "required":false
+                        "listenHideEvent": "disable-field-criptococia"
                     }
 
                 ]

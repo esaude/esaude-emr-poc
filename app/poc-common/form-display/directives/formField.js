@@ -36,7 +36,7 @@ angular.module('poc.common.formdisplay')
          var listenHideEvent = function (event) {
              $scope.$on(event, function (event, val) {
                      var valJson = JSON.parse(val);
-                     if (valJson.display === "YES") {
+                     if (valJson.display === "e1d81b62-1d5f-11e0-b929-000c29ad1d07") {
                          $scope.field.hidden = false;
                          $scope.fieldModel.field.required= true;
 
