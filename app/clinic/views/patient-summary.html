@@ -5,7 +5,7 @@
             <div class="panel-heading">
                 <h3 class="panel-title">{{'CLINIC_PATIENT_VISIT_HISTORY' | translate}}</h3>
             </div>
-        <div class="list-group" ng-repeat="visit in visits" ng-show="showDivVisit">
+        <div class="list-group" ng-repeat="visit in visits" ng-hide="showDivVisit">
                 <div class="bg-info content-border-padding-li">
                     {{'CLINIC_PATIENT_VISIT' | translate}} {{'COMMON_ON' | translate}} {{visit[0].encounterDatetime | date:"MMM d, y"}}
                 </div>
@@ -22,7 +22,7 @@
             <div class="panel-heading">
                 <h3 class="panel-title">{{'CLINIC_PATIENT_DIAGNOSIS' | translate}}</h3>
             </div>
-        <table class="table" ng-show="showDivDiagnosis">
+        <table class="table" ng-hide="showDivDiagnosis">
                 <tbody>
                     <tr ng-repeat="diagn in diagnosis">
                         <td>{{diagn.concept.name.display}}</td>
@@ -38,7 +38,7 @@
             <div class="panel-heading">
                 <h3 class="panel-title">{{'CLINIC_PATIENT_PRESCRIPTIONS' | translate}}/{{'CLINIC_PATIENT_REGIMENS' | translate}}</h3>
             </div>
-        <div class="list-group" ng-repeat="encounter in prescriptions" ng-show="showDivPrescriptions">
+        <div class="list-group" ng-repeat="encounter in prescriptions" ng-hide="showDivPrescriptions">
                 <div class="bg-info content-border-padding-li">
                     {{'CLINIC_PATIENT_PRESCRIBED' | translate}} {{'COMMON_ON' | translate}} {{encounter.encounterDatetime | date:"MMM d, y"}}
                 </div>
@@ -56,7 +56,7 @@
             <div class="panel-heading">
                 <h3 class="panel-title">{{'CLINIC_PATIENT_VITALS' | translate}}</h3>
             </div>
-        <div class="list-group" ng-repeat="encounter in vitals" ng-show="showDivVitals">
+        <div class="list-group" ng-repeat="encounter in vitals" ng-hide="showDivVitals">
                 <div class="bg-info content-border-padding-li">
                     {{'CLINIC_PATIENT_CAPTURED' | translate}} {{'COMMON_ON' | translate}} {{encounter.encounterDatetime | date:"MMM d, y"}}
                 </div>
@@ -75,7 +75,7 @@
             <div class="panel-heading">
                 <h3 class="panel-title">{{'CLINIC_PATIENT_LAB' | translate}}</h3>
             </div>
-        <div class="list-group" ng-repeat="visit in labs" ng-show="showDivLAB">
+        <div class="list-group" ng-repeat="visit in labs" ng-hide="showDivLAB">
                 <div class="bg-info content-border-padding-li">
                     {{'CLINIC_PATIENT_COLLECTED' | translate}} {{'COMMON_ON' | translate}} {{visit[0].encounterDatetime | date:"MMM d, y"}}
                 </div>
@@ -105,7 +105,7 @@
             <div class="panel-heading">
                 <h3 class="panel-title">{{'CLINIC_PATIENT_PHARMACY' | translate}}</h3>
             </div>
-        <div class="list-group" ng-repeat="visit in pickups" ng-show="showDivPharmacy">
+        <div class="list-group" ng-repeat="visit in pickups" ng-hide="showDivPharmacy">
                 <div class="bg-info content-border-padding-li">
                     {{'CLINIC_PATIENT_DISPENSED' | translate}} {{'COMMON_ON' | translate}} {{visit[0].encounterDatetime | date:"MMM d, y"}}
                 </div>
@@ -123,7 +123,7 @@
             <div class="panel-heading">
                 <h3 class="panel-title">{{'CLINIC_PATIENT_ALLERGIES' | translate}}/{{'CLINIC_PATIENT_SIDE_EFFECTS' | translate}}</h3>
             </div>
-        <div class="list-group" ng-repeat="encounter in allergies" ng-show="showDivAllergies">
+        <div class="list-group" ng-repeat="encounter in allergies" ng-hide="showDivAllergies">
                 <div class="bg-info content-border-padding-li">
                     {{'CLINIC_PATIENT_DIAGNOSED' | translate}} {{'COMMON_ON' | translate}} {{encounter.encounterDatetime | date:"MMM d, y"}}
                 </div>
