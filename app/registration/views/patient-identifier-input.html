@@ -25,7 +25,7 @@
                 <th>{{'PATIENT_INFO_IDENTIFIER_IDENTIFIER' | translate}}</th>
                 <th>{{'PATIENT_INFO_IDENTIFIER_PREFERRED' | translate}}</th>
               <th></th>
-              <th> Mascara/Formato de Indentificador </th>
+              <th></th>
             </tr>
         </thead>
         <tbody ng-init="listRequiredIdentifiers()">
@@ -56,7 +56,11 @@
                         <span class="glyphicon glyphicon-remove-sign"></span>
                     </button>
                 </td>
-                <td><label class="alert ">{{pi.identifierType.format}} </label></td>
+                <td>
+                    <button popover-placement="Top" uib-popover="{{pi.identifierType.formatDescription}}" type="button" class="btn btn-info btn-lg">
+                        <span class="glyphicon glyphicon-question-sign"></span>
+                    </button>
+                </td>
 
             </tr>
         </tbody>
@@ -65,7 +69,7 @@
 
 <div class="row bg-info-border content-border border-rouded go-to-right">
     <button type="button" class="btn btn-success btn-lg"
-            ng-click="stepForward('confirm', aForm.$valid)">
+            ng-click="stepForward('name', aForm.$valid)">
         <span class="glyphicon glyphicon glyphicon-step-forward"></span>
     </button>
 </div>
