@@ -12,13 +12,8 @@
         <span class="glyphicon glyphicon-remove-sign"></span>
     </button>
 </div><!-- patient header controls -->
-<div class="row bg-info-border content-border border-rouded-top" ng-init="getAlerts()" ng-show="flags.length !== 0">
-    <div class="col-sm-12" ng-repeat="flag in flags">
-        <div class="alert alert-warning alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <strong>{{'COMMON_ALERT' | translate}}:</strong> {{flag.name | translate}}
-        </div>
-    </div>
+<div class="row bg-info-border content-border border-rouded" ng-init="getAlerts()" ng-show="flags.length !== 0">
+    <span class="label label-warning content-border-margin-regular-sides" ng-repeat="flag in flags"><strong>{{'COMMON_ALERT' | translate}}:</strong> {{flag.name | translate}}</span>
 </div>
 
 <div ng-include src="'views/patient-state.html'" ng-controller="PatientHeaderController"></div><!--patient header -->
