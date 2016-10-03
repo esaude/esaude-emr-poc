@@ -57,7 +57,7 @@ angular.module('application')
             };
 
             $scope.linkPatientNew = function() {
-                $location.url("/patient/new/name"); // path not hash
+                $location.url("/patient/new/identifier"); // path not hash
             };
             
             function mapPatient(results) {
