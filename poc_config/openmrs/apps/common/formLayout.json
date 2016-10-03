@@ -221,8 +221,8 @@
                         "name": "Temperatura",
                         "id": "e292af4a-1d5f-11e0-b929-000c29ad1d07",
                         "constraints": {
-                            "min": "25",
-                            "max": "43"
+                            "min": "32",
+                            "max": "42"
                         }
                     },
                     {
@@ -233,7 +233,7 @@
                         },
                         "constraints": {
                             "min": "0",
-                            "max": "250"
+                            "max": "500"
                         }
                     },
                     {
@@ -243,8 +243,8 @@
                             "defaultValueIsLastEntry": "e1e2e934-1d5f-11e0-b929-000c29ad1d07"
                         },
                         "constraints": {
-                            "min": "10",
-                            "max": "228"
+                            "min": "30",
+                            "max": "250"
                         }
                     },
                     {
@@ -295,8 +295,8 @@
                         "name": "Temperatura",
                         "id": "e2938e56-1d5f-11e0-b929-000c29ad1d07",
                         "constraints": {
-                            "min": "25",
-                            "max": "43"
+                            "min": "32",
+                            "max": "42"
                         }
                     },
                     {
@@ -304,7 +304,7 @@
                         "id": "e2939130-1d5f-11e0-b929-000c29ad1d07",
                         "constraints": {
                             "min": "0",
-                            "max": "250"
+                            "max": "500"
                         }
                     },
                     {
@@ -314,8 +314,8 @@
                             "defaultValueIsLastEntry": "e1e2e934-1d5f-11e0-b929-000c29ad1d07"
                         },
                         "constraints": {
-                            "min": "10",
-                            "max": "228"
+                            "min": "30",
+                            "max": "250"
                         }
                     },
                     {
