@@ -529,7 +529,8 @@
                     },
                     {
                         "name": "Data de Fim",
-                        "id": "0fcf9f12-2f0c-462f-81ad-b9f0bc65bfea"
+                        "id": "0fcf9f12-2f0c-462f-81ad-b9f0bc65bfea",
+                        "dateController":"a2fda180-923d-426b-999a-27053b239c2a"
                     }
                 ]
             },
@@ -682,7 +683,7 @@
         "parts": [
             {
                 "id": "1",
-                "name": "Rastreios e TB",
+                "name": "Rastreios",
                 "sref": ".rastreio_tb",
                 "nextSref": ".profilaxia1",
                 "fields": [
