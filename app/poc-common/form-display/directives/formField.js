@@ -112,12 +112,6 @@ angular.module('poc.common.formdisplay')
                 listenHideEvent($scope.field.listenHideEvent);
             }
 
-            /*
-            if ($scope.field.dateController) {
-                dateController($scope.field.dateController);
-            }
-            */
-
             if ($scope.field.dateController) {
                 dateController($scope.field.dateController);
             }
