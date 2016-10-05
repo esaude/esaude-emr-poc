@@ -1,5 +1,5 @@
 <div ng-form="aForm" class="form-group form-group-lg"
-     ng-class="{'has-error': aForm.{{fieldId}}.$invalid && $parent.submitted}" ng-init="initFieldModel()">
+     ng-class="{'has-error': aForm.{{fieldId}}.$invalid && $parent.submitted}" ng-init="initFieldModel()" ng-hide="field.hidden">
     <label class="col-sm-4 control-label">
         {{field.name}}:
         <span ng-if="fieldModel.field.required" class="asterick">*</span>
@@ -37,7 +37,9 @@
             </div>
             
             <div ng-switch-when="Datetime" class="input-group date">
-                <input name="{{fieldId}}" type="text" class="form-control keyboard-in" 
+                <input
+
+                       name="{{fieldId}}" type="text" class="form-control keyboard-in"
                        placeholder="{{fieldModel.field.name}}"
                        ng-model="fieldModel.value"
                        date-time min-view="date" auto-close="true"
@@ -48,7 +50,8 @@
             </div>
             
             <div ng-switch-when="Date" class="input-group date">
-                <input name="{{fieldId}}" type="text" class="form-control keyboard-in" 
+                <input
+                       name="{{fieldId}}" type="text" class="form-control keyboard-in"
                        placeholder="{{fieldModel.field.name}}"
                        ng-model="fieldModel.value"
                        date-time format="yyyy-MM-dd" min-view="date" auto-close="true"
@@ -67,6 +70,7 @@
                     typeahead-no-results="noResults" 
                     class="form-control keyboard-in" 
                     ng-required="{{fieldModel.field.required}}">
+
                 </div>
                 <div ng-if="!field.searchBySource">
                   <div class="bg-info-border border-rouded" ng-if="fieldModel.fieldConcept.selectMultiple">
@@ -112,7 +116,7 @@
                                  ng-true-value="{{getConceptInAnswers(fieldModel.fieldConcept.concept.answers, 'e1d81b62-1d5f-11e0-b929-000c29ad1d07')}}"
                                  ng-false-value="{{getConceptInAnswers(fieldModel.fieldConcept.concept.answers, 'e1d81c70-1d5f-11e0-b929-000c29ad1d07')}}"
                                  ng-model="fieldModel.value"
-                                 ng-required="{{fieldModel.field.required}}">
+                                        ng-required="{{fieldModel.field.required}}"></checkbox>
                           </div>
                           
                           <div class="bg-info-border border-rouded" 
