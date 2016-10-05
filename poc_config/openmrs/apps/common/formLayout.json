@@ -556,7 +556,8 @@
                         "name": "Data de Fim",
                         "id": "93302556-6113-4bf6-967f-ac2f266a35be",
                         "listenHideEvent": "disable-field-cotrimoxazol",
-                        "hidden": true
+                        "hidden": true,
+                        "dateController":"2b71e477-ce1f-4563-b577-1dd6f98c3097"
                     }
 
                 ]
@@ -583,7 +584,9 @@
                         "name": "Data de Fim",
                         "id": "fc046c9b-6399-4d43-a1b1-d46117985ef1",
                         "hidden": true,
-                        "listenHideEvent": "disable-field-izoniazida"
+                        "listenHideEvent": "disable-field-izoniazida",
+                        "dateController":"5fc349f2-a694-4a0c-803e-ccbb5402bd53"
+
                     }
 
                 ]
@@ -612,7 +615,8 @@
                         "id": "fce0e153-215d-422d-985b-d36a3fed687b",
                         "hidden": true,
                         "listenHideEvent": "disable-field-criptococia",
-                        "required":false
+                        "required":false,
+                        "dateController":"e6551ba8-7bb8-4b69-8f17-cca5048621b7"
                     }
 
                 ]
@@ -701,7 +705,8 @@
                     },
                     {
                         "name": "Data de Fim",
-                        "id": "67ef8b0f-5de1-4b70-add8-4510a2accaa9"
+                        "id": "67ef8b0f-5de1-4b70-add8-4510a2accaa9",
+                        "dateController":"6c0d2b75-b929-4beb-b1a7-5bb714d6f6d5"
                     }
                 ]
             },
@@ -727,7 +732,8 @@
                         "name": "Data de Fim",
                         "id": "c1dd8b69-1ce6-47f6-9c07-e38ce38f0762",
                         "listenHideEvent": "disable-field-cotrimoxazol",
-                        "hidden": true
+                        "hidden": true,
+                        "dateController":"5911800b-bee2-4c96-b119-01d80faa8761"
                     }
 
                 ]
@@ -754,7 +760,8 @@
                         "name": "Data de Fim",
                         "id": "54d3f623-da08-414b-8841-031f41da7a88",
                         "listenHideEvent": "disable-field-izoniazida",
-                        "hidden": true
+                        "hidden": true,
+                        "dateController":"8478aa22-8998-4c28-b1fc-f04efae5fae2"
                     }
 
                 ]
@@ -782,7 +789,8 @@
                         "name": "Data de Fim",
                         "id": "a69d5cde-e92b-4ba3-8a6a-c123dfd8e100",
                         "hidden": true,
-                        "listenHideEvent": "disable-field-criptococia"
+                        "listenHideEvent": "disable-field-criptococia",
+                        "dateController":"ed354e72-2f96-43a6-ab28-45c21bd34785"
                     }
 
                 ]

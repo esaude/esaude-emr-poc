@@ -20,8 +20,8 @@ angular.module('poc.common.formdisplay')
             }
         };
     })
-    .controller('FormFieldDirectiveController', ['$http', '$rootScope', '$scope', 'observationsService', function ($http, $rootScope, 
-        $scope, observationsService) {
+    .controller('FormFieldDirectiveController', ['$http', '$rootScope', '$scope', 'observationsService', '$filter', function ($http, $rootScope,
+        $scope, observationsService, $filter) {
             
         var formLogic = {};
         
@@ -38,14 +38,31 @@ angular.module('poc.common.formdisplay')
                      var valJson = JSON.parse(val);
                      if (valJson.uuid === "e1d81b62-1d5f-11e0-b929-000c29ad1d07") {
                          $scope.field.hidden = false;
-                         $scope.fieldModel.field.required= true;
 
                      } else {
                          $scope.field.hidden = true;
-                         $scope.fieldModel.field.required= false;
                      }
                  });
          };
+
+        var dateController = function (param) {
+		$scope.$watch('aForm.' + $scope.fieldId + '.$viewValue', function (newVal, oldVal) {
+				var startDate = $rootScope.formPayload.form.fields[param].value
+				var _date = $filter('date')(new Date(startDate), 'yyyyMMdd');
+				var _dateu = $filter('date')(new Date(newVal), 'yyyyMMdd');
+				var date = $filter('date')(new Date(), 'yyyyMMdd');
+
+					if (newVal !== oldVal && !_.isUndefined(newVal)) {
+						if (_dateu > _date) {
+							$scope.validDate = false;
+						} else {
+							$scope.fieldModel.value ="";
+							$scope.validDate = true;
+
+						}
+					}
+				});
+		};
 
         formLogic.defaultValueIsLastEntry = function (param) {
             observationsService.get($rootScope.patient.uuid, param).success(function (data) {
@@ -93,6 +110,16 @@ angular.module('poc.common.formdisplay')
 
             if ($scope.field.listenHideEvent) {
                 listenHideEvent($scope.field.listenHideEvent);
+            }
+
+            /*
+            if ($scope.field.dateController) {
+                dateController($scope.field.dateController);
+            }
+            */
+
+            if ($scope.field.dateController) {
+                dateController($scope.field.dateController);
             }
 
             $scope.initFieldModel = function () {

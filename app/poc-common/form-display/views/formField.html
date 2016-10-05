@@ -22,6 +22,7 @@
                 
                 <textarea ng-if="field.textSize" type="text" name="{{fieldId}}" class="form-control keyboard-in" 
                        placeholder="{{fieldModel.field.name}}"
+                       placeholder="{{fieldModel.field.name}}"
                        ng-model="fieldModel.value"
                        size="{{field.textSize}}"
                        ng-required="{{fieldModel.field.required}}"></textarea>
@@ -50,7 +51,10 @@
             </div>
             
             <div ng-switch-when="Date" class="input-group date">
-                <input
+                <span  ng-if="validDate==true" class="input-group-addon">
+                <span  class="glyphicon glyphicon-remove btn-md btn-danger" title="Date is wrong"></span>
+                </span>
+                <input autofocus
                        name="{{fieldId}}" type="text" class="form-control keyboard-in"
                        placeholder="{{fieldModel.field.name}}"
                        ng-model="fieldModel.value"
@@ -59,6 +63,7 @@
                 <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
+
             </div>
             
             <div ng-switch-when="Coded">
