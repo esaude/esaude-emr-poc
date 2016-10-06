@@ -47,10 +47,12 @@ angular.module('poc.common.formdisplay')
 
         var dateController = function (param) {
 		$scope.$watch('aForm.' + $scope.fieldId + '.$viewValue', function (newVal, oldVal) {
+                var dateUtil = Bahmni.Common.Util.DateUtil
+
 				var startDate = $rootScope.formPayload.form.fields[param].value
-				var _date = $filter('date')(new Date(startDate), 'yyyyMMdd');
-				var _dateu = $filter('date')(new Date(newVal), 'yyyyMMdd');
-				var date = $filter('date')(new Date(), 'yyyyMMdd');
+                var _date = dateUtil.getDateWithoutTime(startDate);
+                var date = dateUtil.getDateWithoutTime(new Date());
+                var _dateu = dateUtil.getDateWithoutTime(newVal);
 
 					if (newVal !== oldVal && !_.isUndefined(newVal)) {
 						if (_dateu > _date) {

@@ -607,15 +607,13 @@
                         "name": "Data de Inicio",
                         "id": "e6551ba8-7bb8-4b69-8f17-cca5048621b7",
                         "hidden": true,
-                        "listenHideEvent": "disable-field-criptococia",
-                        "required":false
+                        "listenHideEvent": "disable-field-criptococia"
                     },
                     {
                         "name": "Data de Fim",
                         "id": "fce0e153-215d-422d-985b-d36a3fed687b",
                         "hidden": true,
                         "listenHideEvent": "disable-field-criptococia",
-                        "required":false,
                         "dateController":"e6551ba8-7bb8-4b69-8f17-cca5048621b7"
                     }
 
