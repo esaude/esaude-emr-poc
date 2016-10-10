@@ -51,7 +51,7 @@
     {
         "id": "008",
         "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
-        "label": "DIAGNOSTICOS - ADULTO",
+        "label": "ANAMNESE E EXAME FÍSICO - ADULTO",
         "url": "/diagnostics/adult",
         "minOccur": "0",
         "maxOccur": "-1",
@@ -64,7 +64,7 @@
     {
         "id": "009",
         "formId": "e28ac028-1d5f-11e0-b929-000c29ad1d07",
-        "label": "DIAGNOSTICOS - PEDIATRIA",
+        "label": "ANAMNESE E EXAME FÍSICO - PEDIATRIA",
         "url": "/diagnostics/child",
         "minOccur": "0",
         "maxOccur": "-1",

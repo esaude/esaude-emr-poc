@@ -24,7 +24,7 @@ angular.module('poc.common.formdisplay')
         $scope, observationsService, $filter) {
             
         var formLogic = {};
-        
+
         var fireHideEvent = function (event) {
              $scope.$watch('aForm.' + $scope.fieldId + '.$viewValue', function (newVal, oldVal) {
                      if (newVal !== oldVal && !_.isUndefined(oldVal)) {
