@@ -634,6 +634,7 @@
                         "name": "Data de Inicio",
                         "id": "2b71e477-ce1f-4563-b577-1dd6f98c3097",
                         "listenHideEvent": "disable-field-cotrimoxazol",
+                        "dateCalculator": "93302556-6113-4bf6-967f-ac2f266a35be",
                         "hidden": true
                     },
                     {
@@ -807,7 +808,8 @@
                     },
                     {
                         "name": "Data de Fim",
-                        "id": "67ef8b0f-5de1-4b70-add8-4510a2accaa9"
+                        "id": "67ef8b0f-5de1-4b70-add8-4510a2accaa9",
+                        "dateController":"6c0d2b75-b929-4beb-b1a7-5bb714d6f6d5"
                     }
                 ]
             },
@@ -818,7 +820,7 @@
                 "nextSref": ".profilaxia2",
                 "fields": [
                     {
-                        "name": "Profilaxia com Cotrimoxazol",
+                        "name": "Profilaxia com CTZ",
                         "id": "fcb11548-455e-4cdf-a9c0-3f8ce2860358",
                         "fireHideEvent": "disable-field-cotrimoxazol"
                     },
@@ -827,6 +829,7 @@
                         "name": "Data de Inicio",
                         "id": "5911800b-bee2-4c96-b119-01d80faa8761",
                         "listenHideEvent": "disable-field-cotrimoxazol",
+                        "dateCalculator": "c1dd8b69-1ce6-47f6-9c07-e38ce38f0762",
                         "hidden": true
                     },
                     {
@@ -845,7 +848,7 @@
                 "nextSref": ".profilaxia3",
                 "fields": [
                      {
-                        "name": "Profilaxia com Isoniazida",
+                        "name": "Profilaxia com INH",
                         "id": "643d075a-ec08-460c-8737-b8055cd7d53b",
                         "fireHideEvent": "disable-field-izoniazida"
                     },
@@ -872,7 +875,7 @@
                 "nextSref": ".exams",
                 "fields": [
                     {
-                        "name": "Profilaxia Da Meningite Criptocócica",
+                        "name": "Profilaxia Da Cripto",
                         "id": "3aafaae2-c619-404c-b9a1-82e621881b1d",
                         "fireHideEvent": "disable-field-criptococia"
 

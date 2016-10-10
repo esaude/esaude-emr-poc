@@ -24,6 +24,7 @@ angular.module('poc.common.formdisplay')
         $scope, observationsService, $filter) {
             
         var formLogic = {};
+        var dateUtil = Bahmni.Common.Util.DateUtil
 
         var fireHideEvent = function (event) {
              $scope.$watch('aForm.' + $scope.fieldId + '.$viewValue', function (newVal, oldVal) {
@@ -50,11 +51,10 @@ angular.module('poc.common.formdisplay')
 
         var dateController = function (param) {
 		$scope.$watch('aForm.' + $scope.fieldId + '.$viewValue', function (newVal, oldVal) {
-                var dateUtil = Bahmni.Common.Util.DateUtil
+
 
 				var startDate = $rootScope.formPayload.form.fields[param].value
                 var _date = dateUtil.getDateWithoutTime(startDate);
-                var date = dateUtil.getDateWithoutTime(new Date());
                 var _dateu = dateUtil.getDateWithoutTime(newVal);
 
 					if (newVal !== oldVal && !_.isUndefined(newVal)) {
@@ -66,6 +66,24 @@ angular.module('poc.common.formdisplay')
 
 						}
 					}
+				});
+		};
+
+
+        var dateCalculator = function (param) {
+		$scope.$watch('aForm.' + $scope.fieldId + '.$viewValue', function (newVal, oldVal) {
+            debugger;
+                var dateUtil = Bahmni.Common.Util.DateUtil
+                var _dateu = dateUtil.getDateWithoutTime(newVal);
+            debugger;
+
+					if (newVal !== oldVal && !_.isUndefined(newVal)) {
+                        debugger;
+					$rootScope.formPayload.form.fields[param].value= dateUtil.addMonths(_dateu, 6);
+					}
+                    else{
+                        $rootScope.formPayload.form.fields[param].value="";
+                    }
 				});
 		};
 
@@ -115,6 +133,9 @@ angular.module('poc.common.formdisplay')
 
             if ($scope.field.listenHideEvent) {
                 listenHideEvent($scope.field.listenHideEvent);
+            }
+            if ($scope.field.dateCalculator) {
+                dateCalculator($scope.field.dateCalculator);
             }
 
             if ($scope.field.dateController) {
