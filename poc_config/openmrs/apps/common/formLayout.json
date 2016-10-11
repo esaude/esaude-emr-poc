@@ -1,3 +1,4 @@
+
 [
     {
         "id": "001",
@@ -481,13 +482,13 @@
     {
         "id": "007",
         "formId": "65896366-17b2-4c3e-9cce-440edcfe7b4e",
-        "name": "OBS STORY",
-        "sufix": "obs_story",
+        "name": "ASPECTOS RELEVANTES",
+        "sufix": "aspectos_relevantes",
         "parts": [
             {
                 "id": "1",
-                "name": "CURRENT STORY",
-                "sref": ".current_story",
+                "name": "ASPECTOS RELEVANTES",
+                "sref": ".aspectos_relevantes",
                 "nextSref": ".confirm",
                 "fields": [
                     {
@@ -511,12 +512,12 @@
         "parts": [
             {
                 "id": "1",
-                "name": "Historico",
+                "name": "HISTÓRICO",
                 "sref": ".historico",
                 "nextSref": ".exames",
                 "fields": [
                     {
-                        "name": "Histórico do paciente",
+                        "name": "HISTÓRICO ACTUAL",
                         "id": "3bca43c2-6e30-4494-96d4-9890904c3247",
                         "textSize":"10"
                     }
@@ -572,20 +573,25 @@
                     {
                         "name": "Tem sintomas sugestivas para Cripto?",
                         "id": "73d19562-3c80-451f-b673-88b3ef5c2dff"
-                    },
-                    {
-                        "name": "Resultado de BK (POS/NEG)",
-                        "id": "d68d9fbe-d0db-4350-b717-5fd4112752c7"
                     }
                 ]
-            },
-             {
-                "id": "4",
+            }
+        ]
+	},
+    {
+        "id": "009",
+        "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
+        "name": "DIAGNOSTICOS",
+        "sufix": "diagnosticos_adulto",
+        "parts": [
+
+           {
+                "id": "1",
                 "name": "DIAGNOSTICOS",
                 "sref": ".diagnosis",
-                "nextSref": ".tratemento_tb",
+                "nextSref": ".confirm",
                 "fields": [
-                    {
+                     {
                         "name": "Diagnostico 1",
                         "id": "32b61bab-156b-4d6e-a938-644287e69b81",
                         "searchBySource": "3f65bd34-26fe-102b-80cb-0017a47871b2"
@@ -600,112 +606,13 @@
                         "id": "e2939310-1d5f-11e0-b929-000c29ad1d07"
                     }
                 ]
-            },
-             {
-                "id": "5",
-                "name": "Tratamento de TB",
-                "sref": ".tratemento_tb",
-                "nextSref": ".profilaxia1",
-                "fields": [
-                    {
-                        "name": "Data de Inicio",
-                        "id": "a2fda180-923d-426b-999a-27053b239c2a"
-                    },
-                    {
-                        "name": "Data de Fim",
-                        "id": "0fcf9f12-2f0c-462f-81ad-b9f0bc65bfea",
-                        "dateController":"a2fda180-923d-426b-999a-27053b239c2a"
-                    }
-                ]
-            },
-            {
-                "id": "6",
-                "name": "PROFILAXIAS I",
-                "sref": ".profilaxia1",
-                "nextSref": ".profilaxia2",
-                "fields": [
-                    {
-                        "name": "Profilaxia com CTZ",
-                        "id": "5294e15e-fa75-4c81-8593-33eb49d9cf56",
-                        "fireHideEvent": "disable-field-cotrimoxazol"
-                    },
-
-                    {
-                        "name": "Data de Inicio",
-                        "id": "2b71e477-ce1f-4563-b577-1dd6f98c3097",
-                        "listenHideEvent": "disable-field-cotrimoxazol",
-                        "dateCalculator": "93302556-6113-4bf6-967f-ac2f266a35be",
-                        "hidden": true
-                    },
-                    {
-                        "name": "Data de Fim",
-                        "id": "93302556-6113-4bf6-967f-ac2f266a35be",
-                        "listenHideEvent": "disable-field-cotrimoxazol",
-                        "hidden": true
-                    }
-
-                ]
-            },
-            {
-                "id": "7",
-                "name": "PROFILAXIAS II",
-                "sref": ".profilaxia2",
-                "nextSref": ".profilaxia3",
-                "fields": [
-                     {
-                        "name": "Profilaxia com  INH",
-                        "id": "fa6a769d-39a9-44eb-9d36-d3b11e3d44ac",
-                        "fireHideEvent": "disable-field-izoniazida"
-                    },
-
-                    {
-                        "name": "Data de Inicio",
-                        "id": "5fc349f2-a694-4a0c-803e-ccbb5402bd53",
-                        "hidden": true,
-                        "listenHideEvent": "disable-field-izoniazida"
-                    },
-                    {
-                        "name": "Data de Fim",
-                        "id": "fc046c9b-6399-4d43-a1b1-d46117985ef1",
-                        "hidden": true,
-                        "listenHideEvent": "disable-field-izoniazida"
-                    }
-
-                ]
-            },
-            {
-                "id": "8",
-                "name": "PROFILAXIAS III",
-                "sref": ".profilaxia3",
-                "nextSref": ".confirm",
-                "fields": [
-                    {
-                        "name": "Profilaxia Da Cripto",
-                        "id": "01b783f3-e972-411f-8d8b-980d8aad7f4e",
-                        "fireHideEvent": "disable-field-criptococia"
-                    },
-                    {
-                        "name": "Data de Inicio",
-                        "id": "e6551ba8-7bb8-4b69-8f17-cca5048621b7",
-                        "hidden": true,
-                        "listenHideEvent": "disable-field-criptococia",
-                        "required":false
-                    },
-                    {
-                        "name": "Data de Fim",
-                        "id": "fce0e153-215d-422d-985b-d36a3fed687b",
-                        "hidden": true,
-                        "listenHideEvent": "disable-field-criptococia",
-                        "required":false
-                    }
-
-                ]
             }
+
         ]
-	},
+    },
     {
-        "id": "009",
-        "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
+        "id": "010",
+        "formId": "e28ac028-1d5f-11e0-b929-000c29ad1d07",
         "name": "ANAMNESE E EXAME FÍSICO - PEDIATRIA",
         "sufix": "anamnese_child",
         "parts": [
@@ -767,18 +674,23 @@
                     {
                         "name": "Tem sintomas sugestivas para Cripto?",
                         "id": "63325126-4f16-427c-a3e8-3061667da33d"
-                    },
-                    {
-                        "name": "Resultado de BK (POS/NEG)",
-                        "id": "86a29cf1-6fd2-4bae-a239-a282a5edd11b"
                     }
                 ]
-            },
-             {
-                "id": "4",
+            }
+        ]
+	},
+     {
+        "id": "011",
+        "formId": "e28ac028-1d5f-11e0-b929-000c29ad1d07",
+        "name": "DIAGNOSTICOS - PEDIATRIA",
+        "sufix": "diagnosticos_child",
+        "parts": [
+
+           {
+                "id": "1",
                 "name": "DIAGNOSTICOS",
-                "sref": ".diagnosis",
-                "nextSref": ".tratemento_tb",
+                "sref": ".diagnosticos_child",
+                "nextSref": ".confirm",
                 "fields": [
                     {
                         "name": "Diagnostico 1",
@@ -795,106 +707,8 @@
                         "id": "e293e11c-1d5f-11e0-b929-000c29ad1d07"
                     }
                 ]
-            },
-             {
-                "id": "5",
-                "name": "Tratamento de TB",
-                "sref": ".tratemento_tb",
-                "nextSref": ".profilaxia1",
-                "fields": [
-                    {
-                        "name": "Data de Inicio",
-                        "id": "6c0d2b75-b929-4beb-b1a7-5bb714d6f6d5"
-                    },
-                    {
-                        "name": "Data de Fim",
-                        "id": "67ef8b0f-5de1-4b70-add8-4510a2accaa9",
-                        "dateController":"6c0d2b75-b929-4beb-b1a7-5bb714d6f6d5"
-                    }
-                ]
-            },
-             {
-                "id": "6",
-                "name": "PROFILAXIA I",
-                "sref": ".profilaxia1",
-                "nextSref": ".profilaxia2",
-                "fields": [
-                    {
-                        "name": "Profilaxia com CTZ",
-                        "id": "fcb11548-455e-4cdf-a9c0-3f8ce2860358",
-                        "fireHideEvent": "disable-field-cotrimoxazol"
-                    },
-
-                    {
-                        "name": "Data de Inicio",
-                        "id": "5911800b-bee2-4c96-b119-01d80faa8761",
-                        "listenHideEvent": "disable-field-cotrimoxazol",
-                        "dateCalculator": "c1dd8b69-1ce6-47f6-9c07-e38ce38f0762",
-                        "hidden": true
-                    },
-                    {
-                        "name": "Data de Fim",
-                        "id": "c1dd8b69-1ce6-47f6-9c07-e38ce38f0762",
-                        "listenHideEvent": "disable-field-cotrimoxazol",
-                        "hidden": true
-                    }
-
-                ]
-            },
-            {
-                "id": "7",
-                "name": "PROFILAXIA II",
-                "sref": ".profilaxia2",
-                "nextSref": ".profilaxia3",
-                "fields": [
-                     {
-                        "name": "Profilaxia com INH",
-                        "id": "643d075a-ec08-460c-8737-b8055cd7d53b",
-                        "fireHideEvent": "disable-field-izoniazida"
-                    },
-
-                    {
-                        "name": "Data de Inicio",
-                        "id": "8478aa22-8998-4c28-b1fc-f04efae5fae2",
-                        "listenHideEvent": "disable-field-izoniazida",
-                        "hidden": true
-                    },
-                    {
-                        "name": "Data de Fim",
-                        "id": "54d3f623-da08-414b-8841-031f41da7a88",
-                        "listenHideEvent": "disable-field-izoniazida",
-                        "hidden": true
-                    }
-
-                ]
-            },
-            {
-                "id": "8",
-                "name": "PROFILAXIA III",
-                "sref": ".profilaxia3",
-                "nextSref": ".exams",
-                "fields": [
-                    {
-                        "name": "Profilaxia Da Cripto",
-                        "id": "3aafaae2-c619-404c-b9a1-82e621881b1d",
-                        "fireHideEvent": "disable-field-criptococia"
-
-                    },
-                    {
-                        "name": "Data de Inicio",
-                        "id": "ed354e72-2f96-43a6-ab28-45c21bd34785",
-                        "hidden": true,
-                        "listenHideEvent": "disable-field-criptococia"
-                    },
-                    {
-                        "name": "Data de Fim",
-                        "id": "a69d5cde-e92b-4ba3-8a6a-c123dfd8e100",
-                        "hidden": true,
-                        "listenHideEvent": "disable-field-criptococia"
-                    }
-
-                ]
             }
-        ]
-	}
+
+      ]
+    }
     ]
