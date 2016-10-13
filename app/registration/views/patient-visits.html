@@ -1,1 +1,13 @@
-Comming soon
+<div class="panel panel-primary panel-marginless-sides" ng-init="visitHistory()">
+  <div class="list-group" ng-repeat="visit in visits">
+    <div class="bg-info content-border-padding-li">
+      {{'CLINIC_PATIENT_VISIT' | translate}} {{'COMMON_ON' | translate}} {{visit[0].encounterDatetime | date:"MMM d, y"}}
+    </div>
+    <div class="list-group-item" ng-repeat="encounter in visit">
+      <div>{{encounter.encounterType.display}} {{'COMMON_ON' | translate}} {{encounter.encounterDatetime |
+        date:"MMM d, y"}},
+        {{'COMMON_BY' | translate}}: {{encounter.provider.display}}</div>
+    </div>
+  </div>
+</div>
+</div>

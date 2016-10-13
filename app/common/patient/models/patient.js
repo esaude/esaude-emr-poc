@@ -16,6 +16,15 @@ angular.module('common.patient')
                 this.birthdate = age.calculateBirthDate(this.age);
             };
 
+            var calculateBirthdateEstimated = function (value) {
+                if (value === 'age') {
+                    this.birthdateEstimated = true;
+                } else {
+                    this.birthdateEstimated = false;
+                }
+                
+            };
+
             var fullNameLocal = function () {
                 var givenNameLocal = this.givenNameLocal || this.givenName || "";
                 var middleNameLocal = this.middleNameLocal || this.middleName|| "";
@@ -31,6 +40,7 @@ angular.module('common.patient')
                 address: {}
                 ,age: age.create()
                 ,birthdate: null
+                ,birthdateEstimated: false
                 ,calculateAge: calculateAge
                 ,image: '../images/blank-user.gif'
                 ,fullNameLocal: fullNameLocal
@@ -38,6 +48,7 @@ angular.module('common.patient')
                 ,relationships: []
                 ,newlyAddedRelationships: [{}]
                 ,calculateBirthDate: calculateBirthDate
+                ,calculateBirthdateEstimated: calculateBirthdateEstimated
                 ,identifiers: []
             };
         };

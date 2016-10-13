@@ -1,5 +1,12 @@
 <div class="panel panel-primary content-border-margin">
     <div class="panel-heading">
+        <h3 class="panel-title">{{'PATIENT_INFO_IDENTIFIERS' | translate}}</h3>
+    </div>
+
+    <div ng-include src="'../patient-details/views/patient-identifiers.html'"></div>
+</div>
+<div class="panel panel-primary content-border-margin">
+    <div class="panel-heading">
         <h3 class="panel-title">{{'PATIENT_INFO_DEMOGRAPHICS' | translate}}</h3>
     </div>
 
@@ -20,14 +27,6 @@
     </div>
 
     <div ng-include src="'../patient-details/views/patient-attributes.html'"></div>
-</div>
-
-<div class="panel panel-primary content-border-margin">
-    <div class="panel-heading">
-        <h3 class="panel-title">{{'PATIENT_INFO_IDENTIFIERS' | translate}}</h3>
-    </div>
-
-    <div ng-include src="'../patient-details/views/patient-identifiers.html'"></div>
 </div>
 
 <div class="row bg-info-border content-border border-rouded go-to-right">

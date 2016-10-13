@@ -18,7 +18,7 @@ angular.module('registration')
             };
             
             $scope.linkPatientDetail = function() {
-                $location.url("/patient/detail/" + patientUuid + "/demographic"); // path not hash
+                $location.url("/patient/detail/" + patientUuid + "/identifiers"); // path not hash
             };
             
             $scope.linkServicesList = function() {
@@ -26,7 +26,7 @@ angular.module('registration')
             };
             
             $scope.linkPatientEdit = function() {
-                $location.url("/patient/edit/" + patientUuid + "/name"); // path not hash
+                $location.url("/patient/edit/" + patientUuid + "/identifier"); // path not hash
             };
             
             init();

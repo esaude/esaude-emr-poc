@@ -50,7 +50,7 @@
     "PATIENT_INFO_DEMOGRAPHICS": "Demographics",
     "PATIENT_INFO_ADDRESSES": "Addresses",
     "PATIENT_INFO_ADDRESS": "Address",
-    "PATIENT_INFO_OTHERS": "Other Info",
+    "PATIENT_INFO_OTHERS": "Contacts",
     "PATIENT_INFO_IDENTIFIERS": "Identifiers",
     "PATIENT_INFO_DEATH": "Death Info",
     "PATIENT_INFO_NAMES": "Names",

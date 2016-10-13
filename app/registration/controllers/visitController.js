@@ -106,6 +106,12 @@ angular.module('registration')
                 visit.stopDatetime = dateUtil.removeOffset(visit.stopDatetime);
                 return visit;
             }
+            
+            $scope.visitHistory = function () {
+              encounterService.getEncountersOfPatient(patientUuid).success(function (data) {
+                $scope.visits = commonService.filterGroupReverse(data);
+              });
+            }
 
             init();
 

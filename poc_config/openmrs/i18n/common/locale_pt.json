@@ -76,7 +76,7 @@
     "PATIENT_INFO_DEMOGRAPHICS": "Demografia",
     "PATIENT_INFO_ADDRESSES": "Endereços",
     "PATIENT_INFO_ADDRESS": "Endereço",
-    "PATIENT_INFO_OTHERS": "Outra Info",
+    "PATIENT_INFO_OTHERS": "Contactos",
     "PATIENT_INFO_IDENTIFIERS": "Identificadores",
     "PATIENT_INFO_DEATH": "Info de Óbito",
     "PATIENT_INFO_NAMES": "Nomes",
@@ -89,6 +89,9 @@
     "PATIENT_INFO_GENDER": "Genero",
     "PATIENT_INFO_BIRTHDATE": "Data de Nascimento",
     "PATIENT_INFO_AGE": "Idade",
+    "PATIENT_INFO_YEARS": "Anos",
+    "PATIENT_INFO_MONTHS": "Meses",
+    "PATIENT_INFO_DAYS": "Dias",
     "PATIENT_INFO_ESTIMATED": "Estimada",
     "PATIENT_INFO_IDENTIFIER_TYPE": "Tipo",
     "PATIENT_INFO_IDENTIFIER_TYPE_FULL": "Tipo de Identificador",
@@ -137,6 +140,5 @@
     "ERROR_INVALID_EMAIL": "O formato do email é inválido",
     "ERROR_INVALID_FORMAT": "O formato do campo é inválido",
     "ERROR_ALREADY_IN_USE": "O valor do campo já foi usado",
-    "ERROR_TOO_BIG": "Este campo é muito grande",
     "ERROR_TOO_SMALL": "Este campo é muito pequeno"
 }

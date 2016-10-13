@@ -10,7 +10,7 @@ angular
             var $state = $injector.get('$state');
             $state.go('search');
         });
-        
+
         $stateProvider
             .state('search', {
                 url: '/search',
@@ -30,13 +30,14 @@ angular
             })
             .state('dashboard.program', {
                 url: '/program',
-                templateUrl: '../common/uicontrols/programmanagement/views/patient-programs.html', 
+                templateUrl: '../common/uicontrols/programmanagement/views/patient-programs.html',
                 controller: 'ManageProgramController',
                 resolve: { initialization: 'initialization' }
             })
             .state('dashboard.visits', {
                 url: '/visits',
                 templateUrl: 'views/patient-visits.html',
+                controller: 'VisitController',
                 resolve: { initialization: 'initialization' }
             })
             .state('dashboard.services', {
@@ -193,7 +194,7 @@ angular
                 templateUrl: '../patient-details/views/patient-death.html',
                 resolve: { initialization: 'initialization' }
             });
-            
+
             $stateProviderRef = $stateProvider;
             $bahmniTranslateProvider.init({app: 'registration', shouldMerge: true});
     }]);
