@@ -1,16 +1,31 @@
 'use strict';
 
 angular.module('clinic')
-        .controller('PatientPrescriptionController', ["$scope", "$rootScope", "$stateParams",
+        .controller('PatientPrescriptionController', ["$filter", "$scope", "$rootScope", "$stateParams",
                         "encounterService", "observationsService", "commonService", "conceptService", "localStorageService",
-                    function ($scope, $rootScope, $stateParams, encounterService,
+                    function ($filter, $scope, $rootScope, $stateParams, encounterService,
                     observationsService, commonService, conceptService, localStorageService) {
         var patientUuid;
         var markedOn = "488e6803-c7db-43b2-8911-8d5d2a8472fd";
         var dateUtil = Bahmni.Common.Util.DateUtil;
+
         $scope.showMessages = false;
         $scope.hasEntryToday = false;//there is no followup encouter for the patient today
         $scope.hasServiceToday = false;//there is no prescription service for the patient today
+        $scope.drugTypes = [
+            {
+                id: "arvDrugs",
+                label: $filter('translate')('DRUG_TYPE_ARV')
+            },
+            {
+                id: "otherDrugs",
+                label: $filter('translate')('DRUG_TYPE_NON_ARV')
+            },
+            {
+                id: "prophilaxyDrugs",
+                label: $filter('translate')('DRUG_TYPE_PROPHILAXYS')
+            }
+        ];
 
         var init = function() {
             patientUuid = $stateParams.patientUuid;
@@ -22,9 +37,24 @@ angular.module('clinic')
             conceptService.get(Bahmni.Common.Constants.prescriptionConvSetConcept).success(function (data) {
                 for (var key in $scope.fieldModels) {
                     var fieldModel = $scope.fieldModels[key];
-                    var foundModel = _.find(data.setMembers, function (element) {
+                    var members = angular.copy(data.setMembers);
+                    var foundModel = _.find(members, function (element) {
                         return element.uuid === fieldModel.uuid;
                     });
+                    //remove prophilaxys  from other drugs answers
+                    if (key === "otherDrugs") {
+                        _.remove(foundModel.answers, function(answer) {
+                            return _.includes(Bahmni.Common.Constants.prophilaxyDrugConcepts, answer.uuid);
+                        });
+                    }
+                    //filter prophilaxys answers
+                    if (key === "prophilaxyDrugs") {
+                        var filtered = _.filter(foundModel.answers, function(answer) {
+                            return _.includes(Bahmni.Common.Constants.prophilaxyDrugConcepts, answer.uuid);
+                        });
+                        foundModel.answers = filtered;
+                    }
+
                     fieldModel.model = foundModel;
                 }
             });
@@ -51,7 +81,7 @@ angular.module('clinic')
             resetFieldModel();
             $scope.showNewPrescriptionsControlls = true;
             $scope.showMessages = false;
-            $scope.fieldType = undefined;
+            $scope.prescDrugType = undefined;
         };
 
          $scope.remove = function (item) {
@@ -62,6 +92,13 @@ angular.module('clinic')
          $scope.edit = function (item) {
              $scope.fieldModels = angular.copy(item);
              _.pull($scope.listedPrescriptions, item);
+             //calculate the drugType
+             _.forEach($scope.drugTypes, function (dt) {
+                if (item[dt.id].value != undefined) {
+                    $scope.prescDrugType = commonService.findInList($scope.drugTypes, "id", dt.id);
+                    prepareDrugFields();
+                }
+             });
              isPrescriptionControl();
          };
 
@@ -169,7 +206,7 @@ angular.module('clinic')
                         if (!_.isUndefined(markedOnInfo)) $scope.hasServiceToday = true;
                     };
 
-              var filteredEncounters = _.filter(sortedEncounters, function (e) {
+                    var filteredEncounters = _.filter(sortedEncounters, function (e) {
                         var foundObs = _.find(e.obs, function (o) {
                             return o.concept.uuid === markedOn;
                         });
@@ -198,6 +235,7 @@ angular.module('clinic')
                                 var foundModel = _.find(pSet.groupMembers, function (element) {
                                     return element.concept.uuid === m.uuid;
                                 });
+
                                 if (_.isUndefined(foundModel)) continue;
 
                                 m.model = foundModel.concept;
@@ -211,10 +249,10 @@ angular.module('clinic')
         };
 
         $scope.selectDrugType = function () {
-            if ($scope.fieldType === "ARV") {
-                $scope.isArt = true;
-                $scope.isOthers = false;
-
+            resetFieldModel();
+            prepareDrugFields();
+            // get the last regimen
+            if ($scope.prescDrugType.id === "arvDrugs") {
                 observationsService.get(patientUuid, Bahmni.Common.Constants.drugPrescriptionConvSet.arvDrugs.uuid)
                         .success(function (data) {
                     var nonRetired = commonService.filterRetired(data.results);
@@ -226,10 +264,26 @@ angular.module('clinic')
                         $scope.fieldModels.arvDrugs.oldValue = swappedObsToConcept;
                     }
                 });
-            } else {
+            };
+        };
+
+        var prepareDrugFields = function () {
+            if ($scope.prescDrugType.id === "arvDrugs") {
+                $scope.isArt = true;
+                $scope.isOthers = false;
+                $scope.isProphylaxis = false;
+            } 
+            else if ($scope.prescDrugType.id === "otherDrugs") {
                 $scope.isArt = false;
                 $scope.isOthers = true;
                 $scope.isPlanChanged = false;
+                $scope.isProphylaxis = false;
+            } 
+            else if ($scope.prescDrugType.id === "prophilaxyDrugs") {
+                $scope.isArt = false;
+                $scope.isOthers = false;
+                $scope.isPlanChanged = false;
+                $scope.isProphylaxis = true;
             }
         };
 

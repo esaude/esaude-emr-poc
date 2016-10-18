@@ -159,5 +159,8 @@
   "WHO STAGE 3 PEDS": "WHO Stage 3 Pediatrics",
   "WHO STAGE 4 PEDS": "WHO Stage 4 Pediatrics",
   "CLINICAL_OBSERVATIONS_INFO_EMPTY": "Clinical Patient Information Empty",
-  "CLINICAL_WHO_STAGE_EMPTY":"Clinical Patient WHO Stage Unknown"
+  "CLINICAL_WHO_STAGE_EMPTY":"Clinical Patient WHO Stage Unknown",
+  "DRUG_TYPE_ARV": "ARV",
+  "DRUG_TYPE_NON_ARV": "Non ARV",
+  "DRUG_TYPE_PROPHILAXYS": "Prophilaxy"
 }

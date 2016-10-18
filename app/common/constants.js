@@ -30,6 +30,7 @@ Bahmni.Common = Bahmni.Common || {};
     var drugPrescriptionConvSet = {
         arvDrugs: {uuid: "e1d83d4a-1d5f-11e0-b929-000c29ad1d07"},
         otherDrugs: {uuid: "e1de3092-1d5f-11e0-b929-000c29ad1d07"},
+        prophilaxyDrugs: {uuid: "e1de3092-1d5f-11e0-b929-000c29ad1d07"},
         artPlan: {uuid: "e1d9ee10-1d5f-11e0-b929-000c29ad1d07"},
         interruptedReason: {uuid: "e1d9ead2-1d5f-11e0-b929-000c29ad1d07"},
         changeReason: {uuid: "e1de8862-1d5f-11e0-b929-000c29ad1d07"},
@@ -41,6 +42,9 @@ Bahmni.Common = Bahmni.Common || {};
         durationUnits: {uuid: "9d6f0bea-10e8-11e5-9009-0242ac110012"},
         dosingInstructions: {uuid: "9d73c2a7-10e8-11e5-9009-0242ac110012"}
     };
+
+    var prophilaxyDrugConcepts = ["e1d6b6dc-1d5f-11e0-b929-000c29ad1d07", "e1cf3114-1d5f-11e0-b929-000c29ad1d07", 
+                "e1d4a7d4-1d5f-11e0-b929-000c29ad1d07", "e1d43e52-1d5f-11e0-b929-000c29ad1d07"];
 
     Bahmni.Common.Constants = {
         dateFormat: "dd/mm/yyyy",
@@ -193,7 +197,8 @@ Bahmni.Common = Bahmni.Common || {};
         followupAdultFormUuid: "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
         followupChildFormUuid: "e28ac028-1d5f-11e0-b929-000c29ad1d07",
         artInterruptedPlanUuid: "e1d9f36a-1d5f-11e0-b929-000c29ad1d07",
-        pocMappingPrescriptionDateConceptUuid: "488e6803-c7db-43b2-8911-8d5d2a8472fd"
+        pocMappingPrescriptionDateConceptUuid: "488e6803-c7db-43b2-8911-8d5d2a8472fd",
+        prophilaxyDrugConcepts: prophilaxyDrugConcepts
 
     };
 })();

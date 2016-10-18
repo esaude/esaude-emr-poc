@@ -13,10 +13,9 @@
                             <div ng-messages for="prescriptionForm.drugType.$error" 
                                  ng-messages-include="../poc-common/form-display/views/error-messages.html"
                                  ng-show="showMessages"></div>
-                            <select name="drugType" class="form-control" ng-model="fieldType" required ng-change="selectDrugType()">
+                            <select name="drugType" class="form-control" ng-model="prescDrugType" required ng-change="selectDrugType()"
+                            ng-options="drugType.label for drugType in drugTypes">
                                 <option></option>
-                                <option>ARV</option>
-                                <option>NON ARV</option>
                             </select>
                         </div>
                     </div>
@@ -42,6 +41,19 @@
                                  ng-show="showMessages"></div>
                             <select name="otherDrugs" class="form-control" ng-model="fieldModels.otherDrugs.value"
                                     ng-options="drug.display for drug in fieldModels.otherDrugs.model.answers" ng-required="isOthers">
+                                <option></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg"
+                         ng-class="{'has-error': prescriptionForm.prophilaxyDrugs.$invalid && showMessages}" ng-show="isProphylaxis">
+                        <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_DRUG'| translate}}:<span class="asterick">*</span></label>
+                        <div class="col-sm-9">
+                            <div ng-messages for="prescriptionForm.prophilaxyDrugs.$error" 
+                                 ng-messages-include="../poc-common/form-display/views/error-messages.html"
+                                 ng-show="showMessages"></div>
+                            <select name="prophilaxyDrugs" class="form-control" ng-model="fieldModels.prophilaxyDrugs.value"
+                                    ng-options="drug.display for drug in fieldModels.prophilaxyDrugs.model.answers" ng-required="isProphylaxis">
                                 <option></option>
                             </select>
                         </div>
@@ -191,10 +203,15 @@
             </div>
             <div class="list-group">
                 <div class="list-group-item list-group-item-success" ng-repeat="listPrescription in listedPrescriptions">
-                    <span><strong>{{(listPrescription.arvDrugs.value) ? listPrescription.arvDrugs.value.display: listPrescription.otherDrugs.value.display}}</strong> {{listPrescription.dosageAmount.value}} 
+                    <span>
+                        <strong ng-if="listPrescription.arvDrugs.value">{{listPrescription.arvDrugs.value.display}}</strong>
+                        <strong ng-if="listPrescription.otherDrugs.value">{{listPrescription.otherDrugs.value.display}}</strong>
+                        <strong ng-if="listPrescription.prophilaxyDrugs.value">{{listPrescription.prophilaxyDrugs.value.display}}</strong> 
+                        {{listPrescription.dosageAmount.value}} 
                         {{listPrescription.dosingUnits.value.display}}, {{listPrescription.dosgeFrequency.value.display}}, 
                         {{listPrescription.drugRoute.value.display}} - {{listPrescription.duration.value}} 
-                        {{listPrescription.durationUnits.value.display}}, {{listPrescription.dosingInstructions.value.display}}</span>
+                        {{listPrescription.durationUnits.value.display}}, {{listPrescription.dosingInstructions.value.display}}
+                    </span>
                     <span ng-if="listPrescription.artPlan.value">
                         <strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN'| translate}}:</strong> {{listPrescription.artPlan.value.display}}
                     </span>
@@ -236,10 +253,15 @@
                     {{'CLINIC_PATIENT_PRESCRIBED' | translate}} {{'COMMON_ON' | translate}} {{existingPrescription.prescriptionDate | date:"MMM d, y"}}
                 </div>
                 <div class="list-group-item" ng-repeat="presc in existingPrescription.models">
-                    <span class="text-lg"><strong>{{(presc.arvDrugs.value) ? presc.arvDrugs.value.display: presc.otherDrugs.value.display}}</strong> {{presc.dosageAmount.value}} 
+                    <span class="text-lg">
+                        <strong ng-if="presc.arvDrugs.value">{{presc.arvDrugs.value.display}}</strong>
+                        <strong ng-if="presc.otherDrugs.value">{{presc.otherDrugs.value.display}}</strong>
+                        <strong ng-if="presc.prophilaxyDrugs.value">{{presc.prophilaxyDrugs.value.display}}</strong> 
+                        {{presc.dosageAmount.value}} 
                         {{presc.dosingUnits.value.display}}, {{presc.dosgeFrequency.value.display}}, 
                         {{presc.drugRoute.value.display}} - {{presc.duration.value}} 
-                        {{presc.durationUnits.value.display}} ({{presc.dosingInstructions.value.display}})</span>
+                        {{presc.durationUnits.value.display}} ({{presc.dosingInstructions.value.display}})
+                    </span>
                     <span ng-if="presc.artPlan.value">
                         <strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN'| translate}}:</strong> {{presc.artPlan.value.display}}
                     </span>

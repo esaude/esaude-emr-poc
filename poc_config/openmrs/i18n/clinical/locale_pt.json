@@ -166,5 +166,8 @@
   "YES": "SIM",
   "NO": "NÃO",
   "CLINICAL_OBSERVATIONS_INFO_EMPTY": "Informação Laboratorial de Paciente Vazia",
-  "CLINICAL_WHO_STAGE_EMPTY":"Paciente nao possui ESTADIO OMS"
+  "CLINICAL_WHO_STAGE_EMPTY":"Paciente nao possui ESTADIO OMS",
+  "DRUG_TYPE_ARV": "ARV",
+  "DRUG_TYPE_NON_ARV": "Outros",
+  "DRUG_TYPE_PROPHILAXYS": "Profilaxia"
 }

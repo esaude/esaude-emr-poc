@@ -43,10 +43,15 @@
                     {{'CLINIC_PATIENT_PRESCRIBED' | translate}} {{'COMMON_ON' | translate}} {{presc.prescriptionDate | date:"MMM d, y"}}
                 </div>
                 <div class="list-group-item" ng-repeat="model in presc.models">
-                    <span class="text-lg"><strong>{{(model.arvDrugs.value) ? model.arvDrugs.value.display: model.otherDrugs.value.display}}</strong> {{model.dosageAmount.value}}
+                    <span class="text-lg">
+                        <strong ng-if="model.arvDrugs.value">{{model.arvDrugs.value.display}}</strong>
+                        <strong ng-if="model.otherDrugs.value">{{model.otherDrugs.value.display}}</strong>
+                        <strong ng-if="model.prophilaxyDrugs.value">{{model.prophilaxyDrugs.value.display}}</strong>
+                        {{model.dosageAmount.value}}
                         {{model.dosingUnits.value.display}}, {{model.dosgeFrequency.value.display}},
                         {{model.drugRoute.value.display}} - {{model.duration.value}}
-                        {{model.durationUnits.value.display}} ({{model.dosingInstructions.value.display}})</span>
+                        {{model.durationUnits.value.display}} ({{model.dosingInstructions.value.display}})
+                    </span>
                     <span ng-if="model.artPlan.value">
                         <strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN'| translate}}:</strong> {{model.artPlan.value.display}}
                     </span>
