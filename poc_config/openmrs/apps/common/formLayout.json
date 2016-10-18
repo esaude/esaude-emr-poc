@@ -560,7 +560,7 @@
                 "id": "3",
                 "name": "Rastreios",
                 "sref": ".rastreios",
-                "nextSref": ".diagnosis",
+                "nextSref": ".confirm",
                 "fields": [
                     {
                         "name": "Tem sintomas sugestivas para ITS?",
@@ -584,26 +584,23 @@
         "name": "DIAGNOSTICOS",
         "sufix": "diagnosticos_adulto",
         "parts": [
-
-           {
+            {
                 "id": "1",
-                "name": "DIAGNOSTICOS",
-                "sref": ".diagnosis",
+                "name": "Tratamento de TB",
+                "sref": ".tratemento_tb",
                 "nextSref": ".confirm",
                 "fields": [
-                     {
-                        "name": "Diagnostico 1",
-                        "id": "32b61bab-156b-4d6e-a938-644287e69b81",
-                        "searchBySource": "3f65bd34-26fe-102b-80cb-0017a47871b2"
+                    {
+                        "name": "Data de Inicio",
+                        "id": "a2fda180-923d-426b-999a-27053b239c2a",
+                        "logics ": {
+                            "defaultValueIsLastEntry": "a2fda180-923d-426b-999a-27053b239c2a"
+                        }
                     },
                     {
-                        "name": "Diagnostico 2",
-                        "id": "d516b911-032b-4ffc-9bc9-01978eb0ba41",
-                        "searchBySource": "3f65bd34-26fe-102b-80cb-0017a47871b2"
-                    },
-                    {
-                        "name": "Diagnostico 3",
-                        "id": "e2939310-1d5f-11e0-b929-000c29ad1d07"
+                        "name": "Data de Fim",
+                        "id": "0fcf9f12-2f0c-462f-81ad-b9f0bc65bfea",
+                        "dateController":"a2fda180-923d-426b-999a-27053b239c2a"
                     }
                 ]
             }
@@ -665,7 +662,7 @@
                 "id": "3",
                 "name": "Rastreios",
                 "sref": ".rastreios",
-                "nextSref": ".diagnosis",
+                "nextSref": ".confirm",
                 "fields": [
                     {
                         "name": "Tem sintomas sugestivas para TB?",
@@ -685,9 +682,28 @@
         "name": "DIAGNOSTICOS - PEDIATRIA",
         "sufix": "diagnosticos_child",
         "parts": [
-
-           {
+            {
                 "id": "1",
+                "name": "Tratamento de TB",
+                "sref": ".tratemento_tb",
+                "nextSref": ".diagnosticos_child",
+                "fields": [
+                    {
+                        "name": "Data de Inicio",
+                        "id": "6c0d2b75-b929-4beb-b1a7-5bb714d6f6d5",
+                        "logics ": {
+                            "defaultValueIsLastEntry": "6c0d2b75-b929-4beb-b1a7-5bb714d6f6d5"
+                        }
+                    },
+                    {
+                        "name": "Data de Fim",
+                        "id": "67ef8b0f-5de1-4b70-add8-4510a2accaa9",
+                        "dateController":"6c0d2b75-b929-4beb-b1a7-5bb714d6f6d5"
+                    }
+                ]
+            },
+           {
+                "id": "2",
                 "name": "DIAGNOSTICOS",
                 "sref": ".diagnosticos_child",
                 "nextSref": ".confirm",

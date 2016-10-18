@@ -25,6 +25,7 @@ angular.module('poc.common.formdisplay')
             
         var formLogic = {};
         var dateUtil = Bahmni.Common.Util.DateUtil
+        $(':checkbox').checkboxpicker();
 
         var fireHideEvent = function (event) {
              $scope.$watch('aForm.' + $scope.fieldId + '.$viewValue', function (newVal, oldVal) {
@@ -49,6 +50,27 @@ angular.module('poc.common.formdisplay')
                  });
          };
 
+        var dateController2 = function (param) {
+
+            var startDate = $rootScope.formPayload.form.fields[param].value
+                var _date = dateUtil.getDateWithoutTime(startDate);
+                var _dateu = dateUtil.getDateWithoutTime(newVal);
+
+		$scope.$watch('aForm.' + $scope.fieldId + '.$viewValue', function (newVal, oldVal) {
+
+					if (newVal !== oldVal && !_.isUndefined(newVal)) {
+						if (_dateu > _date) {
+							$scope.validDate = false;
+						} else {
+							$scope.fieldModel.value ="";
+							$scope.validDate = true;
+
+						}
+					}
+				});
+		};
+
+
         var dateController = function (param) {
 		$scope.$watch('aForm.' + $scope.fieldId + '.$viewValue', function (newVal, oldVal) {
 
@@ -68,7 +90,6 @@ angular.module('poc.common.formdisplay')
 					}
 				});
 		};
-
 
         var dateCalculator = function (param) {
 		$scope.$watch('aForm.' + $scope.fieldId + '.$viewValue', function (newVal, oldVal) {
