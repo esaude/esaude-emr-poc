@@ -602,6 +602,28 @@
                         "dateController": "a2fda180-923d-426b-999a-27053b239c2a"
                     }
                 ]
+            },
+            {
+                "id": "2",
+                "name": "DIAGNOSTICOS",
+                "sref": ".diagnosis-adult",
+                "nextSref": ".confirm",
+                "fields": [
+                     {
+                        "name": "Diagnostico 1",
+                        "id": "32b61bab-156b-4d6e-a938-644287e69b81",
+                        "searchBySource": "3f65bd34-26fe-102b-80cb-0017a47871b2"
+                    },
+                    {
+                        "name": "Diagnostico 2",
+                        "id": "d516b911-032b-4ffc-9bc9-01978eb0ba41",
+                        "searchBySource": "3f65bd34-26fe-102b-80cb-0017a47871b2"
+                    },
+                    {
+                        "name": "Diagnostico 3",
+                        "id": "e2939310-1d5f-11e0-b929-000c29ad1d07"
+                    }
+                ]
             }
 
         ]
