@@ -1,4 +1,3 @@
-
 [
     {
         "id": "001",
@@ -270,7 +269,7 @@
                         "constraints": {
                             "min": "0",
                             "max": "230"
-                    }
+                        }
                     },
                     {
                         "name": "Frequencia Respiratoria",
@@ -417,7 +416,7 @@
                 "fields": [
                     {
                         "name": "ESTADIO I",
-                         "id": "d7870f17-c91e-4e0f-b0db-eca7df93d128"
+                        "id": "d7870f17-c91e-4e0f-b0db-eca7df93d128"
                     }
                 ]
             },
@@ -430,7 +429,7 @@
                 "fields": [
                     {
                         "name": "ESTADIO II",
-                         "id": "904c92e8-8f32-44a1-9126-d4173fc65ab6"
+                        "id": "904c92e8-8f32-44a1-9126-d4173fc65ab6"
                     }
                 ]
             },
@@ -443,7 +442,7 @@
                 "fields": [
                     {
                         "name": "ESTADIO III",
-                         "id": "bd03f34d-c438-4052-b83a-b530ee8c7c0a"
+                        "id": "bd03f34d-c438-4052-b83a-b530ee8c7c0a"
                     }
                 ]
             },
@@ -461,7 +460,7 @@
                 ]
             },
 
-             {
+            {
                 "id": "5",
                 "name": "ESTADIO",
                 "sref": ".stage5",
@@ -470,7 +469,7 @@
                     {
                         "name": "ESTADIO",
                         "id": "e29399fa-1d5f-11e0-b929-000c29ad1d07",
-                        "disabled" : true,
+                        "disabled": true,
                         "logics": {
                             "calculateWHOStage": "e1e53c02-1d5f-11e0-b929-000c29ad1d07"
                         }
@@ -493,12 +492,12 @@
                 "fields": [
                     {
                         "name": "Notas",
-                         "id": "24045d41-df1a-42c5-a323-5bcb98b6b291",
-                         "textSize": "8"
+                        "id": "24045d41-df1a-42c5-a323-5bcb98b6b291",
+                        "textSize": "8"
                     },
                     {
                         "name": "Tipo de Menságem",
-                         "id": "d277616c-66b7-49c2-b7c4-dee202bf3d34"
+                        "id": "d277616c-66b7-49c2-b7c4-dee202bf3d34"
                     }
                 ]
             }
@@ -519,7 +518,7 @@
                     {
                         "name": "HISTÓRICO ACTUAL",
                         "id": "3bca43c2-6e30-4494-96d4-9890904c3247",
-                        "textSize":"10"
+                        "textSize": "10"
                     }
                 ]
             },
@@ -532,22 +531,22 @@
                     {
                         "name": "Exames na cabeca e pescoco",
                         "id": "6d2fb060-e530-45ca-82ce-7b9cf2afda69",
-                        "textSize":"8"
+                        "textSize": "8"
                     },
                     {
                         "name": "Exames no torax",
                         "id": "d6b742a0-e8a5-493f-8b7b-4f7e32464574",
-                        "textSize":"8"
+                        "textSize": "8"
                     },
                     {
                         "name": "Exames no Abdomen",
                         "id": "f63aff74-c5b6-49a5-b883-094100a137bb",
-                        "textSize":"8"
+                        "textSize": "8"
                     },
                     {
                         "name": "Exames nos membros superiores e inferiores",
                         "id": "3634395b-4802-4e42-aa48-8335baecf76e",
-                        "textSize":"8"
+                        "textSize": "8"
                     },
                     {
                         "name": "Outros diagnosticos",
@@ -594,13 +593,13 @@
                         "name": "Data de Inicio",
                         "id": "a2fda180-923d-426b-999a-27053b239c2a",
                         "logics": {
-                            "defaultValueIsLastEntry2": "e1d85906-1d5f-11e0-b929-000c29ad1d07"
+                            "defaultValueIsLastEntry": "e1d85906-1d5f-11e0-b929-000c29ad1d07"
                         }
                     },
                     {
                         "name": "Data de Fim",
                         "id": "0fcf9f12-2f0c-462f-81ad-b9f0bc65bfea",
-                        "dateController":"a2fda180-923d-426b-999a-27053b239c2a"
+                        "dateController": "a2fda180-923d-426b-999a-27053b239c2a"
                     }
                 ]
             }
@@ -622,7 +621,7 @@
                     {
                         "name": "Histórico do paciente",
                         "id": "a39a036d-a8a9-4a19-ad66-b8fb124dfa76",
-                        "textSize":"10"
+                        "textSize": "10"
                     }
                 ]
             },
@@ -631,26 +630,26 @@
                 "name": "EXAME FÍSICO",
                 "sref": ".exams",
                 "nextSref": ".rastreios",
-                "fields":[
+                "fields": [
                     {
                         "name": "Exames na cabeca e pescoco",
                         "id": "3be36552-5a5f-4f89-9488-df8e3890e9b9",
-                        "textSize":"8"
+                        "textSize": "8"
                     },
                     {
                         "name": "Exames no torax",
                         "id": "c803c131-b56a-4876-8511-0bffb1c1162c",
-                        "textSize":"8"
+                        "textSize": "8"
                     },
                     {
                         "name": "Exames no Abdomen",
                         "id": "39ce7671-574e-4448-90c8-d3e251d4af56",
-                        "textSize":"8"
+                        "textSize": "8"
                     },
                     {
                         "name": "Exames nos membros superiores e inferiores",
                         "id": "8cfe4be4-f4a4-42aa-ab19-725d330138cf",
-                        "textSize":"8"
+                        "textSize": "8"
                     },
                     {
                         "name": "Outros diagnosticos",
@@ -676,7 +675,7 @@
             }
         ]
 	},
-     {
+    {
         "id": "011",
         "formId": "e28ac028-1d5f-11e0-b929-000c29ad1d07",
         "name": "DIAGNOSTICOS - PEDIATRIA",
@@ -695,11 +694,11 @@
                     {
                         "name": "Data de Fim",
                         "id": "67ef8b0f-5de1-4b70-add8-4510a2accaa9",
-                        "dateController":"6c0d2b75-b929-4beb-b1a7-5bb714d6f6d5"
+                        "dateController": "6c0d2b75-b929-4beb-b1a7-5bb714d6f6d5"
                     }
                 ]
             },
-           {
+            {
                 "id": "2",
                 "name": "DIAGNOSTICOS",
                 "sref": ".diagnosticos_child",
