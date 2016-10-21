@@ -2,10 +2,10 @@
 
 <div class="row bg-info-border content-border border-rouded-top"><!-- program header controls -->
     <ul class="nav nav-tabs">
-        <li role="presentation" data-toggle="tab"><a ui-sref="detailpatient.demographic">{{'PATIENT_INFO_DEMOGRAPHICS' | translate}}</a></li>
+        <li role="presentation" data-toggle="tab"><a ui-sref="detailpatient.identifiers">{{'PATIENT_INFO_IDENTIFIERS' | translate}}</a></li>
+        <li role="presentation" data-toggle="tab" class="active"><a ui-sref="detailpatient.demographic">{{'PATIENT_INFO_DEMOGRAPHICS' | translate}}</a></li>
         <li role="presentation" data-toggle="tab" class="active"><a ui-sref="detailpatient.addresses">{{'PATIENT_INFO_ADDRESSES' | translate}}</a></li>
         <li role="presentation" data-toggle="tab" class="active"><a ui-sref="detailpatient.attributes">{{'PATIENT_INFO_OTHERS' | translate}}</a></li>
-        <li role="presentation" data-toggle="tab" class="active"><a ui-sref="detailpatient.identifiers">{{'PATIENT_INFO_IDENTIFIERS' | translate}}</a></li>
         <li role="presentation" data-toggle="tab" class="active"><a ui-sref="detailpatient.death">{{'PATIENT_INFO_DEATH' | translate}}</a></li>
     </ul>
     <div ui-view=""></div>

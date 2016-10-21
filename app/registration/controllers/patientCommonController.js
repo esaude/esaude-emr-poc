@@ -24,15 +24,18 @@ angular.module('registration')
                     if (!_.isEmpty($scope.patient.identifiers)) {
                         return;
                     }
-                    _.forEach ($scope.patientIdentifierTypes, function (value) {
-                        if (value.required) {
-                            var fieldName = value.name.trim().replace(/[^a-zA-Z0-9]/g, '');
-                            $scope.patient.identifiers.push({identifierType: value, 
-                                identifier: null, preferred: false, 
-                                location: localStorageService.cookie.get("emr.location").uuid, 
-                                fieldName : fieldName});
-                        }
-                    });  
+                    patientService.getIdentifierTypes().success(function (data) {
+                        $scope.patientIdentifierTypes = data.results;
+                        _.forEach (data.results, function (value) {
+                            if (value.required) {
+                                var fieldName = value.name.trim().replace(/[^a-zA-Z0-9]/g, '');
+                                $scope.patient.identifiers.push({identifierType: value, 
+                                    identifier: null, preferred: false, 
+                                    location: localStorageService.cookie.get("emr.location").uuid, 
+                                    fieldName : fieldName});
+                            }
+                        });  
+                    });
                 };
                 
 

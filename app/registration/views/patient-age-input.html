@@ -6,37 +6,56 @@
         <div class="form-group form-group-lg"
              ng-class="{'has-error': aForm.patientBirthdate.$invalid && showMessages}">
             <label class="col-sm-2 control-label"><b>{{'PATIENT_INFO_BIRTHDATE' | translate}}:<span class="asterick">*</span></b></label>
-            <div class="col-sm-5">
+            <div class="col-sm-6">
                 <div ng-messages for="aForm.patientBirthdate.$error" 
                      ng-messages-include="../poc-common/form-display/views/error-messages.html"
                      ng-show="showMessages">
                 </div>
                 <input type="text" name="patientBirthdate" class="form-control" date-time format="yyyy-MM-dd" ng-model="patient.birthdate" 
                            min-view="date" auto-close="true" date-chenge="{{patient.calculateAge()}}" max-date="{{today}}"
-                           required>
+                           required ng-blur="patient.calculateBirthdateEstimated('birthdate')">
             </div>
         </div>
         <div class="form-group form-group-lg"
              ng-class="{'has-error': aForm.patientAge.$invalid && showMessages}">
-            <label for="patientAge" class="col-sm-2 control-label"><b>{{'PATIENT_INFO_AGE' | translate}}:<span class="asterick">*</span></b></label>
+            <label class="col-sm-2 control-label"><b>{{'PATIENT_INFO_AGE' | translate}}:<span class="asterick">*</span></b></label>
             <div class="col-sm-2">
                 <div ng-messages for="aForm.patientAge.$error" 
                      ng-messages-include="../poc-common/form-display/views/error-messages.html"
                      ng-show="showMessages">
                 </div>
-                <input id="patientAge" name="patientAge" type="number" 
-                       ng-minlength="0" ng-maxlength="120" class="form-control" ng-model="patient.age.years"
+                <div class="input-group">
+                  <span class="input-group-addon" id="age-addon">{{'PATIENT_INFO_YEARS' | translate}}</span>
+                  <input id="patientYears" name="patientYears" type="number" 
+                       ng-min="0" ng-max="120" class="form-control" ng-model="patient.age.years"
                        ng-change="patient.calculateBirthDate()"
-                       required>
+                       required ng-blur="patient.calculateBirthdateEstimated('age')" aria-describedby="age-addon">
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="input-group">
+                  <span class="input-group-addon" id="months-addon">{{'PATIENT_INFO_MONTHS' | translate}}</span>
+                  <input id="patientMonths" name="patientMonths" type="number" 
+                       ng-min="0" class="form-control" ng-model="patient.age.months"
+                       ng-change="patient.calculateBirthDate()"
+                       required ng-blur="patient.calculateBirthdateEstimated('age')" aria-describedby="months-addon">
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="input-group">
+                  <span class="input-group-addon" id="days-addon">{{'PATIENT_INFO_DAYS' | translate}}</span>
+                  <input id="patientDays" name="patientDays" type="number" 
+                       ng-min="0" class="form-control" ng-model="patient.age.days"
+                       ng-change="patient.calculateBirthDate()"
+                       required ng-blur="patient.calculateBirthdateEstimated('age')" aria-describedby="days-addon">
+                </div>
             </div>
         </div>
         <div class="form-group form-group-lg" ng-show="aForm.patientBirthdate.$valid">
             <label for="birthdateEstimated" class="col-sm-2 control-label"><b>{{'PATIENT_INFO_ESTIMATED' | translate}}:</b></label>
-            <div class="col-sm-3">
-                <input id="birthdateEstimated" type="checkbox" bs-switch switch-active="true" switch-size="large" 
-                       switch-off-text="{{'COMMON_NO' | translate}}" switch-on-text="{{'COMMON_YES' | translate}}" 
-                       ng-model="patient.birthdateEstimated">
-            </div>
+            <label class="col-sm-1 control-label go-left">
+                {{(patient.birthdateEstimated) ? 'COMMON_YES' : 'COMMON_NO' | translate}}
+            </label>
         </div>
     </div>
 </div>
