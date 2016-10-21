@@ -581,7 +581,7 @@
     {
         "id": "009",
         "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
-        "name": "DIAGNOSTICOS",
+        "name": "DIAGNOSTICOS - ADULTO",
         "sufix": "diagnosticos_adulto",
         "parts": [
             {
@@ -593,8 +593,8 @@
                     {
                         "name": "Data de Inicio",
                         "id": "a2fda180-923d-426b-999a-27053b239c2a",
-                        "logics ": {
-                            "defaultValueIsLastEntry": "a2fda180-923d-426b-999a-27053b239c2a"
+                        "logics": {
+                            "defaultValueIsLastEntry2": "e1d85906-1d5f-11e0-b929-000c29ad1d07"
                         }
                     },
                     {
@@ -690,10 +690,7 @@
                 "fields": [
                     {
                         "name": "Data de Inicio",
-                        "id": "6c0d2b75-b929-4beb-b1a7-5bb714d6f6d5",
-                        "logics ": {
-                            "defaultValueIsLastEntry": "6c0d2b75-b929-4beb-b1a7-5bb714d6f6d5"
-                        }
+                        "id": "6c0d2b75-b929-4beb-b1a7-5bb714d6f6d5"
                     },
                     {
                         "name": "Data de Fim",
