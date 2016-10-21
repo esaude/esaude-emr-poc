@@ -51,7 +51,32 @@
     {
         "id": "008",
         "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
-        "label": "DIAGNOSTICOS - ADULTO",
+        "label": "ANAMNESE E EXAME FÍSICO - ADULTO",
+        "url": "/anamnese/adult",
+        "minOccur": "0",
+        "maxOccur": "-1",
+        "constraints": {
+            "minAge": "15",
+            "requireChekin": true
+        },
+        "markedOn": "4bea5235-1ef3-45a3-a7de-c33850c74422"
+    },
+     {
+        "id": "010",
+        "formId": "e28ac028-1d5f-11e0-b929-000c29ad1d07",
+        "label": "ANAMNESE E EXAME FÍSICO - PEDIATRIA",
+        "url": "/anamnese/child",
+        "minOccur": "0",
+        "maxOccur": "-1",
+        "constraints": {
+            "maxAge": "14",
+            "requireChekin": true
+        }
+    },
+    {
+        "id": "009",
+        "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
+        "label": "DIAGNOSTICO - ADULTO",
         "url": "/diagnostics/adult",
         "minOccur": "0",
         "maxOccur": "-1",
@@ -62,9 +87,9 @@
         "markedOn": "4bea5235-1ef3-45a3-a7de-c33850c74422"
     },
     {
-        "id": "009",
+        "id": "011",
         "formId": "e28ac028-1d5f-11e0-b929-000c29ad1d07",
-        "label": "DIAGNOSTICOS - PEDIATRIA",
+        "label": "DIAGNOSTICO - PEDIATRIA",
         "url": "/diagnostics/child",
         "minOccur": "0",
         "maxOccur": "-1",
