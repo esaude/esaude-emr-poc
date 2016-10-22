@@ -43,13 +43,13 @@ angular.module('clinic')
                     });
                     //remove prophilaxys  from other drugs answers
                     if (key === "otherDrugs") {
-                        _.remove(foundModel.answers, function(answer) {
+                        _.remove(foundModel.answers, function (answer) {
                             return _.includes(Bahmni.Common.Constants.prophilaxyDrugConcepts, answer.uuid);
                         });
                     }
                     //filter prophilaxys answers
                     if (key === "prophilaxyDrugs") {
-                        var filtered = _.filter(foundModel.answers, function(answer) {
+                        var filtered = _.filter(foundModel.answers, function (answer) {
                             return _.includes(Bahmni.Common.Constants.prophilaxyDrugConcepts, answer.uuid);
                         });
                         foundModel.answers = filtered;
@@ -82,6 +82,7 @@ angular.module('clinic')
             $scope.showNewPrescriptionsControlls = true;
             $scope.showMessages = false;
             $scope.prescDrugType = undefined;
+            $scope.prohilaxyDateFields = undefined;
         };
 
          $scope.remove = function (item) {
@@ -222,6 +223,7 @@ angular.module('clinic')
                         var markedOnInfo = _.find(encounter.obs, function (o) {
                             return o.concept.uuid === markedOn;
                         });
+
                         existingModels.prescriptionDate = markedOnInfo.value;
 
                         var existingPrescriptionSets = _.filter(encounter.obs, function (o) {
@@ -237,6 +239,17 @@ angular.module('clinic')
                                 });
 
                                 if (_.isUndefined(foundModel)) continue;
+
+                                if (key === "otherDrugs") {
+                                    if (_.includes(Bahmni.Common.Constants.prophilaxyDrugConcepts, foundModel.value.uuid)) {
+                                        continue;
+                                    }
+                                }
+                                if (key === "prophilaxyDrugs") {
+                                    if (!_.includes(Bahmni.Common.Constants.prophilaxyDrugConcepts, foundModel.value.uuid)) {
+                                        continue;
+                                    }
+                                }
 
                                 m.model = foundModel.concept;
                                 m.value = foundModel.value;
@@ -268,6 +281,7 @@ angular.module('clinic')
         };
 
         var prepareDrugFields = function () {
+            $scope.prohilaxyDateFields = undefined;
             if ($scope.prescDrugType.id === "arvDrugs") {
                 $scope.isArt = true;
                 $scope.isOthers = false;
@@ -302,7 +316,7 @@ angular.module('clinic')
             }
         };
 
-        $scope.$watch('fieldModels.arvDrugs.value', function(newValue) {
+        $scope.$watch('fieldModels.arvDrugs.value', function (newValue) {
             if (_.isUndefined(newValue)) return;
 
             if (!_.isUndefined($scope.fieldModels.arvDrugs.oldValue) &&
@@ -314,6 +328,33 @@ angular.module('clinic')
                     $scope.fieldModels.changeReason.value = undefined;
             }
         });
+
+        $scope.createProphilaxyDateFields = function () {
+            //ISONIAZID
+            if ($scope.fieldModels.prophilaxyDrugs.value.uuid === "e1d43e52-1d5f-11e0-b929-000c29ad1d07" ||
+                $scope.fieldModels.prophilaxyDrugs.value.uuid === "e1d6b6dc-1d5f-11e0-b929-000c29ad1d07") {
+                $scope.prohilaxyDateFields = [
+                    {
+                        name: "prophilaxyStartDate",
+                        label: $filter('translate')('PROPHILAXY_START_DATE'),
+                        model: "prophilaxyStartDate"
+                    },
+                    {
+                        name: "prophilaxyEndDate",
+                        label: $filter('translate')('PROPHILAXY_END_DATE'),
+                        model: "prophilaxyEndDate"
+                    }
+                ];
+            } else {
+                $scope.prohilaxyDateFields = undefined;
+            }
+
+        };
+
+        $scope.refill = function (drug) {
+            $scope.listedPrescriptions.push(drug);
+            $scope.showNewPrescriptionsControlls = true;
+        };
 
         init();
     }]);

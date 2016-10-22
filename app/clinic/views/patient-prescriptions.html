@@ -53,7 +53,7 @@
                                  ng-messages-include="../poc-common/form-display/views/error-messages.html"
                                  ng-show="showMessages"></div>
                             <select name="prophilaxyDrugs" class="form-control" ng-model="fieldModels.prophilaxyDrugs.value"
-                                    ng-options="drug.display for drug in fieldModels.prophilaxyDrugs.model.answers" ng-required="isProphylaxis">
+                                    ng-options="drug.display for drug in fieldModels.prophilaxyDrugs.model.answers" ng-required="isProphylaxis" ng-change="createProphilaxyDateFields()">
                                 <option></option>
                             </select>
                         </div>
@@ -96,6 +96,16 @@
                                     ng-options="reason.display for reason in fieldModels.changeReason.model.answers" ng-required="isPlanChanged">
                                 <option></option>
                             </select>
+                        </div>
+                    </div>
+                    <div ng-repeat="dateField in prohilaxyDateFields track by $index" class="form-group form-group-lg"
+                         ng-class="{'has-error': prescriptionForm.{{dateField.name}}.$invalid && showMessages}">
+                        <label class="col-sm-3 control-label">{{dateField.label}}:<span class="asterick">*</span></label>
+                        <div class="col-sm-9">
+                            <div ng-messages for="prescriptionForm.{{dateField.name}}.$error" 
+                                 ng-messages-include="../poc-common/form-display/views/error-messages.html"
+                                 ng-show="showMessages"></div>
+                            <input class="form-control" name="{{dateField.name}}" type='text' date-time format="yyyy-MM-dd" ng-model="prohilaxyDateFields[$index].value" placeholder="{{dateField.label}}" min-view="date" auto-close="true">
                         </div>
                     </div>
                     <div class="form-group form-group-lg"
@@ -162,7 +172,7 @@
                                    placeholder="{{'CLINIC_PRESCRIPTION_DURATION' | translate}}"
                                    required>
                         </div>
-                        <div class="col-sm-3"
+                        <div class="col-sm-6"
                              ng-class="{'has-error': prescriptionForm.durationUnits.$invalid && showMessages}">
                             <div ng-messages for="prescriptionForm.durationUnits.$error" 
                                  ng-messages-include="../poc-common/form-display/views/error-messages.html"
@@ -273,9 +283,9 @@
                     </span>
                     <span>
                         <button type="button" class="close btn-lg content-border-margin-regular-sides">
-                            <span class="glyphicon glyphicon-remove-circle"></span>
+                            <span class="glyphicon glyphicon-minus-circle"></span>
                         </button>
-                        <button type="button" class="close btn-lg content-border-margin-regular-sides">
+                        <button type="button" class="close btn-lg content-border-margin-regular-sides" ng-click="refill(presc)">
                             <span class="glyphicon glyphicon-repeat"></span>
                         </button>
                     </span>

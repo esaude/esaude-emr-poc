@@ -87,6 +87,17 @@ angular.module('clinic')
                                     });
                                     if (_.isUndefined(foundModel)) continue;
 
+                                    if (key === "otherDrugs") {
+                                        if (_.includes(Bahmni.Common.Constants.prophilaxyDrugConcepts, foundModel.value.uuid)) {
+                                            continue;
+                                        }
+                                    }
+                                    if (key === "prophilaxyDrugs") {
+                                        if (!_.includes(Bahmni.Common.Constants.prophilaxyDrugConcepts, foundModel.value.uuid)) {
+                                            continue;
+                                        }
+                                    }
+
                                     m.model = foundModel.concept;
                                     m.value = foundModel.value;
                                 }

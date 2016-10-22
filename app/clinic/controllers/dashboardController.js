@@ -26,6 +26,7 @@ angular.module('clinic')
       $scope.getAlerts = function () {
                 alertService.get(patientUuid).success(function (data) {
                    $scope.flags = data.flags;
+                   debugger
                 });
       };
     }]);

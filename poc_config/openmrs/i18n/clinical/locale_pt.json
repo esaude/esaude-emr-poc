@@ -169,5 +169,7 @@
   "CLINICAL_WHO_STAGE_EMPTY":"Paciente nao possui ESTADIO OMS",
   "DRUG_TYPE_ARV": "ARV",
   "DRUG_TYPE_NON_ARV": "Outros",
-  "DRUG_TYPE_PROPHILAXYS": "Profilaxia"
+  "DRUG_TYPE_PROPHILAXYS": "Profilaxia",
+  "PROPHILAXY_START_DATE": "Início",
+  "PROPHILAXY_END_DATE": "Fim"
 }
