@@ -269,7 +269,7 @@
                         "constraints": {
                             "min": "0",
                             "max": "230"
-                    }
+                        }
                     },
                     {
                         "name": "Frequencia Respiratoria",
@@ -416,7 +416,7 @@
                 "fields": [
                     {
                         "name": "ESTADIO I",
-                         "id": "d7870f17-c91e-4e0f-b0db-eca7df93d128"
+                        "id": "d7870f17-c91e-4e0f-b0db-eca7df93d128"
                     }
                 ]
             },
@@ -429,7 +429,7 @@
                 "fields": [
                     {
                         "name": "ESTADIO II",
-                         "id": "904c92e8-8f32-44a1-9126-d4173fc65ab6"
+                        "id": "904c92e8-8f32-44a1-9126-d4173fc65ab6"
                     }
                 ]
             },
@@ -442,7 +442,7 @@
                 "fields": [
                     {
                         "name": "ESTADIO III",
-                         "id": "bd03f34d-c438-4052-b83a-b530ee8c7c0a"
+                        "id": "bd03f34d-c438-4052-b83a-b530ee8c7c0a"
                     }
                 ]
             },
@@ -460,7 +460,7 @@
                 ]
             },
 
-             {
+            {
                 "id": "5",
                 "name": "ESTADIO",
                 "sref": ".stage5",
@@ -469,7 +469,7 @@
                     {
                         "name": "ESTADIO",
                         "id": "e29399fa-1d5f-11e0-b929-000c29ad1d07",
-                        "disabled" : true,
+                        "disabled": true,
                         "logics": {
                             "calculateWHOStage": "e1e53c02-1d5f-11e0-b929-000c29ad1d07"
                         }
@@ -481,23 +481,23 @@
     {
         "id": "007",
         "formId": "65896366-17b2-4c3e-9cce-440edcfe7b4e",
-        "name": "OBS STORY",
-        "sufix": "obs_story",
+        "name": "ASPECTOS RELEVANTES",
+        "sufix": "aspectos_relevantes",
         "parts": [
             {
                 "id": "1",
-                "name": "CURRENT STORY",
-                "sref": ".current_story",
+                "name": "ASPECTOS RELEVANTES",
+                "sref": ".aspectos_relevantes",
                 "nextSref": ".confirm",
                 "fields": [
                     {
                         "name": "Notas",
-                         "id": "24045d41-df1a-42c5-a323-5bcb98b6b291",
-                         "textSize": "8"
+                        "id": "24045d41-df1a-42c5-a323-5bcb98b6b291",
+                        "textSize": "8"
                     },
                     {
                         "name": "Tipo de Menságem",
-                         "id": "d277616c-66b7-49c2-b7c4-dee202bf3d34"
+                        "id": "d277616c-66b7-49c2-b7c4-dee202bf3d34"
                     }
                 ]
             }
@@ -506,270 +506,221 @@
     {
         "id": "008",
         "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
-        "name": "DIAGNOSTICOS - ADULTO",
-        "sufix": "diagnostc_adult",
+        "name": "ANAMNESE E EXAME FÍSICO - ADULTO",
+        "sufix": "anamnese_adult",
         "parts": [
             {
                 "id": "1",
-                "name": "Rastreios e TB",
-                "sref": ".rastreio_tb",
-                "nextSref": ".profilaxia1",
+                "name": "HISTÓRICO",
+                "sref": ".historico",
+                "nextSref": ".exames",
                 "fields": [
                     {
-                        "name": "Rastreio de ITS (Tem sintomas sugestivas para ITS)?",
-                        "id": "824a6cdb-2a64-4b04-9589-fe84ea4168db"
-                    },
-                    {
-                        "name": "Rastreio de TB (Tem sintomas sugestivas para TB)?",
-                        "id": "c3fa62c3-61ef-4cc5-a46b-8d96a345f48c"
-                    },
-                    {
-                        "name": "Data de Inicio",
-                        "id": "a2fda180-923d-426b-999a-27053b239c2a"
-                    },
-                    {
-                        "name": "Data de Fim",
-                        "id": "0fcf9f12-2f0c-462f-81ad-b9f0bc65bfea"
+                        "name": "HISTÓRICO ACTUAL",
+                        "id": "3bca43c2-6e30-4494-96d4-9890904c3247",
+                        "textSize": "10"
                     }
                 ]
             },
             {
                 "id": "2",
-                "name": "PROFILAXIAS I",
-                "sref": ".profilaxia1",
-                "nextSref": ".profilaxia2",
-                "fields": [
-                    {
-                        "name": "Profilaxia com Cotrimoxazol",
-                        "id": "5294e15e-fa75-4c81-8593-33eb49d9cf56",
-                        "logics":{"seeData":"c3fa62c3-61ef-4cc5-a46b-8d96a345f48c"
-                        }
-                    },
-
-                    {
-                        "name": "Data de Inicio",
-                        "id": "2b71e477-ce1f-4563-b577-1dd6f98c3097"
-                    },
-                    {
-                        "name": "Data de Fim",
-                        "id": "93302556-6113-4bf6-967f-ac2f266a35be"
-                    }
-
-                ]
-            },
-            {
-                "id": "3",
-                "name": "PROFILAXIAS II",
-                "sref": ".profilaxia2",
-                "nextSref": ".profilaxia3",
-                "fields": [
-                     {
-                        "name": "Profilaxia com Isoniazida",
-                        "id": "fa6a769d-39a9-44eb-9d36-d3b11e3d44ac",
-                        "logics":{"seeData":"c3fa62c3-61ef-4cc5-a46b-8d96a345f48c"
-                        }
-                    },
-
-                    {
-                        "name": "Data de Inicio",
-                        "id": "5fc349f2-a694-4a0c-803e-ccbb5402bd53"
-                    },
-                    {
-                        "name": "Data de Fim",
-                        "id": "fc046c9b-6399-4d43-a1b1-d46117985ef1"
-                    }
-
-                ]
-            },
-            {
-                "id": "4",
-                "name": "PROFILAXIAS III",
-                "sref": ".profilaxia3",
-                "nextSref": ".diagnosticos",
-                "fields": [
-                    {
-                        "name": "Profilaxia Da Meningite Criptocócica",
-                        "id": "01b783f3-e972-411f-8d8b-980d8aad7f4e",
-                        "logics":{"seeData":"c3fa62c3-61ef-4cc5-a46b-8d96a345f48c"
-                        }
-                    },
-
-                    {
-                        "name": "Data de Inicio",
-                        "id": "e6551ba8-7bb8-4b69-8f17-cca5048621b7"
-                    },
-                    {
-                        "name": "Data de Fim",
-                        "id": "fce0e153-215d-422d-985b-d36a3fed687b"
-                    }
-
-                ]
-            },
-
-            {
-                "id": "5",
                 "name": "EXAME FÍSICO",
-                "sref": ".diagnosticos",
-                "nextSref": ".confirm",
+                "sref": ".exams",
+                "nextSref": ".rastreios",
                 "fields": [
                     {
                         "name": "Exames na cabeca e pescoco",
                         "id": "6d2fb060-e530-45ca-82ce-7b9cf2afda69",
-                        "textSize":"8"
+                        "textSize": "8"
                     },
                     {
                         "name": "Exames no torax",
                         "id": "d6b742a0-e8a5-493f-8b7b-4f7e32464574",
-                        "textSize":"8"
+                        "textSize": "8"
                     },
                     {
                         "name": "Exames no Abdomen",
                         "id": "f63aff74-c5b6-49a5-b883-094100a137bb",
-                        "textSize":"8"
+                        "textSize": "8"
                     },
                     {
                         "name": "Exames nos membros superiores e inferiores",
                         "id": "3634395b-4802-4e42-aa48-8335baecf76e",
-                        "textSize":"8"
+                        "textSize": "8"
                     },
                     {
                         "name": "Outros diagnosticos",
                         "id": "e2939310-1d5f-11e0-b929-000c29ad1d07"
                     }
 
-
+                ]
+            },
+            {
+                "id": "3",
+                "name": "Rastreios",
+                "sref": ".rastreios",
+                "nextSref": ".confirm",
+                "fields": [
+                    {
+                        "name": "Tem sintomas sugestivas para ITS?",
+                        "id": "824a6cdb-2a64-4b04-9589-fe84ea4168db"
+                    },
+                    {
+                        "name": "Tem sintomas sugestivas para TB?",
+                        "id": "c3fa62c3-61ef-4cc5-a46b-8d96a345f48c"
+                    },
+                    {
+                        "name": "Tem sintomas sugestivas para Cripto?",
+                        "id": "73d19562-3c80-451f-b673-88b3ef5c2dff"
+                    }
                 ]
             }
         ]
 	},
     {
         "id": "009",
-        "formId": "e28ac028-1d5f-11e0-b929-000c29ad1d07",
-        "name": "DIAGNOSTICOS - PEDIATRIA",
-        "sufix": "diagnostc_child",
+        "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
+        "name": "DIAGNOSTICOS - ADULTO",
+        "sufix": "diagnosticos_adulto",
         "parts": [
             {
                 "id": "1",
-                "name": "Rastreios e TB",
-                "sref": ".rastreio_tb",
-                "nextSref": ".profilaxia1",
+                "name": "Tratamento de TB",
+                "sref": ".tratemento_tb",
+                "nextSref": ".confirm",
                 "fields": [
                     {
-                        "name": "Resultado de BK (POS/NEG)",
-                        "id": "86a29cf1-6fd2-4bae-a239-a282a5edd11b"
-                    },
-                    {
-                        "name": "Rastreio de TB (Tem sintomas sugestivas para TB)?",
-                        "id": "c0d9974a-4a1c-4b95-97fc-4c39e658502f"
-                    },
-                    {
                         "name": "Data de Inicio",
-                        "id": "6c0d2b75-b929-4beb-b1a7-5bb714d6f6d5"
+                        "id": "a2fda180-923d-426b-999a-27053b239c2a",
+                        "logics": {
+                            "defaultValueIsLastEntry": "e1d85906-1d5f-11e0-b929-000c29ad1d07"
+                        }
                     },
                     {
                         "name": "Data de Fim",
-                        "id": "67ef8b0f-5de1-4b70-add8-4510a2accaa9"
+                        "id": "0fcf9f12-2f0c-462f-81ad-b9f0bc65bfea",
+                        "dateController": "a2fda180-923d-426b-999a-27053b239c2a"
+                    }
+                ]
+            }
+
+        ]
+    },
+    {
+        "id": "010",
+        "formId": "e28ac028-1d5f-11e0-b929-000c29ad1d07",
+        "name": "ANAMNESE E EXAME FÍSICO - PEDIATRIA",
+        "sufix": "anamnese_child",
+        "parts": [
+            {
+                "id": "1",
+                "name": "Historico",
+                "sref": ".historico",
+                "nextSref": ".exames",
+                "fields": [
+                    {
+                        "name": "Histórico do paciente",
+                        "id": "a39a036d-a8a9-4a19-ad66-b8fb124dfa76",
+                        "textSize": "10"
                     }
                 ]
             },
             {
                 "id": "2",
-                "name": "PROFILAXIAS I",
-                "sref": ".profilaxia1",
-                "nextSref": ".profilaxia2",
-                "fields": [
-                    {
-                        "name": "Profilaxia com Cotrimoxazol",
-                        "id": "fcb11548-455e-4cdf-a9c0-3f8ce2860358"
-                    },
-
-                    {
-                        "name": "Data de Inicio",
-                        "id": "5911800b-bee2-4c96-b119-01d80faa8761"
-                    },
-                    {
-                        "name": "Data de Fim",
-                        "id": "c1dd8b69-1ce6-47f6-9c07-e38ce38f0762"
-                    }
-
-                ]
-            },
-            {
-                "id": "3",
-                "name": "PROFILAXIAS II",
-                "sref": ".profilaxia2",
-                "nextSref": ".profilaxia3",
-                "fields": [
-                     {
-                        "name": "Profilaxia com Isoniazida",
-                        "id": "643d075a-ec08-460c-8737-b8055cd7d53b"
-                    },
-
-                    {
-                        "name": "Data de Inicio",
-                        "id": "8478aa22-8998-4c28-b1fc-f04efae5fae2"
-                    },
-                    {
-                        "name": "Data de Fim",
-                        "id": "54d3f623-da08-414b-8841-031f41da7a88"
-                    }
-
-                ]
-            },
-            {
-                "id": "4",
-                "name": "PROFILAXIAS III",
-                "sref": ".profilaxia3",
-                "nextSref": ".diagnosticos",
-                "fields": [
-                    {
-                        "name": "Profilaxia Da Meningite Criptocócica",
-                        "id": "3aafaae2-c619-404c-b9a1-82e621881b1d"
-                    },
-
-                    {
-                        "name": "Data de Inicio",
-                        "id": "ed354e72-2f96-43a6-ab28-45c21bd34785"
-                    },
-                    {
-                        "name": "Data de Fim",
-                        "id": "a69d5cde-e92b-4ba3-8a6a-c123dfd8e100"
-                    }
-
-                ]
-            },
-            {
-                "id": "5",
                 "name": "EXAME FÍSICO",
-                "sref": ".diagnosticos",
-                "nextSref": ".confirm",
+                "sref": ".exams",
+                "nextSref": ".rastreios",
                 "fields": [
                     {
                         "name": "Exames na cabeca e pescoco",
                         "id": "3be36552-5a5f-4f89-9488-df8e3890e9b9",
-                        "textSize":"8"
+                        "textSize": "8"
                     },
                     {
                         "name": "Exames no torax",
                         "id": "c803c131-b56a-4876-8511-0bffb1c1162c",
-                        "textSize":"8"
+                        "textSize": "8"
                     },
                     {
                         "name": "Exames no Abdomen",
                         "id": "39ce7671-574e-4448-90c8-d3e251d4af56",
-                        "textSize":"8"
+                        "textSize": "8"
                     },
                     {
                         "name": "Exames nos membros superiores e inferiores",
                         "id": "8cfe4be4-f4a4-42aa-ab19-725d330138cf",
-                        "textSize":"8"
+                        "textSize": "8"
                     },
                     {
                         "name": "Outros diagnosticos",
                         "id": "b65ca6a2-0a62-4499-b32c-e5c1578f4dee"
                     }
                 ]
+            },
+            {
+                "id": "3",
+                "name": "Rastreios",
+                "sref": ".rastreios",
+                "nextSref": ".confirm",
+                "fields": [
+                    {
+                        "name": "Tem sintomas sugestivas para TB?",
+                        "id": "c0d9974a-4a1c-4b95-97fc-4c39e658502f"
+                    },
+                    {
+                        "name": "Tem sintomas sugestivas para Cripto?",
+                        "id": "63325126-4f16-427c-a3e8-3061667da33d"
+                    }
+                ]
             }
         ]
+	},
+    {
+        "id": "011",
+        "formId": "e28ac028-1d5f-11e0-b929-000c29ad1d07",
+        "name": "DIAGNOSTICOS - PEDIATRIA",
+        "sufix": "diagnosticos_child",
+        "parts": [
+            {
+                "id": "1",
+                "name": "Tratamento de TB",
+                "sref": ".tratemento_tb",
+                "nextSref": ".diagnosticos_child",
+                "fields": [
+                    {
+                        "name": "Data de Inicio",
+                        "id": "6c0d2b75-b929-4beb-b1a7-5bb714d6f6d5"
+                    },
+                    {
+                        "name": "Data de Fim",
+                        "id": "67ef8b0f-5de1-4b70-add8-4510a2accaa9",
+                        "dateController": "6c0d2b75-b929-4beb-b1a7-5bb714d6f6d5"
+                    }
+                ]
+            },
+            {
+                "id": "2",
+                "name": "DIAGNOSTICOS",
+                "sref": ".diagnosticos_child",
+                "nextSref": ".confirm",
+                "fields": [
+                    {
+                        "name": "Diagnostico 1",
+                        "id": "d9e77865-6b9f-4130-a768-72b9df4a69ba",
+                        "searchBySource": "3f65bd34-26fe-102b-80cb-0017a47871b2"
+                    },
+                    {
+                        "name": "Diagnostico 2",
+                        "id": "c117109f-7eca-464c-9660-f2d17d4cdfd5",
+                        "searchBySource": "3f65bd34-26fe-102b-80cb-0017a47871b2"
+                    },
+                    {
+                        "name": "Diagnostico 3",
+                        "id": "e293e11c-1d5f-11e0-b929-000c29ad1d07"
+                    }
+                ]
+            }
+
+      ]
     }
-]
+    ]
