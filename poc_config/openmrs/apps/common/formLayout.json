@@ -547,10 +547,6 @@
                         "name": "Exames nos membros superiores e inferiores",
                         "id": "3634395b-4802-4e42-aa48-8335baecf76e",
                         "textSize":"8"
-                    },
-                    {
-                        "name": "Outros diagnosticos",
-                        "id": "e2939310-1d5f-11e0-b929-000c29ad1d07"
                     }
 
                 ]
@@ -562,15 +558,15 @@
                 "nextSref": ".confirm",
                 "fields": [
                     {
-                        "name": "Tem sintomas sugestivas para ITS?",
+                        "name": "Tem sintomas sugestivas para ITS",
                         "id": "824a6cdb-2a64-4b04-9589-fe84ea4168db"
                     },
                     {
-                        "name": "Tem sintomas sugestivas para TB?",
+                        "name": "Tem sintomas sugestivas para TB",
                         "id": "c3fa62c3-61ef-4cc5-a46b-8d96a345f48c"
                     },
                     {
-                        "name": "Tem sintomas sugestivas para Cripto?",
+                        "name": "Tem sintomas sugestivas para Cripto",
                         "id": "73d19562-3c80-451f-b673-88b3ef5c2dff"
                     }
                 ]
@@ -672,10 +668,6 @@
                         "name": "Exames nos membros superiores e inferiores",
                         "id": "8cfe4be4-f4a4-42aa-ab19-725d330138cf",
                         "textSize":"8"
-                    },
-                    {
-                        "name": "Outros diagnosticos",
-                        "id": "b65ca6a2-0a62-4499-b32c-e5c1578f4dee"
                     }
                 ]
             },
@@ -686,11 +678,11 @@
                 "nextSref": ".confirm",
                 "fields": [
                     {
-                        "name": "Tem sintomas sugestivas para TB?",
+                        "name": "Tem sintomas sugestivas para TB",
                         "id": "c0d9974a-4a1c-4b95-97fc-4c39e658502f"
                     },
                     {
-                        "name": "Tem sintomas sugestivas para Cripto?",
+                        "name": "Tem sintomas sugestivas para Cripto",
                         "id": "63325126-4f16-427c-a3e8-3061667da33d"
                     }
                 ]
