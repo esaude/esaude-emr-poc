@@ -15,8 +15,8 @@
                        ng-model="patient.givenName" ng-change="refresh()"
                        placeholder="{{'PATIENT_INFO_NAME_PLACEHOLDER' | translate}}" title="Enter patient's first name."
                        my-autocomplete source="getAutoCompleteList" response-map="getDataResults"
-                       data-item-type="personName"
-                       required>
+                       data-item-type="personName" ui-mask-placeholder ui-mask-placeholder-char=""
+                       required >
             </div>
         </div>
         <div class="form-group form-group-lg"

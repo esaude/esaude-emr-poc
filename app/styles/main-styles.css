@@ -116,7 +116,7 @@ keyboard {
     font-size: 18px;
 }
 
-#status-buttons a               { display:inline-block; text-align:center; text-transform:uppercase; margin:0 5px 0 5px; font-size: 20px;}
+#status-buttons a               { display:inline-block; text-align:center; text-transform:uppercase; margin:0 60px 0 5px; font-size: 20px;}
 #status-buttons a:hover         { text-decoration:none; }
 #status-buttons span            { display:block; height:30px; margin:0 auto 10px; padding-top:5px; width:30px;
     border-radius:50%; }

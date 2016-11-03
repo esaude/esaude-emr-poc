@@ -33,15 +33,17 @@
                 <td class="col-sm-4 control-label">
                     <div ng-messages for="aForm.{{pi.fieldName}}.$error"
                          ng-messages-include="../poc-common/form-display/views/error-messages.html"
-                         ng-show="showMessages">
+                         ng-show="showMessages" >
                     </div>
                     {{pi.identifierType.display}}
                 </td>
                 <td>
                     <div ng-class="{'has-error': aForm.{{pi.fieldName}}.$invalid && showMessages}">
                         <input type="text" class="form-control input-lg keyboard-in" name="{{pi.fieldName}}"
-                               placeholder="{{pi.identifierType.format}}" ng-model="pi.identifier" ng-pattern="pi.identifierType.format"
+                               ng-model="pi.identifier"
                                record-availability-validator="/ws/rest/v1/patient"
+                               ui-mask="{{pi.uimask}}"
+                               ui-mask-placeholder ui-mask-placeholder-char="{{pi.uimaskplaceholderchar}}"
                                required>
 
                     </div>
