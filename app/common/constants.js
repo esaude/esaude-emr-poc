@@ -29,8 +29,10 @@ Bahmni.Common = Bahmni.Common || {};
     
     var drugPrescriptionConvSet = {
         arvDrugs: {uuid: "e1d83d4a-1d5f-11e0-b929-000c29ad1d07"},
+        therapeuticLine: {uuid: "fdff0637-b36f-4dce-90c7-fe9f1ec586f0"},
         otherDrugs: {uuid: "e1de3092-1d5f-11e0-b929-000c29ad1d07"},
         prophilaxyDrugs: {uuid: "e1de3092-1d5f-11e0-b929-000c29ad1d07"},
+        prophilaxyPlan: {uuid: "718f4e32-70b8-4d37-b154-4b4fd05106a7"},
         artPlan: {uuid: "e1d9ee10-1d5f-11e0-b929-000c29ad1d07"},
         interruptedReason: {uuid: "e1d9ead2-1d5f-11e0-b929-000c29ad1d07"},
         changeReason: {uuid: "e1de8862-1d5f-11e0-b929-000c29ad1d07"},
@@ -42,6 +44,12 @@ Bahmni.Common = Bahmni.Common || {};
         durationUnits: {uuid: "9d6f0bea-10e8-11e5-9009-0242ac110012"},
         dosingInstructions: {uuid: "9d73c2a7-10e8-11e5-9009-0242ac110012"}
     };
+
+    var therapeuticLineQuestion = {
+        firstLine: "a6bbe1ac-5243-40e4-98cb-7d4a1467dfbe",
+        secondLine: "7f367983-9911-4f8c-bbfc-a85678801f64",
+        thirdLine: "ade7656f-0ce3-461b-b7d8-121932dcd6a2"
+    }
 
     var prophilaxyDrugConcepts = ["e1d6b6dc-1d5f-11e0-b929-000c29ad1d07", "e1cf3114-1d5f-11e0-b929-000c29ad1d07", 
                 "e1d4a7d4-1d5f-11e0-b929-000c29ad1d07", "e1d43e52-1d5f-11e0-b929-000c29ad1d07"];
@@ -198,7 +206,10 @@ Bahmni.Common = Bahmni.Common || {};
         followupChildFormUuid: "e28ac028-1d5f-11e0-b929-000c29ad1d07",
         artInterruptedPlanUuid: "e1d9f36a-1d5f-11e0-b929-000c29ad1d07",
         pocMappingPrescriptionDateConceptUuid: "488e6803-c7db-43b2-8911-8d5d2a8472fd",
-        prophilaxyDrugConcepts: prophilaxyDrugConcepts
+        isoniazidStartDateUuid: "6fa92ac9-0a96-4372-9e10-dd9683c19135",
+        isoniazidEndDateUuid: "9e555978-3a02-4da4-855e-7b1bfc807347",
+        prophilaxyDrugConcepts: prophilaxyDrugConcepts,
+        therapeuticLineQuestion: therapeuticLineQuestion
 
     };
 })();

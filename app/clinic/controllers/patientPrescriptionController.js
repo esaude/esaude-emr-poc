@@ -12,6 +12,7 @@ angular.module('clinic')
         $scope.showMessages = false;
         $scope.hasEntryToday = false;//there is no followup encouter for the patient today
         $scope.hasServiceToday = false;//there is no prescription service for the patient today
+        $scope.arvLineEnabled = true;
         $scope.drugTypes = [
             {
                 id: "arvDrugs",
@@ -68,6 +69,10 @@ angular.module('clinic')
 
         var resetFieldModel = function () {
             for (var key in $scope.fieldModels) {
+                if (key === "therapeuticLine") {
+                    $scope.fieldModels[key].value = $scope.currentArvLine;
+                    continue;
+                }
                 $scope.fieldModels[key].value = undefined;
             }
         };
@@ -134,7 +139,7 @@ angular.module('clinic')
                         person: patientUuid,
                     };
                     //check if field has answers
-                    if (!_.isEmpty(field.model.answers)) {
+                    if (field.value.uuid !== undefined) {
                         observations.value = field.value.uuid;
                     } else {
                         observations.value = field.value;
@@ -277,7 +282,32 @@ angular.module('clinic')
                         $scope.fieldModels.arvDrugs.oldValue = swappedObsToConcept;
                     }
                 });
-            };
+                //get the last therapeutic line
+                observationsService.get(patientUuid, Bahmni.Common.Constants.drugPrescriptionConvSet.therapeuticLine.uuid)
+                        .success(function (data) {
+                    if (_.isEmpty(data.results)) {
+                        $scope.fieldModels.therapeuticLine.value = _.find($scope.fieldModels.therapeuticLine.model.answers, 
+                            function (answer) {
+                                return answer.uuid === Bahmni.Common.Constants.therapeuticLineQuestion.firstLine;
+                        });
+                    } else {
+                        var nonRetired = commonService.filterRetired(data.results);
+                        var maxObs = _.maxBy(nonRetired, 'obsDatetime');
+
+                        if (maxObs) {
+                            var swappedObsToConcept = swapObsToConceptAnswer(maxObs, $scope.fieldModels.therapeuticLine.model.answers);
+                            $scope.fieldModels.therapeuticLine.value = swappedObsToConcept;
+
+                            if (maxObs.value.uuid === Bahmni.Common.Constants.therapeuticLineQuestion.thirdLine) {
+                                $scope.arvLineEnabled = false;
+                            }
+                        }
+                    }
+                    $scope.currentArvLine = angular.copy($scope.fieldModels.therapeuticLine.value);
+                });
+            } else {
+                $scope.fieldModels.therapeuticLine.value = undefined;
+            }
         };
 
         var prepareDrugFields = function () {
@@ -329,9 +359,38 @@ angular.module('clinic')
             }
         });
 
-        $scope.createProphilaxyDateFields = function () {
+        $scope.createProphilaxyObs = function () {
             //ISONIAZID
-            if ($scope.fieldModels.prophilaxyDrugs.value.uuid === "e1d43e52-1d5f-11e0-b929-000c29ad1d07" ||
+            if ($scope.fieldModels.prophilaxyDrugs.value.uuid === "e1d43e52-1d5f-11e0-b929-000c29ad1d07") {
+                observationsService.get(patientUuid, Bahmni.Common.Constants.isoniazidStartDateUuid)
+                        .success(function (data) {
+                    var nonRetired = commonService.filterRetired(data.results);
+                    var maxObs = _.maxBy(nonRetired, 'obsDatetime');
+
+                    if (maxObs) {
+                        var prophilaxyStartDate = {
+                            uuid: "e1d43e52-1d5f-11e0-b929-000c29ad1d07",
+                            value: maxObs.value
+                        }
+                        $scope.fieldModels.prophilaxyDrugs.startDate = prophilaxyStartDate;
+                    }
+                });
+
+                observationsService.get(patientUuid, Bahmni.Common.Constants.isoniazidEndDateUuid)
+                        .success(function (data) {
+                    var nonRetired = commonService.filterRetired(data.results);
+                    var maxObs = _.maxBy(nonRetired, 'obsDatetime');
+
+                    if (maxObs) {
+                        var prophilaxyEndDate = {
+                            uuid: "e1d43e52-1d5f-11e0-b929-000c29ad1d07",
+                            value: maxObs.value
+                        }
+                        $scope.fieldModels.prophilaxyDrugs.endDate = prophilaxyEndDate;
+                    }
+                });
+            }
+            /*if ($scope.fieldModels.prophilaxyDrugs.value.uuid === "e1d43e52-1d5f-11e0-b929-000c29ad1d07" ||
                 $scope.fieldModels.prophilaxyDrugs.value.uuid === "e1d6b6dc-1d5f-11e0-b929-000c29ad1d07") {
                 $scope.prohilaxyDateFields = [
                     {
@@ -347,7 +406,7 @@ angular.module('clinic')
                 ];
             } else {
                 $scope.prohilaxyDateFields = undefined;
-            }
+            }*/
 
         };
 
@@ -355,6 +414,37 @@ angular.module('clinic')
             $scope.listedPrescriptions.push(drug);
             $scope.showNewPrescriptionsControlls = true;
         };
+
+        $scope.changeArvLine = function () {
+            //verify the current line
+            if ($scope.fieldModels.therapeuticLine.value.uuid === Bahmni.Common.Constants.therapeuticLineQuestion.firstLine) {
+                $scope.fieldModels.therapeuticLine.value = _.find($scope.fieldModels.therapeuticLine.model.answers, 
+                        function (answer) {
+                            return answer.uuid === Bahmni.Common.Constants.therapeuticLineQuestion.secondLine;
+                });
+            }
+            else if ($scope.fieldModels.therapeuticLine.value.uuid === Bahmni.Common.Constants.therapeuticLineQuestion.secondLine) {
+                $scope.fieldModels.therapeuticLine.value = _.find($scope.fieldModels.therapeuticLine.model.answers, 
+                        function (answer) {
+                            return answer.uuid === Bahmni.Common.Constants.therapeuticLineQuestion.thirdLine;
+                });
+                $scope.arvLineEnabled = false;
+            }
+            $scope.isChageArvLine = false;
+        };
+
+        $scope.isProphylaxisInExistingPrescriptions = function () {
+            var found;
+            for (var key in $scope.existingPrescriptions) {
+                var p = $scope.existingPrescriptions[key];
+                found = _.find (p.models, function (m) {
+                    return m["prophilaxyDrugs"] !== undefined;
+                });
+
+                if (found) return true;
+            };
+            return false;
+        }
 
         init();
     }]);

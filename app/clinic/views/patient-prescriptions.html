@@ -20,6 +20,28 @@
                         </div>
                     </div>
                     <div class="form-group form-group-lg"
+                         ng-class="{'has-error': prescriptionForm.drugType.$invalid && showMessages}"  ng-show="isArt">
+                        <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_DRUG_TYPE'| translate}}:<span class="asterick">*</span></label>
+                        <div class="col-sm-9" ng-init="isChageArvLine = false">
+                            <div>
+                                <button class="btn btn-lg btn-primary" type="button" 
+                                ng-show="!isChageArvLine" ng-click="isChageArvLine = true" ng-disabled="!arvLineEnabled">
+                                    ({{fieldModels.therapeuticLine.value.display}}). Change
+                                </button>
+                            </div>
+                            <div class="pull-right" ng-show="isChageArvLine">
+                                <label class="control-label">Are you sure?</label>
+                                <button type="button" class="btn btn-warning btn-lg" ng-click="changeArvLine()">
+                                    <span class="glyphicon glyphicon-ok-sign"></span>
+                                </button>
+                                <button type="button" class="btn btn-default btn-lg"
+                                ng-click="isChageArvLine = false">
+                                    <span class="glyphicon glyphicon-minus-sign"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg"
                          ng-class="{'has-error': prescriptionForm.arvDrugs.$invalid && showMessages}" ng-show="isArt">
                         <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_DRUG'| translate}}:<span class="asterick">*</span></label>
                         <div class="col-sm-9">
@@ -53,7 +75,7 @@
                                  ng-messages-include="../poc-common/form-display/views/error-messages.html"
                                  ng-show="showMessages"></div>
                             <select name="prophilaxyDrugs" class="form-control" ng-model="fieldModels.prophilaxyDrugs.value"
-                                    ng-options="drug.display for drug in fieldModels.prophilaxyDrugs.model.answers" ng-required="isProphylaxis" ng-change="createProphilaxyDateFields()">
+                                    ng-options="drug.display for drug in fieldModels.prophilaxyDrugs.model.answers" ng-required="isProphylaxis" ng-change="createProphilaxyObs()">
                                 <option></option>
                             </select>
                         </div>
@@ -68,6 +90,19 @@
                             <select name="artPlan" class="form-control" ng-model="fieldModels.artPlan.value"
                                     ng-options="plan.display for plan in fieldModels.artPlan.model.answers" ng-required="isArt"
                                     ng-change="validatePlan()">
+                                <option></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg"
+                         ng-class="{'has-error': prescriptionForm.prophilaxyPlan.$invalid && showMessages}" ng-show="isProphylaxis">
+                        <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_PROPHYLAXIS_PLAN'| translate}}:<span class="asterick">*</span></label>
+                        <div class="col-sm-9">
+                            <div ng-messages for="prescriptionForm.prophilaxyPlan.$error" 
+                                 ng-messages-include="../poc-common/form-display/views/error-messages.html"
+                                 ng-show="showMessages"></div>
+                            <select name="prophilaxyPlan" class="form-control" ng-model="fieldModels.prophilaxyPlan.value"
+                                    ng-options="plan.display for plan in fieldModels.prophilaxyPlan.model.answers" ng-required="isProphylaxis">
                                 <option></option>
                             </select>
                         </div>
@@ -96,16 +131,6 @@
                                     ng-options="reason.display for reason in fieldModels.changeReason.model.answers" ng-required="isPlanChanged">
                                 <option></option>
                             </select>
-                        </div>
-                    </div>
-                    <div ng-repeat="dateField in prohilaxyDateFields track by $index" class="form-group form-group-lg"
-                         ng-class="{'has-error': prescriptionForm.{{dateField.name}}.$invalid && showMessages}">
-                        <label class="col-sm-3 control-label">{{dateField.label}}:<span class="asterick">*</span></label>
-                        <div class="col-sm-9">
-                            <div ng-messages for="prescriptionForm.{{dateField.name}}.$error" 
-                                 ng-messages-include="../poc-common/form-display/views/error-messages.html"
-                                 ng-show="showMessages"></div>
-                            <input class="form-control" name="{{dateField.name}}" type='text' date-time format="yyyy-MM-dd" ng-model="prohilaxyDateFields[$index].value" placeholder="{{dateField.label}}" min-view="date" auto-close="true">
                         </div>
                     </div>
                     <div class="form-group form-group-lg"
@@ -207,6 +232,16 @@
         </div>
     </div>
     <div class="col-sm-7">
+        <div class="panel panel-primary panel-marginless-sides" ng-show="isProphylaxisInExistingPrescriptions()">
+            <div class="list-group">
+                <div class="list-group-item list-group-item-warning">
+                    <spam><strong>ISONIAZID</strong> started at Nov 4, 2016</spam>
+                    <button type="button" class="close btn-lg content-border-margin-regular-sides">
+                        <span class="glyphicon glyphicon-ban-circle"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
         <div class="panel panel-primary panel-marginless-sides">
             <div class="panel-heading">
                 <h3 class="panel-title">{{'CLINIC_PRESCRIPTION_NEW'| translate}}</h3>
@@ -214,7 +249,12 @@
             <div class="list-group">
                 <div class="list-group-item list-group-item-success" ng-repeat="listPrescription in listedPrescriptions">
                     <span>
-                        <strong ng-if="listPrescription.arvDrugs.value">{{listPrescription.arvDrugs.value.display}}</strong>
+                        <strong ng-if="listPrescription.arvDrugs.value">
+                            {{listPrescription.arvDrugs.value.display}} 
+                            <span ng-if="listPrescription.therapeuticLine.value">
+                                ({{listPrescription.therapeuticLine.value.display}})
+                            </span>
+                        </strong>
                         <strong ng-if="listPrescription.otherDrugs.value">{{listPrescription.otherDrugs.value.display}}</strong>
                         <strong ng-if="listPrescription.prophilaxyDrugs.value">{{listPrescription.prophilaxyDrugs.value.display}}</strong> 
                         {{listPrescription.dosageAmount.value}} 
@@ -224,6 +264,9 @@
                     </span>
                     <span ng-if="listPrescription.artPlan.value">
                         <strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN'| translate}}:</strong> {{listPrescription.artPlan.value.display}}
+                    </span>
+                    <span ng-if="listPrescription.prophilaxyPlan.value">
+                        <strong>{{'CLINIC_PRESCRIPTION_PROPHYLAXIS_PLAN'| translate}}:</strong> {{listPrescription.prophilaxyPlan.value.display}}
                     </span>
                     <span ng-if="listPrescription.interruptedReason.value">
                         <strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN_INTERRUPDED_FOR'| translate}}:</strong> {{listPrescription.interruptedReason.value.display}}
@@ -264,7 +307,12 @@
                 </div>
                 <div class="list-group-item" ng-repeat="presc in existingPrescription.models">
                     <span class="text-lg">
-                        <strong ng-if="presc.arvDrugs.value">{{presc.arvDrugs.value.display}}</strong>
+                        <strong ng-if="presc.arvDrugs.value">
+                            {{presc.arvDrugs.value.display}}
+                            <span ng-if="presc.therapeuticLine.value">
+                                ({{presc.therapeuticLine.value.display}})
+                            </span>
+                        </strong>
                         <strong ng-if="presc.otherDrugs.value">{{presc.otherDrugs.value.display}}</strong>
                         <strong ng-if="presc.prophilaxyDrugs.value">{{presc.prophilaxyDrugs.value.display}}</strong> 
                         {{presc.dosageAmount.value}} 
@@ -274,6 +322,9 @@
                     </span>
                     <span ng-if="presc.artPlan.value">
                         <strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN'| translate}}:</strong> {{presc.artPlan.value.display}}
+                    </span>
+                    <span ng-if="presc.prophilaxyPlan.value">
+                        <strong>{{'CLINIC_PRESCRIPTION_PROPHYLAXIS_PLAN'| translate}}:</strong> {{presc.prophilaxyPlan.value.display}}
                     </span>
                     <span ng-if="presc.interruptedReason.value">
                         <strong> {{'CLINIC_PRESCRIPTION_ARV_PLAN_INTERRUPDED_FOR'| translate}}:</strong> {{presc.interruptedReason.value.display}}
