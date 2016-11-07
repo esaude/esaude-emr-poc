@@ -329,7 +329,7 @@
                     {
                         "name": "Frequencia Respiratoria",
                         "id": "69ae6e37-586a-482c-bbff-02a7bfaacb5e"
-		    }
+            }
                 ]
             }
         ]
@@ -502,7 +502,7 @@
                 ]
             }
         ]
-	},
+    },
     {
         "id": "008",
         "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
@@ -572,7 +572,7 @@
                 ]
             }
         ]
-	},
+    },
     {
         "id": "009",
         "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
@@ -605,10 +605,19 @@
                 "sref": ".diagnosis-adult",
                 "nextSref": ".confirm",
                 "fields": [
-                    {
-                        "name": "Diagnostico",
-                        "id": "38923d6d-fe15-4e5f-abbb-9d4d2a6269c4",
+                     {
+                        "name": "Diagnostico 1",
+                        "id": "32b61bab-156b-4d6e-a938-644287e69b81",
                         "searchBySource": "3f65bd34-26fe-102b-80cb-0017a47871b2"
+                    },
+                    {
+                        "name": "Diagnostico 2",
+                        "id": "d516b911-032b-4ffc-9bc9-01978eb0ba41",
+                        "searchBySource": "3f65bd34-26fe-102b-80cb-0017a47871b2"
+                    },
+                    {
+                        "name": "Diagnostico 3",
+                        "id": "e2939310-1d5f-11e0-b929-000c29ad1d07"
                     }
                 ]
             }
@@ -679,7 +688,7 @@
                 ]
             }
         ]
-	},
+    },
      {
         "id": "011",
         "formId": "e28ac028-1d5f-11e0-b929-000c29ad1d07",
@@ -729,6 +738,6 @@
                 ]
             }
 
-      ]
+        ]
     }
-    ]
+]

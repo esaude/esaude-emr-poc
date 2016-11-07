@@ -77,6 +77,14 @@ angular.module('clinic')
             }
         };
 
+        $scope.reset = function () {
+            resetFieldModel();
+            if ($scope.fieldModels.therapeuticLine.value.uuid !== Bahmni.Common.Constants.therapeuticLineQuestion.thirdLine) {
+                $scope.arvLineEnabled = false;
+            }
+            $scope.drugType = undefined;
+        }
+
         $scope.add = function (valid) {
             if (!valid) {
                 $scope.showMessages = true;
