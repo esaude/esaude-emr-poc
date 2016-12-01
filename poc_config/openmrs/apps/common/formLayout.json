@@ -624,7 +624,7 @@
             {
               "id": "3",
               "name": "Próxima visita",
-              "sref": "proxima_adult",
+              "sref": ".proxima_adult",
               "nextSref": ".confirm",
               "fields": [
                 {
@@ -753,7 +753,7 @@
             {
               "id": "3",
               "name": "Próxima visita",
-              "sref": "proxima_child",
+              "sref": ".proxima_child",
               "nextSref": ".confirm",
               "fields": [
                   {
