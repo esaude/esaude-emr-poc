@@ -25,23 +25,31 @@ angular.module('bahmni.common.domain')
         return reversed;
     };
 
-          this.filterGroupReverseFollowupObs = function (concepts, results) {
-            var nonRetired = encounterService.filterRetiredEncoounters(results);
+    this.findInList = function (list, attribute, value) {
+        return _.find(list, function (e) {
+            return e[attribute] === value;
+        })
+    };
 
-            //TODO: Fix null referece
-            _.forEach(nonRetired, function (encounter) {
+    this.filterGroupReverseFollowupObs = function (concepts, results) {
+        var nonRetired = encounterService.filterRetiredEncoounters(results);
+
+        //TODO: Fix null referece
+        _.forEach(nonRetired, function (encounter) {
                 encounter.obs = observationsService.filterByList(encounter.obs, concepts);
-            });
-            var filtered = _.filter(nonRetired, function (encounter) {
-                return !_.isEmpty(encounter.obs);
-            });
-            return filtered.reverse();
-        };
+        });
 
-          this.deferPatient = function (patient) {
-            var newPatient = patient;
-            return newPatient;
-        };
+        var filtered = _.filter(nonRetired, function (encounter) {
+            return !_.isEmpty(encounter.obs);
+        });
 
-        }]);
+        return filtered.reverse();
+    };
+
+    this.deferPatient = function (patient) {
+        var newPatient = patient;
+        return newPatient;
+    };
+
+}]);
 

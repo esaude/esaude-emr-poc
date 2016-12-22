@@ -15,17 +15,17 @@ angular.module('clinic')
                 });
             }
 
-      $scope.linkSearch = function() {
+            $scope.linkSearch = function() {
                 $location.url("/search"); // path not hash
             };
 
-      $scope.linkPatientDetail = function() {
+            $scope.linkPatientDetail = function() {
                 $location.url("/patient/detail/" + patientUuid + "/demographic"); // path not hash
             };
 
-      $scope.getAlerts = function () {
+            $scope.getAlerts = function () {
                 alertService.get(patientUuid).success(function (data) {
-                   $scope.flags = data.flags;
+                    $scope.flags = data.flags;
                 });
-      };
+            };
     }]);
