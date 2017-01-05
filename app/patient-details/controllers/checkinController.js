@@ -6,6 +6,7 @@ angular.module('patient.details')
 CheckinController.$inject = ['$rootScope', 'visitService', 'commonService'];
 
 function CheckinController($rootScope, visitService, commonService) {
+    //TODO: Check if vm is needed 
     var vm = this;
     var dateUtil = Bahmni.Common.Util.DateUtil;
     

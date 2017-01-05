@@ -68,14 +68,15 @@ angular.module('bahmni.common.domain')
             });
         };
 
-        this.getObsRelationship = function(targetObsUuid){
-            return $http.get(Bahmni.Common.Constants.obsRelationshipUrl, {
-                params: {
-                    targetObsUuid: targetObsUuid
-                },
-                withCredentials: true
-            });
-        };
+      //TODO: Unused definition, to be removed after testing phase
+        // this.getObsRelationship = function(targetObsUuid){
+        //     return $http.get(Bahmni.Common.Constants.obsRelationshipUrl, {
+        //         params: {
+        //             targetObsUuid: targetObsUuid
+        //         },
+        //         withCredentials: true
+        //     });
+        // };
 
         this.filterRetiredObs = function (observations) {
         return _.filter(observations, function (obs) {

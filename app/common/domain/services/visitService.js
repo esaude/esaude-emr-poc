@@ -21,10 +21,11 @@ angular.module('bahmni.common.domain')
             );
         };
 
-        this.getVisitForAdmissionDetails = function (uuid) {
-            var parameters = "custom:(uuid,visitId,visitType,patient,encounters:(uuid,encounterType,encounterDatetime,voided,provider,obs:(uuid,value,concept,obsDatetime)))";
-            return this.getVisit(uuid, parameters);
-        };
+      //TODO: Unused definition, to be removed after testing phase
+      //   this.getVisitForAdmissionDetails = function (uuid) {
+      //       var parameters = "custom:(uuid,visitId,visitType,patient,encounters:(uuid,encounterType,encounterDatetime,voided,provider,obs:(uuid,value,concept,obsDatetime)))";
+      //       return this.getVisit(uuid, parameters);
+      //   };
 
         this.endVisit = function (visitUuid) {
             return $http.post(Bahmni.Common.Constants.endVisitUrl + '?visitUuid=' + visitUuid, {
@@ -32,22 +33,24 @@ angular.module('bahmni.common.domain')
             });
         };
 
-        this.updateVisit = function (visitUuid, attributes) {
-            return $http.post(Bahmni.Common.Constants.visitUrl + '/' + visitUuid, attributes, {
-                withCredentials: true
-            });
-        };
+      //TODO: Unused definition, to be removed after testing phase
+        // this.updateVisit = function (visitUuid, attributes) {
+        //     return $http.post(Bahmni.Common.Constants.visitUrl + '/' + visitUuid, attributes, {
+        //         withCredentials: true
+        //     });
+        // };
 
-        this.getVisitSummary = function (visitUuid) {
-            return $http.get(Bahmni.Common.Constants.visitSummaryUrl,
-                {
-                    params: {
-                        visitUuid: visitUuid
-                    },
-                    withCredentials: true
-                }
-            );
-        };
+      //TODO: Unused definition, to be removed after testing phase
+      //   this.getVisitSummary = function (visitUuid) {
+      //       return $http.get(Bahmni.Common.Constants.visitSummaryUrl,
+      //           {
+      //               params: {
+      //                   visitUuid: visitUuid
+      //               },
+      //               withCredentials: true
+      //           }
+      //       );
+      //   };
 
         this.search = function (parameters) {
             return $http.get(Bahmni.Common.Constants.visitUrl, {
@@ -56,12 +59,13 @@ angular.module('bahmni.common.domain')
             });
         };
 
-        this.getVisitType = function () {
-            return $http.get(Bahmni.Common.Constants.visitTypeUrl, {
-                withCredentials: true
-            });
-
-        };
+      //TODO: Unused definition, to be removed after testing phase
+        // this.getVisitType = function () {
+        //     return $http.get(Bahmni.Common.Constants.visitTypeUrl, {
+        //         withCredentials: true
+        //     });
+        //
+        // };
 
         this.activeVisits = function (visits) {
             return _.filter(visits, function (visit) {

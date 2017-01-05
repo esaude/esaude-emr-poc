@@ -3,7 +3,7 @@ $(function(){
 		//This fix is needed when we use fastclick.js on ipad
 		$(document).on("click", "label[for]", function(event) {
 			var $inputElement = $('input#' + $(this).attr('for'));
-			var elementType = $inputElement.attr('type')
+			var elementType = $inputElement.attr('type');
 			if(elementType === 'radio') {
 				$inputElement.prop('checked', true)
 			} else if(elementType === 'checkbox') {

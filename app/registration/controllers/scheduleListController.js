@@ -5,7 +5,8 @@ angular.module('registration')
             'commonService', 'cohortService', 'openmrsPatientMapper', 'observationsService', 'visitService',
                     function ($rootScope, $scope, patientService, 
                         commonService, cohortService, patientMapper, observationsService, visitService) {
-
+                      
+            //TODO: To be removed if unused          
             var dateUtil = Bahmni.Common.Util.DateUtil;
             $scope.hasSchedules = false;
     

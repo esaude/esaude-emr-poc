@@ -49,4 +49,4 @@ angular.module('bahmni.common.uiHelper')
                 optionClick: '&'
             }
         };
-    }])
+    }]);

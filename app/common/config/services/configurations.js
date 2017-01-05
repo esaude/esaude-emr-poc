@@ -32,6 +32,7 @@ angular.module('bahmni.common.config')
             return this.configs.labOrderNotesConfig.results[0] || [];
         };
 
+      
         this.consultationNoteConcept = function () {
             return this.configs.consultationNoteConfig.results[0] || [];
         };
@@ -57,14 +58,15 @@ angular.module('bahmni.common.config')
         };
         
         this.defaultLocation = function() {
-            return this.configs.defaultLocation.results[0] || [];;
+            return this.configs.defaultLocation.results[0] || [];
         };
 
         this.addressLevels = function() {
             return this.configs.addressLevels;
         };
 
-        this.relationshipTypes = function() {
-            return this.configs.relationshipTypeConfig.results || [];
-        };
+      //TODO: Unused definition, to be removed after testing phase
+        // this.relationshipTypes = function() {
+        //     return this.configs.relationshipTypeConfig.results || [];
+        // };
     }]);

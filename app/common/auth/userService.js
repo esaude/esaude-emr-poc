@@ -12,14 +12,15 @@ angular.module('authentication')
             });
         };
 
-        this.savePreferences = function () {
-            var user = $rootScope.currentUser.toContract();
-            return $http.post("/openmrs/ws/rest/v1/user/" + user.uuid, {"uuid": user.uuid, "userProperties": user.userProperties}, {
-                withCredentials: true
-            }).then(function (response) {
-                    $rootScope.currentUser.userProperties = response.data.userProperties;
-                });
-        };
+      //TODO: Unused definition, to be removed after testing phase
+        // this.savePreferences = function () {
+        //     var user = $rootScope.currentUser.toContract();
+        //     return $http.post("/openmrs/ws/rest/v1/user/" + user.uuid, {"uuid": user.uuid, "userProperties": user.userProperties}, {
+        //         withCredentials: true
+        //     }).then(function (response) {
+        //             $rootScope.currentUser.userProperties = response.data.userProperties;
+        //         });
+        // };
 
         this.getProviderForUser = function (uuid) {
             return $http.get("/openmrs/ws/rest/v1/provider", {

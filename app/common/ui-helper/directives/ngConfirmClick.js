@@ -7,9 +7,9 @@ angular.module('bahmni.common.uiHelper')
             var clickAction = attr.ngConfirmClick;
             element.bind('click', function () {
                 if(attr.ngCondition) {
-                    var condition = scope.$eval(attr.ngCondition)
+                    var condition = scope.$eval(attr.ngCondition);
                     if (!condition) {
-                        var conditionMsg = scope.$eval(attr.conditionMessage)
+                        var conditionMsg = scope.$eval(attr.conditionMessage);
                         return window.confirm(conditionMsg);
                     }
                 }
