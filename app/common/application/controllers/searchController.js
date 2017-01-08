@@ -2,8 +2,8 @@
 
 angular.module('application')
         .controller('SearchController', ['$rootScope', '$scope', '$location', 'patientService', 'openmrsPatientMapper',
-            'spinner', 'observationsService', 'commonService',
-    function ($rootScope, $scope, $location, patientService, patientMapper, spinner, observationsService, commonService) {
+            'spinner', 'observationsService', 'commonService', 'visitService',
+    function ($rootScope, $scope, $location, patientService, patientMapper, spinner, observationsService, commonService, visitService) {
             $scope.results = [];
 
             var dateUtil = Bahmni.Common.Util.DateUtil;
@@ -53,7 +53,26 @@ angular.module('application')
                         $rootScope.patient = patientMapper.map(data);
                     });
                 }
-                $location.url(eval($rootScope.landingPageAfterSearch)); // path not hash
+
+                //initialize visit info in scope
+                visitService.search({patient: $rootScope.patient.uuid, v: "full"})
+                    .success(function (data) {
+                        var nonRetired = commonService.filterRetired(data.results);
+                        //in case the patient has an active visit
+                        if (!_.isEmpty(nonRetired)) {
+                            var lastVisit = _.maxBy(nonRetired, 'startDatetime');
+                            var now = dateUtil.now();
+                            //is last visit todays
+                            if (dateUtil.parseDatetime(lastVisit.startDatetime) <= now && 
+                                dateUtil.parseDatetime(lastVisit.stopDatetime) >= now) {
+                                $rootScope.hasVisitToday = true;
+                                $rootScope.todayVisit = lastVisit;
+                            } else {
+                                $rootScope.hasVisitToday = false;
+                            }
+                        }
+                        $location.url(eval($rootScope.landingPageAfterSearch)); // path not hash
+                });
             };
 
             $scope.linkPatientNew = function() {
