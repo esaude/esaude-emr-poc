@@ -603,7 +603,7 @@
                 "id": "2",
                 "name": "DIAGNOSTICOS",
                 "sref": ".diagnosis-adult",
-                "nextSref": ".confirm",
+                "nextSref": ".proxima_adult",
                 "fields": [
                      {
                         "name": "Diagnostico 1",
@@ -620,6 +620,18 @@
                         "id": "e2939310-1d5f-11e0-b929-000c29ad1d07"
                     }
                 ]
+            },
+            {
+              "id": "3",
+              "name": "Próxima visita",
+              "sref": ".proxima_adult",
+              "nextSref": ".confirm",
+              "fields": [
+                {
+                  "name": "Data da próxima visita",
+                  "id": "e2ade512-1d5f-11e0-b929-000c29ad1d07"
+                }
+              ]
             }
 
         ]
@@ -719,7 +731,7 @@
                 "id": "2",
                 "name": "DIAGNOSTICOS",
                 "sref": ".diagnosticos_child",
-                "nextSref": ".confirm",
+                "nextSref": ".proxima_child",
                 "fields": [
                     {
                         "name": "Diagnostico 1",
@@ -735,7 +747,20 @@
                         "name": "Diagnostico 3",
                         "id": "e293e11c-1d5f-11e0-b929-000c29ad1d07"
                     }
+
                 ]
+            },
+            {
+              "id": "3",
+              "name": "Próxima visita",
+              "sref": ".proxima_child",
+              "nextSref": ".confirm",
+              "fields": [
+                  {
+                    "name": "Data da próxima visita",
+                    "id": "e2ade81e-1d5f-11e0-b929-000c29ad1d07"
+                  }
+              ]
             }
 
         ]
