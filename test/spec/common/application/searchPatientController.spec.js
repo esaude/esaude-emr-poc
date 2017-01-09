@@ -3,7 +3,7 @@
 describe('SearchController', function () {
 
   var controller, $httpBackend, scope, patientResource, patientMapper,
-    searchPromise, spinner, observationsService, commonService ;
+    searchPromise, spinner, observationsService, commonService, visitService;
 
   beforeEach(module('application'));
 
@@ -24,7 +24,8 @@ describe('SearchController', function () {
         patientService: patientResource,
         openmrsPatientMapper:  patientMapper,
         observationsService: observationsService,
-        commonService: commonService
+        commonService: commonService,
+        visitService: visitService
       });
     });
   });
