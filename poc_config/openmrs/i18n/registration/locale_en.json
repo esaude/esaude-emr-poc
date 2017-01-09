@@ -39,6 +39,7 @@
     "COMMON_PROGRAM_ENROLLMENT_ERROR_EARLIER_END": "Program cannot be ended earlier than last state.",
     "COMMON_PROGRAM_ENROLLMENT_ERROR_NO_STATE_TO_CHANGE": "Please select a state to change.",
     "COMMON_PROGRAM_ENROLLMENT_ERROR_NO_STATE_START_DATE": "Please select the state's start date.",
+    "COMMON_PROGRAM_ENROLLMENT_DATE_NOT_IN_FUTURE": "Enrollment date should not be in future",
     "COMMON_VISIT_HISTORY_TITLE": "Visit History",
     "COMMON_CLINIC_SERVICES_TITLE": "Clinical Services",
     "COMMON_ALERT_TITLE": "Alerts",
