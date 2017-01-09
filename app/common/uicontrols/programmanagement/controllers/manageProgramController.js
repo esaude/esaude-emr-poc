@@ -225,6 +225,11 @@ angular.module('bahmni.common.uicontrols.programmanagment')
                     return;
                 }
 
+                if(dateCompleted && DateUtil.isAfterDate(dateCompleted, new Date())) {
+                  showMessage("COMMON_PROGRAM_COMPLETION_DATE_NOT_IN_FUTURE");
+                  return;
+                }
+
 //                if (!isOutcomeSelected(patientProgram)) {
 //                    return;
 //                }
