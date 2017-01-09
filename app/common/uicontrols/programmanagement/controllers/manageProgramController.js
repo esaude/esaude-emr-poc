@@ -73,7 +73,7 @@ angular.module('bahmni.common.uicontrols.programmanagment')
             var isProgramSelected = function () {
                 return $scope.programSelected && $scope.programSelected.uuid;
             };
-            
+
             $scope.setProgramSelected = function (program) {
                 $scope.programSelected = program;
                 if ($scope.hasProgramWorkflowStates(program)) {
@@ -105,12 +105,16 @@ angular.module('bahmni.common.uicontrols.programmanagment')
                     showMessage("COMMON_PROGRAM_ENROLLMENT_ERROR_ALREADY_ENROLLED");
                     return;
                 }
+                if (DateUtil.isAfterDate(programEnrollmentDate, new Date())) {
+                  showMessage("COMMON_PROGRAM_ENROLLMENT_DATE_NOT_IN_FUTURE");
+                  return;
+                }
                 $scope.workflowStateSelected = null;
                 $scope.workflowStateSelected = state;
                 $scope.programEnrollmentDate = null;
                 $scope.programEnrollmentDate = DateUtil.parse(programEnrollmentDate);
-                
-                
+
+
                 var stateUuid = $scope.workflowStateSelected && $scope.workflowStateSelected.uuid ? $scope.workflowStateSelected.uuid : null;
                 spinner.forPromise(
                     programService.enrollPatientToAProgram($scope.patient.uuid, $scope.programSelected.uuid, $scope.programEnrollmentDate, stateUuid)
@@ -125,12 +129,12 @@ angular.module('bahmni.common.uicontrols.programmanagment')
             var isProgramStateSelected = function () {
                 return objectDeepFind($scope, "programEdited.selectedState.uuid");
             };
-            
+
             $scope.getOutcomes = function (program) {
                 var currentProgram = _.find($scope.allPrograms, {uuid: program.uuid});
                 return currentProgram.outcomesConcept ? currentProgram.outcomesConcept.answers : [];
             };
-            
+
             $scope.hasOutcomes = function (program) {
                 return program.outcomesConcept && !_.isEmpty(program.outcomesConcept.answers);
             };
@@ -144,11 +148,11 @@ angular.module('bahmni.common.uicontrols.programmanagment')
                     return state.endDate == null && !state.voided;
                 });
             };
-            
+
             $scope.getCurrentProgramState = function(states){
                 return getCurrentState(states);
             };
-            
+
             //must have at least one state and non voided
             $scope.hasValidProgramStateToShow = function (states) {
                 for(var i in states) {
@@ -158,7 +162,7 @@ angular.module('bahmni.common.uicontrols.programmanagment')
                 }
                 return false;
             };
-            
+
             $scope.initCurrentState = function(patientProgram){
                 return getCurrentState(patientProgram.states);
             };
@@ -178,26 +182,26 @@ angular.module('bahmni.common.uicontrols.programmanagment')
                 var startDate = DateUtil.parse($scope.programEdited.startDate);
                 var currentState = getCurrentState(patientProgram.states);
                 var currentStateDate = currentState ? DateUtil.parse(currentState.startDate) : null;
-                
+
                 if (DateUtil.isBeforeDate(startDate, currentStateDate)) {
                     var formattedCurrentStateDate = DateUtil.formatDateWithoutTime(currentStateDate);
                     showMessage("COMMON_PROGRAM_ENROLLMENT_ERROR_STATE_EARLIER_START");
                     return;
-                }     
+                }
                 if (!isProgramStateSelected()) {
                     showMessage("COMMON_PROGRAM_ENROLLMENT_ERROR_NO_STATE_TO_CHANGE");
                     return;
                 }
-                
+
                 if(!startDate) {
                     showMessage("COMMON_PROGRAM_ENROLLMENT_ERROR_NO_STATE_START_DATE");
-                    return; 
+                    return;
                 }
                 spinner.forPromise(
                     programService.savePatientProgram(patientProgram.uuid, $scope.programEdited.selectedState.uuid, startDate)
                         .then(successCallback, failureCallback)
                 );
-        
+
                 $(function () {
                     $('#editProgramStateModal').modal('toggle');
                 });
@@ -209,7 +213,7 @@ angular.module('bahmni.common.uicontrols.programmanagment')
                 var dateEnrolled = patientProgram.dateEnrolled ? DateUtil.parse(patientProgram.dateEnrolled) : null;
                 var currentState = getCurrentState(patientProgram.states);
                 var currentStateDate = currentState ? DateUtil.parse(currentState.startDate) : null;
-                
+
                 if(!dateEnrolled) {
                     showMessage("COMMON_PROGRAM_ENROLLMENT_ERROR_NO_ADMISSION_DATE");
                     return;
@@ -221,17 +225,22 @@ angular.module('bahmni.common.uicontrols.programmanagment')
                     return;
                 }
 
+                if(dateCompleted && DateUtil.isAfterDate(dateCompleted, new Date())) {
+                  showMessage("COMMON_PROGRAM_COMPLETION_DATE_NOT_IN_FUTURE");
+                  return;
+                }
+
 //                if (!isOutcomeSelected(patientProgram)) {
 //                    return;
 //                }
 
                 var outcomeConceptUuid = patientProgram.outcome ? patientProgram.outcome.uuid : null;
-                spinner.forPromise(programService.editPatientProgram(patientProgram.uuid, dateEnrolled, 
+                spinner.forPromise(programService.editPatientProgram(patientProgram.uuid, dateEnrolled,
                                     dateCompleted, outcomeConceptUuid)
                     .then(function () {
                         updateActiveProgramsList();
                     }));
-                    
+
                 $(function () {
                     $('#editProgramModal').modal('toggle');
                 });
@@ -296,14 +305,14 @@ angular.module('bahmni.common.uicontrols.programmanagment')
             $scope.hasProgramWorkflowStates = function (patientProgram) {
                 return !_.isEmpty(getStates(patientProgram.program));
             };
-            
+
             var showMessage = function (msg) {
-                $scope.errorMessage = msg; 
+                $scope.errorMessage = msg;
                 $(function () {
                     $('.alert').show();
                 });
             };
-            
+
             init();
         }
     ]);

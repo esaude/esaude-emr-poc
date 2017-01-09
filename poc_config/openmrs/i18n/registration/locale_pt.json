@@ -39,6 +39,8 @@
     "COMMON_PROGRAM_ENROLLMENT_ERROR_EARLIER_END": "O programa não pode ser terminado antes da data do último estado.",
     "COMMON_PROGRAM_ENROLLMENT_ERROR_NO_STATE_TO_CHANGE": "Por favor, escolha um estado.",
     "COMMON_PROGRAM_ENROLLMENT_ERROR_NO_STATE_START_DATE": "Por, favor escolha a data de início do estado.",
+    "COMMON_PROGRAM_ENROLLMENT_DATE_NOT_IN_FUTURE": "A data de inscrição não deve ser no futuro",
+    "COMMON_PROGRAM_COMPLETION_DATE_NOT_IN_FUTURE": "A data de término do programa não pode ser no futuro",
     "COMMON_VISIT_HISTORY_TITLE": "Histórico de Visitas",
     "COMMON_CLINIC_SERVICES_TITLE": "Serviços Clínicos",
     "COMMON_ALERT_TITLE": "Alertas",
