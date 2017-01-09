@@ -14,8 +14,7 @@
           var grouped = _.groupBy(nonRetired, function (element) {
             return Bahmni.Common.Util.DateUtil.getDate(element.encounterDatetime);
           });
-          var reversed = _.values(grouped).reverse();
-          $scope[element] = reversed;
+          $scope[element] = _.values(grouped).reverse();
         };
 
         function filterGroupReverseObs(concepts, element) {

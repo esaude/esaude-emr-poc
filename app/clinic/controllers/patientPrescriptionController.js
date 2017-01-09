@@ -144,7 +144,7 @@ angular.module('clinic')
                     var observations = {
                         concept: field.model.uuid,
                         obsDatetime: datetime,
-                        person: patientUuid,
+                        person: patientUuid
                     };
                     //check if field has answers
                     if (field.value.uuid !== undefined) {

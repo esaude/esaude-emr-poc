@@ -21,8 +21,7 @@ angular.module('bahmni.common.domain')
         var grouped = _.groupBy(nonRetired, function (element) {
             return Bahmni.Common.Util.DateUtil.getDate(element.encounterDatetime);
         });
-        var reversed = _.values(grouped).reverse();
-        return reversed;
+            return _.values(grouped).reverse();
     };
 
     this.findInList = function (list, attribute, value) {

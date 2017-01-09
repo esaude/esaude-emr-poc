@@ -31,7 +31,7 @@ angular.module('bahmni.common.uiHelper')
 
         var print = function (templateUrl, data) {
             $http.get(templateUrl).success(function(template){
-                var printScope = $rootScope.$new()
+                var printScope = $rootScope.$new();
                 angular.extend(printScope, data);
                 var element = $compile($('<div>' + template + '</div>'))(printScope);
                 var waitForRenderAndPrint = function() {

@@ -49,7 +49,7 @@ angular.module('common.patient').factory('openmrsPatientMapper', ['patient', '$r
                 patient.address = mapAddress(openmrsPatient.person.preferredAddress);
                 patient.dead = openmrsPatient.person.dead,
                 patient.causeOfDeath = (openmrsPatient.person.dead === true) ? openmrsPatient.person.causeOfDeath : null,
-                patient.deathDate = (openmrsPatient.person.dead === true) ? openmrsPatient.person.deathDate : null
+                patient.deathDate = (openmrsPatient.person.dead === true) ? openmrsPatient.person.deathDate : null,
                 //TODO: must get the identifier to display from openmrs configurations
                 patient.identifier = openmrsPatient.identifiers[0].identifier;
                 patient.identifierType = openmrsPatient.identifiers[0].identifierType.display;

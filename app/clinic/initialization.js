@@ -15,17 +15,17 @@ angular.module('clinic').factory('initialization',
                 $rootScope.addressLevels = configurations.addressLevels();
             });
         };
-        
+
         var initForms = function () {
            formLoader.load(appService.getAppDescriptor().getClinicalServices()).then(function (data) {
                $rootScope.serviceForms = data;
            });
         };
-        
+
         var initClinicalServices = function () {
             $rootScope.clinicalServices = appService.getAppDescriptor().getClinicalServices();
         };
-        
+
         var initFormLayout = function () {
             $rootScope.formLayout = appService.getAppDescriptor().getFormLayout();
         };
@@ -33,15 +33,15 @@ angular.module('clinic').factory('initialization',
         var initApp = function() {
             return appService.initApp('clinical', {'app': true, 'extension' : true, 'service': true });
         };
-        
-        var loadUser = function () {       
+
+        var loadUser = function () {
             var currentUser = $cookies.get(Bahmni.Common.Constants.currentUser);
-            
+
             return userService.getUser(currentUser).success(function(data) {
                 $rootScope.currentUser = data.results[0];
             });
         };
-        
+
         var loadProvider = function () {
             return sessionService.loadProviders($rootScope.currentUser).success(function (data) {
                 var providerUuid = (data.results.length > 0) ? data.results[0].uuid : undefined;

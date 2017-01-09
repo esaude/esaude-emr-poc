@@ -5,9 +5,10 @@ Bahmni.Common.Util.DateUtil = {
         return Math.floor((this.parse(dateTo) - this.parse(dateFrom)) / (60 * 1000 * 60 * 24));
     },
 
-    diffInSeconds: function (dateFrom, dateTo) {
-        return moment(dateFrom).diff(moment(dateTo), 'seconds');
-    },
+  //TODO: Unused definition, to be removed after testing phase
+    // diffInSeconds: function (dateFrom, dateTo) {
+    //     return moment(dateFrom).diff(moment(dateTo), 'seconds');
+    // },
 
     isInvalid: function(date){
         return date == "Invalid Date";
@@ -151,8 +152,8 @@ Bahmni.Common.Util.DateUtil = {
     },
 
     diffInYearsMonthsDays: function (dateFrom, dateTo) {
-        dateFrom = this.parse(dateFrom)
-        dateTo = this.parse(dateTo)
+        dateFrom = this.parse(dateFrom);
+        dateTo = this.parse(dateTo);
 
         var from = {
             d: dateFrom.getDate(),

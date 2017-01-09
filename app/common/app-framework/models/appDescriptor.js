@@ -14,52 +14,54 @@ Bahmni.Common.AppFramework.AppDescriptor = function (context, inheritContext, re
     this.contextPath = inheritContext ? context.split("/")[0] : context;
 
     var self = this;
-    
-    this.setFormLayout = function (formLayout) {      
+
+    this.setFormLayout = function (formLayout) {
         self.formLayout = formLayout || [];
     };
-    
-    this.setClinicalServices = function (clinicalServices) {      
+
+    this.setClinicalServices = function (clinicalServices) {
         self.clinicalServices = clinicalServices || [];
     };
 
-    this.setExtensions = function (extensions) {
-        extensions.forEach(function(extn) {
-            var existing = self.extensionPoints.filter(function(ep) {
-                return ep.id == extn.extensionPointId;
-            });
+  //TODO: Unused definition, to be removed after testing phase
+    // this.setExtensions = function (extensions) {
+    //     extensions.forEach(function(extn) {
+    //         var existing = self.extensionPoints.filter(function(ep) {
+    //             return ep.id == extn.extensionPointId;
+    //         });
+    //
+    //         if (existing.length == 0) {
+    //             self.extensionPoints.push({
+    //                 id: extn.extensionPointId,
+    //                 description: extn.description
+    //             });
+    //         }
+    //     });
+    //     self.extensions = extensions;
+    // };
 
-            if (existing.length == 0) {
-                self.extensionPoints.push({
-                    id: extn.extensionPointId,
-                    description: extn.description
-                });
-            }
-        });
-        self.extensions = extensions;
-    };
-
-    this.setTemplate = function(template) {
-        self.instanceOf = template.id;
-        self.description = self.description || template.description;
-        self.contextModel = self.contextModel || template.contextModel;
-        if (template.configOptions) {
-            template.configOptions.forEach(function(opt) {
-                var existing = self.configs.filter(function(cfg) {
-                    return cfg.name == opt.name;
-                });
-                if (existing.length > 0) {
-                    existing[0].description = opt.description;
-                } else {
-                    self.configs.push({
-                        name: opt.name,
-                        description: opt.description,
-                        value: opt.defaultValue
-                    });
-                }
-            });
-        }
-    };
+  //TODO: Unused definition, to be removed after testing phase
+    // this.setTemplate = function(template) {
+    //     self.instanceOf = template.id;
+    //     self.description = self.description || template.description;
+    //     self.contextModel = self.contextModel || template.contextModel;
+    //     if (template.configOptions) {
+    //         template.configOptions.forEach(function(opt) {
+    //             var existing = self.configs.filter(function(cfg) {
+    //                 return cfg.name == opt.name;
+    //             });
+    //             if (existing.length > 0) {
+    //                 existing[0].description = opt.description;
+    //             } else {
+    //                 self.configs.push({
+    //                     name: opt.name,
+    //                     description: opt.description,
+    //                     value: opt.defaultValue
+    //                 });
+    //             }
+    //         });
+    //     }
+    // };
 
     this.setDefinition = function(instance) {
         self.instanceOf = instance.instanceOf;
@@ -106,9 +108,10 @@ Bahmni.Common.AppFramework.AppDescriptor = function (context, inheritContext, re
         }
     };
 
-    this.getExtensionById = function (id){
-        return self.extensions.filter(function (extn) { return extn.id === id })[0];
-    };
+  //TODO: Unused definition, to be removed after testing phase
+    // this.getExtensionById = function (id){
+    //     return self.extensions.filter(function (extn) { return extn.id === id })[0];
+    // };
 
     this.getConfig = function(configName) {
         var cfgList = self.configs.filter(function(cfg) {
@@ -156,20 +159,22 @@ Bahmni.Common.AppFramework.AppDescriptor = function (context, inheritContext, re
         return urlParams;
     };
 
-    this.addConfigForPage = function(pageName,config){
-        self.pageConfigs= self.pageConfigs || {};
-        self.pageConfigs[pageName] = config;
-    };
+  //TODO: Unused definition, to be removed after testing phase
+    // this.addConfigForPage = function(pageName,config){
+    //     self.pageConfigs= self.pageConfigs || {};
+    //     self.pageConfigs[pageName] = config;
+    // };
 
-    this.getConfigForPage = function(pageName){
-        return self.pageConfigs[pageName];
-    };
-    
-    this.getFormLayout = function () {      
+//TODO: Unused definition, to be removed after testing phase
+    // this.getConfigForPage = function(pageName){
+    //     return self.pageConfigs[pageName];
+    // };
+
+    this.getFormLayout = function () {
         return self.formLayout;
     };
-    
-    this.getClinicalServices = function () {      
+
+    this.getClinicalServices = function () {
         return self.clinicalServices;
     };
 };

@@ -1,6 +1,6 @@
 angular.module('bahmni.common.uicontrols.programmanagment')
-    .controller('ManageProgramController', ['$scope', '$window', 'programService', 'spinner', '$stateParams', 'messagingService',
-        function ($scope, $window, programService, spinner, $stateParams, messagingService) {
+    .controller('ManageProgramController', ['$scope', '$window', 'programService', 'spinner', '$stateParams',
+        function ($scope, $window, programService, spinner, $stateParams) {
             var DateUtil = Bahmni.Common.Util.DateUtil;
             $scope.programSelected = {};
             $scope.programEnrollmentDate = null;
@@ -27,7 +27,7 @@ angular.module('bahmni.common.uicontrols.programmanagment')
                 updateActiveProgramsList();
             };
 
-            var successCallback = function (data) {
+            var successCallback = function () {
                 $scope.programEdited.selectedState = null;
                 $scope.programEdited.startDate = null;
                 $scope.programSelected = null;
@@ -184,6 +184,7 @@ angular.module('bahmni.common.uicontrols.programmanagment')
                 var currentStateDate = currentState ? DateUtil.parse(currentState.startDate) : null;
 
                 if (DateUtil.isBeforeDate(startDate, currentStateDate)) {
+                  //TODO: Confirm if is the variable format formattedCurrentStateDate is currently being used
                     var formattedCurrentStateDate = DateUtil.formatDateWithoutTime(currentStateDate);
                     showMessage("COMMON_PROGRAM_ENROLLMENT_ERROR_STATE_EARLIER_START");
                     return;
