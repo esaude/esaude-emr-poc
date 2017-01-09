@@ -65,7 +65,7 @@ Bahmni.Common.Util.DateUtil = {
     getDateWithoutTime: function(datetime){
         return datetime?moment(datetime).format("YYYY-MM-DD"):null;
     },
-    
+
     getDateInMonthsAndYears : function (date, format){
         var format = format || "MMM YY";
         var dateRepresentation = isNaN(Number(date)) ? date : Number(date);
@@ -134,6 +134,11 @@ Bahmni.Common.Util.DateUtil = {
     isBeforeDate: function(date1, date2){
       return moment(date1).isBefore(moment(date2));
     },
+
+    isAfterDate: function(date1, date2){
+      return moment(date1).isAfter(moment(date2));
+    },
+  
     isSameDate: function(date1, date2) {
         if(date1 == null || date2 == null) {
             return false;
@@ -160,7 +165,7 @@ Bahmni.Common.Util.DateUtil = {
             m: dateTo.getMonth(),
             y: dateTo.getFullYear()
         };
-        
+
         var age = {
             d: 0,
             m: 0,
@@ -171,13 +176,13 @@ Bahmni.Common.Util.DateUtil = {
         var daysInMonths = [31, daysFebruary, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
         age.y = to.y - from.y;
         age.m = to.m - from.m;
-        
+
         if(from.m > to.m) {
             age.y = age.y - 1;
             age.m = to.m - from.m + 12;
         }
         age.d = to.d - from.d;
-        
+
         if(from.d > to.d) {
             age.m = age.m -1;
 
@@ -236,7 +241,7 @@ Bahmni.Common.Util.DateUtil = {
         }
         return to;
     },
-    
+
     getDateInDatabaseFormat: function (date) {
         return moment(date).format('YYYY-MM-DD HH:MM:SS');
     },
