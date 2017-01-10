@@ -12,7 +12,7 @@
             <label for="patient_identifier_type" class="col-sm-2 control-label">{{'PATIENT_INFO_IDENTIFIER_TYPE_FULL' | translate}}:</label>
             <div class="col-sm-10">
                 <select class="form-control" id="patient_identifier_type" ng-model="patient.patientIdentifierType" ng-change="selectIdentifierType()"
-                        ng-options="it.name for it in patientIdentifierTypes">
+                        ng-options="it.name for it in patientIdentifierTypes | filterNid">
                     <option></option>
                 </select>
             </div>
