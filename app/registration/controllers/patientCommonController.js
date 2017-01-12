@@ -92,9 +92,10 @@ angular.module('registration')
 
                 $scope.setPreferredId = function (identifier) {
                     angular.forEach($scope.patient.identifiers, function (p) {
-                        p.preferred = false; //set them all to false
+                        if (p.identifierType.uuid !== identifier.identifierType.uuid) {
+                            p.preferred = false; //set them all to false
+                        }
                     });
-                    identifier.preferred = true; //set the clicked one to true
                 };
 
                 $scope.stepForward = function (sref, validity) {
