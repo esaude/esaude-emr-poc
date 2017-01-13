@@ -43,7 +43,7 @@ Poc.Common.FormRequestMapper = (function () {
                                 obs.value : 
                                         JSON.stringify(realValueOfField(eachField.fieldConcept.concept.answers, obs.value));
                     }
-                    else if (eachField.fieldConcept.concept.answers.length === 2 && isTrueFalseQuestion(eachField.fieldConcept.concept.answers)) {
+                    else if (eachField.fieldConcept.concept.answers.length <= 3) {
                         eachField.value = JSON.stringify(realValueOfField(eachField.fieldConcept.concept.answers, obs.value));
                     } else {
                         eachField.value = (_.isEmpty(eachField.fieldConcept.concept.answers)) ? 
