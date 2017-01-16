@@ -1,7 +1,7 @@
 'use strict';
 
 angular
-    .module('social')
+    .module('pharmacy')
     .config(['$urlRouterProvider', '$stateProvider', '$bahmniTranslateProvider',
                 function ($urlRouterProvider, $stateProvider, $bahmniTranslateProvider) {
                     
@@ -62,5 +62,5 @@ angular
             });
             
             $stateProviderRef = $stateProvider;
-            $bahmniTranslateProvider.init({app: 'social', shouldMerge: true});
+            $bahmniTranslateProvider.init({app: 'pharmacy', shouldMerge: true});
     }]);
