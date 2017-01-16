@@ -42,13 +42,17 @@ Poc.Common.FormRequestMapper = (function () {
                         eachField.value[obs.value.uuid] = (_.isEmpty(eachField.fieldConcept.concept.answers)) ? 
                                 obs.value : 
                                         JSON.stringify(realValueOfField(eachField.fieldConcept.concept.answers, obs.value));
-                    }
-                    else if (eachField.fieldConcept.concept.answers.length <= 3) {
-                        eachField.value = JSON.stringify(realValueOfField(eachField.fieldConcept.concept.answers, obs.value));
+                    } else if (!eachField.fieldConcept.selectMultiple && 
+                        eachField.fieldConcept.concept.datatype.display === "Coded") {
+                        if (eachField.fieldConcept.concept.answers.length > 3) {
+                            eachField.value = realValueOfField(eachField.fieldConcept.concept.answers, obs.value);
+                        } else {
+                            eachField.value = JSON.stringify(realValueOfField(eachField.fieldConcept.concept.answers, obs.value));
+                        }
                     } else {
                         eachField.value = (_.isEmpty(eachField.fieldConcept.concept.answers)) ? 
-                                obs.value : 
-                                        realValueOfField(eachField.fieldConcept.concept.answers, obs.value);
+                            obs.value : 
+                                realValueOfField(eachField.fieldConcept.concept.answers, obs.value);
                     }
                 }
 
