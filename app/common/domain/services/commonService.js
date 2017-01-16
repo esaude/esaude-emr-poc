@@ -16,12 +16,13 @@ angular.module('bahmni.common.domain')
         });
     };
 
-          this.filterGroupReverse = function (data) {
+    this.filterGroupReverse = function (data) {
         var nonRetired = encounterService.filterRetiredEncoounters(data.results);
         var grouped = _.groupBy(nonRetired, function (element) {
-            return Bahmni.Common.Util.DateUtil.getDate(element.encounterDatetime);
+            return Bahmni.Common.Util.DateUtil.getDateWithoutTime(element.encounterDatetime);
         });
-            return _.values(grouped).reverse();
+        
+        return _.values(grouped).reverse();
     };
 
     this.findInList = function (list, attribute, value) {
