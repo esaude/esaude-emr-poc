@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('registration')
-    .controller('CreatePatientController', ['$rootScope', '$scope', '$location', 'patient', 'patientService',
+    .controller('CreatePatientController', ['$rootScope', '$scope', '$location', '$filter', 'patient', 'patientService',
                     'appService', 'openmrsPatientMapper', 'notifier',
-        function ($rootScope, $scope, $location, patientModel, patientService, appService, patientMapper, notifier) {
+        function ($rootScope, $scope, $location, $filter, patientModel, patientService, appService, patientMapper, notifier) {
 
                 $scope.actions = {};
                 $scope.addressHierarchyConfigs = appService.getAppDescriptor().getConfigValue("addressHierarchy");
@@ -37,7 +37,8 @@ angular.module('registration')
                     $scope.patient.uuid = patientProfileData.patient.uuid;
                     $scope.patient.name = patientProfileData.patient.person.names[0].display;
                     $scope.patient.isNew = true;
-                    notifier.success("Patient Created");
+                    var successMessage = $filter('translate')('PATIENT_CREATED');
+                    notifier.success(successMessage);
                     $location.url("/dashboard/" + $scope.patient.uuid);
                 };
         }]);
