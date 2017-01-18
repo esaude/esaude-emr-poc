@@ -42,8 +42,7 @@
                         <input type="text" class="form-control input-lg keyboard-in" name="{{pi.fieldName}}"
                                ng-model="pi.identifier"
                                record-availability-validator="/ws/rest/v1/patient"
-                               ui-mask="{{pi.uimask}}"
-                               ui-mask-placeholder ui-mask-placeholder-char="{{pi.uimaskplaceholderchar}}"
+                               ng-pattern="pi.identifierType.format"
                                required>
 
                     </div>
