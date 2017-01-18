@@ -4,17 +4,20 @@
                                                                                   class="asterick" ng-show="addressLevel.required">*</span></label>
         <div class="col-sm-10"
              ng-class="{'has-error': aForm.{{addressLevel.addressField}}.$invalid && showMessages}">
-            <div ng-messages for="aForm.{{addressLevel.addressField}}.$error" 
+            <div ng-messages for="aForm.{{addressLevel.addressField}}.$error"
                  ng-messages-include="../poc-common/form-display/views/error-messages.html"
                  ng-show="showMessages">
             </div>
-            <input type="text" name="{{addressLevel.addressField}}" id="{{addressLevel.addressField}}" 
+            <input type="text" name="{{addressLevel.addressField}}" id="{{addressLevel.addressField}}"
                    ng-required="{{addressLevel.required}}"
                    ng-model="address[addressLevel.addressField]"
                    bahmni-autocomplete source="getAddressEntryList(addressLevel.addressField)"
                    response-map="getAddressDataResults" on-select="addressFieldSelected(addressLevel.addressField)"
                    ng-change="clearFields(addressLevel.addressField)"
-                   class="form-control keyboard-in">
+                   class="form-control keyboard-in" reg-exp-require ="/^[a-zA-Z0-9._-\b\s]+$/"/>
         </div>
     </div>
 </div>
+
+
+
