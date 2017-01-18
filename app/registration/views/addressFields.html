@@ -14,7 +14,7 @@
                    bahmni-autocomplete source="getAddressEntryList(addressLevel.addressField)"
                    response-map="getAddressDataResults" on-select="addressFieldSelected(addressLevel.addressField)"
                    ng-change="clearFields(addressLevel.addressField)"
-                   class="form-control keyboard-in">
+                   class="form-control keyboard-in" ng-pattern="/^[a-zA-Z\s]*$/">
         </div>
     </div>
 </div>
