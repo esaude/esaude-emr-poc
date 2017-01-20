@@ -1,4 +1,4 @@
-(function() {
+
   'use strict';
 
   angular
@@ -15,7 +15,7 @@
     };
 
     function success(message) {
-      toastr.successa(message);
+      toastr.success(message);
     }
 
     function error(message) {
@@ -30,4 +30,4 @@
       toastr.warning(title, message);
     }
   }
-})();
+
