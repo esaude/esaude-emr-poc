@@ -309,7 +309,8 @@ module.exports = function (grunt) {
              '<%= yeoman.app %>/registration/index.html',
              '<%= yeoman.app %>/social/index.html',
              '<%= yeoman.app %>/vitals/index.html',
-             '<%= yeoman.app %>/clinic/index.html'],
+             '<%= yeoman.app %>/clinic/index.html',
+             '<%= yeoman.app %>/pharmacy/index.html'],
       css: '<%= yeoman.app %>/styles/**/*.css',
       options: {
         dest: '<%= yeoman.dist %>',
@@ -331,7 +332,8 @@ module.exports = function (grunt) {
              '<%= yeoman.dist %>/registration/index.html',
              '<%= yeoman.dist %>/social/index.html',
              '<%= yeoman.dist %>/vitals/index.html',
-             '<%= yeoman.dist %>/clinic/index.html'],
+             '<%= yeoman.dist %>/clinic/index.html',
+             '<%= yeoman.dist %>/pharmacy/index.html'],
       css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
       js: ['<%= yeoman.dist %>/scripts/{,*/}*.js'],
       options: {
@@ -397,7 +399,8 @@ module.exports = function (grunt) {
                         'registration/**/*.html',
                         'social/**/*.html',
                         'vitals/**/*.html',
-                        'clinic/**/*.html'
+                        'clinic/**/*.html',
+                        'pharmacy/**/*.html'
                     ],
                     //src: ['*.html'],
                     dest: '<%= yeoman.dist %>'
