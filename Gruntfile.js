@@ -33,7 +33,7 @@ module.exports = function (grunt) {
   };
 
   var generateReplacement = function () {
-      var modules = ['home', 'registration', 'social', 'clinic', 'vitals'];
+      var modules = ['home', 'registration', 'social', 'clinic', 'vitals', 'pharmacy'];
       var replacements = [];
 
       for (var i in modules) {
