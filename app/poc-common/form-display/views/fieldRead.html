@@ -26,7 +26,7 @@
             <div ng-if="fieldMeta.fieldConcept.concept.datatype.display === 'Coded'">
                 <div ng-if="fieldMeta.fieldConcept.selectMultiple" ng-repeat="answer in fieldMeta.fieldConcept.concept.answers">
                     <div ng-if="fieldMeta.value[answer.uuid] !== 'undefined'" ng-init="value = stringToJson(fieldMeta.value[answer.uuid])">
-                        {{value.display}},&nbsp;
+                        <span ng-if="value !== undefined">{{value.display}},&nbsp;</span>
                     </div>
                 </div>
                 <div ng-if="!fieldMeta.fieldConcept.selectMultiple">
