@@ -1,2 +1,10 @@
 {
+	"PHARMACY_HISTORY_FILA": "Histórico de FILA",
+	"PHARMACY_HISTORY_PICKUP": "Histórico de Levantamentos",
+	"PHARMACY_DISPENSATION": "Aviamento",
+	"PHARMACY_PICKUP_DATE": "Data de Lev",
+	"PHARMACY_REGIMEN": "Regime",
+	"PHARMACY_POSOLOGY": "Posologia",
+	"PHARMACY_QUANTITY": "Quantidade",
+	"PHARMACY_NEXT_PICKUP": "Próximo Lev"
 }

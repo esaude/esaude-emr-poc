@@ -1,2 +1,10 @@
 {
+	"PHARMACY_HISTORY_FILA": "FILA History",
+	"PHARMACY_HISTORY_PICKUP": "Pickup History",
+	"PHARMACY_DISPENSATION": "Dispensation",
+	"PHARMACY_PICKUP_DATE": "Pickup date",
+	"PHARMACY_REGIMEN": "Regimen",
+	"PHARMACY_POSOLOGY": "Posology",
+	"PHARMACY_QUANTITY": "Quantity",
+	"PHARMACY_NEXT_PICKUP": "Next Pickup"
 }

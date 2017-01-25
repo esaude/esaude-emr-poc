@@ -9,3 +9,14 @@
         <span class="glyphicon glyphicon-eye-open"></span>
     </button>
 </div><!-- patient header controls -->
+
+<div ng-include src="'../registration/views/visit.html'"></div>
+
+<div class="bg-info-border content-border border-rouded">
+    <ul class="nav nav-tabs">
+        <li role="presentation" data-toggle="tab"><a ui-sref="dashboard.filaHistory">{{'PHARMACY_HISTORY_FILA' | translate}}</a></li>
+        <li role="presentation" data-toggle="tab" class="active"><a ui-sref="dashboard.pickupHistory">{{'PHARMACY_HISTORY_PICKUP' | translate}}</a></li>
+        <li role="presentation" data-toggle="tab" class="active"><a ui-sref="dashboard.dispensation">{{'PHARMACY_DISPENSATION' | translate}}</a></li>
+    </ul>
+    <div ui-view=""></div>
+</div>
