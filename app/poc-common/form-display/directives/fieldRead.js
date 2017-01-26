@@ -18,8 +18,12 @@ angular.module('poc.common.formdisplay')
         })();
 
         $scope.stringToJson = function (str) {
+
+            if (str !== undefined) {
+                return JSON.parse(str);
+            }
+            return undefined;
           
-            return JSON.parse(str);
         };
         
         $scope.getFieldValidity = function (fieldUuid) {
