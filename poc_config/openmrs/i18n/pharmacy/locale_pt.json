@@ -13,5 +13,7 @@
 	"PHARMACY_PRESCRIBED": "Medicamentos Prescrito",
 	"PHARMACY_DISPENSE": "Aviamento",
 	"PHARMACY_AVAILABLE": "Disponível",
-	"PHARMACY_LIST_NO_ITEMS": "Nemhum item para mostrar"
+	"PHARMACY_LIST_NO_ITEMS": "Nemhum item para mostrar",
+	"PHARMACY_LEVEL_OF_ADHERENCE": "Aderência",
+	"PHARMACY_PRESCRIBED_BY": "Prescrito por"
 }

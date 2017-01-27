@@ -13,5 +13,7 @@
 	"PHARMACY_PRESCRIBED": "Drugs Prescribed",
 	"PHARMACY_DISPENSE": "Dispense",
 	"PHARMACY_AVAILABLE": "Available",
-	"PHARMACY_LIST_NO_ITEMS": "No items to display"
+	"PHARMACY_LIST_NO_ITEMS": "No items to display",
+	"PHARMACY_LEVEL_OF_ADHERENCE": "Level of adherence",
+	"PHARMACY_PRESCRIBED_BY": "Prescribed by"
 }

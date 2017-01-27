@@ -66,6 +66,8 @@
                                     existingModels.models.push(existingModel);
                                 });
                                 $scope.prescription = existingModels;
+                                $scope.prescription.provider = filteredResult.provider;
+                                $scope.prescriptiontNoResultsMessage = _.isEmpty($scope.prescription) ? "PHARMACY_LIST_NO_ITEMS" : null;
                             });
             };
 
@@ -83,6 +85,9 @@
 
             $scope.select = function (item) {
                 item.disable = true;
+                if (item.arvDrugs.value) {
+                    item.showNextPickupDate = true;
+                }
                 $scope.selectedItems.push(item);
                 updateDispenseListMessage();
             };
@@ -91,6 +96,17 @@
                 item.disable = false;
                 _.pull($scope.selectedItems, item);
                 updateDispenseListMessage();
+            };
+
+            $scope.calculateQuantityByDate = function (item) {
+                item.qty = 0;
+
+                if (item.arvDrugs.value) {
+                    var dateDiff = dateUtil.diffInDaysRegardlessOfTime(dateUtil.today(), item.nextPickupDate);
+                    item.qty = dateDiff * item.dosageAmount.value;
+                } else {
+                    item.qty = alculateItemQuantity(item.durationUnits, item.dosageAmount.value);
+                }
             };
 
             var calculateItemQuantity = function (durationUnit, dosage) {
