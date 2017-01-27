@@ -61,6 +61,10 @@ and open the template in the editor.
     margin: 5px;
 }
 
+.content-border-padding-regular {
+    padding: 10px;
+}
+
 .content-border-margin-regular-bottom {
     margin-bottom: 5px
 }

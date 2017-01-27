@@ -1,0 +1,138 @@
+<div ng-init="initPrescriptions()">
+    <div ng-show="!prescriptiontNoResultsMessage" class="row bg-info-border bg-info content-border-margin-regular content-border-padding-regular border-rouded">
+        <div class="col-sm-12 header-text-lg"><!-- last visit type and dates -->
+            <img src="../../images/medical-prescription.png" class="img-responsive inline-align" width="24" height="24" alt="prescription">
+            <span><b>{{'PHARMACY_PRESCRIBED_BY' | translate}}:</b> {{prescription.provider.display}}</span>
+            <span>{{'COMMON_ON' | translate}}: {{prescription.prescriptionDate | date:"MMM d, y"}}</span>
+        </div>
+    </div>
+
+    <div class="row content-border-margin-regular">
+        <div class="panel panel-primary">
+          <!-- Default panel contents -->
+          <div class="panel-heading">{{'PHARMACY_PRESCRIBED' | translate}}</div>
+
+          <!-- Table -->
+          <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>{{'COMMON_ITEM' | translate}}</th>
+                    <th>{{'PHARMACY_VALIDITY' | translate}}</th>
+                    <th>{{'PHARMACY_TO_PICKUP' | translate}}</th>
+                    <th>{{'PHARMACY_PICKEDUP' | translate}}</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in prescription.models" ng-init="item.disable = false">
+                    <td>
+                        <span class="text-lg">
+                            <strong ng-if="item.arvDrugs.value">
+                                {{item.arvDrugs.value.display}}
+                                <span ng-if="item.therapeuticLine.value">
+                                    ({{item.therapeuticLine.value.display}})
+                                </span>
+                            </strong>
+                            <strong ng-if="item.otherDrugs.value">{{item.otherDrugs.value.display}}</strong>
+                            <strong ng-if="item.prophilaxyDrugs.value">{{item.prophilaxyDrugs.value.display}}</strong>
+                            {{item.dosageAmount.value}}
+                            {{item.dosingUnits.value.display}}, {{item.dosgeFrequency.value.display}},
+                            {{item.drugRoute.value.display}} - {{item.duration.value}}
+                            {{item.durationUnits.value.display}} ({{item.dosingInstructions.value.display}})
+                        </span>
+                    </td>
+                    <td>{{calculateItemValidity(item.durationUnits, prescription.prescriptionDate) | date:"MMM d, y"}}</td>
+                    <td>{{calculateToPickupQty(item.durationUnits, item.dosageAmount.value)}}</td>
+                    <td>0.0</td>
+                    <td>
+                        <button class="btn btn-primary btn-lg" type="button" ng-click="select(item)" ng-disabled="item.disable">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr ng-show="prescriptiontNoResultsMessage">
+                    <td colspan="5" class="text-center">
+                        {{prescriptiontNoResultsMessage | translate}}
+                    </td>
+                </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <div class="panel panel-primary">
+          <!-- Default panel contents -->
+          <div class="panel-heading">{{'PHARMACY_DISPENSE' | translate}}</div>
+
+          <!-- Table -->
+          <table class="table table-striped" ng-form="dispenseForm">
+            <thead>
+                <tr>
+                    <th>{{'COMMON_ITEM' | translate}}</th>
+                    <th>{{'PHARMACY_NEXT_PICKUP' | translate}}<span class="asterick">*</span></th>
+                    <th>{{'PHARMACY_QUANTITY' | translate}}</th>
+                    <th>{{'PHARMACY_AVAILABLE' | translate}}</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in selectedItems">
+                    <td>
+                        <span class="text-lg">
+                            <strong ng-if="item.arvDrugs.value">
+                                {{item.arvDrugs.value.display}}
+                                <span ng-if="item.therapeuticLine.value">
+                                    ({{item.therapeuticLine.value.display}})
+                                </span>
+                            </strong>
+                            <strong ng-if="item.otherDrugs.value">{{item.otherDrugs.value.display}}</strong>
+                            <strong ng-if="item.prophilaxyDrugs.value">{{item.prophilaxyDrugs.value.display}}</strong>
+                            {{item.dosageAmount.value}}
+                            {{item.dosingUnits.value.display}}, {{item.dosgeFrequency.value.display}},
+                            {{item.drugRoute.value.display}} - {{item.duration.value}}
+                            {{item.durationUnits.value.display}} ({{item.dosingInstructions.value.display}})
+                        </span>
+                    </td>
+                    <td>
+                        <div ng-if="item.showNextPickupDate" class="form-group form-group-lg" 
+                        ng-class="{'has-error': dispenseForm.nextPickupDate.$invalid && showMessages}">
+                            <div class="col-sm-8">
+                                <div ng-messages for="dispenseForm.nextPickupDate.$error" 
+                                ng-messages-include="../poc-common/form-display/views/error-messages.html"
+                                ng-show="showMessages">
+                                </div>
+                                <input type="text" name="nextPickupDate" class="form-control" date-time format="yyyy-MM-dd" ng-model="item.nextPickupDate" min-view="date" auto-close="true" min-date="{{today}}" max-date="{{calculateItemValidity(item.durationUnits, prescription.prescriptionDate)}}" date-chenge="{{calculateQuantityByDate(item)}}">
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <span ng-if="item.arvDrugs.value">{{item.qty}}</span>
+                        <span ng-if="!item.arvDrugs.value">{{calculateToPickupQty(item.durationUnits, item.dosageAmount.value)}}</span>
+                    </td>
+                    <td>
+                        <label class="label label-success"><span class="glyphicon glyphicon-thumbs-up"></span></label>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger btn-lg" ng-click="remove(item)">
+                            <span class="glyphicon glyphicon-remove-sign"></span>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr ng-show="dispenseListNoResultsMessage">
+                    <td colspan="5" class="text-center">
+                        {{dispenseListNoResultsMessage | translate}}
+                    </td>
+                </tr>
+            </tfoot>
+          </table>
+          <div class="panel-footer go-to-right" ng-show="!dispenseListNoResultsMessage">
+                <button class="btn btn-primary btn-lg" type="button">
+                    <span class="glyphicon glyphicon-floppy-disk"></span>
+                </button>
+          </div>
+        </div>
+    </div>
+</div>

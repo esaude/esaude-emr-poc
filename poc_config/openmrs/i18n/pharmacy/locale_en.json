@@ -1,2 +1,19 @@
 {
+	"PHARMACY_HISTORY_FILA": "FILA History",
+	"PHARMACY_HISTORY_PICKUP": "Pickup History",
+	"PHARMACY_DISPENSATION": "Dispensation",
+	"PHARMACY_PICKUP_DATE": "Pickup date",
+	"PHARMACY_REGIMEN": "Regimen",
+	"PHARMACY_POSOLOGY": "Posology",
+	"PHARMACY_QUANTITY": "Quantity",
+	"PHARMACY_NEXT_PICKUP": "Next Pickup",
+	"PHARMACY_VALIDITY": "Validity",
+	"PHARMACY_PICKEDUP": "Picked-up",
+	"PHARMACY_TO_PICKUP": "To Pickup",
+	"PHARMACY_PRESCRIBED": "Drugs Prescribed",
+	"PHARMACY_DISPENSE": "Dispense",
+	"PHARMACY_AVAILABLE": "Available",
+	"PHARMACY_LIST_NO_ITEMS": "No items to display",
+	"PHARMACY_LEVEL_OF_ADHERENCE": "Level of adherence",
+	"PHARMACY_PRESCRIBED_BY": "Prescribed by"
 }

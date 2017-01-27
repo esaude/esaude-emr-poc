@@ -27,6 +27,24 @@ angular
                 },
                 resolve: { initialization: 'initialization' }
             })
+            .state('dashboard.filaHistory', {
+                url: '/fila-history',
+                templateUrl: 'views/fila-history.html',
+                controller: 'FilaHistoryController',
+                resolve: { initialization: 'initialization' }
+            })
+            .state('dashboard.pickupHistory', {
+                url: '/pickup-history',
+                templateUrl: 'views/pickup-history.html',
+                controller: 'PickupHistoryController',
+                resolve: { initialization: 'initialization' }
+            })
+            .state('dashboard.dispensation', {
+                url: '/dispensation',
+                templateUrl: 'views/dispensation.html',
+                controller: 'DispensationController',
+                resolve: { initialization: 'initialization' }
+            })
             .state('detailpatient', {
                 url: '/patient/detail/:patientUuid',
                 views: {
