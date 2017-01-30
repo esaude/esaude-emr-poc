@@ -17,6 +17,8 @@
 
             $scope.today = dateUtil.getDateWithoutTime(dateUtil.now());
 
+            $scope.prescriptiontNoResultsMessage = "PHARMACY_LIST_NO_ITEMS";
+
             $scope.initPrescriptions = function () {
                 var concepts = [Bahmni.Common.Constants.prescriptionConvSetConcept];
 
@@ -69,6 +71,7 @@
                                 $scope.prescription.provider = filteredResult.provider;
                                 $scope.prescriptiontNoResultsMessage = _.isEmpty($scope.prescription) ? "PHARMACY_LIST_NO_ITEMS" : null;
                             });
+
             };
 
             $scope.calculateItemValidity = function (durationUnit, prescriptionDate) {
