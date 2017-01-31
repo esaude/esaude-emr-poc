@@ -1,6 +1,6 @@
 'use strict';
 
-describe('DashboardController', function() {
+xdescribe('DashboardController', function() {
   var patientUuid, scope, $rootScope, controller, location, patientService, patientMapper,
     httpBackend, stateParams;
 
@@ -34,10 +34,10 @@ describe('DashboardController', function() {
     describe('getPatientUuid', function () {
 
       it('should make http call to get patient uuid', function() {
-
+      
         stateParams = { patientUuid: 'patientUuid'};
         expect(stateParams.patientUuid).toBeDefined();
-
+      
       });
 
 

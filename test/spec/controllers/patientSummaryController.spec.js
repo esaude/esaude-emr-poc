@@ -1,4 +1,4 @@
-describe('Controller: PatientSummaryController', function() {
+xdescribe('Controller: PatientSummaryController', function() {
   var scope, q, controller,  applicationService, $window,
     stateParams, $httpBackend, locationService, encounterService, $rootScope,
     observationsService, commonService;
