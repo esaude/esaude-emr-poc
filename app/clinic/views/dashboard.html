@@ -13,7 +13,7 @@
     </button>
 </div><!-- patient header controls -->
 <div class="row bg-info-border content-border border-rouded" ng-init="getAlerts()" ng-show="{{flags.length !== 0}}">
-    <span class="label label-warning content-border-margin-regular-sides" ng-repeat="flag in flags"><strong>{{'COMMON_ALERT' | translate}}:</strong> {{flag.name | translate}}</span>
+    <span class="label label-warning content-border-margin-regular-sides" ng-repeat="flag in flags">{{flag.name | translate}}</span>
 </div>
 
 <!--div ng-include src="'views/patient-state.html'" ng-controller="PatientHeaderController"></div><!--patient header -->
