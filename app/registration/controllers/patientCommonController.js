@@ -32,12 +32,13 @@ angular.module('registration')
                                 $scope.patient.identifiers.push({identifierType: value,
                                     identifier: null, preferred: false,
                                     location: localStorageService.cookie.get("emr.location").uuid,
-                                    fieldName : fieldName});
+                                    fieldName : fieldName,
+                                    uimask: "(99999999/99/99999)",
+                                    uimaskplaceholderchar: "_"});
                             }
                         });
                     });
                 };
-
 
                 $scope.selectIdentifierType = function () {
 
@@ -53,30 +54,22 @@ angular.module('registration')
                         if(found === undefined) {
                             var fieldName = patientIdentifierType.name.trim().replace(/[^a-zA-Z0-9]/g, '');
 
-                            if( fieldName == "BILHETEDEIDENTIDADEBI" ) {
+                         if( fieldName == "BILHETEDEIDENTIDADEBI" ) {
                               $scope.patient.identifiers.push({identifierType: patientIdentifierType,
                                 identifier: null, preferred: false,
                                 location: localStorageService.cookie.get("emr.location").uuid,
                                 fieldName : fieldName,
-                                uimask: "(9999999999999-A)",
+                                uimask: "(999999999?*?9?9-A)",
                                 uimaskplaceholderchar:"_"
                                 });
 
-                            } else if ( fieldName == "NIDSERVICOTARV") {
-                              $scope.patient.identifiers.push({identifierType: patientIdentifierType,
-                                identifier: null, preferred: false,
-                                location: localStorageService.cookie.get("emr.location").uuid,
-                                uimask: "(99999999/99/99999)",
-                                uimaskplaceholderchar:"_",
-                                fieldName : fieldName});
-                            } else {
+                            }  else {
                               $scope.patient.identifiers.push({identifierType: patientIdentifierType,
                                 identifier: null, preferred: false,
                                 location: localStorageService.cookie.get("emr.location").uuid,
                                 fieldName : fieldName
                               });
                             }
-
 
                         } else {
                             $scope.errorMessage = "PATIENT_INFO_IDENTIFIER_ERROR_EXISTING";
