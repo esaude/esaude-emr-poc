@@ -115,6 +115,7 @@
   "ONE_ENCOUNTER_NO_CD4": "O paciente tem em falta o teste de CD4",
   "NO_CD4_6_TO_6_MONTHS": "O paciente tem em falta o teste de CD4(por mais de 6 meses)",
   "ELIGIBLE": "O paciente deve iniciar o TARV",
+  "CTZ_PROPHILAXIS": "O Paciente deve suspender a profilaxia com CTZ",
   "CLINICAL_OBSERVATIONS": "Observações",
   "CLINICAL_OBSERVATIONS_PRIORITY": "Prioridade",
   "CLINICAL_OBSERVATIONS_INFO": "Informação",
@@ -171,13 +172,5 @@
   "DRUG_TYPE_NON_ARV": "Outros",
   "DRUG_TYPE_PROPHILAXYS": "Profilaxia",
   "PROPHILAXY_START_DATE": "Início",
-  "PROPHILAXY_END_DATE": "Fim",
-  "CD4 6 MONTHS LATER": "Teste de CD4 em falta(passam 6 meses desde a ultima consulta)",
-  "CD4 FIRST CONSULTATION": "Teste de CD4 em falta",
-  "CTZ_PROPHILAXIS": "Deve suspender a profilaxia com CTZ",
-  "DRUG START DATE": "Deve solicitar o diagnostico definitivo",
-  "ELIGIBLES": "Deve iniciar o TARV",
-  "LOW HEMOGLOBIN LEVEL": "O nível de emoglobina está baixo",
-  "VIRAL LOAD DROPPED": "Carga viral baixou. Em profilaxia",
-  "VIRALOGICAL FAILURE": "Está a ter falência terapeutica"
+  "PROPHILAXY_END_DATE": "Fim"
 }
