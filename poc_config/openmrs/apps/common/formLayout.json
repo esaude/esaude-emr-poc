@@ -580,7 +580,7 @@
         "id": "1",
         "name": "HISTÓRICO",
         "sref": ".historico",
-        "nextSref": ".exames",
+        "nextSref": ".exams",
         "fields": [
           {
             "name": "HISTÓRICO ACTUAL",
@@ -711,7 +711,7 @@
         "id": "1",
         "name": "Historico",
         "sref": ".historico",
-        "nextSref": ".exames",
+        "nextSref": ".exams",
         "fields": [
           {
             "name": "Histórico do paciente",
