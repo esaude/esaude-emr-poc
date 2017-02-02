@@ -41,7 +41,8 @@
         function initVitals() {
           var conceptsUuids =
           [Bahmni.Common.Constants.SYSTOLIC_BLOOD_PRESSURE, Bahmni.Common.Constants.DIASTOLIC_BLOOD_PRESSURE ,
-            Bahmni.Common.Constants.WEIGHT_KG, Bahmni.Common.Constants.HEIGHT_CM, Bahmni.Common.Constants.TEMPERATURE];
+            Bahmni.Common.Constants.WEIGHT_KG, Bahmni.Common.Constants.HEIGHT_CM, Bahmni.Common.Constants.TEMPERATURE,
+            Bahmni.Common.Constants.FREQUENCIA_CARDIACA,Bahmni.Common.Constants.RESPIRATORY_RATE];
           filterGroupReverseObs(conceptsUuids, "vitals");
         };
 

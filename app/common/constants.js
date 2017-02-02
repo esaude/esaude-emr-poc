@@ -26,7 +26,7 @@ Bahmni.Common = Bahmni.Common || {};
         "5456047f-8e81-4f68-b061-5ee10a2f0a11": "warning",
         "9b9c21dc-e1fb-4cd9-a947-186e921fa78c": "error"
     };
-    
+
     var drugPrescriptionConvSet = {
         arvDrugs: {uuid: "e1d83d4a-1d5f-11e0-b929-000c29ad1d07"},
         therapeuticLine: {uuid: "fdff0637-b36f-4dce-90c7-fe9f1ec586f0"},
@@ -51,7 +51,7 @@ Bahmni.Common = Bahmni.Common || {};
         thirdLine: "ade7656f-0ce3-461b-b7d8-121932dcd6a2"
     }
 
-    var prophilaxyDrugConcepts = ["e1d6b6dc-1d5f-11e0-b929-000c29ad1d07", "e1cf3114-1d5f-11e0-b929-000c29ad1d07", 
+    var prophilaxyDrugConcepts = ["e1d6b6dc-1d5f-11e0-b929-000c29ad1d07", "e1cf3114-1d5f-11e0-b929-000c29ad1d07",
                 "e1d4a7d4-1d5f-11e0-b929-000c29ad1d07", "e1d43e52-1d5f-11e0-b929-000c29ad1d07"];
 
     Bahmni.Common.Constants = {
@@ -209,7 +209,19 @@ Bahmni.Common = Bahmni.Common || {};
         isoniazidStartDateUuid: "6fa92ac9-0a96-4372-9e10-dd9683c19135",
         isoniazidEndDateUuid: "9e555978-3a02-4da4-855e-7b1bfc807347",
         prophilaxyDrugConcepts: prophilaxyDrugConcepts,
-        therapeuticLineQuestion: therapeuticLineQuestion
+        therapeuticLineQuestion: therapeuticLineQuestion,
+        ADULT_FOLLOWUP_ENCOUTER_UUID: "e278f956-1d5f-11e0-b929-000c29ad1d07",
+        CHILD_FOLLOWUP_ENCOUNTER_UUID: "e278fce4-1d5f-11e0-b929-000c29ad1d07",
+        LAB_ENCOUNTER_TYPE_UUID: "e2790f68-1d5f-11e0-b929-000c29ad1d07",
+        SYSTOLIC_BLOOD_PRESSURE: "e1e2e3d0-1d5f-11e0-b929-000c29ad1d07",
+        DIASTOLIC_BLOOD_PRESSURE: "e1e2e4e8-1d5f-11e0-b929-000c29ad1d07",
+        WEIGHT_KG: "e1e2e826-1d5f-11e0-b929-000c29ad1d07",
+        HEIGHT_CM: "e1e2e934-1d5f-11e0-b929-000c29ad1d07",
+        TEMPERATURE: "e1e2e70e-1d5f-11e0-b929-000c29ad1d07",
+        FREQUENCIA_CARDIACA: "e1e2e5f6-1d5f-11e0-b929-000c29ad1d07",
+        RESPIRATORY_RATE: "e1e4628c-1d5f-11e0-b929-000c29ad1d07"
+
+
 
     };
 })();
