@@ -3,24 +3,29 @@
     "id": "001",
     "formId": "e28b6096-1d5f-11e0-b929-000c29ad1d07",
     "name": "INFO SOCIAL - ADULTO",
+    "label": "COMMON_SOCIAL_INFO_FORM",
     "sufix": "anamnesis_a_adult",
     "parts": [
       {
         "id": "1",
         "name": "Pessoa de Referência",
+        "label": "COMMON_CONTACT_PERSON",
         "sref": ".reference",
         "nextSref": ".extra",
         "fields": [
           {
             "name": "Nome",
+            "label": "COMMON_NAME",
             "id": "e29f8ac6-1d5f-11e0-b929-000c29ad1d07"
           },
           {
             "name": "Apelido",
+            "label": "COMMON_SURNAME",
             "id": "e2a0bb8a-1d5f-11e0-b929-000c29ad1d07"
           },
           {
             "name": "Tel",
+            "label": "COMMON_CONTACT",
             "id": "e29f7a72-1d5f-11e0-b929-000c29ad1d07"
           }
         ]
@@ -28,23 +33,28 @@
       {
         "id": "2",
         "name": "Info Pessoal e Parceiros Sexuais",
+        "label": "COMMON_PERSONAL_INFO_AND_SEXUAL_PARTNERS",
         "sref": ".extra",
         "nextSref": ".children",
         "fields": [
           {
             "name": "Ocupação",
+            "label": "COMMOM_OCUPATION",
             "id": "e2a030ca-1d5f-11e0-b929-000c29ad1d07"
           },
           {
             "name": "Nível de Escolaridade",
+            "label": "COMMON_EDUCATION",
             "id": "e2a0b41e-1d5f-11e0-b929-000c29ad1d07"
           },
           {
             "name": "No de conviventes",
+            "label": "COMMON_NO_OF_HOUSE_HOLDERS",
             "id": "e2a0b5fe-1d5f-11e0-b929-000c29ad1d07"
           },
           {
             "name": "Serologia HIV do(s) cônjuge(s)",
+            "label": "COMMON_HIV_STATUS_OF_PARTNERS",
             "id": "e2a040ec-1d5f-11e0-b929-000c29ad1d07"
           }
         ]
@@ -52,19 +62,23 @@
       {
         "id": "3",
         "name": "Filhos",
+        "label": "COMMON_CHILDREN",
         "sref": ".children",
         "nextSref": ".social",
         "fields": [
           {
             "name": "No de filhos",
+            "label": "COMMON_NO_OF_CHILDREN",
             "id": "e2a0b248-1d5f-11e0-b929-000c29ad1d07"
           },
           {
             "name": "No de filhos testados",
+            "label": "COMMON_NO_OF_TESTED_CHILDREN",
             "id": "e2a0a8e8-1d5f-11e0-b929-000c29ad1d07"
           },
           {
             "name": "No de filhos HIV+",
+            "label": "COMMON_NO_OF_HIV_P_CHILDREN",
             "id": "e2a0abc2-1d5f-11e0-b929-000c29ad1d07"
           }
         ]
@@ -72,15 +86,18 @@
       {
         "id": "4",
         "name": "Social",
+        "label": "COMMON_SOCIAL",
         "sref": ".social",
         "nextSref": ".confirm",
         "fields": [
           {
             "name": "Geleira em casa",
+            "label": "COMMON_FRIDGE_AT_HOME",
             "id": "e2a0963c-1d5f-11e0-b929-000c29ad1d07"
           },
           {
             "name": "Electricidade em casa",
+            "label": "COMMON_ELECTRICITY_AT_HOME",
             "id": "e29f803a-1d5f-11e0-b929-000c29ad1d07"
           }
         ]
@@ -91,24 +108,29 @@
     "id": "002",
     "formId": "e28b6b0e-1d5f-11e0-b929-000c29ad1d07",
     "name": "INFO SOCIAL - PEDIATRIA",
+    "label": "COMMON_SOCIAL_INFO_FORM",
     "sufix": "anamnesis_a_child",
     "parts": [
       {
         "id": "1",
         "name": "Pessoa de Referência",
+        "label": "COMMON_CONTACT_PERSON",
         "sref": ".reference",
         "nextSref": ".mother_a",
         "fields": [
           {
             "name": "Nome",
+            "label": "COMMON_NAME",
             "id": "e2a0d11a-1d5f-11e0-b929-000c29ad1d07"
           },
           {
             "name": "Apelido",
+            "label": "COMMON_SURNAME",
             "id": "e2a1c6a6-1d5f-11e0-b929-000c29ad1d07"
           },
           {
             "name": "Tel",
+            "label": "COMMON_CONTACT",
             "id": "e2a0ee84-1d5f-11e0-b929-000c29ad1d07"
           }
         ]
@@ -116,19 +138,23 @@
       {
         "id": "2",
         "name": "Maternos A",
+        "label": "COMMON_MATERNAL_A",
         "sref": ".mother_a",
         "nextSref": ".mother_b",
         "fields": [
           {
             "name": "Nome",
+            "label": "COMMON_NAME",
             "id": "e2a0c5bc-1d5f-11e0-b929-000c29ad1d07"
           },
           {
             "name": "Idade",
+            "label": "COMMON_AGE",
             "id": "e2a1b008-1d5f-11e0-b929-000c29ad1d07"
           },
           {
             "name": "Viva",
+            "label": "COMMON_ALIVE",
             "id": "e2a19ed8-1d5f-11e0-b929-000c29ad1d07"
           }
         ]
@@ -136,23 +162,28 @@
       {
         "id": "3",
         "name": "Maternos B",
+        "label": "COMMON_MATERNAL_B",
         "sref": ".mother_b",
         "nextSref": ".father_a",
         "fields": [
           {
             "name": "Doente",
+            "label": "COMMON_SICK",
             "id": "e2a0eca4-1d5f-11e0-b929-000c29ad1d07"
           },
           {
             "name": "Doença",
+            "label": "COMMON_DISEASE",
             "id": "e2a1a072-1d5f-11e0-b929-000c29ad1d07"
           },
           {
             "name": "Resultado HIV",
+            "label": "COMMON_HIV_RESULT",
             "id": "e2a0ebb4-1d5f-11e0-b929-000c29ad1d07"
           },
           {
             "name": "Faz tratamento com Anti-retrovirais",
+            "label": "COMMON_ON_ART",
             "id": "e2a1bb3e-1d5f-11e0-b929-000c29ad1d07"
           }
         ]
@@ -160,19 +191,23 @@
       {
         "id": "4",
         "name": "Paternos A",
+        "label": "COMMON_PATERNAL_A",
         "sref": ".father_a",
         "nextSref": ".father_b",
         "fields": [
           {
             "name": "Nome",
+            "label": "COMMON_NAME",
             "id": "e2a1a874-1d5f-11e0-b929-000c29ad1d07"
           },
           {
             "name": "Idade",
+            "label": "COMMON_AGE",
             "id": "e2a0d8b8-1d5f-11e0-b929-000c29ad1d07"
           },
           {
             "name": "Vivo",
+            "label": "COMMON_ALIVE",
             "id": "e2a1c890-1d5f-11e0-b929-000c29ad1d07"
           }
         ]
@@ -180,23 +215,28 @@
       {
         "id": "5",
         "name": "Paternos B",
+        "label": "COMMON_PATERNAL_B",
         "sref": ".father_b",
         "nextSref": ".confirm",
         "fields": [
           {
             "name": "Doente",
+            "label": "COMMON_SICK",
             "id": "e2a0cb3e-1d5f-11e0-b929-000c29ad1d07"
           },
           {
             "name": "Doença",
+            "label": "COMMON_DISEASE",
             "id": "e2a1c4bc-1d5f-11e0-b929-000c29ad1d07"
           },
           {
             "name": "Resultado HIV",
+            "label": "COMMON_HIV_RESULT",
             "id": "e2a1c3cc-1d5f-11e0-b929-000c29ad1d07"
           },
           {
             "name": "Faz tratamento com Anti-retrovirais",
+            "label": "COMMON_ON_ART",
             "id": "e2a1c1e2-1d5f-11e0-b929-000c29ad1d07"
           }
         ]
@@ -207,16 +247,19 @@
     "id": "003",
     "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
     "name": "VITAIS - ADULTO",
+    "label": "COMMON_VITALS_FORM",
     "sufix": "vitals_adult",
     "parts": [
       {
         "id": "1",
         "name": "Vitais",
+        "label": "COMMON_VITALS",
         "sref": ".vitals",
         "nextSref": ".confirm",
         "fields": [
           {
             "name": "Temperatura",
+            "label": "COMMON_TEMPERATURE_C",
             "id": "e292af4a-1d5f-11e0-b929-000c29ad1d07",
             "constraints": {
               "min": "32",
@@ -225,6 +268,7 @@
           },
           {
             "name": "Peso",
+            "label": "COMMON_WEIGHT",
             "id": "e292b454-1d5f-11e0-b929-000c29ad1d07",
             "logics": {
               "calculateOnChange": "e1e2e826-1d5f-11e0-b929-000c29ad1d07,/,(,e1e2e934-1d5f-11e0-b929-000c29ad1d07,*,2,)"
@@ -236,6 +280,7 @@
           },
           {
             "name": "Altura",
+            "label": "COMMON_HEIGHT",
             "id": "e292b558-1d5f-11e0-b929-000c29ad1d07",
             "logics": {
               "defaultValueIsLastEntry": "e1e2e934-1d5f-11e0-b929-000c29ad1d07"
@@ -247,6 +292,7 @@
           },
           {
             "name": "Pressão Arterial Sistolica",
+            "label": "COMMON_SYSTOLIC_BLOOD_PRESSURE",
             "id": "e292b648-1d5f-11e0-b929-000c29ad1d07",
             "constraints": {
               "min": "0",
@@ -255,6 +301,7 @@
           },
           {
             "name": "Pressão Arterial Diastolica",
+            "label": "COMMON_DIASTOLIC_BLOOD_PRESSURE",
             "id": "e293ed7e-1d5f-11e0-b929-000c29ad1d07",
             "constraints": {
               "min": "0",
@@ -263,6 +310,7 @@
           },
           {
             "name": "Frequencia Cardiaca",
+            "label": "COMMON_PULSE",
             "id": "83cec426-ddce-4c01-a366-9a60bbcc371b",
             "constraints": {
               "min": "0",
@@ -270,7 +318,8 @@
             }
           },
           {
-            "name": "Frequencia Respiratoria",
+            "name": "Frequencia Respiratória",
+            "label": "COMMON_RESPIRATORY_RATE",
             "id": "5d0d0957-bf98-4508-9499-3047b67a9c3a"
           }
         ]
@@ -281,16 +330,19 @@
     "id": "004",
     "formId": "e28ac028-1d5f-11e0-b929-000c29ad1d07",
     "name": "VITAIS - PEDIATRIA",
+    "label": "COMMON_VITALS_FORM",
     "sufix": "vitals_child",
     "parts": [
       {
         "id": "1",
         "name": "Vitais",
+    	"label": "COMMON_VITALS",
         "sref": ".vitals",
         "nextSref": ".confirm",
         "fields": [
           {
             "name": "Temperatura",
+            "label": "COMMON_TEMPERATURE_C",
             "id": "e2938e56-1d5f-11e0-b929-000c29ad1d07",
             "constraints": {
               "min": "32",
@@ -299,6 +351,7 @@
           },
           {
             "name": "Peso",
+            "label": "COMMON_WEIGHT",
             "id": "e2939130-1d5f-11e0-b929-000c29ad1d07",
             "constraints": {
               "min": "0",
@@ -307,6 +360,7 @@
           },
           {
             "name": "Estatura",
+            "label": "COMMON_HEIGHT",
             "id": "e2939036-1d5f-11e0-b929-000c29ad1d07",
             "logics ": {
               "defaultValueIsLastEntry": "e1e2e934-1d5f-11e0-b929-000c29ad1d07"
@@ -318,6 +372,7 @@
           },
           {
             "name": "Frequencia Cardiaca",
+            "label": "COMMON_PULSE",
             "id": "1abdb9ec-acad-4a7c-820f-5de3642a02aa",
             "constraints": {
               "min": "0",
@@ -326,6 +381,7 @@
           },
           {
             "name": "Frequencia Respiratoria",
+            "label": "COMMON_RESPIRATORY_RATE",
             "id": "69ae6e37-586a-482c-bbff-02a7bfaacb5e"
           }
         ]
@@ -404,16 +460,19 @@
     "id": "006",
     "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
     "name": "OMS ESTADIO - ADULTO",
+    "label": "COMMON_WHO_FORM",
     "sufix": "oms_adult",
     "parts": [
       {
         "id": "1",
         "name": "ESTADIO I",
+        "label": "COMMON_STAGE_I",
         "sref": ".stage1",
         "nextSref": ".stage2",
         "fields": [
           {
             "name": "ESTADIO I",
+        	"label": "COMMON_STAGE_I",
             "id": "d7870f17-c91e-4e0f-b0db-eca7df93d128"
           }
         ]
@@ -421,11 +480,13 @@
       {
         "id": "2",
         "name": "ESTADIO II",
+        "label": "COMMON_STAGE_II",
         "sref": ".stage2",
         "nextSref": ".stage3",
         "fields": [
           {
             "name": "ESTADIO II",
+        	"label": "COMMON_STAGE_II",
             "id": "904c92e8-8f32-44a1-9126-d4173fc65ab6"
           }
         ]
@@ -433,11 +494,13 @@
       {
         "id": "3",
         "name": "ESTADIO III",
+        "label": "COMMON_STAGE_III",
         "sref": ".stage3",
         "nextSref": ".stage4",
         "fields": [
           {
             "name": "ESTADIO III",
+        	"label": "COMMON_STAGE_III",
             "id": "bd03f34d-c438-4052-b83a-b530ee8c7c0a"
           }
         ]
@@ -445,11 +508,13 @@
       {
         "id": "4",
         "name": "ESTADIO IV",
+        "label": "COMMON_STAGE_IV",
         "sref": ".stage4",
         "nextSref": ".stage5",
         "fields": [
           {
             "name": "ESTADIO IV",
+        	"label": "COMMON_STAGE_IV",
             "id": "b23769cb-f6c7-4fe0-b1b2-5187f283a40b"
           }
         ]
@@ -457,11 +522,13 @@
       {
         "id": "5",
         "name": "ESTADIO",
+        "label": "COMMON_CALCULATED_STAGE",
         "sref": ".stage5",
         "nextSref": ".confirm",
         "fields": [
           {
             "name": "ESTADIO",
+        	"label": "COMMON_CALCULATED_STAGE",
             "id": "e29399fa-1d5f-11e0-b929-000c29ad1d07",
             "disabled": true,
             "logics": {
@@ -477,16 +544,19 @@
     "id":"012",
     "formId": "e28ac028-1d5f-11e0-b929-000c29ad1d07",
     "name": "OMS ESTADIO - PEDIATRIA ",
+    "label": "COMMON_WHO_FORM",
     "sufix": "oms_child",
     "parts": [
       {
         "id": "1",
         "name": "ESTADIO I PEDIATRIA",
+        "label": "COMMON_STAGE_I",
         "sref": ".stage1",
         "nextSref": ".stage2",
         "fields": [
           {
-            "name": "ESTADIO I PEDIATRIA",
+            "name": "ESTADIO I PEDIATRIA",           
+        	"label": "COMMON_STAGE_I",
             "id": "9ad5fe09-a35c-4400-b216-ee72b0e76523"
           }
         ]
@@ -494,11 +564,13 @@
       {
         "id": "2",
         "name": "ESTADIO II PEDIATRIA",
+        "label": "COMMON_STAGE_II",
         "sref": ".stage2",
         "nextSref": ".stage3",
         "fields": [
           {
             "name": "ESTADIO II PEDIATRIA",
+        	"label": "COMMON_STAGE_II",
             "id": "675e6753-e4a8-4919-939c-bcea25d76553"
           }
         ]
@@ -506,11 +578,13 @@
       {
         "id": "3",
         "name": "ESTADIO III PEDIATRIA",
+        "label": "COMMON_STAGE_III",
         "sref": ".stage3",
         "nextSref": ".stage4",
         "fields": [
           {
             "name": "ESTADIO III PEDIATRIA",
+        	"label": "COMMON_STAGE_III",
             "id": "35c00f28-5ce7-4917-b83e-a8f41a9b626e"
           }
         ]
@@ -518,11 +592,13 @@
       {
         "id": "4",
         "name": "ESTADIO IV PEDIATRIA",
+        "label": "COMMON_STAGE_IV",
         "sref": ".stage4",
         "nextSref": ".stage5",
         "fields": [
           {
             "name": "ESTADIO IV PEDIATRIA",
+        	"label": "COMMON_STAGE_IV",
             "id": "b99023a4-1452-4f30-811f-6d96ad1028a8"
           }
         ]
@@ -535,6 +611,7 @@
         "fields": [
           {
             "name": "ESTADIO PEDIATRIA",
+        	"label": "COMMON_CALCULATED_STAGE",
             "id": "e2adeb20-1d5f-11e0-b929-000c29ad1d07",
             "disabled": true,
             "logics": {
@@ -549,21 +626,25 @@
     "id": "007",
     "formId": "65896366-17b2-4c3e-9cce-440edcfe7b4e",
     "name": "ASPECTOS RELEVANTES",
+    "label": "COMMON_RELEVANT_NOTES_FORM",
     "sufix": "aspectos_relevantes",
     "parts": [
       {
         "id": "1",
         "name": "ASPECTOS RELEVANTES",
+        "label": "COMMON_RELEVANT_NOTES",
         "sref": ".aspectos_relevantes",
         "nextSref": ".confirm",
         "fields": [
           {
             "name": "Notas",
+            "label": "COMMON_NOTES",
             "id": "24045d41-df1a-42c5-a323-5bcb98b6b291",
             "textSize": "8"
           },
           {
-            "name": "Tipo de Menságem",
+            "name": "Tipo de Mensagem",
+            "label": "COMMON_MESSAGE_TYPE",
             "id": "d277616c-66b7-49c2-b7c4-dee202bf3d34"
           }
         ]
@@ -574,16 +655,19 @@
     "id": "008",
     "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
     "name": "ANAMNESE E EXAME FÍSICO - ADULTO",
+    "label": "COMMON_ANAMNESE_BODY_EXAM_FORM",
     "sufix": "anamnese_adult",
     "parts": [
       {
         "id": "1",
         "name": "HISTÓRICO",
+        "label": "COMMON_PATIENT_STORY",
         "sref": ".historico",
         "nextSref": ".exams",
         "fields": [
           {
             "name": "HISTÓRICO ACTUAL",
+            "label": "COMMON_PATIENT_STORY",
             "id": "3bca43c2-6e30-4494-96d4-9890904c3247",
             "textSize": "10"
           }
@@ -592,26 +676,31 @@
       {
         "id": "2",
         "name": "EXAME FÍSICO",
+        "label": "COMMON_BODY_EXAM",
         "sref": ".exams",
         "nextSref": ".rastreios",
         "fields": [
           {
             "name": "Exames na cabeca e pescoco",
+            "label": "COMMON_HEAD_AND_NECK",
             "id": "6d2fb060-e530-45ca-82ce-7b9cf2afda69",
             "textSize": "8"
           },
           {
             "name": "Exames no torax",
+            "label": "COMMON_CHEST",
             "id": "d6b742a0-e8a5-493f-8b7b-4f7e32464574",
             "textSize": "8"
           },
           {
             "name": "Exames no Abdomen",
+            "label": "COMMON_ABDOMEN",
             "id": "f63aff74-c5b6-49a5-b883-094100a137bb",
             "textSize": "8"
           },
           {
             "name": "Exames nos membros superiores e inferiores",
+            "label": "COMMON_UPPER_AND_LOWER_LIMBS",
             "id": "3634395b-4802-4e42-aa48-8335baecf76e",
             "textSize": "8"
           }
@@ -620,19 +709,23 @@
       {
         "id": "3",
         "name": "Rastreios",
+        "label": "COMMON_SCREENING",
         "sref": ".rastreios",
         "nextSref": ".confirm",
         "fields": [
           {
             "name": "Tem sintomas sugestivas para ITS",
+            "label": "COMMON_STI_SYMPTOMS",
             "id": "824a6cdb-2a64-4b04-9589-fe84ea4168db"
           },
           {
             "name": "Tem sintomas sugestivas para TB",
+            "label": "COMMON_TB_SYMPTOMS",
             "id": "c3fa62c3-61ef-4cc5-a46b-8d96a345f48c"
           },
           {
             "name": "Tem sintomas sugestivas para Cripto",
+            "label": "COMMON_CRYPTOCOCCUS_SYMPTOMS",
             "id": "73d19562-3c80-451f-b673-88b3ef5c2dff"
           }
         ]
@@ -643,16 +736,19 @@
     "id": "009",
     "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
     "name": "DIAGNOSTICOS",
+    "label": "COMMON_DIAGNOSIS_FORM",
     "sufix": "diagnosticos_adulto",
     "parts": [
       {
         "id": "1",
         "name": "Tratamento de TB",
+        "label": "COMMON_TB_TREATMENT",
         "sref": ".tratemento_tb",
         "nextSref": ".diagnosis-adult",
         "fields": [
           {
             "name": "Data de Inicio",
+            "label": "COMMON_START_DATE",
             "id": "a2fda180-923d-426b-999a-27053b239c2a",
             "logics ": {
               "defaultValueIsLastEntry": "a2fda180-923d-426b-999a-27053b239c2a"
@@ -660,6 +756,7 @@
           },
           {
             "name": "Data de Fim",
+            "label": "COMMON_END_DATE",
             "id": "0fcf9f12-2f0c-462f-81ad-b9f0bc65bfea",
             "dateController": "a2fda180-923d-426b-999a-27053b239c2a"
           }
@@ -668,21 +765,25 @@
       {
         "id": "2",
         "name": "DIAGNOSTICOS",
+        "label": "COMON_DIAGNOSIS",
         "sref": ".diagnosis-adult",
         "nextSref": ".proxima_adult",
         "fields": [
           {
             "name": "Diagnostico 1",
+            "label": "COMMON_DIAGNOSIS_I",
             "id": "32b61bab-156b-4d6e-a938-644287e69b81",
             "searchBySource": "3f65bd34-26fe-102b-80cb-0017a47871b2"
           },
           {
             "name": "Diagnostico 2",
+            "label": "COMMON_DIAGNOSIS_II",
             "id": "d516b911-032b-4ffc-9bc9-01978eb0ba41",
             "searchBySource": "3f65bd34-26fe-102b-80cb-0017a47871b2"
           },
           {
             "name": "Diagnostico 3",
+            "label": "COMMON_DIAGNOSIS_OTHER",
             "id": "e2939310-1d5f-11e0-b929-000c29ad1d07"
           }
         ]
@@ -690,11 +791,13 @@
       {
         "id": "3",
         "name": "Próxima visita",
+        "label": "COMMON_NEXT_VISIT",
         "sref": ".proxima_adult",
         "nextSref": ".confirm",
         "fields": [
           {
             "name": "Data da próxima visita",
+        	"label": "COMMON_NEXT_VISIT_DATE",
             "id": "e2ade512-1d5f-11e0-b929-000c29ad1d07"
           }
         ]
@@ -705,16 +808,19 @@
     "id": "010",
     "formId": "e28ac028-1d5f-11e0-b929-000c29ad1d07",
     "name": "ANAMNESE E EXAME FÍSICO - PEDIATRIA",
+    "label": "COMMON_ANAMNESE_BODY_EXAM_FORM",
     "sufix": "anamnese_child",
     "parts": [
       {
         "id": "1",
         "name": "Historico",
+        "label": "COMMON_PATIENT_STORY",
         "sref": ".historico",
         "nextSref": ".exams",
         "fields": [
           {
             "name": "Histórico do paciente",
+            "label": "COMMON_PATIENT_STORY",
             "id": "a39a036d-a8a9-4a19-ad66-b8fb124dfa76",
             "textSize": "10"
           }
@@ -723,26 +829,31 @@
       {
         "id": "2",
         "name": "EXAME FÍSICO",
+        "label": "COMMON_BODY_EXAM",
         "sref": ".exams",
         "nextSref": ".rastreios",
         "fields": [
           {
             "name": "Exames na cabeca e pescoco",
+            "label": "COMMON_HEAD_AND_NECK",
             "id": "3be36552-5a5f-4f89-9488-df8e3890e9b9",
             "textSize": "8"
           },
           {
             "name": "Exames no torax",
+            "label": "COMMON_CHEST",
             "id": "c803c131-b56a-4876-8511-0bffb1c1162c",
             "textSize": "8"
           },
           {
             "name": "Exames no Abdomen",
+            "label": "COMMON_ABDOMEN",
             "id": "39ce7671-574e-4448-90c8-d3e251d4af56",
             "textSize": "8"
           },
           {
             "name": "Exames nos membros superiores e inferiores",
+            "label": "COMMON_UPPER_AND_LOWER_LIMBS",
             "id": "8cfe4be4-f4a4-42aa-ab19-725d330138cf",
             "textSize": "8"
           }
@@ -751,15 +862,18 @@
       {
         "id": "3",
         "name": "Rastreios",
+        "label": "COMMON_SCREENING",
         "sref": ".rastreios",
         "nextSref": ".confirm",
         "fields": [
           {
             "name": "Tem sintomas sugestivas para TB",
+            "label": "COMMON_TB_SYMPTOMS",
             "id": "c0d9974a-4a1c-4b95-97fc-4c39e658502f"
           },
           {
             "name": "Tem sintomas sugestivas para Cripto",
+            "label": "COMMON_CRYPTOCOCCUS_SYMPTOMS",
             "id": "63325126-4f16-427c-a3e8-3061667da33d"
           }
         ]
@@ -770,16 +884,19 @@
     "id": "011",
     "formId": "e28ac028-1d5f-11e0-b929-000c29ad1d07",
     "name": "DIAGNOSTICOS - PEDIATRIA",
+    "label": "COMMON_DIAGNOSIS_FORM",
     "sufix": "diagnosticos_child",
     "parts": [
       {
         "id": "1",
         "name": "Tratamento de TB",
+        "label": "COMMON_TB_TREATMENT",
         "sref": ".tratemento_tb",
         "nextSref": ".diagnosticos_child",
         "fields": [
           {
             "name": "Data de Inicio",
+            "label": "COMMON_START_DATE",
             "id": "6c0d2b75-b929-4beb-b1a7-5bb714d6f6d5",
             "logics ": {
               "defaultValueIsLastEntry": "6c0d2b75-b929-4beb-b1a7-5bb714d6f6d5"
@@ -787,6 +904,7 @@
           },
           {
             "name": "Data de Fim",
+            "label": "COMMON_END_DATE",
             "id": "67ef8b0f-5de1-4b70-add8-4510a2accaa9",
             "dateController": "6c0d2b75-b929-4beb-b1a7-5bb714d6f6d5"
           }
@@ -795,21 +913,25 @@
       {
         "id": "2",
         "name": "DIAGNOSTICOS",
+        "label": "COMON_DIAGNOSIS",
         "sref": ".diagnosticos_child",
         "nextSref": ".proxima_child",
         "fields": [
           {
             "name": "Diagnostico 1",
+            "label": "COMMON_DIAGNOSIS_I",
             "id": "d9e77865-6b9f-4130-a768-72b9df4a69ba",
             "searchBySource": "3f65bd34-26fe-102b-80cb-0017a47871b2"
           },
           {
             "name": "Diagnostico 2",
+            "label": "COMMON_DIAGNOSIS_II",
             "id": "c117109f-7eca-464c-9660-f2d17d4cdfd5",
             "searchBySource": "3f65bd34-26fe-102b-80cb-0017a47871b2"
           },
           {
             "name": "Diagnostico 3",
+            "label": "COMMON_DIAGNOSIS_OTHER",
             "id": "e293e11c-1d5f-11e0-b929-000c29ad1d07"
           }
         ]
@@ -817,11 +939,13 @@
       {
         "id": "3",
         "name": "Próxima visita",
+        "label": "COMMON_NEXT_VISIT",
         "sref": ".proxima_child",
         "nextSref": ".confirm",
         "fields": [
           {
             "name": "Data da próxima visita",
+          	"label": "COMMON_NEXT_VISIT_DATE",
             "id": "e2ade81e-1d5f-11e0-b929-000c29ad1d07"
           }
         ]

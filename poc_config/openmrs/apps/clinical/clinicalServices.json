@@ -2,7 +2,7 @@
     {
         "id": "003",
         "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
-        "label": "VITAIS - ADULTO",
+        "label": "COMMON_VITALS_FORM",
         "url": "/vitals/adult",
         "minOccur": "0",
         "maxOccur": "-1",
@@ -14,7 +14,7 @@
     {
         "id": "004",
         "formId": "e28ac028-1d5f-11e0-b929-000c29ad1d07",
-        "label": "VITAIS - PEDIATRIA",
+        "label": "COMMON_VITALS_FORM",
         "url": "/vitals/child",
         "minOccur": "0",
         "maxOccur": "-1",
@@ -26,7 +26,7 @@
     {
         "id": "006",
         "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
-        "label": "OMS ESTADIO - ADULTO",
+        "label": "COMMON_WHO_FORM",
         "url": "/oms/adult",
         "minOccur": "0",
         "maxOccur": "-1",
@@ -39,7 +39,7 @@
     {
         "id": "012",
         "formId": "e28ac028-1d5f-11e0-b929-000c29ad1d07",
-        "label": "OMS ESTADIO - PEDIATRIA",
+        "label": "COMMON_WHO_FORM",
         "url": "/oms/child",
         "minOccur": "0",
         "maxOccur": "-1",
@@ -53,7 +53,7 @@
 
         "id": "007",
         "formId": "65896366-17b2-4c3e-9cce-440edcfe7b4e",
-        "label": "ASPECTOS RELEVANTES",
+        "label": "COMMON_RELEVANT_NOTES_FORM",
         "url": "/story",
         "minOccur": "0",
         "maxOccur": "-1",
@@ -65,7 +65,7 @@
     {
         "id": "008",
         "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
-        "label": "ANAMNESE E EXAME FÍSICO - ADULTO",
+        "label": "COMMON_ANAMNESE_BODY_EXAM_FORM",
         "url": "/anamnese/adult",
         "minOccur": "0",
         "maxOccur": "-1",
@@ -78,7 +78,7 @@
      {
         "id": "010",
         "formId": "e28ac028-1d5f-11e0-b929-000c29ad1d07",
-        "label": "ANAMNESE E EXAME FÍSICO - PEDIATRIA",
+        "label": "COMMON_ANAMNESE_BODY_EXAM_FORM",
         "url": "/anamnese/child",
         "minOccur": "0",
         "maxOccur": "-1",
@@ -91,7 +91,7 @@
     {
         "id": "009",
         "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
-        "label": "DIAGNOSTICO - ADULTO",
+        "label": "COMMON_DIAGNOSIS_FORM",
         "url": "/diagnostics/adult",
         "minOccur": "0",
         "maxOccur": "-1",
@@ -104,7 +104,7 @@
     {
         "id": "011",
         "formId": "e28ac028-1d5f-11e0-b929-000c29ad1d07",
-        "label": "DIAGNOSTICO - PEDIATRIA",
+        "label": "COMMON_DIAGNOSIS_FORM",
         "url": "/diagnostics/child",
         "minOccur": "0",
         "maxOccur": "-1",
