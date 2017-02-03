@@ -79,6 +79,14 @@
     "PATIENT_DAILY_HOSPITAL_PROCESS" : "DAILY HOSPITAL PROCESS",
     "SIMILAR_PATIENTS": "Similar patients",
     "PATIENT_INFO_OTHER_NAMES_PLACEHOLDER": "Other names",
-    "PATIENT_INFO_OTHER_NAMES" : "Other names"
+    "PATIENT_INFO_OTHER_NAMES" : "Other names",
+    "Pais": "Country",
+    "Provincia": "Province",
+    "Distrito": "District",
+    "Posto Administrativo": "Division",
+    "Localidade": "Location",
+    "Bairro":"Neighborhood",
+    "Celula":"Celll",
+    "Av./Rua/Casa": "Av./Street/Home"
 
 }
