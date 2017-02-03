@@ -1,7 +1,7 @@
 <div ng-form="aForm" class="form-group form-group-lg"
      ng-class="{'has-error': aForm.{{fieldId}}.$invalid && $parent.submitted}" ng-init="initFieldModel()" ng-hide="field.hidden">
     <label class="col-sm-4 control-label">
-        {{field.name}}:
+        {{field.label | translate}}:
         <span ng-if="fieldModel.field.required" class="asterick">*</span>
     </label>
     <div class="col-sm-8"
@@ -16,13 +16,12 @@
 
             <div ng-switch-when="Text">
                 <input ng-if="!field.textSize" type="text" name="{{fieldId}}" class="form-control keyboard-in"
-                       placeholder="{{fieldModel.field.name}}"
+                       placeholder="{{field.label | translate}}"
                        ng-model="fieldModel.value"
                        ng-required="{{fieldModel.field.required}}">
 
                 <textarea ng-if="field.textSize" type="text" name="{{fieldId}}" class="form-control keyboard-in"
-                       placeholder="{{fieldModel.field.name}}"
-                       placeholder="{{fieldModel.field.name}}"
+                       placeholder="{{field.label | translate}}"
                        ng-model="fieldModel.value"
                        size="{{field.textSize}}"
                        ng-required="{{fieldModel.field.required}}"></textarea>
@@ -30,7 +29,7 @@
 
             <div ng-switch-when="Numeric">
                 <input name="{{fieldId}}" type="number" class="form-control keyboard-in"
-                       placeholder="{{fieldModel.field.name}}"
+                       placeholder="{{field.label | translate}}"
                        ng-model="fieldModel.value"
                        ng-required="{{fieldModel.field.required}}"
                        ng-min="{{(field.constraints) ? field.constraints.min : ''}}"
@@ -41,7 +40,7 @@
                 <input
 
                        name="{{fieldId}}" type="text" class="form-control keyboard-in"
-                       placeholder="{{fieldModel.field.name}}"
+                       placeholder="{{field.label | translate}}"
                        ng-model="fieldModel.value"
                        date-time min-view="date" auto-close="true"
                        ng-required="{{fieldModel.field.required}}">
@@ -56,7 +55,7 @@
                 </span>
                 <input ng-disabled="{{field.disabled}}"
                        name="{{fieldId}}" type="text" class="form-control keyboard-in"
-                       placeholder="{{fieldModel.field.name}}"
+                       placeholder="{{field.label | translate}}"
                        ng-model="fieldModel.value"
                        date-time format="yyyy-MM-dd" min-view="date" auto-close="true"
                        ng-required="{{fieldModel.field.required}}">
