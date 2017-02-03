@@ -2,6 +2,9 @@
 
 angular.module('common.patient').factory('openmrsPatientMapper', ['patient', '$rootScope', 'age',
     function (patientModel, $rootScope, age) {
+
+        var dateUtil = Bahmni.Common.Util.DateUtil;
+
         var whereAttributeTypeExists = function (attribute) {
                 return $rootScope.patientConfiguration.get(attribute.attributeType.uuid);
             },
@@ -21,14 +24,8 @@ angular.module('common.patient').factory('openmrsPatientMapper', ['patient', '$r
 
                 });
             },
-            pad = function (number) {
-                return number > 9 ? number.toString() : "0" + number.toString();
-            },
             parseDate = function (dateStr) {
                 return dateStr ? new Date(dateStr) : dateStr;
-            },
-            getDateStr = function (date) {
-                return date ? pad(date.getDate()) + "-" + pad(date.getMonth() + 1) + "-" + date.getFullYear() : "";
             },
             mapAddress = function (preferredAddress) {
                 return preferredAddress || {};
@@ -42,7 +39,7 @@ angular.module('common.patient').factory('openmrsPatientMapper', ['patient', '$r
                 patient.fullName = openmrsPatient.person.preferredName.givenName
                     + (openmrsPatient.person.preferredName.middleName ? " " + openmrsPatient.person.preferredName.middleName + " " : " ")
                     + openmrsPatient.person.preferredName.familyName;
-                patient.birthdate = !birthdate ? "" : getDateStr(birthdate);
+                patient.birthdate = !birthdate ? "" : birthdate;
                 patient.birthdateEstimated = openmrsPatient.person.birthdateEstimated;
                 patient.age = birthdate ? age.fromBirthDate(openmrsPatient.person.birthdate) : null;
                 patient.gender = openmrsPatient.person.gender;

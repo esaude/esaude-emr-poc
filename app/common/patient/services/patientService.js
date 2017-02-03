@@ -40,11 +40,10 @@ angular.module('common.patient')
             });
         };
 
-        var generateIdentifier = function (patient) {
-            var idgenJson = {"identifierSourceName": patient.identifierPrefix.prefix};
-            return $http.post(openmrsUrl + "/ws/rest/v1/idgen", idgenJson, {
-                withCredentials: true,
-                headers: {"Accept": "text/plain", "Content-Type": "application/json"}
+        var updatePatientIdentifier = function (patientUuid, identifierUuid, identifier) {
+            return $http.post(openmrsUrl + "/ws/rest/v1/patient/" + patientUuid + "/identifier/" + identifierUuid, identifier, {
+                withCredentials:true,
+                headers: {"Accept": "application/json", "Content-Type": "application/json"}
             });
         };
 
@@ -68,9 +67,9 @@ angular.module('common.patient')
             search: search,
             getIdentifierTypes: getIdentifierTypes,
             create: create,
-            generateIdentifier: generateIdentifier,
             update: update,
             get: get,
-            getPatientIdentifiers: getPatientIdentifiers
+            getPatientIdentifiers: getPatientIdentifiers,
+            updatePatientIdentifier: updatePatientIdentifier
         };
     }]);
