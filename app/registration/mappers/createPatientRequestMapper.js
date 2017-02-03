@@ -6,6 +6,7 @@ Bahmni.Registration.CreatePatientRequestMapper = (function () {
     }
 
     CreatePatientRequestMapper.prototype.mapFromPatient = function (patientAttributeTypes, patient) {
+        var dateUtil = Bahmni.Common.Util.DateUtil;
         var constants = Bahmni.Registration.Constants;
         var openMRSPatient = {
             patient: {
@@ -19,7 +20,7 @@ Bahmni.Registration.CreatePatientRequestMapper = (function () {
                         }
                     ],
                     addresses: [_.pick(patient.address, constants.allAddressFileds) ],
-                    birthdate: this.getBirthdate(patient.birthdate, patient.age),
+                    birthdate: this.getBirthdate(dateUtil.getDateStr(patient.birthdate), patient.age),
                     birthdateEstimated: patient.birthdateEstimated,
                     gender: patient.gender,
                     personDateCreated: patient.registrationDate,

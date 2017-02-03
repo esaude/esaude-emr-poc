@@ -76,7 +76,7 @@ describe('CreatePatientRequestMapper', function () {
         "cityVillage": "vill",
         "countyDistrict": "dist"
       },
-      "birthdate": moment(date).format("DD-MM-YYYY"),
+      "birthdate": date,
       "age": {
         "years": 0,
         "months": 4,
