@@ -215,12 +215,7 @@ angular.module('poc.common.formdisplay')
                 })
                 .then(function (response) {
                     return response.data.results.map(function (concept) {
-                        return {
-                            'value': concept.name.name,
-                            'concept': concept,
-                            uuid: concept.uuid,
-                            display: concept.display
-                        };
+                        return concept;
                     });
                 });
         };
