@@ -22,12 +22,28 @@
             <div class="panel-heading">
                 <h3 class="panel-title">{{'CLINIC_PATIENT_DIAGNOSIS' | translate}}</h3>
             </div>
-        <table class="table" ng-hide="showDivDiagnosis">
+        	<table class="table" ng-hide="showDivDiagnosis">
                 <tbody>
                     <tr ng-repeat="diagn in diagnosis">
                         <td>{{diagn.concept.name.display}}</td>
                         <td>{{isObject(diagn.value) ? diagn.value.display : diagn.value}}</td>
                         <td>{{'CLINIC_PATIENT_DIAGNOSED' | translate}} {{'COMMON_ON' | translate}} {{diagn.obsDatetime | date:"MMM d, y"}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="panel panel-primary panel-marginless-sides" ng-init="initICD10Diagnosis()"
+           ng-click="showDivICD10Diagnosis=!showDivICD10Diagnosis">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{'CLINIC_PATIENT_DIAGNOSIS_ICD10' | translate}}</h3>
+            </div>
+        	<table class="table" ng-hide="showDivICD10Diagnosis">
+                <tbody>
+                    <tr ng-repeat="diagn in icdDiagnosis">
+                        <td>{{isObject(diagn.value) ? diagn.value.display : diagn.value}}</td>
+                        <td>{{'CLINIC_PATIENT_DIAGNOSED' | translate}} {{'COMMON_ON' | translate}} {{diagn.obsDatetime | date:"MMM d, y"}}</td>
+                        <td>{{'COMMON_BY' | translate}} {{diagn.encounter.provider.display}}</td>
                     </tr>
                 </tbody>
             </table>
