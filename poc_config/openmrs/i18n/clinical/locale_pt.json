@@ -87,6 +87,7 @@
   "CLINIC_PATIENT_VISIT_HISTORY": "Histórico de Visitas",
   "CLINIC_PATIENT_VISIT": "Visita",
   "CLINIC_PATIENT_DIAGNOSIS": "Diagnosticos (Dx)",
+  "CLINIC_PATIENT_DIAGNOSIS_ICD10": "Diagnosticos (Dx) CID-10",
   "CLINIC_PATIENT_DIAGNOSED": "Diagnosticado",
   "CLINIC_PATIENT_CHARTS": "Gráficos",
   "CLINIC_PATIENT_CHARTS_CD4_TREND": "Tendência de CD4",
