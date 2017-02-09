@@ -18,25 +18,40 @@ function DispensationHistoryController($scope, $rootScope, $stateParams, encount
         var pharmacyEncounterTypeUuid = "d82c441d-72cb-440f-b007-d3105ca7f58a";
 
         encounterService.getEncountersForEncounterType(patientUuid, pharmacyEncounterTypeUuid).success(function (data) {
-            $scope.pickups = commonService.filterReverse(data);
-            console.log($scope.pickups);
+            $scope.pickups = prepareObservations(commonService.filterReverse(data));
         });
             
     })();
 
-    $scope.valueOfField = function(conceptUuid, observations) {
 
-        var fieldResult;
+    var prepareObservations = function (encounters) {
 
-        _.forEach(observations, function (observations) {
-           
-            var field = _.find(observations.groupMembers, function (member) {
-                return member.concept.uuid === conceptUuid;
+        var observations = [];
+
+        _.forEach(encounters, function (encounter) {
+                
+            _.forEach(encounter.obs, function (observation) {
+                
+                var obs = {
+
+                    encounterDatetime : encounter.encounterDatetime,
+                    provider : encounter.provider.display,
+                    members : observation.groupMembers
+                }
+
+                observations.push(obs);
             });
-
-            fieldResult = field;
         });
 
-        return fieldResult;
-    }
+        return observations;
+    };
+
+    $scope.valueOfField = function(conceptUuid, members) {
+
+        var field = _.find(members, function (member) {
+            return member.concept.uuid === conceptUuid;
+        });
+      
+        return field;;
+    };
 }

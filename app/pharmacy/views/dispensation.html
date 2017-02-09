@@ -54,7 +54,7 @@
           </table>
         </div>
 
-        <div class="panel panel-primary">
+        <div class="panel panel-primary" ng-form>
           <!-- Default panel contents -->
           <div class="panel-heading">{{'PHARMACY_DISPENSE' | translate}}</div>
 
@@ -100,7 +100,7 @@
                                 ng-messages-include="../poc-common/form-display/views/error-messages.html"
                                 ng-show="showMessages">
                                 </div>
-                                <input type="text" name="quantity" class="form-control" ng-model="item.quantity" ng-change="updatePickUp(item)" size="4" min="1">
+                                <input type="text" name="quantity" class="form-control" ng-model="item.quantity" ng-change="updatePickUp(item)" size="4" min="1" required>
                             </div>
                         </div>
                         <span ng-if="!item.conceptParentUuid">{{item.order.quantity}}</span>
