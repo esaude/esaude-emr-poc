@@ -33,10 +33,10 @@ angular
                 controller: 'FilaHistoryController',
                 resolve: { initialization: 'initialization' }
             })
-            .state('dashboard.pickupHistory', {
-                url: '/pickup-history',
-                templateUrl: 'views/pickup-history.html',
-                controller: 'PickupHistoryController',
+            .state('dashboard.dispensationHistory', {
+                url: '/dispensation-history',
+                templateUrl: 'views/dispensation-history.html',
+                controller: 'DispensationHistoryController',
                 resolve: { initialization: 'initialization' }
             })
             .state('dashboard.dispensation', {

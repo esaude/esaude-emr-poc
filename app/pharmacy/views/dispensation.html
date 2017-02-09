@@ -2,7 +2,7 @@
     <div ng-show="!prescriptiontNoResultsMessage" class="row bg-info-border bg-info content-border-margin-regular content-border-padding-regular border-rouded">
         <div class="col-sm-12 header-text-lg"><!-- last visit type and dates -->
             <img src="../../images/medical-prescription.png" class="img-responsive inline-align" width="24" height="24" alt="prescription">
-            <span><b>{{'PHARMACY_PRESCRIBED_BY' | translate}}:</b> {{prescription.provider.display}}</span>
+            <span><b>{{'PHARMACY_PRESCRIBED_BY' | translate}}:</b> {{prescription.provider}}</span>
             <span>{{'COMMON_ON' | translate}}: {{prescription.prescriptionDate | date:"MMM d, y"}}</span>
         </div>
     </div>
@@ -24,26 +24,19 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="item in prescription.models" ng-init="item.disable = false">
+                <tr ng-repeat="item in prescriptions" ng-init="item.disable = false">
                     <td>
                         <span class="text-lg">
-                            <strong ng-if="item.arvDrugs.value">
-                                {{item.arvDrugs.value.display}}
-                                <span ng-if="item.therapeuticLine.value">
-                                    ({{item.therapeuticLine.value.display}})
-                                </span>
-                            </strong>
-                            <strong ng-if="item.otherDrugs.value">{{item.otherDrugs.value.display}}</strong>
-                            <strong ng-if="item.prophilaxyDrugs.value">{{item.prophilaxyDrugs.value.display}}</strong>
-                            {{item.dosageAmount.value}}
-                            {{item.dosingUnits.value.display}}, {{item.dosgeFrequency.value.display}},
-                            {{item.drugRoute.value.display}} - {{item.duration.value}}
-                            {{item.durationUnits.value.display}} ({{item.dosingInstructions.value.display}})
+                            <strong>{{item.order.concept.display}}</strong>
+                            {{item.order.dose}}
+                            {{item.order.doseUnits.display}}, {{item.order.frequency.display}},
+                            {{item.order.route.display}} - {{item.order.duration}}
+                            {{item.order.durationUnits.display}} ({{item.dosingInstructions}})
                         </span>
                     </td>
-                    <td>{{calculateItemValidity(item.durationUnits, prescription.prescriptionDate) | date:"MMM d, y"}}</td>
-                    <td>{{calculateToPickupQty(item.durationUnits, item.dosageAmount.value)}}</td>
-                    <td>0.0</td>
+                    <td>{{item.order.autoExpireDate | date:"MMM d, y"}}</td>
+                    <td>{{item.drugToPickUp}}</td>
+                    <td>{{item.drugPickedUp}}</td>
                     <td>
                         <button class="btn btn-primary btn-lg" type="button" ng-click="select(item)" ng-disabled="item.disable">
                             <span class="glyphicon glyphicon-plus"></span>
@@ -80,18 +73,11 @@
                 <tr ng-repeat="item in selectedItems">
                     <td>
                         <span class="text-lg">
-                            <strong ng-if="item.arvDrugs.value">
-                                {{item.arvDrugs.value.display}}
-                                <span ng-if="item.therapeuticLine.value">
-                                    ({{item.therapeuticLine.value.display}})
-                                </span>
-                            </strong>
-                            <strong ng-if="item.otherDrugs.value">{{item.otherDrugs.value.display}}</strong>
-                            <strong ng-if="item.prophilaxyDrugs.value">{{item.prophilaxyDrugs.value.display}}</strong>
-                            {{item.dosageAmount.value}}
-                            {{item.dosingUnits.value.display}}, {{item.dosgeFrequency.value.display}},
-                            {{item.drugRoute.value.display}} - {{item.duration.value}}
-                            {{item.durationUnits.value.display}} ({{item.dosingInstructions.value.display}})
+                            <strong>{{item.order.concept.display}}</strong>
+                            {{item.order.dose}}
+                            {{item.order.doseUnits.display}}, {{item.order.frequency.display}},
+                            {{item.order.route.display}} - {{item.order.duration}}
+                            {{item.order.durationUnits.display}} ({{item.dosingInstructions}})
                         </span>
                     </td>
                     <td>
@@ -102,13 +88,22 @@
                                 ng-messages-include="../poc-common/form-display/views/error-messages.html"
                                 ng-show="showMessages">
                                 </div>
-                                <input type="text" name="nextPickupDate" class="form-control" date-time format="yyyy-MM-dd" ng-model="item.nextPickupDate" min-view="date" auto-close="true" min-date="{{today}}" max-date="{{calculateItemValidity(item.durationUnits, prescription.prescriptionDate)}}" date-chenge="{{calculateQuantityByDate(item)}}">
+                                <span>{{item.nextPickupDate | date:"MMM d, y"}} </span> 
                             </div>
                         </div>
                     </td>
                     <td>
-                        <span ng-if="item.arvDrugs.value">{{item.qty}}</span>
-                        <span ng-if="!item.arvDrugs.value">{{calculateToPickupQty(item.durationUnits, item.dosageAmount.value)}}</span>
+                        <div ng-if="item.showNextPickupDate" class="form-group form-group-lg" 
+                             ng-class="{'has-error': dispenseForm.quantity.$invalid && showMessages}">
+                            <div class="col-sm-8">
+                                <div ng-messages for="dispenseForm.quantity.$error" 
+                                ng-messages-include="../poc-common/form-display/views/error-messages.html"
+                                ng-show="showMessages">
+                                </div>
+                                <input type="text" name="quantity" class="form-control" ng-model="item.quantity" ng-change="updatePickUp(item)" size="4" min="1">
+                            </div>
+                        </div>
+                        <span ng-if="!item.conceptParentUuid">{{item.order.quantity}}</span>
                     </td>
                     <td>
                         <label class="label label-success"><span class="glyphicon glyphicon-thumbs-up"></span></label>
@@ -129,7 +124,7 @@
             </tfoot>
           </table>
           <div class="panel-footer go-to-right" ng-show="!dispenseListNoResultsMessage">
-                <button class="btn btn-primary btn-lg" type="button">
+                <button class="btn btn-primary btn-lg" type="button" ng-click="dispense()">
                     <span class="glyphicon glyphicon-floppy-disk"></span>
                 </button>
           </div>

@@ -209,7 +209,9 @@ Bahmni.Common = Bahmni.Common || {};
         isoniazidStartDateUuid: "6fa92ac9-0a96-4372-9e10-dd9683c19135",
         isoniazidEndDateUuid: "9e555978-3a02-4da4-855e-7b1bfc807347",
         prophilaxyDrugConcepts: prophilaxyDrugConcepts,
-        therapeuticLineQuestion: therapeuticLineQuestion
+        therapeuticLineQuestion: therapeuticLineQuestion,
+        dispensationUrl : RESTWS_V1 + "/dispensation",
+        prescriptionUrl : RESTWS_V1 + "/prescription"
 
     };
 })();
