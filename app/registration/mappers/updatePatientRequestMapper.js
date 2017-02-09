@@ -7,7 +7,8 @@ Bahmni.Registration.UpdatePatientRequestMapper = (function () {
 
     UpdatePatientRequestMapper.prototype.currentDate = undefined;
     
-    UpdatePatientRequestMapper.prototype.mapFromPatient = function (patientAttributeTypes, openMRSPatient, patient) {        
+    UpdatePatientRequestMapper.prototype.mapFromPatient = function (patientAttributeTypes, openMRSPatient, patient) {
+        var dateUtil = Bahmni.Common.Util.DateUtil;        
         var openMRSPatientProfile = {
             patient: {
                 person: {
@@ -21,7 +22,7 @@ Bahmni.Registration.UpdatePatientRequestMapper = (function () {
                         }
                     ],
                     addresses: [_.pick(patient.address, Bahmni.Registration.Constants.allAddressFileds)],
-                    birthdate: this.getBirthdate(patient.birthdate, patient.age),
+                    birthdate: this.getBirthdate(dateUtil.getDateStr(patient.birthdate), patient.age),
                     birthdateEstimated: patient.birthdate === undefined || patient.birthdate === "",
                     gender: patient.gender,
                     attributes: this.getMrsAttributes(openMRSPatient, patient, patientAttributeTypes),
@@ -32,15 +33,18 @@ Bahmni.Registration.UpdatePatientRequestMapper = (function () {
             }
         };
 
-        this.setImage(patient, openMRSPatientProfile);
+        openMRSPatientProfile.patient.identifiers = _.map(patient.identifiers, function (identifier) {
+            return {
+                uuid: identifier.uuid,
+                identifier: identifier.identifier,
+                identifierType: identifier.identifierType.uuid,
+                preferred: identifier.preferred,
+                voided: identifier.voided
+            };
+        });
+
         openMRSPatientProfile.relationships = patient.relationships;
         return  openMRSPatientProfile;
-    };
-
-    UpdatePatientRequestMapper.prototype.setImage = function (patient, openMRSPatient) {
-        if (patient.getImageData()) {
-            openMRSPatient.image = patient.getImageData()
-        }
     };
 
     UpdatePatientRequestMapper.prototype.getMrsAttributes = function (openMRSPatient, patient, patientAttributeTypes) {

@@ -1,6 +1,6 @@
 <div ng-repeat="part in formInfo.parts" class="panel panel-primary content-border-margin">
     <div class="panel-heading">
-        <h3 class="panel-title">{{part.name}}</h3>
+        <h3 class="panel-title">{{part.label | translate}}</h3>
     </div>
 
     <field-read payload="formPayload" form-part="part"></field-read>

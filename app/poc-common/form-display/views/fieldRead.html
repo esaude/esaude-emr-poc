@@ -3,7 +3,7 @@
     <li class="list-group-item"
         ng-if="fieldMeta.fieldConcept.fieldType.display === 'Concept'" ng-init="fieldValidity = getFieldValidity(formField.id)">
         <div class="row">
-        <label class="col-sm-4">{{formField.name}}: </label>
+        <label class="col-sm-4">{{formField.label | translate}}: </label>
         <div class="col-sm-8">
             <span class="label label-danger" ng-if="!fieldValidity">
                 This field was never visited, please visit this field before save
@@ -30,12 +30,10 @@
                     </div>
                 </div>
                 <div ng-if="!fieldMeta.fieldConcept.selectMultiple">
-                    <div ng-if="fieldMeta.fieldConcept.concept.answers.length <= 3">
-                        <div ng-if="isTrueFalseQuestion(fieldMeta.fieldConcept.concept.answers)">
-                            {{stringToJson(fieldMeta.value).display}}
-                        </div>
+                    <div ng-if="fieldMeta.fieldConcept.concept.answers.length > 0 && fieldMeta.fieldConcept.concept.answers.length <= 3">
+                        {{stringToJson(fieldMeta.value).display}}
                     </div>
-                    <div ng-if="fieldMeta.fieldConcept.concept.answers.length > 3">
+                    <div ng-if="fieldMeta.fieldConcept.concept.answers.length == 0 || fieldMeta.fieldConcept.concept.answers.length > 3">
                         {{fieldMeta.value.display}}
                     </div>
                 </div>

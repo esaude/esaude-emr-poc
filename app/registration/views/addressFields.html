@@ -1,20 +1,20 @@
 <div ng-repeat="addressLevels in addressLevelsChunks" ng-form="aForm">
     <div class="form-group form-group-lg" ng-repeat="addressLevel in addressLevels">
-        <label  for="{{addressLevel.addressField}}" class="col-sm-2 control-label">{{addressLevel.name}} <span
+        <label  for="{{addressLevel.addressField}}" class="col-sm-2 control-label">{{addressLevel.name | translate}} <span
                                                                                   class="asterick" ng-show="addressLevel.required">*</span></label>
         <div class="col-sm-10"
              ng-class="{'has-error': aForm.{{addressLevel.addressField}}.$invalid && showMessages}">
-            <div ng-messages for="aForm.{{addressLevel.addressField}}.$error" 
+            <div ng-messages for="aForm.{{addressLevel.addressField}}.$error"
                  ng-messages-include="../poc-common/form-display/views/error-messages.html"
                  ng-show="showMessages">
             </div>
-            <input type="text" name="{{addressLevel.addressField}}" id="{{addressLevel.addressField}}" 
+            <input type="text" name="{{addressLevel.addressField}}" id="{{addressLevel.addressField}}"
                    ng-required="{{addressLevel.required}}"
                    ng-model="address[addressLevel.addressField]"
                    bahmni-autocomplete source="getAddressEntryList(addressLevel.addressField)"
                    response-map="getAddressDataResults" on-select="addressFieldSelected(addressLevel.addressField)"
                    ng-change="clearFields(addressLevel.addressField)"
-                   class="form-control keyboard-in" ng-pattern="/^[a-zA-Z\s]*$/">
+                   class="form-control keyboard-in" ng-pattern="/^([a-zA-Z0-9\s]|[\)\(\'\/\-\.])*$/" required>
         </div>
     </div>
 </div>

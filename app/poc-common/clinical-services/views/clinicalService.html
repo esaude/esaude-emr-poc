@@ -9,7 +9,7 @@
         <div class="list-group-item" ng-if="service.showService">
             <div class="row">
                 <div class="col-sm-4">
-                    <p>{{service.label}} {{showService}}</p>
+                    <p>{{service.label | translate | uppercase}}</p>
                 </div>
                 <div class="col-sm-4">
                     <p ng-if="service.lastEncounterForServiceMarked">{{service.lastEncounterForServiceDate | date:"MM/dd/yyyy hh:mm"}}</p>

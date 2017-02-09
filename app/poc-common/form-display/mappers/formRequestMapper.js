@@ -44,7 +44,7 @@ Poc.Common.FormRequestMapper = (function () {
                                         JSON.stringify(realValueOfField(eachField.fieldConcept.concept.answers, obs.value));
                     } else if (!eachField.fieldConcept.selectMultiple && 
                         eachField.fieldConcept.concept.datatype.display === "Coded") {
-                        if (eachField.fieldConcept.concept.answers.length > 3) {
+                        if (eachField.fieldConcept.concept.answers.length === 0 || eachField.fieldConcept.concept.answers.length > 3) {
                             eachField.value = realValueOfField(eachField.fieldConcept.concept.answers, obs.value);
                         } else {
                             eachField.value = JSON.stringify(realValueOfField(eachField.fieldConcept.concept.answers, obs.value));

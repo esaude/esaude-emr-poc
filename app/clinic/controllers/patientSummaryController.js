@@ -51,6 +51,15 @@ angular.module('clinic')
             });
         };
 
+        $scope.initICD10Diagnosis = function () {
+            var concept = "e1eb7806-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
+
+            observationsService.get(patientUuid, concept).success (function (data) {
+                var filtered = commonService.filterRetired(data.results);//TODO: filter must be dome in backend system
+                $scope.icdDiagnosis = filtered;
+            });
+        };
+
         $scope.initPharmacyPickups = function () {
             var pharmacyEncounterUuid = "e279133c-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
 

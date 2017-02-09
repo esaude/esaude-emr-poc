@@ -257,5 +257,13 @@ Bahmni.Common.Util.DateUtil = {
 
     removeOffset: function(dateString){
         return _.replace(dateString, '+0000', '');
+    },
+
+    pad: function (number) {
+        return number > 9 ? number.toString() : "0" + number.toString();
+    },
+
+    getDateStr: function (date) {
+        return date ? this.pad(date.getDate()) + "-" + this.pad(date.getMonth() + 1) + "-" + date.getFullYear() : "";
     }
 };

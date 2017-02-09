@@ -87,6 +87,7 @@
   "CLINIC_PATIENT_VISIT_HISTORY": "Histórico de Visitas",
   "CLINIC_PATIENT_VISIT": "Visita",
   "CLINIC_PATIENT_DIAGNOSIS": "Diagnosticos (Dx)",
+  "CLINIC_PATIENT_DIAGNOSIS_ICD10": "Diagnosticos (Dx) CID-10",
   "CLINIC_PATIENT_DIAGNOSED": "Diagnosticado",
   "CLINIC_PATIENT_CHARTS": "Gráficos",
   "CLINIC_PATIENT_CHARTS_CD4_TREND": "Tendência de CD4",
@@ -172,5 +173,13 @@
   "DRUG_TYPE_NON_ARV": "Outros",
   "DRUG_TYPE_PROPHILAXYS": "Profilaxia",
   "PROPHILAXY_START_DATE": "Início",
-  "PROPHILAXY_END_DATE": "Fim"
+  "PROPHILAXY_END_DATE": "Fim",
+  "CD4 6 MONTHS LATER": "Teste de CD4 em falta(passam 6 meses desde a ultima consulta)",
+  "CD4 FIRST CONSULTATION": "Teste de CD4 em falta",
+  "CTZ_PROPHILAXIS": "Deve suspender a profilaxia com CTZ",
+  "DRUG START DATE": "Deve solicitar o diagnostico definitivo",
+  "ELIGIBLES": "Deve iniciar o TARV",
+  "LOW HEMOGLOBIN LEVEL": "O nível de emoglobina está baixo",
+  "VIRAL LOAD DROPPED": "Carga viral baixou. Em profilaxia",
+  "VIRALOGICAL FAILURE": "Está a ter falência terapeutica"
 }

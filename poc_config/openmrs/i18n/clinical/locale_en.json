@@ -87,6 +87,7 @@
   "CLINIC_PATIENT_VISIT_HISTORY": "Visit History",
   "CLINIC_PATIENT_VISIT": "Visit",
   "CLINIC_PATIENT_DIAGNOSIS": "Diagnosis (Dx)",
+  "CLINIC_PATIENT_DIAGNOSIS_ICD10": "Diagnosis (Dx) ICD-10",
   "CLINIC_PATIENT_DIAGNOSED": "Diagnosed",
   "CLINIC_PATIENT_CHARTS": "Charts",
   "CLINIC_PATIENT_CHARTS_CD4_TREND": "CD4 Trend",
@@ -165,5 +166,13 @@
   "DRUG_TYPE_NON_ARV": "Non ARV",
   "DRUG_TYPE_PROPHILAXYS": "Prophilaxy",
   "PROPHILAXY_START_DATE": "Start",
-  "PROPHILAXY_END_DATE": "Finish"
+  "PROPHILAXY_END_DATE": "Finish",
+  "CD4 6 MONTHS LATER": "Mising CD4 tests (6 months after last encounter)",
+  "CD4 FIRST CONSULTATION": "Missing CD4 tests",
+  "CTZ_PROPHILAXIS": "Must stop CTZ prophylaxis",
+  "DRUG START DATE": "Must request the final diagnosis",
+  "ELIGIBLES": "Must start ART",
+  "LOW HEMOGLOBIN LEVEL": "Hemoglobin level is low",
+  "VIRAL LOAD DROPPED": "Viral Load Dropped! Doing the Prophylaxis",
+  "VIRALOGICAL FAILURE": "Having a therapeutic failure"
 }

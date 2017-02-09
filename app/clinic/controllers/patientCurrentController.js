@@ -19,7 +19,7 @@
 
         function filterGroupReverseObs(concepts, element) {
           encounterService.getEncountersForEncounterType(patientUuid,
-            ($scope.patient.age.years >= 15) ? Bahmni.Clinic.Constants.ADULT_FOLLOWUP_ENCOUTER_UUID : Bahmni.Clinic.Constants.CHILD_FOLLOWUP_ENCOUNTER_UUID)
+            ($scope.patient.age.years >= 15) ? Bahmni.Common.Constants.ADULT_FOLLOWUP_ENCOUTER_UUID : Bahmni.Common.Constants.CHILD_FOLLOWUP_ENCOUNTER_UUID)
             .success(function (data) {
               var nonRetired = encounterService.filterRetiredEncoounters(data.results);
               _.forEach(nonRetired, function (encounter) {
@@ -33,15 +33,16 @@
         };
 
         function initLabResults() {
-          encounterService.getEncountersForEncounterType(patientUuid, Bahmni.Clinic.Constants.LAB_ENCOUNTER_TYPE_UUID).success(function (data) {
+          encounterService.getEncountersForEncounterType(patientUuid, Bahmni.Common.Constants.LAB_ENCOUNTER_TYPE_UUID).success(function (data) {
             filterGroupReverseEncounters(data, "labResults");
           });
         };
 
         function initVitals() {
           var conceptsUuids =
-          [Bahmni.Clinic.Constants.SYSTOLIC_BLOOD_PRESSURE, Bahmni.Clinic.Constants.DIASTOLIC_BLOOD_PRESSURE ,
-            Bahmni.Clinic.Constants.WEIGHT_KG, Bahmni.Clinic.Constants.HEIGHT_CM, Bahmni.Clinic.Constants.TEMPERATURE];
+          [Bahmni.Common.Constants.SYSTOLIC_BLOOD_PRESSURE, Bahmni.Common.Constants.DIASTOLIC_BLOOD_PRESSURE ,
+            Bahmni.Common.Constants.WEIGHT_KG, Bahmni.Common.Constants.HEIGHT_CM, Bahmni.Common.Constants.TEMPERATURE,
+            Bahmni.Common.Constants.FREQUENCIA_CARDIACA,Bahmni.Common.Constants.RESPIRATORY_RATE];
           filterGroupReverseObs(conceptsUuids, "vitals");
         };
 

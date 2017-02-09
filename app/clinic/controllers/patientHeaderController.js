@@ -61,7 +61,6 @@ angular.module('clinic')
             }
             //TODO: Add infant and pregnant women
             var encounterType = ((patient.age.years >= 15) ? adultFollowupEncounterUuid : childFollowupEncounterUuid);
-
           });
       };
 
