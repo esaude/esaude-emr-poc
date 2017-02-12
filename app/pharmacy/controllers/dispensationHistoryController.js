@@ -2,11 +2,9 @@
 
 angular.module('pharmacy').controller('DispensationHistoryController', DispensationHistoryController);
 
-DispensationHistoryController.$inject = ["$scope", "$rootScope", "$stateParams", "encounterService", "observationsService", "commonService"];
+DispensationHistoryController.$inject = ["$scope", "$rootScope", "$stateParams", "encounterService", "commonService"];
 
-function DispensationHistoryController($scope, $rootScope, $stateParams, encounterService, observationsService, commonService) {
-
-    var dateUtil = Bahmni.Common.Util.DateUtil;
+function DispensationHistoryController($scope, $rootScope, $stateParams, encounterService, commonService) {
     
     (function () {
         $scope.filaObsList = {
@@ -15,7 +13,7 @@ function DispensationHistoryController($scope, $rootScope, $stateParams, encount
         };
 
         var patientUuid = $stateParams.patientUuid;
-        var pharmacyEncounterTypeUuid = "d82c441d-72cb-440f-b007-d3105ca7f58a";
+        var pharmacyEncounterTypeUuid = "18fd49b7-6c2b-4604-88db-b3eb5b3a6d5f";
 
         encounterService.getEncountersForEncounterType(patientUuid, pharmacyEncounterTypeUuid).success(function (data) {
             $scope.pickups = prepareObservations(commonService.filterReverse(data));
