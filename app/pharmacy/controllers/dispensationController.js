@@ -96,7 +96,7 @@ function DispensationController($scope, $rootScope, dispensationService, prescri
         item.nextPickupDate = new Date(today.getTime() + (oneDayInMilSec * numberOfPillsMinusTwoDays));
 
         while(item.nextPickupDate.getDay() == sunday || item.nextPickupDate.getDay() == saturday){
-            item.nextPickupDate = new Date(item.nextPickupDate.getTime() + oneDayInMilSec);
+            item.nextPickupDate = new Date(item.nextPickupDate.getTime() - oneDayInMilSec);
         }
     };
 
