@@ -1,117 +1,137 @@
-    'use strict';
+'use strict';
 
-    angular.module('pharmacy')
-            .controller('DispensationController', DispensationController);
+angular.module('pharmacy').controller('DispensationController', DispensationController);
 
-    DispensationController.$inject = ["$scope", "$rootScope", "$stateParams",
-                            "encounterService", "observationsService", "commonService", "dispensationService", "prescriptionService", "localStorageService"];
+DispensationController.$inject = ["$scope", "$rootScope", "dispensationService", "prescriptionService", "localStorageService"];
 
-    function DispensationController($scope, $rootScope, $stateParams, encounterService,
-                        observationsService, commonService, dispensationService, prescriptionService, localStorageService) {
-        //TODO: Check if vm is needed 
-        var dateUtil = Bahmni.Common.Util.DateUtil;
-        
-        (function () {
-            $scope.selectedItems = [];
+function DispensationController($scope, $rootScope, dispensationService, prescriptionService, localStorageService) {
 
-            $scope.today = dateUtil.getDateWithoutTime(dateUtil.now());
+    var dateUtil = Bahmni.Common.Util.DateUtil;
+    
+    (function () {
+        $scope.selectedItems = [];
 
-            var arvConcepUuid = "e1d83d4a-1d5f-11e0-b929-000c29ad1d07";
+        $scope.today = dateUtil.getDateWithoutTime(dateUtil.now());
 
-            $scope.prescriptiontNoResultsMessage = "PHARMACY_LIST_NO_ITEMS";
+        var arvConcepUuid = "e1d83d4a-1d5f-11e0-b929-000c29ad1d07";
 
-            $scope.initPrescriptions = function () {
+        $scope.prescriptiontNoResultsMessage = "PHARMACY_LIST_NO_ITEMS";
 
-                var patientUuid = $rootScope.patient.uuid;
+        $scope.initPrescriptions = function () {
 
-                prescriptionService.getPatientPrescriptions(patientUuid).success(function (data) {
-                    $scope.prescriptions = data.results;
-                    $scope.prescription = data.results[0];
-                    $scope.prescriptiontNoResultsMessage = _.isEmpty($scope.prescriptions) ? "PHARMACY_LIST_NO_ITEMS" : null;
-                });                   
-            };
+            var patientUuid = $rootScope.patient.uuid;
 
-            $scope.calculateItemValidity = function (durationUnit, prescriptionDate) {
-                var durationDays = _.find(Poc.Pharmacy.Constants.daysOfDurationUnits, function (e) {
-                    return e.uuid === durationUnit.uuid;
-                });
+            prescriptionService.getPatientPrescriptions(patientUuid).success(function (data) {
+                $scope.prescriptions = data.results;
+                $scope.prescription = data.results[0];
+                $scope.prescriptiontNoResultsMessage = _.isEmpty($scope.prescriptions) ? "PHARMACY_LIST_NO_ITEMS" : null;
+            });                   
+        };
 
-                return dateUtil.addDays(dateUtil.getDateWithoutTime(prescriptionDate), durationDays.days);
-            };
+        $scope.calculateItemValidity = function (durationUnit, prescriptionDate) {
+            var durationDays = _.find(Poc.Pharmacy.Constants.daysOfDurationUnits, function (e) {
+                return e.uuid === durationUnit.uuid;
+            });
 
-            $scope.calculateToPickupQty = function (durationUnit, dosage) {
-                return calculateItemQuantity(durationUnit, dosage);
-            };
+            return dateUtil.addDays(dateUtil.getDateWithoutTime(prescriptionDate), durationDays.days);
+        };
 
-            $scope.select = function (item) {
-                item.disable = true;
-                if (arvConcepUuid === item.conceptParentUuid) {
-                    item.showNextPickupDate = true;
-                }
+        $scope.calculateToPickupQty = function (durationUnit, dosage) {
+            return calculateItemQuantity(durationUnit, dosage);
+        };
 
-                $scope.selectedItems.push(item);
-                $scope.updateDispenseListMessage();
-            };
-
-            $scope.remove = function (item) {
-                item.disable = false;
-                _.pull($scope.selectedItems, item);
-
-                item.quantity = null;
-                item.nextPickupDate = null;
-
-               $scope.updateDispenseListMessage();
-            };
-
-             $scope.updateDispenseListMessage = function () {
-                $scope.dispenseListNoResultsMessage = $scope.selectedItems.length === 0 ? "PHARMACY_LIST_NO_ITEMS" : null;
-            };
-
-            $scope.updateDispenseListMessage();
-
-        })();
-
-        $scope.updatePickUp = function (item) {
-
-            if(item.quantity > item.drugToPickUp){
-                item.quantity = item.drugToPickUp;
+        $scope.select = function (item) {
+            item.disable = true;
+            if (arvConcepUuid === item.conceptParentUuid) {
+                item.showNextPickupDate = true;
+                item.quantity = 0;
+                item.nextPickupDate = new Date();
             }
 
-            item.nextPickupDate = dateUtil.addDays(dateUtil.getDateWithoutTime(item.prescriptionDate), item.quantity);
+            $scope.selectedItems.push(item);
+            $scope.updateDispenseListMessage();
         };
 
-        $scope.dispense = function() {
+        $scope.remove = function (item) {
+            item.disable = false;
+            _.pull($scope.selectedItems, item);
 
-            console.log($rootScope);
+            item.quantity = null;
+            item.nextPickupDate = null;
 
-            var dispensation = {
+           $scope.updateDispenseListMessage();
+        };
 
-                providerUuid : $rootScope.currentUser.person.uuid,
-             
-                patientUuid : $rootScope.patient.uuid,
+         $scope.updateDispenseListMessage = function () {
+            $scope.dispenseListNoResultsMessage = $scope.selectedItems.length === 0 ? "PHARMACY_LIST_NO_ITEMS" : null;
+        };
 
-                locationUuid : localStorageService.cookie.get("emr.location").uuid,
+        $scope.updateDispenseListMessage();
 
-                dispensationItems : []
+    })();
+
+    $scope.updatePickUp = function (item) {
+
+        if(item.quantity > item.drugToPickUp){
+            item.quantity = item.drugToPickUp;
+        }
+
+        var twoDays = 2;
+        var sunday = 0;
+        var saturday = 6;
+
+        var today = new Date();
+        var numberOfPillsMinusTwoDays = item.quantity;
+        var oneDayInMilSec = 1000 * 60 * 60 * 24;
+
+        if(!item.quantity){
+            item.nextPickupDate = today;
+            return;
+        }
+
+        if(item.quantity >= twoDays){
+            numberOfPillsMinusTwoDays -= twoDays;
+        }
+        
+        item.nextPickupDate = new Date(today.getTime() + (oneDayInMilSec * numberOfPillsMinusTwoDays));
+
+        while(item.nextPickupDate.getDay() == sunday || item.nextPickupDate.getDay() == saturday){
+            item.nextPickupDate = new Date(item.nextPickupDate.getTime() + oneDayInMilSec);
+        }
+    };
+
+    $scope.dispense = function() {
+
+        console.log($rootScope);
+
+        var dispensation = {
+
+            providerUuid : $rootScope.currentUser.person.uuid,
+         
+            patientUuid : $rootScope.patient.uuid,
+
+            locationUuid : localStorageService.cookie.get("emr.location").uuid,
+
+            dispensationItems : []
+        };
+
+        _.forEach($scope.selectedItems, function (item) {
+            
+            var dispensationItem = {
+                orderUuid : item.order.uuid,
+                quantityToDispense : item.quantity ? item.quantity : item.order.quantity,
+                quantityDispensed : item.drugPickedUp,
+                dateOfNextPickUp : item.nextPickupDate,
+                conceptParentUuid : item.conceptParentUuid
             };
 
-            _.forEach($scope.selectedItems, function (item) {
-                
-                var dispensationItem = {
-                    orderUuid : item.order.uuid,
-                    quantityToDispense : item.quantity ? item.quantity : item.order.quantity,
-                    quantityDispensed : item.drugPickedUp,
-                    dateOfNextPickUp : item.nextPickupDate,
-                    conceptParentUuid : item.conceptParentUuid
-                };
+            dispensation.dispensationItems.push(dispensationItem);
+        });
 
-                dispensation.dispensationItems.push(dispensationItem);
-            });
-
-            dispensationService.create(dispensation).success(function (data) {
-                $scope.selectedItems = [];
-                $scope.updateDispenseListMessage();
-                $scope.initPrescriptions();
-            });
-        };
-    }
+        dispensationService.create(dispensation).success(function (data) {
+            $scope.selectedItems = [];
+            $scope.updateDispenseListMessage();
+            $scope.initPrescriptions();
+        });
+    };
+}
