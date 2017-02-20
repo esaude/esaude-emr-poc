@@ -219,9 +219,8 @@ Bahmni.Common = Bahmni.Common || {};
         HEIGHT_CM: "e1e2e934-1d5f-11e0-b929-000c29ad1d07",
         TEMPERATURE: "e1e2e70e-1d5f-11e0-b929-000c29ad1d07",
         FREQUENCIA_CARDIACA: "e1e2e5f6-1d5f-11e0-b929-000c29ad1d07",
-        RESPIRATORY_RATE: "e1e4628c-1d5f-11e0-b929-000c29ad1d07"
-
-
-
+        RESPIRATORY_RATE: "e1e4628c-1d5f-11e0-b929-000c29ad1d07",
+        prescriptionUrl :RESTWS_V1 + "/prescription",
+        dispensationUrl :RESTWS_V1 + "/dispensation"
     };
 })();

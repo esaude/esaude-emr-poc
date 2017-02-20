@@ -181,7 +181,7 @@ angular.module('bahmni.common.domain')
             params:{
                 patient: patientUuid,
                 encounterType: encounterTypeUuid,
-                v: "custom:(uuid,encounterDatetime,provider,voided,visit:(uuid,startDatetime,stopDatetime),obs:(uuid,concept:(uuid,name),obsDatetime,value,groupMembers:(uuid,concept:(uuid,name),obsDatetime,value)))"
+                v: "custom:(uuid,encounterDatetime,provider,voided,visit:(uuid,startDatetime,stopDatetime),obs:(uuid,concept:(uuid,name),obsDatetime,value,groupMembers:(uuid,concept:(uuid,name),order,obsDatetime,value)))"
             },
             withCredentials : true
         });
