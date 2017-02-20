@@ -16,4 +16,4 @@ Bahmni.Tests.openMRSConceptHelper = {
     mapToConcept: function(openMRSConcept) {
         return {uuid: openMRSConcept.uuid, name: openMRSConcept.name.name};
     }
-}
+};

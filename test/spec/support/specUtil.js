@@ -45,7 +45,7 @@ specUtil.simplePromise = function(data) {
     }
   };
   return new SimplePromise(data);
-}
+};
 
 specUtil.createFakePromise = function (data) {
   var FakePromise = function(data){
