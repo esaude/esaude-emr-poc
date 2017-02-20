@@ -38,7 +38,7 @@ describe('Registration Visit Service', function () {
     });
 
     it('Should call search url in registration visit service', function () {
-        var parameters = {patient: uuid, includeInactive: false, v: "custom:(uuid)"}
+        var parameters = {patient: uuid, includeInactive: false, v: "custom:(uuid)"};
         var results = visitService.search(parameters);
         expect(mockHttp.get).toHaveBeenCalled();
         expect(mockHttp.get.calls.mostRecent().args[0]).toBe(openmrsUrl);
