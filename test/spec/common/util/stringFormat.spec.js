@@ -7,5 +7,5 @@ describe('stringFormat', function() {
         it('should replace nothing', function() {
             expect("Radiology".toValidId()).toEqual("Radiology");
         });
-    })
-})
+    });
+});
