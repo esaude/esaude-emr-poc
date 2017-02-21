@@ -221,6 +221,9 @@ Bahmni.Common = Bahmni.Common || {};
         FREQUENCIA_CARDIACA: "e1e2e5f6-1d5f-11e0-b929-000c29ad1d07",
         RESPIRATORY_RATE: "e1e4628c-1d5f-11e0-b929-000c29ad1d07",
         prescriptionUrl :RESTWS_V1 + "/prescription",
-        dispensationUrl :RESTWS_V1 + "/dispensation"
+        dispensationUrl :RESTWS_V1 + "/dispensation",
+        markedForPickupDrugsToday : "c23d5b4e-45c9-47ee-a506-e8f9662a5533",
+        dispensationEncounterTypeUuid : "18fd49b7-6c2b-4604-88db-b3eb5b3a6d5f"
+
     };
 })();

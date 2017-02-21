@@ -16,5 +16,7 @@
 	"PHARMACY_LIST_NO_ITEMS": "No items to display",
 	"PHARMACY_LEVEL_OF_ADHERENCE": "Level of adherence",
 	"PHARMACY_PRESCRIBED_BY": "Prescribed by",
-	"PHARMACY_DRUG" : "Drug"
+	"PHARMACY_DRUG" : "Drug",
+	"PHARMACY_SCHEDULED_FOR_PICK_UP" : "Scheduled for drud pickup",
+	"PHARMACY_LAST_PICK_UP" : "Last pickup"
 }
