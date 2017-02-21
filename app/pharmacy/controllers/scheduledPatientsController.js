@@ -5,7 +5,7 @@ angular.module('pharmacy')
 	
 		(function(){
 			cohortService.get(Bahmni.Common.Constants.markedForPickupDrugsToday).success(function (data) {
-					console.log(data);
+				
 	                $scope.cohortMembers = data.members;
 	                $scope.hasSchedules = true;
 	                

@@ -100,7 +100,7 @@
                                 ng-messages-include="../poc-common/form-display/views/error-messages.html"
                                 ng-show="showMessages">
                                 </div>
-                                <input type="text" name="quantity" class="form-control" ng-model="item.quantity" ng-change="updatePickUp(item)" size="4" min="1" required>
+                                <input type="number" name="quantity" class="form-control" ng-model="item.quantity" ng-change="updatePickUp(item)" size="4" min="1" required>
                             </div>
                         </div>
                         <span ng-if="!item.conceptParentUuid">{{item.order.quantity}}</span>
