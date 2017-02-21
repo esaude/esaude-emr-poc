@@ -27,6 +27,18 @@ angular.module('patient.details')
                 
                 var templateUrl = "../patient-details/views/patient-demo-info.html";
                 var data = $scope.patient;
+                $scope.patient.barcodeOptions = {
+                    width: 2,
+                    height: 40,
+                    quite: 10,
+                    displayValue: true,
+                    font: "monospace",
+                    textAlign: "center",
+                    fontSize: 10,
+                    backgroundColor: "",
+                    lineColor: "#000"
+                };
+
                 
                 //you need to transform this piece of code in a service
                 var printHtml = function (html) {

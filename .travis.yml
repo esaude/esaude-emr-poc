@@ -10,7 +10,7 @@ before_install:
   - sh -e /etc/init.d/xvfb start
 before_script:
   - npm install -g bower grunt-cli codacy-coverage coveralls
-  - bower install --force-latest
+  - bower install --force
 after_script:
   - cat coverage/**/lcov.info | codacy-coverage
   - cat coverage/**/lcov.info | coveralls
