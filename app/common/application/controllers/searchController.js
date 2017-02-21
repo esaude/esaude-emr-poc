@@ -57,7 +57,7 @@ angular.module('application')
                 }                
             };
 
-            let redirectToPage = function (patient) {
+            var redirectToPage = function (patient) {
                  //initialize visit info in scope
                 visitService.search({patient: $rootScope.patient.uuid, v: "full"})
                     .success(function (data) {
