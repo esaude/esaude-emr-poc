@@ -28,23 +28,11 @@ function DispensationController($scope, $rootScope, dispensationService, prescri
             });                   
         };
 
-        $scope.calculateItemValidity = function (durationUnit, prescriptionDate) {
-            var durationDays = _.find(Poc.Pharmacy.Constants.daysOfDurationUnits, function (e) {
-                return e.uuid === durationUnit.uuid;
-            });
-
-            return dateUtil.addDays(dateUtil.getDateWithoutTime(prescriptionDate), durationDays.days);
-        };
-
-        $scope.calculateToPickupQty = function (durationUnit, dosage) {
-            return calculateItemQuantity(durationUnit, dosage);
-        };
-
         $scope.select = function (item) {
             item.disable = true;
             if (arvConcepUuid === item.conceptParentUuid) {
                 item.showNextPickupDate = true;
-                item.quantity = 0;
+                item.quantity = 1;
                 item.nextPickupDate = new Date();
             }
 
@@ -71,7 +59,7 @@ function DispensationController($scope, $rootScope, dispensationService, prescri
     })();
 
     $scope.updatePickUp = function (item) {
-
+        
         if(item.quantity > item.drugToPickUp){
             item.quantity = item.drugToPickUp;
         }
