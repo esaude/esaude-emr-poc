@@ -67,12 +67,14 @@ module.exports = function (config) {
       'bower_components/select2/select2.min.js',
       'bower_components/angular-ui-select2/src/select2.js',
       'bower_components/angular-ui-mask/dist/mask.js',
+      'bower_components/angular-barcode/dist/angular-barcode.min.js',
 
       // endbower
       // bundled libraries
       'lib/modernizr.custom.80690.js',
       // application files
       'app/**/*.js',
+      'app/home/**/*.js',
       'app/common/**/*.js',
       // fixtures
       'test/fixtures/**/*.json',

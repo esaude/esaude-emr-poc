@@ -188,3 +188,8 @@ input[type=radio]:checked + label::before {
 p.capitalize {
   text-transform: capitalize;
 }
+
+.barcode {
+  width:20px;
+  height: 10px;
+}

@@ -15,5 +15,8 @@
 	"PHARMACY_AVAILABLE": "Disponível",
 	"PHARMACY_LIST_NO_ITEMS": "Nemhum item para mostrar",
 	"PHARMACY_LEVEL_OF_ADHERENCE": "Aderência",
-	"PHARMACY_PRESCRIBED_BY": "Prescrito por"
+	"PHARMACY_PRESCRIBED_BY": "Prescrito por",
+	"PHARMACY_DRUG" : "Medicamento",
+	"PHARMACY_SCHEDULED_FOR_PICK_UP" : "Marcados para levantamento de medicamentos",
+	"PHARMACY_LAST_PICK_UP" : "Último Levantamento"
 }

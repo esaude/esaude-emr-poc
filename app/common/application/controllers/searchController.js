@@ -48,13 +48,17 @@ angular.module('application')
             $scope.linkDashboard = function(patient) {
                 if (patient.age) {
                     $rootScope.patient = patient;
+                    redirectToPage(patient);
                 } else {
                     patientService.get(patient.uuid).success(function (data) {
                         $rootScope.patient = patientMapper.map(data);
+                        redirectToPage(patient);
                     });
-                }
+                }                
+            };
 
-                //initialize visit info in scope
+            var redirectToPage = function (patient) {
+                 //initialize visit info in scope
                 visitService.search({patient: $rootScope.patient.uuid, v: "full"})
                     .success(function (data) {
                         var nonRetired = commonService.filterRetired(data.results);
@@ -71,9 +75,10 @@ angular.module('application')
                                 $rootScope.hasVisitToday = false;
                             }
                         }
-                        $location.url(eval($rootScope.landingPageAfterSearch)); // path not hash
+
+                    $location.url(eval($rootScope.landingPageAfterSearch)); // path not hash
                 });
-            };
+            }
 
             $scope.linkPatientNew = function() {
                 $location.url("/patient/new/identifier"); // path not hash

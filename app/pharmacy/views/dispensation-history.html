@@ -1,0 +1,34 @@
+<div class="row content-border-margin-regular">
+    <table st-table="pickups" st-safe-src="displayed" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>{{'PHARMACY_PICKUP_DATE' | translate}}</th>
+                    <th>{{'PHARMACY_DRUG' | translate}}</th>
+                    <th>{{'PHARMACY_QUANTITY' | translate}}</th>
+                    <th>{{'PHARMACY_NEXT_PICKUP' | translate}}</th>
+                    <th>{{'COMMON_BY' | translate}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="pickup in pickups">
+                    <td>{{pickup.encounterDatetime | date:"MMM d, y"}}</td>
+                    <td>{{valueOfField(filaObsList.quantity, pickup.members).order.concept.display}}</td>
+                    <td>{{valueOfField(filaObsList.quantity, pickup.members).value}}</td>
+                    <td>{{valueOfField(filaObsList.nextPickup, pickup.members).value | date:"MMM d, y"}}</td>
+                    <td>{{pickup.provider}}</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr ng-show="noResultsMessage">
+                    <td  colspan="6" class="text-center">
+                        {{noResultsMessage | translate}}
+                    </td>
+                </tr>
+                <tr>
+                    <td  colspan="6" class="text-center">
+                        <div  st-items-by-page="4" st-displayed-pages="7" st-pagination=""></div>
+                    </td>
+                </tr>
+            </tfoot>
+    </table>
+</div>
