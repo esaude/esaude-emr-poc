@@ -33,13 +33,25 @@ angular.module('clinic')
           });
       };
 
-      $scope.initLabChart = function () {
+      $scope.initCD4LabChart = function () {
         var labEncounterUuid = "e2790f68-1d5f-11e0-b929-000c29ad1d07";
         var concepts = ["e1e68f26-1d5f-11e0-b929-000c29ad1d07", "e1d48fba-1d5f-11e0-b929-000c29ad1d07",
-          "e1cdbe88-1d5f-11e0-b929-000c29ad1d07", "e1d6247e-1d5f-11e0-b929-000c29ad1d07", "e1d8f690-1d5f-11e0-b929-000c29ad1d07"];
+          "e1d6247e-1d5f-11e0-b929-000c29ad1d07", "e1d8f690-1d5f-11e0-b929-000c29ad1d07"];
         var series = [$filter('translate')('CLINIC_PATIENT_CD4_COUNT'), $filter('translate')('CLINIC_PATIENT_CD4_PERCENT'),
-          $filter('translate')('CLINIC_PATIENT_HGB_COUNT'),
           $filter('translate')('CLINIC_PATIENT_HIV_VIRAL_LOAD'), $filter('translate')('HISTORICAL_DRUG_START_DATE_TARV')];
+        var name = "CD4labResults";
+
+        encounterService.getEncountersForEncounterType(patientUuid, labEncounterUuid)
+          .success(function (data) {
+            filterObs(data, concepts, series, name);
+          });
+      };
+
+      $scope.initLabChart = function () {
+        var labEncounterUuid = "e2790f68-1d5f-11e0-b929-000c29ad1d07";
+        var concepts = ["e1cdbe88-1d5f-11e0-b929-000c29ad1d07", "e1d6247e-1d5f-11e0-b929-000c29ad1d07"];
+        var series = [$filter('translate')('CLINIC_PATIENT_HGB_COUNT'),
+          $filter('translate')('CLINIC_PATIENT_HIV_VIRAL_LOAD')];
         var name = "labResults";
 
         encounterService.getEncountersForEncounterType(patientUuid, labEncounterUuid)
@@ -108,6 +120,32 @@ angular.module('clinic')
           pointDotRadius: 10
         };
         $scope[chartName + "data"] = data;
+        $scope["optionsCD4"] =
+        {
+          legend: {display: true},
+          elements: {
+            line: {tension: 0.01, spanGaps: true, bezierCurve: true, fill: false},
+            point: {radius: 5}
+          },
+          scales: {
+            yAxes: [
+              {
+                id: 'y-axis-1',
+                type: 'linear',
+                display: true,
+                position: 'left',
+                ticks: {max: 1500, min: 0, stepSize: 100}
+              },
+              {
+                id: 'serieA',
+                type: 'linear',
+                display: true,
+                position: 'right',
+                ticks: {stepSize: 10, min: 40, max: 110}
+              }]
+          },
+          pointDotRadius: 10
+        };
       };
 
       $scope.isObject = function (value) {
