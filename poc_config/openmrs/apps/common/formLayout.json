@@ -362,7 +362,7 @@
             "name": "Estatura",
             "label": "COMMON_HEIGHT",
             "id": "e2939036-1d5f-11e0-b929-000c29ad1d07",
-            "logics ": {
+            "logics": {
               "defaultValueIsLastEntry": "e1e2e934-1d5f-11e0-b929-000c29ad1d07"
             },
             "constraints": {
@@ -555,7 +555,7 @@
         "nextSref": ".stage2",
         "fields": [
           {
-            "name": "ESTADIO I PEDIATRIA",           
+            "name": "ESTADIO I PEDIATRIA",
         	"label": "COMMON_STAGE_I",
             "id": "9ad5fe09-a35c-4400-b216-ee72b0e76523"
           }
@@ -750,7 +750,7 @@
             "name": "Data de Inicio",
             "label": "COMMON_START_DATE",
             "id": "a2fda180-923d-426b-999a-27053b239c2a",
-            "logics ": {
+            "logics": {
               "defaultValueIsLastEntry": "a2fda180-923d-426b-999a-27053b239c2a"
             }
           },
@@ -898,7 +898,7 @@
             "name": "Data de Inicio",
             "label": "COMMON_START_DATE",
             "id": "6c0d2b75-b929-4beb-b1a7-5bb714d6f6d5",
-            "logics ": {
+            "logics": {
               "defaultValueIsLastEntry": "6c0d2b75-b929-4beb-b1a7-5bb714d6f6d5"
             }
           },
