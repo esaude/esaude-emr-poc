@@ -141,7 +141,7 @@
         <div class="panel panel-primary panel-marginless-sides" ng-init="initPharmacyPickups()"
                ng-click="showDivPharmacy=!showDivPharmacy">
             <div class="panel-heading">
-                <h3 class="panel-title">{{'CLINIC_PATIENT_PHARMACY' | translate}}</h3>
+                <h3 class="panel-title">{{'CLINIC_PATIENT_PHARMACY_ARV' | translate}}</h3>
             </div>
             <div class="list-group" ng-repeat="visit in pickups" ng-hide="showDivPharmacy">
                 <div class="bg-info content-border-padding-li">
@@ -169,8 +169,8 @@
                 </div>
                 <div ng-repeat="item in pickup.items" class="list-group-item">
                     <span><b>{{item.order.concept.display}}</b> {{item.order.dose}}{{item.order.doseUnits.display}}</span>,
-                    <span>{{'COMMON_QUANTITY' | translate}}: {{item.quantity.value}}</span>,
-                    <span>{{'COMMON_RETURN' | translate}} {{item.returnDate.value | date:"MMM d, y"}}</span>
+                    <span>{{'COMMON_QUANTITY' | translate}}: {{item.quantity.value}}</span>
+                    <span ng-if="item.returnDate.value">| {{'COMMON_RETURN' | translate}} {{item.returnDate.value | date:"MMM d, y"}}</span>
                 </div>
             </div>
           </div>
