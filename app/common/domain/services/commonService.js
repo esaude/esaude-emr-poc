@@ -57,5 +57,11 @@ angular.module('bahmni.common.domain')
         return newPatient;
     };
 
+    this.findByMemberConcept = function (group, uuid) {
+        return _.find(group, function (member) {
+            return member.concept.uuid === uuid;
+        });
+    }
+
 }]);
 

@@ -1,4 +1,5 @@
 {
+    "COMMON_QUANTITY": "Quantity",
     "COMMON_ITEM": "Item",
     "COMMON_OUTCOME": "Outcome",
     "COMMON_MALE": "Male",
@@ -214,5 +215,6 @@
     "COMMON_WHO_FORM": "WHO Stage",
     "COMMON_RELEVANT_NOTES_FORM": "Relevant Notes",
     "COMMON_ANAMNESE_BODY_EXAM_FORM": "Anamnesis and Body Exam",
-    "COMMON_DIAGNOSIS_FORM": "Diagnosis"
+    "COMMON_DIAGNOSIS_FORM": "Diagnosis",
+    "COMMON_RETURN": "Return on"
 }

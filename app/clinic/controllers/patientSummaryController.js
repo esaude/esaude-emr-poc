@@ -2,9 +2,9 @@
 
 angular.module('clinic')
         .controller('PatientSummaryController', ["$scope", "$rootScope", "$stateParams",
-                        "encounterService", "observationsService", "commonService",
+                        "encounterService", "observationsService", "commonService", "orderService",
                     function ($scope, $rootScope, $stateParams, encounterService,
-                    observationsService, commonService) {
+                    observationsService, commonService, orderService) {
         var patientUuid;
 
         (function () {
@@ -68,10 +68,44 @@ angular.module('clinic')
             });
         };
 
+        $scope.initPharmacyPickupsNew = function () {
+            var patientUuid = $stateParams.patientUuid;
+            var pharmacyEncounterTypeUuid = "18fd49b7-6c2b-4604-88db-b3eb5b3a6d5f";
+
+            encounterService.getEncountersForEncounterType(patientUuid, pharmacyEncounterTypeUuid).success(function (data) {
+                var nonRetired = prepareDispenses(commonService.filterReverse(data));
+                $scope.newPickups = nonRetired;
+
+            });
+        };
+
+        var prepareDispenses = function (encounters) {
+
+            var dispenses = [];
+
+            _.forEach(encounters, function (encounter) {
+                var dispense = {};
+                dispense.detetime = encounter.encounterDatetime;
+                dispense.provider = encounter.provider;
+                dispense.items = []; encounter.obs[0].groupMembers[0].order;
+                _.forEach(encounter.obs, function (obs) {
+                    var item = {};
+                    item.order = obs.groupMembers[0].order;
+                    item.quantity = commonService.findByMemberConcept(obs.groupMembers, "e1de2ca0-1d5f-11e0-b929-000c29ad1d07");
+                    item.returnDate = commonService.findByMemberConcept(obs.groupMembers, "e1e2efd8-1d5f-11e0-b929-000c29ad1d07");
+
+                    dispense.items.push(item);
+                });
+                dispenses.push(dispense);
+            });
+
+            return dispenses;
+        };
+
         $scope.initPrescriptions = function () {
             var concepts = [Bahmni.Common.Constants.prescriptionConvSetConcept];
 
-            var patient = commonService.deferPatient($rootScope.patient);
+            var patient = $rootScope.patient;
             var adultFollowupEncounterUuid = Bahmni.Common.Constants.adultFollowupEncounterUuid;
             var childFollowupEncounterUuid = Bahmni.Common.Constants.childFollowupEncounterUuid;
 

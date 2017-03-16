@@ -1,4 +1,5 @@
 {
+    "COMMON_QUANTITY": "Quantidade",
     "COMMON_ITEM": "Item",
     "COMMON_OUTCOME": "Resultado",
     "COMMON_MALE": "Masculino",
@@ -208,5 +209,6 @@
     "COMMON_WHO_FORM": "Estadio OMS",
     "COMMON_RELEVANT_NOTES_FORM":"Aspectos Relevantes",
     "COMMON_ANAMNESE_BODY_EXAM_FORM": "Anamnese e Exame Físico",
-    "COMMON_DIAGNOSIS_FORM": "Diagnositicos"
+    "COMMON_DIAGNOSIS_FORM": "Diagnositicos",
+    "COMMON_RETURN": "Regressar aos"
 }
