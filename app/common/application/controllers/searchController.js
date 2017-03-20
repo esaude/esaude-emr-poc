@@ -45,6 +45,23 @@ angular.module('application')
                 }
             };
 
+            $scope.barcodeHandler = function (code) {
+                //replace any special char by "/"
+                var cleanCode = code.replace(/[^\w\s]/gi, '/');
+
+                spinner.forPromise(patientService.search(cleanCode).success(function (data) {
+                    if (data.results.length !== 1) {
+                        return;
+                    }
+                    var patient = patientMapper.map(data.results[0]);
+                    $rootScope.patient = patient;
+                    redirectToPage(patient);
+                }).error(function (data) {
+                    $scope.noResultsMessage = "SEARCH_PATIENT_NO_RESULT";
+                }));
+
+            };
+
             $scope.linkDashboard = function(patient) {
                 if (patient.age) {
                     $rootScope.patient = patient;
