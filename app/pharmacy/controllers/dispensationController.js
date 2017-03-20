@@ -98,8 +98,6 @@ function DispensationController($scope, $rootScope, dispensationService, prescri
 
     $scope.dispense = function() {
 
-        console.log($rootScope);
-
         var dispensation = {
 
             providerUuid : $rootScope.currentUser.person.uuid,

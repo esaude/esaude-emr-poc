@@ -1,14 +1,23 @@
 <div class="row content-border-margin-regular">
-  <div class="clearfix ">
+  <div class="col-sm-6">
     <div class="panel panel-primary panel-marginless-sides" ng-init="initLabChart()">
       <div class="panel-heading">
         <h3 class="panel-title">{{'CLINIC_LAB_RESULTS' | translate}}</h3>
       </div>
-      <div class="panel-body">
       <canvas id="line" class="chart chart-line" chart-data="labResultsdata" chart-labels="labResultslabels"
-              chart-series="labResultsseries" chart-options="options" chart-colors="colors" legend="true">
+              chart-series="labResultsseries" chart-options="options" legend="true">
       </canvas>
-        </div>
+    </div>
+  </div>
+
+  <div class="col-sm-6">
+    <div class="panel panel-primary panel-marginless-sides" ng-init="initCD4LabChart()">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{'CLINIC_PATIENT_CHARTS_CD4_TREND' | translate}}</h3>
+      </div>
+      <canvas id="lineCD4" class="chart chart-line" chart-data="CD4labResultsdata"
+              chart-labels="CD4labResultslabels" legend="true" chart-options="optionsCD4" chart-series="CD4labResultsseries">
+      </canvas>
     </div>
   </div>
 </div>

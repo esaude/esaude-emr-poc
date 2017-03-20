@@ -26,7 +26,7 @@
         <div>
             <label><strong>{{'COMMON_AVENUE' | translate}}/{{'COMMON_STREET' | translate}}/{{'COMMON_HOUSE' | translate}}: </strong> <i ng-bind="patient.address.display" /> </label>
         </div>
-        <div><barcode type="code128b" render="img" string="{{patient.identifier}}" options="patient.barcodeOptions"></barcode></div>
+        <div><barcode type="code128c" render="img" string="{{patient.identifier}}" options="patient.barcodeOptions"></barcode></div>
 
       <!--
        //TODO: Code CleanUp

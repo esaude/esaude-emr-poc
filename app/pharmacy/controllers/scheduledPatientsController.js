@@ -7,11 +7,12 @@ angular.module('pharmacy')
 			cohortService.get(Bahmni.Common.Constants.markedForPickupDrugsToday).success(function (data) {
 				
 	                $scope.cohortMembers = data.members;
-	                $scope.hasSchedules = true;
 	                
-	                if(!data.members){
+	                if(_.isEmpty(data.members)){
 	                	return;
 	                }
+
+	                $scope.hasSchedules = true;
 
 	                $scope.cohortMembers.forEach(function (member) {
 	                	encounterService.getEncountersForEncounterType(member.uuid, Bahmni.Common.Constants.dispensationEncounterTypeUuid).success(function (data) {
