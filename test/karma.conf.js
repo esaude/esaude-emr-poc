@@ -68,6 +68,7 @@ module.exports = function (config) {
       'bower_components/angular-ui-select2/src/select2.js',
       'bower_components/angular-ui-mask/dist/mask.js',
       'bower_components/angular-barcode/dist/angular-barcode.min.js',
+      'bower_components/angular-barcode-listener/angular-barcode-listener.min.js',
 
       // endbower
       // bundled libraries

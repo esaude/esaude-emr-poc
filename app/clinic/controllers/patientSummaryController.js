@@ -87,7 +87,7 @@ angular.module('clinic')
                 var dispense = {};
                 dispense.detetime = encounter.encounterDatetime;
                 dispense.provider = encounter.provider;
-                dispense.items = []; encounter.obs[0].groupMembers[0].order;
+                dispense.items = [];
                 _.forEach(encounter.obs, function (obs) {
                     var item = {};
                     item.order = obs.groupMembers[0].order;
