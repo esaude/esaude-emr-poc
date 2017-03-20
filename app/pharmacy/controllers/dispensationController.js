@@ -40,6 +40,14 @@ function DispensationController($scope, $rootScope, dispensationService, prescri
             $scope.updateDispenseListMessage();
         };
 
+        $scope.barcodeHandler = function (code) {
+             console.log(code);   
+            $scope.prescriptions.forEach(function (item) {
+                $scope.select(item);
+                return;
+            });
+        };
+
         $scope.remove = function (item) {
             item.disable = false;
             _.pull($scope.selectedItems, item);
