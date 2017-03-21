@@ -48,6 +48,10 @@ angular.module('application')
             $scope.barcodeHandler = function (code) {
                 //replace any special char by "/"
                 var cleanCode = code.replace(/[^\w\s]/gi, '/');
+                var nidRegex = new RegExp("[0-9]{8}/[0-9]{2}/[0-9]{5}");
+                if (!nidRegex.test(cleanCode)) {
+                    return;
+                }
 
                 spinner.forPromise(patientService.search(cleanCode).success(function (data) {
                     if (data.results.length !== 1) {
