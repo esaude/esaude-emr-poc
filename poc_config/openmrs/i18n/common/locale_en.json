@@ -216,5 +216,6 @@
     "COMMON_RELEVANT_NOTES_FORM": "Relevant Notes",
     "COMMON_ANAMNESE_BODY_EXAM_FORM": "Anamnesis and Body Exam",
     "COMMON_DIAGNOSIS_FORM": "Diagnosis",
-    "COMMON_RETURN": "Return on"
+    "COMMON_RETURN": "Return on",
+    "COMMON_ERROR": "Error"
 }

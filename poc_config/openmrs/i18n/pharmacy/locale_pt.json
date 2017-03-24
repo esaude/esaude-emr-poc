@@ -18,5 +18,6 @@
 	"PHARMACY_PRESCRIBED_BY": "Prescrito por",
 	"PHARMACY_DRUG" : "Medicamento",
 	"PHARMACY_SCHEDULED_FOR_PICK_UP" : "Marcados para levantamento de medicamentos",
-	"PHARMACY_LAST_PICK_UP" : "Último Levantamento"
+	"PHARMACY_LAST_PICK_UP" : "Último Levantamento",
+	"PHARMACY_THE_SELECTED_DRUG_IS_NOT_PART_OF_PRESCRIBED" : "O Medicamento Seleccionado não consta na lista de items da prescrição!"
 }
