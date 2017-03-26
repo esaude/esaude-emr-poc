@@ -18,5 +18,6 @@
 	"PHARMACY_PRESCRIBED_BY": "Prescribed by",
 	"PHARMACY_DRUG" : "Drug",
 	"PHARMACY_SCHEDULED_FOR_PICK_UP" : "Scheduled for drud pickup",
-	"PHARMACY_LAST_PICK_UP" : "Last pickup"
+	"PHARMACY_LAST_PICK_UP" : "Last pickup",
+	"PHARMACY_THE_SELECTED_DRUG_IS_NOT_PART_OF_PRESCRIBED" : "The selected drug is not part of Prescribed"
 }

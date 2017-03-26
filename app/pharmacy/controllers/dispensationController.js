@@ -2,14 +2,17 @@
 
 angular.module('pharmacy').controller('DispensationController', DispensationController);
 
-DispensationController.$inject = ["$scope", "$rootScope", "dispensationService", "prescriptionService", "localStorageService"];
+DispensationController.$inject = ["$scope", "$rootScope", "$filter", "dispensationService", "prescriptionService", "localStorageService",];
 
-function DispensationController($scope, $rootScope, dispensationService, prescriptionService, localStorageService) {
+function DispensationController($scope, $rootScope, $filter, dispensationService, prescriptionService, localStorageService) {
 
     var dateUtil = Bahmni.Common.Util.DateUtil;
     
     (function () {
         $scope.selectedItems = [];
+
+        //fake just for now
+        $scope.itemIndex = 0;
 
         $scope.today = dateUtil.getDateWithoutTime(dateUtil.now());
 
@@ -38,6 +41,28 @@ function DispensationController($scope, $rootScope, dispensationService, prescri
 
             $scope.selectedItems.push(item);
             $scope.updateDispenseListMessage();
+        };
+
+        //fake just for now
+        $scope.barcodeHandler = function(code) {
+            // fake dcode
+            var invalidDrug = 'IZONIAZID100mg';
+
+            if(invalidDrug == code){
+                toastr.error($filter('translate')('PHARMACY_THE_SELECTED_DRUG_IS_NOT_PART_OF_PRESCRIBED'), $filter('translate')('COMMON_ERROR'));
+                return;
+            }
+
+            $scope.$apply(function () {
+
+                var item = $scope.prescriptions[$scope.itemIndex];
+
+                if( _.includes($scope.selectedItems, item) )
+                    return;
+
+                $scope.select(item);
+                $scope.itemIndex++;
+            });
         };
 
         $scope.remove = function (item) {

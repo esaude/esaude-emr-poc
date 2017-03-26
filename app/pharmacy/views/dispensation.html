@@ -70,7 +70,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="item in selectedItems">
+                <tr ng-repeat="item in selectedItems track by $index">
                     <td>
                         <span class="text-lg">
                             <strong>{{item.order.concept.display}}</strong>
@@ -131,3 +131,10 @@
         </div>
     </div>
 </div>
+
+<barcode-listener
+   on-scan='barcodeHandler'
+   prefix=''
+   length=''
+   scan-duration='500'
+ ></barcode-listener>
