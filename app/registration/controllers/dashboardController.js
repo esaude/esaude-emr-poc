@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('registration')
-        .controller('DashboardController', ["$scope", "$location", "$stateParams",
-                    function ($scope, $location, $stateParams) {
+        .controller('DashboardController', ["$scope", "$location", "$stateParams", "ngDialog",
+                    function ($scope, $location, $stateParams, ngDialog) {
             var patientUuid;
 
             function init() {
@@ -27,6 +27,13 @@ angular.module('registration')
             
             $scope.linkPatientEdit = function() {
                 $location.url("/patient/edit/" + patientUuid + "/identifier"); // path not hash
+            };
+
+            $scope.transferPatient = function () {
+                ngDialog.open({ template: '../common/application/views/transferPatient.html',
+                                controller: 'TransferPatientController',
+                                width: '60%',
+                                showClose: false});
             };
             
             init();

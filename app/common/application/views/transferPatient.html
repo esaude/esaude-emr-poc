@@ -1,0 +1,30 @@
+<!--div>Icons made by <a href="http://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a>             is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div-->
+<!--div>
+  <p>Transfer X to:</p>
+</div>
+<div class="go-to-center">
+    <div class="inline-align content-border-margin-regular" ng-repeat="app in apps">
+        <button type="button" ng-show="app.active" class="btn btn-default" ng-click="linkApp(app.url)">
+            <span>
+                <img ng-src="../../{{app.logo}}" width="100" height="72" alt="provider">
+            </span>
+            <br/>{{app.name | translate}}
+        </button>
+    </div>
+</div-->
+
+<div class="panel panel-default">
+  <div class="panel-heading">Transfer X to:</div>
+  <div class="panel-body">
+    <div class="go-to-center">
+        <div class="inline-align content-border-margin-regular" ng-repeat="app in apps">
+            <button type="button" ng-show="app.active" class="btn btn-default" ng-click="linkApp(app.url)">
+                <span>
+                    <img ng-src="../../{{app.logo}}" width="100" height="72" alt="provider">
+                </span>
+                <br/>{{app.name | translate}}
+            </button>
+        </div>
+    </div>
+  </div>
+</div>
