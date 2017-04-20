@@ -36,6 +36,7 @@ angular.module('application')
             };
 
             $scope.linkApp = function (url) {
+                localStorageService.set('movingPatient', $scope.$parent.patient.uuid);
                 $window.location.href = url;
             };
             

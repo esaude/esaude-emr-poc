@@ -218,6 +218,7 @@
     "COMMON_DIAGNOSIS_FORM": "Diagnosis",
     "COMMON_RETURN": "Return on",
     "COMMON_ERROR": "Error",
+    "COMMON_MOVE_PATIENT": "Move this patient to",
     "APP_REGISTRATION": "Registration",
     "APP_SOCIAL": "Social",
     "APP_CLINIC": "Clinic",
