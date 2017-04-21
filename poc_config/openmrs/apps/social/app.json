@@ -1,6 +1,6 @@
 [
     {
-        "id": "poc.social",
+        "id": "social",
         "description": "Poc Social Info App",
         "config" : {
             "landingPageAfterSearch": "'/dashboard/' + patient.uuid",

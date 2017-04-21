@@ -2,21 +2,10 @@
 
 angular.module('application')
         .controller('SearchController', ['$rootScope', '$scope', '$location', 'patientService', 'openmrsPatientMapper',
-            'spinner', 'observationsService', 'commonService', 'visitService', 'localStorageService',
+            'spinner', 'observationsService', 'commonService', 'visitService',
     function ($rootScope, $scope, $location, patientService, patientMapper, spinner, observationsService, 
-        commonService, visitService, localStorageService) {
+        commonService, visitService) {
             $scope.results = [];
-
-            var movingPatient = localStorageService.get('movingPatient');
-
-            if (movingPatient !== null) {
-                localStorageService.remove('movingPatient');
-                spinner.forPromise(patientService.get(movingPatient).success(function (data) {
-                    var patient = patientMapper.map(data);
-                    $rootScope.patient = patient;
-                    redirectToPage(patient);
-                }));
-            }
 
             var dateUtil = Bahmni.Common.Util.DateUtil;
 

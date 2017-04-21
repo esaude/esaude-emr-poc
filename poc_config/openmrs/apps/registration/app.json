@@ -1,6 +1,6 @@
 [
     {
-        "id": "poc.registration",
+        "id": "registration",
         "description": "Poc Patient Registration App",
         "config" : {
              "additionalPatientInformation" : [

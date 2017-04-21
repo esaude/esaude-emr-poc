@@ -23,46 +23,6 @@ Bahmni.Common.AppFramework.AppDescriptor = function (context, inheritContext, re
         self.clinicalServices = clinicalServices || [];
     };
 
-  //TODO: Unused definition, to be removed after testing phase
-    // this.setExtensions = function (extensions) {
-    //     extensions.forEach(function(extn) {
-    //         var existing = self.extensionPoints.filter(function(ep) {
-    //             return ep.id == extn.extensionPointId;
-    //         });
-    //
-    //         if (existing.length == 0) {
-    //             self.extensionPoints.push({
-    //                 id: extn.extensionPointId,
-    //                 description: extn.description
-    //             });
-    //         }
-    //     });
-    //     self.extensions = extensions;
-    // };
-
-  //TODO: Unused definition, to be removed after testing phase
-    // this.setTemplate = function(template) {
-    //     self.instanceOf = template.id;
-    //     self.description = self.description || template.description;
-    //     self.contextModel = self.contextModel || template.contextModel;
-    //     if (template.configOptions) {
-    //         template.configOptions.forEach(function(opt) {
-    //             var existing = self.configs.filter(function(cfg) {
-    //                 return cfg.name == opt.name;
-    //             });
-    //             if (existing.length > 0) {
-    //                 existing[0].description = opt.description;
-    //             } else {
-    //                 self.configs.push({
-    //                     name: opt.name,
-    //                     description: opt.description,
-    //                     value: opt.defaultValue
-    //                 });
-    //             }
-    //         });
-    //     }
-    // };
-
     this.setDefinition = function(instance) {
         self.instanceOf = instance.instanceOf;
         self.id = instance.id;
@@ -108,10 +68,9 @@ Bahmni.Common.AppFramework.AppDescriptor = function (context, inheritContext, re
         }
     };
 
-  //TODO: Unused definition, to be removed after testing phase
-    // this.getExtensionById = function (id){
-    //     return self.extensions.filter(function (extn) { return extn.id === id })[0];
-    // };
+    this.getId = function() {
+        return self.id;
+    };
 
     this.getConfig = function(configName) {
         var cfgList = self.configs.filter(function(cfg) {

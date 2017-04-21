@@ -160,7 +160,6 @@ input[type=radio]:checked + label::before {
 }
 
 #overlay {
-  display: none;
   z-index: 10000000;
   position: fixed;
   width: 100%;

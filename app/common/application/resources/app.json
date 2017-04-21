@@ -1,11 +1,11 @@
 {
   "applications": [
-      {"name":"APP_REGISTRATION", "url":"/registration", "logo":"images/hospital.png", "active": true},
-      {"name":"APP_SOCIAL", "url":"/social", "logo":"images/music-social-group.png", "active": true},
-      {"name":"APP_VITALS", "url":"/vitals", "logo":"images/vitals.png", "active": true},
-      {"name":"APP_CLINIC", "url":"/clinic", "logo":"images/clinic.png", "active": true},
-      {"name":"APP_PHARMACY", "url":"/pharmacy", "logo":"images/medical.png", "active": true},
-      {"name":"APP_LAB", "url":"/lab", "logo":"images/microscope.png", "active": false},
-      {"name":"APP_COUNSELING", "url":"/counseling", "logo":"images/mind.png", "active": false}
+      {"id": "registration", "name":"APP_REGISTRATION", "url":"/registration", "logo":"images/hospital.png", "active": true},
+      {"id": "social", "name":"APP_SOCIAL", "url":"/social", "logo":"images/music-social-group.png", "active": true},
+      {"id": "vitals", "name":"APP_VITALS", "url":"/vitals", "logo":"images/vitals.png", "active": true},
+      {"id": "clinic", "name":"APP_CLINIC", "url":"/clinic", "logo":"images/clinic.png", "active": true},
+      {"id": "pharmacy", "name":"APP_PHARMACY", "url":"/pharmacy", "logo":"images/medical.png", "active": true},
+      {"id": "lab", "name":"APP_LAB", "url":"/lab", "logo":"images/microscope.png", "active": false},
+      {"id": "counseling", "name":"APP_COUNSELING", "url":"/counseling", "logo":"images/mind.png", "active": false}
   ]
 }

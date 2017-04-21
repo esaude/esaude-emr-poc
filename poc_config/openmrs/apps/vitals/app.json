@@ -1,6 +1,6 @@
 [
     {
-        "id": "poc.vitals",
+        "id": "vitals",
         "description": "Poc Patient Vitals App",
         "config" : {
             "landingPageAfterSearch": "'/dashboard/' + patient.uuid",

@@ -14,6 +14,7 @@ angular.module('registration').factory('initialization',
                 $rootScope.landingPageAfterSearch = appService.getAppDescriptor().getConfigValue("landingPageAfterSearch");
                 $rootScope.landingPageAfterSave = appService.getAppDescriptor().getConfigValue("landingPageAfterSave");
                 $rootScope.addressLevels = configurations.addressLevels();
+                $rootScope.appId = appService.getAppDescriptor().getId();
             });
         };
         

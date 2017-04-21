@@ -14,6 +14,7 @@ angular.module('vitals').factory('initialization',
                 $rootScope.landingPageAfterSave = appService.getAppDescriptor().getConfigValue("landingPageAfterSave");
                 $rootScope.defaultVisitTypes = appService.getAppDescriptor().getConfigValue("defaultVisitTypes");
                 $rootScope.addressLevels = configurations.addressLevels();
+                $rootScope.appId = appService.getAppDescriptor().getId();
             });
         };
         
