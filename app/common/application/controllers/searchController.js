@@ -3,7 +3,8 @@
 angular.module('application')
         .controller('SearchController', ['$rootScope', '$scope', '$location', 'patientService', 'openmrsPatientMapper',
             'spinner', 'observationsService', 'commonService', 'visitService',
-    function ($rootScope, $scope, $location, patientService, patientMapper, spinner, observationsService, commonService, visitService) {
+    function ($rootScope, $scope, $location, patientService, patientMapper, spinner, observationsService, 
+        commonService, visitService) {
             $scope.results = [];
 
             var dateUtil = Bahmni.Common.Util.DateUtil;
@@ -80,7 +81,7 @@ angular.module('application')
 
             var redirectToPage = function (patient) {
                  //initialize visit info in scope
-                visitService.search({patient: $rootScope.patient.uuid, v: "full"})
+                visitService.search({patient: patient.uuid, v: "full"})
                     .success(function (data) {
                         var nonRetired = commonService.filterRetired(data.results);
                         //in case the patient has an active visit

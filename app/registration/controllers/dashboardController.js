@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('registration')
-        .controller('DashboardController', ["$scope", "$location", "$stateParams",
-                    function ($scope, $location, $stateParams) {
+        .controller('DashboardController', ["$scope", "$location", "$stateParams", "ngDialog",
+                    function ($scope, $location, $stateParams, ngDialog) {
             var patientUuid;
 
             function init() {

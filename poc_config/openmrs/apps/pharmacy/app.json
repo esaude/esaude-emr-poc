@@ -1,6 +1,6 @@
 [
     {
-        "id": "poc.pharmacy",
+        "id": "pharmacy",
         "description": "Poc Pharmacy Info App",
         "config" : {
             "landingPageAfterSearch": "'/dashboard/' + patient.uuid + '/fila-history'",
