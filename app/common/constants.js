@@ -8,13 +8,6 @@ Bahmni.Common = Bahmni.Common || {};
     var EMRAPI = RESTWS + "/emrapi";
     var BACTERIOLOGY = RESTWS_V1;
 
-    var serverErrorMessages = [
-        {
-            serverMessage: "Cannot have more than one active order for the same orderable and care setting at same time",
-            clientMessage: "One or more drugs you are trying to order are already active. Please change the start date of the conflicting drug or remove them from the new prescription."
-        }
-    ];
-
     var representation = "custom:(uuid,name,names,conceptClass," +
         "setMembers:(uuid,name,names,conceptClass," +
         "setMembers:(uuid,name,names,conceptClass," +
@@ -28,10 +21,7 @@ Bahmni.Common = Bahmni.Common || {};
     };
 
     var drugPrescriptionConvSet = {
-        arvDrugs: {uuid: "e1d83d4a-1d5f-11e0-b929-000c29ad1d07"},
         therapeuticLine: {uuid: "fdff0637-b36f-4dce-90c7-fe9f1ec586f0"},
-        otherDrugs: {uuid: "e1de3092-1d5f-11e0-b929-000c29ad1d07"},
-        prophilaxyDrugs: {uuid: "e1de3092-1d5f-11e0-b929-000c29ad1d07"},
         prophilaxyPlan: {uuid: "718f4e32-70b8-4d37-b154-4b4fd05106a7"},
         artPlan: {uuid: "e1d9ee10-1d5f-11e0-b929-000c29ad1d07"},
         interruptedReason: {uuid: "e1d9ead2-1d5f-11e0-b929-000c29ad1d07"},
@@ -71,6 +61,7 @@ Bahmni.Common = Bahmni.Common || {};
         encounterUrl: RESTWS_V1 + "/encounter",
         locationUrl: RESTWS_V1 + "/location",
         orderUrl: RESTWS_V1 + "/order",
+        drugUrl: RESTWS_V1 + "/drug",
         bahmniOrderUrl: BAHMNI_CORE + "/orders",
         bahmniDrugOrderUrl: BAHMNI_CORE + "/drugOrders",
         bahmniDispositionByVisitUrl: BAHMNI_CORE + "/disposition/visit",
@@ -156,7 +147,6 @@ Bahmni.Common = Bahmni.Common || {};
         retrospectiveEntryEncounterDateCookieName: 'bahmni.clinical.retrospectiveEncounterDate',
         rootScopeRetrospectiveEntry: 'retrospectiveEntry.encounterDate',
         patientFileConceptName: 'Patient file',
-        serverErrorMessages: serverErrorMessages,
         currentUser:'user',
         retrospectivePrivilege:'app:clinical:retrospective',
         nutritionalConceptName:'Nutritional Values',
