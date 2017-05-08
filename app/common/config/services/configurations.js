@@ -12,49 +12,9 @@ angular.module('bahmni.common.config')
             });
         };
 
-        this.dosageInstructionConfig = function () {
-            return this.configs.dosageInstructionConfig || [];
-        };
-
-        this.dosageFrequencyConfig = function () {
-            return this.configs.dosageFrequencyConfig || [];
-        };
-
-        this.allTestsAndPanelsConcept = function () {
-            return this.configs.allTestsAndPanelsConcept.results[0] || [];
-        };
-
-        this.impressionConcept = function () {
-            return this.configs.radiologyImpressionConfig.results[0] || [];
-        };
-
-        this.labOrderNotesConcept = function () {
-            return this.configs.labOrderNotesConfig.results[0] || [];
-        };
-
-      
-        this.consultationNoteConcept = function () {
-            return this.configs.consultationNoteConfig.results[0] || [];
-        };
-
-        this.patientConfig = function () {
-            return this.configs.patientConfig || {};
-        };
-
-        this.encounterConfig = function () {
-            return angular.extend(new EncounterConfig(), this.configs.encounterConfig || []);
-        };
 
         this.patientAttributesConfig = function() {
             return this.configs.patientAttributesConfig.results;
-        };
-
-        this.identifierSourceConfig = function() {
-            return this.configs.identifierSourceConfig;
-        };
-
-        this.genderMap = function() {
-            return this.configs.genderMap;
         };
         
         this.defaultLocation = function() {
@@ -64,9 +24,4 @@ angular.module('bahmni.common.config')
         this.addressLevels = function() {
             return this.configs.addressLevels;
         };
-
-      //TODO: Unused definition, to be removed after testing phase
-        // this.relationshipTypes = function() {
-        //     return this.configs.relationshipTypeConfig.results || [];
-        // };
     }]);
