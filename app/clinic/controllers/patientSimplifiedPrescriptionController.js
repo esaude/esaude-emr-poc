@@ -36,8 +36,6 @@ angular.module('clinic')
             var encounterType = ($rootScope.patient.age.years >= 15) ? Bahmni.Common.Constants.adultFollowupEncounterUuid :
                         Bahmni.Common.Constants.childFollowupEncounterUuid;
 
-            loadSavedPrescriptions(patientUuid, encounterType);
-
         };
 
         $scope.getDrugs = function (request) {
@@ -136,39 +134,65 @@ angular.module('clinic')
              }
          };
 
+         var genSimpleObs = function (concept, value, datetime) {
+            return {
+                concept: concept,
+                obsDatetime: datetime,
+                person: patientUuid,
+                value: value
+            }
+         }
+
         $scope.save = function () {
             //build obs
             var obs = [];
+            var orders = [];
             var datetime = dateUtil.now();
 
             _.forEach($scope.listedPrescriptions, function (element) {
-                //create group observation
-                var obsConvSetGroup = {
-                    concept: Bahmni.Common.Constants.prescriptionConvSetConcept,
-                    obsDatetime: datetime,
-                    person: patientUuid,
-                    groupMembers: []
-                };
-                //create obs for grouped fields
-                for (var key in element) {
-                    var field = element[key];
-
-                    if (_.isUndefined(field.value)) continue;
-
-                    var observations = {
-                        concept: field.model.uuid,
-                        obsDatetime: datetime,
-                        person: patientUuid
-                    };
-                    //check if field has answers
-                    if (field.value.uuid !== undefined) {
-                        observations.value = field.value.uuid;
-                    } else {
-                        observations.value = field.value;
+                //############# Order with OBS model ###############
+                //check the drug type
+                if (element.isArv) {
+                    //create and add the regimen obs
+                    obs.push(genSimpleObs(Bahmni.Common.Constants.arvConceptUuid, element.drug.concept.uuid, datetime));
+                    //create and add the Arv plan
+                    obs.push(genSimpleObs(Bahmni.Common.Constants.drugPrescriptionConvSet.artPlan.uuid, element.arvPlan.uuid, datetime));
+                    //create and add the regime stop reason if any
+                    if (element.isPlanInterrupted) {
+                        obs.push(genSimpleObs(Bahmni.Common.Constants.drugPrescriptionConvSet.interruptedReason.uuid, 
+                            element.interruptedReason.uuid, datetime));
                     }
-                    obsConvSetGroup.groupMembers.push(observations);
+                    //create and add the regime change reason if any
+                    if (element.isPlanChanged) {
+                        obs.push(genSimpleObs(Bahmni.Common.Constants.drugPrescriptionConvSet.changeReason.uuid,
+                         element.changeReason.uuid, datetime));
+                    }
+                } else {
+                    //non ARV drug
+                    obs.push(genSimpleObs(Bahmni.Common.Constants.otherDrugsConceptUuid, element.drug.concept.uuid, datetime));
                 }
-                obs.push(obsConvSetGroup);
+                //############ Order with Drug Order model ##############
+                //Assumig this is allways an OUTPATIENT
+                //TODO: careSetting should be requested from backend system via Rest API
+                var order = {
+                    concept: element.drug.concept.uuid,
+                    patient: patientUuid,
+                    type: "drugorder",
+                    careSetting: "6f0c9a92-6f24-11e3-af88-005056821db0",
+                    dosingInstructions: element.dosingInstructions.uuid,
+                    orderer: $rootScope.currentProvider.uuid,
+                    dose: element.doseAmount,
+                    doseUnits: element.dosingUnits.uuid,
+                    frequency: element.dosgeFrequency.uuid,
+                    route: element.drugRoute.uuid,
+                    duration: element.duration,
+                    durationUnits: element.durationUnits.uuid,
+                    numRefills: 0,
+                    quantity: 0,
+                    quantityUnits: element.dosingUnits.uuid,
+                    drug: element.drug.uuid
+                };
+                orders.push(order);
             });
             //create obs for markedOn
             var markedOnObs = {
@@ -178,13 +202,14 @@ angular.module('clinic')
                 value: dateUtil.getDateInDatabaseFormat(datetime)
             };
             obs.push(markedOnObs);
-
+            //whether to create new encounter or update the obs list of existing one for this chackin
             if ($scope.hasEntryToday) {
                 //copy existing encounter
                 var encounter = {
                     uuid: $scope.todaysEncounter.uuid,
                     provider: $rootScope.currentUser.person.uuid,
-                    obs: obs
+                    obs: obs,
+                    orders: orders
                 };
                 encounterService.update(encounter).success(encounterSuccessCallback);
             } else {
@@ -198,165 +223,19 @@ angular.module('clinic')
                     location: localStorageService.cookie.get("emr.location").uuid,
                     patient: patientUuid,
                     provider: $rootScope.currentUser.person.uuid,
-                    obs: obs
+                    obs: obs,
+                    orders: orders
                 };
-
                 encounterService.create(encounter).success(encounterSuccessCallback);
             }
         };
 
         var encounterSuccessCallback = function (encounterProfileData) {
-            loadSavedPrescriptions(encounterProfileData.patient.uuid, encounterProfileData.encounterType.uuid);
+            console.log(encounterProfileData);
+            debugger
+            //loadSavedPrescriptions(encounterProfileData.patient.uuid, encounterProfileData.encounterType.uuid);
             $scope.listedPrescriptions = [];
             isPrescriptionControl();
-        };
-
-        var loadSavedPrescriptions = function (patient, encounterType) {
-            encounterService.getEncountersForEncounterType(patient, encounterType).success(function (data) {
-                    if (_.isEmpty(data.results)) return;
-
-                    $scope.existingPrescriptions = [];
-                    var nonVoidedEncounters = encounterService.filterRetiredEncoounters(data.results);
-                    var sortedEncounters = _.sortBy(nonVoidedEncounters, function (encounter) {
-                        return moment(encounter.encounterDatetime).toDate();
-                    }).reverse();
-                    //get todays entry
-                    var lastEncounter = _.maxBy(sortedEncounters, "encounterDatetime");
-                    if (dateUtil.diffInDaysRegardlessOfTime(lastEncounter.encounterDatetime,
-                                        dateUtil.now()) === 0) {
-                        $scope.todaysEncounter = lastEncounter;
-                        $scope.hasEntryToday = true;
-                        //find markedOn concept
-                        var markedOnInfo = _.find(lastEncounter.obs, function (o) {
-                            return o.concept.uuid === markedOn;
-                        });
-
-                        if (!_.isUndefined(markedOnInfo)) $scope.hasServiceToday = true;
-                    };
-
-                    var filteredEncounters = _.filter(sortedEncounters, function (e) {
-                        var foundObs = _.find(e.obs, function (o) {
-                            return o.concept.uuid === markedOn;
-                        });
-                        return typeof foundObs !== "undefined";
-                    });
-                    //create model for existing encounters
-                    _.forEach(filteredEncounters, function (encounter) {
-                        var existingModels = {
-                            prescriptionDate: null,
-                            models: []
-                        };
-                        //find markedOn concept
-                        var markedOnInfo = _.find(encounter.obs, function (o) {
-                            return o.concept.uuid === markedOn;
-                        });
-
-                        existingModels.prescriptionDate = markedOnInfo.value;
-
-                        var existingPrescriptionSets = _.filter(encounter.obs, function (o) {
-                            return o.concept.uuid === Bahmni.Common.Constants.prescriptionConvSetConcept;
-                        });
-
-                        _.forEach(existingPrescriptionSets, function (pSet) {
-                            var existingModel = angular.copy(Bahmni.Common.Constants.drugPrescriptionConvSet);
-                            for (var key in existingModel) {
-                                var m = existingModel[key];
-                                var foundModel = _.find(pSet.groupMembers, function (element) {
-                                    return element.concept.uuid === m.uuid;
-                                });
-
-                                if (_.isUndefined(foundModel)) continue;
-
-                                if (key === "otherDrugs") {
-                                    if (_.includes(Bahmni.Common.Constants.prophilaxyDrugConcepts, foundModel.value.uuid)) {
-                                        continue;
-                                    }
-                                }
-                                if (key === "prophilaxyDrugs") {
-                                    if (!_.includes(Bahmni.Common.Constants.prophilaxyDrugConcepts, foundModel.value.uuid)) {
-                                        continue;
-                                    }
-                                }
-
-                                m.model = foundModel.concept;
-                                m.value = foundModel.value;
-                            }
-                            existingModels.models.push(existingModel);
-                        });
-                        $scope.existingPrescriptions.push(existingModels);
-                    });
-            });
-        };
-
-        $scope.selectDrugType = function () {
-            resetFieldModel();
-            prepareDrugFields();
-            // get the last regimen
-            if ($scope.prescDrugType.id === "arvDrugs") {
-                observationsService.get(patientUuid, Bahmni.Common.Constants.drugPrescriptionConvSet.arvDrugs.uuid)
-                        .success(function (data) {
-                    var nonRetired = commonService.filterRetired(data.results);
-                    var maxObs = _.maxBy(nonRetired, 'obsDatetime');
-
-                    if (maxObs) {
-                        var swappedObsToConcept = swapObsToConceptAnswer(maxObs, $scope.fieldModels.arvDrugs.model.answers);
-                        $scope.fieldModels.arvDrugs.value = swappedObsToConcept;
-                        $scope.fieldModels.arvDrugs.oldValue = swappedObsToConcept;
-                    }
-                });
-                //get the last therapeutic line
-                observationsService.get(patientUuid, Bahmni.Common.Constants.drugPrescriptionConvSet.therapeuticLine.uuid)
-                        .success(function (data) {
-                    if (_.isEmpty(data.results)) {
-                        $scope.fieldModels.therapeuticLine.value = _.find($scope.fieldModels.therapeuticLine.model.answers, 
-                            function (answer) {
-                                return answer.uuid === Bahmni.Common.Constants.therapeuticLineQuestion.firstLine;
-                        });
-                    } else {
-                        var nonRetired = commonService.filterRetired(data.results);
-                        var maxObs = _.maxBy(nonRetired, 'obsDatetime');
-
-                        if (maxObs) {
-                            var swappedObsToConcept = swapObsToConceptAnswer(maxObs, $scope.fieldModels.therapeuticLine.model.answers);
-                            $scope.fieldModels.therapeuticLine.value = swappedObsToConcept;
-
-                            if (maxObs.value.uuid === Bahmni.Common.Constants.therapeuticLineQuestion.thirdLine) {
-                                $scope.arvLineEnabled = false;
-                            }
-                        }
-                    }
-                    $scope.currentArvLine = angular.copy($scope.fieldModels.therapeuticLine.value);
-                });
-            } else {
-                $scope.fieldModels.therapeuticLine.value = undefined;
-            }
-        };
-
-        var prepareDrugFields = function () {
-            $scope.prohilaxyDateFields = undefined;
-            if ($scope.prescDrugType.id === "arvDrugs") {
-                $scope.isArt = true;
-                $scope.isOthers = false;
-                $scope.isProphylaxis = false;
-            } 
-            else if ($scope.prescDrugType.id === "otherDrugs") {
-                $scope.isArt = false;
-                $scope.isOthers = true;
-                $scope.isPlanChanged = false;
-                $scope.isProphylaxis = false;
-            } 
-            else if ($scope.prescDrugType.id === "prophilaxyDrugs") {
-                $scope.isArt = false;
-                $scope.isOthers = false;
-                $scope.isPlanChanged = false;
-                $scope.isProphylaxis = true;
-            }
-        };
-
-        var swapObsToConceptAnswer = function (obs, conceptAnswers) {
-            return _.find(conceptAnswers, function (answer) {
-                return obs.value.uuid === answer.uuid;
-            });
         };
 
         $scope.validatePlan = function (order) {
@@ -367,106 +246,6 @@ angular.module('clinic')
                 order.isPlanInterrupted = false;
             }
         };
-
-        $scope.$watch('fieldModels.arvDrugs.value', function (newValue) {
-            if (_.isUndefined(newValue)) return;
-
-            if (!_.isUndefined($scope.fieldModels.arvDrugs.oldValue) &&
-                    (newValue.uuid !== $scope.fieldModels.arvDrugs.oldValue.uuid)) {
-                $scope.isPlanChanged = true;
-            } else {
-                $scope.isPlanChanged = false;
-                if ($scope.fieldModels.changeReason.value)
-                    $scope.fieldModels.changeReason.value = undefined;
-            }
-        });
-
-        $scope.createProphilaxyObs = function () {
-            //ISONIAZID
-            if ($scope.fieldModels.prophilaxyDrugs.value.uuid === "e1d43e52-1d5f-11e0-b929-000c29ad1d07") {
-                observationsService.get(patientUuid, Bahmni.Common.Constants.isoniazidStartDateUuid)
-                        .success(function (data) {
-                    var nonRetired = commonService.filterRetired(data.results);
-                    var maxObs = _.maxBy(nonRetired, 'obsDatetime');
-
-                    if (maxObs) {
-                        var prophilaxyStartDate = {
-                            uuid: "e1d43e52-1d5f-11e0-b929-000c29ad1d07",
-                            value: maxObs.value
-                        }
-                        $scope.fieldModels.prophilaxyDrugs.startDate = prophilaxyStartDate;
-                    }
-                });
-
-                observationsService.get(patientUuid, Bahmni.Common.Constants.isoniazidEndDateUuid)
-                        .success(function (data) {
-                    var nonRetired = commonService.filterRetired(data.results);
-                    var maxObs = _.maxBy(nonRetired, 'obsDatetime');
-
-                    if (maxObs) {
-                        var prophilaxyEndDate = {
-                            uuid: "e1d43e52-1d5f-11e0-b929-000c29ad1d07",
-                            value: maxObs.value
-                        }
-                        $scope.fieldModels.prophilaxyDrugs.endDate = prophilaxyEndDate;
-                    }
-                });
-            }
-            /*if ($scope.fieldModels.prophilaxyDrugs.value.uuid === "e1d43e52-1d5f-11e0-b929-000c29ad1d07" ||
-                $scope.fieldModels.prophilaxyDrugs.value.uuid === "e1d6b6dc-1d5f-11e0-b929-000c29ad1d07") {
-                $scope.prohilaxyDateFields = [
-                    {
-                        name: "prophilaxyStartDate",
-                        label: $filter('translate')('PROPHILAXY_START_DATE'),
-                        model: "prophilaxyStartDate"
-                    },
-                    {
-                        name: "prophilaxyEndDate",
-                        label: $filter('translate')('PROPHILAXY_END_DATE'),
-                        model: "prophilaxyEndDate"
-                    }
-                ];
-            } else {
-                $scope.prohilaxyDateFields = undefined;
-            }*/
-
-        };
-
-        $scope.refill = function (drug) {
-            $scope.listedPrescriptions.push(drug);
-            $scope.showNewPrescriptionsControlls = true;
-        };
-
-        $scope.changeArvLine = function () {
-            //verify the current line
-            if ($scope.fieldModels.therapeuticLine.value.uuid === Bahmni.Common.Constants.therapeuticLineQuestion.firstLine) {
-                $scope.fieldModels.therapeuticLine.value = _.find($scope.fieldModels.therapeuticLine.model.answers, 
-                        function (answer) {
-                            return answer.uuid === Bahmni.Common.Constants.therapeuticLineQuestion.secondLine;
-                });
-            }
-            else if ($scope.fieldModels.therapeuticLine.value.uuid === Bahmni.Common.Constants.therapeuticLineQuestion.secondLine) {
-                $scope.fieldModels.therapeuticLine.value = _.find($scope.fieldModels.therapeuticLine.model.answers, 
-                        function (answer) {
-                            return answer.uuid === Bahmni.Common.Constants.therapeuticLineQuestion.thirdLine;
-                });
-                $scope.arvLineEnabled = false;
-            }
-            $scope.isChageArvLine = false;
-        };
-
-        $scope.isProphylaxisInExistingPrescriptions = function () {
-            var found;
-            for (var key in $scope.existingPrescriptions) {
-                var p = $scope.existingPrescriptions[key];
-                found = _.find (p.models, function (m) {
-                    return m["prophilaxyDrugs"] !== undefined;
-                });
-
-                if (found) return true;
-            };
-            return false;
-        }
 
         init();
     }]);
