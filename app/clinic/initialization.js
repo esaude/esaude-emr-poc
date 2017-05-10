@@ -8,7 +8,7 @@ angular.module('clinic').factory('initialization',
             return configurations.load(configNames).then(function () {
                 var mandatoryPersonAttributes = appService.getAppDescriptor().getConfigValue("mandatoryPersonAttributes");
                 var patientAttributeTypes = new Poc.Patient.PatientAttributeTypeMapper().mapFromOpenmrsPatientAttributeTypes(configurations.patientAttributesConfig(), mandatoryPersonAttributes);
-                $rootScope.patientConfiguration = new Poc.Patient.PatientConfig(patientAttributeTypes.personAttributeTypes, configurations.identifierSourceConfig(), appService.getAppDescriptor().getConfigValue("additionalPatientInformation"));
+                $rootScope.patientConfiguration = new Poc.Patient.PatientConfig(patientAttributeTypes.personAttributeTypes, appService.getAppDescriptor().getConfigValue("additionalPatientInformation"));
                 $rootScope.landingPageAfterSearch = appService.getAppDescriptor().getConfigValue("landingPageAfterSearch");
                 $rootScope.landingPageAfterSave = appService.getAppDescriptor().getConfigValue("landingPageAfterSave");
                 $rootScope.defaultVisitTypes = appService.getAppDescriptor().getConfigValue("defaultVisitTypes");
@@ -29,6 +29,10 @@ angular.module('clinic').factory('initialization',
 
         var initFormLayout = function () {
             $rootScope.formLayout = appService.getAppDescriptor().getFormLayout();
+        };
+
+        var initDrugMapping = function () {
+            $rootScope.drugMapping = appService.getAppDescriptor().getDrugMapping()[0];
         };
 
         var initApp = function() {
@@ -57,6 +61,7 @@ angular.module('clinic').factory('initialization',
                 .then(initFormLayout)
                 .then(initForms)
                 .then(initClinicalServices)
+                .then(initDrugMapping)
                 .then(loadProvider));
     }]
 );

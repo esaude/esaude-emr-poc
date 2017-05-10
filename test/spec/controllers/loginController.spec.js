@@ -92,7 +92,6 @@ describe('Controller: LoginController', function () {
 
         expect(sessionService.get).toHaveBeenCalled();
         expect(location.path).toHaveBeenCalledWith('/dashboard');
-        expect(mockLocaleService.allowedLocalesList).toHaveBeenCalled();
     });
 
     it('should stay on page and set $scope.errorMessage on invalid user/pass', function () {

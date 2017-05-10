@@ -11,10 +11,8 @@ angular.module('home')
             $scope.showMenu = true;
             $rootScope.loginUser = {};
 
-            localeService.allowedLocalesList().then(function (response) {
-                $scope.locales = response.data.replace(/\s+/g, '').split(',');
-                $scope.selectedLocale = $translate.use()? $translate.use() : $scope.locales[0];
-            });
+            $scope.locales = ['en', 'pt'];
+            $scope.selectedLocale = $translate.use()? $translate.use() : $scope.locales[0];
 
         })();
 

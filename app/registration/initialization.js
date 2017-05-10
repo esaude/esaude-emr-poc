@@ -4,11 +4,11 @@ angular.module('registration').factory('initialization',
     ['$cookies', '$rootScope', 'configurations', 'authenticator', 'appService', 'spinner', 'userService', 'formLoader',
     function ($cookies, $rootScope, configurations, authenticator, appService, spinner, userService, formLoader) {
         var getConfigs = function () {
-            var configNames = ['patientAttributesConfig', 'addressLevels', 'genderMap'];
+            var configNames = ['patientAttributesConfig', 'addressLevels'];
             return configurations.load(configNames).then(function () {
                 var mandatoryPersonAttributes = appService.getAppDescriptor().getConfigValue("mandatoryPersonAttributes");
                 var patientAttributeTypes = new Poc.Patient.PatientAttributeTypeMapper().mapFromOpenmrsPatientAttributeTypes(configurations.patientAttributesConfig(), mandatoryPersonAttributes);
-                $rootScope.patientConfiguration = new Poc.Patient.PatientConfig(patientAttributeTypes.personAttributeTypes, configurations.identifierSourceConfig(), appService.getAppDescriptor().getConfigValue("additionalPatientInformation"));
+                $rootScope.patientConfiguration = new Poc.Patient.PatientConfig(patientAttributeTypes.personAttributeTypes, appService.getAppDescriptor().getConfigValue("additionalPatientInformation"));
                 $rootScope.encounterTypes = appService.getAppDescriptor().getConfigValue("encounterTypes");
                 $rootScope.defaultVisitTypes = appService.getAppDescriptor().getConfigValue("defaultVisitTypes");
                 $rootScope.landingPageAfterSearch = appService.getAppDescriptor().getConfigValue("landingPageAfterSearch");

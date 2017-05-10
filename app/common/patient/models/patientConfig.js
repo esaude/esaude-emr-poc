@@ -2,9 +2,8 @@
 
 Poc.Patient.PatientConfig = (function () {
 
-    function PatientConfig(patientAttributeTypes, identifierSources, additionalPatientInformation ) {
+    function PatientConfig(patientAttributeTypes, additionalPatientInformation ) {
         this.personAttributeTypes = patientAttributeTypes;
-        this.identifierSources = identifierSources;
         var additionalAttributes = [];
         //Avoiding multiple calls from angular code. Side effect of the way angular does dirty check. [Shruti/ Sush]
         if ( !this.attributeRows && this.personAttributeTypes) {

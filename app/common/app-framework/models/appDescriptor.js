@@ -9,6 +9,7 @@ Bahmni.Common.AppFramework.AppDescriptor = function (context, inheritContext, re
     this.configs = [];
     this.formLayout = [];
     this.clinicalServices = [];
+    this.drugMapping = [];
 
     this.extensionPath = context;
     this.contextPath = inheritContext ? context.split("/")[0] : context;
@@ -21,6 +22,10 @@ Bahmni.Common.AppFramework.AppDescriptor = function (context, inheritContext, re
 
     this.setClinicalServices = function (clinicalServices) {
         self.clinicalServices = clinicalServices || [];
+    };
+
+    this.setDrugMapping = function (drugMapping) {
+        self.drugMapping = drugMapping || [];
     };
 
     this.setDefinition = function(instance) {
@@ -131,6 +136,10 @@ Bahmni.Common.AppFramework.AppDescriptor = function (context, inheritContext, re
 
     this.getFormLayout = function () {
         return self.formLayout;
+    };
+
+    this.getDrugMapping = function () {
+        return self.drugMapping;
     };
 
     this.getClinicalServices = function () {

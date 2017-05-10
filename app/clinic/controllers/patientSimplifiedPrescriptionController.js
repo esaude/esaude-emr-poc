@@ -2,9 +2,9 @@
 
 angular.module('clinic')
         .controller('PatientSimplifiedPrescriptionController', ["$http", "$filter", "$scope", "$rootScope", "$stateParams",
-                        "encounterService", "observationsService", "commonService", "conceptService", "localStorageService",
+                        "encounterService", "observationsService", "commonService", "conceptService", "localStorageService", "notifier",
                     function ($http, $filter, $scope, $rootScope, $stateParams, encounterService,
-                    observationsService, commonService, conceptService, localStorageService) {
+                    observationsService, commonService, conceptService, localStorageService, notifier) {
         var patientUuid;
         var markedOn = "488e6803-c7db-43b2-8911-8d5d2a8472fd";
         var dateUtil = Bahmni.Common.Util.DateUtil;
@@ -58,43 +58,61 @@ angular.module('clinic')
         };
 
         $scope.checkDrugType = function (drug) {
-
             if (!_.isObject(drug)) {
                 return;
             }
-            console.log($scope.order.drug);
-            debugger
-        };
+            //check if drug is ARV
+            var arvRepr = $rootScope.drugMapping.arvDrugs[drug.uuid];
 
-        var resetFieldModel = function () {
-            for (var key in $scope.fieldModels) {
-                if (key === "therapeuticLine") {
-                    $scope.fieldModels[key].value = $scope.currentArvLine;
-                    continue;
-                }
-                $scope.fieldModels[key].value = undefined;
+            if (arvRepr !== undefined) {
+                $scope.order.isArv = true;
+            } else {
+                $scope.order.isArv = false;
+                $scope.order.interruptedReason = {};
+                $scope.order.isPlanInterrupted = false;
+                $scope.order.arvPlan = {};
             }
         };
 
-        $scope.reset = function () {
-            resetFieldModel();
-            if ($scope.fieldModels.therapeuticLine.value.uuid !== Bahmni.Common.Constants.therapeuticLineQuestion.thirdLine) {
-                $scope.arvLineEnabled = false;
+        var resetForm = function (form) {
+            if (form) {
+              form.$setPristine();
+              form.$setUntouched();
             }
-            $scope.drugType = undefined;
+            $scope.order = {};
+        };
+
+        $scope.reset = function (form) {
+            resetForm(form);
         }
 
-        $scope.add = function (valid) {
+        $scope.add = function (valid, form) {
             if (!valid) {
                 $scope.showMessages = true;
                 return;
             }
-            $scope.listedPrescriptions.push(angular.copy($scope.fieldModels));
-            resetFieldModel();
+            //avoid duplication of drugs
+            var sameOrderItem = _.find($scope.listedPrescriptions, function (order) {
+                return order.drug.uuid === $scope.order.drug.uuid;
+            });
+
+            if (sameOrderItem !== undefined) {
+                notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ITEM_ALREADY_IN_LIST'));
+                return;
+            }
+            //avoid ARV duplication in the list
+            var existingArvItem = _.find($scope.listedPrescriptions, function (order) {
+                return order.isArv === true;
+            });
+
+            if ($scope.order.isArv && existingArvItem !== undefined) {
+                notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ARV_ITEM_ALREADY_IN_LIST'));
+                return;
+            }
+            $scope.listedPrescriptions.push($scope.order);
+            resetForm(form);
             $scope.showNewPrescriptionsControlls = true;
             $scope.showMessages = false;
-            $scope.prescDrugType = undefined;
-            $scope.prohilaxyDateFields = undefined;
         };
 
          $scope.remove = function (item) {
@@ -102,16 +120,13 @@ angular.module('clinic')
              isPrescriptionControl();
          };
 
+         $scope.removeAll = function () {
+            $scope.listedPrescriptions = [];
+         }
+
          $scope.edit = function (item) {
-             $scope.fieldModels = angular.copy(item);
+             $scope.order = item;
              _.pull($scope.listedPrescriptions, item);
-             //calculate the drugType
-             _.forEach($scope.drugTypes, function (dt) {
-                if (item[dt.id].value != undefined) {
-                    $scope.prescDrugType = commonService.findInList($scope.drugTypes, "id", dt.id);
-                    prepareDrugFields();
-                }
-             });
              isPrescriptionControl();
          };
 
@@ -344,12 +359,12 @@ angular.module('clinic')
             });
         };
 
-        $scope.validatePlan = function () {
-            if ($scope.fieldModels.artPlan.value.uuid ===
+        $scope.validatePlan = function (order) {
+            if ($scope.order.arvPlan.uuid ===
                     Bahmni.Common.Constants.artInterruptedPlanUuid) {
-                $scope.isPlanInterrupted = true;
+                order.isPlanInterrupted = true;
             } else {
-                $scope.isPlanInterrupted = false;
+                order.isPlanInterrupted = false;
             }
         };
 
