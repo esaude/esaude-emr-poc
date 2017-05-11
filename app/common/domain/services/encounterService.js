@@ -4,26 +4,6 @@ angular.module('bahmni.common.domain')
     .service('encounterService', ['$http', '$q', '$rootScope', 'configurations', '$cookieStore',
         function ($http, $q, $rootScope, configurations, $cookieStore) {
 
-    //TODO: Unesed definition, to be removed after testing phase
-    // this.buildEncounter = function(encounter){
-    //     encounter.observations = encounter.observations || [];
-    //     encounter.observations.forEach(function(obs) {
-    //         stripExtraConceptInfo(obs);
-    //     });
-    //
-    //     encounter.providers = encounter.providers || [];
-    //
-    //     var providerData = $cookieStore.get(Bahmni.Common.Constants.grantProviderAccessDataCookieName);
-    //     if(_.isEmpty(encounter.providers)) {
-    //         if (providerData && providerData.uuid) {
-    //             encounter.providers.push({"uuid": providerData.uuid});
-    //         } else if ($rootScope.currentProvider && $rootScope.currentProvider.uuid) {
-    //             encounter.providers.push({"uuid": $rootScope.currentProvider.uuid });
-    //         }
-    //     }
-    //     return encounter;
-    // };
-
     var getDefaultEncounterType = function () {
         var url = Bahmni.Common.Constants.encounterTypeUrl;
         return  $http.get(url + '/' + configurations.defaultEncounterType()).then(function (response) {
@@ -176,12 +156,15 @@ angular.module('bahmni.common.domain')
     //     });
     // };
 
-    this.getEncountersForEncounterType = function(patientUuid, encounterTypeUuid) {
+    this.getEncountersForEncounterType = function(patientUuid, encounterTypeUuid, v) {
+        if (typeof v === "undefined") {
+            v = "custom:(uuid,encounterDatetime,provider,voided,visit:(uuid,startDatetime,stopDatetime),obs:(uuid,concept:(uuid,name),obsDatetime,value,groupMembers:(uuid,concept:(uuid,name),order,obsDatetime,value)))";
+        }
         return $http.get(Bahmni.Common.Constants.encounterUrl, {
             params:{
                 patient: patientUuid,
                 encounterType: encounterTypeUuid,
-                v: "custom:(uuid,encounterDatetime,provider,voided,visit:(uuid,startDatetime,stopDatetime),obs:(uuid,concept:(uuid,name),obsDatetime,value,groupMembers:(uuid,concept:(uuid,name),order,obsDatetime,value)))"
+                v: v
             },
             withCredentials : true
         });
