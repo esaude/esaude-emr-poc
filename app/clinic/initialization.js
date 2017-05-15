@@ -31,6 +31,10 @@ angular.module('clinic').factory('initialization',
             $rootScope.formLayout = appService.getAppDescriptor().getFormLayout();
         };
 
+        var initDrugMapping = function () {
+            $rootScope.drugMapping = appService.getAppDescriptor().getDrugMapping()[0];
+        };
+
         var initApp = function() {
             return appService.initApp('clinical', {'app': true, 'extension' : true, 'service': true });
         };
@@ -57,6 +61,7 @@ angular.module('clinic').factory('initialization',
                 .then(initFormLayout)
                 .then(initForms)
                 .then(initClinicalServices)
+                .then(initDrugMapping)
                 .then(loadProvider));
     }]
 );

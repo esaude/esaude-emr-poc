@@ -29,6 +29,25 @@ angular.module('bahmni.common.appFramework')
             );
             return deferrable.promise;
         };
+
+        var loadDrugMapping = function (appDescriptor) {
+            var deferrable = $q.defer();
+            loadConfig(baseUrl + "/common/drugMapping.json").then(
+                function (result) {
+                    appDescriptor.setDrugMapping(result.data);
+                    
+                    deferrable.resolve(appDescriptor);
+                },
+                function (error) {
+                    if (error.status != 404) {
+                        deferrable.reject(error);
+                    } else {
+                        deferrable.resolve(appDescriptor);
+                    }
+                }
+            );
+            return deferrable.promise;
+        };
         
         var loadClinicalServices = function (appDescriptor) {
             var deferrable = $q.defer();
@@ -91,6 +110,7 @@ angular.module('bahmni.common.appFramework')
             if (opts.service) {
                 promises.push(loadFormLayout(appDescriptor));
                 promises.push(loadClinicalServices(appDescriptor));
+                promises.push(loadDrugMapping(appDescriptor));
             }
             
             if (opts.app) {

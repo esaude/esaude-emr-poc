@@ -1,0 +1,9 @@
+[{
+  "arvDrugs": {
+    "e2778e90-1d5f-11e0-b929-000c29ad1d07": {"name": "Triomune-30", "fnm": "T30"},
+    "e2779296-1d5f-11e0-b929-000c29ad1d07": {"name": "Triomune-40", "fnm": "T40"},
+    "e27793f4-1d5f-11e0-b929-000c29ad1d07": {"name": "d4T-30", "fnm": "d4T30"},
+    "e2779534-1d5f-11e0-b929-000c29ad1d07": {"name": "d4T-40", "fnm": "d4T40"},
+    "e277966a-1d5f-11e0-b929-000c29ad1d07": {"name": "DDI 125", "fnm": "DDI125"}
+  }
+}]
