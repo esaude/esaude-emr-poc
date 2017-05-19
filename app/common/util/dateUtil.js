@@ -139,7 +139,7 @@ Bahmni.Common.Util.DateUtil = {
     isAfterDate: function(date1, date2){
       return moment(date1).isAfter(moment(date2));
     },
-  
+
     isSameDate: function(date1, date2) {
         if(date1 == null || date2 == null) {
             return false;
@@ -265,5 +265,9 @@ Bahmni.Common.Util.DateUtil = {
 
     getDateStr: function (date) {
         return date ? this.pad(date.getDate()) + "-" + this.pad(date.getMonth() + 1) + "-" + date.getFullYear() : "";
-    }
+    },
+
+     getDateFormatYYYYMMDD: function (date) {
+         return date ? date.getFullYear()+ "-" + this.pad(date.getMonth() + 1) + "-" +this.pad(date.getDate()) : "";
+     }
 };
