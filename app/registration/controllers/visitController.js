@@ -1,27 +1,27 @@
 'use strict';
 
 angular.module('registration')
-        .controller('VisitController', ['$rootScope', '$scope', '$stateParams', '$location', 'visitService', 'encounterService', 
+        .controller('VisitController', ['$rootScope', '$scope', '$stateParams', '$location', 'visitService', 'encounterService',
             'commonService', 'localStorageService',
-                    function ($rootScope, $scope, $stateParams, $location, visitService, encounterService, 
+                    function ($rootScope, $scope, $stateParams, $location, visitService, encounterService,
                         commonService, localStorageService) {
             var patientUuid;
             var dateUtil = Bahmni.Common.Util.DateUtil;
-    
+
             function init() {
                 patientUuid = $stateParams.patientUuid;
                 $scope.todayVisit = null;
                 $scope.lastUnclosedVisit = null;
                 $scope.disableCheckin = false;
-                
-                visitService.search({patient: patientUuid, 
+
+                visitService.search({patient: patientUuid,
                     v: 'custom:(visitType,startDatetime,stopDatetime,uuid,encounters)'})
-                .success(function (data) {          
+                .success(function (data) {
                     $scope.lastVisit = _.maxBy(data.results, 'startDatetime');
                 });
-                
-                encounterService.getEncountersForEncounterType(patientUuid, 
-                    ($rootScope.patient.age.years >= 15) ? $rootScope.encounterTypes.followUpAdult : 
+
+                encounterService.getEncountersForEncounterType(patientUuid,
+                    ($rootScope.patient.age.years >= 15) ? $rootScope.encounterTypes.followUpAdult :
                                                                 $rootScope.encounterTypes.followUpChild)
                             .success(function (data) {
                                 var last = _.maxBy(data.results, 'encounterDatetime');
@@ -32,7 +32,7 @@ angular.module('registration')
                                 });
                             }
                 );
-        
+
                 encounterService.getEncountersForEncounterType(patientUuid, $rootScope.encounterTypes.pharmacy)
                             .success(function (data) {
                                 var last = _.maxBy(data.results, 'encounterDatetime');
@@ -62,7 +62,7 @@ angular.module('registration')
                     var now = dateUtil.now();
 
                     //is last visit todays
-                    if (dateUtil.parseDatetime(lastVisit.startDatetime) <= now && 
+                    if (dateUtil.parseDatetime(lastVisit.startDatetime) <= now &&
                         dateUtil.parseDatetime(lastVisit.stopDatetime) >= now) {
                         $scope.todayVisit = lastVisit;
                         $scope.disableCheckin = true;
@@ -102,11 +102,13 @@ angular.module('registration')
             };
 
             var fixVisitDatetime = function (visit) {
-                visit.startDatetime = dateUtil.removeOffset(visit.startDatetime);
-                visit.stopDatetime = dateUtil.removeOffset(visit.stopDatetime);
-                return visit;
+              if(visit){
+                  visit.startDatetime = dateUtil.removeOffset(visit.startDatetime);
+                  visit.stopDatetime = dateUtil.removeOffset(visit.stopDatetime);
+                  return visit;
+              }
             }
-            
+
             $scope.visitHistory = function () {
               encounterService.getEncountersOfPatient(patientUuid).success(function (data) {
                 $scope.visits = commonService.filterGroupReverse(data);

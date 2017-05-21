@@ -20,7 +20,7 @@ Bahmni.Registration.CreatePatientRequestMapper = (function () {
                         }
                     ],
                     addresses: [_.pick(patient.address, constants.allAddressFileds) ],
-                    birthdate: this.getBirthdate(dateUtil.getDateStr(patient.birthdate), patient.age),
+                    birthdate: this.getBirthdate(dateUtil.getDateFormatYYYYMMDD(patient.birthdate), patient.age),
                     birthdateEstimated: patient.birthdateEstimated,
                     gender: patient.gender,
                     personDateCreated: patient.registrationDate,
@@ -48,7 +48,7 @@ Bahmni.Registration.CreatePatientRequestMapper = (function () {
     CreatePatientRequestMapper.prototype.getMrsAttributes = function (patient, patientAttributeTypes) {
         return patientAttributeTypes.map(function (result) {
             var attribute = {
-                attributeType: { 
+                attributeType: {
                     uuid: result.uuid
                 }
             };
@@ -56,12 +56,12 @@ Bahmni.Registration.CreatePatientRequestMapper = (function () {
             return  attribute;
         })
     };
-    
+
     var setIdentifiers = function (patient) {
         var identifiers = [];
         for (var i in patient.identifiers) {
             var patientIdentifier = patient.identifiers[i];
-            
+
             identifiers.push({
                         identifier: patientIdentifier.identifier,
                         identifierType: {
@@ -86,13 +86,13 @@ Bahmni.Registration.CreatePatientRequestMapper = (function () {
     };
 
     CreatePatientRequestMapper.prototype.getBirthdate = function (birthdate, age) {
-        var mnt;
-        if (birthdate !== undefined) {
-            mnt = moment(moment(birthdate).toDate());
-        } else if (age !== undefined) {
-            mnt = moment(this.currentDate).subtract('days', age.days).subtract('months', age.months).subtract('years', age.years);
+        var patientAge;
+        if (birthdate) {
+              patientAge = birthdate;
+        } else if (age) {
+              patientAge = age;
         }
-        return mnt.format('YYYY-MM-DD');
+        return patientAge.format('YYYY-MM-DD');
     };
 
     return CreatePatientRequestMapper;
