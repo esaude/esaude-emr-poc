@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('clinic')
-        .controller('PatientSimplifiedPrescriptionController', ["$q", "$http", "$filter", "$scope", "$rootScope", "$stateParams",
+        .controller('PatientSimplifiedPrescriptionController', ["$http", "$filter", "$scope", "$rootScope", "$stateParams",
                         "encounterService", "observationsService", "commonService", "conceptService", "localStorageService",
                         "notifier", "spinner",
-                    function ($q, $http, $filter, $scope, $rootScope, $stateParams, encounterService,
+                    function ($http, $filter, $scope, $rootScope, $stateParams, encounterService,
                     observationsService, commonService, conceptService, localStorageService, notifier, spinner) {
         var patientUuid;
         var markedOn = "488e6803-c7db-43b2-8911-8d5d2a8472fd";
@@ -22,12 +22,11 @@ angular.module('clinic')
             $scope.order = {};
 
             $scope.fieldModels = angular.copy(Bahmni.Common.Constants.drugPrescriptionConvSet);
-            var deferred = $q.defer();
 
-            conceptService.get(Bahmni.Common.Constants.prescriptionConvSetConcept).success(function (data) {
+            return conceptService.get(Bahmni.Common.Constants.prescriptionConvSetConcept).then(function (response) {
                 for (var key in $scope.fieldModels) {
                     var fieldModel = $scope.fieldModels[key];
-                    var members = angular.copy(data.setMembers);
+                    var members = angular.copy(response.data.setMembers);
                     var foundModel = _.find(members, function (element) {
                         return element.uuid === fieldModel.uuid;
                     });
@@ -37,11 +36,8 @@ angular.module('clinic')
                 var encounterType = ($rootScope.patient.age.years >= 15) ? Bahmni.Common.Constants.adultFollowupEncounterUuid :
                         Bahmni.Common.Constants.childFollowupEncounterUuid;
 
-                spinner.forPromise(loadSavedPrescriptions(patientUuid, encounterType));
-                deferred.resolve();
+                return loadSavedPrescriptions(patientUuid, encounterType);
             });
-
-            return deferred.promise;
         };
 
         $scope.getDrugs = function (request) {
@@ -256,8 +252,8 @@ angular.module('clinic')
 
         //TODO: This logic should go to the pharmacy module
         var loadSavedPrescriptions = function (patient, encounterType) {
-            var deferred = $q.defer();
-            encounterService.getEncountersForEncounterType(patient, encounterType, "full").success(function (data) {
+            return encounterService.getEncountersForEncounterType(patient, encounterType, "full").then(function (response) {
+                    var data = response.data;
                     if (_.isEmpty(data.results)) return;
 
                     $scope.existingPrescriptions = [];
@@ -357,9 +353,7 @@ angular.module('clinic')
                         });
                         $scope.encounterOrders.push(encounterOrder);
                     });
-                deferred.resolve();
             });
-            return deferred.promise;
         };
 
         $scope.refill = function (drug) {
