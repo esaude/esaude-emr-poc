@@ -23,21 +23,26 @@ angular.module('clinic')
 
             $scope.fieldModels = angular.copy(Bahmni.Common.Constants.drugPrescriptionConvSet);
 
-            return conceptService.get(Bahmni.Common.Constants.prescriptionConvSetConcept).then(function (response) {
+            function setFieldModels(setMembers) {
                 for (var key in $scope.fieldModels) {
                     var fieldModel = $scope.fieldModels[key];
-                    var members = angular.copy(response.data.setMembers);
-                    var foundModel = _.find(members, function (element) {
+                    var members = angular.copy(setMembers);
+                    fieldModel.model = _.find(members, function (element) {
                         return element.uuid === fieldModel.uuid;
                     });
-
-                    fieldModel.model = foundModel;
                 }
+            }
+
+            function loadPatientPrescriptions() {
                 var encounterType = ($rootScope.patient.age.years >= 15) ? Bahmni.Common.Constants.adultFollowupEncounterUuid :
-                        Bahmni.Common.Constants.childFollowupEncounterUuid;
+                    Bahmni.Common.Constants.childFollowupEncounterUuid;
 
                 return loadSavedPrescriptions(patientUuid, encounterType);
-            });
+            }
+
+            return conceptService.getPrescriptionConvSetConcept()
+                .then(setFieldModels)
+                .then(loadPatientPrescriptions);
         };
 
         $scope.getDrugs = function (request) {
