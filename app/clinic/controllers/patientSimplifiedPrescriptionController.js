@@ -126,6 +126,7 @@ angular.module('clinic')
 
         $scope.removeAll = function () {
           $scope.listedPrescriptions = [];
+          isPrescriptionControl();
         };
 
         $scope.edit = function (item) {
