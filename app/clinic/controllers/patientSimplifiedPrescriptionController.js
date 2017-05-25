@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('clinic')
-        .controller('PatientSimplifiedPrescriptionController', ["$q", "$http", "$filter", "$scope", "$rootScope", "$stateParams",
-                        "encounterService", "observationsService", "commonService", "conceptService", "localStorageService", 
+        .controller('PatientSimplifiedPrescriptionController', ["$http", "$filter", "$scope", "$rootScope", "$stateParams",
+                        "encounterService", "observationsService", "commonService", "conceptService", "localStorageService",
                         "notifier", "spinner",
-                    function ($q, $http, $filter, $scope, $rootScope, $stateParams, encounterService,
+                    function ($http, $filter, $scope, $rootScope, $stateParams, encounterService,
                     observationsService, commonService, conceptService, localStorageService, notifier, spinner) {
         var patientUuid;
         var markedOn = "488e6803-c7db-43b2-8911-8d5d2a8472fd";
@@ -22,26 +22,27 @@ angular.module('clinic')
             $scope.order = {};
 
             $scope.fieldModels = angular.copy(Bahmni.Common.Constants.drugPrescriptionConvSet);
-            var deferred = $q.defer();
 
-            conceptService.get(Bahmni.Common.Constants.prescriptionConvSetConcept).success(function (data) {
+            function setFieldModels(setMembers) {
                 for (var key in $scope.fieldModels) {
                     var fieldModel = $scope.fieldModels[key];
-                    var members = angular.copy(data.setMembers);
-                    var foundModel = _.find(members, function (element) {
+                    var members = angular.copy(setMembers);
+                    fieldModel.model = _.find(members, function (element) {
                         return element.uuid === fieldModel.uuid;
                     });
-
-                    fieldModel.model = foundModel;
                 }
+            }
+
+            function loadPatientPrescriptions() {
                 var encounterType = ($rootScope.patient.age.years >= 15) ? Bahmni.Common.Constants.adultFollowupEncounterUuid :
-                        Bahmni.Common.Constants.childFollowupEncounterUuid;
+                    Bahmni.Common.Constants.childFollowupEncounterUuid;
 
-                spinner.forPromise(loadSavedPrescriptions(patientUuid, encounterType));
-                deferred.resolve();
-            });
+                return loadSavedPrescriptions(patientUuid, encounterType);
+            }
 
-            return deferred.promise;
+            return conceptService.getPrescriptionConvSetConcept()
+                .then(setFieldModels)
+                .then(loadPatientPrescriptions);
         };
 
         $scope.getDrugs = function (request) {
@@ -88,7 +89,7 @@ angular.module('clinic')
 
         $scope.reset = function (form) {
             resetForm(form);
-        }
+        };
 
         $scope.add = function (valid, form) {
             if (!valid) {
@@ -119,35 +120,36 @@ angular.module('clinic')
             $scope.showMessages = false;
         };
 
-         $scope.remove = function (item) {
-             _.pull($scope.listedPrescriptions, item);
-             isPrescriptionControl();
-         };
+        $scope.remove = function (item) {
+           _.pull($scope.listedPrescriptions, item);
+           isPrescriptionControl();
+        };
 
-         $scope.removeAll = function () {
-            $scope.listedPrescriptions = [];
-         }
+        $scope.removeAll = function () {
+          $scope.listedPrescriptions = [];
+          isPrescriptionControl();
+        };
 
-         $scope.edit = function (item) {
-             $scope.order = item;
-             _.pull($scope.listedPrescriptions, item);
-             isPrescriptionControl();
-         };
+        $scope.edit = function (item) {
+           $scope.order = item;
+           _.pull($scope.listedPrescriptions, item);
+           isPrescriptionControl();
+        };
 
-         var isPrescriptionControl = function () {
-             if (_.isEmpty($scope.listedPrescriptions)) {
-                 $scope.showNewPrescriptionsControlls = false;
-             }
-         };
+        var isPrescriptionControl = function () {
+           if (_.isEmpty($scope.listedPrescriptions)) {
+               $scope.showNewPrescriptionsControlls = false;
+           }
+        };
 
-         var genSimpleObs = function (concept, value, datetime) {
-            return {
-                concept: concept,
-                obsDatetime: datetime,
-                person: patientUuid,
-                value: value
-            }
-         }
+        var genSimpleObs = function (concept, value, datetime) {
+          return {
+              concept: concept,
+              obsDatetime: datetime,
+              person: patientUuid,
+              value: value
+          }
+        };
 
         $scope.save = function () {
             //build obs
@@ -165,7 +167,7 @@ angular.module('clinic')
                     obs.push(genSimpleObs(Bahmni.Common.Constants.drugPrescriptionConvSet.artPlan.uuid, element.arvPlan.uuid, datetime));
                     //create and add the regime stop reason if any
                     if (element.isPlanInterrupted) {
-                        obs.push(genSimpleObs(Bahmni.Common.Constants.drugPrescriptionConvSet.interruptedReason.uuid, 
+                        obs.push(genSimpleObs(Bahmni.Common.Constants.drugPrescriptionConvSet.interruptedReason.uuid,
                             element.interruptedReason.uuid, datetime));
                     }
                     //create and add the regime change reason if any
@@ -255,8 +257,8 @@ angular.module('clinic')
 
         //TODO: This logic should go to the pharmacy module
         var loadSavedPrescriptions = function (patient, encounterType) {
-            var deferred = $q.defer();
-            encounterService.getEncountersForEncounterType(patient, encounterType, "full").success(function (data) {
+            return encounterService.getEncountersForEncounterType(patient, encounterType, "full").then(function (response) {
+                    var data = response.data;
                     if (_.isEmpty(data.results)) return;
 
                     $scope.existingPrescriptions = [];
@@ -276,7 +278,7 @@ angular.module('clinic')
                         });
 
                         if (!_.isUndefined(markedOnInfo)) $scope.hasServiceToday = true;
-                    };
+                    }
 
                     var filteredEncounters = _.filter(sortedEncounters, function (e) {
                         var foundObs = _.find(e.obs, function (o) {
@@ -310,18 +312,18 @@ angular.module('clinic')
                         };
                         _.forEach(encounter.orders, function (savedOrder) {
                             var order = {};
-                            order.drug = savedOrder.drug,
-                            order.doseAmount = savedOrder.dose,
-                            order.dosingUnits = swapObsToConceptAnswer(savedOrder.doseUnits.uuid, 
-                                        $scope.fieldModels.dosingUnits.model.answers),
-                            order.dosgeFrequency = savedOrder.frequency,
-                            order.drugRoute = swapObsToConceptAnswer(savedOrder.route.uuid, 
-                                        $scope.fieldModels.drugRoute.model.answers),
-                            order.duration = savedOrder.duration,
-                            order.durationUnits = swapObsToConceptAnswer(savedOrder.durationUnits.uuid, 
-                                        $scope.fieldModels.durationUnits.model.answers),
-                            order.dosingInstructions = swapObsToConceptAnswer(savedOrder.dosingInstructions, 
-                                $scope.fieldModels.dosingInstructions.model.answers);;
+                            order.drug = savedOrder.drug;
+                            order.doseAmount = savedOrder.dose;
+                            order.dosingUnits = swapObsToConceptAnswer(savedOrder.doseUnits.uuid,
+                                        $scope.fieldModels.dosingUnits.model.answers);
+                            order.dosgeFrequency = savedOrder.frequency;
+                            order.drugRoute = swapObsToConceptAnswer(savedOrder.route.uuid,
+                                        $scope.fieldModels.drugRoute.model.answers);
+                            order.duration = savedOrder.duration;
+                            order.durationUnits = swapObsToConceptAnswer(savedOrder.durationUnits.uuid,
+                                        $scope.fieldModels.durationUnits.model.answers);
+                            order.dosingInstructions = swapObsToConceptAnswer(savedOrder.dosingInstructions,
+                                $scope.fieldModels.dosingInstructions.model.answers);
                             //check if drug is ARV type
                             var arvRepr = $rootScope.drugMapping.arvDrugs[savedOrder.drug.uuid];
                             if (arvRepr !== undefined) {
@@ -331,7 +333,7 @@ angular.module('clinic')
                                     return o.concept.uuid === Bahmni.Common.Constants.drugPrescriptionConvSet.artPlan.uuid;
                                 });
                                 if (arvPlan !== undefined) {
-                                    order.arvPlan = swapObsToConceptAnswer(arvPlan.value.uuid, 
+                                    order.arvPlan = swapObsToConceptAnswer(arvPlan.value.uuid,
                                         $scope.fieldModels.artPlan.model.answers);
                                 }
                                 //find and swap plan interupted reason
@@ -339,7 +341,7 @@ angular.module('clinic')
                                     return o.concept.uuid === Bahmni.Common.Constants.drugPrescriptionConvSet.interruptedReason.uuid;
                                 });
                                 if (interruptedReason !== undefined) {
-                                    order.interruptedReason = swapObsToConceptAnswer(interruptedReason.value.uuid, 
+                                    order.interruptedReason = swapObsToConceptAnswer(interruptedReason.value.uuid,
                                         $scope.fieldModels.interruptedReason.model.answers);
                                     order.isPlanInterrupted = true;
                                 }
@@ -348,7 +350,7 @@ angular.module('clinic')
                                     return o.concept.uuid === Bahmni.Common.Constants.drugPrescriptionConvSet.changeReason.uuid;
                                 });
                                 if (changeReason !== undefined) {
-                                    order.changeReason = swapObsToConceptAnswer(changeReason.value.uuid, 
+                                    order.changeReason = swapObsToConceptAnswer(changeReason.value.uuid,
                                         $scope.fieldModels.changeReason.model.answers);
                                 }
                             }
@@ -356,9 +358,7 @@ angular.module('clinic')
                         });
                         $scope.encounterOrders.push(encounterOrder);
                     });
-                deferred.resolve();
             });
-            return deferred.promise;
         };
 
         $scope.refill = function (drug) {

@@ -70,6 +70,7 @@ module.exports = function (config) {
       'bower_components/angular-barcode/dist/angular-barcode.min.js',
       'bower_components/angular-barcode-listener/angular-barcode-listener.min.js',
       'bower_components/ng-dialog/js/ngDialog.min.js',
+      'bower_components/toastr/toastr.js',
 
       // endbower
       // bundled libraries
