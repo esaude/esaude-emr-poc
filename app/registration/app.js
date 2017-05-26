@@ -175,12 +175,16 @@ angular
                 resolve: { initialization: 'initialization' }
             })
             .state('detailpatient', {
-                url: '/patient/detail/:patientUuid',
-                views: {
-                    'layout': { templateUrl: '../common/application/views/layout.html', controller: 'DetailPatientController'},
-                    'content@detailpatient': { templateUrl: '../patient-details/views/patient-details.html'}
+              url: '/patient/detail/:patientUuid',
+              views: {
+                'layout': {
+                  templateUrl: '../common/application/views/layout.html',
+                  controller: 'DetailPatientController',
+                  controllerAs: 'vm'
                 },
-                resolve: { initialization: 'initialization' }
+                'content@detailpatient': {templateUrl: '../patient-details/views/patient-details.html'}
+              },
+              resolve: {initialization: 'initialization'}
             })
             .state('detailpatient.demographic', {
                 url: '/demographic',
