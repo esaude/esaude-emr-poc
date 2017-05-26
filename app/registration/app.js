@@ -10,14 +10,14 @@ angular
             var localStorageService = $injector.get('localStorageService');
             var movingPatient = localStorageService.get('movingPatient');
             var $state = $injector.get('$state');
-            
+
             if (movingPatient !== null) {
                 $state.go('mvp');
             } else {
                 $state.go('search');
             }
         });
-        
+
         $stateProvider
             .state('mvp', {
                 views: {
