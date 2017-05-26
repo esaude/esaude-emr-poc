@@ -83,6 +83,10 @@ and open the template in the editor.
     font-weight: normal;
 }
 
+.default-border-bottom {
+    border-bottom: 1px solid #e0e0eb;
+}
+
 .bg-info-border {
     border: 1px solid #337ab7;
 }

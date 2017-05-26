@@ -20,6 +20,7 @@ angular.module('clinic')
             $scope.listedPrescriptions = [];
             $scope.existingPrescriptions = [];
             $scope.order = {};
+            $scope.regimens = {};
 
             $scope.fieldModels = angular.copy(Bahmni.Common.Constants.drugPrescriptionConvSet);
             var deferred = $q.defer();
@@ -38,6 +39,11 @@ angular.module('clinic')
                         Bahmni.Common.Constants.childFollowupEncounterUuid;
 
                 spinner.forPromise(loadSavedPrescriptions(patientUuid, encounterType));
+                deferred.resolve();
+            });
+            //also get the available regimens here for later
+            conceptService.get(Bahmni.Common.Constants.arvRegimensConvSet).success(function (data) {
+                $scope.allRegimens = data;
                 deferred.resolve();
             });
 
@@ -244,15 +250,6 @@ angular.module('clinic')
             isPrescriptionControl();
         };
 
-        $scope.validatePlan = function (order) {
-            if ($scope.order.arvPlan.uuid ===
-                    Bahmni.Common.Constants.artInterruptedPlanUuid) {
-                order.isPlanInterrupted = true;
-            } else {
-                order.isPlanInterrupted = false;
-            }
-        };
-
         //TODO: This logic should go to the pharmacy module
         var loadSavedPrescriptions = function (patient, encounterType) {
             var deferred = $q.defer();
@@ -365,6 +362,107 @@ angular.module('clinic')
             $scope.listedPrescriptions.push(drug);
             $scope.showNewPrescriptionsControlls = true;
         };
+
+        $scope.doTherapeuticLineChanges = function (therapeuticLine) {
+            //should never go lower
+
+            //edit regimen
+            $scope.order.isRegimenCancelDisabled = true;
+            $scope.regimens = filterRegimens($scope.allRegimens, therapeuticLine);//update the list of regimens
+            $scope.order.regimen = undefined;
+        };
+
+        $scope.doRegimenChanges = function (regimen) {
+            //edit regimen
+            $scope.order.isRegimenCancelDisabled = false;
+            //compare new and old regimen
+            if (!_.isUndefined($scope.order.currentRegimen) && $scope.order.currentRegimen.uuid !== regimen.uuid) {
+                $scope.order.isRegimenChanged = true;
+                $scope.isRegimenChangeEdit = true;
+            } else {
+                $scope.order.isRegimenChanged = false;
+                $scope.isRegimenChangeEdit = false;
+                $scope.order.changeReason = undefined;
+            }
+        };
+
+        $scope.doPlamChanged = function (order) {
+            if ($scope.order.arvPlan.uuid ===
+                    Bahmni.Common.Constants.artInterruptedPlanUuid) {
+                order.isPlanInterrupted = true;
+                $scope.isArvPlanInterruptedEdit = true;
+            } else {
+                order.isPlanInterrupted = false;
+                $scope.isArvPlanInterruptedEdit = false;
+                $scope.order.interruptedReason = undefined;
+            }
+        };
+
+        $scope.initTherapeuticLine = function () {
+            //get the last therapeutic line
+            observationsService.get(patientUuid, Bahmni.Common.Constants.drugPrescriptionConvSet.therapeuticLine.uuid)
+                        .success(function (data) {
+                if (_.isEmpty(data.results)) {
+                    $scope.order.therapeuticLine = _.find($scope.fieldModels.therapeuticLine.model.answers, 
+                        function (answer) {
+                            return answer.uuid === Bahmni.Common.Constants.therapeuticLineQuestion.firstLine;
+                    });
+                } else {
+                    var nonRetired = commonService.filterRetired(data.results);
+                    var maxObs = _.maxBy(nonRetired, 'obsDatetime');
+
+                    if (maxObs) {
+                        var swappedObsToConcept = swapObsToConceptAnswer(maxObs.value.uuid, $scope.fieldModels.therapeuticLine.model.answers);
+                        $scope.order.therapeuticLine = swappedObsToConcept;
+
+                        if (maxObs.value.uuid === Bahmni.Common.Constants.therapeuticLineQuestion.thirdLine) {
+                            $scope.arvLineEnabled = false;
+                        }
+                    }
+                }
+                $scope.order.currentArvLine = angular.copy($scope.order.therapeuticLine);
+                // filter the regimens according to age and therapeutic line
+                var filteredRegimens = filterRegimens($scope.allRegimens, $scope.order.therapeuticLine);
+                initRegimens(filteredRegimens);
+            });
+        };
+
+        var filterRegimens = function (allRegimens, therapeuticLine) {
+            var age = ($rootScope.patient.age.years >= 15) ? "adult" : "child";
+            var regimenGroupAge = Bahmni.Common.Constants.regimenGroups[age];
+            var regimenGroupTLine = {};
+            //find the current therapeutic line
+            if (therapeuticLine.uuid === Bahmni.Common.Constants.therapeuticLineQuestion.firstLine) {
+                regimenGroupTLine = regimenGroupAge.firstLine;
+            }
+            else if (therapeuticLine.uuid === Bahmni.Common.Constants.therapeuticLineQuestion.secondLine) {
+                regimenGroupTLine = regimenGroupAge.secondLine;
+            }
+            else if (therapeuticLine.uuid === Bahmni.Common.Constants.therapeuticLineQuestion.thirdLine) {
+                regimenGroupTLine = regimenGroupAge.thirdLine;
+            }
+            return _.find(allRegimens.setMembers, function (member) {
+                return member.uuid === regimenGroupTLine;
+            });
+        };
+
+        var initRegimens = function (filteredRegimens) {
+            $scope.regimens = filteredRegimens;
+            //get the last regimen
+            observationsService.get(patientUuid, Bahmni.Common.Constants.arvConceptUuid)
+                        .success(function (data) {
+                var nonRetired = commonService.filterRetired(data.results);
+                var maxObs = _.maxBy(nonRetired, 'obsDatetime');
+
+                if (maxObs) {
+                    var swappedObsToConcept = swapObsToConceptAnswer(maxObs.value.uuid, filteredRegimens.answers);
+                    $scope.order.regimen = swappedObsToConcept;
+                    $scope.order.currentRegimen = swappedObsToConcept;
+                    //ask for regimen input if doesn't exist
+                    if (!swappedObsToConcept) $scope.isRegimenEdit = true;
+                }
+            });
+        }
 
         var swapObsToConceptAnswer = function (obs, conceptAnswers) {
             return _.find(conceptAnswers, function (answer) {
