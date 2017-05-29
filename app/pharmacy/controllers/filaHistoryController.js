@@ -8,10 +8,10 @@ FilaHistoryController.$inject = ["$scope", "$rootScope", "$stateParams",
 
 function FilaHistoryController($scope, $rootScope, $stateParams, encounterService,
                     observationsService, commonService) {
-    //TODO: Check if vm is needed 
+    //TODO: Check if vm is needed
     var vm = this;
     var dateUtil = Bahmni.Common.Util.DateUtil;
-    
+
     (function () {
         $scope.filaObsList = {
             posology: "e1de28ae-1d5f-11e0-b929-000c29ad1d07",
@@ -21,13 +21,12 @@ function FilaHistoryController($scope, $rootScope, $stateParams, encounterServic
         };
 
         var patientUuid = $stateParams.patientUuid;
-        var pharmacyEncounterUuid = "e279133c-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
 
-        encounterService.getEncountersForEncounterType(patientUuid, pharmacyEncounterUuid).success(function (data) {
-            $scope.pickups = commonService.filterReverse(data);
-            $scope.displayed = commonService.filterReverse(data);
+        encounterService.getPatientPharmacyEncounters(patientUuid).then(function (encounters) {
+            $scope.pickups = encounters;
+            $scope.displayed = $scope.pickups;
         });
-            
+
     })();
 
     $scope.isObject = function (value) {

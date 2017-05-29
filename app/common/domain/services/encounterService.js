@@ -4,9 +4,11 @@
   angular.module('bahmni.common.domain')
     .factory('encounterService', encounterService);
 
-  encounterService.$inject = ['$http', '$q', '$rootScope', 'configurations', '$cookieStore'];
+  encounterService.$inject = ['$http', '$q', '$rootScope', 'configurations', '$cookieStore', '$log', 'appService'];
 
-  function encounterService($http, $q, $rootScope, configurations, $cookieStore) {
+  function encounterService($http, $q, $rootScope, configurations, $cookieStore, $log, appService) {
+
+    var PHARMACY_ENCOUNTER_TYPE_UUID = appService.getAppDescriptor().getConfigValue("encounterTypes").pharmacy;
 
     return {
       create: create,
@@ -14,6 +16,7 @@
       filterRetiredEncoounters: filterRetiredEncoounters,
       find: find,
       getEncountersForEncounterType: getEncountersForEncounterType,
+      getPatientPharmacyEncounters: getPatientPharmacyEncounters,
       getEncountersOfPatient: getEncountersOfPatient,
       search: search,
       update: update
@@ -183,6 +186,26 @@
         },
         withCredentials: true
       });
+    }
+
+    /**
+     * @param {String} patientUuid Patient UUID
+     * @param {String} v
+     * @returns {Array} Non retired pharmacy encounters for patient ordered by most recent.
+     */
+    function getPatientPharmacyEncounters(patientUuid, v) {
+
+      function getEncountersComplete(response) {
+        return _.filter(response.data.results, function (e) { return !e.voided; }).reverse();
+      }
+
+      function getEncountersFailed(error) {
+        $log.error('XHR Failed for getPatientPharmacyEncounters. ' + error);
+      }
+
+      return getEncountersForEncounterType(patientUuid, PHARMACY_ENCOUNTER_TYPE_UUID, v)
+        .then(getEncountersComplete)
+        .catch(getEncountersFailed);
     }
 
     //TODO: Unused definition, to be removed after testing phase
