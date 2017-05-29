@@ -9,6 +9,7 @@
   function DetailPatientController($scope, $stateParams, $location, $http, $rootScope, $compile, $timeout, $q) {
     var vm = this;
 
+    vm.patient = $scope.patient;
     vm.patientAttributes = [];
     vm.initAttributes = initAttributes;
     vm.linkDashboard = linkDashboard;
@@ -31,8 +32,8 @@
     function print() {
 
       var templateUrl = "../patient-details/views/patient-demo-info.html";
-      var data = $scope.patient;
-      $scope.patient.barcodeOptions = {
+      var data = vm.patient;
+      vm.patient.barcodeOptions = {
         width: 2,
         height: 40,
         quite: 10,
