@@ -10,13 +10,13 @@
 
     return {
       create: create,
-      update: update,
       delete: _delete,
-      search: search,
+      filterRetiredEncoounters: filterRetiredEncoounters,
       find: find,
       getEncountersForEncounterType: getEncountersForEncounterType,
       getEncountersOfPatient: getEncountersOfPatient,
-      filterRetiredEncoounters: filterRetiredEncoounters
+      search: search,
+      update: update
     };
 
     function getDefaultEncounterType() {
