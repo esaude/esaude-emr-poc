@@ -4,7 +4,7 @@
   angular.module('patient.details')
     .controller('DetailPatientController', DetailPatientController);
 
-  DetailPatientController.$inject = ["$scope", "$stateParams", "$location", "$http", "$rootScope", "$compile", "$timeout", "$q", "reportService"];
+  DetailPatientController.$inject = ["$scope", "$stateParams", "$location", "reportService"];
 
   function DetailPatientController($scope, $stateParams, $location, reportService) {
     var vm = this;
