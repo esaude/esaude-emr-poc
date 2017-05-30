@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="../styles/patient-demo-info.css"/>
+<link rel="stylesheet" href="../styles/patient-arv-pickup-history-report.css"/>
 <div class="header">
     <h3 class="panel-title"> {{'PATIENT_DAILY_HOSPITAL_PROCESS' | translate}}</h3>
     <div class="form-horizontal">
@@ -26,7 +26,9 @@
         <div>
             <label><strong>{{'COMMON_AVENUE' | translate}}/{{'COMMON_STREET' | translate}}/{{'COMMON_HOUSE' | translate}}: </strong> <i ng-bind="patient.address.display" /> </label>
         </div>
-        <div><barcode type="code128b" render="img" string="{{patient.identifier}}" options="patient.barcodeOptions"></barcode></div>
+        <div>
+          <barcode type="code128b" render="img" string="{{patient.identifier}}" options="patient.barcodeOptions"></barcode>
+        </div>
 
       <!--
        //TODO: Code CleanUp
