@@ -200,7 +200,8 @@
       }
 
       function getEncountersFailed(error) {
-        $log.error('XHR Failed for getPatientPharmacyEncounters. ' + error);
+        $log.error('XHR Failed for getPatientPharmacyEncounters. ' + error.data);
+        $q.reject(error);
       }
 
       return getEncountersForEncounterType(patientUuid, PHARMACY_ENCOUNTER_TYPE_UUID, v)
