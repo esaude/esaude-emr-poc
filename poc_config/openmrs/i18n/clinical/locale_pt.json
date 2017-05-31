@@ -152,6 +152,7 @@
   "CLINIC_PRESCRIPTION_THERAPEUTIC_LINE": "Linha terapeutica",
   "CLINIC_PRESCRIPTION_CURRENT_REGIMEN": "Regime Actual",
   "CLINIC_PRESCRIPTION_REGIMEN": "Regime",
+  "CLINIC_MESSAGE_ERROR_CANNOT_CHANGE_REGIMEN": "Regime não pode ser alterado porque pelo menos um item ARV se encontra seleccionado",
   "TUBERCULOSIS_DRUG_TREATMENT_START_DATE": "Data de Inicio de Tratamento TB",
   "TUBERCULOSIS PROPHYLAXIS STARTED": "PROFILAXIA DE Tuberculose Iniciada",
   "TUBERCULOSIS TREATMENT PLAN": "Em Tratamento TB",

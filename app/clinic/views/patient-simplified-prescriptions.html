@@ -23,7 +23,7 @@
             <div class="panel-body">
                 <form name="prescriptionForm" class="form-horizontal">
                     <div class="form-group form-group-lg"
-                         ng-class="{'has-error': prescriptionForm.drug.$invalid && showMessages}">
+                         ng-class="{'has-error': prescriptionForm.drug.$invalid && showMessages}" ng-show="!order.isArv">
                         <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_DRUG'| translate}}:<span class="asterick">*</span></label>
                         <div class="col-sm-9">
                             <div ng-messages for="prescriptionForm.drug.$error" 
@@ -36,6 +36,20 @@
                                 class="form-control keyboard-in"
                                 ng-required="true"
                                 ng-focus="checkDrugType(order.drug)">
+
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg"
+                         ng-class="{'has-error': prescriptionForm.arvDrug.$invalid && showMessages}" ng-show="order.isArv">
+                        <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_DRUG'| translate}}:<span class="asterick">*</span></label>
+                        <div class="col-sm-9">
+                            <div ng-messages for="prescriptionForm.arvDrug.$error" 
+                                 ng-messages-include="../poc-common/form-display/views/error-messages.html"
+                                 ng-show="showMessages"></div>
+                            <select name="arvDrug" class="form-control" ng-model="order.drug"
+                                    ng-options="arvDrug.display for arvDrug in arvDrugs" required>
+                                <option></option>
+                            </select>
 
                         </div>
                     </div>
@@ -160,14 +174,14 @@
                     <span>
                         <strong>{{order.drug.display}}</strong>
                         <strong ng-if="order.isArv">
-                            (First Line)
+                            ({{order.regimen.display}}: {{order.therapeuticLine.display}})
                         </strong>-
                         {{order.doseAmount}} 
                         {{order.dosingUnits.display}}, {{order.dosgeFrequency.display}}, 
                         {{order.drugRoute.display}} - {{order.duration}} 
                         {{order.durationUnits.display}}, {{order.dosingInstructions.display}}
                     </span>
-                    <span ng-if="order.isArv">
+                    <span ng-if="order.isArv && order.arvPlan">
                         <strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN'| translate}}:</strong> {{order.arvPlan.display}}
                     </span>
                     <span ng-if="order.drug.isProphilaxy">

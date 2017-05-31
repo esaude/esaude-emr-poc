@@ -3,9 +3,9 @@
 angular.module('clinic')
         .controller('PatientSimplifiedPrescriptionController', ["$q", "$http", "$filter", "$scope", "$rootScope", "$stateParams",
                         "encounterService", "observationsService", "commonService", "conceptService", "localStorageService", 
-                        "notifier", "spinner",
+                        "notifier", "spinner", "drugService",
                     function ($q, $http, $filter, $scope, $rootScope, $stateParams, encounterService,
-                    observationsService, commonService, conceptService, localStorageService, notifier, spinner) {
+                    observationsService, commonService, conceptService, localStorageService, notifier, spinner, drugService) {
         var patientUuid;
         var markedOn = "488e6803-c7db-43b2-8911-8d5d2a8472fd";
         var dateUtil = Bahmni.Common.Util.DateUtil;
@@ -114,11 +114,12 @@ angular.module('clinic')
             var existingArvItem = _.find($scope.listedPrescriptions, function (order) {
                 return order.isArv === true;
             });
-
+            /*
             if ($scope.order.isArv && existingArvItem !== undefined) {
                 notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ARV_ITEM_ALREADY_IN_LIST'));
                 return;
             }
+            */
             $scope.listedPrescriptions.push($scope.order);
             resetForm(form);
             $scope.showNewPrescriptionsControlls = true;
@@ -166,9 +167,13 @@ angular.module('clinic')
                 //check the drug type
                 if (element.isArv) {
                     //create and add the regimen obs
-                    obs.push(genSimpleObs(Bahmni.Common.Constants.arvConceptUuid, element.drug.concept.uuid, datetime));
+                    obs.push(genSimpleObs(Bahmni.Common.Constants.arvConceptUuid, element.regimen.uuid, datetime));
+                    //create and add the therapeutic line obs
+                    obs.push(genSimpleObs(Bahmni.Common.Constants.drugPrescriptionConvSet.therapeuticLine.uuid, element.therapeuticLine.uuid, datetime));
                     //create and add the Arv plan
-                    obs.push(genSimpleObs(Bahmni.Common.Constants.drugPrescriptionConvSet.artPlan.uuid, element.arvPlan.uuid, datetime));
+                    if (element.arvPlan) {
+                        obs.push(genSimpleObs(Bahmni.Common.Constants.drugPrescriptionConvSet.artPlan.uuid, element.arvPlan.uuid, datetime));
+                    }
                     //create and add the regime stop reason if any
                     if (element.isPlanInterrupted) {
                         obs.push(genSimpleObs(Bahmni.Common.Constants.drugPrescriptionConvSet.interruptedReason.uuid, 
@@ -318,7 +323,7 @@ angular.module('clinic')
                             order.durationUnits = swapObsToConceptAnswer(savedOrder.durationUnits.uuid, 
                                         $scope.fieldModels.durationUnits.model.answers),
                             order.dosingInstructions = swapObsToConceptAnswer(savedOrder.dosingInstructions, 
-                                $scope.fieldModels.dosingInstructions.model.answers);;
+                                $scope.fieldModels.dosingInstructions.model.answers);
                             //check if drug is ARV type
                             var arvRepr = $rootScope.drugMapping.arvDrugs[savedOrder.drug.uuid];
                             if (arvRepr !== undefined) {
@@ -377,6 +382,17 @@ angular.module('clinic')
             $scope.order.isRegimenCancelDisabled = false;
             //compare new and old regimen
             if (!_.isUndefined($scope.order.currentRegimen) && $scope.order.currentRegimen.uuid !== regimen.uuid) {
+                //pervent change regimen if ARV item is selected
+                var selectedArvItem = _.find($scope.listedPrescriptions, function (item) {
+                    return item.isArv === true;
+                });
+                if (selectedArvItem) {
+                    notifier.error($filter('translate')('CLINIC_MESSAGE_ERROR_CANNOT_CHANGE_REGIMEN'));
+                    $scope.order.regimen = $scope.order.currentRegimen;
+                    $scope.order.therapeuticLine = $scope.order.currentArvLine;
+                    return;
+                }
+                getDrugsOfRegimen(regimen);
                 $scope.order.isRegimenChanged = true;
                 $scope.isRegimenChangeEdit = true;
             } else {
@@ -399,6 +415,17 @@ angular.module('clinic')
         };
 
         $scope.initTherapeuticLine = function () {
+            //use regimen of already selected ARV line as the default one
+            var selectedArvItem = _.find($scope.listedPrescriptions, function (item) {
+                return item.isArv === true;
+            });
+            if (selectedArvItem) {
+                $scope.order.therapeuticLine = selectedArvItem.therapeuticLine;
+                $scope.order.currentArvLine = selectedArvItem.therapeuticLine;
+                $scope.order.currentRegimen = selectedArvItem.regimen;
+                $scope.order.regimen = selectedArvItem.regimen;
+                return;
+            };
             //get the last therapeutic line
             observationsService.get(patientUuid, Bahmni.Common.Constants.drugPrescriptionConvSet.therapeuticLine.uuid)
                         .success(function (data) {
@@ -459,8 +486,19 @@ angular.module('clinic')
                     $scope.order.regimen = swappedObsToConcept;
                     $scope.order.currentRegimen = swappedObsToConcept;
                     //ask for regimen input if doesn't exist
-                    if (!swappedObsToConcept) $scope.isRegimenEdit = true;
+                    if (swappedObsToConcept) {
+                        getDrugsOfRegimen(swappedObsToConcept);
+                    } else {
+                        $scope.isRegimenEdit = true;
+                    }
                 }
+            });
+        };
+
+        var getDrugsOfRegimen = function (regimen) {
+            drugService.get(regimen.uuid)
+                        .success(function (data) {
+                $scope.arvDrugs = _.map(data.results, 'drug');
             });
         }
 
