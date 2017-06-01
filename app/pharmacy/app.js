@@ -37,7 +37,11 @@ angular
             .state('dashboard', {
                 url: '/dashboard/:patientUuid',
                 views: {
-                    'layout': { templateUrl: '../common/application/views/layout.html', controller: 'DashboardController'},
+                    'layout': {
+                      templateUrl: '../common/application/views/layout.html',
+                      controller: 'DashboardController',
+                      controllerAs: 'vm'
+                    },
                     'content@dashboard': { templateUrl: 'views/dashboard.html'}
                 },
                 resolve: { initialization: 'initialization' }
