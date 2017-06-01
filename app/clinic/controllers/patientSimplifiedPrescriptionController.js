@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('clinic')
-        .controller('PatientSimplifiedPrescriptionController', ["$q", "$http", "$filter", "$scope", "$rootScope", "$stateParams",
+        .controller('PatientSimplifiedPrescriptionController', ["$http", "$filter", "$scope", "$rootScope", "$stateParams",
                         "encounterService", "observationsService", "commonService", "conceptService", "localStorageService", 
                         "notifier", "spinner", "drugService",
                     function ($q, $http, $filter, $scope, $rootScope, $stateParams, encounterService,
@@ -254,7 +254,7 @@ angular.module('clinic')
             var deferred = $q.defer();
             return encounterService.getEncountersForEncounterType(patient, encounterType, "full").then(function (response) {
                     var data = response.data;
-                    
+
                     if (_.isEmpty(data.results)) return;
 
                     $scope.existingPrescriptions = [];
