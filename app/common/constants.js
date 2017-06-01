@@ -19,6 +19,18 @@ Bahmni.Common = Bahmni.Common || {};
         "9b9c21dc-e1fb-4cd9-a947-186e921fa78c": "error"
     };
 
+    var regimenGroups = {
+        adult: {
+            firstLine: "dde41a1c-6cb9-45ef-a315-6ac35456e7c1", 
+            secondLine: "618650c6-90c3-4acd-ae4d-ffb2f6452a5b", 
+            thirdLine: "4281f035-183f-407d-8286-92613f3039c8"
+        },
+        child: {
+            firstLine: "0bd068da-1c57-40aa-9e05-f2bcbe282521", 
+            secondLine: "79c143ea-eeeb-4cdb-bfd7-fed8f029c15b"
+        }
+    };
+
     var drugPrescriptionConvSet = {
         therapeuticLine: {uuid: "fdff0637-b36f-4dce-90c7-fe9f1ec586f0"},
         prophilaxyPlan: {uuid: "718f4e32-70b8-4d37-b154-4b4fd05106a7"},
@@ -54,6 +66,7 @@ Bahmni.Common = Bahmni.Common || {};
         locationUrl: RESTWS_V1 + "/location",
         orderUrl: RESTWS_V1 + "/order",
         drugUrl: RESTWS_V1 + "/drug",
+        drugRegimenUrl: RESTWS_V1 + "/drugregime",
         conceptUrl: RESTWS_V1 + "/concept",
         conceptSearchByFullNameUrl: RESTWS_V1 + "/concept?s=byFullySpecifiedName",
         visitUrl: RESTWS_V1 + "/visit",
@@ -181,8 +194,10 @@ Bahmni.Common = Bahmni.Common || {};
         markedForPickupDrugsToday : "c23d5b4e-45c9-47ee-a506-e8f9662a5533",
         dispensationEncounterTypeUuid : "18fd49b7-6c2b-4604-88db-b3eb5b3a6d5f",
         arvConceptUuid: "e1d83d4a-1d5f-11e0-b929-000c29ad1d07",
+        otherDrugsConceptUuid: "e1de3092-1d5f-11e0-b929-000c29ad1d07",
+        arvRegimensConvSet: "7d5728ac-730f-495e-8368-73fc3d7e3c45",
+        regimenGroups: regimenGroups,
         otherDrugsConceptUuid: "e1de3092-1d5f-11e0-b929-000c29ad1d07"
-
 
     };
 })();
