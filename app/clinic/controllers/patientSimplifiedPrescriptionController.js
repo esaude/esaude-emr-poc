@@ -6,6 +6,7 @@ angular.module('clinic')
                         "notifier", "spinner", "drugService",
                     function ($q, $http, $filter, $scope, $rootScope, $stateParams, encounterService,
                     observationsService, commonService, conceptService, localStorageService, notifier, spinner, drugService) {
+
         var patientUuid;
         var markedOn = "488e6803-c7db-43b2-8911-8d5d2a8472fd";
         var dateUtil = Bahmni.Common.Util.DateUtil;
@@ -23,31 +24,33 @@ angular.module('clinic')
             $scope.regimens = {};
 
             $scope.fieldModels = angular.copy(Bahmni.Common.Constants.drugPrescriptionConvSet);
-            var deferred = $q.defer();
 
-            conceptService.get(Bahmni.Common.Constants.prescriptionConvSetConcept).success(function (data) {
+            function setFieldModels(setMembers) {
                 for (var key in $scope.fieldModels) {
                     var fieldModel = $scope.fieldModels[key];
-                    var members = angular.copy(data.setMembers);
-                    var foundModel = _.find(members, function (element) {
+                    var members = angular.copy(setMembers);
+                    fieldModel.model = _.find(members, function (element) {
                         return element.uuid === fieldModel.uuid;
                     });
-
-                    fieldModel.model = foundModel;
                 }
-                var encounterType = ($rootScope.patient.age.years >= 15) ? Bahmni.Common.Constants.adultFollowupEncounterUuid :
-                        Bahmni.Common.Constants.childFollowupEncounterUuid;
+            }
 
-                spinner.forPromise(loadSavedPrescriptions(patientUuid, encounterType));
-                deferred.resolve();
-            });
+            function loadPatientPrescriptions() {
+                var encounterType = ($rootScope.patient.age.years >= 15) ? Bahmni.Common.Constants.adultFollowupEncounterUuid :
+                    Bahmni.Common.Constants.childFollowupEncounterUuid;
+
+                return loadSavedPrescriptions(patientUuid, encounterType);
+            }
+
             //also get the available regimens here for later
             conceptService.get(Bahmni.Common.Constants.arvRegimensConvSet).success(function (data) {
                 $scope.allRegimens = data;
                 deferred.resolve();
             });
 
-            return deferred.promise;
+            return conceptService.getPrescriptionConvSetConcept()
+                .then(setFieldModels)
+                .then(loadPatientPrescriptions);
         };
 
         $scope.getDrugs = function (request) {
@@ -94,7 +97,7 @@ angular.module('clinic')
 
         $scope.reset = function (form) {
             resetForm(form);
-        }
+        };
 
         $scope.add = function (valid, form) {
             if (!valid) {
@@ -110,51 +113,42 @@ angular.module('clinic')
                 notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ITEM_ALREADY_IN_LIST'));
                 return;
             }
-            //avoid ARV duplication in the list
-            var existingArvItem = _.find($scope.listedPrescriptions, function (order) {
-                return order.isArv === true;
-            });
-            /*
-            if ($scope.order.isArv && existingArvItem !== undefined) {
-                notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ARV_ITEM_ALREADY_IN_LIST'));
-                return;
-            }
-            */
             $scope.listedPrescriptions.push($scope.order);
             resetForm(form);
             $scope.showNewPrescriptionsControlls = true;
             $scope.showMessages = false;
         };
 
-         $scope.remove = function (item) {
-             _.pull($scope.listedPrescriptions, item);
-             isPrescriptionControl();
-         };
+        $scope.remove = function (item) {
+           _.pull($scope.listedPrescriptions, item);
+           isPrescriptionControl();
+        };
 
-         $scope.removeAll = function () {
-            $scope.listedPrescriptions = [];
-         }
+        $scope.removeAll = function () {
+          $scope.listedPrescriptions = [];
+          isPrescriptionControl();
+        };
 
-         $scope.edit = function (item) {
-             $scope.order = item;
-             _.pull($scope.listedPrescriptions, item);
-             isPrescriptionControl();
-         };
+        $scope.edit = function (item) {
+           $scope.order = item;
+           _.pull($scope.listedPrescriptions, item);
+           isPrescriptionControl();
+        };
 
-         var isPrescriptionControl = function () {
-             if (_.isEmpty($scope.listedPrescriptions)) {
-                 $scope.showNewPrescriptionsControlls = false;
-             }
-         };
+        var isPrescriptionControl = function () {
+           if (_.isEmpty($scope.listedPrescriptions)) {
+               $scope.showNewPrescriptionsControlls = false;
+           }
+        };
 
-         var genSimpleObs = function (concept, value, datetime) {
-            return {
-                concept: concept,
-                obsDatetime: datetime,
-                person: patientUuid,
-                value: value
-            }
-         }
+        var genSimpleObs = function (concept, value, datetime) {
+          return {
+              concept: concept,
+              obsDatetime: datetime,
+              person: patientUuid,
+              value: value
+          }
+        };
 
         $scope.save = function () {
             //build obs
@@ -258,7 +252,9 @@ angular.module('clinic')
         //TODO: This logic should go to the pharmacy module
         var loadSavedPrescriptions = function (patient, encounterType) {
             var deferred = $q.defer();
-            encounterService.getEncountersForEncounterType(patient, encounterType, "full").success(function (data) {
+            return encounterService.getEncountersForEncounterType(patient, encounterType, "full").then(function (response) {
+                    var data = response.data;
+                    
                     if (_.isEmpty(data.results)) return;
 
                     $scope.existingPrescriptions = [];
@@ -358,9 +354,7 @@ angular.module('clinic')
                         });
                         $scope.encounterOrders.push(encounterOrder);
                     });
-                deferred.resolve();
             });
-            return deferred.promise;
         };
 
         $scope.refill = function (drug) {

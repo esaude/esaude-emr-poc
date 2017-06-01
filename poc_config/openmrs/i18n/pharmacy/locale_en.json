@@ -7,7 +7,7 @@
 	"PHARMACY_POSOLOGY": "Posology",
 	"PHARMACY_QUANTITY": "Quantity",
 	"PHARMACY_NEXT_PICKUP": "Next Pickup",
-	"PHARMACY_VALIDITY": "Validity",
+	"PHARMACY_VALIDITY": "Duration of the drug",
 	"PHARMACY_PICKEDUP": "Picked-up",
 	"PHARMACY_TO_PICKUP": "To Pickup",
 	"PHARMACY_PRESCRIBED": "Drugs Prescribed",
