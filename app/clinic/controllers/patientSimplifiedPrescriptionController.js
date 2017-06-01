@@ -4,7 +4,7 @@ angular.module('clinic')
         .controller('PatientSimplifiedPrescriptionController', ["$http", "$filter", "$scope", "$rootScope", "$stateParams",
                         "encounterService", "observationsService", "commonService", "conceptService", "localStorageService", 
                         "notifier", "spinner", "drugService",
-                    function ($q, $http, $filter, $scope, $rootScope, $stateParams, encounterService,
+                    function ($http, $filter, $scope, $rootScope, $stateParams, encounterService,
                     observationsService, commonService, conceptService, localStorageService, notifier, spinner, drugService) {
 
         var patientUuid;
@@ -43,14 +43,17 @@ angular.module('clinic')
             }
 
             //also get the available regimens here for later
-            conceptService.get(Bahmni.Common.Constants.arvRegimensConvSet).success(function (data) {
-                $scope.allRegimens = data;
-                deferred.resolve();
-            });
+            function loadAllRegimens() {
+                //also get the available regimens here for later
+                return conceptService.get(Bahmni.Common.Constants.arvRegimensConvSet).then(function (result) {
+                    $scope.allRegimens = result.data;
+                });
+            }
 
             return conceptService.getPrescriptionConvSetConcept()
                 .then(setFieldModels)
-                .then(loadPatientPrescriptions);
+                .then(loadPatientPrescriptions)
+                .then(loadAllRegimens());
         };
 
         $scope.getDrugs = function (request) {
@@ -251,7 +254,6 @@ angular.module('clinic')
 
         //TODO: This logic should go to the pharmacy module
         var loadSavedPrescriptions = function (patient, encounterType) {
-            var deferred = $q.defer();
             return encounterService.getEncountersForEncounterType(patient, encounterType, "full").then(function (response) {
                     var data = response.data;
 
