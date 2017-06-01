@@ -5,14 +5,17 @@
     .module('patient.details')
     .factory('reportService', reportService);
 
-  reportService.$inject = ["$rootScope", "$compile", "$timeout", "$http", "$log", "$q"];
+  reportService.$inject = ['$rootScope', '$compile', '$timeout', '$http', '$log', '$q', 'encounterService'];
 
-  function reportService($rootScope, $compile, $timeout, $http, $log, $q) {
+  function reportService($rootScope, $compile, $timeout, $http, $log, $q, encounterService) {
 
-    var PATIENT_ARV_PICKUP_HISTORY_REPORT_TEMPLATE = "../patient-details/views/patient-arv-pickup-history-report.html";
+    var PATIENT_ARV_PICKUP_HISTORY_TEMPLATE = "../patient-details/views/patient-arv-pickup-history-report.html";
+
+    var PATIENT_DAILY_HOSPITAL_PROCESS_TEMPLATE = "../patient-details/views/patient-daily-hospital-process-report.html";
 
     return {
-      printPatientARVPickupHistoryReport: printPatientARVPickupHistoryReport
+      printPatientDailyHospitalProcess: printPatientDailyHospitalProcess,
+      printPatientARVPickupHistory: printPatientARVPickupHistory
     };
 
     ////////////////
@@ -20,7 +23,20 @@
     /**
      * @param {Object} patient
      */
-    function printPatientARVPickupHistoryReport(patient) {
+    function printPatientARVPickupHistory(patient) {
+      encounterService.getPatientPharmacyEncounters(patient.uuid)
+        .then(function (encounters) {
+          patient.pickups = encounters;
+          return loadTemplate(PATIENT_ARV_PICKUP_HISTORY_TEMPLATE)
+        })
+        .then(compileWith(patient))
+        .then(printHTML);
+    }
+
+    /**
+     * @param {Object} patient
+     */
+    function printPatientDailyHospitalProcess(patient) {
       patient.barcodeOptions = {
         width: 2,
         height: 40,
@@ -33,7 +49,7 @@
         lineColor: "#000"
       };
 
-      loadTemplate(PATIENT_ARV_PICKUP_HISTORY_REPORT_TEMPLATE)
+      loadTemplate(PATIENT_DAILY_HOSPITAL_PROCESS_TEMPLATE)
         .then(compileWith(patient))
         .then(printHTML);
     }

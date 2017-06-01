@@ -5,15 +5,16 @@
     .module('pharmacy')
     .controller('DashboardController', DashboardController);
 
-  DashboardController.$inject = ['$rootScope', '$location', '$stateParams', 'patientService', 'openmrsPatientMapper'];
+  DashboardController.$inject = ['$rootScope', '$location', '$stateParams', 'patientService', 'openmrsPatientMapper', 'reportService', '$log'];
 
-  function DashboardController($rootScope, $location, $stateParams, patientService, openmrsPatientMapper)
+  function DashboardController($rootScope, $location, $stateParams, patientService, openmrsPatientMapper, reportService, $log)
   {
-    var patientUuid;
+    var patientUuid = $stateParams.patientUuid;
 
     var vm = this;
     vm.linkPatientDetail = linkPatientDetail;
     vm.linkSearch = linkSearch;
+    vm.patient = {};
     vm.print = print;
 
     activate();
@@ -21,10 +22,20 @@
     ////////////////
 
     function activate() {
-      patientUuid = $stateParams.patientUuid;
+      loadPatient(patientUuid).then(function (patient) {
+        vm.patient = patient;
+        // This is needed because its tied to CheckinController.
+        $rootScope.patient = vm.patient;
+      });
+    }
 
-      patientService.get(patientUuid).success(function (data) {
-        $rootScope.patient = openmrsPatientMapper.map(data);
+    // TODO: This should be in patientService
+    function loadPatient(patientUuid) {
+      return patientService.get(patientUuid).then(function (response) {
+        return openmrsPatientMapper.map(response.data);
+      }).catch(function (error) {
+        $log.error('XHR Failed for loadPatient. ' + error.data);
+        return $q.reject(error);
       });
     }
 
@@ -37,7 +48,7 @@
     }
 
     function print() {
-      alert('print');
+      reportService.printPatientARVPickupHistory(vm.patient);
     }
   }
 

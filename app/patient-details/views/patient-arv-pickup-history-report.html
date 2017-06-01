@@ -1,67 +1,158 @@
-<link rel="stylesheet" href="../styles/patient-arv-pickup-history-report.css"/>
-<div class="header">
-    <h3 class="panel-title"> {{'PATIENT_DAILY_HOSPITAL_PROCESS' | translate}}</h3>
-    <div class="form-horizontal">
-        <div>
-            <label><strong>{{'PATIENT_INFO_NAMES' | translate}}: </strong> <i ng-bind="patient.fullName" ></i> </label>
-        </div>
-        <div>
-            <label><strong>{{'PATIENT_INFO_SURNAME' | translate}}: </strong> <i ng-bind="patient.familyName" /></label>
-        </div>
-        <div>
-            <label><strong>{{'PATIENT_INFO_GENDER' | translate}}/{{'PATIENT_INFO_BIRTHDATE' | translate}}/{{'PATIENT_INFO_AGE' | translate}}: </strong> <i ng-bind="patient.gender" /> / <i ng-bind="patient.birthdate" /> / <i ng-bind="patient.age.years" /> </label>
-        </div>
-        <div>
-            <label><strong>{{'PATIENT_INFO_IDENTIFIER_IDENTIFIER' | translate}}/{{'PATIENT_INFO_IDENTIFIER_TYPE' | translate}}: </strong> <i ng-bind="patient.identifier" /> (<i ng-bind="patient.identifierType" />)</label>
-        </div>
-        <div>
-            <label><strong>{{'COMMON_DISTRICT' | translate}}/{{'COMMON_CITY' | translate}}: </strong> <i ng-bind="patient.Distrito" /> </label>
-        </div>
-        <div>
-            <label><strong>{{'COMMON_LOCALITY' | translate}}/{{'COMMON_NEIGHBORHOOD' | translate}}: </strong> <i ng-bind="patient.address.address5" /> </label>
-        </div>
-        <div>
-            <label><strong>{{'COMMON_CELL' | translate}}/{{'COMMON_BLOCK' | translate}}: </strong> <i ng-bind="patient.address.address3" /> </label>
-        </div>
-        <div>
-            <label><strong>{{'COMMON_AVENUE' | translate}}/{{'COMMON_STREET' | translate}}/{{'COMMON_HOUSE' | translate}}: </strong> <i ng-bind="patient.address.display" /> </label>
-        </div>
-        <div>
-          <barcode type="code128b" render="img" string="{{patient.identifier}}" options="patient.barcodeOptions"></barcode>
-        </div>
+<link href="../styles/patient-arv-pickup-history-report.css" rel="stylesheet" media="print">
+<!--TODO: verify how it works in production-->
+<link href="../../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"  media="print"/>
 
-      <!--
-       //TODO: Code CleanUp
-         <hr/>
+<div class="arv-pickup container-fluid">
 
-         <div>
-             <label><strong>Pessoa de referência</strong></label><br/>
-             <label>Nome: </label>
-             <label>Apelido: </label>
-             <label>Tel.: </label>
-         </div>
-
-         <hr/>
-
-         <div>
-             <label><strong>Profissão/Ocupação: </strong></label>
-             <label><strong>Nível de Escolaridade: </strong></label>
-         </div>
-         <div>
-             <label><strong>Telefone de contacto: </strong></label>
-             <label><strong>N° de conviventes: </strong></label>
-         </div>
-
-         -->
+  <div class="row">
+    <div class="col-xs-10 col-xs-offset-1">
+      <div class="header">
+        <img class="emblem" src="../../images/emblem-md.png" />
+        <h1> Ficha Individual de Levantamento de ARVs (FILA)</h1>
+      </div>
     </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-10 col-xs-offset-1">
+      <div class="patient">
+        <div class="row">
+          <div class="col-xs-12">
+            <b>{{'PATIENT_INFO_IDENTIFIER_IDENTIFIER' | translate}}({{identifierType}})</b>
+            <p>{{identifier}}</p>
+            <b>{{'PATIENT_INFO_NAMES' | translate}}</b>
+            <p>{{fullName}}</p>
+            <b>{{'PATIENT_INFO_OTHERS' | translate}}</b>
+            <p>{{patient['Numero de Telefone 1']}} / {{patient['Numero de Telefone 2']}}</p>
+            <b>{{'PATIENT_INFO_ADDRESS' | translate}}</b>
+            <p>{{'COMMON_AVENUE' | translate}}/{{'COMMON_STREET' | translate}}/{{'COMMON_HOUSE' | translate}}:
+              {{address.display}},
+              {{'COMMON_CELL' | translate}}/{{'COMMON_BLOCK' | translate}}: {{address.address3}},
+              {{'COMMON_DISTRICT' | translate}}: {{countyDistrict}},
+              {{'COMMON_STATE' | translate}}: {{stateProvince}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <br>
+
+  <div class="row">
+    <div class="col-xs-10 col-xs-offset-1">
+      <h2>Receitas</h2>
+      <div class="calendar">
+        <table class="table table-bordered">
+          <tbody>
+          <tr >
+            <td colspan="2"></td>
+            <td>Jan</td>
+            <td>Fev</td>
+            <td>Mar</td>
+            <td>Abr</td>
+            <td>Mai</td>
+            <td>Jun</td>
+            <td>Jul</td>
+            <td>Ago</td>
+            <td>Set</td>
+            <td>Out</td>
+            <td>Nov</td>
+            <td>Dez</td>
+          </tr>
+          <tr  >
+            <td rowspan="4">
+              <span class="week-header">Semana</span>
+            </td>
+            <td>1ª</td>
+            <td>X</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>2ª</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>3ª</td>
+            <td>&nbsp;</td>
+            <td>X</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>4ª</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-10 col-xs-offset-1">
+      <h2>Levantamentos</h2>
+      <div class="pickups">
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th>{{'PHARMACY_PICKUP_DATE' | translate}}</th>
+              <th>{{'PHARMACY_REGIMEN'     | translate}}</th>
+              <th>{{'PHARMACY_QUANTITY'    | translate}}</th>
+              <th>{{'PHARMACY_POSOLOGY'    | translate}}</th>
+              <th>{{'PHARMACY_NEXT_PICKUP' | translate}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="p in pickups">
+              <td>{{p.encounterDatetime | date:"MMM d, y"}}</td>
+              <td>{{p.regimen}}</td>
+              <td>{{p.quantity}}</td>
+              <td>{{p.posology}}</td>
+              <td>{{p.nextPickup  | date:"MMM d, y"}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
-
-<div class="logo-header">
-    <img src="../../images/moz-flag.png" width="60" height="60" align="middle">
-    <h4>{{'COMMON_REPUBLIC_OF_MOZAMBIQUE' | translate}}</h4>
-    <h5>{{'COMMON_HEALTH_NATIONAL_SERVICE' | translate}}</h5>
-</div>
-
-<div class="clear"></div>
-
-<hr/>

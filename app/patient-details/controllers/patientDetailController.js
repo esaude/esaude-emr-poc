@@ -29,7 +29,7 @@
     }
 
     function print() {
-      reportService.printPatientARVPickupHistoryReport(vm.patient);
+      reportService.printPatientDailyHospitalProcess(vm.patient);
     }
   }
 })();
