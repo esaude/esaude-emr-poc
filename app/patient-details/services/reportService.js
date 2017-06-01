@@ -34,7 +34,7 @@
       };
 
       loadTemplate(PATIENT_ARV_PICKUP_HISTORY_REPORT_TEMPLATE)
-        .then(compile(patient))
+        .then(compileWith(patient))
         .then(printHTML);
     }
 
@@ -73,7 +73,7 @@
           return response.data;
         })
         .catch(function (error) {
-          $log.error('XHR Failed for getPatientPharmacyEncounters. ' + error.data);
+          $log.error('XHR Failed for loadTemplate. ' + error.data);
           return $q.reject(error);
         });
     }
@@ -82,7 +82,7 @@
      * @param {Object} data
      * @returns {Function} Function returning a promise that will be resolved when the template finishes compiling.
      */
-    function compile(data) {
+    function compileWith(data) {
       return function (template) {
         var printScope = angular.extend($rootScope.$new(false), data);
         var element = $compile(angular.element('<div>' + template + '</div>'))(printScope);
