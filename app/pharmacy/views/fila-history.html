@@ -1,5 +1,5 @@
 <div class="row content-border-margin-regular">
-    <table st-table="pickups" st-safe-src="displayed" class="table table-striped">
+    <table st-table="vm.pickups" class="table table-striped">
             <thead>
                 <tr>
                     <th>{{'PHARMACY_PICKUP_DATE' | translate}}</th>
@@ -11,13 +11,13 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="pickup in pickups">
-                    <td>{{pickup.encounterDatetime | date:"MMM d, y"}}</td>
-                    <td>{{valueOfField(filaObsList.regimen, pickup.obs)}}</td>
-                    <td>{{valueOfField(filaObsList.posology, pickup.obs)}}</td>
-                    <td>{{valueOfField(filaObsList.quantity, pickup.obs)}}</td>
-                    <td>{{valueOfField(filaObsList.nextPickup, pickup.obs) | date:"MMM d, y"}}</td>
-                    <td>{{pickup.provider.display}}</td>
+                <tr ng-repeat="p in vm.pickups">
+                    <td>{{p.encounterDatetime | date:"MMM d, y"}}</td>
+                    <td>{{p.regimen}}</td>
+                    <td>{{p.posology}}</td>
+                    <td>{{p.quantity}}</td>
+                    <td>{{p.nextPickup | date:"MMM d, y"}}</td>
+                    <td>{{p.provider}}</td>
                 </tr>
             </tbody>
             <tfoot>

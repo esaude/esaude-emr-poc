@@ -50,6 +50,7 @@ angular
                 url: '/fila-history',
                 templateUrl: 'views/fila-history.html',
                 controller: 'FilaHistoryController',
+                controllerAs: 'vm',
                 resolve: { initialization: 'initialization' }
             })
             .state('dashboard.dispensationHistory', {

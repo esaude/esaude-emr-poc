@@ -195,8 +195,20 @@
      */
     function getPatientPharmacyEncounters(patientUuid, v) {
 
+      var filaObsList = Poc.Pharmacy.Constants.filaObsList;
+
       function getEncountersComplete(response) {
-        return _.filter(response.data.results, function (e) { return !e.voided; }).reverse();
+        var nonVoided = _.filter(response.data.results, function (e) { return !e.voided; }).reverse();
+        return _.map(nonVoided, function (e) {
+          return {
+            encounterDatetime: e.encounterDatetime,
+            regimen: valueOfField(filaObsList.regimen, e.obs),
+            posology: valueOfField(filaObsList.posology, e.obs),
+            quantity: valueOfField(filaObsList.quantity, e.obs),
+            nextPickup: valueOfField(filaObsList.nextPickup, e.obs),
+            provider: e.provider.display
+          }
+        });
       }
 
       function getEncountersFailed(error) {
@@ -207,6 +219,22 @@
       return getEncountersForEncounterType(patientUuid, PHARMACY_ENCOUNTER_TYPE_UUID, v)
         .then(getEncountersComplete)
         .catch(getEncountersFailed);
+    }
+
+    function valueOfField (conceptUuid, obs) {
+
+      var field = _.find(obs, function (o) {
+        return o.concept.uuid === conceptUuid;
+      });
+
+      if (angular.isUndefined(field))
+        return field;
+
+      if (_.isObject(field.value)) {
+        return field.value.display;
+      } else {
+        return field.value;
+      }
     }
 
     //TODO: Unused definition, to be removed after testing phase
