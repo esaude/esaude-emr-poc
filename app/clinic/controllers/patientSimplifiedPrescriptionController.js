@@ -2,10 +2,11 @@
 
 angular.module('clinic')
         .controller('PatientSimplifiedPrescriptionController', ["$http", "$filter", "$scope", "$rootScope", "$stateParams",
-                        "encounterService", "observationsService", "commonService", "conceptService", "localStorageService",
-                        "notifier", "spinner",
+                        "encounterService", "observationsService", "commonService", "conceptService", "localStorageService", 
+                        "notifier", "spinner", "drugService",
                     function ($http, $filter, $scope, $rootScope, $stateParams, encounterService,
-                    observationsService, commonService, conceptService, localStorageService, notifier, spinner) {
+                    observationsService, commonService, conceptService, localStorageService, notifier, spinner, drugService) {
+
         var patientUuid;
         var markedOn = "488e6803-c7db-43b2-8911-8d5d2a8472fd";
         var dateUtil = Bahmni.Common.Util.DateUtil;
@@ -20,6 +21,7 @@ angular.module('clinic')
             $scope.listedPrescriptions = [];
             $scope.existingPrescriptions = [];
             $scope.order = {};
+            $scope.regimens = {};
 
             $scope.fieldModels = angular.copy(Bahmni.Common.Constants.drugPrescriptionConvSet);
 
@@ -40,9 +42,18 @@ angular.module('clinic')
                 return loadSavedPrescriptions(patientUuid, encounterType);
             }
 
+            //also get the available regimens here for later
+            function loadAllRegimens() {
+                //also get the available regimens here for later
+                return conceptService.get(Bahmni.Common.Constants.arvRegimensConvSet).then(function (result) {
+                    $scope.allRegimens = result.data;
+                });
+            }
+
             return conceptService.getPrescriptionConvSetConcept()
                 .then(setFieldModels)
-                .then(loadPatientPrescriptions);
+                .then(loadPatientPrescriptions)
+                .then(loadAllRegimens());
         };
 
         $scope.getDrugs = function (request) {
@@ -105,15 +116,6 @@ angular.module('clinic')
                 notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ITEM_ALREADY_IN_LIST'));
                 return;
             }
-            //avoid ARV duplication in the list
-            var existingArvItem = _.find($scope.listedPrescriptions, function (order) {
-                return order.isArv === true;
-            });
-
-            if ($scope.order.isArv && existingArvItem !== undefined) {
-                notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ARV_ITEM_ALREADY_IN_LIST'));
-                return;
-            }
             $scope.listedPrescriptions.push($scope.order);
             resetForm(form);
             $scope.showNewPrescriptionsControlls = true;
@@ -162,12 +164,16 @@ angular.module('clinic')
                 //check the drug type
                 if (element.isArv) {
                     //create and add the regimen obs
-                    obs.push(genSimpleObs(Bahmni.Common.Constants.arvConceptUuid, element.drug.concept.uuid, datetime));
+                    obs.push(genSimpleObs(Bahmni.Common.Constants.arvConceptUuid, element.regimen.uuid, datetime));
+                    //create and add the therapeutic line obs
+                    obs.push(genSimpleObs(Bahmni.Common.Constants.drugPrescriptionConvSet.therapeuticLine.uuid, element.therapeuticLine.uuid, datetime));
                     //create and add the Arv plan
-                    obs.push(genSimpleObs(Bahmni.Common.Constants.drugPrescriptionConvSet.artPlan.uuid, element.arvPlan.uuid, datetime));
+                    if (element.arvPlan) {
+                        obs.push(genSimpleObs(Bahmni.Common.Constants.drugPrescriptionConvSet.artPlan.uuid, element.arvPlan.uuid, datetime));
+                    }
                     //create and add the regime stop reason if any
                     if (element.isPlanInterrupted) {
-                        obs.push(genSimpleObs(Bahmni.Common.Constants.drugPrescriptionConvSet.interruptedReason.uuid,
+                        obs.push(genSimpleObs(Bahmni.Common.Constants.drugPrescriptionConvSet.interruptedReason.uuid, 
                             element.interruptedReason.uuid, datetime));
                     }
                     //create and add the regime change reason if any
@@ -246,19 +252,11 @@ angular.module('clinic')
             isPrescriptionControl();
         };
 
-        $scope.validatePlan = function (order) {
-            if ($scope.order.arvPlan.uuid ===
-                    Bahmni.Common.Constants.artInterruptedPlanUuid) {
-                order.isPlanInterrupted = true;
-            } else {
-                order.isPlanInterrupted = false;
-            }
-        };
-
         //TODO: This logic should go to the pharmacy module
         var loadSavedPrescriptions = function (patient, encounterType) {
             return encounterService.getEncountersForEncounterType(patient, encounterType, "full").then(function (response) {
                     var data = response.data;
+
                     if (_.isEmpty(data.results)) return;
 
                     $scope.existingPrescriptions = [];
@@ -278,7 +276,7 @@ angular.module('clinic')
                         });
 
                         if (!_.isUndefined(markedOnInfo)) $scope.hasServiceToday = true;
-                    }
+                    };
 
                     var filteredEncounters = _.filter(sortedEncounters, function (e) {
                         var foundObs = _.find(e.obs, function (o) {
@@ -312,17 +310,17 @@ angular.module('clinic')
                         };
                         _.forEach(encounter.orders, function (savedOrder) {
                             var order = {};
-                            order.drug = savedOrder.drug;
-                            order.doseAmount = savedOrder.dose;
-                            order.dosingUnits = swapObsToConceptAnswer(savedOrder.doseUnits.uuid,
-                                        $scope.fieldModels.dosingUnits.model.answers);
-                            order.dosgeFrequency = savedOrder.frequency;
-                            order.drugRoute = swapObsToConceptAnswer(savedOrder.route.uuid,
-                                        $scope.fieldModels.drugRoute.model.answers);
-                            order.duration = savedOrder.duration;
-                            order.durationUnits = swapObsToConceptAnswer(savedOrder.durationUnits.uuid,
-                                        $scope.fieldModels.durationUnits.model.answers);
-                            order.dosingInstructions = swapObsToConceptAnswer(savedOrder.dosingInstructions,
+                            order.drug = savedOrder.drug,
+                            order.doseAmount = savedOrder.dose,
+                            order.dosingUnits = swapObsToConceptAnswer(savedOrder.doseUnits.uuid, 
+                                        $scope.fieldModels.dosingUnits.model.answers),
+                            order.dosgeFrequency = savedOrder.frequency,
+                            order.drugRoute = swapObsToConceptAnswer(savedOrder.route.uuid, 
+                                        $scope.fieldModels.drugRoute.model.answers),
+                            order.duration = savedOrder.duration,
+                            order.durationUnits = swapObsToConceptAnswer(savedOrder.durationUnits.uuid, 
+                                        $scope.fieldModels.durationUnits.model.answers),
+                            order.dosingInstructions = swapObsToConceptAnswer(savedOrder.dosingInstructions, 
                                 $scope.fieldModels.dosingInstructions.model.answers);
                             //check if drug is ARV type
                             var arvRepr = $rootScope.drugMapping.arvDrugs[savedOrder.drug.uuid];
@@ -333,7 +331,7 @@ angular.module('clinic')
                                     return o.concept.uuid === Bahmni.Common.Constants.drugPrescriptionConvSet.artPlan.uuid;
                                 });
                                 if (arvPlan !== undefined) {
-                                    order.arvPlan = swapObsToConceptAnswer(arvPlan.value.uuid,
+                                    order.arvPlan = swapObsToConceptAnswer(arvPlan.value.uuid, 
                                         $scope.fieldModels.artPlan.model.answers);
                                 }
                                 //find and swap plan interupted reason
@@ -341,7 +339,7 @@ angular.module('clinic')
                                     return o.concept.uuid === Bahmni.Common.Constants.drugPrescriptionConvSet.interruptedReason.uuid;
                                 });
                                 if (interruptedReason !== undefined) {
-                                    order.interruptedReason = swapObsToConceptAnswer(interruptedReason.value.uuid,
+                                    order.interruptedReason = swapObsToConceptAnswer(interruptedReason.value.uuid, 
                                         $scope.fieldModels.interruptedReason.model.answers);
                                     order.isPlanInterrupted = true;
                                 }
@@ -350,7 +348,7 @@ angular.module('clinic')
                                     return o.concept.uuid === Bahmni.Common.Constants.drugPrescriptionConvSet.changeReason.uuid;
                                 });
                                 if (changeReason !== undefined) {
-                                    order.changeReason = swapObsToConceptAnswer(changeReason.value.uuid,
+                                    order.changeReason = swapObsToConceptAnswer(changeReason.value.uuid, 
                                         $scope.fieldModels.changeReason.model.answers);
                                 }
                             }
@@ -365,6 +363,140 @@ angular.module('clinic')
             $scope.listedPrescriptions.push(drug);
             $scope.showNewPrescriptionsControlls = true;
         };
+
+        $scope.doTherapeuticLineChanges = function (therapeuticLine) {
+            //should never go lower
+
+            //edit regimen
+            $scope.order.isRegimenCancelDisabled = true;
+            $scope.regimens = filterRegimens($scope.allRegimens, therapeuticLine);//update the list of regimens
+            $scope.order.regimen = undefined;
+        };
+
+        $scope.doRegimenChanges = function (regimen) {
+            //edit regimen
+            $scope.order.isRegimenCancelDisabled = false;
+            //compare new and old regimen
+            if (!_.isUndefined($scope.order.currentRegimen) && $scope.order.currentRegimen.uuid !== regimen.uuid) {
+                //pervent change regimen if ARV item is selected
+                var selectedArvItem = _.find($scope.listedPrescriptions, function (item) {
+                    return item.isArv === true;
+                });
+                if (selectedArvItem) {
+                    notifier.error($filter('translate')('CLINIC_MESSAGE_ERROR_CANNOT_CHANGE_REGIMEN'));
+                    $scope.order.regimen = $scope.order.currentRegimen;
+                    $scope.order.therapeuticLine = $scope.order.currentArvLine;
+                    return;
+                }
+                getDrugsOfRegimen(regimen);
+                $scope.order.isRegimenChanged = true;
+                $scope.isRegimenChangeEdit = true;
+            } else {
+                $scope.order.isRegimenChanged = false;
+                $scope.isRegimenChangeEdit = false;
+                $scope.order.changeReason = undefined;
+            }
+        };
+
+        $scope.doPlamChanged = function (order) {
+            if ($scope.order.arvPlan.uuid ===
+                    Bahmni.Common.Constants.artInterruptedPlanUuid) {
+                order.isPlanInterrupted = true;
+                $scope.isArvPlanInterruptedEdit = true;
+            } else {
+                order.isPlanInterrupted = false;
+                $scope.isArvPlanInterruptedEdit = false;
+                $scope.order.interruptedReason = undefined;
+            }
+        };
+
+        $scope.initTherapeuticLine = function () {
+            //use regimen of already selected ARV line as the default one
+            var selectedArvItem = _.find($scope.listedPrescriptions, function (item) {
+                return item.isArv === true;
+            });
+            if (selectedArvItem) {
+                $scope.order.therapeuticLine = selectedArvItem.therapeuticLine;
+                $scope.order.currentArvLine = selectedArvItem.therapeuticLine;
+                $scope.order.currentRegimen = selectedArvItem.regimen;
+                $scope.order.regimen = selectedArvItem.regimen;
+                return;
+            };
+            //get the last therapeutic line
+            observationsService.get(patientUuid, Bahmni.Common.Constants.drugPrescriptionConvSet.therapeuticLine.uuid)
+                        .success(function (data) {
+                if (_.isEmpty(data.results)) {
+                    $scope.order.therapeuticLine = _.find($scope.fieldModels.therapeuticLine.model.answers, 
+                        function (answer) {
+                            return answer.uuid === Bahmni.Common.Constants.therapeuticLineQuestion.firstLine;
+                    });
+                } else {
+                    var nonRetired = commonService.filterRetired(data.results);
+                    var maxObs = _.maxBy(nonRetired, 'obsDatetime');
+
+                    if (maxObs) {
+                        var swappedObsToConcept = swapObsToConceptAnswer(maxObs.value.uuid, $scope.fieldModels.therapeuticLine.model.answers);
+                        $scope.order.therapeuticLine = swappedObsToConcept;
+
+                        if (maxObs.value.uuid === Bahmni.Common.Constants.therapeuticLineQuestion.thirdLine) {
+                            $scope.arvLineEnabled = false;
+                        }
+                    }
+                }
+                $scope.order.currentArvLine = angular.copy($scope.order.therapeuticLine);
+                // filter the regimens according to age and therapeutic line
+                var filteredRegimens = filterRegimens($scope.allRegimens, $scope.order.therapeuticLine);
+                initRegimens(filteredRegimens);
+            });
+        };
+
+        var filterRegimens = function (allRegimens, therapeuticLine) {
+            var age = ($rootScope.patient.age.years >= 15) ? "adult" : "child";
+            var regimenGroupAge = Bahmni.Common.Constants.regimenGroups[age];
+            var regimenGroupTLine = {};
+            //find the current therapeutic line
+            if (therapeuticLine.uuid === Bahmni.Common.Constants.therapeuticLineQuestion.firstLine) {
+                regimenGroupTLine = regimenGroupAge.firstLine;
+            }
+            else if (therapeuticLine.uuid === Bahmni.Common.Constants.therapeuticLineQuestion.secondLine) {
+                regimenGroupTLine = regimenGroupAge.secondLine;
+            }
+            else if (therapeuticLine.uuid === Bahmni.Common.Constants.therapeuticLineQuestion.thirdLine) {
+                regimenGroupTLine = regimenGroupAge.thirdLine;
+            }
+            return _.find(allRegimens.setMembers, function (member) {
+                return member.uuid === regimenGroupTLine;
+            });
+        };
+
+        var initRegimens = function (filteredRegimens) {
+            $scope.regimens = filteredRegimens;
+            //get the last regimen
+            observationsService.get(patientUuid, Bahmni.Common.Constants.arvConceptUuid)
+                        .success(function (data) {
+                var nonRetired = commonService.filterRetired(data.results);
+                var maxObs = _.maxBy(nonRetired, 'obsDatetime');
+
+                if (maxObs) {
+                    var swappedObsToConcept = swapObsToConceptAnswer(maxObs.value.uuid, filteredRegimens.answers);
+                    $scope.order.regimen = swappedObsToConcept;
+                    $scope.order.currentRegimen = swappedObsToConcept;
+                    //ask for regimen input if doesn't exist
+                    if (swappedObsToConcept) {
+                        getDrugsOfRegimen(swappedObsToConcept);
+                    } else {
+                        $scope.isRegimenEdit = true;
+                    }
+                }
+            });
+        };
+
+        var getDrugsOfRegimen = function (regimen) {
+            drugService.get(regimen.uuid)
+                        .success(function (data) {
+                $scope.arvDrugs = _.map(data.results, 'drug');
+            });
+        }
 
         var swapObsToConceptAnswer = function (obs, conceptAnswers) {
             return _.find(conceptAnswers, function (answer) {
