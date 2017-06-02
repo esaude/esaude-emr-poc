@@ -1,5 +1,5 @@
 <div class="row content-border-margin-regular">
-    <table st-table="vm.pickups" class="table table-striped">
+    <table st-table="vm.displayedPickups" st-safe-src="vm.pickups" class="table table-striped">
             <thead>
                 <tr>
                     <th>{{'PHARMACY_PICKUP_DATE' | translate}}</th>
@@ -11,7 +11,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="p in vm.pickups">
+                <tr ng-repeat="p in vm.displayedPickups">
                     <td>{{p.encounterDatetime | date:"MMM d, y"}}</td>
                     <td>{{p.regimen}}</td>
                     <td>{{p.posology}}</td>

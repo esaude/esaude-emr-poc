@@ -10,6 +10,7 @@
   function FilaHistoryController($stateParams, encounterService) {
     var vm = this;
     vm.pickups = [];
+    vm.displayedPickups = [];
 
     activate();
 
@@ -19,6 +20,7 @@
       var patientUuid = $stateParams.patientUuid;
       encounterService.getPatientPharmacyEncounters(patientUuid).then(function (encounters) {
         vm.pickups = encounters;
+        vm.displayedPickups= encounters;
       });
     }
   }
