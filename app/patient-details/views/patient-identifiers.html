@@ -7,7 +7,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="patientIdentifier in patient.identifiers">
+        <tr ng-repeat="patientIdentifier in vm.patient.identifiers">
             <td class="col-sm-4 control-label">{{patientIdentifier.identifierType.display}}</td>
             <td>{{patientIdentifier.identifier}}</td>
             <td>{{(patientIdentifier.preferred === true) ? 'COMMON_YES' : 'COMMON_NO' | translate}}</td>

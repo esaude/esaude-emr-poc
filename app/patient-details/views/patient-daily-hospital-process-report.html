@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="../styles/patient-demo-info.css"/>
+<link rel="stylesheet" href="../styles/patient-daily-hospital-process-report.css" media="print"/>
 <div class="header">
     <h3 class="panel-title"> {{'PATIENT_DAILY_HOSPITAL_PROCESS' | translate}}</h3>
     <div class="form-horizontal">
@@ -26,7 +26,9 @@
         <div>
             <label><strong>{{'COMMON_AVENUE' | translate}}/{{'COMMON_STREET' | translate}}/{{'COMMON_HOUSE' | translate}}: </strong> <i ng-bind="patient.address.display" /> </label>
         </div>
-        <div><barcode type="code128b" render="img" string="{{patient.identifier}}" options="patient.barcodeOptions"></barcode></div>
+        <div>
+          <barcode type="code128b" render="img" string="{{patient.identifier}}" options="patient.barcodeOptions"></barcode>
+        </div>
 
       <!--
        //TODO: Code CleanUp
@@ -55,7 +57,7 @@
 </div>
 
 <div class="logo-header">
-    <img src="../../images/moz-flag.png" width="60" height="60" align="middle">
+    <img src="../../images/emblem-md.png" width="70" height="70" align="middle">
     <h4>{{'COMMON_REPUBLIC_OF_MOZAMBIQUE' | translate}}</h4>
     <h5>{{'COMMON_HEALTH_NATIONAL_SERVICE' | translate}}</h5>
 </div>
