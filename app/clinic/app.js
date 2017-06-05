@@ -10,14 +10,14 @@ angular
             var localStorageService = $injector.get('localStorageService');
             var movingPatient = localStorageService.get('movingPatient');
             var $state = $injector.get('$state');
-            
+
             if (movingPatient !== null) {
                 $state.go('mvp');
             } else {
                 $state.go('search');
             }
         });
-        
+
         $stateProvider
             .state('mvp', {
                 views: {
@@ -77,12 +77,16 @@ angular
               resolve: { initialization: 'initialization' }
             })
             .state('detailpatient', {
-                url: '/patient/detail/:patientUuid',
-                views: {
-                    'layout': { templateUrl: '../common/application/views/layout.html', controller: 'DetailPatientController'},
-                    'content@detailpatient': { templateUrl: '../patient-details/views/patient-details.html'}
+              url: '/patient/detail/:patientUuid',
+              views: {
+                'layout': {
+                  templateUrl: '../common/application/views/layout.html',
+                  controller: 'DetailPatientController',
+                  controllerAs: 'vm'
                 },
-                resolve: { initialization: 'initialization' }
+                'content@detailpatient': {templateUrl: '../patient-details/views/patient-details.html'}
+              },
+              resolve: {initialization: 'initialization'}
             })
             .state('detailpatient.demographic', {
                 url: '/demographic',
