@@ -11,8 +11,13 @@ Poc.Pharmacy = Poc.Pharmacy || {};
 	];
 
 	Poc.Pharmacy.Constants = {
-	  daysOfDurationUnits: daysOfDurationUnits
-
+	  daysOfDurationUnits: daysOfDurationUnits,
+    filaObsList: {
+      posology: "e1de28ae-1d5f-11e0-b929-000c29ad1d07",
+      nextPickup: "e1e2efd8-1d5f-11e0-b929-000c29ad1d07",
+      regimen: "e1d83e4e-1d5f-11e0-b929-000c29ad1d07",
+      quantity: "e1de2ca0-1d5f-11e0-b929-000c29ad1d07"
+    }
 	};
 
 	Poc.Pharmacy.Constants.Errors = {
