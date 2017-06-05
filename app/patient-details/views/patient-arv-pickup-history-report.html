@@ -25,11 +25,13 @@
             <b>{{'PATIENT_INFO_OTHERS' | translate}}</b>
             <p>{{patient['Numero de Telefone 1']}} / {{patient['Numero de Telefone 2']}}</p>
             <b>{{'PATIENT_INFO_ADDRESS' | translate}}</b>
-            <p>{{'COMMON_AVENUE' | translate}}/{{'COMMON_STREET' | translate}}/{{'COMMON_HOUSE' | translate}}:
-              {{address.display}},
-              {{'COMMON_CELL' | translate}}/{{'COMMON_BLOCK' | translate}}: {{address.address3}},
-              {{'COMMON_DISTRICT' | translate}}: {{countyDistrict}},
-              {{'COMMON_STATE' | translate}}: {{stateProvince}}</p>
+            <p>
+              {{'COMMON_AVENUE' | translate}}/{{'COMMON_STREET' | translate}}/{{'COMMON_HOUSE' | translate}}:
+              {{address.display}} <br />
+              {{'COMMON_NEIGHBORHOOD' | translate }} : {{address.address5 }}
+              {{'COMMON_CELL' | translate}}/{{'COMMON_BLOCK' | translate}}: {{address.address3}} <br />
+              {{'COMMON_DISTRICT' | translate}}: {{address.countyDistrict}} <br />
+              {{'COMMON_PROVINCE' | translate}}: {{address.stateProvince}}</p>
           </div>
         </div>
       </div>
