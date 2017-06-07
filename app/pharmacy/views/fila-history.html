@@ -1,36 +1,68 @@
 <div class="row content-border-margin-regular">
-    <table st-table="vm.displayedPickups" st-safe-src="vm.pickups" class="table table-striped">
-            <thead>
-                <tr>
-                    <th>{{'PHARMACY_PICKUP_DATE' | translate}}</th>
-                    <th>{{'PHARMACY_REGIMEN' | translate}}</th>
-                    <th>{{'PHARMACY_POSOLOGY' | translate}}</th>
-                    <th>{{'PHARMACY_QUANTITY' | translate}}</th>
-                    <th>{{'PHARMACY_NEXT_PICKUP' | translate}}</th>
-                    <th>{{'COMMON_BY' | translate}}</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="p in vm.displayedPickups">
-                    <td>{{p.encounterDatetime | date:"MMM d, y"}}</td>
-                    <td>{{p.regimen}}</td>
-                    <td>{{p.posology}}</td>
-                    <td>{{p.quantity}}</td>
-                    <td>{{p.nextPickup | date:"MMM d, y"}}</td>
-                    <td>{{p.provider}}</td>
-                </tr>
-            </tbody>
-            <tfoot>
-                <tr ng-show="noResultsMessage">
-                    <td  colspan="6" class="text-center">
-                        {{noResultsMessage | translate}}
-                    </td>
-                </tr>
-                <tr>
-                    <td  colspan="6" class="text-center">
-                        <div  st-items-by-page="4" st-displayed-pages="7" st-pagination=""></div>
-                    </td>
-                </tr>
-            </tfoot>
-    </table>
+
+  <br/>
+  <div class="form-inline">
+    <div class="form-group">
+      <label for="startDate">Período</label>
+      <div class="input-group">
+        <input uib-datepicker-popup="dd MMM yyyy" type="text" ng-model="vm.startDate"
+               datepicker-options="{maxDate: vm.endDate}" is-open="vm.startDateOpen" ng-required="true"
+               ng-change="vm.onDateChange()" id="startDate" class="form-control">
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="vm.openStartDatepicker()">
+            <i class="glyphicon glyphicon-calendar"></i>
+          </button>
+        </span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="endDate">&nbsp;à&nbsp;</label>
+      <div class="input-group">
+        <input uib-datepicker-popup="dd MMM yyyy" type="text" ng-model="vm.endDate"
+               datepicker-options="{minDate: vm.startDate}" is-open="vm.endDateOpen" ng-required="true"
+               ng-change="vm.onDateChange()" id="endDate" class="form-control">
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="vm.openEndDatepicker()">
+            <i class="glyphicon glyphicon-calendar"></i>
+          </button>
+        </span>
+      </div>
+    </div>
+  </div>
+  <br/>
+
+  <table st-table="vm.displayedPickups" st-safe-src="vm.filteredPickups" class="table table-striped">
+    <thead>
+    <tr>
+      <th>{{'PHARMACY_PICKUP_DATE' | translate}}</th>
+      <th>{{'PHARMACY_REGIMEN' | translate}}</th>
+      <th>{{'PHARMACY_POSOLOGY' | translate}}</th>
+      <th>{{'PHARMACY_QUANTITY' | translate}}</th>
+      <th>{{'PHARMACY_NEXT_PICKUP' | translate}}</th>
+      <th>{{'COMMON_BY' | translate}}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="p in vm.displayedPickups">
+      <td>{{p.encounterDatetime | date:"MMM d, y"}}</td>
+      <td>{{p.regimen}}</td>
+      <td>{{p.posology}}</td>
+      <td>{{p.quantity}}</td>
+      <td>{{p.nextPickup | date:"MMM d, y"}}</td>
+      <td>{{p.provider}}</td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr ng-show="noResultsMessage">
+      <td colspan="6" class="text-center">
+        {{noResultsMessage | translate}}
+      </td>
+    </tr>
+    <tr>
+      <td colspan="6" class="text-center">
+        <div st-items-by-page="4" st-displayed-pages="7" st-pagination=""></div>
+      </td>
+    </tr>
+    </tfoot>
+  </table>
 </div>

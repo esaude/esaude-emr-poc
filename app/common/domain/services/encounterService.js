@@ -199,9 +199,10 @@
 
       function getEncountersComplete(response) {
         var nonVoided = _.filter(response.data.results, function (e) { return !e.voided; }).reverse();
+        // TODO Should be extracted to mapper
         return _.map(nonVoided, function (e) {
           return {
-            encounterDatetime: e.encounterDatetime,
+            encounterDatetime: new Date(e.encounterDatetime),
             regimen: valueOfField(filaObsList.regimen, e.obs),
             posology: valueOfField(filaObsList.posology, e.obs),
             quantity: valueOfField(filaObsList.quantity, e.obs),
