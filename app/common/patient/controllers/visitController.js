@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('registration')
+angular.module('common.patient')
         .controller('VisitController', ['$rootScope', '$scope', '$stateParams', '$location', 'visitService', 'encounterService',
             'commonService', 'localStorageService',
                     function ($rootScope, $scope, $stateParams, $location, visitService, encounterService,
