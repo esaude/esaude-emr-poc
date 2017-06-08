@@ -39,9 +39,9 @@ describe('FilaHistoryController', function () {
       expect(controller.displayedPickups).toBe(encounters);
       expect(controller.filteredPickups).toBe(encounters);
       expect(controller.endDateOpen).toBe(false);
-      expect(controller.endDate.getTime()).toBe(new Date(encounters[0].encounterDatetime).getTime());
+      expect(controller.endDate).toBe(encounters[0].encounterDatetime);
       expect(controller.startDateOpen).toBe(false);
-      expect(controller.startDate.getTime()).toBe(new Date(encounters[3].encounterDatetime).getTime());
+      expect(controller.startDate).toBe(encounters[3].encounterDatetime);
     })
   });
 
@@ -84,13 +84,11 @@ describe('FilaHistoryController', function () {
     expect(controller.startDateOpen).toBe(false);
     controller.openStartDatepicker();
     expect(controller.startDateOpen).toBe(true);
-
   });
 
   it('should open end date datepicker', function () {
     expect(controller.endDateOpen).toBe(false);
     controller.openEndDatepicker();
     expect(controller.endDateOpen).toBe(true);
-
   });
 });
