@@ -3,30 +3,10 @@
   <br/>
   <div class="form-inline">
     <div class="form-group">
-      <label for="startDate">Período</label>
-      <div class="input-group">
-        <input uib-datepicker-popup="dd MMM yyyy" type="text" ng-model="vm.startDate"
-               datepicker-options="{maxDate: vm.endDate}" is-open="vm.startDateOpen" ng-required="true"
-               ng-change="vm.onDateChange()" id="startDate" class="form-control">
-        <span class="input-group-btn">
-          <button type="button" class="btn btn-default" ng-click="vm.openStartDatepicker()">
-            <i class="glyphicon glyphicon-calendar"></i>
-          </button>
-        </span>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="endDate">&nbsp;à&nbsp;</label>
-      <div class="input-group">
-        <input uib-datepicker-popup="dd MMM yyyy" type="text" ng-model="vm.endDate"
-               datepicker-options="{minDate: vm.startDate}" is-open="vm.endDateOpen" ng-required="true"
-               ng-change="vm.onDateChange()" id="endDate" class="form-control">
-        <span class="input-group-btn">
-          <button type="button" class="btn btn-default" ng-click="vm.openEndDatepicker()">
-            <i class="glyphicon glyphicon-calendar"></i>
-          </button>
-        </span>
-      </div>
+      <label for="year">{{"COMMON_YEAR" | translate }}</label>
+      <select ng-required="true" ng-model="vm.year" ng-options="+(y) as y for y in vm.years" ng-change="vm.onDateChange()" id="year"
+              class="form-control">
+      </select>
     </div>
   </div>
   <br/>

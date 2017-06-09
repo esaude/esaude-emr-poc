@@ -9,18 +9,14 @@
 
   function FilaHistoryController($stateParams, encounterService) {
     var pickups = [];
+    var now = new Date();
 
     var vm = this;
-
     vm.displayedPickups = [];
-    vm.endDate = new Date();
-    vm.endDateOpen = false;
     vm.filteredPickups = [];
-    vm.startDate = new Date();
-    vm.startDateOpen = false;
+    vm.year = now.getFullYear();
+    vm.years = [vm.year];
     vm.onDateChange = onDateChange;
-    vm.openStartDatepicker = openStartDatepicker;
-    vm.openEndDatepicker = openEndDatepicker;
 
     activate();
 
@@ -29,20 +25,15 @@
     function activate() {
       var patientUuid = $stateParams.patientUuid;
       encounterService.getPatientPharmacyEncounters(patientUuid).then(function (encounters) {
-        vm.startDate = _.last(encounters).encounterDatetime;
-        vm.endDate = _.head(encounters).encounterDatetime;
+        var groupByYear = _.curryRight(_.groupBy)(function (pickup) {
+          return pickup.encounterDatetime.getFullYear();
+        });
+        vm.year = _.head(encounters).encounterDatetime.getFullYear();
+        vm.years = _.flow([groupByYear, _.keys, _.reverse])(encounters);
         pickups = encounters;
         vm.displayedPickups = encounters;
         vm.filteredPickups = encounters;
       });
-    }
-
-    function openStartDatepicker() {
-      vm.startDateOpen = true;
-    }
-
-    function openEndDatepicker() {
-      vm.endDateOpen = true;
     }
 
     /**
@@ -51,15 +42,12 @@
     function onDateChange() {
       // Considering that pickups always sorted by most recent
       var start = _.findIndex(pickups, function (p) {
-        return p.encounterDatetime <= vm.endDate;
+        return p.encounterDatetime.getFullYear() <= vm.year;
       });
-      var end = _.findLastIndex(pickups, function (p) {
-        return p.encounterDatetime >= vm.startDate;
-      });
-      if (start < 0 || end < 0)
+      if (start < 0)
         vm.filteredPickups = [];
       else
-        vm.filteredPickups = _.slice(pickups, start, end + 1);
+        vm.filteredPickups = _.slice(pickups, start);
     }
   }
 
