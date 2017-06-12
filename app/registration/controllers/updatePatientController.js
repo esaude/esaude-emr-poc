@@ -1,16 +1,15 @@
 'use strict';
 
 angular.module('registration')
-    .controller('UpdatePatientController', ['$scope', '$location', '$stateParams', 'patientService', 
-                    '$http', 'openmrsPatientMapper',
-        function ($scope, $location, $stateParams, patientService, $http, patientMapper) {
+    .controller('UpdatePatientController', ['$scope', '$location', '$stateParams', 'patientService',
+        function ($scope, $location, $stateParams, patientService) {
 
                 (function () {
                     $scope.srefPrefix = "editpatient.";
                     var uuid = $stateParams.patientUuid;
-                    
-                    patientService.get(uuid).success(function (openmrsPatient) {
-                        $scope.openMRSPatient = openmrsPatient;
+
+                    patientService.getPatient(uuid).then(function (patient) {
+                        $scope.openMRSPatient = patient;
                     });
                 })();
 
@@ -22,7 +21,7 @@ angular.module('registration')
                         });
                     });
                 };
-                
+
                 $scope.save = function () {
                     patientService.update($scope.patient, $scope.openMRSPatient).success(successCallback);
                 };
@@ -35,11 +34,11 @@ angular.module('registration')
                     });
 
                     if (_.isUndefined(found)) {
-                        
+
                     } else {
                         //check if value was changed
                         if (found.identifier !== oldIdentifier.identifier) {
-                            patientService.updatePatientIdentifier(patientProfileData.patient.uuid, oldIdentifier.uuid, 
+                            patientService.updatePatientIdentifier(patientProfileData.patient.uuid, oldIdentifier.uuid,
                                 {identifier: found.identifier, uuid: oldIdentifier.uuid, preferred: found.preferred}).success(successIdentifierCallback);
                         }
                     }

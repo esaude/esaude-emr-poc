@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('application')
-        .controller('MovePatientController', ['$rootScope', '$scope', '$location', 'patientService', 'openmrsPatientMapper',
+        .controller('MovePatientController', ['$rootScope', '$scope', '$location', 'patientService',
             'spinner', 'commonService', 'visitService', 'localStorageService',
-    function ($rootScope, $scope, $location, patientService, patientMapper, spinner, 
+    function ($rootScope, $scope, $location, patientService, spinner,
         commonService, visitService, localStorageService) {
             $scope.results = [];
 
@@ -13,8 +13,7 @@ angular.module('application')
                 var movingPatient = localStorageService.get('movingPatient');
 
                 localStorageService.remove('movingPatient');
-                spinner.forPromise(patientService.get(movingPatient).success(function (data) {
-                    var patient = patientMapper.map(data);
+                spinner.forPromise(patientService.getPatient(movingPatient).then(function (patient) {
                     $rootScope.patient = patient;
                     redirectToPage(patient);
                 }));
@@ -30,7 +29,7 @@ angular.module('application')
                             var lastVisit = _.maxBy(nonRetired, 'startDatetime');
                             var now = dateUtil.now();
                             //is last visit todays
-                            if (dateUtil.parseDatetime(lastVisit.startDatetime) <= now && 
+                            if (dateUtil.parseDatetime(lastVisit.startDatetime) <= now &&
                                 dateUtil.parseDatetime(lastVisit.stopDatetime) >= now) {
                                 $rootScope.hasVisitToday = true;
                                 $rootScope.todayVisit = lastVisit;
