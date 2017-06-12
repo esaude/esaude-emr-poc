@@ -1,36 +1,48 @@
 <div class="row content-border-margin-regular">
-    <table st-table="vm.displayedPickups" st-safe-src="vm.pickups" class="table table-striped">
-            <thead>
-                <tr>
-                    <th>{{'PHARMACY_PICKUP_DATE' | translate}}</th>
-                    <th>{{'PHARMACY_REGIMEN' | translate}}</th>
-                    <th>{{'PHARMACY_POSOLOGY' | translate}}</th>
-                    <th>{{'PHARMACY_QUANTITY' | translate}}</th>
-                    <th>{{'PHARMACY_NEXT_PICKUP' | translate}}</th>
-                    <th>{{'COMMON_BY' | translate}}</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="p in vm.displayedPickups">
-                    <td>{{p.encounterDatetime | date:"MMM d, y"}}</td>
-                    <td>{{p.regimen}}</td>
-                    <td>{{p.posology}}</td>
-                    <td>{{p.quantity}}</td>
-                    <td>{{p.nextPickup | date:"MMM d, y"}}</td>
-                    <td>{{p.provider}}</td>
-                </tr>
-            </tbody>
-            <tfoot>
-                <tr ng-show="noResultsMessage">
-                    <td  colspan="6" class="text-center">
-                        {{noResultsMessage | translate}}
-                    </td>
-                </tr>
-                <tr>
-                    <td  colspan="6" class="text-center">
-                        <div  st-items-by-page="4" st-displayed-pages="7" st-pagination=""></div>
-                    </td>
-                </tr>
-            </tfoot>
-    </table>
+
+  <br/>
+  <div class="form-inline">
+    <div class="form-group">
+      <label for="year">{{"COMMON_YEAR" | translate }}</label>
+      <select ng-required="true" ng-model="vm.year" ng-options="+(y) as y for y in vm.years" ng-change="vm.onDateChange()" id="year"
+              class="form-control">
+      </select>
+    </div>
+  </div>
+  <br/>
+
+  <table st-table="vm.displayedPickups" st-safe-src="vm.filteredPickups" class="table table-striped">
+    <thead>
+    <tr>
+      <th>{{'PHARMACY_PICKUP_DATE' | translate}}</th>
+      <th>{{'PHARMACY_REGIMEN' | translate}}</th>
+      <th>{{'PHARMACY_POSOLOGY' | translate}}</th>
+      <th>{{'PHARMACY_QUANTITY' | translate}}</th>
+      <th>{{'PHARMACY_NEXT_PICKUP' | translate}}</th>
+      <th>{{'COMMON_BY' | translate}}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="p in vm.displayedPickups">
+      <td>{{p.encounterDatetime | date:"MMM d, y"}}</td>
+      <td>{{p.regimen}}</td>
+      <td>{{p.posology}}</td>
+      <td>{{p.quantity}}</td>
+      <td>{{p.nextPickup | date:"MMM d, y"}}</td>
+      <td>{{p.provider}}</td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr ng-show="noResultsMessage">
+      <td colspan="6" class="text-center">
+        {{noResultsMessage | translate}}
+      </td>
+    </tr>
+    <tr>
+      <td colspan="6" class="text-center">
+        <div st-items-by-page="4" st-displayed-pages="7" st-pagination=""></div>
+      </td>
+    </tr>
+    </tfoot>
+  </table>
 </div>

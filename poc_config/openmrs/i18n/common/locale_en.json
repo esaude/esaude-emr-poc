@@ -1,4 +1,5 @@
 {
+    "COMMON_YEAR": "Year",
     "COMMON_QUANTITY": "Quantity",
     "COMMON_ITEM": "Item",
     "COMMON_OUTCOME": "Outcome",
@@ -12,7 +13,7 @@
     "COMMON_TO": "to",
     "COMMON_FROM": "from",
     "COMMON_STATE": "State",
-   "COMMON_PROVINCE": "Provincia",
+    "COMMON_PROVINCE": "Provincia",
     "COMMON_DETAILS": "Details",
     "COMMON_NONE": "NONE",
     "COMMON_CONSULTATION": "Consultation",
