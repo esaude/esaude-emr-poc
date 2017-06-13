@@ -25,8 +25,8 @@ function DispensationController($scope, $rootScope, $filter, dispensationService
             var patientUuid = $rootScope.patient.uuid;
 
             prescriptionService.getPatientPrescriptions(patientUuid).then(function (prescriptions) {
-                $scope.prescriptions = prescriptions.results;
-                $scope.prescription = prescriptions.results[0];
+                $scope.prescriptions = prescriptions;
+                $scope.prescription = prescriptions[0];
                 $scope.prescriptiontNoResultsMessage = _.isEmpty($scope.prescriptions) ? "PHARMACY_LIST_NO_ITEMS" : null;
             });
         };

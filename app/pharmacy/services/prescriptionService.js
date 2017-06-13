@@ -27,11 +27,21 @@
 
         withCredentials: true
       }).then(function (response) {
-        return response.data;
+        return _.map(response.data.results, prescriptionMapper);
       }).catch(function (error) {
         $log.error('XHR Failed for getPatientPrescriptions. ' + error.data);
         return $q.reject(error);
       });
+    }
+
+    /**
+     * Maps OpenMRS Prescription.
+     *
+     * @param prescription
+     */
+    function prescriptionMapper(prescription) {
+      prescription.prescriptionDate = new Date(prescription.prescriptionDate);
+      return prescription;
     }
   }
 
