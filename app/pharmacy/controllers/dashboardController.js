@@ -22,20 +22,10 @@
     ////////////////
 
     function activate() {
-      loadPatient(patientUuid).then(function (patient) {
+      patientService.getPatient(patientUuid).then(function (patient) {
         vm.patient = patient;
         // This is needed because its tied to CheckinController.
         $rootScope.patient = vm.patient;
-      });
-    }
-
-    // TODO: This should be in patientService
-    function loadPatient(patientUuid) {
-      return patientService.get(patientUuid).then(function (response) {
-        return openmrsPatientMapper.map(response.data);
-      }).catch(function (error) {
-        $log.error('XHR Failed for loadPatient. ' + error.data);
-        return $q.reject(error);
       });
     }
 

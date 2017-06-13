@@ -1,18 +1,48 @@
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('bahmni.common.domain')
-    .service('prescriptionService', ['$http', '$q', '$rootScope', 'configurations', '$cookieStore', function ($http, $q, $rootScope, configurations, $cookieStore) {
+  angular
+    .module('bahmni.common.domain')
+    .factory('prescriptionService', prescriptionService);
 
-    this.getPatientPrescriptions = function (patientUuid) {
-      	
-    	 return $http.get(Bahmni.Common.Constants.prescriptionUrl, {
-            
-            params:{
-                patient: patientUuid
-            },
+  prescriptionService.$inject = ['$http', '$q', '$log'];
 
-            withCredentials : true
-        });
+  function prescriptionService($http, $q, $log) {
+    return {
+      getPatientPrescriptions: getPatientPrescriptions
     };
 
-}]);
+    ////////////////
+
+    /**
+     * @param {String} patientUuid
+     * @returns {Array} Prescriptions for patient.
+     */
+    function getPatientPrescriptions(patientUuid) {
+      return $http.get(Bahmni.Common.Constants.prescriptionUrl, {
+
+        params: {
+          patient: patientUuid
+        },
+
+        withCredentials: true
+      }).then(function (response) {
+        return _.map(response.data.results, prescriptionMapper);
+      }).catch(function (error) {
+        $log.error('XHR Failed for getPatientPrescriptions. ' + error.data);
+        return $q.reject(error);
+      });
+    }
+
+    /**
+     * Maps OpenMRS Prescription.
+     *
+     * @param prescription
+     */
+    function prescriptionMapper(prescription) {
+      prescription.prescriptionDate = new Date(prescription.prescriptionDate);
+      return prescription;
+    }
+  }
+
+})();

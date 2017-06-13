@@ -1,17 +1,17 @@
 'use strict';
 
 angular.module('clinic')
-  .controller('DashboardController', ["$rootScope", "$scope", "$location", "$stateParams", "$filter", "patientService", "openmrsPatientMapper",
+  .controller('DashboardController', ["$rootScope", "$scope", "$location", "$stateParams", "$filter", "patientService",
     "alertService",
-    function ($rootScope, $scope, $location, $stateParams, $filter, patientService, patientMapper, alertService) {
+    function ($rootScope, $scope, $location, $stateParams, $filter, patientService, alertService) {
             var patientUuid;
 
             init();
             function init() {
                 patientUuid = $stateParams.patientUuid;
 
-                patientService.get(patientUuid).success(function (data) {
-                    $rootScope.patient = patientMapper.map(data);
+                patientService.getPatient(patientUuid).then(function (patient) {
+                    $rootScope.patient = patient;
                 });
             }
 

@@ -3,7 +3,7 @@
 angular.module('application')
         .controller('SearchController', ['$rootScope', '$scope', '$location', 'patientService', 'openmrsPatientMapper',
             'spinner', 'observationsService', 'commonService', 'visitService',
-    function ($rootScope, $scope, $location, patientService, patientMapper, spinner, observationsService, 
+    function ($rootScope, $scope, $location, patientService, patientMapper, spinner, observationsService,
         commonService, visitService) {
             $scope.results = [];
 
@@ -72,11 +72,11 @@ angular.module('application')
                     $rootScope.patient = patient;
                     redirectToPage(patient);
                 } else {
-                    patientService.get(patient.uuid).success(function (data) {
-                        $rootScope.patient = patientMapper.map(data);
+                    patientService.getPatient(patient.uuid).success(function (patient) {
+                        $rootScope.patient = patient;
                         redirectToPage(patient);
                     });
-                }                
+                }
             };
 
             var redirectToPage = function (patient) {
@@ -89,7 +89,7 @@ angular.module('application')
                             var lastVisit = _.maxBy(nonRetired, 'startDatetime');
                             var now = dateUtil.now();
                             //is last visit todays
-                            if (dateUtil.parseDatetime(lastVisit.startDatetime) <= now && 
+                            if (dateUtil.parseDatetime(lastVisit.startDatetime) <= now &&
                                 dateUtil.parseDatetime(lastVisit.stopDatetime) >= now) {
                                 $rootScope.hasVisitToday = true;
                                 $rootScope.todayVisit = lastVisit;

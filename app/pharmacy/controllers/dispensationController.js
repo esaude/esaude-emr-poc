@@ -7,7 +7,7 @@ DispensationController.$inject = ["$scope", "$rootScope", "$filter", "dispensati
 function DispensationController($scope, $rootScope, $filter, dispensationService, prescriptionService, localStorageService) {
 
     var dateUtil = Bahmni.Common.Util.DateUtil;
-    
+
     (function () {
         $scope.selectedItems = [];
 
@@ -24,11 +24,11 @@ function DispensationController($scope, $rootScope, $filter, dispensationService
 
             var patientUuid = $rootScope.patient.uuid;
 
-            prescriptionService.getPatientPrescriptions(patientUuid).success(function (data) {
-                $scope.prescriptions = data.results;
-                $scope.prescription = data.results[0];
+            prescriptionService.getPatientPrescriptions(patientUuid).then(function (prescriptions) {
+                $scope.prescriptions = prescriptions;
+                $scope.prescription = prescriptions[0];
                 $scope.prescriptiontNoResultsMessage = _.isEmpty($scope.prescriptions) ? "PHARMACY_LIST_NO_ITEMS" : null;
-            });                   
+            });
         };
 
         $scope.select = function (item) {
@@ -84,7 +84,7 @@ function DispensationController($scope, $rootScope, $filter, dispensationService
     })();
 
     $scope.updatePickUp = function (item) {
-        
+
         if(item.quantity > item.drugToPickUp){
             item.quantity = item.drugToPickUp;
         }
@@ -105,7 +105,7 @@ function DispensationController($scope, $rootScope, $filter, dispensationService
         if(item.quantity >= twoDays){
             numberOfPillsMinusTwoDays -= twoDays;
         }
-        
+
         item.nextPickupDate = new Date(today.getTime() + (oneDayInMilSec * numberOfPillsMinusTwoDays));
 
         while(item.nextPickupDate.getDay() == sunday || item.nextPickupDate.getDay() == saturday){
@@ -118,7 +118,7 @@ function DispensationController($scope, $rootScope, $filter, dispensationService
         var dispensation = {
 
             providerUuid : $rootScope.currentUser.person.uuid,
-         
+
             patientUuid : $rootScope.patient.uuid,
 
             locationUuid : localStorageService.cookie.get("emr.location").uuid,
@@ -127,7 +127,7 @@ function DispensationController($scope, $rootScope, $filter, dispensationService
         };
 
         _.forEach($scope.selectedItems, function (item) {
-            
+
             var dispensationItem = {
                 orderUuid : item.order.uuid,
                 quantityToDispense : item.quantity ? item.quantity : item.order.quantity,
