@@ -1,2 +1,1 @@
-
-angular.module('common.patient', []);
+angular.module('common.patient', ['bahmni.common.domain']);

@@ -1,59 +1,67 @@
 describe('patientService', function () {
-  var rootScope, mockBackend, patientService, scope, searchPromise;
-  var spinner = jasmine.createSpyObj('spinner', ['forPromise']);
-  var controller;
-  var openmrsUrl = '/openmrs/';
 
-  var mockHttp = jasmine.createSpyObj('$http', ['get']);
-  mockHttp.get.and.callFake(function (param) {
-    return specUtil.respondWith("success");
-  });
+  var patientService, $httpBackend, $rootScope, openmrsPatientMapper, $q, $log, reportService, prescriptionService;
 
-  beforeEach(function () {
-    module('common.patient');
-    inject(function (_$rootScope_, _patientService_, $httpBackend) {
-      rootScope = _$rootScope_;
-      patientService = _patientService_;
-      mockBackend = $httpBackend
+  beforeEach(module('common.patient', function ($provide) {
+    // Mock initialization
+    $provide.factory('initialization', function () {});
+    // Mock appService
+    var appService = jasmine.createSpyObj('appService', ['initApp']);
+    appService.initApp.and.returnValue({
+      then: function (fn) {}
     });
-  });
-
-  beforeEach(inject(function ($controller, $rootScope) {
-    controller = $controller;
-    rootScope = $rootScope;
-    scope = $rootScope.$new();
-    spinner.forPromise.and.callFake(function (param) {
-      return {}
-    });
-    patientService = jasmine.createSpyObj('patientService', ['search']);
-    patientService.search.and.callFake(function (param) {
-      return specUtil.respondWith({
-        data: {
-          pageOfResults: [
-            {uuid: "patientUuid"}
-          ]
-        }
-      });
-    });
+    $provide.value('appService', appService);
   }));
 
-  beforeEach(function () {
-    scope = rootScope.$new();
-    searchPromise = specUtil.createServicePromise('search');
-    spinner = jasmine.createSpyObj('spinner', ['show', 'hide', 'forPromise']);
-
-  });
+  beforeEach(inject(function (_patientService_, _prescriptionService_, _reportService_, _$q_, _$rootScope_,
+                              _$httpBackend_, _openmrsPatientMapper_) {
+    patientService = _patientService_;
+    prescriptionService = _prescriptionService_;
+    reportService = _reportService_;
+    $q = _$q_;
+    $rootScope = _$rootScope_;
+    $httpBackend = _$httpBackend_;
+    openmrsPatientMapper = _openmrsPatientMapper_;
+  }));
 
   it("should fetch the the specific patient by name ", function () {
 
-    //patientService.getPatient.and.returnValue({});
-    //mockBackend.expectGET('openmrsUrl  "/ws/rest/v1/patient"');
+    var query = 'mal';
 
-    //scope.$digest();
-    //expect(mockHttp.get).toHaveBeenCalled();
-    scope.$apply();
-    //expect(mockHttp.get.calls.mostRecent().args[0]).toBe("/openmrs/ws/rest/v1/patient/");
-    //expect(patientService.getByUuid).toHaveBeenCalledWith("observationUuid");
-    //expect(observationsService.getByUuid.calls.count()).toEqual(1);
+    $httpBackend.expectGET('/openmrs/ws/rest/v1/patient?identifier=' + query + '&q=mal&v=full')
+      .respond({});
+
+    patientService.search(query);
+
+    $httpBackend.flush();
+    $httpBackend.verifyNoOutstandingExpectation();
+    $httpBackend.verifyNoOutstandingRequest();
+  });
+
+  describe('printPatientARVPickupHistory', function () {
+
+    var year = 2017;
+    var patientUUID = '';
+    var pickups = [];
+
+    it('should print the report', function () {
+
+      spyOn(openmrsPatientMapper, 'map').and.returnValue({});
+
+      spyOn(reportService, 'printPatientARVPickupHistory').and.callFake(function () {});
+
+      $httpBackend.expectGET('/openmrs/ws/rest/v1/patient/?v=full')
+        .respond({});
+
+      $httpBackend.expectGET('/openmrs/ws/rest/v1/prescription?patient=')
+        .respond([]);
+
+      patientService.printPatientARVPickupHistory(year, patientUUID, pickups);
+
+      $httpBackend.flush();
+      expect(reportService.printPatientARVPickupHistory).toHaveBeenCalled();
+      $httpBackend.verifyNoOutstandingExpectation();
+      $httpBackend.verifyNoOutstandingRequest();
+    });
   });
 });
