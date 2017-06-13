@@ -18,20 +18,20 @@
       <div class="patient">
         <div class="row">
           <div class="col-xs-12">
-            <b>{{'PATIENT_INFO_IDENTIFIER_IDENTIFIER' | translate}}({{identifierType}})</b>
-            <p>{{identifier}}</p>
+            <b>{{'PATIENT_INFO_IDENTIFIER_IDENTIFIER' | translate}}({{patient.identifierType}})</b>
+            <p>{{patient.identifier}}</p>
             <b>{{'PATIENT_INFO_NAMES' | translate}}</b>
-            <p>{{fullName}}</p>
+            <p>{{patient.fullName}}</p>
             <b>{{'PATIENT_INFO_OTHERS' | translate}}</b>
             <p>{{patient['Numero de Telefone 1']}} / {{patient['Numero de Telefone 2']}}</p>
             <b>{{'PATIENT_INFO_ADDRESS' | translate}}</b>
             <p>
               {{'COMMON_AVENUE' | translate}}/{{'COMMON_STREET' | translate}}/{{'COMMON_HOUSE' | translate}}:
-              {{address.display}} <br />
-              {{'COMMON_NEIGHBORHOOD' | translate }} : {{address.address5 }}
-              {{'COMMON_CELL' | translate}}/{{'COMMON_BLOCK' | translate}}: {{address.address3}} <br />
-              {{'COMMON_DISTRICT' | translate}}: {{address.countyDistrict}} <br />
-              {{'COMMON_PROVINCE' | translate}}: {{address.stateProvince}}</p>
+              {{patient.address.display}} <br />
+              {{'COMMON_NEIGHBORHOOD' | translate }} : {{patient.address.address5 }}
+              {{'COMMON_CELL' | translate}}/{{'COMMON_BLOCK' | translate}}: {{patient.address.address3}} <br />
+              {{'COMMON_DISTRICT' | translate}}: {{patient.address.countyDistrict}} <br />
+              {{'COMMON_PROVINCE' | translate}}: {{patient.address.stateProvince}}</p>
           </div>
         </div>
       </div>
@@ -46,83 +46,21 @@
       <div class="calendar">
         <table class="table table-bordered">
           <tbody>
-          <tr >
-            <td colspan="2"></td>
-            <td>Jan</td>
-            <td>Fev</td>
-            <td>Mar</td>
-            <td>Abr</td>
-            <td>Mai</td>
-            <td>Jun</td>
-            <td>Jul</td>
-            <td>Ago</td>
-            <td>Set</td>
-            <td>Out</td>
-            <td>Nov</td>
-            <td>Dez</td>
-          </tr>
-          <tr  >
-            <td rowspan="4">
+          <tr ng-repeat="row in calendar">
+            <!--Month names-->
+            <td ng-if="$index === 0" colspan="2"></td>
+            <!--Week header-->
+            <td ng-if="$index === 1" rowspan="4">
               <span class="week-header">Semana</span>
             </td>
-            <td>1ª</td>
-            <td>X</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-          </tr>
-          <tr>
-            <td>2ª</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-          </tr>
-          <tr>
-            <td>3ª</td>
-            <td>&nbsp;</td>
-            <td>X</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-          </tr>
-          <tr>
-            <td>4ª</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
+            <!--Week number-->
+            <td ng-if="$index >= 1">
+              {{$index}}
+            </td>
+            <!--Expiration dates-->
+            <td ng-repeat="x in row track by $index">
+              {{x}}
+            </td>
           </tr>
           </tbody>
         </table>
@@ -139,13 +77,13 @@
             <tr>
               <th>{{'PHARMACY_PICKUP_DATE' | translate}}</th>
               <th>{{'PHARMACY_REGIMEN'     | translate}}</th>
-              <th>{{'PHARMACY_QUANTITY'    | translate}}</th>
+              <th>{{'PHARMACY_QUANTITY_SHORT' | translate}}</th>
               <th>{{'PHARMACY_POSOLOGY'    | translate}}</th>
               <th>{{'PHARMACY_NEXT_PICKUP' | translate}}</th>
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="p in pickups">
+            <tr ng-repeat="p in patient.pickups">
               <td>{{p.encounterDatetime | date:"MMM d, y"}}</td>
               <td>{{p.regimen}}</td>
               <td>{{p.quantity}}</td>

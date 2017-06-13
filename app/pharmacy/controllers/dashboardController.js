@@ -36,10 +36,6 @@
     function linkPatientDetail() {
       $location.url("/patient/detail/" + patientUuid + "/demographic"); // path not hash
     }
-
-    function print() {
-      reportService.printPatientARVPickupHistory(vm.patient);
-    }
   }
 
 })();

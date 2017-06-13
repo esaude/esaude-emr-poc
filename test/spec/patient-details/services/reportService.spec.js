@@ -4,14 +4,11 @@ describe('reportService', function () {
 
   var PATIENT_ARV_PICKUP_HISTORY_TEMPLATE = "../patient-details/views/patient-arv-pickup-history-report.html";
 
-  var reportService, encounterService, $rootScope, $compile, $timeout, $http, $log, $q;
+  var reportService, $rootScope, $compile, $timeout, $http, $log, $q;
 
   var linkFn;
 
-  beforeEach(module('patient.details'));
-
-  // Provide appService mock (usualy run as route resolve)
-  beforeEach(module(function ($provide) {
+  beforeEach(module('patient.details', function ($provide) {
     var appService = jasmine.createSpyObj('appService', ['getAppDescriptor']);
     appService.getAppDescriptor.and.returnValue({
       getConfigValue: function () {
@@ -43,10 +40,9 @@ describe('reportService', function () {
     });
   });
 
-  beforeEach(inject(function (_reportService_, _encounterService_, _$httpBackend_, _$rootScope_, _$compile_, _$log_,
+  beforeEach(inject(function (_reportService_, _$httpBackend_, _$rootScope_, _$compile_, _$log_,
                               _$q_, _$timeout_) {
     reportService = _reportService_;
-    encounterService = _encounterService_;
     $http = _$httpBackend_;
     $rootScope = _$rootScope_;
     $compile = _$compile_;
@@ -57,10 +53,9 @@ describe('reportService', function () {
 
   describe('generate patient ARV pickup history report', function () {
 
-    var loadTemplate, getPharmacyPickups;
+    var loadTemplate;
 
     beforeEach(function () {
-      getPharmacyPickups = $http.expectRoute('GET', Bahmni.Common.Constants.encounterUrl);
       loadTemplate = $http.expectGET(PATIENT_ARV_PICKUP_HISTORY_TEMPLATE);
     });
 
@@ -68,21 +63,17 @@ describe('reportService', function () {
       var patient = {fullName: "Malocy Landon"};
       var template = "<div>{{patient.fullName}}</div>";
 
-      spyOn(encounterService, "getPatientPharmacyEncounters").and.callThrough();
-      getPharmacyPickups.respond(200, [{}]);
       loadTemplate.respond(200, template);
 
       reportService.printPatientARVPickupHistory(patient);
       $http.flush();
 
-      expect(encounterService.getPatientPharmacyEncounters).toHaveBeenCalled();
       expect($compile).toHaveBeenCalled();
       expect(linkFn).toHaveBeenCalled();
       expect($timeout).toHaveBeenCalled();
     });
 
     it('should cancel report generation if load fails', function () {
-      getPharmacyPickups.respond(200, [{}]);
       loadTemplate.respond(404, 'Not Found');
 
       spyOn($log, "error").and.callThrough();
