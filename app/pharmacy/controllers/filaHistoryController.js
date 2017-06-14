@@ -5,10 +5,10 @@
     .module('pharmacy')
     .controller('FilaHistoryController', FilaHistoryController);
 
-  FilaHistoryController.$inject = ['$stateParams', 'encounterService', 'patientService', 'reportService', 'prescriptionService', '$q'];
+  FilaHistoryController.$inject = ['$stateParams', 'encounterService', 'patientService'];
 
-  function FilaHistoryController($stateParams, encounterService, patientService, reportService, prescriptionService, $q) {
-    var patientUuid = $stateParams.patientUuid;
+  function FilaHistoryController($stateParams, encounterService, patientService) {
+    var patientUUID = $stateParams.patientUuid;
     var pickups = [];
     var now = new Date();
 
@@ -25,7 +25,7 @@
     ////////////////
 
     function activate() {
-      encounterService.getPatientPharmacyEncounters(patientUuid).then(function (encounters) {
+      encounterService.getPatientPharmacyEncounters(patientUUID).then(function (encounters) {
         var groupByYear = _.curryRight(_.groupBy)(function (pickup) {
           return pickup.encounterDatetime.getFullYear();
         });
@@ -56,17 +56,7 @@
     }
 
     function onPrint() {
-      var getPatient = patientService.getPatient(patientUuid);
-      var getPrescriptions = prescriptionService.getPatientPrescriptions(patientUuid);
-
-      $q.all([getPatient, getPrescriptions]).then(function (values) {
-        var patient = values[0];
-        patient.pickups = vm.filteredPickups;
-        patient.prescriptions = _.filter(values[1], function (p) {
-          return p.prescriptionDate.getFullYear() === vm.year;
-        });
-        reportService.printPatientARVPickupHistory(patient);
-      });
+      patientService.printPatientARVPickupHistory(vm.year, patientUUID, vm.filteredPickups);
     }
 
   }

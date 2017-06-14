@@ -8,7 +8,7 @@ describe('reportService', function () {
 
   var linkFn;
 
-  beforeEach(module('patient.details', function ($provide) {
+  beforeEach(module('common.patient', function ($provide) {
     var appService = jasmine.createSpyObj('appService', ['getAppDescriptor']);
     appService.getAppDescriptor.and.returnValue({
       getConfigValue: function () {

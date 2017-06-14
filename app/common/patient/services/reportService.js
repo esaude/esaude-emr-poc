@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('patient.details')
+    .module('common.patient')
     .factory('reportService', reportService);
 
   reportService.$inject = ['$rootScope', '$compile', '$timeout', '$http', '$log', '$q'];

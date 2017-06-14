@@ -1,6 +1,6 @@
 describe('FilaHistoryController', function () {
 
-  var $q, $httpBackend, $rootScope, $controller, controller, encounterService, patientService, prescriptionService, reportService;
+  var $q, $httpBackend, $rootScope, $controller, controller, encounterService, patientService;
 
   var stateParams = {'patientUuid': '0810aecc-6642-4c1c-ac1e-537a0cfed81'};
 
@@ -47,31 +47,15 @@ describe('FilaHistoryController', function () {
       }
     });
 
-    patientService = jasmine.createSpyObj('patientService', ['getPatient']);
-    patientService.getPatient.and.callFake(function () {
-      return $q(function (resolve) {
-        resolve({});
-      });
-    });
-
-    prescriptionService = jasmine.createSpyObj('prescriptionService', ['getPatientPrescriptions']);
-    prescriptionService.getPatientPrescriptions.and.callFake(function () {
-      return $q(function (resolve) {
-        resolve([]);
-      });
-    });
-
-    reportService = jasmine.createSpyObj('reportService', ['printPatientARVPickupHistory']);
-    reportService.printPatientARVPickupHistory.and.callFake(function () {});
+    patientService = jasmine.createSpyObj('patientService', ['printPatientARVPickupHistory']);
+    patientService.printPatientARVPickupHistory.and.callFake(function () {});
   });
 
   beforeEach(function () {
     controller = $controller('FilaHistoryController', {
       $statePrams: stateParams,
       encounterService: encounterService,
-      patientService: patientService,
-      reportService: reportService,
-      prescriptionService: prescriptionService
+      patientService: patientService
     });
   });
 
@@ -114,26 +98,11 @@ describe('FilaHistoryController', function () {
 
   describe('onPrint', function () {
 
-    it('should load the patient', function () {
+    it('should print patient ARV pickup history report', function () {
 
       controller.onPrint();
 
-      expect(patientService.getPatient).toHaveBeenCalled();
+      expect(patientService.printPatientARVPickupHistory).toHaveBeenCalled();
     });
-
-    it('should load the patient prescriptions', function () {
-
-      controller.onPrint();
-
-      expect(prescriptionService.getPatientPrescriptions).toHaveBeenCalled();
-    });
-
-    it('should print pickup history report', function () {
-
-      controller.onPrint();
-
-      $rootScope.$apply();
-      expect(reportService.printPatientARVPickupHistory).toHaveBeenCalled();
-    });
-  })
+  });
 });
