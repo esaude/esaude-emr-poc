@@ -1,6 +1,6 @@
 describe('FilaHistoryController', function () {
 
-  var $q, $httpBackend, $rootScope, $controller, controller, encounterService, patientService;
+  var $q, $controller, controller, encounterService, patientService;
 
   var stateParams = {'patientUuid': '0810aecc-6642-4c1c-ac1e-537a0cfed81'};
 
@@ -32,11 +32,9 @@ describe('FilaHistoryController', function () {
     $translateProvider.useLoader('mergeLocaleFilesService');
   }));
 
-  beforeEach(inject(function (_$controller_, _$rootScope_, _$q_, _$httpBackend_) {
+  beforeEach(inject(function (_$controller_, _$q_) {
     $controller = _$controller_;
-    $rootScope = _$rootScope_;
     $q = _$q_;
-    $httpBackend = _$httpBackend_;
   }));
 
   beforeEach(function () {
