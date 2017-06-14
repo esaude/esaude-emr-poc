@@ -34,6 +34,7 @@
         pickups = encounters;
         vm.displayedPickups = encounters;
         vm.filteredPickups = encounters;
+        onDateChange();
       });
     }
 
@@ -45,10 +46,13 @@
       var start = _.findIndex(pickups, function (p) {
         return p.encounterDatetime.getFullYear() <= vm.year;
       });
-      if (start < 0)
+      var end = _.findLastIndex(pickups, function (p) {
+        return p.encounterDatetime.getFullYear() >= vm.year;
+      });
+      if (start < 0 || end < 0)
         vm.filteredPickups = [];
       else
-        vm.filteredPickups = _.slice(pickups, start);
+        vm.filteredPickups = _.slice(pickups, start, end + 1);
     }
 
     function onPrint() {

@@ -8,6 +8,7 @@ describe('FilaHistoryController', function () {
     {"encounterDatetime": new Date("2018-08-28")},
     {"encounterDatetime": new Date("2017-07-05")},
     {"encounterDatetime": new Date("2016-06-04")},
+    {"encounterDatetime": new Date("2016-05-03")},
     {"encounterDatetime": new Date("2015-05-02")}
   ];
 
@@ -77,16 +78,21 @@ describe('FilaHistoryController', function () {
   describe('activate', function () {
 
     it('should load patient pharmacy encounters', function () {
-      expect(controller.displayedPickups).toBe(encounters);
-      expect(controller.filteredPickups).toBe(encounters);
+      expect(encounterService.getPatientPharmacyEncounters).toHaveBeenCalled();
+    });
+
+    it('should display the most recent pickups', function () {
+      expect(controller.displayedPickups).toEqual(encounters);
+      expect(controller.filteredPickups).toEqual([encounters[0]]);
       expect(controller.year).toBe(encounters[0].encounterDatetime.getFullYear());
-    })
+    });
+
   });
 
   describe('onDateChange', function () {
 
     it('should filter pickups by date range', function () {
-      expect(controller.filteredPickups).toBe(encounters);
+      expect(controller.filteredPickups).toEqual([encounters[0]]);
 
       controller.year = 2016;
       controller.onDateChange();
@@ -97,7 +103,7 @@ describe('FilaHistoryController', function () {
     });
 
     it('should set pickups to empty when year is too low', function () {
-      expect(controller.filteredPickups).toBe(encounters);
+      expect(controller.filteredPickups).toEqual([encounters[0]]);
 
       controller.year = 2014;
       controller.onDateChange();
