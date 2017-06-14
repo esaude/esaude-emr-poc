@@ -5,9 +5,10 @@
     .module('pharmacy')
     .controller('FilaHistoryController', FilaHistoryController);
 
-  FilaHistoryController.$inject = ['$stateParams', 'encounterService'];
+  FilaHistoryController.$inject = ['$stateParams', 'encounterService', 'patientService'];
 
-  function FilaHistoryController($stateParams, encounterService) {
+  function FilaHistoryController($stateParams, encounterService, patientService) {
+    var patientUUID = $stateParams.patientUuid;
     var pickups = [];
     var now = new Date();
 
@@ -17,14 +18,14 @@
     vm.year = now.getFullYear();
     vm.years = [vm.year];
     vm.onDateChange = onDateChange;
+    vm.onPrint = onPrint;
 
     activate();
 
     ////////////////
 
     function activate() {
-      var patientUuid = $stateParams.patientUuid;
-      encounterService.getPatientPharmacyEncounters(patientUuid).then(function (encounters) {
+      encounterService.getPatientPharmacyEncounters(patientUUID).then(function (encounters) {
         var groupByYear = _.curryRight(_.groupBy)(function (pickup) {
           return pickup.encounterDatetime.getFullYear();
         });
@@ -33,6 +34,7 @@
         pickups = encounters;
         vm.displayedPickups = encounters;
         vm.filteredPickups = encounters;
+        onDateChange();
       });
     }
 
@@ -44,11 +46,19 @@
       var start = _.findIndex(pickups, function (p) {
         return p.encounterDatetime.getFullYear() <= vm.year;
       });
-      if (start < 0)
+      var end = _.findLastIndex(pickups, function (p) {
+        return p.encounterDatetime.getFullYear() >= vm.year;
+      });
+      if (start < 0 || end < 0)
         vm.filteredPickups = [];
       else
-        vm.filteredPickups = _.slice(pickups, start);
+        vm.filteredPickups = _.slice(pickups, start, end + 1);
     }
+
+    function onPrint() {
+      patientService.printPatientARVPickupHistory(vm.year, patientUUID, vm.filteredPickups);
+    }
+
   }
 
 })();

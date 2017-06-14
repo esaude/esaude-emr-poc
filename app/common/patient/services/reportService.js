@@ -2,12 +2,12 @@
   'use strict';
 
   angular
-    .module('patient.details')
+    .module('common.patient')
     .factory('reportService', reportService);
 
-  reportService.$inject = ['$rootScope', '$compile', '$timeout', '$http', '$log', '$q', 'encounterService'];
+  reportService.$inject = ['$rootScope', '$compile', '$timeout', '$http', '$log', '$q'];
 
-  function reportService($rootScope, $compile, $timeout, $http, $log, $q, encounterService) {
+  function reportService($rootScope, $compile, $timeout, $http, $log, $q) {
 
     var PATIENT_ARV_PICKUP_HISTORY_TEMPLATE = "../patient-details/views/patient-arv-pickup-history-report.html";
 
@@ -24,12 +24,30 @@
      * @param {Object} patient
      */
     function printPatientARVPickupHistory(patient) {
-      encounterService.getPatientPharmacyEncounters(patient.uuid)
-        .then(function (encounters) {
-          patient.pickups = encounters;
-          return loadTemplate(PATIENT_ARV_PICKUP_HISTORY_TEMPLATE)
-        })
-        .then(compileWith(patient))
+      var vm = {};
+      vm.patient = patient;
+      vm.calendar = [[]];
+
+      // Builds week of month x month calendar
+      var WEEKS_IN_MONTH = 4;
+      var months = moment.monthsShort();
+      var dates = _.map(patient.prescriptions, 'prescriptionDate');
+      for (var i = 0; i < WEEKS_IN_MONTH; i++) {
+        vm.calendar[i] = [];
+        for (var j = 0; j < months.length; j++) {
+          var found = false;
+          for (var d = 0; d < dates.length; d++) {
+            if (dates[d].getMonth() === j
+                  && Math.min(Math.floor(dates[d].getDate() / 7), 3) === i)
+              found = true;
+          }
+          vm.calendar[i][j] = found ? "X" : "";
+        }
+      }
+      vm.calendar.unshift(months);
+
+      loadTemplate(PATIENT_ARV_PICKUP_HISTORY_TEMPLATE)
+        .then(compileWith(vm))
         .then(printHTML);
     }
 
@@ -60,7 +78,10 @@
      * @param {String} html
      */
     function printHTML(html) {
-      var hiddenFrame = angular.element('<iframe>').css('display', 'none').appendTo('body')[0];
+      var hiddenFrame = angular.element('<iframe>')
+        .css('width', '0')
+        .css('height', '0')
+        .appendTo('body')[0];
 
       hiddenFrame.contentWindow.printAndRemove = function () {
         hiddenFrame.contentWindow.print();
