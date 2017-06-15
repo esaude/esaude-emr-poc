@@ -26,6 +26,10 @@
 
     function activate() {
       encounterService.getPatientPharmacyEncounters(patientUUID).then(function (encounters) {
+
+        if (encounters.length === 0)
+          return;
+
         var groupByYear = _.curryRight(_.groupBy)(function (pickup) {
           return pickup.encounterDatetime.getFullYear();
         });
