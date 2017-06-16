@@ -305,12 +305,16 @@ module.exports = function (grunt) {
     // concat, minify and revision files. Creates configurations in memory so
     // additional tasks can operate on them
     useminPrepare: {
-      html: ['<%= yeoman.app %>/home/index.html',
-             '<%= yeoman.app %>/registration/index.html',
-             '<%= yeoman.app %>/social/index.html',
-             '<%= yeoman.app %>/vitals/index.html',
-             '<%= yeoman.app %>/clinic/index.html',
-             '<%= yeoman.app %>/pharmacy/index.html'],
+      html: [
+        '<%= yeoman.app %>/home/index.html',
+        '<%= yeoman.app %>/registration/index.html',
+        '<%= yeoman.app %>/social/index.html',
+        '<%= yeoman.app %>/vitals/index.html',
+        '<%= yeoman.app %>/clinic/index.html',
+        '<%= yeoman.app %>/pharmacy/index.html',
+        '<%= yeoman.app %>/patient-details/views/patient-arv-pickup-history-report.html',
+        '<%= yeoman.app %>/patient-details/views/patient-daily-hospital-process-report.html'
+      ],
       css: '<%= yeoman.app %>/styles/**/*.css',
       options: {
         dest: '<%= yeoman.dist %>',
@@ -328,12 +332,16 @@ module.exports = function (grunt) {
 
     // Performs rewrites based on filerev and the useminPrepare configuration
     usemin: {
-      html: ['<%= yeoman.dist %>/home/index.html',
-             '<%= yeoman.dist %>/registration/index.html',
-             '<%= yeoman.dist %>/social/index.html',
-             '<%= yeoman.dist %>/vitals/index.html',
-             '<%= yeoman.dist %>/clinic/index.html',
-             '<%= yeoman.dist %>/pharmacy/index.html'],
+      html: [
+        '<%= yeoman.dist %>/home/index.html',
+        '<%= yeoman.dist %>/registration/index.html',
+        '<%= yeoman.dist %>/social/index.html',
+        '<%= yeoman.dist %>/vitals/index.html',
+        '<%= yeoman.dist %>/clinic/index.html',
+        '<%= yeoman.dist %>/pharmacy/index.html',
+        '<%= yeoman.dist %>/patient-details/views/patient-arv-pickup-history-report.html',
+        '<%= yeoman.dist %>/patient-details/views/patient-daily-hospital-process-report.html'
+      ],
       css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
       js: ['<%= yeoman.dist %>/scripts/{,*/}*.js'],
       options: {
