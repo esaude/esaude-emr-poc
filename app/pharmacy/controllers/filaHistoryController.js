@@ -26,6 +26,10 @@
 
     function activate() {
       encounterService.getPatientPharmacyEncounters(patientUUID).then(function (encounters) {
+
+        if (encounters.length === 0)
+          return;
+
         var groupByYear = _.curryRight(_.groupBy)(function (pickup) {
           return pickup.encounterDatetime.getFullYear();
         });
@@ -42,17 +46,9 @@
      * Filters the prescription by date range.
      */
     function onDateChange() {
-      // Considering that pickups always sorted by most recent
-      var start = _.findIndex(pickups, function (p) {
-        return p.encounterDatetime.getFullYear() <= vm.year;
+      vm.filteredPickups = _.filter(pickups, function (p) {
+        return p.encounterDatetime.getFullYear() === vm.year;
       });
-      var end = _.findLastIndex(pickups, function (p) {
-        return p.encounterDatetime.getFullYear() >= vm.year;
-      });
-      if (start < 0 || end < 0)
-        vm.filteredPickups = [];
-      else
-        vm.filteredPickups = _.slice(pickups, start, end + 1);
     }
 
     function onPrint() {

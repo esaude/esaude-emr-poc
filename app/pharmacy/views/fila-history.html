@@ -38,9 +38,9 @@
     </tr>
     </tbody>
     <tfoot>
-    <tr ng-show="noResultsMessage">
+    <tr ng-show="vm.displayedPickups.length === 0">
       <td colspan="6" class="text-center">
-        {{noResultsMessage | translate}}
+        {{'PHARMACY_LIST_NO_ITEMS' | translate}}
       </td>
     </tr>
     <tr>
