@@ -21,12 +21,12 @@ Bahmni.Common = Bahmni.Common || {};
 
     var regimenGroups = {
         adult: {
-            firstLine: "dde41a1c-6cb9-45ef-a315-6ac35456e7c1", 
-            secondLine: "618650c6-90c3-4acd-ae4d-ffb2f6452a5b", 
+            firstLine: "dde41a1c-6cb9-45ef-a315-6ac35456e7c1",
+            secondLine: "618650c6-90c3-4acd-ae4d-ffb2f6452a5b",
             thirdLine: "4281f035-183f-407d-8286-92613f3039c8"
         },
         child: {
-            firstLine: "0bd068da-1c57-40aa-9e05-f2bcbe282521", 
+            firstLine: "0bd068da-1c57-40aa-9e05-f2bcbe282521",
             secondLine: "79c143ea-eeeb-4cdb-bfd7-fed8f029c15b"
         }
     };
@@ -66,6 +66,7 @@ Bahmni.Common = Bahmni.Common || {};
         locationUrl: RESTWS_V1 + "/location",
         orderUrl: RESTWS_V1 + "/order",
         drugUrl: RESTWS_V1 + "/drug",
+        drugResourceUrl: RESTWS_V1 + "/drugresource",
         drugRegimenUrl: RESTWS_V1 + "/drugregime",
         conceptUrl: RESTWS_V1 + "/concept",
         conceptSearchByFullNameUrl: RESTWS_V1 + "/concept?s=byFullySpecifiedName",

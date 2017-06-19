@@ -63,6 +63,7 @@ angular
                 url: '/dispensation',
                 templateUrl: 'views/dispensation.html',
                 controller: 'DispensationController',
+                controllerAs: 'vm',
                 resolve: { initialization: 'initialization' }
             })
             .state('detailpatient', {

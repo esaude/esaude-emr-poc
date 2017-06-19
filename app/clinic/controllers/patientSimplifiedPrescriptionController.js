@@ -2,7 +2,7 @@
 
 angular.module('clinic')
         .controller('PatientSimplifiedPrescriptionController', ["$http", "$filter", "$scope", "$rootScope", "$stateParams",
-                        "encounterService", "observationsService", "commonService", "conceptService", "localStorageService", 
+                        "encounterService", "observationsService", "commonService", "conceptService", "localStorageService",
                         "notifier", "spinner", "drugService",
                     function ($http, $filter, $scope, $rootScope, $stateParams, encounterService,
                     observationsService, commonService, conceptService, localStorageService, notifier, spinner, drugService) {
@@ -59,11 +59,11 @@ angular.module('clinic')
         $scope.getDrugs = function (request) {
             if (request.length < 3) return;
 
-            return $http.get(Bahmni.Common.Constants.drugUrl, {
+            return $http.get(Bahmni.Common.Constants.drugResourceUrl, {
                     params: {
                         q: request,
-                        s: "default",
-                        v: "custom:(display,uuid,concept:(display,uuid)"
+                        v: "full"
+
                     }
                 })
                 .then(function (response) {
@@ -173,7 +173,7 @@ angular.module('clinic')
                     }
                     //create and add the regime stop reason if any
                     if (element.isPlanInterrupted) {
-                        obs.push(genSimpleObs(Bahmni.Common.Constants.drugPrescriptionConvSet.interruptedReason.uuid, 
+                        obs.push(genSimpleObs(Bahmni.Common.Constants.drugPrescriptionConvSet.interruptedReason.uuid,
                             element.interruptedReason.uuid, datetime));
                     }
                     //create and add the regime change reason if any
@@ -202,7 +202,7 @@ angular.module('clinic')
                     duration: element.duration,
                     durationUnits: element.durationUnits.uuid,
                     numRefills: 0,
-                    quantity: 0,
+                    quantity: element.doseAmount * element.duration * durationDays(element.durationUnits.uuid),
                     quantityUnits: element.dosingUnits.uuid,
                     drug: element.drug.uuid
                 };
@@ -312,15 +312,15 @@ angular.module('clinic')
                             var order = {};
                             order.drug = savedOrder.drug,
                             order.doseAmount = savedOrder.dose,
-                            order.dosingUnits = swapObsToConceptAnswer(savedOrder.doseUnits.uuid, 
+                            order.dosingUnits = swapObsToConceptAnswer(savedOrder.doseUnits.uuid,
                                         $scope.fieldModels.dosingUnits.model.answers),
                             order.dosgeFrequency = savedOrder.frequency,
-                            order.drugRoute = swapObsToConceptAnswer(savedOrder.route.uuid, 
+                            order.drugRoute = swapObsToConceptAnswer(savedOrder.route.uuid,
                                         $scope.fieldModels.drugRoute.model.answers),
                             order.duration = savedOrder.duration,
-                            order.durationUnits = swapObsToConceptAnswer(savedOrder.durationUnits.uuid, 
+                            order.durationUnits = swapObsToConceptAnswer(savedOrder.durationUnits.uuid,
                                         $scope.fieldModels.durationUnits.model.answers),
-                            order.dosingInstructions = swapObsToConceptAnswer(savedOrder.dosingInstructions, 
+                            order.dosingInstructions = swapObsToConceptAnswer(savedOrder.dosingInstructions,
                                 $scope.fieldModels.dosingInstructions.model.answers);
                             //check if drug is ARV type
                             var arvRepr = $rootScope.drugMapping.arvDrugs[savedOrder.drug.uuid];
@@ -331,7 +331,7 @@ angular.module('clinic')
                                     return o.concept.uuid === Bahmni.Common.Constants.drugPrescriptionConvSet.artPlan.uuid;
                                 });
                                 if (arvPlan !== undefined) {
-                                    order.arvPlan = swapObsToConceptAnswer(arvPlan.value.uuid, 
+                                    order.arvPlan = swapObsToConceptAnswer(arvPlan.value.uuid,
                                         $scope.fieldModels.artPlan.model.answers);
                                 }
                                 //find and swap plan interupted reason
@@ -339,7 +339,7 @@ angular.module('clinic')
                                     return o.concept.uuid === Bahmni.Common.Constants.drugPrescriptionConvSet.interruptedReason.uuid;
                                 });
                                 if (interruptedReason !== undefined) {
-                                    order.interruptedReason = swapObsToConceptAnswer(interruptedReason.value.uuid, 
+                                    order.interruptedReason = swapObsToConceptAnswer(interruptedReason.value.uuid,
                                         $scope.fieldModels.interruptedReason.model.answers);
                                     order.isPlanInterrupted = true;
                                 }
@@ -348,7 +348,7 @@ angular.module('clinic')
                                     return o.concept.uuid === Bahmni.Common.Constants.drugPrescriptionConvSet.changeReason.uuid;
                                 });
                                 if (changeReason !== undefined) {
-                                    order.changeReason = swapObsToConceptAnswer(changeReason.value.uuid, 
+                                    order.changeReason = swapObsToConceptAnswer(changeReason.value.uuid,
                                         $scope.fieldModels.changeReason.model.answers);
                                 }
                             }
@@ -388,7 +388,6 @@ angular.module('clinic')
                     $scope.order.therapeuticLine = $scope.order.currentArvLine;
                     return;
                 }
-                getDrugsOfRegimen(regimen);
                 $scope.order.isRegimenChanged = true;
                 $scope.isRegimenChangeEdit = true;
             } else {
@@ -396,6 +395,7 @@ angular.module('clinic')
                 $scope.isRegimenChangeEdit = false;
                 $scope.order.changeReason = undefined;
             }
+            getDrugsOfRegimen(regimen);
         };
 
         $scope.doPlamChanged = function (order) {
@@ -426,7 +426,7 @@ angular.module('clinic')
             observationsService.get(patientUuid, Bahmni.Common.Constants.drugPrescriptionConvSet.therapeuticLine.uuid)
                         .success(function (data) {
                 if (_.isEmpty(data.results)) {
-                    $scope.order.therapeuticLine = _.find($scope.fieldModels.therapeuticLine.model.answers, 
+                    $scope.order.therapeuticLine = _.find($scope.fieldModels.therapeuticLine.model.answers,
                         function (answer) {
                             return answer.uuid === Bahmni.Common.Constants.therapeuticLineQuestion.firstLine;
                     });
@@ -469,6 +469,27 @@ angular.module('clinic')
             });
         };
 
+        var durationDays = function(durationUnits){
+
+            var OneDayDuration = ['1e5705ee-10f5-11e5-9009-0242ac110012','9d956959-10e8-11e5-9009-0242ac110012','9d6f51fb-10e8-11e5-9009-0242ac110012'];
+
+             _.forEach(OneDayDuration, function (itemDuration) {
+
+                  if(durationUnits == itemDuration){
+                    return 1;
+                  }
+              });
+
+              if(durationUnits == '9d96489b-10e8-11e5-9009-0242ac110012'){
+                return 7;
+              }
+
+              if(durationUnits == '9d96d012-10e8-11e5-9009-0242ac110012'){
+                return 30;
+              }
+              return null;
+         };
+
         var initRegimens = function (filteredRegimens) {
             $scope.regimens = filteredRegimens;
             //get the last regimen
@@ -494,7 +515,7 @@ angular.module('clinic')
         var getDrugsOfRegimen = function (regimen) {
             drugService.get(regimen.uuid)
                         .success(function (data) {
-                $scope.arvDrugs = _.map(data.results, 'drug');
+                $scope.arvDrugs = _.map(data.results, 'drugItem.drug');
             });
         }
 
