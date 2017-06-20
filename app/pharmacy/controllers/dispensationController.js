@@ -42,7 +42,7 @@
 
       var patientUuid = $rootScope.patient.uuid;
 
-      prescriptionService.getPatientPrescriptions(patientUuid).then(function (prescriptions) {
+      prescriptionService.getPatientNonDispensedPrescriptions(patientUuid).then(function (prescriptions) {
         vm.prescriptions = prescriptions;
         vm.prescription = prescriptions[0];
         vm.prescriptiontNoResultsMessage = _.isEmpty(vm.prescriptions) ? "PHARMACY_LIST_NO_ITEMS" : null;
