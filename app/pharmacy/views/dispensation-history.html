@@ -12,7 +12,7 @@
             <tbody>
                 <tr ng-repeat="pickup in pickups">
                     <td>{{pickup.encounterDatetime | date:"MMM d, y"}}</td>
-                    <td>{{valueOfField(filaObsList.quantity, pickup.members).order.concept.display}}</td>
+                    <td>{{valueOfField(filaObsList.quantity, pickup.members).order.drug.display}}</td>
                     <td>{{valueOfField(filaObsList.quantity, pickup.members).value}}</td>
                     <td>{{valueOfField(filaObsList.nextPickup, pickup.members).value | date:"MMM d, y"}}</td>
                     <td>{{pickup.provider}}</td>

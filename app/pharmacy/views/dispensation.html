@@ -27,14 +27,14 @@
                 <tr ng-repeat="item in prescriptions" ng-init="item.disable = false">
                     <td>
                         <span class="text-lg">
-                            <strong>{{item.order.concept.display}}</strong>
-                            {{item.order.dose}}
-                            {{item.order.doseUnits.display}}, {{item.order.frequency.display}},
-                            {{item.order.route.display}} - {{item.order.duration}}
-                            {{item.order.durationUnits.display}} ({{item.dosingInstructions}})
+                            <strong>{{item.drugOrder.drug.display}}</strong>
+                            {{item.drugOrder.dose}}
+                            {{item.drugOrder.doseUnits.display}}, {{item.drugOrder.frequency.display}},
+                            {{item.drugOrder.route.display}} - {{item.drugOrder.duration}}
+                            {{item.drugOrder.durationUnits.display}} ({{item.dosingInstructions}})
                         </span>
                     </td>
-                    <td>{{item.order.autoExpireDate | date:"MMM d, y"}}</td>
+                    <td>{{item.drugOrder.autoExpireDate | date:"MMM d, y"}}</td>
                     <td>{{item.drugToPickUp}}</td>
                     <td>{{item.drugPickedUp}}</td>
                     <td>
@@ -73,37 +73,37 @@
                 <tr ng-repeat="item in selectedItems track by $index">
                     <td>
                         <span class="text-lg">
-                            <strong>{{item.order.concept.display}}</strong>
-                            {{item.order.dose}}
-                            {{item.order.doseUnits.display}}, {{item.order.frequency.display}},
-                            {{item.order.route.display}} - {{item.order.duration}}
-                            {{item.order.durationUnits.display}} ({{item.dosingInstructions}})
+                            <strong>{{item.drugOrder.drug.display}}</strong>
+                            {{item.drugOrder.dose}}
+                            {{item.drugOrder.doseUnits.display}}, {{item.drugOrder.frequency.display}},
+                            {{item.drugOrder.route.display}} - {{item.drugOrder.duration}}
+                            {{item.drugOrder.durationUnits.display}} ({{item.dosingInstructions}})
                         </span>
                     </td>
                     <td>
-                        <div ng-if="item.showNextPickupDate" class="form-group form-group-lg" 
+                        <div ng-if="item.showNextPickupDate" class="form-group form-group-lg"
                         ng-class="{'has-error': dispenseForm.nextPickupDate.$invalid && showMessages}">
                             <div class="col-sm-8">
-                                <div ng-messages for="dispenseForm.nextPickupDate.$error" 
+                                <div ng-messages for="dispenseForm.nextPickupDate.$error"
                                 ng-messages-include="../poc-common/form-display/views/error-messages.html"
                                 ng-show="showMessages">
                                 </div>
-                                <span>{{item.nextPickupDate | date:"MMM d, y"}} </span> 
+                                <span>{{item.nextPickupDate | date:"MMM d, y"}} </span>
                             </div>
                         </div>
                     </td>
                     <td>
-                        <div ng-if="item.showNextPickupDate" class="form-group form-group-lg" 
+                        <div ng-if="item.showNextPickupDate" class="form-group form-group-lg"
                              ng-class="{'has-error': dispenseForm.quantity.$invalid && showMessages}">
                             <div class="col-sm-8">
-                                <div ng-messages for="dispenseForm.quantity.$error" 
+                                <div ng-messages for="dispenseForm.quantity.$error"
                                 ng-messages-include="../poc-common/form-display/views/error-messages.html"
                                 ng-show="showMessages">
                                 </div>
                                 <input type="number" name="quantity" class="form-control" ng-model="item.quantity" ng-change="updatePickUp(item)" size="4" min="1" required>
                             </div>
                         </div>
-                        <span ng-if="!item.conceptParentUuid">{{item.order.quantity}}</span>
+                        <span ng-if="!item.drugRegime">{{item.drugOrder.quantity}}</span>
                     </td>
                     <td>
                         <label class="label label-success"><span class="glyphicon glyphicon-thumbs-up"></span></label>
@@ -131,10 +131,12 @@
         </div>
     </div>
 </div>
-
+<!-- TODO - barCode Should Be integrated as soon as possible
 <barcode-listener
    on-scan='barcodeHandler'
    prefix=''
    length=''
    scan-duration='500'
  ></barcode-listener>
+-->
+
