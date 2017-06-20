@@ -7,7 +7,7 @@
             "landingPageAfterSearch": "'/dashboard/' + patient.uuid + '/summary'",
             "landingPageAfterSave": "'/dashboard/' + encounterProfileData.patient.uuid + '/consultation'",
             "encounterTypes" : {
-              "pharmacy": "e279133c-1d5f-11e0-b929-000c29ad1d07"
+              "fila": "e279133c-1d5f-11e0-b929-000c29ad1d07"
             },
             "defaultVisitTypes" : [
                 {"name": "FIRST CONSULTATION", "uuid": "64a510a1-fbf4-465f-acd2-cd37bc321cee", "occurOn": "first"},
