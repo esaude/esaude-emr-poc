@@ -8,7 +8,7 @@
 
   function encounterService($http, $q, $rootScope, configurations, $cookieStore, $log, appService) {
 
-    var PHARMACY_ENCOUNTER_TYPE_UUID = appService.getAppDescriptor().getConfigValue("encounterTypes").pharmacy;
+    var FILA_ENCOUNTER_TYPE_UUID = appService.getAppDescriptor().getConfigValue("encounterTypes").fila;
 
     return {
       create: create,
@@ -16,7 +16,7 @@
       filterRetiredEncoounters: filterRetiredEncoounters,
       find: find,
       getEncountersForEncounterType: getEncountersForEncounterType,
-      getPatientPharmacyEncounters: getPatientPharmacyEncounters,
+      getPatientFilaEncounters: getPatientFilaEncounters,
       getEncountersOfPatient: getEncountersOfPatient,
       search: search,
       update: update
@@ -193,7 +193,7 @@
      * @param {String} v
      * @returns {Array} Non retired pharmacy encounters for patient ordered by most recent.
      */
-    function getPatientPharmacyEncounters(patientUuid, v) {
+    function getPatientFilaEncounters(patientUuid, v) {
 
       var filaObsList = Poc.Pharmacy.Constants.filaObsList;
 
@@ -213,11 +213,11 @@
       }
 
       function getEncountersFailed(error) {
-        $log.error('XHR Failed for getPatientPharmacyEncounters. ' + error.data);
+        $log.error('XHR Failed for getPatientFilaEncounters. ' + error.data);
         return $q.reject(error);
       }
 
-      return getEncountersForEncounterType(patientUuid, PHARMACY_ENCOUNTER_TYPE_UUID, v)
+      return getEncountersForEncounterType(patientUuid, FILA_ENCOUNTER_TYPE_UUID, v)
         .then(getEncountersComplete)
         .catch(getEncountersFailed);
     }

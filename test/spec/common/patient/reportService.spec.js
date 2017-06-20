@@ -9,13 +9,9 @@ describe('reportService', function () {
   var linkFn;
 
   beforeEach(module('common.patient', function ($provide) {
-    var appService = jasmine.createSpyObj('appService', ['getAppDescriptor']);
-    appService.getAppDescriptor.and.returnValue({
-      getConfigValue: function () {
-        return {
-          pharmacy: "mockPharmacyPickupEncounter"
-        }
-      }
+    var appService = jasmine.createSpyObj('appService', ['initApp']);
+    appService.initApp.and.returnValue({
+      then: function (fn) {}
     });
     $provide.value('appService', appService);
   }));
