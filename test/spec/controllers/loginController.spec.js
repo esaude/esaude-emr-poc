@@ -39,10 +39,10 @@ describe('Controller: LoginController', function () {
             return defer.promise;
         });
 
-        // mock sessionService.get
-        spyOn(sessionService, 'get').and.callFake(function () {
+        // mock sessionService.getSession
+        spyOn(sessionService, 'getSession').and.callFake(function () {
             return {
-                success: function (callback) {
+                then: function (callback) {
                     var data = {};
                     data.authenticated = false;
                     callback(data);
@@ -90,7 +90,7 @@ describe('Controller: LoginController', function () {
         scope.login();
         scope.$apply();
 
-        expect(sessionService.get).toHaveBeenCalled();
+        expect(sessionService.getSession).toHaveBeenCalled();
         expect(location.path).toHaveBeenCalledWith('/dashboard');
     });
 
@@ -119,7 +119,7 @@ describe('Controller: LoginController', function () {
         scope.login();
         scope.$apply();
 
-        expect(sessionService.get).toHaveBeenCalled();
+        expect(sessionService.getSession).toHaveBeenCalled();
         expect(sessionService.loadCredentials).not.toHaveBeenCalled();
         expect(location.path).not.toHaveBeenCalledWith('/dashboard');
         expect(scope.errorMessageTranslateKey).toEqual('invalid username or password');
@@ -152,15 +152,15 @@ describe('Controller: LoginController', function () {
         scope.login();
         scope.$apply();
 
-        expect(sessionService.get).toHaveBeenCalled();
+        expect(sessionService.getSession).toHaveBeenCalled();
         expect(location.path).not.toHaveBeenCalledWith('/dashboard');
         expect(scope.errorMessageTranslateKey).toEqual('failure to load credentials');
     });
 
     it('should redirect to the landing page if we are already logged in', function () {
-        // mock sessionService.get
-        sessionService.get.and.returnValue({
-            success: function (callback) {
+        // mock sessionService.getSession
+        sessionService.getSession.and.returnValue({
+            then: function (callback) {
                 var data = {};
                 data.authenticated = true;
                 callback(data);
@@ -177,7 +177,7 @@ describe('Controller: LoginController', function () {
         // mock sessionService.loadCredentials
         spyOn(sessionService, 'loadCredentials').and.returnValue(q.when({}));
 
-        expect(sessionService.get).toHaveBeenCalled();
+        expect(sessionService.getSession).toHaveBeenCalled();
         expect(location.path).toHaveBeenCalledWith('/dashboard');
     });
 

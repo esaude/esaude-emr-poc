@@ -25,13 +25,13 @@ angular.module('home')
         }
 
         var redirectToLandingPageIfAlreadyAuthenticated = function () {
-            sessionService.get().success(function (data) {
-                if (data.authenticated) {
+            sessionService.getSession().then(function (session) {
+                if (session.authenticated) {
                     $location.path(landingPagePath);
                 }
             });
         };
-        
+
         if ($location.path() === loginPagePath) {
             redirectToLandingPageIfAlreadyAuthenticated();
         }
