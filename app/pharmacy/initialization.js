@@ -23,6 +23,10 @@ angular.module('pharmacy').factory('initialization',
                $rootScope.serviceForms = data;
            });
         };
+
+        var initDrugMapping = function () {
+            $rootScope.drugMapping = appService.getAppDescriptor().getDrugMapping()[0];
+        };
         
         var initClinicalServices = function () {
             $rootScope.clinicalServices = appService.getAppDescriptor().getClinicalServices();
@@ -50,6 +54,7 @@ angular.module('pharmacy').factory('initialization',
                 .then(loadUser)
                 .then(initFormLayout)
                 .then(initForms)
+                .then(initDrugMapping)
                 .then(initClinicalServices));
     }]
 );
