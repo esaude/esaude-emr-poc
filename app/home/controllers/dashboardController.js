@@ -3,18 +3,18 @@
 angular.module('home')
         .controller('DashboardController', ['$rootScope', '$filter', '$scope', '$window', 'applicationService',
                     'configurations', 'locationService', 'localStorageService', 'spinner',
-            function ($rootScope, $filter, $scope, $window, applicationService, configurations, 
+            function ($rootScope, $filter, $scope, $window, applicationService, configurations,
                         locationService, localStorageService, spinner) {
 
             function init() {
-                applicationService.getApps().then(function (appJson) {
-                    $scope.apps = eval(appJson.applications);
+                applicationService.getApps().then(function (apps) {
+                    $scope.apps = apps;
                 });
-                
+
                 //find default location and validate it
                 return loadDefaultLocation();
             };
-            
+
             var loadDefaultLocation = function () {
                 var configNames = ['defaultLocation'];
                 return configurations.load(configNames).then(function () {
@@ -30,7 +30,7 @@ angular.module('home')
                             }
                         });
                     } else {
-                       $rootScope.$broadcast('event:auth-loginRequired', 'LOGIN_LABEL_LOGIN_ERROR_NO_DEFAULT_LOCATION'); 
+                       $rootScope.$broadcast('event:auth-loginRequired', 'LOGIN_LABEL_LOGIN_ERROR_NO_DEFAULT_LOCATION');
                     }
                 });
             };
@@ -39,15 +39,15 @@ angular.module('home')
                 $window.location.href = url;
             };
 
-            $scope.barLabels = [$filter('translate')('USER_DASHBOARD_1'), 
-                $filter('translate')('USER_DASHBOARD_2'), 
-                $filter('translate')('USER_DASHBOARD_3'), 
-                $filter('translate')('USER_DASHBOARD_4'), 
-                $filter('translate')('USER_DASHBOARD_5'), 
-                $filter('translate')('USER_DASHBOARD_YEST'), 
+            $scope.barLabels = [$filter('translate')('USER_DASHBOARD_1'),
+                $filter('translate')('USER_DASHBOARD_2'),
+                $filter('translate')('USER_DASHBOARD_3'),
+                $filter('translate')('USER_DASHBOARD_4'),
+                $filter('translate')('USER_DASHBOARD_5'),
+                $filter('translate')('USER_DASHBOARD_YEST'),
                 $filter('translate')('USER_DASHBOARD_TODAY')];
-            $scope.barSeries = [$filter('translate')('USER_DASHBOARD_CREATED'), 
-                $filter('translate')('USER_DASHBOARD_UPDATED'), 
+            $scope.barSeries = [$filter('translate')('USER_DASHBOARD_CREATED'),
+                $filter('translate')('USER_DASHBOARD_UPDATED'),
                 $filter('translate')('USER_DASHBOARD_REMOVED')];
 
             $scope.barData = [
@@ -56,14 +56,14 @@ angular.module('home')
                 [28, 48, 40, 19, 86, 27, 90]
             ];
 
-            $scope.pieLabels = [$filter('translate')('USER_DASHBOARD_CREATED_RECORDS'), 
-                $filter('translate')('USER_DASHBOARD_UPDATED_RECORDS'), 
+            $scope.pieLabels = [$filter('translate')('USER_DASHBOARD_CREATED_RECORDS'),
+                $filter('translate')('USER_DASHBOARD_UPDATED_RECORDS'),
                 $filter('translate')('USER_DASHBOARD_REMOVED_RECORDS')];
             $scope.pieData = [500, 300, 100];
-            $scope.pieSeries = [$filter('translate')('USER_DASHBOARD_CREATED'), 
-                $filter('translate')('USER_DASHBOARD_UPDATED'), 
+            $scope.pieSeries = [$filter('translate')('USER_DASHBOARD_CREATED'),
+                $filter('translate')('USER_DASHBOARD_UPDATED'),
                 $filter('translate')('USER_DASHBOARD_REMOVED')];
-            
+
             return spinner.forPromise(init());
 
         }]);

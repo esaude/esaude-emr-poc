@@ -3,12 +3,12 @@
 angular.module('application')
         .controller('MovePatientDialogController', ['$rootScope', '$scope', '$window', 'applicationService',
                     'localStorageService', 'spinner',
-            function ($rootScope, $scope, $window, applicationService, 
+            function ($rootScope, $scope, $window, applicationService,
                         localStorageService, spinner) {
 
             function init() {
-                return applicationService.getApps().then(function (appJson) {
-                    $scope.apps = eval(appJson.applications);
+                return applicationService.getApps().then(function (apps) {
+                    $scope.apps = apps;
                 });
             };
 
@@ -16,7 +16,7 @@ angular.module('application')
                 localStorageService.set('movingPatient', $scope.$parent.patient.uuid);
                 $window.location.href = url;
             };
-            
+
             init();
 
         }]);

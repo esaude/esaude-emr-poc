@@ -136,4 +136,46 @@ describe('authorizationService', function () {
     });
 
   });
+
+  describe('authorizeApps', function () {
+
+    var apps = [{roles: ['Data Manager']}, {roles: ['Clinical Research Manager']}, {name: 'APP_REGISTRATION'}];
+
+    beforeEach(function () {
+      spyOn(sessionService, 'getSession').and.callFake(function () {
+        return $q(function (resolve) {
+          return resolve(session);
+        });
+      });
+    });
+
+
+    it('should return apps which logged user is authorized', function () {
+
+      var authApps;
+
+      authorizationService.authorizeApps(apps).then(function (apps) {
+        authApps = apps;
+      });
+
+      $rootScope.$apply();
+      expect(authApps).toContain({roles: ['Data Manager']});
+      expect(authApps).not.toContain({roles: ['Clinical Research Manager']});
+
+    });
+
+    it('should return apps with no role defined', function () {
+
+      var authApps;
+
+      authorizationService.authorizeApps(apps).then(function (apps) {
+        authApps = apps;
+      });
+
+      $rootScope.$apply();
+      expect(authApps).toContain({name: 'APP_REGISTRATION'});
+
+    });
+
+  })
 });

@@ -10,7 +10,8 @@
   function authorizationService(sessionService, $q, $log) {
     var service = {
       hasRole: hasRole,
-      hasPrivilege: hasPrivilege
+      hasPrivilege: hasPrivilege,
+      authorizeApps: authorizeApps
     };
     return service;
 
@@ -54,6 +55,40 @@
           $log.error('Could not check user privilege. ' + error);
           return $q.reject();
         });
+    }
+
+    /**
+     * @param {Array} apps
+     * @returns {Array} POC applications logged user has access to.
+     */
+    function authorizeApps(apps) {
+      return sessionService.getSession()
+        .then(function (session) {
+          var userRoles = session.user.roles.map(function (r) {
+            return r.display;
+          });
+          return getAuthorizedApps(apps, userRoles);
+        })
+        .catch(function (error) {
+          $log.error('Could not authorize apps. ' + error);
+          return $q.reject();
+        });
+    }
+
+    /**
+     * Filters apps with roles contained in userRoles.
+     *
+     * @param {Array} apps
+     * @param {Array} userRoles
+     */
+    function getAuthorizedApps(apps, userRoles) {
+      return apps.filter(function (a) {
+        if (!a.roles || a.roles.length === 0) {
+          $log.info('App ' + a.name + ' has no defined user roles.');
+          return true;
+        }
+        return _.intersection(userRoles, a.roles).length !== 0;
+      });
     }
   }
 

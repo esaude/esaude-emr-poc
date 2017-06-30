@@ -24,11 +24,31 @@ describe('pocAuthorize', function () {
     });
 
     it('shows the contents', function () {
-      $rootScope.authorized = true;
+
       var element = $compile('<poc-authorize role="\'Data Manager\'"><div>Data Manager Only!</div></poc-authorize>')($rootScope);
 
       $rootScope.$digest();
       expect(element.html()).toContain('Data Manager Only!');
+    });
+
+  });
+
+  describe('user not authorized', function () {
+
+    beforeEach(function () {
+      spyOn(authorizationService, 'hasRole').and.callFake(function () {
+        return $q(function (resolve) {
+          resolve(false);
+        })
+      });
+    });
+
+    it('does not show the contents', function () {
+
+      var element = $compile('<poc-authorize role="\'Data Manager\'"><div>Data Manager Only!</div></poc-authorize>')($rootScope);
+
+      $rootScope.$digest();
+      expect(element.html()).not.toContain('Data Manager Only!');
     });
 
   });
