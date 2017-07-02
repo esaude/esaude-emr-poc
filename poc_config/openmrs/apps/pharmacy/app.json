@@ -8,7 +8,7 @@
             "encounterTypes" : {
                 "followUpAdult": "e278f956-1d5f-11e0-b929-000c29ad1d07",
                 "followUpChild": "e278fce4-1d5f-11e0-b929-000c29ad1d07",
-                "pharmacy": "e279133c-1d5f-11e0-b929-000c29ad1d07"
+                "fila": "e279133c-1d5f-11e0-b929-000c29ad1d07"
             },
             "defaultVisitTypes" : [
                 {"name": "PHARMACY PICKUP", "uuid": "b5e7993c-7429-4c63-bb82-a66cd15553b0", "occurOn": "first"},

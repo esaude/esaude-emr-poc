@@ -38,8 +38,8 @@ describe('FilaHistoryController', function () {
   }));
 
   beforeEach(function () {
-    encounterService = jasmine.createSpyObj('encounterService', ['getPatientPharmacyEncounters']);
-    encounterService.getPatientPharmacyEncounters.and.returnValue({
+    encounterService = jasmine.createSpyObj('encounterService', ['getPatientFilaEncounters']);
+    encounterService.getPatientFilaEncounters.and.returnValue({
       then: function (fn) {
         fn(encounters);
       }
@@ -60,7 +60,7 @@ describe('FilaHistoryController', function () {
   describe('activate', function () {
 
     it('should load patient pharmacy encounters', function () {
-      expect(encounterService.getPatientPharmacyEncounters).toHaveBeenCalled();
+      expect(encounterService.getPatientFilaEncounters).toHaveBeenCalled();
     });
 
     it('should display the most recent pickups', function () {

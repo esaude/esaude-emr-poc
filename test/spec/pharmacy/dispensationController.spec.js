@@ -44,8 +44,8 @@ describe('DispensationController', function () {
       }
     });
 
-    prescriptionService = jasmine.createSpyObj('prescriptionService', ['getPatientPrescriptions']);
-    prescriptionService.getPatientPrescriptions.and.returnValue({
+    prescriptionService = jasmine.createSpyObj('prescriptionService', ['getPatientNonDispensedPrescriptions']);
+    prescriptionService.getPatientNonDispensedPrescriptions.and.returnValue({
       then: function (fn) {
         fn(prescriptions);
       }

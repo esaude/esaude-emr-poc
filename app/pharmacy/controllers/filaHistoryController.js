@@ -25,7 +25,7 @@
     ////////////////
 
     function activate() {
-      encounterService.getPatientPharmacyEncounters(patientUUID).then(function (encounters) {
+      encounterService.getPatientFilaEncounters(patientUUID).then(function (encounters) {
 
         if (encounters.length === 0)
           return;

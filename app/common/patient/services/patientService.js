@@ -102,7 +102,7 @@
      */
     function printPatientARVPickupHistory(year, patientUuid, pickups) {
       var _getPatient = getPatient(patientUuid);
-      var getPrescriptions = prescriptionService.getPatientPrescriptions(patientUuid);
+      var getPrescriptions = prescriptionService.getPatientNonDispensedPrescriptions(patientUuid);
 
       $q.all([_getPatient, getPrescriptions]).then(function (values) {
         var patient = values[0];

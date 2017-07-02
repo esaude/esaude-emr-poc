@@ -9,16 +9,18 @@
 
   function prescriptionService($http, $q, $log) {
     return {
-      getPatientPrescriptions: getPatientPrescriptions
+      getPatientNonDispensedPrescriptions: getPatientNonDispensedPrescriptions
     };
 
     ////////////////
 
     /**
+     * Returns prescriptions not fully dispensed for patient.
+     *
      * @param {String} patientUuid
      * @returns {Array} Prescriptions for patient.
      */
-    function getPatientPrescriptions(patientUuid) {
+    function getPatientNonDispensedPrescriptions(patientUuid) {
       return $http.get(Bahmni.Common.Constants.prescriptionUrl, {
 
         params: {
@@ -29,7 +31,7 @@
       }).then(function (response) {
         return _.map(response.data.results, prescriptionMapper);
       }).catch(function (error) {
-        $log.error('XHR Failed for getPatientPrescriptions. ' + error.data);
+        $log.error('XHR Failed for getPatientNonDispensedPrescriptions. ' + error.data);
         return $q.reject(error);
       });
     }
