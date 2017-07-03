@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('pharmacy').factory('initialization',
-    ['$cookies', '$rootScope', 'configurations', 'authenticator', 'appService', 'spinner', 'userService', 'formLoader',
-    function ($cookies, $rootScope, configurations, authenticator, appService, spinner, userService, formLoader) {
+    ['$cookies', '$rootScope', 'configurations', 'authenticator', 'appService', 'spinner', 'userService', 'formLoader', 'sessionService',
+    function ($cookies, $rootScope, configurations, authenticator, appService, spinner, userService, formLoader, sessionService) {
         var getConfigs = function () {
             var configNames = ['patientAttributesConfig', 'addressLevels'];
             return configurations.load(configNames).then(function () {
@@ -17,7 +17,7 @@ angular.module('pharmacy').factory('initialization',
                 $rootScope.appId = appService.getAppDescriptor().getId();
             });
         };
-        
+
         var initForms = function () {
            formLoader.load(appService.getAppDescriptor().getClinicalServices()).then(function (data) {
                $rootScope.serviceForms = data;
@@ -27,11 +27,11 @@ angular.module('pharmacy').factory('initialization',
         var initDrugMapping = function () {
             $rootScope.drugMapping = appService.getAppDescriptor().getDrugMapping()[0];
         };
-        
+
         var initClinicalServices = function () {
             $rootScope.clinicalServices = appService.getAppDescriptor().getClinicalServices();
         };
-        
+
         var initFormLayout = function () {
             $rootScope.formLayout = appService.getAppDescriptor().getFormLayout();
         };
@@ -39,13 +39,20 @@ angular.module('pharmacy').factory('initialization',
         var initApp = function() {
             return appService.initApp('pharmacy', {'app': true, 'extension' : true, 'service': true });
         };
-        
+
         var loadUser = function () {
             var currentUser = $cookies.get(Bahmni.Common.Constants.currentUser);
-            
+
             return userService.getUser(currentUser).success(function(data) {
                 $rootScope.currentUser = data.results[0];
             });
+        };
+
+        var loadProvider = function () {
+          return sessionService.loadProviders($rootScope.currentUser).success(function (data) {
+            var providerUuid = (data.results.length > 0) ? data.results[0].uuid : undefined;
+            $rootScope.currentProvider = {uuid: providerUuid};
+          });
         };
 
         return spinner.forPromise(authenticator.authenticateUser()
@@ -55,6 +62,7 @@ angular.module('pharmacy').factory('initialization',
                 .then(initFormLayout)
                 .then(initForms)
                 .then(initDrugMapping)
-                .then(initClinicalServices));
+                .then(initClinicalServices)
+                .then(loadProvider));
     }]
 );
