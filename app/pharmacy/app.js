@@ -46,6 +46,12 @@ angular
                 },
                 resolve: { initialization: 'initialization' }
             })
+            .state('dashboard.prescriptions', {
+                url: '/prescription',
+                templateUrl: '../common/prescription/views/patient-simplified-prescriptions.html',
+                controller: 'PatientSimplifiedPrescriptionController',
+                resolve: { initialization: 'initialization' }
+            })
             .state('dashboard.filaHistory', {
                 url: '/fila-history',
                 templateUrl: 'views/fila-history.html',

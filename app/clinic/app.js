@@ -61,7 +61,7 @@ angular
             })
             .state('dashboard.prescriptions', {
                 url: '/prescription',
-                templateUrl: 'views/patient-simplified-prescriptions.html',
+                templateUrl: '../common/prescription/views/patient-simplified-prescriptions.html',
                 controller: 'PatientSimplifiedPrescriptionController',
                 resolve: { initialization: 'initialization' }
             })

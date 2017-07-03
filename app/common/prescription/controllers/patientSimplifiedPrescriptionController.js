@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('clinic')
+angular.module('common.prescription')
         .controller('PatientSimplifiedPrescriptionController', ["$http", "$filter", "$scope", "$rootScope", "$stateParams",
                         "encounterService", "observationsService", "commonService", "conceptService", "localStorageService",
                         "notifier", "spinner", "drugService",

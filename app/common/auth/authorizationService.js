@@ -84,7 +84,7 @@
     function getAuthorizedApps(apps, userRoles) {
       return apps.filter(function (a) {
         if (!a.roles || a.roles.length === 0) {
-          $log.info('App ' + a.name + ' has no defined user roles.');
+          $log.info('App ' + a.name + ' has no user roles defined.');
           return true;
         }
         return _.intersection(userRoles, a.roles).length !== 0;
@@ -93,4 +93,3 @@
   }
 
 })();
-
