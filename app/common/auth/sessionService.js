@@ -5,9 +5,9 @@
     .module('authentication')
     .factory('sessionService', sessionService);
 
-  sessionService.$inject = ['$rootScope', '$http', '$q', '$cookies', 'userService', 'localStorageService'];
+  sessionService.$inject = ['$rootScope', '$http', '$q', '$cookies', 'userService', 'localStorageService', '$log'];
 
-  function sessionService($rootScope, $http, $q, $cookies, userService, localStorageService) {
+  function sessionService($rootScope, $http, $q, $cookies, userService, localStorageService, $log) {
 
     var SESSION_RESOURCE_PATH = '/openmrs/ws/rest/v1/session';
 
