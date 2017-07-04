@@ -8,7 +8,7 @@
 
   function encounterService($http, $q, $rootScope, configurations, $cookieStore, $log, appService) {
 
-    var FILA_ENCOUNTER_TYPE_UUID = appService.getAppDescriptor().getConfigValue("encounterTypes").fila;
+    var FILA_ENCOUNTER_TYPE_UUID = "e279133c-1d5f-11e0-b929-000c29ad1d07";
 
     return {
       create: create,
