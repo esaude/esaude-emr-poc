@@ -1,6 +1,6 @@
 describe('FilaHistoryController', function () {
 
-  var $q, $controller, controller, encounterService, patientService;
+  var $controller, controller, encounterService, patientService;
 
   var stateParams = {'patientUuid': '0810aecc-6642-4c1c-ac1e-537a0cfed81'};
 
@@ -12,29 +12,36 @@ describe('FilaHistoryController', function () {
     {"encounterDatetime": new Date("2015-05-02")}
   ];
 
-  beforeEach(module('pharmacy', function ($provide, $translateProvider) {
-    // Mock initialization
-    $provide.factory('initialization', function () {});
-    // Mock appService
-    var appService = jasmine.createSpyObj('appService', ['initApp']);
-    appService.initApp.and.returnValue({
-      then: function (fn) {}
-    });
-    $provide.value('appService', appService);
-    // Mock translate asynchronous loader
-    $provide.factory('mergeLocaleFilesService', function ($q) {
-      return function () {
-        var deferred = $q.defer();
-        deferred.resolve({});
-        return deferred.promise;
-      };
-    });
-    $translateProvider.useLoader('mergeLocaleFilesService');
-  }));
+  /**
+   * When you need to use $rootScope to trigger a digest some services may need to be mocked.
+   *
+   * Module initialization should look something like this:
+   *
+   *   beforeEach(module('pharmacy', function ($provide, $translateProvider) {
+   *     // Mock initialization
+   *     $provide.factory('initialization', function () {});
+   *     // Mock appService
+   *     var appService = jasmine.createSpyObj('appService', ['initApp']);
+   *     appService.initApp.and.returnValue({
+   *       then: function (fn) {}
+   *     });
+   *     $provide.value('appService', appService);
+   *     // Mock translate asynchronous loader
+   *     $provide.factory('mergeLocaleFilesService', function ($q) {
+   *       return function () {
+   *         var deferred = $q.defer();
+   *         deferred.resolve({});
+   *         return deferred.promise;
+   *       };
+   *     });
+   *     $translateProvider.useLoader('mergeLocaleFilesService');
+   *   }));
+   *
+   */
+  beforeEach(module('pharmacy'));
 
-  beforeEach(inject(function (_$controller_, _$q_) {
+  beforeEach(inject(function (_$controller_) {
     $controller = _$controller_;
-    $q = _$q_;
   }));
 
   beforeEach(function () {
