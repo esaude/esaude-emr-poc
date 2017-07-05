@@ -10,12 +10,22 @@
 
     var FILA_ENCOUNTER_TYPE_UUID = "e279133c-1d5f-11e0-b929-000c29ad1d07";
 
+    var CHILD_FOLLOWUP_ENCOUNTER_TYPE_UUID = Bahmni.Common.Constants.childFollowupEncounterUuid;
+
+    var ADULT_FOLLOWUP_ENCOUNTER_TYPE_UUID = Bahmni.Common.Constants.adultFollowupEncounterUuid;
+
+    var sortByEncounterDateTime = _.curryRight(_.sortBy, 2)(function (encounter) {
+      return new Date(encounter.encounterDatetime);
+    });
+
     return {
       create: create,
       delete: _delete,
       filterRetiredEncoounters: filterRetiredEncoounters,
       find: find,
       getEncountersForEncounterType: getEncountersForEncounterType,
+      getPatientChildFollowupEncounters: getPatientChildFollowupEncounters,
+      getPatientAdultFollowupEncounters: getPatientAdultFollowupEncounters,
       getPatientFilaEncounters: getPatientFilaEncounters,
       getEncountersOfPatient: getEncountersOfPatient,
       search: search,
@@ -189,6 +199,38 @@
     }
 
     /**
+     * @param {String} patientUUID
+     * @param {String} v
+     * @returns {Array} Non retired adult followup encounters for patient ordered by most recent.
+     */
+    function getPatientChildFollowupEncounters(patientUUID, v) {
+      return getEncountersForEncounterType(patientUUID, CHILD_FOLLOWUP_ENCOUNTER_TYPE_UUID, v)
+        .then(function (response) {
+          return _.flow([filterRetiredEncoounters, sortByEncounterDateTime, _.reverse])(response.data.results);
+        })
+        .catch(function (error) {
+          $log.error('XHR Failed for getPatientChildFollowupEncounters. ' + error.data);
+          return $q.reject(error);
+        })
+    }
+
+    /**
+     * @param {String} patientUUID
+     * @param {String} v
+     * @returns {Array} Non retired adult followup encounters for patient ordered by most recent.
+     */
+    function getPatientAdultFollowupEncounters(patientUUID, v) {
+      return getEncountersForEncounterType(patientUUID, ADULT_FOLLOWUP_ENCOUNTER_TYPE_UUID, v)
+        .then(function (response) {
+          return _.flow([filterRetiredEncoounters, sortByEncounterDateTime, _.reverse])(response.data.results);
+        })
+        .catch(function (error) {
+          $log.error('XHR Failed for getPatientAdultFollowupEncounters. ' + error.data);
+          return $q.reject(error);
+        })
+    }
+
+    /**
      * @param {String} patientUuid Patient UUID
      * @param {String} v
      * @returns {Array} Non retired pharmacy encounters for patient ordered by most recent.
@@ -222,7 +264,7 @@
         .catch(getEncountersFailed);
     }
 
-    function valueOfField (conceptUuid, obs) {
+    function valueOfField(conceptUuid, obs) {
 
       var field = _.find(obs, function (o) {
         return o.concept.uuid === conceptUuid;

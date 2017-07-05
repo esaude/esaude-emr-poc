@@ -3,9 +3,10 @@
 angular.module('common.prescription')
         .controller('PatientSimplifiedPrescriptionController', ["$http", "$filter", "$scope", "$rootScope", "$stateParams",
                         "encounterService", "observationsService", "commonService", "conceptService", "localStorageService",
-                        "notifier", "spinner", "drugService",
+                        "notifier", "spinner", "drugService", "prescriptionService",
                     function ($http, $filter, $scope, $rootScope, $stateParams, encounterService,
-                    observationsService, commonService, conceptService, localStorageService, notifier, spinner, drugService) {
+                    observationsService, commonService, conceptService, localStorageService, notifier, spinner, drugService,
+                    prescriptionService) {
 
         var patientUuid;
         var markedOn = "488e6803-c7db-43b2-8911-8d5d2a8472fd";
@@ -19,7 +20,6 @@ angular.module('common.prescription')
         var init = function() {
             patientUuid = $stateParams.patientUuid;
             $scope.listedPrescriptions = [];
-            $scope.existingPrescriptions = [];
             $scope.order = {};
             $scope.regimens = {};
 
@@ -35,13 +35,6 @@ angular.module('common.prescription')
                 }
             }
 
-            function loadPatientPrescriptions() {
-                var encounterType = ($rootScope.patient.age.years >= 15) ? Bahmni.Common.Constants.adultFollowupEncounterUuid :
-                    Bahmni.Common.Constants.childFollowupEncounterUuid;
-
-                return loadSavedPrescriptions(patientUuid, encounterType);
-            }
-
             //also get the available regimens here for later
             function loadAllRegimens() {
                 //also get the available regimens here for later
@@ -52,7 +45,7 @@ angular.module('common.prescription')
 
             return conceptService.getPrescriptionConvSetConcept()
                 .then(setFieldModels)
-                .then(loadPatientPrescriptions)
+                .then(loadSavedPrescriptions($rootScope.patient))
                 .then(loadAllRegimens());
         };
 
@@ -253,110 +246,13 @@ angular.module('common.prescription')
         };
 
         //TODO: This logic should go to the pharmacy module
-        var loadSavedPrescriptions = function (patient, encounterType) {
-            return encounterService.getEncountersForEncounterType(patient, encounterType, "full").then(function (response) {
-                    var data = response.data;
-
-                    if (_.isEmpty(data.results)) return;
-
-                    $scope.existingPrescriptions = [];
-                    var nonVoidedEncounters = encounterService.filterRetiredEncoounters(data.results);
-                    var sortedEncounters = _.sortBy(nonVoidedEncounters, function (encounter) {
-                        return moment(encounter.encounterDatetime).toDate();
-                    }).reverse();
-                    //get todays entry
-                    var lastEncounter = _.maxBy(sortedEncounters, "encounterDatetime");
-                    if (dateUtil.diffInDaysRegardlessOfTime(lastEncounter.encounterDatetime,
-                                        dateUtil.now()) === 0) {
-                        $scope.todaysEncounter = lastEncounter;
-                        $scope.hasEntryToday = true;
-                        //find markedOn concept
-                        var markedOnInfo = _.find(lastEncounter.obs, function (o) {
-                            return o.concept.uuid === markedOn;
-                        });
-
-                        if (!_.isUndefined(markedOnInfo)) $scope.hasServiceToday = true;
-                    };
-
-                    var filteredEncounters = _.filter(sortedEncounters, function (e) {
-                        var foundObs = _.find(e.obs, function (o) {
-                            return o.concept.uuid === markedOn;
-                        });
-                        return typeof foundObs !== "undefined";
-                    });
-                    //create list of existing encounters with active orders
-                    $scope.encounterOrders = [];
-                    _.forEach(filteredEncounters, function (encounter) {
-                        //avoid encounters with no orders
-                        if (_.isEmpty(encounter.orders)) {
-                            return;
-                        }
-                        //check if encounter has at least one active order
-                        //TODO: This should be included in a call to the pharmacy module via rest
-                        var activeOrder = _.find(encounter.orders, function (order) {
-                            return order.action === "NEW";
-                        });
-                        //avoid terminaded prescriptions
-                        if (activeOrder === undefined) {
-                            return;
-                        }
-                        //start composing orders
-                        var prescriptionDateObs = _.find(encounter.obs, function (o) {
-                            return o.concept.uuid === markedOn;
-                        });
-                        var encounterOrder = {
-                            prescriptionDatetime: prescriptionDateObs.value,
-                            orders: []
-                        };
-                        _.forEach(encounter.orders, function (savedOrder) {
-                            var order = {};
-                            order.drug = savedOrder.drug,
-                            order.doseAmount = savedOrder.dose,
-                            order.dosingUnits = swapObsToConceptAnswer(savedOrder.doseUnits.uuid,
-                                        $scope.fieldModels.dosingUnits.model.answers),
-                            order.dosgeFrequency = savedOrder.frequency,
-                            order.drugRoute = swapObsToConceptAnswer(savedOrder.route.uuid,
-                                        $scope.fieldModels.drugRoute.model.answers),
-                            order.duration = savedOrder.duration,
-                            order.durationUnits = swapObsToConceptAnswer(savedOrder.durationUnits.uuid,
-                                        $scope.fieldModels.durationUnits.model.answers),
-                            order.dosingInstructions = swapObsToConceptAnswer(savedOrder.dosingInstructions,
-                                $scope.fieldModels.dosingInstructions.model.answers);
-                            //check if drug is ARV type
-                            var arvRepr = $rootScope.drugMapping.arvDrugs[savedOrder.drug.uuid];
-                            if (arvRepr !== undefined) {
-                                order.isArv = true;
-                                //find and swap arv plan
-                                var arvPlan = _.find(encounter.obs, function (o) {
-                                    return o.concept.uuid === Bahmni.Common.Constants.drugPrescriptionConvSet.artPlan.uuid;
-                                });
-                                if (arvPlan !== undefined) {
-                                    order.arvPlan = swapObsToConceptAnswer(arvPlan.value.uuid,
-                                        $scope.fieldModels.artPlan.model.answers);
-                                }
-                                //find and swap plan interupted reason
-                                var interruptedReason = _.find(encounter.obs, function (o) {
-                                    return o.concept.uuid === Bahmni.Common.Constants.drugPrescriptionConvSet.interruptedReason.uuid;
-                                });
-                                if (interruptedReason !== undefined) {
-                                    order.interruptedReason = swapObsToConceptAnswer(interruptedReason.value.uuid,
-                                        $scope.fieldModels.interruptedReason.model.answers);
-                                    order.isPlanInterrupted = true;
-                                }
-                                //find and swap plan change reason
-                                var changeReason = _.find(encounter.obs, function (o) {
-                                    return o.concept.uuid === Bahmni.Common.Constants.drugPrescriptionConvSet.changeReason.uuid;
-                                });
-                                if (changeReason !== undefined) {
-                                    order.changeReason = swapObsToConceptAnswer(changeReason.value.uuid,
-                                        $scope.fieldModels.changeReason.model.answers);
-                                }
-                            }
-                            encounterOrder.orders.push(order);
-                        });
-                        $scope.encounterOrders.push(encounterOrder);
-                    });
-            });
+        var loadSavedPrescriptions = function (patient) {
+          return prescriptionService.getPatientPrescriptions(patient).then(function (prescription) {
+            $scope.todaysEncounter = prescription.todaysEncounter;
+            $scope.hasEntryToday = prescription.hasEntryToday;
+            $scope.hasServiceToday = prescription.hasServiceToday;
+            $scope.encounterOrders = prescription.encounterOrders;
+          });
         };
 
         $scope.refill = function (drug) {
