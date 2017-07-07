@@ -14,6 +14,8 @@
 
     var ADULT_FOLLOWUP_ENCOUNTER_TYPE_UUID = Bahmni.Common.Constants.adultFollowupEncounterUuid;
 
+    var PATIENT_CHILD_AGE = 14;
+
     var sortByEncounterDateTime = _.curryRight(_.sortBy, 2)(function (encounter) {
       return new Date(encounter.encounterDatetime);
     });
@@ -24,8 +26,7 @@
       filterRetiredEncoounters: filterRetiredEncoounters,
       find: find,
       getEncountersForEncounterType: getEncountersForEncounterType,
-      getPatientChildFollowupEncounters: getPatientChildFollowupEncounters,
-      getPatientAdultFollowupEncounters: getPatientAdultFollowupEncounters,
+      getPatientFollowupEncounters: getPatientFollowupEncounters,
       getPatientFilaEncounters: getPatientFilaEncounters,
       getEncountersOfPatient: getEncountersOfPatient,
       search: search,
@@ -198,9 +199,22 @@
       });
     }
 
+
+    /**
+     * @param {Object} patient
+     * @returns {Array} Non retired followup encounters for patient oredered by most recent
+     */
+    function getPatientFollowupEncounters(patient) {
+      if (patient.age.years > PATIENT_CHILD_AGE) {
+        return getPatientAdultFollowupEncounters(patient.uuid, "full");
+      }
+      return getPatientChildFollowupEncounters(patient.uuid, "full");
+    }
+
+
     /**
      * @param {String} patientUUID
-     * @param {String} v
+     * @param {String} [v] Resouce reprentation.
      * @returns {Array} Non retired adult followup encounters for patient ordered by most recent.
      */
     function getPatientChildFollowupEncounters(patientUUID, v) {
@@ -214,9 +228,10 @@
         })
     }
 
+
     /**
      * @param {String} patientUUID
-     * @param {String} v
+     * @param {String} [v] Resouce reprentation.
      * @returns {Array} Non retired adult followup encounters for patient ordered by most recent.
      */
     function getPatientAdultFollowupEncounters(patientUUID, v) {
@@ -230,9 +245,10 @@
         })
     }
 
+
     /**
      * @param {String} patientUuid Patient UUID
-     * @param {String} v
+     * @param {String} [v] Resouce reprentation.
      * @returns {Array} Non retired pharmacy encounters for patient ordered by most recent.
      */
     function getPatientFilaEncounters(patientUuid, v) {

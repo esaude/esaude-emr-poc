@@ -130,7 +130,7 @@ describe('prescriptionService', function () {
     ];
 
     beforeEach(function () {
-      spyOn(encounterService, 'getPatientAdultFollowupEncounters').and.callFake(function () {
+      spyOn(encounterService, 'getPatientFollowupEncounters').and.callFake(function () {
         return $q(function (resolve) {
           return resolve(encounters);
         })

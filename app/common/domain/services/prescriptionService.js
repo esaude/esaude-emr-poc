@@ -45,10 +45,7 @@
      */
      // TODO: There should be only one service that loads patient prescriptions, this and getPatientNonDispensedPrescriptions should be merged.
      function getPatientPrescriptions(patient) {
-      var followupEncounters = patient.age.years >= 15
-        ? encounterService.getPatientAdultFollowupEncounters(patient.uuid, "full")
-        : encounterService.getPatientChildFollowupEncounters(patient.uuid, "full");
-
+      var followupEncounters = encounterService.getPatientFollowupEncounters(patient);
       var prescriptionConvSetConcept = conceptService.getPrescriptionConvSetConcept();
 
       return $q.all([followupEncounters, prescriptionConvSetConcept])
