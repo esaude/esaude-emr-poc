@@ -16,6 +16,8 @@ angular.module('common.prescription')
         $scope.hasEntryToday = false;//there is no followup encouter for the patient today
         $scope.hasServiceToday = false;//there is no prescription service for the patient today
         $scope.arvLineEnabled = true;
+        $scope.today = new Date();
+        $scope.prescriptionDate = $scope.today;
 
         var init = function() {
             patientUuid = $stateParams.patientUuid;
@@ -209,7 +211,7 @@ angular.module('common.prescription')
                 value: dateUtil.getDateInDatabaseFormat(datetime)
             };
             obs.push(markedOnObs);
-            //whether to create new encounter or update the obs list of existing one for this chackin
+            //whether to create new encounter or update the obs list of existing one for this check-in
             if ($scope.hasEntryToday) {
                 //copy existing encounter
                 var encounter = {
