@@ -1,28 +1,43 @@
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('bahmni.common.domain')
-    .service('conceptService', ['$http', function ($http) {
+  angular
+    .module('bahmni.common.domain')
+    .factory('conceptService', conceptService);
 
-        return {
-            get: get,
-            getPrescriptionConvSetConcept: getPrescriptionConvSetConcept
-        };
+  conceptService.$inject = ['$http', '$log', '$q'];
 
-        function get(concept) {
-            return $http.get('/openmrs/ws/rest/v1/concept/' + concept, {
-                params: {
-                    v: "full"
-                },
-                withCredentials: true
-            });
-        }
+  function conceptService($http, $log, $q) {
 
-        function getPrescriptionConvSetConcept() {
-            var concept = Bahmni.Common.Constants.prescriptionConvSetConcept;
-            return get(concept).then(function (response) {
-                return response.data.setMembers;
-            });
-        }
+    var service = {
+      get: get,
+      getPrescriptionConvSetConcept: getPrescriptionConvSetConcept
+    };
 
+    return service;
 
-    }]);
+    ////////////////
+
+    function get(concept) {
+      return $http.get('/openmrs/ws/rest/v1/concept/' + concept, {
+        params: {
+          v: "full"
+        },
+        withCredentials: true
+      });
+    }
+
+    function getPrescriptionConvSetConcept() {
+      var concept = Bahmni.Common.Constants.prescriptionConvSetConcept;
+      return get(concept)
+        .then(function (response) {
+          return response.data.setMembers;
+        })
+        .catch(function (error) {
+          $log.error('XHR Failed for getPrescriptionConvSetConcept. ' + error.data);
+          return $q.reject(error);
+        });
+    }
+  }
+
+})();

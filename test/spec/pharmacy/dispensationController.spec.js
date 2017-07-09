@@ -22,27 +22,7 @@ describe('DispensationController', function () {
     }
   ];
 
-  beforeEach(module('pharmacy', function ($provide, $translateProvider) {
-    // Mock initialization
-    $provide.factory('initialization', function () {
-    });
-    // Mock appService
-    var appService = jasmine.createSpyObj('appService', ['initApp']);
-    appService.initApp.and.returnValue({
-      then: function (fn) {
-      }
-    });
-    $provide.value('appService', appService);
-    // Mock translate asynchronous loader
-    $provide.factory('mergeLocaleFilesService', function ($q) {
-      return function () {
-        var deferred = $q.defer();
-        deferred.resolve({});
-        return deferred.promise;
-      };
-    });
-    $translateProvider.useLoader('mergeLocaleFilesService');
-  }));
+  beforeEach(module('pharmacy'));
 
   beforeEach(inject(function (_$controller_) {
     $controller = _$controller_;
