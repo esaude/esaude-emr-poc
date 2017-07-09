@@ -9,8 +9,7 @@
 
   function prescriptionService($http, $q, $log) {
     return {
-      getPatientNonDispensedPrescriptions: getPatientNonDispensedPrescriptions,
-      create:create
+      getPatientNonDispensedPrescriptions: getPatientNonDispensedPrescriptions
     };
 
     ////////////////
@@ -25,8 +24,7 @@
       return $http.get(Bahmni.Common.Constants.prescriptionUrl, {
 
         params: {
-          patient: patientUuid,
-          v: "full"
+          patient: patientUuid
         },
 
         withCredentials: true
@@ -37,14 +35,6 @@
         return $q.reject(error);
       });
     }
-
-
-       function create(prescription) {
-          return $http.post(Bahmni.Common.Constants.prescriptionUrl, prescription, {
-            withCredentials: true,
-            headers: {"Accept": "application/json", "Content-Type": "application/json"}
-          });
-      }
 
     /**
      * Maps OpenMRS Prescription.

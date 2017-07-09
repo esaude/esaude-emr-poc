@@ -42,16 +42,9 @@
 
       var patientUuid = $rootScope.patient.uuid;
 
-      prescriptionService.getPatientNonDispensedPrescriptions(patientUuid).then(function (patientPrescriptions) {
-
-        vm.prescriptions = [];
-        vm.prescription = {};
-
-        if(patientPrescriptions.length > 0){
-          vm.prescriptions = _.flatMap(patientPrescriptions, 'prescriptionItems');
-          vm.prescription = patientPrescriptions[0];
-        }
-
+      prescriptionService.getPatientNonDispensedPrescriptions(patientUuid).then(function (prescriptions) {
+        vm.prescriptions = prescriptions;
+        vm.prescription = prescriptions[0];
         vm.prescriptiontNoResultsMessage = _.isEmpty(vm.prescriptions) ? "PHARMACY_LIST_NO_ITEMS" : null;
       });
     }
@@ -74,7 +67,7 @@
 
 
     function setDefaultArvData(item) {
-      if (item.regime) {
+      if (item.drugRegime) {
         item.showNextPickupDate = true;
         item.quantity = 1;
         item.nextPickupDate = new Date();
@@ -87,8 +80,8 @@
       _.forEach(vm.prescriptions, function (selectedItem) {
 
         if (!selectedItem.disable) {
-          if (item.regime && selectedItem.regime) {
-            if (item.regime.uuid === selectedItem.regime.uuid) {
+          if (item.drugRegime && selectedItem.drugRegime) {
+            if (item.drugRegime.regime.uuid === selectedItem.drugRegime.regime.uuid) {
               setSelectedItem(selectedItem);
               setDefaultArvData(selectedItem);
             }
@@ -118,8 +111,8 @@
       _.forEach(vm.selectedItems, function (selectedItem) {
 
         if (selectedItem.disable) {
-          if (item.regime && selectedItem.regime) {
-            if (item.regime.uuid === selectedItem.regime.uuid) {
+          if (item.drugRegime && selectedItem.drugRegime) {
+            if (item.drugRegime.regime.uuid === selectedItem.drugRegime.regime.uuid) {
               setRemovedItem(selectedItem);
             }
           }
@@ -173,9 +166,9 @@
 
       _.forEach(vm.selectedItems, function (selectedItem) {
 
-        if (itemComparison.regime && selectedItem.regime) {
+        if (itemComparison.drugRegime && selectedItem.drugRegime) {
 
-          if (itemComparison.regime.uuid === selectedItem.regime.uuid) {
+          if (itemComparison.drugRegime.regime.uuid === selectedItem.drugRegime.regime.uuid) {
 
             selectedItem.quantity = itemComparison.quantity;
             setUpdatePickUp(selectedItem);
@@ -219,7 +212,7 @@
           quantityDispensed: item.drugPickedUp,
           dateOfNextPickUp: item.nextPickupDate,
           prescriptionUuid: item.drugOrder.encounter.uuid,
-          regimeUuid: (item.regime) ? item.regime.uuid : null
+          regimeUuid: (item.drugRegime) ? item.drugRegime.regime.uuid : null
         };
 
         dispensation.dispensationItems.push(dispensationItem);

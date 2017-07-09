@@ -2,10 +2,10 @@
 
 angular.module('common.prescription')
         .controller('PatientSimplifiedPrescriptionController', ["$http", "$filter", "$scope", "$rootScope", "$stateParams",
-                        "encounterService", "observationsService", "commonService", "conceptService", "prescriptionService", "localStorageService",
+                        "encounterService", "observationsService", "commonService", "conceptService", "localStorageService",
                         "notifier", "spinner", "drugService",
                     function ($http, $filter, $scope, $rootScope, $stateParams, encounterService,
-                    observationsService, commonService, conceptService, prescriptionService, localStorageService, notifier, spinner, drugService) {
+                    observationsService, commonService, conceptService, localStorageService, notifier, spinner, drugService) {
 
         var patientUuid;
         var markedOn = "488e6803-c7db-43b2-8911-8d5d2a8472fd";
@@ -153,80 +153,96 @@ angular.module('common.prescription')
           }
         };
 
-    $scope.save = function () {
-
-            var prescription = {
-
-              prescriptionDate: dateUtil.now(),
-              patient: {uuid: patientUuid },
-              provider: {uuid: $rootScope.currentProvider.uuid},
-              location : {uuid: localStorageService.cookie.get("emr.location").uuid},
-              prescriptionItems:[]
-            };
-
-            setARTValues(prescription);
+        $scope.save = function () {
+            //build obs
+            var obs = [];
+            var orders = [];
+            var datetime = dateUtil.now();
 
             _.forEach($scope.listedPrescriptions, function (element) {
-
-              var prescriptionItem = {
-
-                drugOrder : {
-                    concept: {uuid: element.drug.concept.uuid},
+                //############# Order with OBS model ###############
+                //check the drug type
+                if (element.isArv) {
+                    //create and add the regimen obs
+                    obs.push(genSimpleObs(Bahmni.Common.Constants.arvConceptUuid, element.regimen.uuid, datetime));
+                    //create and add the therapeutic line obs
+                    obs.push(genSimpleObs(Bahmni.Common.Constants.drugPrescriptionConvSet.therapeuticLine.uuid, element.therapeuticLine.uuid, datetime));
+                    //create and add the Arv plan
+                    if (element.arvPlan) {
+                        obs.push(genSimpleObs(Bahmni.Common.Constants.drugPrescriptionConvSet.artPlan.uuid, element.arvPlan.uuid, datetime));
+                    }
+                    //create and add the regime stop reason if any
+                    if (element.isPlanInterrupted) {
+                        obs.push(genSimpleObs(Bahmni.Common.Constants.drugPrescriptionConvSet.interruptedReason.uuid,
+                            element.interruptedReason.uuid, datetime));
+                    }
+                    //create and add the regime change reason if any
+                    if (element.isPlanChanged) {
+                        obs.push(genSimpleObs(Bahmni.Common.Constants.drugPrescriptionConvSet.changeReason.uuid,
+                         element.changeReason.uuid, datetime));
+                    }
+                } else {
+                    //non ARV drug
+                    obs.push(genSimpleObs(Bahmni.Common.Constants.otherDrugsConceptUuid, element.drug.concept.uuid, datetime));
+                }
+                //############ Order with Drug Order model ##############
+                //Assumig this is allways an OUTPATIENT
+                //TODO: careSetting should be requested from backend system via Rest API
+                var order = {
+                    concept: element.drug.concept.uuid,
+                    patient: patientUuid,
                     type: "drugorder",
-                    careSetting: { uuid: "6f0c9a92-6f24-11e3-af88-005056821db0"},
+                    careSetting: "6f0c9a92-6f24-11e3-af88-005056821db0",
                     dosingInstructions: element.dosingInstructions.uuid,
+                    orderer: $rootScope.currentProvider.uuid,
                     dose: element.doseAmount,
-                    doseUnits: {uuid: element.dosingUnits.uuid},
-                    frequency: {uuid: element.dosgeFrequency.uuid},
-                    route: {uuid: element.drugRoute.uuid},
+                    doseUnits: element.dosingUnits.uuid,
+                    frequency: element.dosgeFrequency.uuid,
+                    route: element.drugRoute.uuid,
                     duration: element.duration,
-                    durationUnits: {uuid: element.durationUnits.uuid},
-                    quantityUnits: {uuid: element.dosingUnits.uuid},
-                    drug: {uuid: element.drug.uuid}
-                 },
-                regime: element.isArv ? element.regimen : null
-
-              };
-
-              prescription.prescriptionItems.push(prescriptionItem);
-           });
-
-          //TODO: Fix success CallBack
-          prescriptionService.create(prescription).success(encounterSuccessCallback);
-
+                    durationUnits: element.durationUnits.uuid,
+                    numRefills: 0,
+                    quantity: element.doseAmount * element.duration * durationDays(element.durationUnits.uuid),
+                    quantityUnits: element.dosingUnits.uuid,
+                    drug: element.drug.uuid
+                };
+                orders.push(order);
+            });
+            //create obs for markedOn
+            var markedOnObs = {
+                concept: markedOn,
+                obsDatetime: datetime,
+                person: patientUuid,
+                value: dateUtil.getDateInDatabaseFormat(datetime)
+            };
+            obs.push(markedOnObs);
+            //whether to create new encounter or update the obs list of existing one for this chackin
+            if ($scope.hasEntryToday) {
+                //copy existing encounter
+                var encounter = {
+                    uuid: $scope.todaysEncounter.uuid,
+                    provider: $rootScope.currentUser.person.uuid,
+                    obs: obs,
+                    orders: orders
+                };
+                encounterService.update(encounter).success(encounterSuccessCallback);
+            } else {
+                //build new encounter
+                var encounter = {
+                    encounterType: ($rootScope.patient.age.years >= 15) ? Bahmni.Common.Constants.adultFollowupEncounterUuid :
+                            Bahmni.Common.Constants.childFollowupEncounterUuid,
+                    form: ($rootScope.patient.age.years >= 15) ? Bahmni.Common.Constants.followupAdultFormUuid :
+                            Bahmni.Common.Constants.followupChildFormUuid,
+                    encounterDatetime: datetime,
+                    location: localStorageService.cookie.get("emr.location").uuid,
+                    patient: patientUuid,
+                    provider: $rootScope.currentUser.person.uuid,
+                    obs: obs,
+                    orders: orders
+                };
+                encounterService.create(encounter).success(encounterSuccessCallback);
+            }
         };
-
-         var setARTValues = function(prescription){
-
-                var arvRegime = null;
-                var arvPlan = null;
-                var changeReason = null;
-                var interruptionReason = null;
-
-             _.forEach($scope.listedPrescriptions, function (element) {
-
-                  if(element.isArv){
-                     arvRegime = element.regimen;
-                     arvPlan = element.therapeuticLine.uuid;
-                  }
-
-                  if(element.isPlanChanged)
-                  {
-                    changeReason = element.changeReason.uuid;
-                  }
-
-                  if(element.isPlanInterrupted){
-
-                  interruptionReason =  element.interruptedReason.uuid;
-
-                  }
-             });
-
-             prescription.regime = arvRegime;
-             prescription.arvPlan = arvPlan? {uuid: arvPlan}: null;
-             prescription.changeReason = changeReason? changeReason : null;
-             prescription.interruptionReason = interruptionReason? interruptionReason : null;
-         };
 
         var encounterSuccessCallback = function (encounterProfileData) {
             console.log(encounterProfileData);
@@ -255,8 +271,6 @@ angular.module('common.prescription')
                         $scope.todaysEncounter = lastEncounter;
                         $scope.hasEntryToday = true;
                         //find markedOn concept
-
-
                         var markedOnInfo = _.find(lastEncounter.obs, function (o) {
                             return o.concept.uuid === markedOn;
                         });
@@ -454,6 +468,27 @@ angular.module('common.prescription')
                 return member.uuid === regimenGroupTLine;
             });
         };
+
+        var durationDays = function(durationUnits){
+
+            var OneDayDuration = ['1e5705ee-10f5-11e5-9009-0242ac110012','9d956959-10e8-11e5-9009-0242ac110012','9d6f51fb-10e8-11e5-9009-0242ac110012'];
+
+             _.forEach(OneDayDuration, function (itemDuration) {
+
+                  if(durationUnits == itemDuration){
+                    return 1;
+                  }
+              });
+
+              if(durationUnits == '9d96489b-10e8-11e5-9009-0242ac110012'){
+                return 7;
+              }
+
+              if(durationUnits == '9d96d012-10e8-11e5-9009-0242ac110012'){
+                return 30;
+              }
+              return null;
+         };
 
         var initRegimens = function (filteredRegimens) {
             $scope.regimens = filteredRegimens;

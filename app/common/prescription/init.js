@@ -1,1 +1,1 @@
-angular.module('common.prescription', ['bahmni.common.domain']);
+angular.module('common.prescription', []);
