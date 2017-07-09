@@ -8,13 +8,7 @@ describe('reportService', function () {
 
   var linkFn;
 
-  beforeEach(module('common.patient', function ($provide) {
-    var appService = jasmine.createSpyObj('appService', ['initApp']);
-    appService.initApp.and.returnValue({
-      then: function (fn) {}
-    });
-    $provide.value('appService', appService);
-  }));
+  beforeEach(module('common.patient'));
 
   // Provide $compile and $timeout mocks
   beforeEach(function () {
