@@ -5,7 +5,7 @@ angular.module('pharmacy').controller('DispensationHistoryController', Dispensat
 DispensationHistoryController.$inject = ["$scope", "$rootScope", "$stateParams", "encounterService", "commonService"];
 
 function DispensationHistoryController($scope, $rootScope, $stateParams, encounterService, commonService) {
-    
+
     (function () {
         $scope.filaObsList = {
             nextPickup: "e1e2efd8-1d5f-11e0-b929-000c29ad1d07",
@@ -18,7 +18,7 @@ function DispensationHistoryController($scope, $rootScope, $stateParams, encount
         encounterService.getEncountersForEncounterType(patientUuid, pharmacyEncounterTypeUuid).success(function (data) {
             $scope.pickups = prepareObservations(commonService.filterReverse(data));
         });
-            
+
     })();
 
 
@@ -27,17 +27,20 @@ function DispensationHistoryController($scope, $rootScope, $stateParams, encount
         var observations = [];
 
         _.forEach(encounters, function (encounter) {
-                
+
             _.forEach(encounter.obs, function (observation) {
-                
-                var obs = {
 
-                    encounterDatetime : encounter.encounterDatetime,
-                    provider : encounter.provider.display,
-                    members : observation.groupMembers
+                if(observation.groupMembers)
+                {
+                  var obs = {
+
+                      encounterDatetime : encounter.encounterDatetime,
+                      provider : encounter.provider.display,
+                      members : observation.groupMembers
+                  }
+
+                  observations.push(obs);
                 }
-
-                observations.push(obs);
             });
         });
 
@@ -49,7 +52,7 @@ function DispensationHistoryController($scope, $rootScope, $stateParams, encount
         var field = _.find(members, function (member) {
             return member.concept.uuid === conceptUuid;
         });
-      
+
         return field;;
     };
 }

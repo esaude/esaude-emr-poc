@@ -197,8 +197,7 @@ Bahmni.Common = Bahmni.Common || {};
         arvConceptUuid: "e1d83d4a-1d5f-11e0-b929-000c29ad1d07",
         otherDrugsConceptUuid: "e1de3092-1d5f-11e0-b929-000c29ad1d07",
         arvRegimensConvSet: "7d5728ac-730f-495e-8368-73fc3d7e3c45",
-        regimenGroups: regimenGroups,
-        otherDrugsConceptUuid: "e1de3092-1d5f-11e0-b929-000c29ad1d07"
+        regimenGroups: regimenGroups
 
     };
 })();

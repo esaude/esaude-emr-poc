@@ -4,21 +4,33 @@ describe('DispensationController', function () {
 
   var $controller, controller, dispensationService, prescriptionService, localStorageService;
 
-  var rootScope = {'patient': { 'uuid': '0810aecc-6642-4c1c-ac1e-537a0cfed81' }};
+  var rootScope = {'patient': {'uuid': '0810aecc-6642-4c1c-ac1e-537a0cfed81'}};
 
   var prescriptions = [
-    {disable: false},
-    {disable: false},
-    {disable: false}
+    {
+      disable: false,
+      prescriptionItems: [
+        {toPickup: true},
+        {toPickup: true}
+      ]
+    },
+    {
+      disable: false,
+      prescriptionItems: [
+        {toPickup: true}
+      ]
+    }
   ];
 
   beforeEach(module('pharmacy', function ($provide, $translateProvider) {
     // Mock initialization
-    $provide.factory('initialization', function () {});
+    $provide.factory('initialization', function () {
+    });
     // Mock appService
     var appService = jasmine.createSpyObj('appService', ['initApp']);
     appService.initApp.and.returnValue({
-      then: function (fn) {}
+      then: function (fn) {
+      }
     });
     $provide.value('appService', appService);
     // Mock translate asynchronous loader
@@ -86,7 +98,8 @@ describe('DispensationController', function () {
 
       controller.initPrescriptions();
 
-      expect(controller.prescriptions).toBe(prescriptions);
+      expect(controller.prescriptions.length).toBe(3);
+      expect(controller.prescriptions).toEqual(prescriptions[0].prescriptionItems.concat(prescriptions[1].prescriptionItems));
       expect(controller.prescription).toBe(prescriptions[0]);
       expect(controller.prescriptiontNoResultsMessage).toBeNull();
       expect(controller.selectedItems.length).toBe(0);
@@ -113,7 +126,7 @@ describe('DispensationController', function () {
 
       controller.select(prescriptions[selection]);
 
-      expect(controller.selectedItems[0]).toEqual({disable: true});
+      expect(controller.selectedItems[0]).toEqual({disable: true, prescriptionItems: [{toPickup: true}]});
     });
 
     it('should update dispense list message', function () {
