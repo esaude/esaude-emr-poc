@@ -1,8 +1,33 @@
 <div class="row content-border-margin-regular">
     <div class="col-sm-5">
-        <div class="alert alert-danger alert-dismissible content-border-margin" role="alert" ng-show="hasServiceToday">
-            <strong>{{'COMMON_MESSAGE_INFO_ACTION_COMPLETED_TODAY'| translate}}</strong> 
+
+      <div class="panel panel-primary panel-marginless-sides">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            {{'PRESCRIPTION_DATE' | translate}}
+          </h3>
         </div>
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <div class="form-group form-group-lg">
+              <label for="prescriptionDate" class="col-sm-3 control-label">
+                {{'PRESCRIPTION_DATE' | translate}}:
+              </label>
+              <div class="col-sm-9">
+                <input date-time format="d MMM y" min-view="date" ng-model="prescriptionDate" id="prescriptionDate"
+                       type="text" class="form-control keyboard-in"/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+        <div class="alert alert-danger alert-dismissible content-border-margin" role="alert" ng-show="hasServiceToday">
+            <strong>{{'COMMON_MESSAGE_INFO_ACTION_COMPLETED_TODAY'| translate}}</strong>
+        </div>
+
+
         <div class="panel panel-primary panel-marginless-sides" ng-if="!hasServiceToday">
             <div class="list-group">
                 <div class="list-group-item list-group-item-success">
@@ -26,7 +51,7 @@
                          ng-class="{'has-error': prescriptionForm.drug.$invalid && showMessages}" ng-show="!order.isArv">
                         <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_DRUG'| translate}}:<span class="asterick">*</span></label>
                         <div class="col-sm-9">
-                            <div ng-messages for="prescriptionForm.drug.$error" 
+                            <div ng-messages for="prescriptionForm.drug.$error"
                                  ng-messages-include="../poc-common/form-display/views/error-messages.html"
                                  ng-show="showMessages"></div>
                             <input type="text"
@@ -43,7 +68,7 @@
                          ng-class="{'has-error': prescriptionForm.arvDrug.$invalid && showMessages}" ng-show="order.isArv">
                         <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_DRUG'| translate}}:<span class="asterick">*</span></label>
                         <div class="col-sm-9">
-                            <div ng-messages for="prescriptionForm.arvDrug.$error" 
+                            <div ng-messages for="prescriptionForm.arvDrug.$error"
                                  ng-messages-include="../poc-common/form-display/views/error-messages.html"
                                  ng-show="showMessages"></div>
                             <select name="arvDrug" class="form-control" ng-model="order.drug"
@@ -56,7 +81,7 @@
                          ng-class="{'has-error': prescriptionForm.doseAmount.$invalid && showMessages}">
                         <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_DOSE'| translate}}:<span class="asterick">*</span></label>
                         <div class="col-sm-3">
-                            <div ng-messages for="prescriptionForm.doseAmount.$error" 
+                            <div ng-messages for="prescriptionForm.doseAmount.$error"
                                  ng-messages-include="../poc-common/form-display/views/error-messages.html"
                                  ng-show="showMessages"></div>
                             <input name="doseAmount" type="number" class="form-control keyboard-in"
@@ -65,11 +90,11 @@
                                    required>
                         </div>
                     </div>
-                    <div class="form-group form-group-lg" 
+                    <div class="form-group form-group-lg"
                          ng-class="{'has-error': prescriptionForm.dosingUnits.$invalid && showMessages}">
                         <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_UNITS'| translate}}:<span class="asterick">*</span></label>
                         <div class="col-sm-9">
-                            <div ng-messages for="prescriptionForm.dosingUnits.$error" 
+                            <div ng-messages for="prescriptionForm.dosingUnits.$error"
                                  ng-messages-include="../poc-common/form-display/views/error-messages.html"
                                  ng-show="showMessages"></div>
                             <select name="dosingUnits" class="form-control" ng-model="order.dosingUnits"
@@ -82,7 +107,7 @@
                          ng-class="{'has-error': prescriptionForm.dosgeFrequency.$invalid && showMessages}">
                         <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_POSOLOGY'| translate}}:<span class="asterick">*</span></label>
                         <div class="col-sm-9">
-                            <div ng-messages for="prescriptionForm.dosgeFrequency.$error" 
+                            <div ng-messages for="prescriptionForm.dosgeFrequency.$error"
                                  ng-messages-include="../poc-common/form-display/views/error-messages.html"
                                  ng-show="showMessages"></div>
                             <select name="dosgeFrequency" class="form-control" ng-model="order.dosgeFrequency"
@@ -95,7 +120,7 @@
                          ng-class="{'has-error': prescriptionForm.drugRoute.$invalid && showMessages}">
                         <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_ROUTE'| translate}}:<span class="asterick">*</span></label>
                         <div class="col-sm-9">
-                            <div ng-messages for="prescriptionForm.drugRoute.$error" 
+                            <div ng-messages for="prescriptionForm.drugRoute.$error"
                                  ng-messages-include="../poc-common/form-display/views/error-messages.html"
                                  ng-show="showMessages"></div>
                             <select name="drugRoute" class="form-control" ng-model="order.drugRoute"
@@ -108,7 +133,7 @@
                          ng-class="{'has-error': prescriptionForm.duration.$invalid && showMessages}">
                         <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_DURATION'| translate}}:<span class="asterick">*</span></label>
                         <div class="col-sm-3">
-                            <div ng-messages for="prescriptionForm.duration.$error" 
+                            <div ng-messages for="prescriptionForm.duration.$error"
                                  ng-messages-include="../poc-common/form-display/views/error-messages.html"
                                  ng-show="showMessages"></div>
                             <input name="duration" type="number" class="form-control keyboard-in"
@@ -118,7 +143,7 @@
                         </div>
                         <div class="col-sm-6"
                              ng-class="{'has-error': prescriptionForm.durationUnits.$invalid && showMessages}">
-                            <div ng-messages for="prescriptionForm.durationUnits.$error" 
+                            <div ng-messages for="prescriptionForm.durationUnits.$error"
                                  ng-messages-include="../poc-common/form-display/views/error-messages.html"
                                  ng-show="showMessages"></div>
                             <select name="durationUnits" class="form-control" ng-model="order.durationUnits"
@@ -131,7 +156,7 @@
                          ng-class="{'has-error': prescriptionForm.dosingInstructions.$invalid && showMessages}">
                         <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_RECOMMENDATION'| translate}}:<span class="asterick">*</span></label>
                         <div class="col-sm-9">
-                            <div ng-messages for="prescriptionForm.dosingInstructions.$error" 
+                            <div ng-messages for="prescriptionForm.dosingInstructions.$error"
                                  ng-messages-include="../poc-common/form-display/views/error-messages.html"
                                  ng-show="showMessages"></div>
                             <select name="dosingInstructions" class="form-control" ng-model="order.dosingInstructions"
@@ -175,9 +200,9 @@
                         <strong ng-if="order.isArv">
                             ({{order.regimen.display}}: {{order.therapeuticLine.display}})
                         </strong>-
-                        {{order.doseAmount}} 
-                        {{order.dosingUnits.display}}, {{order.dosgeFrequency.display}}, 
-                        {{order.drugRoute.display}} - {{order.duration}} 
+                        {{order.doseAmount}}
+                        {{order.dosingUnits.display}}, {{order.dosgeFrequency.display}},
+                        {{order.drugRoute.display}} - {{order.duration}}
                         {{order.durationUnits.display}}, {{order.dosingInstructions.display}}
                     </span>
                     <span ng-if="order.isArv && order.arvPlan">
@@ -212,9 +237,9 @@
                 </button>
             </div>
         </div>
-        
-        
-        
+
+
+
         <div class="panel panel-primary panel-marginless-sides" ng-init="initPrescriptions()">
             <div class="panel-heading">
                 <h3 class="panel-title">{{'CLINIC_PRESCRIPTION_PRESCRIBED'| translate}}</h3>
@@ -229,9 +254,9 @@
                         <strong ng-if="order.isArv">
                             (First Line)
                         </strong>-
-                        {{order.doseAmount}} 
-                        {{order.dosingUnits.display}}, {{order.dosgeFrequency.display}}, 
-                        {{order.drugRoute.display}} - {{order.duration}} 
+                        {{order.doseAmount}}
+                        {{order.dosingUnits.display}}, {{order.dosgeFrequency.display}},
+                        {{order.drugRoute.display}} - {{order.duration}}
                         {{order.durationUnits.display}}, {{order.dosingInstructions.display}}
                     </span>
                     <span ng-if="order.isArv">

@@ -1,24 +1,14 @@
 describe('patientService', function () {
 
-  var patientService, $httpBackend, $rootScope, openmrsPatientMapper, $q, $log, reportService, prescriptionService;
+  var patientService, $httpBackend, $rootScope, openmrsPatientMapper, reportService, prescriptionService;
 
-  beforeEach(module('common.patient', function ($provide) {
-    // Mock initialization
-    $provide.factory('initialization', function () {});
-    // Mock appService
-    var appService = jasmine.createSpyObj('appService', ['initApp']);
-    appService.initApp.and.returnValue({
-      then: function (fn) {}
-    });
-    $provide.value('appService', appService);
-  }));
+  beforeEach(module('common.patient'));
 
-  beforeEach(inject(function (_patientService_, _prescriptionService_, _reportService_, _$q_, _$rootScope_,
+  beforeEach(inject(function (_patientService_, _prescriptionService_, _reportService_, _$rootScope_,
                               _$httpBackend_, _openmrsPatientMapper_) {
     patientService = _patientService_;
     prescriptionService = _prescriptionService_;
     reportService = _reportService_;
-    $q = _$q_;
     $rootScope = _$rootScope_;
     $httpBackend = _$httpBackend_;
     openmrsPatientMapper = _openmrsPatientMapper_;
