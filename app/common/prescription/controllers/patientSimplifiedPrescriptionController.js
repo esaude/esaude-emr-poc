@@ -186,7 +186,6 @@ angular.module('common.prescription')
               prescription.prescriptionItems.push(prescriptionItem);
            });
 
-          //TODO: Fix success CallBack
           prescriptionService.create(prescription).success(encounterSuccessCallback);
         };
 
@@ -226,7 +225,7 @@ angular.module('common.prescription')
             notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
             $scope.listedPrescriptions = [];
             isPrescriptionControl();
-            spinner.forPromise(loadSavedPrescriptions(encounterProfileData.patient.uuid, encounterProfileData.encounterType.uuid));
+            spinner.forPromise(loadSavedPrescriptions(encounterProfileData.patient.uuid));
         };
 
         //TODO: This logic should go to the pharmacy module
