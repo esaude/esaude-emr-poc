@@ -14,14 +14,14 @@
       restrict: 'E',
       transclude: true,
       scope: {
-        role: '='
+        privilege: '='
       }
     };
     return directive;
 
     function link(scope) {
-      authorizationService.hasRole(scope.role).then(function (hasRole) {
-        scope.authorized = hasRole;
+      authorizationService.hasPrivilege(scope.privilege).then(function (hasPrivilege) {
+        scope.authorized = hasPrivilege;
       });
     }
   }

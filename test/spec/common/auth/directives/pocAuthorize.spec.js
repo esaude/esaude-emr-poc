@@ -16,7 +16,7 @@ describe('pocAuthorize', function () {
   describe('user authorized', function () {
 
     beforeEach(function () {
-      spyOn(authorizationService, 'hasRole').and.callFake(function () {
+      spyOn(authorizationService, 'hasPrivilege').and.callFake(function () {
         return $q(function (resolve) {
           resolve(true);
         })
@@ -25,10 +25,10 @@ describe('pocAuthorize', function () {
 
     it('shows the contents', function () {
 
-      var element = $compile('<poc-authorize role="\'Data Manager\'"><div>Data Manager Only!</div></poc-authorize>')($rootScope);
+      var element = $compile('<poc-authorize privilege="\'Create Vitals\'"><div>Create Vitals Only!</div></poc-authorize>')($rootScope);
 
       $rootScope.$digest();
-      expect(element.html()).toContain('Data Manager Only!');
+      expect(element.html()).toContain('Create Vitals Only!');
     });
 
   });
@@ -36,7 +36,7 @@ describe('pocAuthorize', function () {
   describe('user not authorized', function () {
 
     beforeEach(function () {
-      spyOn(authorizationService, 'hasRole').and.callFake(function () {
+      spyOn(authorizationService, 'hasPrivilege').and.callFake(function () {
         return $q(function (resolve) {
           resolve(false);
         })
@@ -45,10 +45,10 @@ describe('pocAuthorize', function () {
 
     it('does not show the contents', function () {
 
-      var element = $compile('<poc-authorize role="\'Data Manager\'"><div>Data Manager Only!</div></poc-authorize>')($rootScope);
+      var element = $compile('<poc-authorize privilege="\'Create Vitals\'"><div>Create Vitals Only!</div></poc-authorize>')($rootScope);
 
       $rootScope.$digest();
-      expect(element.html()).not.toContain('Data Manager Only!');
+      expect(element.html()).not.toContain('Create Vitals Only!');
     });
 
   });
