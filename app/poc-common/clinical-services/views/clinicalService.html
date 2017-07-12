@@ -30,11 +30,11 @@
         <div class="col-sm-2 go-to-right">
 
           <button ng-if="vm.checkRestrictionsToAdd(service)" class="btn btn-primary btn-lg" type="button"
-                  ng-click="vm.linkAdd(service)">
+                  ng-click="vm.add({service: service})">
             <span class="glyphicon glyphicon-plus"></span>
           </button>
           <button ng-if="service.encountersForService.length > 0" class="btn btn-default btn-lg" type="button"
-                  ng-click="vm.list(service)">
+                  ng-click="vm.toggleListEncounters(service)">
             <span class="glyphicon glyphicon-list-alt"></span>
           </button>
         </div>
@@ -57,7 +57,7 @@
               </td>
               <td class="go-to-right">
                 <div ng-show="!encounter.delete">
-                  <button type="button" class="btn btn-default btn-lg" ng-click="vm.linkEdit(service, encounter)">
+                  <button type="button" class="btn btn-default btn-lg" ng-click="vm.edit({service: service, encounter: encounter})">
                     <span class="glyphicon glyphicon-pencil"></span>
                   </button>
                   <button type="button" class="btn btn-danger btn-lg" ng-click="vm.removeEncounter(encounter)">

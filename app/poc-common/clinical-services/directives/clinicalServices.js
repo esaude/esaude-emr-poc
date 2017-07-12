@@ -14,17 +14,21 @@
       restrict: 'AE',
       templateUrl: ' ../poc-common/clinical-services/views/clinicalService.html',
       scope: {
+        add: '&onAdd',
+        edit: '&onEdit',
         patientUuid: '=',
-        encounteDatetime: '=',
-        services: '='
+        serviceForms: '=',
+        services: '=',
+        hasVisitToday: '=',
+        todayVisit: '='
       }
     };
     return directive;
   }
 
-  ClinicalServiceDirectiveController.$inject = ['$scope', 'encounterService', 'patientService'];
+  ClinicalServiceDirectiveController.$inject = ['encounterService', 'patientService'];
 
-  function ClinicalServiceDirectiveController($scope, encounterService, patientService) {
+  function ClinicalServiceDirectiveController(encounterService, patientService) {
 
     var dateUtil = Bahmni.Common.Util.DateUtil;
 
@@ -32,9 +36,7 @@
 
     vm.patient = {};
     vm.checkRestrictionsToAdd = checkRestrictionsToAdd;
-    vm.linkAdd = linkAdd;
-    vm.linkEdit = linkEdit;
-    vm.list = list;
+    vm.toggleListEncounters = toggleListEncounters;
     vm.$onInit = onInit;
     vm.removeEncounter = removeEncounter;
 
@@ -54,7 +56,7 @@
 
 
     function initService(service, patient) {
-      var formPayload = $scope.$parent.serviceForms[service.id];
+      var formPayload = vm.serviceForms[service.id];
 
       var getEncounters = encounterService.getEncountersForEncounterType(patient.uuid, formPayload.encounterType.uuid);
 
@@ -90,8 +92,8 @@
 
           service.hasEntryToday = false;
 
-          if ($scope.$parent.todayVisit && service.lastEncounterForService) {
-            service.hasEntryToday = (dateUtil.diffInDaysRegardlessOfTime($scope.$parent.todayVisit.startDatetime,
+          if (vm.todayVisit && service.lastEncounterForService) {
+            service.hasEntryToday = (dateUtil.diffInDaysRegardlessOfTime(vm.todayVisit.startDatetime,
               service.lastEncounterForService.encounterDatetime) === 0);
           }
           service.list = false;
@@ -105,16 +107,16 @@
       service.showService = true;
 
       if (service.constraints.requireChekin) {
-        service.showService =  $scope.$parent.hasVisitToday;
+        service.showService =  vm.hasVisitToday;
       }
 
       if (service.constraints.minAge &&
-        $scope.$parent.patient.age.years < service.constraints.minAge) {
+        vm.patient.age.years < service.constraints.minAge) {
         service.showService = false;
       }
 
       if (service.constraints.maxAge &&
-        $scope.$parent.patient.age.years > service.constraints.maxAge) {
+        vm.patient.age.years > service.constraints.maxAge) {
         service.showService = false;
       }
     }
@@ -139,18 +141,8 @@
     }
 
 
-    function linkAdd(service) {
-      $scope.$parent.linkServiceAdd(service);
-    }
-
-
-    function linkEdit(service, encounter) {
-      $scope.$parent.linkServiceEdit(service, encounter);
-    }
-
-
-    function list(service) {
-      (service.list) ? service.list = false : service.list = true;
+    function toggleListEncounters(service) {
+      service.list = !service.list;
     }
 
 
