@@ -1,26 +1,28 @@
 [
-    {
-        "id": "001",
-        "formId": "e28b6096-1d5f-11e0-b929-000c29ad1d07",
-        "label": "COMMON_SOCIAL_INFO_FORM",
-        "url": "/anamnesis/a/adult",
-        "minOccur": "1",
-        "maxOccur": "-1",
-        "constraints": {
-            "minAge": "15",
-            "requireChekin": true
-        }
+  {
+    "id": "001",
+    "formId": "e28b6096-1d5f-11e0-b929-000c29ad1d07",
+    "label": "COMMON_SOCIAL_INFO_FORM",
+    "url": "/anamnesis/a/adult",
+    "minOccur": "1",
+    "maxOccur": "-1",
+    "constraints": {
+      "minAge": "15",
+      "requireChekin": true
     },
-    {
-        "id": "002",
-        "formId": "e28b6b0e-1d5f-11e0-b929-000c29ad1d07",
-        "label": "COMMON_SOCIAL_INFO_FORM",
-        "url": "/anamnesis/a/child",
-        "minOccur": "1",
-        "maxOccur": "1",
-        "constraints": {
-            "maxAge": "14",
-            "requireChekin": true
-        }
-    }
+    "privilege": "Anamnesis"
+  },
+  {
+    "id": "002",
+    "formId": "e28b6b0e-1d5f-11e0-b929-000c29ad1d07",
+    "label": "COMMON_SOCIAL_INFO_FORM",
+    "url": "/anamnesis/a/child",
+    "minOccur": "1",
+    "maxOccur": "1",
+    "constraints": {
+      "maxAge": "14",
+      "requireChekin": true
+    },
+    "privilege": "Anamnesis"
+  }
 ]

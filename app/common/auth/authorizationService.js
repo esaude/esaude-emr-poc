@@ -11,7 +11,8 @@
     var service = {
       hasRole: hasRole,
       hasPrivilege: hasPrivilege,
-      authorizeApps: authorizeApps
+      authorizeApps: authorizeApps,
+      authorizeClinicalServices: authorizeClinicalServices
     };
     return service;
 
@@ -59,7 +60,7 @@
 
     /**
      * @param {Array} apps
-     * @returns {Array} POC applications logged user has access to.
+     * @returns {Promise} POC applications logged user has access to.
      */
     function authorizeApps(apps) {
       return sessionService.getSession()
@@ -76,18 +77,59 @@
     }
 
     /**
-     * Filters apps with roles contained in userRoles.
-     *
+     * @param {Array} clinicalServices
+     * @returns {Promise} Clinical services for which the user has at least one of Read/Write/Edit/Delete privileges.
+     */
+    function authorizeClinicalServices(clinicalServices) {
+      return sessionService.getSession()
+        .then(function (session) {
+          var userPrivileges = session.user.privileges.map(function (r) {
+            return r.display;
+          });
+          return getAuthorizedClinicalServices(clinicalServices, userPrivileges);
+        })
+        .catch(function (error) {
+          $log.error('Could not authorize clinical services. ' + error);
+          return $q.reject();
+        });
+    }
+
+    /**
      * @param {Array} apps
      * @param {Array} userRoles
+     * @returns {Array} apps with roles contained in userRoles.
      */
     function getAuthorizedApps(apps, userRoles) {
       return apps.filter(function (a) {
         if (!a.roles || a.roles.length === 0) {
-          $log.info('App ' + a.name + ' has no user roles defined.');
+          $log.warn('App ' + a.name + ' has no user roles defined.');
           return true;
         }
         return _.intersection(userRoles, a.roles).length !== 0;
+      });
+    }
+
+    /**
+     * @param {Array} clinicalServices
+     * @param {Array} userPrivileges
+     * @returns {Array} clinicalServices with at least one privilege contained in userPrivileges.
+     */
+    function getAuthorizedClinicalServices(clinicalServices, userPrivileges) {
+
+      var prefixes = ['Read', 'Write', 'Edit', 'Delete'];
+
+      return clinicalServices.filter(function (srv) {
+
+        if(!srv.privilege || srv.privilege.length === 0) {
+          $log.warn('Clinical service ' + srv.label + ' has no user privilege defined.');
+          return true;
+        }
+
+        var privileges = prefixes.map(function (p) {
+          return p + ' ' + srv.privilege;
+        });
+
+        return _.intersection(userPrivileges, privileges).length !== 0;
       });
     }
   }

@@ -11,7 +11,7 @@ describe('authorizationService', function () {
         {display: 'M and E Coordinator'}
       ],
       privileges: [
-        {display: 'Get Forms'},
+        {display: 'Read Vital'},
         {display: 'Patient Dashboard - View Visits Section'}
       ]
     }
@@ -177,5 +177,32 @@ describe('authorizationService', function () {
 
     });
 
-  })
+  });
+
+  describe('authorizeClinicalServices', function () {
+
+    var clinicalServices = [{privilege: 'Vital'}, {privilege: 'Anamnesis'}];
+
+    beforeEach(function () {
+      spyOn(sessionService, 'getSession').and.callFake(function () {
+        return $q(function (resolve) {
+          return resolve(session);
+        });
+      });
+    });
+
+    it('should return clinical services for which logged user has at least one of privileges', function () {
+
+      var authClinicalServices;
+
+      authorizationService.authorizeClinicalServices(clinicalServices).then(function (services) {
+        authClinicalServices = services;
+      });
+
+      $rootScope.$apply();
+      expect(authClinicalServices).toContain({privilege: 'Vital'});
+      expect(authClinicalServices).not.toContain({privilege: 'Anamnesis'});
+    });
+
+  });
 });

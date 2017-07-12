@@ -12,7 +12,7 @@
       controller: ClinicalServiceDirectiveController,
       controllerAs: 'vm',
       restrict: 'AE',
-      templateUrl: ' ../poc-common/clinical-services/views/clinicalService.html',
+      templateUrl: ' ../poc-common/clinical-services/views/clinicalServices.html',
       scope: {
         add: '&onAdd',
         edit: '&onEdit',
@@ -26,19 +26,20 @@
     return directive;
   }
 
-  ClinicalServiceDirectiveController.$inject = ['encounterService', 'patientService'];
+  ClinicalServiceDirectiveController.$inject = ['encounterService', 'patientService', 'authorizationService'];
 
-  function ClinicalServiceDirectiveController(encounterService, patientService) {
+  function ClinicalServiceDirectiveController(encounterService, patientService, authorizationService) {
 
     var dateUtil = Bahmni.Common.Util.DateUtil;
 
     var vm = this;
 
     vm.patient = {};
-    vm.checkRestrictionsToAdd = checkRestrictionsToAdd;
-    vm.toggleListEncounters = toggleListEncounters;
     vm.$onInit = onInit;
+    vm.checkRestrictionsToAdd = checkRestrictionsToAdd;
+    vm.getPrivilege = getPrivilege;
     vm.removeEncounter = removeEncounter;
+    vm.toggleListEncounters = toggleListEncounters;
 
     ////////////////
 
@@ -47,10 +48,12 @@
 
         vm.patient = patient;
 
-        vm.services.forEach(function (s) {
-          initService(s, patient);
+        authorizationService.authorizeClinicalServices(vm.services).then(function (authServices) {
+          vm.services = authServices;
+          vm.services.forEach(function (s) {
+            initService(s, patient);
+          });
         });
-
       });
     }
 
@@ -149,6 +152,11 @@
     function removeEncounter(encounter) {
       (angular.isUndefined(encounter.delete) || encounter.delete === false) ?
         encounter.delete = true : encounter.delete = false;
+    }
+
+
+    function getPrivilege(prefix, service) {
+      return prefix + ' ' + service.privilege;
     }
 
   }
