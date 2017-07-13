@@ -186,7 +186,16 @@ angular.module('common.prescription')
               prescription.prescriptionItems.push(prescriptionItem);
            });
 
-          prescriptionService.create(prescription).success(encounterSuccessCallback);
+          prescriptionService.create(prescription)
+            .then(function (encounterProfileData) {
+              notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
+              $scope.listedPrescriptions = [];
+              isPrescriptionControl();
+              spinner.forPromise(loadSavedPrescriptions($rootScope.patient));
+            })
+            .catch(function () {
+              notifier.error($filter('translate')('COMMON_MESSAGE_COULD_NOT_CREATE_PRESCRIPTION'));
+            });
         };
 
          var setARTValues = function(prescription){
@@ -220,13 +229,6 @@ angular.module('common.prescription')
              prescription.changeReason = changeReason? changeReason : null;
              prescription.interruptionReason = interruptionReason? interruptionReason : null;
          };
-
-        var encounterSuccessCallback = function (encounterProfileData) {
-            notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
-            $scope.listedPrescriptions = [];
-            isPrescriptionControl();
-            spinner.forPromise(loadSavedPrescriptions(encounterProfileData.patient.uuid));
-        };
 
         //TODO: This logic should go to the pharmacy module
         var loadSavedPrescriptions = function (patient) {
