@@ -223,11 +223,10 @@ angular.module('common.prescription')
          };
 
         var encounterSuccessCallback = function (encounterProfileData) {
-            console.log(encounterProfileData);
             notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
-            spinner.forPromise(loadSavedPrescriptions(encounterProfileData.patient.uuid, encounterProfileData.encounterType.uuid));
             $scope.listedPrescriptions = [];
             isPrescriptionControl();
+            spinner.forPromise(loadSavedPrescriptions(encounterProfileData.patient.uuid, encounterProfileData.encounterType.uuid));
         };
 
         //TODO: This logic should go to the pharmacy module
