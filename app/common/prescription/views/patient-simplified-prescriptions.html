@@ -98,7 +98,7 @@
                          ng-messages-include="../poc-common/form-display/views/error-messages.html"
                          ng-show="showMessages"></div>
                     <select name="dosingUnits" class="form-control" ng-model="order.dosingUnits"
-                            ng-options="unit.display for unit in fieldModels.dosingUnits.model.answers" required>
+                            ng-options="unit.display for unit in fieldModels.dosingUnits.model.answers track by unit.uuid" required>
                       <option></option>
                     </select>
                   </div>
@@ -111,7 +111,7 @@
                          ng-messages-include="../poc-common/form-display/views/error-messages.html"
                          ng-show="showMessages"></div>
                     <select name="dosgeFrequency" class="form-control" ng-model="order.dosgeFrequency"
-                            ng-options="frequency.display for frequency in fieldModels.dosgeFrequency.model.answers" required>
+                            ng-options="frequency.display for frequency in fieldModels.dosgeFrequency.model.answers track by frequency.uuid" required>
                       <option></option>
                     </select>
                   </div>
@@ -124,7 +124,7 @@
                          ng-messages-include="../poc-common/form-display/views/error-messages.html"
                          ng-show="showMessages"></div>
                     <select name="drugRoute" class="form-control" ng-model="order.drugRoute"
-                            ng-options="route.display for route in fieldModels.drugRoute.model.answers" required>
+                            ng-options="route.display for route in fieldModels.drugRoute.model.answers track by route.uuid" required>
                       <option></option>
                     </select>
                   </div>
@@ -147,7 +147,7 @@
                          ng-messages-include="../poc-common/form-display/views/error-messages.html"
                          ng-show="showMessages"></div>
                     <select name="durationUnits" class="form-control" ng-model="order.durationUnits"
-                            ng-options="durationUnit.display for durationUnit in fieldModels.durationUnits.model.answers" required>
+                            ng-options="durationUnit.display for durationUnit in fieldModels.durationUnits.model.answers track by durationUnit.uuid" required>
                       <option></option>
                     </select>
                   </div>
@@ -160,7 +160,7 @@
                          ng-messages-include="../poc-common/form-display/views/error-messages.html"
                          ng-show="showMessages"></div>
                     <select name="dosingInstructions" class="form-control" ng-model="order.dosingInstructions"
-                            ng-options="instruction.display for instruction in fieldModels.dosingInstructions.model.answers" required>
+                            ng-options="instruction.display for instruction in fieldModels.dosingInstructions.model.answers track by instruction.uuid" required>
                       <option></option>
                     </select>
                   </div>
