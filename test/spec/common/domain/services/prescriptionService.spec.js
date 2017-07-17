@@ -6,13 +6,15 @@ describe('prescriptionService', function () {
 
   beforeEach(module('bahmni.common.domain'));
 
-  beforeEach(inject(function (_prescriptionService_, _encounterService_, _conceptService_, _appService_, _$q_, _$rootScope_) {
+  beforeEach(inject(function (_prescriptionService_, _encounterService_, _conceptService_, _appService_, _$q_, _$rootScope_,
+                              _$httpBackend_) {
     prescriptionService = _prescriptionService_;
     encounterService = _encounterService_;
     conceptService = _conceptService_;
     appService = _appService_;
     $q = _$q_;
     $rootScope = _$rootScope_;
+    $http = _$httpBackend_;
   }));
 
   describe('getPatientPrescriptions', function () {
@@ -222,6 +224,34 @@ describe('prescriptionService', function () {
     xdescribe('prescription drug is ARV', function () {
 
     });
+
+  });
+
+  describe('create', function () {
+
+    var prescription = {
+      prescriptionItems: []
+    };
+
+    beforeEach(function () {
+      $http.expectPOST('/openmrs/ws/rest/v1/prescription')
+        .respond(prescription);
+    });
+
+    it('should create a prescription', function () {
+      var created = {};
+      prescriptionService.create(prescription).then(function (p) {
+        created = p;
+      });
+
+      $http.flush();
+      expect(created).toEqual(prescription);
+    });
+
+    afterEach(function () {
+      $http.verifyNoOutstandingExpectation();
+      $http.verifyNoOutstandingRequest();
+    })
 
   });
 

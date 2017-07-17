@@ -39,11 +39,21 @@
       });
     }
 
-
+    /**
+     * Creates a prescription.
+     *
+     * @param {Object} prescription Prescription to create.
+     * @returns {Promise}
+     */
     function create(prescription) {
       return $http.post(Bahmni.Common.Constants.prescriptionUrl, prescription, {
         withCredentials: true,
         headers: {"Accept": "application/json", "Content-Type": "application/json"}
+      }).then(function (response) {
+        return response.data;
+      }).catch(function (error) {
+        $log.error('XHR Failed for create. ' + error.data);
+        return $q.reject();
       });
     }
 
