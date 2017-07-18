@@ -5,12 +5,12 @@
     .module('common.prescription')
     .controller('PatientSimplifiedPrescriptionController', PatientSimplifiedPrescriptionController);
 
-  PatientSimplifiedPrescriptionController.$inject = ['$http', '$filter', '$scope', '$rootScope', '$stateParams',
+  PatientSimplifiedPrescriptionController.$inject = ['$http', '$filter', '$rootScope', '$stateParams',
     'observationsService', 'commonService', 'conceptService', 'localStorageService', 'notifier', 'spinner',
     'drugService', 'prescriptionService'];
 
   /* @ngInject */
-  function PatientSimplifiedPrescriptionController($http, $filter, $scope, $rootScope, $stateParams, observationsService,
+  function PatientSimplifiedPrescriptionController($http, $filter, $rootScope, $stateParams, observationsService,
                                                    commonService, conceptService, localStorageService, notifier, spinner,
                                                    drugService, prescriptionService) {
 
@@ -145,7 +145,7 @@
       //compare new and old regimen
       if (!_.isUndefined(vm.order.currentRegimen) && vm.order.currentRegimen.uuid !== regimen.uuid) {
         //pervent change regimen if ARV item is selected
-        var selectedArvItem = _.find($scope.listedPrescriptions, function (item) {
+        var selectedArvItem = _.find(vm.listedPrescriptions, function (item) {
           return item.isArv === true;
         });
         if (selectedArvItem) {
@@ -243,7 +243,7 @@
 
 
     function refill(drug) {
-      vm.listedPrescriptions.push(drug);
+      vm.listedPrescriptions.push(angular.copy(drug));
       vm.showNewPrescriptionsControlls = true;
     }
 
