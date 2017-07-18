@@ -2,7 +2,7 @@
     <div ng-show="!vm.prescriptiontNoResultsMessage" class="row bg-info-border bg-info content-border-margin-regular content-border-padding-regular border-rouded">
         <div class="col-sm-12 header-text-lg"><!-- last visit type and dates -->
             <img src="../../images/medical-prescription.png" class="img-responsive inline-align" width="24" height="24" alt="prescription">
-            <span><b>{{'PHARMACY_PRESCRIBED_BY' | translate}}:</b> {{vm.prescription.provider}}</span>
+            <span><b>{{'PHARMACY_PRESCRIBED_BY' | translate}}:</b> {{vm.prescription.provider.person.display}}</span>
             <span>{{'COMMON_ON' | translate}}: {{vm.prescription.prescriptionDate | date:"MMM d, y"}}</span>
         </div>
     </div>
