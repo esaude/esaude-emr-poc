@@ -65,7 +65,10 @@
      */
     // TODO: There should be only one service that loads patient prescriptions, this and getPatientNonDispensedPrescriptions should be merged.
     function getPatientPrescriptions(patient) {
-      var followupEncounters = encounterService.getPatientFollowupEncounters(patient);
+
+      var representation = "custom:(uuid,encounterDatetime,orders:(action,drug:(display,uuid),dose,doseUnits:(uuid),frequency:(uuid,display),route:(uuid),duration,durationUnits:(uuid),dosingInstructions),obs:(value:(display),concept:(uuid,display)))";
+
+      var followupEncounters = encounterService.getPatientFollowupEncounters(patient, representation);
       var prescriptionConvSetConcept = conceptService.getPrescriptionConvSetConcept();
 
       return $q.all([followupEncounters, prescriptionConvSetConcept])
@@ -97,7 +100,7 @@
         return []
       }
 
-      var markedOn = "488e6803-c7db-43b2-8911-8d5d2a8472fd";
+      var pocMappingPrescriptionDate = "488e6803-c7db-43b2-8911-8d5d2a8472fd";
 
       var fieldModels = angular.copy(Bahmni.Common.Constants.drugPrescriptionConvSet);
 
@@ -120,9 +123,9 @@
       if (dateUtil.diffInDaysRegardlessOfTime(lastEncounter.encounterDatetime, dateUtil.now()) === 0) {
         prescription.todaysEncounter = lastEncounter;
         prescription.hasEntryToday = true;
-        //find markedOn concept
+        //find pocMappingPrescriptionDate concept
         var markedOnInfo = _.find(lastEncounter.obs, function (o) {
-          return o.concept.uuid === markedOn;
+          return o.concept.uuid === pocMappingPrescriptionDate;
         });
 
         if (!_.isUndefined(markedOnInfo)) prescription.hasServiceToday = true;
@@ -130,7 +133,7 @@
 
       var filteredEncounters = _.filter(encounters, function (e) {
         var foundObs = _.find(e.obs, function (o) {
-          return o.concept.uuid === markedOn;
+          return o.concept.uuid === pocMappingPrescriptionDate;
         });
         return angular.isDefined(foundObs);
       });
@@ -157,7 +160,7 @@
 
         //start composing orders
         var prescriptionDateObs = _.find(encounter.obs, function (o) {
-          return o.concept.uuid === markedOn;
+          return o.concept.uuid === pocMappingPrescriptionDate;
         });
 
         var encounterOrder = {

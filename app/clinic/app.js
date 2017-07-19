@@ -63,6 +63,7 @@ angular
                 url: '/prescription',
                 templateUrl: '../common/prescription/views/patient-simplified-prescriptions.html',
                 controller: 'PatientSimplifiedPrescriptionController',
+                controllerAs: 'vm',
                 resolve: { initialization: 'initialization' }
             })
             .state('dashboard.consultation', {

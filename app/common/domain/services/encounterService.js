@@ -186,7 +186,7 @@
     // };
 
     function getEncountersForEncounterType(patientUuid, encounterTypeUuid, v) {
-      if (typeof v === "undefined") {
+      if (!v) {
         v = "custom:(uuid,encounterDatetime,provider,voided,visit:(uuid,startDatetime,stopDatetime),obs:(uuid,concept:(uuid,name),obsDatetime,value,groupMembers:(uuid,concept:(uuid,name),order,obsDatetime,value)))";
       }
       return $http.get(Bahmni.Common.Constants.encounterUrl, {
@@ -201,24 +201,25 @@
 
 
     /**
-     * @param {Object} patient
-     * @returns {Array} Non retired followup encounters for patient oredered by most recent
+     * @param {Object} patient Patient.
+     * @param {String} [representation=full] Resource representation.
+     * @returns {Promise} Non retired followup encounters for patient ordered by most recent.
      */
-    function getPatientFollowupEncounters(patient) {
+    function getPatientFollowupEncounters(patient, representation) {
       if (patient.age.years > PATIENT_CHILD_AGE) {
-        return getPatientAdultFollowupEncounters(patient.uuid, "full");
+        return getPatientAdultFollowupEncounters(patient.uuid, representation);
       }
-      return getPatientChildFollowupEncounters(patient.uuid, "full");
+      return getPatientChildFollowupEncounters(patient.uuid, representation);
     }
 
 
     /**
-     * @param {String} patientUUID
-     * @param {String} [v] Resouce reprentation.
-     * @returns {Array} Non retired adult followup encounters for patient ordered by most recent.
+     * @param {String} patientUUID Patient UUID.
+     * @param {String} [representation=full] Resouce reprentation.
+     * @returns {Promise} Non retired adult followup encounters for patient ordered by most recent.
      */
-    function getPatientChildFollowupEncounters(patientUUID, v) {
-      return getEncountersForEncounterType(patientUUID, CHILD_FOLLOWUP_ENCOUNTER_TYPE_UUID, v)
+    function getPatientChildFollowupEncounters(patientUUID, representation) {
+      return getEncountersForEncounterType(patientUUID, CHILD_FOLLOWUP_ENCOUNTER_TYPE_UUID, representation || "full")
         .then(function (response) {
           return _.flow([filterRetiredEncoounters, sortByEncounterDateTime, _.reverse])(response.data.results);
         })
@@ -230,12 +231,12 @@
 
 
     /**
-     * @param {String} patientUUID
-     * @param {String} [v] Resouce reprentation.
-     * @returns {Array} Non retired adult followup encounters for patient ordered by most recent.
+     * @param {String} patientUUID Patient UUID.
+     * @param {String} [representation=full] Resouce reprentation.
+     * @returns {Promise} Non retired adult followup encounters for patient ordered by most recent.
      */
-    function getPatientAdultFollowupEncounters(patientUUID, v) {
-      return getEncountersForEncounterType(patientUUID, ADULT_FOLLOWUP_ENCOUNTER_TYPE_UUID, v)
+    function getPatientAdultFollowupEncounters(patientUUID, representation) {
+      return getEncountersForEncounterType(patientUUID, ADULT_FOLLOWUP_ENCOUNTER_TYPE_UUID, representation || "full")
         .then(function (response) {
           return _.flow([filterRetiredEncoounters, sortByEncounterDateTime, _.reverse])(response.data.results);
         })
@@ -247,9 +248,9 @@
 
 
     /**
-     * @param {String} patientUuid Patient UUID
+     * @param {String} patientUuid Patient UUID.
      * @param {String} [v] Resouce reprentation.
-     * @returns {Array} Non retired pharmacy encounters for patient ordered by most recent.
+     * @returns {Promise} Non retired pharmacy encounters for patient ordered by most recent.
      */
     function getPatientFilaEncounters(patientUuid, v) {
 
