@@ -6,35 +6,38 @@ angular.module('registration')
 
                 var dateUtil = Bahmni.Common.Util.DateUtil;
 
+                var vm = this;
+                vm.patient = $scope.patient;
+
                 (function () {
-                    $scope.showMessages = false;
-                    $scope.today = dateUtil.getDateWithoutTime(dateUtil.now());
+                    vm.showMessages = false;
+                    vm.today = dateUtil.getDateWithoutTime(dateUtil.now());
                     //get patient identifier types
                     var searchPromise = patientService.getIdentifierTypes();
 
                     searchPromise.success(function (data) {
-                        $scope.patientIdentifierTypes = data.results;
+                        vm.patientIdentifierTypes = data.results;
                     });
                     searchPromise['finally'](function () {
                     });
                     spinner.forPromise(searchPromise);
                 })();
 
-                $scope.listRequiredIdentifiers = function () {
-                    if (!_.isEmpty($scope.patient.identifiers)) {
+                vm.listRequiredIdentifiers = function () {
+                    if (!_.isEmpty(vm.patient.identifiers)) {
                         //set identifier fieldName
-                        _.forEach ($scope.patient.identifiers, function (identifier) {
+                        _.forEach (vm.patient.identifiers, function (identifier) {
                             var fieldName = identifier.identifierType.display.trim().replace(/[^a-zA-Z0-9]/g, '');
                             identifier.fieldName = fieldName;
                         });
                         return;
                     }-
                     patientService.getIdentifierTypes().success(function (data) {
-                        $scope.patientIdentifierTypes = data.results;
+                        vm.patientIdentifierTypes = data.results;
                         _.forEach (data.results, function (value) {
                             if (value.required) {
                                 var fieldName = value.name.trim().replace(/[^a-zA-Z0-9]/g, '');
-                                $scope.patient.identifiers.push({identifierType: value,
+                                vm.patient.identifiers.push({identifierType: value,
                                     identifier: null, preferred: false,
                                     location: localStorageService.cookie.get("emr.location").uuid,
                                     fieldName : fieldName});
@@ -44,64 +47,64 @@ angular.module('registration')
                 };
 
 
-                $scope.selectIdentifierType = function () {
+                vm.selectIdentifierType = function () {
 
-                    $scope.errorMessage = null;
+                    vm.errorMessage = null;
 
-                    var patientIdentifierType = $scope.patient.patientIdentifierType;
+                    var patientIdentifierType = vm.patient.patientIdentifierType;
                     if (patientIdentifierType !== null) {
                         //validate already contained
-                        var found = _.find($scope.patient.identifiers, function (chr) {
+                        var found = _.find(vm.patient.identifiers, function (chr) {
                             return chr.identifierType.display === patientIdentifierType.display;
                         });
 
                         if(found === undefined) {
                             var fieldName = patientIdentifierType.name.trim().replace(/[^a-zA-Z0-9]/g, '');
 
-                            $scope.patient.identifiers.push({identifierType: patientIdentifierType,
+                            vm.patient.identifiers.push({identifierType: patientIdentifierType,
                                 identifier: null, preferred: false,
                                 location: localStorageService.cookie.get("emr.location").uuid,
                                 fieldName : fieldName
                             });
 
                         } else {
-                            $scope.errorMessage = "PATIENT_INFO_IDENTIFIER_ERROR_EXISTING";
+                            vm.errorMessage = "PATIENT_INFO_IDENTIFIER_ERROR_EXISTING";
                         }
                     }
                 };
 
-                $scope.removeIdentifier = function (identifier) {
-                    $scope.errorMessage = null;
+                vm.removeIdentifier = function (identifier) {
+                    vm.errorMessage = null;
 
-                    _.pull($scope.patient.identifiers, identifier);
+                    _.pull(vm.patient.identifiers, identifier);
                 };
 
-                $scope.setPreferredId = function (identifier) {
-                    angular.forEach($scope.patient.identifiers, function (p) {
+                vm.setPreferredId = function (identifier) {
+                    angular.forEach(vm.patient.identifiers, function (p) {
                         if (p.identifierType.uuid !== identifier.identifierType.uuid) {
                             p.preferred = false; //set them all to false
                         }
                     });
                 };
 
-                $scope.stepForward = function (sref, validity) {
+                vm.stepForward = function (sref, validity) {
                     if (validity) {
-                        $scope.showMessages = false;
-                        $state.go($scope.srefPrefix + sref);
+                        vm.showMessages = false;
+                        $state.go(vm.srefPrefix + sref);
                     } else {
-                        $scope.showMessages = true;
+                        vm.showMessages = true;
                     }
                 };
 
-                $scope.getAutoCompleteList = function (attributeName, query, type) {
+                vm.getAutoCompleteList = function (attributeName, query, type) {
                     return patientAttributeService.search(attributeName, query, type);
                 };
 
-                $scope.getDataResults = function (data) {
+                vm.getDataResults = function (data) {
                     return  data.results;
                 };
 
-                $scope.getDeathConcepts = function () {
+                vm.getDeathConcepts = function () {
                     var deathConcept;
                     var deathConceptValue;
                     $http({
@@ -122,8 +125,8 @@ angular.module('registration')
                                 },
                                 withCredentials: true
                             }).then(function (results) {
-                                $scope.deathConcepts = results.data.results[0]!=null ? results.data.results[0].answers:[];
-                                $scope.deathConcepts = filterRetireDeathConcepts($scope.deathConcepts);
+                                vm.deathConcepts = results.data.results[0]!=null ? results.data.results[0].answers:[];
+                                vm.deathConcepts = filterRetireDeathConcepts(vm.deathConcepts);
                             });
                         }]
                     });
@@ -135,13 +138,13 @@ angular.module('registration')
                     });
                 };
 
-                $scope.selectIsDead = function(){
-                    if($scope.patient.causeOfDeath != null ||$scope.patient.deathDate != null){
-                        $scope.patient.dead = true;
+                vm.selectIsDead = function(){
+                    if(vm.patient.causeOfDeath != null ||vm.patient.deathDate != null){
+                        vm.patient.dead = true;
                     }
                 };
 
-                $scope.disableIsDead = function(){
-                    return ($scope.patient.causeOfDeath != null || $scope.patient.deathDate != null) && $scope.patient.dead;
+                vm.disableIsDead = function(){
+                    return (vm.patient.causeOfDeath != null || vm.patient.deathDate != null) && vm.patient.dead;
                 };
         }]);
