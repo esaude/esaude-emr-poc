@@ -231,6 +231,7 @@
     "COMMON_MESSAGE_ERROR_ITEM_ALREADY_IN_LIST": "The selected item is already in the list",
     "COMMON_MESSAGE_ERROR_ARV_ITEM_ALREADY_IN_LIST": "There can be only one ARV item listed",
     "COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED": "Action completed successfully",
+    "COMMON_MESSAGE_ERROR_ACTION": "Action completed with error. Please contact your system admin",
     "COMMON_MESSAGE_INFO_ACTION_COMPLETED_TODAY": "This action was already completed today",
     "COMMON_MESSAGE_COULD_NOT_CREATE_PRESCRIPTION": "Could not create this prescription",
     "CLINIC_PRESCRIPTION_DRUG": "Drug",
