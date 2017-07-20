@@ -1,20 +1,38 @@
 <div ng-include src="'../../common/patient/header/views/header.html'"></div><!--patient header -->
 
 <div class="row bg-info-border content-border border-rouded-top"><!-- program header controls -->
-    <ul class="nav nav-tabs">
-        <li role="presentation" data-toggle="tab"><a ui-sref="detailpatient.identifiers">{{'PATIENT_INFO_IDENTIFIERS' | translate}}</a></li>
-        <li role="presentation" data-toggle="tab" class="active"><a ui-sref="detailpatient.demographic">{{'PATIENT_INFO_DEMOGRAPHICS' | translate}}</a></li>
-        <li role="presentation" data-toggle="tab" class="active"><a ui-sref="detailpatient.addresses">{{'PATIENT_INFO_ADDRESSES' | translate}}</a></li>
-        <li role="presentation" data-toggle="tab" class="active"><a ui-sref="detailpatient.attributes">{{'PATIENT_INFO_OTHERS' | translate}}</a></li>
-        <li role="presentation" data-toggle="tab" class="active"><a ui-sref="detailpatient.death">{{'PATIENT_INFO_DEATH' | translate}}</a></li>
-    </ul>
-    <div ui-view=""></div>
+
+  <uib-tabset active="active">
+
+    <uib-tab index="0" heading="{{'PATIENT_INFO_IDENTIFIERS' | translate}}">
+      <div ng-include src="'../patient-details/views/patient-identifiers.html'"></div>
+    </uib-tab>
+
+    <uib-tab index="1" heading="{{'PATIENT_INFO_DEMOGRAPHICS' | translate}}">
+      <div ng-include src="'../patient-details/views/patient-demographics.html'"></div>
+    </uib-tab>
+
+    <uib-tab index="2" heading="{{'PATIENT_INFO_ADDRESSES' | translate}}">
+      <div ng-include src="'../patient-details/views/patient-addresses.html'"></div>
+    </uib-tab>
+
+    <uib-tab index="3" heading="{{'PATIENT_INFO_OTHERS' | translate}}">
+      <div ng-include src="'../patient-details/views/patient-attributes.html'"></div>
+    </uib-tab>
+
+    <uib-tab index="4" heading="{{'PATIENT_INFO_DEATH' | translate}}">
+      <div ng-include src="'../patient-details/views/patient-death.html'"></div>
+    </uib-tab>
+
+  </uib-tabset>
+
 </div><!-- program header controls -->
+
 <div class="row bg-info-border content-border border-rouded-bottom go-to-right"><!-- visit header controls -->
-    <button type="button" class="btn btn-warning btn-lg" ng-click="vm.linkDashboard()">
+    <button type="button" class="btn btn-warning btn-lg" ng-click="patientCommon.linkDashboard()">
         <span class="glyphicon glyphicon-step-backward"></span>
     </button>
-    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addVisitModal" ng-click="vm.print()">
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addVisitModal" ng-click="patientCommon.print()">
         <span class="glyphicon glyphicon glyphicon-print"></span>
     </button>
 </div><!-- visit header controls -->

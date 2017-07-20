@@ -19,6 +19,6 @@ angular.module('social')
             };
 
             $scope.linkPatientDetail = function() {
-                $location.url("/patient/detail/" + patientUuid + "/demographic"); // path not hash
+                $location.url("/patient/detail/" + patientUuid); // path not hash
             };
         }]);
