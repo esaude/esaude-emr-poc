@@ -83,36 +83,11 @@ angular
                 'layout': {
                   templateUrl: '../common/application/views/layout.html',
                   controller: 'DetailPatientController',
-                  controllerAs: 'vm'
+                  controllerAs: 'patientCommon'
                 },
                 'content@detailpatient': {templateUrl: '../patient-details/views/patient-details.html'}
               },
               resolve: {initialization: 'initialization'}
-            })
-            .state('detailpatient.demographic', {
-                url: '/demographic',
-                templateUrl: '../patient-details/views/patient-demographics.html',
-                resolve: { initialization: 'initialization' }
-            })
-            .state('detailpatient.addresses', {
-                url: '/addresses',
-                templateUrl: '../patient-details/views/patient-addresses.html',
-                resolve: { initialization: 'initialization' }
-            })
-            .state('detailpatient.attributes', {
-                url: '/attributes',
-                templateUrl: '../patient-details/views/patient-attributes.html',
-                resolve: { initialization: 'initialization' }
-            })
-            .state('detailpatient.identifiers', {
-                url: '/identifiers',
-                templateUrl: '../patient-details/views/patient-identifiers.html',
-                resolve: { initialization: 'initialization' }
-            })
-            .state('detailpatient.death', {
-                url: '/death',
-                templateUrl: '../patient-details/views/patient-death.html',
-                resolve: { initialization: 'initialization' }
             });
 
             $stateProviderRef = $stateProvider;

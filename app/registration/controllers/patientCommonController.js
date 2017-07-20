@@ -12,10 +12,12 @@
                                    spinner) {
 
     var dateUtil = Bahmni.Common.Util.DateUtil;
+    var patientConfiguration = $scope.patientConfiguration;
 
     // TODO: Remove dependency on $scope!
     var vm = this;
     vm.patient = $scope.patient;
+    vm.patientAttributes = [];
     vm.patientIdentifierTypes = [];
     vm.showMessages = false;
     vm.srefPrefix = $scope.srefPrefix;
@@ -38,9 +40,17 @@
     ////////////////
 
     function activate() {
+
+      angular.forEach(patientConfiguration.customAttributeRows(), function (value) {
+        angular.forEach(value, function (value) {
+          vm.patientAttributes.push(value);
+        });
+      });
+
       var load = getIdentifierTypes().then(function (identifierTypes) {
         vm.patientIdentifierTypes = identifierTypes;
       });
+
       spinner.forPromise(load);
     }
 

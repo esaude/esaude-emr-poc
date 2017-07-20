@@ -13,15 +13,6 @@ angular.module('registration')
                     });
                 })();
 
-                $scope.initAttributes = function() {
-                    $scope.patientAttributes = [];
-                    angular.forEach($scope.patientConfiguration.customAttributeRows(), function (value) {
-                        angular.forEach(value, function (value) {
-                            $scope.patientAttributes.push(value);
-                        });
-                    });
-                };
-
                 $scope.save = function () {
                     patientService.update($scope.patient, $scope.openMRSPatient).success(successCallback);
                 };
