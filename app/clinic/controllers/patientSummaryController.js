@@ -4,10 +4,10 @@
         .controller('PatientSummaryController', PatientSummaryController);
 
     PatientSummaryController.$inject = ['$rootScope', '$stateParams',
-                        'encounterService', 'observationsService', 'commonService', 'orderService', '$filter'];
+                        'encounterService', 'observationsService', 'commonService', 'orderService', '$filter', 'spinner'];
 
     function PatientSummaryController($rootScope, $stateParams, encounterService,
-                    observationsService, commonService, orderService, $filter) {
+                    observationsService, commonService, orderService, $filter, spinner) {
         
         var patientUuid = $stateParams.patientUuid;
         var vm = this;
@@ -48,19 +48,19 @@
         };
 
         function updateDisplayLimit(item) {
-            initVisitHistory();
-            initLabResults();
-            initDiagnosis();
-            initICD10Diagnosis();
-            initPharmacyPickups();
-            initPharmacyPickupsNew();
-            initPrescriptions();
-            initAllergies();
-            initVitals();
+            spinner.forPromise(initVisitHistory()
+                .then(initLabResults())
+                .then(initDiagnosis())
+                .then(initICD10Diagnosis())
+                .then(initPharmacyPickups())
+                .then(initPharmacyPickupsNew())
+                .then(initPrescriptions())
+                .then(initAllergies())
+                .then(initVitals()));
         };
 
         function initVisitHistory() {
-            encounterService.getEncountersOfPatient(patientUuid).success(function (data) {
+            return encounterService.getEncountersOfPatient(patientUuid).success(function (data) {
           vm.visits = dropSizeToLimit(commonService.filterGroupReverse(data));
             });
         };
@@ -68,7 +68,7 @@
         function initLabResults() {
             var labEncounterUuid = "e2790f68-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
 
-            encounterService.getEncountersForEncounterType(patientUuid, labEncounterUuid).success(function (data) {
+            return encounterService.getEncountersForEncounterType(patientUuid, labEncounterUuid).success(function (data) {
                 vm.labs = commonService.filterGroupReverse(data);
             });
         };
@@ -90,7 +90,7 @@
                 "e1dce93a-1d5f-11e0-b929-000c29ad1d07"
             ];//TODO: create in configuration file
 
-            observationsService.findAll(patientUuid).success (function (data) {
+            return observationsService.findAll(patientUuid).success (function (data) {
                 var filtered = observationsService.filterByList(data.results, concepts);//TODO: filter must be dome in backend system
                 var ordered = _.sortBy(filtered, function (obs) {
                     return obs.obsDatetime;
@@ -102,7 +102,7 @@
         function initICD10Diagnosis() {
             var concept = "e1eb7806-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
 
-            observationsService.get(patientUuid, concept).success (function (data) {
+            return observationsService.get(patientUuid, concept).success (function (data) {
                 var filtered = commonService.filterRetired(data.results);//TODO: filter must be dome in backend system
                 vm.icdDiagnosis = dropSizeToLimit(filtered);
             });
@@ -111,7 +111,7 @@
         function initPharmacyPickups() {
             var pharmacyEncounterUuid = "e279133c-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
 
-            encounterService.getEncountersForEncounterType(patientUuid, pharmacyEncounterUuid).success(function (data) {
+            return encounterService.getEncountersForEncounterType(patientUuid, pharmacyEncounterUuid).success(function (data) {
                 vm.pickups = dropSizeToLimit(commonService.filterGroupReverse(data));
             });
         };
@@ -120,7 +120,7 @@
             var patientUuid = $stateParams.patientUuid;
             var pharmacyEncounterTypeUuid = "18fd49b7-6c2b-4604-88db-b3eb5b3a6d5f";
 
-            encounterService.getEncountersForEncounterType(patientUuid, pharmacyEncounterTypeUuid).success(function (data) {
+            return encounterService.getEncountersForEncounterType(patientUuid, pharmacyEncounterTypeUuid).success(function (data) {
                 var nonRetired = prepareDispenses(commonService.filterReverse(data));
                 vm.newPickups = dropSizeToLimit(nonRetired);
 
@@ -157,7 +157,7 @@
             var adultFollowupEncounterUuid = Bahmni.Common.Constants.adultFollowupEncounterUuid;
             var childFollowupEncounterUuid = Bahmni.Common.Constants.childFollowupEncounterUuid;
 
-            encounterService.getEncountersForEncounterType(patient.uuid,
+            return encounterService.getEncountersForEncounterType(patient.uuid,
             (patient.age.years >= 15) ? adultFollowupEncounterUuid : childFollowupEncounterUuid)
                     .success(function (data) {
                         var filteredResults = commonService.filterGroupReverseFollowupObs(concepts, data.results);
@@ -207,7 +207,7 @@
 
             var patient = commonService.deferPatient($rootScope.patient);
 
-            encounterService.getEncountersForEncounterType(patient.uuid,
+            return encounterService.getEncountersForEncounterType(patient.uuid,
             (patient.age.years >= 15) ? adultFollowupEncounterUuid : childFollowupEncounterUuid)
                     .success(function (data) {
                         vm.allergies = dropSizeToLimit(commonService.filterGroupReverseFollowupObs(concepts, data.results));
@@ -228,7 +228,7 @@
 
             var patient = commonService.deferPatient($rootScope.patient);
 
-            encounterService.getEncountersForEncounterType(patient.uuid,
+            return encounterService.getEncountersForEncounterType(patient.uuid,
             (patient.age.years >= 15) ? adultFollowupEncounterUuid : childFollowupEncounterUuid)
                     .success(function (data) {
                         vm.vitals = dropSizeToLimit(commonService.filterGroupReverseFollowupObs(concepts, data.results));
