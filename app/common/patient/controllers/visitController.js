@@ -62,11 +62,12 @@ angular.module('common.patient')
                     var now = dateUtil.now();
 
                     //is last visit todays
-                    if (dateUtil.parseDatetime(lastVisit.startDatetime) <= now &&
-                        dateUtil.parseDatetime(lastVisit.stopDatetime) >= now) {
-                        $scope.todayVisit = lastVisit;
-                        $scope.disableCheckin = true;
-                    }
+                  if (lastVisit
+                        && dateUtil.parseDatetime(lastVisit.startDatetime) <= now
+                        && dateUtil.parseDatetime(lastVisit.stopDatetime) >= now) {
+                    $scope.todayVisit = lastVisit;
+                    $scope.disableCheckin = true;
+                  }
                 }
             };
 
