@@ -202,10 +202,9 @@
       var dispensation = {
 
         providerUuid: $rootScope.currentUser.person.uuid,
-
         patientUuid: $rootScope.patient.uuid,
-
         locationUuid: localStorageService.cookie.get("emr.location").uuid,
+        prescriptionEncounter: vm.prescription.prescriptionEncounter,
 
         dispensationItems: []
       };
@@ -218,7 +217,6 @@
           quantityToDispense: item.quantity ? item.quantity : item.drugOrder.quantity,
           quantityDispensed: item.drugPickedUp,
           dateOfNextPickUp: item.nextPickupDate,
-          prescriptionUuid: item.drugOrder.encounter.uuid,
           regimeUuid: (item.regime) ? item.regime.uuid : null
         };
 

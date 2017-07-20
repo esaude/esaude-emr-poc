@@ -22,5 +22,11 @@
 	"PHARMACY_LAST_PICK_UP" : "Último Levantamento",
 	"PHARMACY_THE_SELECTED_DRUG_IS_NOT_PART_OF_PRESCRIBED" : "O Medicamento Seleccionado não consta na lista de items da prescrição!",
 	"CLINIC_PATIENT_PRESCRIPTIONS": "Prescrições",
-  "PRESCRIPTION_DATE": "Data da Prescrição"
+  "PRESCRIPTION_DATE": "Data da Prescrição",
+  "PHARMACY_CANCEL_PRESCRIPTION": "Cancelar Prescrição",
+  "PHARMACY_CANCEL_PRESCRIPTIONS_REASON": "Motivo de Cancelamento",
+  "PHARMACY_STATUS": "Estado",
+  "PHARMACY_ACTIVE": "Ativo",
+  "PHARMACY_FINALIZED": "Finalizado",
+  "PHARMACY_CANCEL": "Cancelar"
 }
