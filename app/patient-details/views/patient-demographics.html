@@ -1,14 +1,14 @@
 <ul class="list-group content-border-margin-regular">
     <li class="list-group-item">
-        <b>{{'PATIENT_INFO_NAMES' | translate}}: </b> {{vm.patient.givenName}} {{vm.patient.middleName}} {{vm.patient.familyName}}
+        <b>{{'PATIENT_INFO_NAMES' | translate}}: </b> {{patientCommon.patient.givenName}} {{patientCommon.patient.middleName}} {{patientCommon.patient.familyName}}
     </li>
     <li class="list-group-item">
-        <b>{{'PATIENT_INFO_GENDER' | translate}}: </b> {{vm.patient.gender}}
+        <b>{{'PATIENT_INFO_GENDER' | translate}}: </b> {{patientCommon.patient.gender}}
     </li>
     <li class="list-group-item">
-        <b>{{'PATIENT_INFO_BIRTHDATE' | translate}}: </b> {{vm.patient.birthdate | date:"MM/dd/yyyy"}} <b> {{'PATIENT_INFO_ESTIMATED' | translate}}: </b> {{(vm.patient.birthdateEstimated == true)? 'COMMON_YES' : 'COMMON_NO' | translate}}
+        <b>{{'PATIENT_INFO_BIRTHDATE' | translate}}: </b> {{patientCommon.patient.birthdate | date:"MM/dd/yyyy"}} <b> {{'PATIENT_INFO_ESTIMATED' | translate}}: </b> {{(patientCommon.patient.birthdateEstimated == true)? 'COMMON_YES' : 'COMMON_NO' | translate}}
     </li>
     <li class="list-group-item">
-        <b>{{'PATIENT_INFO_AGE' | translate}}: </b> {{vm.patient.age.years}}
+        <b>{{'PATIENT_INFO_AGE' | translate}}: </b> {{patientCommon.patient.age.years}}
     </li>
 </ul>
