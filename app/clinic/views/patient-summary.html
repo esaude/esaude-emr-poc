@@ -1,11 +1,23 @@
 <div class="row content-border-margin-regular">
+
+    <div class="col-sm-12">
+        <div class="form-group form-group-lg">
+          <div class="col-sm-1">
+            <select name="displayLimit" class="form-control" ng-model="vm.displayLimit"
+                    ng-options="item.display for item in vm.displayLimits track by item.id" ng-change="vm.updateDisplayLimit(item)">
+            </select>
+          </div>
+        </div>
+
+    </div>
+
     <div class="col-sm-6">
-      <div class="panel panel-primary panel-marginless-sides" ng-init="initVisitHistory()"
+      <div class="panel panel-primary panel-marginless-sides" ng-init="vm.initVisitHistory()"
            ng-click="showDivVisit=!showDivVisit">
             <div class="panel-heading">
-                <h3 class="panel-title">{{'CLINIC_PATIENT_VISIT_HISTORY' | translate}}</h3>
+                <span ng-class="{'glyphicon glyphicon-chevron-down': showDivVisit, 'glyphicon glyphicon-chevron-up': !showDivVisit}" class="pull-right"></span><h3 class="panel-title">{{'CLINIC_PATIENT_VISIT_HISTORY' | translate}}</h3>
             </div>
-        <div class="list-group" ng-repeat="visit in visits" ng-hide="showDivVisit">
+        <div class="list-group" ng-repeat="visit in vm.visits" ng-hide="showDivVisit">
                 <div class="bg-info content-border-padding-li">
                     {{'CLINIC_PATIENT_VISIT' | translate}} {{'COMMON_ON' | translate}} {{visit[0].encounterDatetime | date:"MMM d, y"}}
                 </div>
@@ -17,31 +29,31 @@
             </div>
         </div>
 
-      <div class="panel panel-primary panel-marginless-sides" ng-init="initDiagnosis()"
+        <div class="panel panel-primary panel-marginless-sides" ng-init="vm.initDiagnosis()"
            ng-click="showDivDiagnosis=!showDivDiagnosis">
             <div class="panel-heading">
-                <h3 class="panel-title">{{'CLINIC_PATIENT_DIAGNOSIS' | translate}}</h3>
+                <span ng-class="{'glyphicon glyphicon-chevron-down': showDivDiagnosis, 'glyphicon glyphicon-chevron-up': !showDivDiagnosis}" class="pull-right"></span><h3 class="panel-title">{{'CLINIC_PATIENT_DIAGNOSIS' | translate}}</h3>
             </div>
         	<table class="table" ng-hide="showDivDiagnosis">
                 <tbody>
-                    <tr ng-repeat="diagn in diagnosis">
+                    <tr ng-repeat="diagn in vm.diagnosis">
                         <td>{{diagn.concept.name.display}}</td>
-                        <td>{{isObject(diagn.value) ? diagn.value.display : diagn.value}}</td>
+                        <td>{{vm.isObject(diagn.value) ? diagn.value.display : diagn.value}}</td>
                         <td>{{'CLINIC_PATIENT_DIAGNOSED' | translate}} {{'COMMON_ON' | translate}} {{diagn.obsDatetime | date:"MMM d, y"}}</td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <div class="panel panel-primary panel-marginless-sides" ng-init="initICD10Diagnosis()"
+        <div class="panel panel-primary panel-marginless-sides" ng-init="vm.initICD10Diagnosis()"
            ng-click="showDivICD10Diagnosis=!showDivICD10Diagnosis">
             <div class="panel-heading">
-                <h3 class="panel-title">{{'CLINIC_PATIENT_DIAGNOSIS_ICD10' | translate}}</h3>
+                <span ng-class="{'glyphicon glyphicon-chevron-down': showDivICD10Diagnosis, 'glyphicon glyphicon-chevron-up': !showDivICD10Diagnosis}" class="pull-right"></span><h3 class="panel-title">{{'CLINIC_PATIENT_DIAGNOSIS_ICD10' | translate}}</h3>
             </div>
         	<table class="table" ng-hide="showDivICD10Diagnosis">
                 <tbody>
-                    <tr ng-repeat="diagn in icdDiagnosis">
-                        <td>{{isObject(diagn.value) ? diagn.value.display : diagn.value}}</td>
+                    <tr ng-repeat="diagn in vm.icdDiagnosis">
+                        <td>{{vm.isObject(diagn.value) ? diagn.value.display : diagn.value}}</td>
                         <td>{{'CLINIC_PATIENT_DIAGNOSED' | translate}} {{'COMMON_ON' | translate}} {{diagn.obsDatetime | date:"MMM d, y"}}</td>
                         <td>{{'COMMON_BY' | translate}} {{diagn.encounter.provider.display}}</td>
                     </tr>
@@ -49,12 +61,12 @@
             </table>
         </div>
 
-      <div class="panel panel-primary panel-marginless-sides" ng-init="initPrescriptions()"
+      <div class="panel panel-primary panel-marginless-sides" ng-init="vm.initPrescriptions()"
            ng-click="showDivPrescriptions=!showDivPrescriptions">
             <div class="panel-heading">
-                <h3 class="panel-title">{{'CLINIC_PATIENT_PRESCRIPTIONS' | translate}}/{{'CLINIC_PATIENT_REGIMENS' | translate}}</h3>
+                <span ng-class="{'glyphicon glyphicon-chevron-down': showDivPrescriptions, 'glyphicon glyphicon-chevron-up': !showDivPrescriptions}" class="pull-right"></span><h3 class="panel-title">{{'CLINIC_PATIENT_PRESCRIPTIONS' | translate}}/{{'CLINIC_PATIENT_REGIMENS' | translate}}</h3>
             </div>
-        <div class="list-group" ng-repeat="presc in prescriptions" ng-hide="showDivPrescriptions">
+        <div class="list-group" ng-repeat="presc in vm.prescriptions" ng-hide="showDivPrescriptions">
                 <div class="bg-info content-border-padding-li">
                     {{'CLINIC_PATIENT_PRESCRIBED' | translate}} {{'COMMON_ON' | translate}} {{presc.prescriptionDate | date:"MMM d, y"}}
                 </div>
@@ -89,31 +101,31 @@
             </div>
         </div>
 
-      <div class="panel panel-primary panel-marginless-sides" ng-init="initVitals()"
+      <div class="panel panel-primary panel-marginless-sides" ng-init="vm.initVitals()"
            ng-click="showDivVitals=!showDivVitals">
             <div class="panel-heading">
-                <h3 class="panel-title">{{'CLINIC_PATIENT_VITALS' | translate}}</h3>
+                <span ng-class="{'glyphicon glyphicon-chevron-down': showDivVitals, 'glyphicon glyphicon-chevron-up': !showDivVitals}" class="pull-right"></span><h3 class="panel-title">{{'CLINIC_PATIENT_VITALS' | translate}}</h3>
             </div>
-        <div class="list-group" ng-repeat="encounter in vitals" ng-hide="showDivVitals">
+        <div class="list-group" ng-repeat="encounter in vm.vitals" ng-hide="showDivVitals">
                 <div class="bg-info content-border-padding-li">
                     {{'CLINIC_PATIENT_CAPTURED' | translate}} {{'COMMON_ON' | translate}} {{encounter.encounterDatetime | date:"MMM d, y"}}
                 </div>
                 <div ng-repeat="obs in encounter.obs">
                     <div class="list-group-item">
                       {{obs.concept.name.display}}:
-                        <span class="badge">{{isObject(obs.value) ? obs.value.display : obs.value}}</span>
+                        <span class="badge">{{vm.isObject(obs.value) ? obs.value.display : obs.value}}</span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="col-sm-6">
-      <div class="panel panel-primary panel-marginless-sides" ng-init="initLabResults()"
+      <div class="panel panel-primary panel-marginless-sides" ng-init="vm.initLabResults()"
            ng-click="showDivLAB=!showDivLAB">
             <div class="panel-heading">
-                <h3 class="panel-title">{{'CLINIC_PATIENT_LAB' | translate}}</h3>
+                <span ng-class="{'glyphicon glyphicon-chevron-down': showDivLAB, 'glyphicon glyphicon-chevron-up': !showDivLAB}" class="pull-right"></span><h3 class="panel-title">{{'CLINIC_PATIENT_LAB' | translate}}</h3>
             </div>
-        <div class="list-group" ng-repeat="visit in labs" ng-hide="showDivLAB">
+        <div class="list-group" ng-repeat="visit in vm.labs" ng-hide="showDivLAB">
                 <div class="bg-info content-border-padding-li">
                     {{'CLINIC_PATIENT_COLLECTED' | translate}} {{'COMMON_ON' | translate}} {{visit[0].encounterDatetime | date:"MMM d, y"}}
                 </div>
@@ -123,14 +135,14 @@
                             <div ng-repeat="member in obs.groupMembers">
                                 <div class="list-group-item">
                                     {{obs.concept.name.display}} - {{member.concept.name.display}}:
-                                    <span class="badge">{{isObject(member.value) ? member.value.display : member.value}}</span>
+                                    <span class="badge">{{vm.isObject(member.value) ? member.value.display : vm.filterDate(member)}}</span>
                                 </div>
                             </div>
                         </div>
                         <div ng-if="!obs.groupMembers">
                             <div class="list-group-item">
                               {{obs.concept.name.display}}:
-                                <span class="badge">{{isObject(obs.value) ? obs.value.display : obs.value}}</span>
+                                <span class="badge">{{vm.isObject(obs.value) ? obs.value.display : vm.filterDate(obs)}}</span>
                             </div>
                         </div>
                     </div>
@@ -138,31 +150,31 @@
             </div>
         </div>
 
-        <div class="panel panel-primary panel-marginless-sides" ng-init="initPharmacyPickups()"
+        <div class="panel panel-primary panel-marginless-sides" ng-init="vm.initPharmacyPickups()"
                ng-click="showDivPharmacy=!showDivPharmacy">
             <div class="panel-heading">
-                <h3 class="panel-title">{{'CLINIC_PATIENT_PHARMACY_ARV' | translate}}</h3>
+                <span ng-class="{'glyphicon glyphicon-chevron-down': showDivPharmacy, 'glyphicon glyphicon-chevron-up': !showDivPharmacy}" class="pull-right"></span><h3 class="panel-title">{{'CLINIC_PATIENT_PHARMACY_ARV' | translate}}</h3>
             </div>
-            <div class="list-group" ng-repeat="visit in pickups" ng-hide="showDivPharmacy">
+            <div class="list-group" ng-repeat="visit in vm.pickups" ng-hide="showDivPharmacy">
                 <div class="bg-info content-border-padding-li">
                         {{'CLINIC_PATIENT_DISPENSED' | translate}} {{'COMMON_ON' | translate}} {{visit[0].encounterDatetime | date:"MMM d, y"}}
                 </div>
                 <div ng-repeat="encounter in visit">
                     <div ng-repeat="obs in encounter.obs" class="list-group-item">
                           {{obs.concept.name.display}}:
-                            <span class="badge">{{isObject(obs.value) ? obs.value.display : obs.value}}</span>
+                            <span class="badge">{{vm.isObject(obs.value) ? obs.value.display : vm.filterDate(obs)}}</span>
                     </div>
                 </div>
             </div>
           </div>
 
-          <div class="panel panel-primary panel-marginless-sides" ng-init="initPharmacyPickupsNew()"
+          <div class="panel panel-primary panel-marginless-sides" ng-init="vm.initPharmacyPickupsNew()"
                ng-click="showDivPharmacyNew=!showDivPharmacyNew">
             <div class="panel-heading">
-                <h3 class="panel-title">{{'CLINIC_PATIENT_PHARMACY' | translate}}</h3>
+                <span ng-class="{'glyphicon glyphicon-chevron-down': showDivPharmacyNew, 'glyphicon glyphicon-chevron-up': !showDivPharmacyNew}" class="pull-right"></span><h3 class="panel-title">{{'CLINIC_PATIENT_PHARMACY' | translate}}</h3>
             </div>
 
-            <div class="list-group" ng-repeat="pickup in newPickups" ng-hide="showDivPharmacyNew">
+            <div class="list-group" ng-repeat="pickup in vm.newPickups" ng-hide="showDivPharmacyNew">
                 <div class="bg-info content-border-padding-li">
                         {{'CLINIC_PATIENT_DISPENSED' | translate}} {{'COMMON_ON' | translate}} {{pickup.detetime | date:"MMM d, y"}}
                         {{'COMMON_BY' | translate}} {{pickup.provider.display}}
@@ -175,26 +187,26 @@
             </div>
           </div>
 
-      <div class="panel panel-primary panel-marginless-sides" ng-init="initAllergies()"
+      <div class="panel panel-primary panel-marginless-sides" ng-init="vm.initAllergies()"
            ng-click="showDivAllergies=!showDivAllergies">
             <div class="panel-heading">
-                <h3 class="panel-title">{{'CLINIC_PATIENT_ALLERGIES' | translate}}/{{'CLINIC_PATIENT_SIDE_EFFECTS' | translate}}</h3>
+                <span ng-class="{'glyphicon glyphicon-chevron-down': showDivAllergies, 'glyphicon glyphicon-chevron-up': !showDivAllergies}" class="pull-right"></span><h3 class="panel-title">{{'CLINIC_PATIENT_ALLERGIES' | translate}}/{{'CLINIC_PATIENT_SIDE_EFFECTS' | translate}}</h3>
             </div>
-        <div class="list-group" ng-repeat="encounter in allergies" ng-hide="showDivAllergies">
+        <div class="list-group" ng-repeat="encounter in vm.allergies" ng-hide="showDivAllergies">
                 <div class="bg-info content-border-padding-li">
                     {{'CLINIC_PATIENT_DIAGNOSED' | translate}} {{'COMMON_ON' | translate}} {{encounter.encounterDatetime | date:"MMM d, y"}}
                 </div>
                 <div ng-repeat="obs in encounter.obs" class="list-group-item">
-                    {{isObject(obs.value) ? obs.value.display : obs.value}}
+                    {{vm.isObject(obs.value) ? obs.value.display : obs.value}}
                 </div>
             </div>
         </div>
 
-        <div class="panel panel-primary panel-marginless-sides" ng-controller="ManageProgramController">
+        <div class="panel panel-primary panel-marginless-sides" ng-controller="ManageProgramController" ng-click="showDivPrograms=!showDivPrograms">
             <div class="panel-heading">
-                <h3 class="panel-title">{{'COMMON_PROGRAM_ENROLLMENT_SUMMARY_TITLE' | translate}}</h3>
+                <span ng-class="{'glyphicon glyphicon-chevron-down': showDivPrograms, 'glyphicon glyphicon-chevron-up': !showDivPrograms}" class="pull-right"></span><h3 class="panel-title">{{'COMMON_PROGRAM_ENROLLMENT_SUMMARY_TITLE' | translate}}</h3>
             </div>
-            <div class="list-group" ng-if="hasPatientEnrolledToSomePrograms()" ng-repeat="program in patientAllPrograms">
+            <div class="list-group" ng-if="hasPatientEnrolledToSomePrograms()" ng-repeat="program in patientAllPrograms" ng-hide="showDivPrograms">
                 <div class="bg-info content-border-padding-li">
                     <span class="label label-success" ng-if="!program.dateCompleted">A</span>
                     <span class="label label-warning" ng-if="program.dateCompleted">P</span>
