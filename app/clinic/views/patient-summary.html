@@ -1,15 +1,13 @@
 <div class="row content-border-margin-regular">
 
-    <div class="col-sm-12">
-        <div class="form-group form-group-lg">
-          <div class="col-sm-1">
-            <select name="displayLimit" class="form-control" ng-model="vm.displayLimit"
-                    ng-options="item.display for item in vm.displayLimits track by item.id" ng-change="vm.updateDisplayLimit(item)">
-            </select>
-          </div>
-        </div>
-
+  <div class="form-inline">
+    <div class="form-group form-group-lg">
+      <label for="displayLimit">{{"COMMON_DISPLAY" | translate }}:</label>
+      <select id="displayLimit" name="displayLimit" class="form-control" ng-model="vm.displayLimit"
+              ng-options="item.display for item in vm.displayLimits track by item.id" ng-change="vm.updateDisplayLimit(item)">
+      </select>
     </div>
+  </div>
 
     <div class="col-sm-6">
       <div class="panel panel-primary panel-marginless-sides" ng-init="vm.initVisitHistory()"
