@@ -4,7 +4,7 @@
     </div>
     <div class="panel-body">
         <form class="form-horizontal">
-            <div address-fields data-address-levels="addressLevels" data-address="patient.address"
+            <div address-fields data-address-levels="addressLevels" data-address="patientCommon.patient.address"
                      field-validation="fieldValidation"></div>
         </form>
     </div>
@@ -12,7 +12,7 @@
 
 <div class="row bg-info-border content-border border-rouded go-to-right">
     <button type="button" class="btn btn-success btn-lg"
-            ng-click="stepForward('other', aForm.$valid)">
+            ng-click="patientCommon.stepForward('other', aForm.$valid)">
         <span class="glyphicon glyphicon glyphicon-step-forward"></span>
     </button>
 </div>
