@@ -126,17 +126,17 @@
         vm.prescriptionItem.isArv = false;
         vm.prescriptionItem.interruptedReason = {};
         vm.prescriptionItem.isPlanInterrupted = false;
-        vm.prescriptionItem.therapeuticLine = {};
+        vm.prescriptionItem.arvPlan = {};
       }
     }
 
 
-    function doPlanChanged(order) {
-      if (vm.prescriptionItem.therapeuticLine.uuid === Bahmni.Common.Constants.artInterruptedPlanUuid) {
-        order.isPlanInterrupted = true;
+    function doPlanChanged(item) {
+      if (vm.prescriptionItem.arvPlan.uuid === Bahmni.Common.Constants.artInterruptedPlanUuid) {
+        item.isPlanInterrupted = true;
         vm.isArvPlanInterruptedEdit = true;
       } else {
-        order.isPlanInterrupted = false;
+        item.isPlanInterrupted = false;
         vm.isArvPlanInterruptedEdit = false;
         vm.prescriptionItem.interruptedReason = undefined;
       }
@@ -308,7 +308,7 @@
             drug: {uuid: element.drugOrder.drug.uuid}
           },
           regime: element.isArv ? element.regime : null,
-          therapeuticLine:  (element.isArv && element.therapeuticLine ) ? element.therapeuticLine: null,
+          arvPlan:  (element.isArv && element.arvPlan ) ? element.arvPlan: null,
           changeReason: (element.isArv && element.changeReason ) ? element.changeReason : null,
           interruptionReason: (element.isArv && element.interruptedReason ) ? element.interruptedReason : null
 
@@ -322,7 +322,7 @@
           notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
           vm.listedPrescriptions = [];
           isPrescriptionControl();
-          spinner.forPromise(loadSavedPrescriptions(vm.patient));
+          spinner.forPromise(loadSavedPrescriptions(patient));
         })
         .catch(function () {
           notifier.error($filter('translate')('COMMON_MESSAGE_COULD_NOT_CREATE_PRESCRIPTION'));
@@ -344,7 +344,7 @@
               $scope.cancelationReasonSelected = null;
               $scope.cancelationReasonTyped = null;
               isPrescriptionControl();
-              spinner.forPromise(loadSavedPrescriptions(vm.patient));
+              spinner.forPromise(loadSavedPrescriptions(patient));
             })
             .catch(function () {
               notifier.error($filter('translate')('COMMON_MESSAGE_COULD_NOT_CANCEL_PRESCRIPTION_ITEM'));
@@ -383,7 +383,7 @@
     function loadSavedPrescriptions(patient) {
       return prescriptionService.getAllPrescriptions(patient).then(function (patientPrescriptions) {
         vm.hasServiceToday = (hasActivePrescription(patientPrescriptions)) ? true : null;
-        vm.existingPrescriptions = patientPrescriptions;
+        vm.existingPrescriptions = patientPrescriptions.reverse();
         vm.setPrescritpionItemStatus(vm.existingPrescriptions);
       });
     }

@@ -201,8 +201,8 @@
                 {{item.drugOrder.route.display}} - {{item.drugOrder.duration}}
                 {{item.drugOrder.durationUnits.display}}, {{item.drugOrder.dosingInstructions.display}}
             </span>
-            <span ng-if="item.regime && item.therapeuticLine">
-                <strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN'| translate}}:</strong> {{item.therapeuticLine.display}}
+            <span ng-if="item.regime && item.arvPlan">
+                <strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN'| translate}}:</strong> {{item.arvPlan.display}}
             </span>
             <span ng-if="item.drugOrder.drug.isProphilaxy">
                 <strong>{{'CLINIC_PRESCRIPTION_PROPHYLAXIS_PLAN'| translate}}:</strong> {{item.prophilaxyPlan.display}}
@@ -256,7 +256,7 @@
                         {{item.drugOrder.durationUnits.display}}, {{item.dosingInstructions}}
                     </span>
                   <span ng-if="item.regime">
-                         (<strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN'| translate}}:</strong> {{item.therapeuticLine.display}})
+                         (<strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN'| translate}}:</strong> {{item.arvPlan.display}})
                     </span>
                   <span ng-if="item.isProphilaxy">
                         <strong>{{'CLINIC_PRESCRIPTION_PROPHYLAXIS_PLAN'| translate}}:</strong> {{item.prophilaxyPlan.display}}

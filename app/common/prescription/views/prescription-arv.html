@@ -80,7 +80,7 @@
                 <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_ARV_PLAN'| translate}}:</label>
                 <div ng-show="!vm.isArvPlanEdit">
                     <div class="col-sm-7 default-border-bottom">
-                        <label class="control-label"><span ng-if="vm.prescriptionItem.therapeuticLine">{{vm.prescriptionItem.therapeuticLine.display}}</span><span ng-if="!vm.prescriptionItem.therapeuticLine">N/A</span></label>
+                        <label class="control-label"><span ng-if="vm.prescriptionItem.arvPlan">{{vm.prescriptionItem.arvPlan.display}}</span><span ng-if="!vm.prescriptionItem.arvPlan">N/A</span></label>
                     </div>
                     <div class="col-sm-2">
                         <button class="btn btn-default btn-lg" type="button" ng-click="vm.isArvPlanEdit = true">
@@ -94,7 +94,7 @@
                         <div ng-messages for="prescriptionForm.artPlan.$error"
                                 ng-messages-include="../poc-common/form-display/views/error-messages.html"
                                 ng-show="vm.showMessages"></div>
-                        <select name="artPlan" class="form-control" ng-model="vm.prescriptionItem.therapeuticLine"
+                        <select name="artPlan" class="form-control" ng-model="vm.prescriptionItem.arvPlan"
                                 ng-options="plan.display for plan in vm.fieldModels.artPlan.model.answers"
                                 ng-change="vm.doPlanChanged(vm.prescriptionItem); vm.isArvPlanEdit = false">
                             <option></option>
