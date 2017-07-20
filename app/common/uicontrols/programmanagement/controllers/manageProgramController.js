@@ -1,6 +1,6 @@
 angular.module('bahmni.common.uicontrols.programmanagment')
-    .controller('ManageProgramController', ['$scope', '$window', 'programService', 'spinner', '$stateParams',
-        function ($scope, $window, programService, spinner, $stateParams) {
+    .controller('ManageProgramController', ['$scope', '$window', 'programService', 'spinner', '$stateParams', 'notifier', '$filter',
+        function ($scope, $window, programService, spinner, $stateParams, notifier, $filter) {
             var DateUtil = Bahmni.Common.Util.DateUtil;
             $scope.programSelected = {};
             $scope.programEnrollmentDate = null;
@@ -33,11 +33,13 @@ angular.module('bahmni.common.uicontrols.programmanagment')
                 $scope.programSelected = null;
                 $scope.workflowStateSelected = null;
                 updateActiveProgramsList();
+                notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
             };
 
             var failureCallback = function (error) {
                 var fieldErrorMsg = findFieldErrorIfAny(error);
                 $scope.errorMessage = _.isUndefined(fieldErrorMsg) ? "Failed to Save" : fieldErrorMsg;
+                notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ACTION'));
                 successCallback();
             };
 

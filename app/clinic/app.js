@@ -45,6 +45,7 @@ angular
                 url: '/summary',
                 templateUrl: 'views/patient-summary.html',
                 controller: 'PatientSummaryController',
+                controllerAs: 'vm',
                 resolve: { initialization: 'initialization' }
             })
             .state('dashboard.chart', {

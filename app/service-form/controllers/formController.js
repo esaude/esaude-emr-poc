@@ -2,9 +2,9 @@
 
 angular.module('serviceform')
     .controller('FormController', ['$rootScope', 'localStorageService','$stateParams', '$scope', '$state',  
-                    '$location', 'patientAttributeService', 'encounterService', 'visitService', 'commonService',
+                    '$location', 'patientAttributeService', 'encounterService', 'visitService', 'commonService', 'notifier', '$filter',
         function ($rootScope, localStorageService, $stateParams, $scope, $state, 
-                    $location, patientAttributeService, encounterService, visitService, commonService) {
+                    $location, patientAttributeService, encounterService, visitService, commonService, notifier, $filter) {
                 
             var dateUtil = Bahmni.Common.Util.DateUtil;
             
@@ -92,7 +92,7 @@ angular.module('serviceform')
                         if ($scope.hasVisitToday) {
                             encounterService.create(openMRSEncounter).success(encounterSuccessCallback);
                         } else {
-                            checkIn().then(encounterService.create(openMRSEncounter).success(encounterSuccessCallback));
+                            checkIn().then(encounterService.create(openMRSEncounter).success(encounterSuccessCallback).error(encounterErrorCallback));
                         }
                     }
                     
@@ -104,7 +104,9 @@ angular.module('serviceform')
                         
                         var editEncounter = encounterMapper.mapFromFormPayload(openMRSEncounter,
                                 $scope.formPayload.encounter);//set date
-                        encounterService.update(editEncounter).success(encounterSuccessCallback);
+                        encounterService.update(editEncounter)
+                        .success(encounterSuccessCallback)
+                        .error(encounterErrorCallback);
                     }
                 };
                 
@@ -141,6 +143,11 @@ angular.module('serviceform')
                 var encounterSuccessCallback = function (encounterProfileData) {
                     $rootScope.hasVisitToday = true;
                     $location.url(eval($rootScope.landingPageAfterSave));
+                    notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
+                };
+
+                var encounterErrorCallback = function (encounterProfileData, status) {
+                    notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ACTION'));
                 };
                 
                 $scope.linkDashboard = function () {

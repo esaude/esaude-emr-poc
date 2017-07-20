@@ -2,8 +2,8 @@
 
   <br/>
   <div class="form-inline">
-    <div class="form-group">
-      <label for="year">{{"COMMON_YEAR" | translate }}</label>
+    <div class="form-group form-group-lg">
+      <label for="year">{{"COMMON_YEAR" | translate }}:</label>
       <select ng-required="true" ng-model="vm.year" ng-options="+(y) as y for y in vm.years" ng-change="vm.onDateChange()" id="year"
               class="form-control">
       </select>

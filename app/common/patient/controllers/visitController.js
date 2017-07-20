@@ -33,7 +33,7 @@ angular.module('common.patient')
                             }
                 );
 
-                encounterService.getEncountersForEncounterType(patientUuid, $rootScope.encounterTypes.pharmacy)
+                encounterService.getEncountersForEncounterType(patientUuid, $rootScope.encounterTypes.fila)
                             .success(function (data) {
                                 var last = _.maxBy(data.results, 'encounterDatetime');
                                 if (!last) return;
