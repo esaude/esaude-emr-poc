@@ -1,23 +1,35 @@
-(function() {
+(function () {
   'use strict';
 
-  angular.module('application')
-    .controller('SimilarPatientsController', ['$rootScope', '$scope', '$location', 'patientService', 'openmrsPatientMapper',
-      function ($rootScope, $scope, $location, patientService, patientMapper) {
+  angular
+    .module('application')
+    .controller('SimilarPatientsController', SimilarPatientsController);
 
-        $scope.result = [];
+  SimilarPatientsController.$inject = ['$rootScope', '$scope', '$location', 'patientService', 'openmrsPatientMapper'];
 
-        $scope.refresh = function () {
-          var query = $scope.patient.givenName + ' ' + $scope.patient.familyName;
-          var searchPromise = patientService.search(
-            query).success(function (data) {
-            $scope.result = patientMapper.mapPatient(data.results);
-          });
-        };
+  /* @ngInject */
+  function SimilarPatientsController($rootScope, $scope, $location, patientService, openmrsPatientMapper) {
 
-        $scope.loadPatientToDashboard = function (patient) {
-          $rootScope.patient = patient;
-          $location.url("/dashboard/" + patient.uuid);
-        };
-      }]);
+    var vm = this;
+    vm.patient = $scope.patient;
+    vm.similarPatients = [];
+
+    vm.loadPatientToDashboard = loadPatientToDashboard;
+    vm.refresh = refresh;
+
+    ////////////////
+
+    function refresh() {
+      var query = vm.patient.givenName + ' ' + vm.patient.familyName;
+      patientService.search(query).success(function (data) {
+        vm.similarPatients = openmrsPatientMapper.mapPatient(data.results);
+      });
+    }
+
+    function loadPatientToDashboard() {
+      $rootScope.patient = patient;
+      $location.url("/dashboard/" + patient.uuid);
+    }
+  }
+
 })();

@@ -8,7 +8,7 @@ angular.module('registration')
                     $scope.srefPrefix = "editpatient.";
                     var uuid = $stateParams.patientUuid;
 
-                    patientService.getPatient(uuid).then(function (patient) {
+                    patientService.getOpenMRSPatient(uuid).then(function (patient) {
                         $scope.openMRSPatient = patient;
                     });
                 })();
