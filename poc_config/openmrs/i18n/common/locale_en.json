@@ -235,6 +235,8 @@
     "COMMON_MESSAGE_ERROR_ACTION": "Action completed with error. Please contact your system admin",
     "COMMON_MESSAGE_INFO_ACTION_COMPLETED_TODAY": "This action was already completed today",
     "COMMON_MESSAGE_COULD_NOT_CREATE_PRESCRIPTION": "Could not create this prescription",
+    "COMMON_MESSAGE_COULD_NOT_CANCEL_PRESCRIPTION_ITEM": "Could not cancel this prescription item",
+    "COMMON_CANCELATION_PRESCRIPTION_ERROR_NO_REASON": "Please provide the reason of cancelation",
     "CLINIC_PRESCRIPTION_DRUG": "Drug",
     "CLINIC_PRESCRIPTION_DRUG_TYPE": "Drug Type",
     "CLINIC_PRESCRIPTION_NEW": "New Prescription",
