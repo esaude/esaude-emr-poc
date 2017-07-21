@@ -229,6 +229,8 @@
     "COMMON_MESSAGE_ERROR_ACTION": "Acção terminou com erro. Por favor contacte o administrador do sistema",
     "COMMON_MESSAGE_INFO_ACTION_COMPLETED_TODAY": "Esta acção já foi executada com sucesso hoje",
     "COMMON_MESSAGE_COULD_NOT_CREATE_PRESCRIPTION": "Não foi possível criar a prescrição",
+    "COMMON_MESSAGE_COULD_NOT_CANCEL_PRESCRIPTION_ITEM": "Não foi possível cancelar o item da prescrição",
+    "COMMON_CANCELATION_PRESCRIPTION_ERROR_NO_REASON": "Por favor indique o motivo de cancelamento",
     "CLINIC_PRESCRIPTION_DRUG": "Medicamento",
     "CLINIC_PRESCRIPTION_DRUG_TYPE": "Tipo Medicamento",
     "CLINIC_PRESCRIPTION_NEW": "Nova Prescrição",

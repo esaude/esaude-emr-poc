@@ -67,6 +67,7 @@ Bahmni.Common = Bahmni.Common || {};
         orderUrl: RESTWS_V1 + "/order",
         drugUrl: RESTWS_V1 + "/drug",
         drugResourceUrl: RESTWS_V1 + "/drugresource",
+        drugOrderResourceUrl :RESTWS_V1 + "/drugorderresource",
         drugRegimenUrl: RESTWS_V1 + "/drugregime",
         conceptUrl: RESTWS_V1 + "/concept",
         conceptSearchByFullNameUrl: RESTWS_V1 + "/concept?s=byFullySpecifiedName",

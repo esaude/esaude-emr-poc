@@ -65,7 +65,7 @@ describe('PatientSimplifiedPrescriptionController', function () {
       })
     });
 
-    spyOn(prescriptionService, 'getPatientPrescriptions').and.callFake(function () {
+    spyOn(prescriptionService, 'getAllPrescriptions').and.callFake(function () {
       return $q(function (resolve) {
         return resolve([]);
       })
@@ -82,14 +82,15 @@ describe('PatientSimplifiedPrescriptionController', function () {
 
     beforeEach(function () {
       controller = $controller('PatientSimplifiedPrescriptionController', {
+        $scope: {},
         conceptService: conceptService,
         prescriptionService: prescriptionService
       });
     });
 
-    it('should load prescriptionConvSetConcept', function () {
+    it('should load patientPrescriptions', function () {
       $rootScope.$apply();
-      expect(conceptService.getPrescriptionConvSetConcept).toHaveBeenCalled();
+      expect(prescriptionService.getAllPrescriptions).toHaveBeenCalled();
     });
 
     it('should set fieldModels', function () {
@@ -102,7 +103,9 @@ describe('PatientSimplifiedPrescriptionController', function () {
   describe('removeAll', function () {
 
     beforeEach(function () {
-      controller = $controller('PatientSimplifiedPrescriptionController', {});
+      controller = $controller('PatientSimplifiedPrescriptionController', {
+        $scope: {}
+      });
     });
 
     beforeEach(function () {
@@ -128,13 +131,61 @@ describe('PatientSimplifiedPrescriptionController', function () {
   describe('refill', function () {
 
     beforeEach(function () {
-      controller = $controller('PatientSimplifiedPrescriptionController', {});
+      controller = $controller('PatientSimplifiedPrescriptionController', {
+        $scope: {}
+      });
     });
 
     it('should add selected drug to current prescription', function () {
-      var drug = {'name': 'paracetamol'};
-      controller.refill(drug);
-      expect(controller.listedPrescriptions).toContain(drug);
+      var item = {drugOrder: {dosingInstructions: 'Empty stomach'}};
+      controller.refill(item);
+      expect(controller.listedPrescriptions).toContain(item);
+    });
+
+  });
+
+  describe('cancelOrStop', function () {
+
+    beforeEach(function () {
+
+      spyOn(prescriptionService, 'stopPrescriptionItem').and.callFake(function  () {
+        return $q(function (resolve) {
+          resolve();
+        });
+      });
+
+    });
+
+    it('should stop prescription item', function () {
+
+      var item = {drugOrder: {action: 'NEW'}};
+
+      var scope = {cancelationReasonTyped: 'Mistake.', cancelationReasonSelected: '...'};
+
+      spyOn(notifier, 'success').and.callFake(function () {
+
+      });
+
+      controller = $controller('PatientSimplifiedPrescriptionController', {
+        $scope: scope
+      });
+
+      controller.listedPrescriptions = [1];
+      scope.cancelationReasonTyped = 'Mistake.';
+      scope.cancelationReasonSelected = '...';
+
+      expect(controller.listedPrescriptions.length).toBe(1);
+
+      controller.cancelOrStop(item);
+
+      $rootScope.$apply();
+      expect(scope.cancelationReasonTyped).toBeFalsy();
+      expect(scope.cancelationReasonSelected).toBeFalsy();
+      expect(controller.listedPrescriptions.length).toBe(0);
+      expect(notifier.success).toHaveBeenCalled();
+      expect(prescriptionService.stopPrescriptionItem).toHaveBeenCalled();
+      expect(prescriptionService.getAllPrescriptions).toHaveBeenCalled();
+
     });
 
   });
