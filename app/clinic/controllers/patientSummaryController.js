@@ -138,12 +138,15 @@
                 dispense.provider = encounter.provider;
                 dispense.items = [];
                 _.forEach(encounter.obs, function (obs) {
-                    var item = {};
-                    item.order = obs.groupMembers[0].order;
-                    item.quantity = commonService.findByMemberConcept(obs.groupMembers, "e1de2ca0-1d5f-11e0-b929-000c29ad1d07");
-                    item.returnDate = commonService.findByMemberConcept(obs.groupMembers, "e1e2efd8-1d5f-11e0-b929-000c29ad1d07");
 
-                    dispense.items.push(item);
+                    if(obs.groupMembers){
+                      var item = {};
+                      item.order = obs.groupMembers[0].order;
+                      item.quantity = commonService.findByMemberConcept(obs.groupMembers, "e1de2ca0-1d5f-11e0-b929-000c29ad1d07");
+                      item.returnDate = commonService.findByMemberConcept(obs.groupMembers, "e1e2efd8-1d5f-11e0-b929-000c29ad1d07");
+
+                      dispense.items.push(item);
+                    }
                 });
                 dispenses.push(dispense);
             });
@@ -155,7 +158,7 @@
           return prescriptionService.getAllPrescriptions($rootScope.patient).then(function (patientPrescriptions) {
             vm.hasServiceToday = (hasActivePrescription(patientPrescriptions)) ? true : null;
             vm.prescriptions = patientPrescriptions.reverse();
-            vm.setPrescritpionItemStatus(vm.existingPrescriptions);
+            setPrescritpionItemStatus(vm.existingPrescriptions);
           });
         };
 
@@ -227,7 +230,7 @@
         };
 
         vm.filterDate = function (obs) {
-            if (obs.concept.uuid === "892a98b2-9c98-4813-b4e5-0b434d14404d" 
+            if (obs.concept.uuid === "892a98b2-9c98-4813-b4e5-0b434d14404d"
                 || obs.concept.uuid === "e1e2efd8-1d5f-11e0-b929-000c29ad1d07") {
                 return $filter('date')(obs.value, "MMM d, y");
             }

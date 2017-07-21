@@ -179,7 +179,7 @@
                         {{'COMMON_BY' | translate}} {{pickup.provider.display}}
                 </div>
                 <div ng-repeat="item in pickup.items" class="list-group-item">
-                    <span><b>{{item.order.drug.display}}</b> {{item.order.dose}}{{item.order.doseUnits.display}}</span>,
+                    <span><strong>{{item.order.drug.display}}</strong> {{item.order.dose}}{{item.order.doseUnits.display}}</span>,
                     <span>{{'COMMON_QUANTITY' | translate}}: {{item.quantity.value}}</span>
                     <span ng-if="item.returnDate.value">| {{'COMMON_RETURN' | translate}} {{item.returnDate.value | date:"MMM d, y"}}</span>
                 </div>
