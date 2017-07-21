@@ -20,7 +20,7 @@ angular.module('registration')
                         return;
                     }
 
-                    patientService.create($scope.patient).success(successCallback);
+                    patientService.create($scope.patient).success(successCallback).error(errorCallback);
                 };
 
                 var successCallback = function (patientProfileData) {
@@ -28,8 +28,12 @@ angular.module('registration')
                     $scope.patient.uuid = patientProfileData.patient.uuid;
                     $scope.patient.name = patientProfileData.patient.person.names[0].display;
                     $scope.patient.isNew = true;
-                    var successMessage = $filter('translate')('PATIENT_CREATED');
+                    var successMessage = $filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED');
                     notifier.success(successMessage);
                     $location.url("/dashboard/" + $scope.patient.uuid);
+                };
+
+                var errorCallback = function (data, status) {
+                    notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ACTION'));
                 };
         }]);
