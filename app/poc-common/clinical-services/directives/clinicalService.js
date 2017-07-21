@@ -123,6 +123,10 @@ angular.module('poc.common.clinicalservices')
             $scope.$parent.linkServiceEdit(service, encounter);
         };
 
+        $scope.linkDisplay = function (service, encounter) {
+            $scope.$parent.linkServiceDisplay(service, encounter);
+        };
+
         $scope.list = function (service) {
             (service.list) ? service.list = false : service.list = true;
         };

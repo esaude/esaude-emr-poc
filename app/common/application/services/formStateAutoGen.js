@@ -41,6 +41,20 @@ angular.module('application')
                             resolve: { initialization: 'initialization' }
                         };
                         $stateProviderRef.state(formLayout.sufix + ".confirm", confirmState);
+                    };
+                    //create display state
+                    if (!_$state_.get(formLayout.sufix + "_display")) {
+                        var state = {
+                            url: service.url + "/:patientUuid/:formId/display",
+                            views: {},
+                            resolve: { initialization: 'initialization' }
+                        };
+                        state.views["layout"] = {
+                            templateUrl: '../common/application/views/layout.html', 
+                            controller: 'FormPrintController'
+                        },
+                        state.views["content@" + formLayout.sufix + "_display"] = {templateUrl: '../service-form/views/form-display.html'};
+                        $stateProviderRef.state(formLayout.sufix + "_display", state);
                     }
                 });
         };

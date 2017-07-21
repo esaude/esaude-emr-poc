@@ -1,0 +1,28 @@
+<div ng-include src="'../../common/patient/header/views/header.html'"></div><!--patient header -->
+
+<div class="row bg-info-border bg-info content-border border-rouded-top">
+    <div class="header-text-lg">
+        <b>{{formInfo.label | translate}}</b>
+    </div>
+</div>
+
+<div ng-repeat="part in formInfo.parts" class="panel panel-primary content-border-margin">
+    <div class="panel-heading">
+        <h3 class="panel-title">{{part.label | translate}}</h3>
+    </div>
+
+    <field-read payload="formPayload" form-part="part"></field-read>
+    
+</div>
+
+<div class="row bg-info-border content-border border-rouded go-to-right">
+    <button type="button" class="btn btn-primary btn-lg" ng-click="save()">
+        <span class="glyphicon glyphicon-print"></span>
+    </button>
+</div>
+
+<div class="row bg-info-border content-border border-rouded-bottom go-to-left">
+    <button type="button" class="btn btn-warning btn-lg" ng-click="linkDashboard()">
+        <span class="glyphicon glyphicon-minus-sign"></span>
+    </button>
+</div>
