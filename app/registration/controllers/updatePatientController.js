@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('registration')
-    .controller('UpdatePatientController', ['$scope', '$location', '$stateParams', 'patientService', 'notifier', '$filter'
+    .controller('UpdatePatientController', ['$scope', '$location', '$stateParams', 'patientService', 'notifier', '$filter',
         function ($scope, $location, $stateParams, patientService, notifier, $filter) {
 
                 (function () {
