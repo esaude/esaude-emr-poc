@@ -19,28 +19,28 @@
     ////////////////
 
 
-     /**
-         * Returns prescriptions not fully dispensed for patient.
-         *
-         * @param {String} patientUuid
-         * @returns {Promise}
-         */
-        function getPatientNonDispensedPrescriptions(patientUuid) {
-          return $http.get(Bahmni.Common.Constants.prescriptionUrl, {
+    /**
+     * Returns prescriptions not fully dispensed for patient.
+     *
+     * @param {String} patientUuid
+     * @returns {Promise}
+     */
+    function getPatientNonDispensedPrescriptions(patientUuid) {
+      return $http.get(Bahmni.Common.Constants.prescriptionUrl, {
 
-            params: {
-              patient: patientUuid,
-              v: "full"
-            },
+        params: {
+          patient: patientUuid,
+          v: "full"
+        },
 
-            withCredentials: true
-          }).then(function (response) {
-            return _.map(response.data.results, prescriptionMapper);
-          }).catch(function (error) {
-            $log.error('XHR Failed for getPatientNonDispensedPrescriptions. ' + error.data);
-            return $q.reject(error);
-          });
-        }
+        withCredentials: true
+      }).then(function (response) {
+        return _.map(response.data.results, prescriptionMapper);
+      }).catch(function (error) {
+        $log.error('XHR Failed for getPatientNonDispensedPrescriptions. ' + error.data);
+        return $q.reject(error);
+      });
+    }
 
     /**
      * Creates a prescription.
@@ -67,7 +67,7 @@
             patient: patient.uuid,
             findAllPrescribed: true,
             v: "full"
-            },
+          },
           withCredentials: true
           }).then(function (response) {
             return _.map(response.data.results, prescriptionMapper);
