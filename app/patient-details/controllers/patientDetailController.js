@@ -15,6 +15,15 @@
     vm.linkDashboard = linkDashboard;
     vm.print = print;
 
+    activate();
+
+    ////////////////
+
+    function activate() {
+      initAttributes();
+    }
+
+
     function initAttributes() {
       vm.patientAttributes = [];
       angular.forEach($scope.patientConfiguration.customAttributeRows(), function (value) {
@@ -24,9 +33,11 @@
       });
     }
 
+
     function linkDashboard() {
       $location.url("/dashboard/" + $stateParams.patientUuid); // path not hash
     }
+
 
     function print() {
       reportService.printPatientDailyHospitalProcess(vm.patient);

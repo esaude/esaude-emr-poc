@@ -18,6 +18,7 @@
       getIdentifierTypes: getIdentifierTypes,
       getPatient: getPatient,
       getPatientIdentifiers: getPatientIdentifiers,
+      getOpenMRSPatient: getOpenMRSPatient,
       printPatientARVPickupHistory: printPatientARVPickupHistory,
       search: search,
       update: update,
@@ -43,6 +44,12 @@
         method: "GET",
         params: {v: "full"},
         withCredentials: true
+      }).then(function (response) {
+        return response.data.results;
+      })
+      .catch(function (error) {
+        $log.error('XHR Failed for getIdentifierTypes. ' + error.data);
+        return $q.reject(error);
       });
     }
 
@@ -81,6 +88,16 @@
       return $http.post(BASE_OPENMRS_REST_URL + "/patientprofile/" + openMRSPatient.uuid, patientJson, {
         withCredentials: true,
         headers: {"Accept": "application/json", "Content-Type": "application/json"}
+      });
+    }
+
+    //This is needed because of updatePatientRequestMapper.
+    function getOpenMRSPatient(patientUUID) {
+      return get(patientUUID).then(function (response) {
+        return response.data;
+      }).catch(function (error) {
+        $log.error('XHR Failed for getOpenMRSPatient. ' + error.data);
+        return $q.reject(error);
       });
     }
 

@@ -8,19 +8,10 @@ angular.module('registration')
                     $scope.srefPrefix = "editpatient.";
                     var uuid = $stateParams.patientUuid;
 
-                    patientService.getPatient(uuid).then(function (patient) {
+                    patientService.getOpenMRSPatient(uuid).then(function (patient) {
                         $scope.openMRSPatient = patient;
                     });
                 })();
-
-                $scope.initAttributes = function() {
-                    $scope.patientAttributes = [];
-                    angular.forEach($scope.patientConfiguration.customAttributeRows(), function (value) {
-                        angular.forEach(value, function (value) {
-                            $scope.patientAttributes.push(value);
-                        });
-                    });
-                };
 
                 $scope.save = function () {
                     patientService.update($scope.patient, $scope.openMRSPatient).success(successCallback);

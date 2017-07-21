@@ -13,15 +13,6 @@ angular.module('registration')
                     $scope.patient = patientModel.create();
                 })();
 
-                $scope.initAttributes = function() {
-                    $scope.patientAttributes = [];
-                    angular.forEach($scope.patientConfiguration.customAttributeRows(), function (value) {
-                        angular.forEach(value, function (value) {
-                            $scope.patientAttributes.push(value);
-                        });
-                    });
-                };
-
                 $scope.save = function () {
                     var errMsg = Bahmni.Common.Util.ValidationUtil.validate($scope.patient,$scope.patientConfiguration.personAttributeTypes);
                     if(errMsg){
