@@ -2,7 +2,9 @@
 
 Poc.Common.FormRequestMapper = (function () {
     
-    var mapFromOpenMRSForm = function (openMRSForm) {
+    var mapFromOpenMRSForm = function (givenForm) {
+        var openMRSForm = angular.copy(givenForm);
+
         var fields = filterOnlyConceptFields(openMRSForm.formFields);
         return {
             encounterType: openMRSForm.encounterType,
@@ -24,7 +26,7 @@ Poc.Common.FormRequestMapper = (function () {
     
     var mapFromOpenMRSFormWithEncounter = function (openMRSForm, encounter) {
         var formPayload = this.mapFromOpenMRSForm(openMRSForm);
-        formPayload.encounter = encounter;
+        formPayload.encounter = angular.copy(encounter);
         
         var filteredObs = filterObsWithoutGroups(encounter.obs);
         

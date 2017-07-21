@@ -13,7 +13,7 @@ angular.module('poc.common.formdisplay')
             }
         };
     })
-    .controller('FieldReadDirectiveController', function ($scope) {
+    .controller('FieldReadDirectiveController', function ($scope, $rootScope) {
         (function () {
         })();
 
@@ -27,6 +27,13 @@ angular.module('poc.common.formdisplay')
         };
         
         $scope.getFieldValidity = function (fieldUuid) {
+            if ($rootScope.postAction === "display") {
+                return {
+                        uuid: fieldUuid,
+                        valid: true
+                    };;
+            }
+
             return $scope.$parent.visitedFields[fieldUuid];
         };
         
