@@ -4,10 +4,11 @@
         .controller('PatientSummaryController', PatientSummaryController);
 
     PatientSummaryController.$inject = ['$rootScope', '$stateParams',
-                        'encounterService', 'observationsService', 'commonService', 'orderService', '$filter', 'spinner'];
+                        'encounterService', 'observationsService', 'commonService', 'orderService', '$filter', 'spinner',
+                        'prescriptionService'];
 
     function PatientSummaryController($rootScope, $stateParams, encounterService,
-                    observationsService, commonService, orderService, $filter, spinner) {
+                    observationsService, commonService, orderService, $filter, spinner, prescriptionService) {
         
         var patientUuid = $stateParams.patientUuid;
         var vm = this;
@@ -149,55 +150,40 @@
 
             return dispenses;
         };
-
+        //TODO: Remove this duplicated function
         function initPrescriptions() {
-            var concepts = [Bahmni.Common.Constants.prescriptionConvSetConcept];
-
-            var patient = $rootScope.patient;
-            var adultFollowupEncounterUuid = Bahmni.Common.Constants.adultFollowupEncounterUuid;
-            var childFollowupEncounterUuid = Bahmni.Common.Constants.childFollowupEncounterUuid;
-
-            return encounterService.getEncountersForEncounterType(patient.uuid,
-            (patient.age.years >= 15) ? adultFollowupEncounterUuid : childFollowupEncounterUuid)
-                    .success(function (data) {
-                        var filteredResults = commonService.filterGroupReverseFollowupObs(concepts, data.results);
-                        vm.prescriptions = [];
-
-                        _.forEach(filteredResults, function (filteredResult) {
-                            var existingModels = {
-                                prescriptionDate: filteredResult.encounterDatetime,
-                                models: []
-                            };
-
-                            _.forEach(filteredResult.obs, function (pSet) {
-                                var existingModel = angular.copy(Bahmni.Common.Constants.drugPrescriptionConvSet);
-                                for (var key in existingModel) {
-                                    var m = existingModel[key];
-                                    var foundModel = _.find(pSet.groupMembers, function (element) {
-                                        return element.concept.uuid === m.uuid;
-                                    });
-                                    if (_.isUndefined(foundModel)) continue;
-
-                                    if (key === "otherDrugs") {
-                                        if (_.includes(Bahmni.Common.Constants.prophilaxyDrugConcepts, foundModel.value.uuid)) {
-                                            continue;
-                                        }
-                                    }
-                                    if (key === "prophilaxyDrugs") {
-                                        if (!_.includes(Bahmni.Common.Constants.prophilaxyDrugConcepts, foundModel.value.uuid)) {
-                                            continue;
-                                        }
-                                    }
-
-                                    m.model = foundModel.concept;
-                                    m.value = foundModel.value;
-                                }
-                                existingModels.models.push(existingModel);
-                            });
-                            vm.prescriptions.push(existingModels);
-                        });
-                    });
+          return prescriptionService.getAllPrescriptions($rootScope.patient).then(function (patientPrescriptions) {
+            vm.hasServiceToday = (hasActivePrescription(patientPrescriptions)) ? true : null;
+            vm.prescriptions = patientPrescriptions.reverse();
+            vm.setPrescritpionItemStatus(vm.existingPrescriptions);
+          });
         };
+
+        //TODO: Remove this duplicated function 
+        function hasActivePrescription(prescriptions){
+            return _.find(prescriptions, function (prescription) {
+                return prescription.prescriptionStatus == true;
+            });
+        };
+
+        //TODO: Remove this duplicated function
+        function setPrescritpionItemStatus(prescriptions){
+          _.forEach(prescriptions, function (prescription) {
+             _.forEach(prescription.prescriptionItems, function (item) {
+                  if(prescription.prescriptionStatus == true){
+                      if((item.drugOrder.action == 'NEW') ||(item.drugOrder.action == 'REVISE') ){
+                         item.status = "PHARMACY_ACTIVE";
+                      }
+                      else{
+                         item.status = "PHARMACY_FINALIZED";
+                      }
+                  }
+                  else{
+                    item.status = "PHARMACY_FINALIZED";
+                  }
+              });
+           });
+         };
 
         function initAllergies() {
             var concepts = ["e1e07ece-1d5f-11e0-b929-000c29ad1d07", "e1da757e-1d5f-11e0-b929-000c29ad1d07"];
