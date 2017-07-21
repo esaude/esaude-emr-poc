@@ -64,36 +64,37 @@
             <div class="panel-heading">
                 <span ng-class="{'glyphicon glyphicon-chevron-down': showDivPrescriptions, 'glyphicon glyphicon-chevron-up': !showDivPrescriptions}" class="pull-right"></span><h3 class="panel-title">{{'CLINIC_PATIENT_PRESCRIPTIONS' | translate}}/{{'CLINIC_PATIENT_REGIMENS' | translate}}</h3>
             </div>
-        <div class="list-group" ng-repeat="presc in vm.prescriptions" ng-hide="showDivPrescriptions">
+        <div class="list-group" ng-repeat="existingPrescription in vm.prescriptions" ng-hide="showDivPrescriptions">
                 <div class="bg-info content-border-padding-li">
-                    {{'CLINIC_PATIENT_PRESCRIBED' | translate}} {{'COMMON_ON' | translate}} {{presc.prescriptionDate | date:"MMM d, y"}}
+                    {{'CLINIC_PATIENT_PRESCRIBED' | translate}} {{'COMMON_ON' | translate}} {{existingPrescription.prescriptionDate | date:"MMM d, y"}}
                 </div>
-                <div class="list-group-item" ng-repeat="model in presc.models">
-                    <span class="text-lg">
-                        <strong ng-if="model.arvDrugs.value">
-                            {{model.arvDrugs.value.display}}
-                            <span ng-if="model.therapeuticLine.value">
-                                ({{model.therapeuticLine.value.display}})
-                            </span>
+                <div class="list-group-item" ng-repeat="item in existingPrescription.prescriptionItems">
+                    <span>
+                        <strong>{{item.drugOrder.drug.display}}</strong>
+                        <strong ng-if="item.regime">
+                            ({{item.regime.display}}
+                        </strong> : {{item.therapeuticLine.display}})-
+                        {{item.drugOrder.dose}}
+                        {{item.drugOrder.doseUnits.display}}, {{item.drugOrder.frequency.display}},
+                        {{item.drugOrder.route.display}} - {{item.drugOrder.duration}}
+                        {{item.drugOrder.durationUnits.display}}, {{item.dosingInstructions}}
+                    </span>
+                    <span ng-if="item.regime">
+                        (<strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN'| translate}}:</strong> {{item.arvPlan.display}})
+                    </span>
+                    <span ng-if="item.isProphilaxy">
+                        <strong>{{'CLINIC_PRESCRIPTION_PROPHYLAXIS_PLAN'| translate}}:</strong> {{item.prophilaxyPlan.display}}
+                    </span>
+                    <span ng-if="item.regime && item.interruptionReason">
+                        <strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN_INTERRUPDED_FOR'| translate}}:</strong> {{item.interruptionReason}}
+                    </span>
+                    <span ng-if="item.regime && item.changeReason">
+                        <strong>{{'CLINIC_PRESCRIPTION_ARV_CHANGE_FOR'| translate}}:</strong> {{item.changeReason}}
+                    </span>
+                    <span>
+                        <strong>
+                            {{item.status | translate}}
                         </strong>
-                        <strong ng-if="model.otherDrugs.value">{{model.otherDrugs.value.display}}</strong>
-                        <strong ng-if="model.prophilaxyDrugs.value">{{model.prophilaxyDrugs.value.display}}</strong>
-                        {{model.dosageAmount.value}}
-                        {{model.dosingUnits.value.display}}, {{model.dosgeFrequency.value.display}},
-                        {{model.drugRoute.value.display}} - {{model.duration.value}}
-                        {{model.durationUnits.value.display}} ({{model.dosingInstructions.value.display}})
-                    </span>
-                    <span ng-if="model.artPlan.value">
-                        <strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN'| translate}}:</strong> {{model.artPlan.value.display}}
-                    </span>
-                    <span ng-if="model.prophilaxyPlan.value">
-                        <strong>{{'CLINIC_PRESCRIPTION_PROPHYLAXIS_PLAN'| translate}}:</strong> {{model.prophilaxyPlan.value.display}}
-                    </span>
-                    <span ng-if="model.interruptedReason.value">
-                        <strong> {{'CLINIC_PRESCRIPTION_ARV_PLAN_INTERRUPDED_FOR'| translate}}:</strong> {{model.interruptedReason.value.display}}
-                    </span>
-                    <span ng-if="model.changeReason.value">
-                        <strong>{{'CLINIC_PRESCRIPTION_ARV_CHANGE_FOR'| translate}}:</strong> {{model.changeReason.value.display}}
                     </span>
                 </div>
             </div>
@@ -178,7 +179,7 @@
                         {{'COMMON_BY' | translate}} {{pickup.provider.display}}
                 </div>
                 <div ng-repeat="item in pickup.items" class="list-group-item">
-                    <span><b>{{item.order.drug.display}}</b> {{item.order.dose}}{{item.order.doseUnits.display}}</span>,
+                    <span><strong>{{item.order.drug.display}}</strong> {{item.order.dose}}{{item.order.doseUnits.display}}</span>,
                     <span>{{'COMMON_QUANTITY' | translate}}: {{item.quantity.value}}</span>
                     <span ng-if="item.returnDate.value">| {{'COMMON_RETURN' | translate}} {{item.returnDate.value | date:"MMM d, y"}}</span>
                 </div>
