@@ -194,8 +194,8 @@
             <span>
                 <strong>{{item.drugOrder.drug.display}}</strong>
                 <strong ng-if="item.regime">
-                    ({{item.regime.display}})
-                </strong>-
+                    ({{item.regime.display}}
+                </strong> : {{item.therapeuticLine.display}})-
                 {{item.drugOrder.dose}}
                 {{item.drugOrder.doseUnits.display}}, {{item.drugOrder.frequency.display}},
                 {{item.drugOrder.route.display}} - {{item.drugOrder.duration}}
@@ -248,8 +248,8 @@
                    <span>
                         <strong>{{item.drugOrder.drug.display}}</strong>
                         <strong ng-if="item.regime">
-                            ({{item.regime.display}})
-                        </strong>-
+                            ({{item.regime.display}}
+                        </strong> : {{item.therapeuticLine.display}})-
                         {{item.drugOrder.dose}}
                         {{item.drugOrder.doseUnits.display}}, {{item.drugOrder.frequency.display}},
                         {{item.drugOrder.route.display}} - {{item.drugOrder.duration}}
@@ -274,7 +274,8 @@
                     </span>
                     <span>
                       <button type="button" class="close btn-lg content-border-margin-regular-sides" ng-click ="vm.setValueToModal(item)" data-toggle="modal" data-target="#cancelPrescriptionModal"  ng-hide="item.status == 'PHARMACY_FINALIZED' ">
-                            <span class="glyphicon glyphicon-trash"></span>
+                            <span class="glyphicon glyphicon-trash"  ng-hide="item.drugOrder.action == 'REVISE' " ></span>
+                            <span class="glyphicon glyphicon-floppy-remove"  ng-hide="item.drugOrder.action == 'NEW' " ></span>
                       </button>
                       <button type="button" class="close btn-lg content-border-margin-regular-sides" ng-click="vm.refill(item)" ng-hide="existingPrescription.prescriptionStatus == true">
                           <span class="glyphicon glyphicon-repeat"></span>

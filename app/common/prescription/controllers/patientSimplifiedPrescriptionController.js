@@ -308,6 +308,7 @@
             drug: {uuid: element.drugOrder.drug.uuid}
           },
           regime: element.isArv ? element.regime : null,
+          therapeuticLine:  element.isArv ? element.therapeuticLine : null,
           arvPlan:  (element.isArv && element.arvPlan ) ? element.arvPlan: null,
           changeReason: (element.isArv && element.changeReason ) ? element.changeReason : null,
           interruptionReason: (element.isArv && element.interruptedReason ) ? element.interruptedReason : null
