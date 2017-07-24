@@ -5,9 +5,9 @@
     .module('authentication')
     .directive('pocAuthorize', pocAuthorize);
 
-  pocAuthorize.$inject = ['authorizationService'];
+  pocAuthorize.$inject = [];
 
-  function pocAuthorize(authorizationService) {
+  function pocAuthorize() {
     var directive = {
       template: '<ng-transclude ng-if="authorized"></ng-transclude>',
       link: link,
@@ -19,10 +19,12 @@
     };
     return directive;
 
+    /**
+     * NOTE: Real implementation is inside pocAuthorizeDirectiveDecorator in module definition.
+     * @param scope
+     */
     function link(scope) {
-      authorizationService.hasPrivilege(scope.privilege).then(function (hasPrivilege) {
-        scope.authorized = hasPrivilege;
-      });
+      scope.authorized = true;
     }
   }
 

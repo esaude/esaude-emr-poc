@@ -27,9 +27,9 @@
     return directive;
   }
 
-  ClinicalServiceDirectiveController.$inject = ['encounterService', 'patientService', 'authorizationService'];
+  ClinicalServiceDirectiveController.$inject = ['encounterService', 'patientService'];
 
-  function ClinicalServiceDirectiveController(encounterService, patientService, authorizationService) {
+  function ClinicalServiceDirectiveController(encounterService, patientService) {
 
     var dateUtil = Bahmni.Common.Util.DateUtil;
 
@@ -46,14 +46,9 @@
 
     function onInit() {
       patientService.getPatient(vm.patientUuid).then(function (patient) {
-
         vm.patient = patient;
-
-        authorizationService.authorizeClinicalServices(vm.services).then(function (authServices) {
-          vm.services = authServices;
-          vm.services.forEach(function (s) {
-            initService(s, patient);
-          });
+        vm.services.forEach(function (s) {
+          initService(s, patient);
         });
       });
     }
