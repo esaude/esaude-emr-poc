@@ -21,5 +21,12 @@
 	"PHARMACY_SCHEDULED_FOR_PICK_UP" : "Scheduled for drud pickup",
 	"PHARMACY_LAST_PICK_UP" : "Last pickup",
 	"PHARMACY_THE_SELECTED_DRUG_IS_NOT_PART_OF_PRESCRIBED" : "The selected drug is not part of Prescribed",
-	"CLINIC_PATIENT_PRESCRIPTIONS": "Prescriptions"
+	"CLINIC_PATIENT_PRESCRIPTIONS": "Prescriptions",
+  "PRESCRIPTION_DATE": "Prescription date",
+  "PHARMACY_CANCEL_PRESCRIPTION": "Cancel Prescription Item",
+  "PHARMACY_CANCEL_PRESCRIPTIONS_REASON": "Cancellation Reason",
+  "PHARMACY_STATUS": "Status",
+  "PHARMACY_ACTIVE": "Active",
+  "PHARMACY_FINALIZED": "Finalized",
+  "PHARMACY_CANCEL": "Cancel"
 }

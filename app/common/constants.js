@@ -67,6 +67,7 @@ Bahmni.Common = Bahmni.Common || {};
         orderUrl: RESTWS_V1 + "/order",
         drugUrl: RESTWS_V1 + "/drug",
         drugResourceUrl: RESTWS_V1 + "/drugresource",
+        drugOrderResourceUrl :RESTWS_V1 + "/drugorderresource",
         drugRegimenUrl: RESTWS_V1 + "/drugregime",
         conceptUrl: RESTWS_V1 + "/concept",
         conceptSearchByFullNameUrl: RESTWS_V1 + "/concept?s=byFullySpecifiedName",
@@ -197,8 +198,7 @@ Bahmni.Common = Bahmni.Common || {};
         arvConceptUuid: "e1d83d4a-1d5f-11e0-b929-000c29ad1d07",
         otherDrugsConceptUuid: "e1de3092-1d5f-11e0-b929-000c29ad1d07",
         arvRegimensConvSet: "7d5728ac-730f-495e-8368-73fc3d7e3c45",
-        regimenGroups: regimenGroups,
-        otherDrugsConceptUuid: "e1de3092-1d5f-11e0-b929-000c29ad1d07"
+        regimenGroups: regimenGroups
 
     };
 })();

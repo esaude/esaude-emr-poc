@@ -8,7 +8,17 @@
 
   function encounterService($http, $q, $rootScope, configurations, $cookieStore, $log, appService) {
 
-    var FILA_ENCOUNTER_TYPE_UUID = appService.getAppDescriptor().getConfigValue("encounterTypes").fila;
+    var FILA_ENCOUNTER_TYPE_UUID = "e279133c-1d5f-11e0-b929-000c29ad1d07";
+
+    var CHILD_FOLLOWUP_ENCOUNTER_TYPE_UUID = Bahmni.Common.Constants.childFollowupEncounterUuid;
+
+    var ADULT_FOLLOWUP_ENCOUNTER_TYPE_UUID = Bahmni.Common.Constants.adultFollowupEncounterUuid;
+
+    var PATIENT_CHILD_AGE = 14;
+
+    var sortByEncounterDateTime = _.curryRight(_.sortBy, 2)(function (encounter) {
+      return new Date(encounter.encounterDatetime);
+    });
 
     return {
       create: create,
@@ -16,6 +26,7 @@
       filterRetiredEncoounters: filterRetiredEncoounters,
       find: find,
       getEncountersForEncounterType: getEncountersForEncounterType,
+      getPatientFollowupEncounters: getPatientFollowupEncounters,
       getPatientFilaEncounters: getPatientFilaEncounters,
       getEncountersOfPatient: getEncountersOfPatient,
       search: search,
@@ -175,7 +186,7 @@
     // };
 
     function getEncountersForEncounterType(patientUuid, encounterTypeUuid, v) {
-      if (typeof v === "undefined") {
+      if (!v) {
         v = "custom:(uuid,encounterDatetime,provider,voided,visit:(uuid,startDatetime,stopDatetime),obs:(uuid,concept:(uuid,name),obsDatetime,value,groupMembers:(uuid,concept:(uuid,name),order,obsDatetime,value)))";
       }
       return $http.get(Bahmni.Common.Constants.encounterUrl, {
@@ -188,10 +199,58 @@
       });
     }
 
+
     /**
-     * @param {String} patientUuid Patient UUID
-     * @param {String} v
-     * @returns {Array} Non retired pharmacy encounters for patient ordered by most recent.
+     * @param {Object} patient Patient.
+     * @param {String} [representation=full] Resource representation.
+     * @returns {Promise} Non retired followup encounters for patient ordered by most recent.
+     */
+    function getPatientFollowupEncounters(patient, representation) {
+      if (patient.age.years > PATIENT_CHILD_AGE) {
+        return getPatientAdultFollowupEncounters(patient.uuid, representation);
+      }
+      return getPatientChildFollowupEncounters(patient.uuid, representation);
+    }
+
+
+    /**
+     * @param {String} patientUUID Patient UUID.
+     * @param {String} [representation=full] Resouce reprentation.
+     * @returns {Promise} Non retired adult followup encounters for patient ordered by most recent.
+     */
+    function getPatientChildFollowupEncounters(patientUUID, representation) {
+      return getEncountersForEncounterType(patientUUID, CHILD_FOLLOWUP_ENCOUNTER_TYPE_UUID, representation || "full")
+        .then(function (response) {
+          return _.flow([filterRetiredEncoounters, sortByEncounterDateTime, _.reverse])(response.data.results);
+        })
+        .catch(function (error) {
+          $log.error('XHR Failed for getPatientChildFollowupEncounters. ' + error.data);
+          return $q.reject(error);
+        })
+    }
+
+
+    /**
+     * @param {String} patientUUID Patient UUID.
+     * @param {String} [representation=full] Resouce reprentation.
+     * @returns {Promise} Non retired adult followup encounters for patient ordered by most recent.
+     */
+    function getPatientAdultFollowupEncounters(patientUUID, representation) {
+      return getEncountersForEncounterType(patientUUID, ADULT_FOLLOWUP_ENCOUNTER_TYPE_UUID, representation || "full")
+        .then(function (response) {
+          return _.flow([filterRetiredEncoounters, sortByEncounterDateTime, _.reverse])(response.data.results);
+        })
+        .catch(function (error) {
+          $log.error('XHR Failed for getPatientAdultFollowupEncounters. ' + error.data);
+          return $q.reject(error);
+        })
+    }
+
+
+    /**
+     * @param {String} patientUuid Patient UUID.
+     * @param {String} [v] Resouce reprentation.
+     * @returns {Promise} Non retired pharmacy encounters for patient ordered by most recent.
      */
     function getPatientFilaEncounters(patientUuid, v) {
 
@@ -222,7 +281,7 @@
         .catch(getEncountersFailed);
     }
 
-    function valueOfField (conceptUuid, obs) {
+    function valueOfField(conceptUuid, obs) {
 
       var field = _.find(obs, function (o) {
         return o.concept.uuid === conceptUuid;

@@ -1,29 +1,20 @@
 'use strict';
 
 angular.module('registration')
-    .controller('UpdatePatientController', ['$scope', '$location', '$stateParams', 'patientService',
-        function ($scope, $location, $stateParams, patientService) {
+    .controller('UpdatePatientController', ['$scope', '$location', '$stateParams', 'patientService', 'notifier', '$filter',
+        function ($scope, $location, $stateParams, patientService, notifier, $filter) {
 
                 (function () {
                     $scope.srefPrefix = "editpatient.";
                     var uuid = $stateParams.patientUuid;
 
-                    patientService.getPatient(uuid).then(function (patient) {
+                    patientService.getOpenMRSPatient(uuid).then(function (patient) {
                         $scope.openMRSPatient = patient;
                     });
                 })();
 
-                $scope.initAttributes = function() {
-                    $scope.patientAttributes = [];
-                    angular.forEach($scope.patientConfiguration.customAttributeRows(), function (value) {
-                        angular.forEach(value, function (value) {
-                            $scope.patientAttributes.push(value);
-                        });
-                    });
-                };
-
                 $scope.save = function () {
-                    patientService.update($scope.patient, $scope.openMRSPatient).success(successCallback);
+                    patientService.update($scope.patient, $scope.openMRSPatient).success(successCallback).error(errorCallback);
                 };
 
             var successCallback = function (patientProfileData) {
@@ -56,6 +47,10 @@ angular.module('registration')
 
                 foundIdentifier.identifier = identifierProfileData.identifier;
                 foundIdentifier.preferred = identifierProfileData.preferred;
+                notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
+            };
 
-            }
+            var errorCallback = function (data, status) {
+                notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ACTION'));
+            };
         }]);

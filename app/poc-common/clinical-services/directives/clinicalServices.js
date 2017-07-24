@@ -16,6 +16,7 @@
       scope: {
         add: '&onAdd',
         edit: '&onEdit',
+        display: '&onClick',
         patientUuid: '=',
         serviceForms: '=',
         services: '=',

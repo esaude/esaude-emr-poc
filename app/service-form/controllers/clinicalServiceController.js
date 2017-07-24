@@ -46,6 +46,18 @@ angular.module('serviceform')
                 $location.url(service.url + "/" + patientUuid + "/" + 
                         service.id + $scope.formInfo.parts[0].sref.replace(".", "/"));
             };
+
+            $rootScope.linkServiceDisplay = function(service, encounter) {
+                $rootScope.postAction = "display";
+                
+                findFormInfo(service);
+                
+                $rootScope.formPayload = Poc.Common.FormRequestMapper
+                        .mapFromOpenMRSFormWithEncounter($scope.serviceForms[service.id], encounter);
+                
+                $location.url(service.url + "/" + patientUuid + "/" + 
+                        service.id + "/display");
+            };
             
             var findFormInfo = function (service) {
                 $rootScope.formInfo = _.find($scope.formLayout, function(data) {

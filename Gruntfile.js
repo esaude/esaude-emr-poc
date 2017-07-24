@@ -27,6 +27,8 @@ module.exports = function (grunt) {
   var proxySnippet = require('grunt-connect-proxy/lib/utils').proxyRequest;
 
   // Configurable paths for the application
+  var POC_BASE = 'poc';
+
   var appConfig = {
     app: require('./bower.json').appPath || 'app',
     dist: 'dist'
@@ -322,7 +324,8 @@ module.exports = function (grunt) {
           html: {
             steps: {
               js: ['concat'],
-              css: ['cssmin']
+              css: ['cssmin'],
+              report: ['cssmin']
             },
             post: {}
           }
@@ -351,6 +354,11 @@ module.exports = function (grunt) {
         ],
         patterns: {
           js: [[/(images\/[^'']*\.(png|jpg|jpeg|gif|webp|svg))/g, 'Replacing references to images']]
+        },
+        blockReplacements: {
+          report: function (block) {
+            return '<link rel="stylesheet" href="/' + POC_BASE + '/' + block.dest + '">';
+          }
         }
       }
     },
@@ -492,7 +500,8 @@ module.exports = function (grunt) {
       'using-router': {
         router: function (filepath) {
           if(filepath.startsWith('dist')) {
-            return filepath.replace('dist', 'poc');
+
+            return filepath.replace('dist', POC_BASE);
           }
 
           return filepath;

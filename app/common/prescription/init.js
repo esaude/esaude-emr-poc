@@ -1,1 +1,1 @@
-angular.module('common.prescription', []);
+angular.module('common.prescription', ['bahmni.common.domain', 'datePicker']);

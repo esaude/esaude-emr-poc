@@ -528,7 +528,7 @@
         "fields": [
           {
             "name": "ESTADIO",
-        	"label": "COMMON_CALCULATED_STAGE",
+        	  "label": "COMMON_CALCULATED_STAGE",
             "id": "e29399fa-1d5f-11e0-b929-000c29ad1d07",
             "disabled": true,
             "logics": {
@@ -606,12 +606,13 @@
       {
         "id": "5",
         "name": "ESTADIO PEDIATRIA",
+        "label": "COMMON_CALCULATED_STAGE",
         "sref": ".stage5",
         "nextSref": ".confirm",
         "fields": [
           {
             "name": "ESTADIO PEDIATRIA",
-        	"label": "COMMON_CALCULATED_STAGE",
+        	  "label": "COMMON_CALCULATED_STAGE",
             "id": "e2adeb20-1d5f-11e0-b929-000c29ad1d07",
             "disabled": true,
             "logics": {

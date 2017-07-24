@@ -5,10 +5,9 @@
     .module('pharmacy')
     .controller('DashboardController', DashboardController);
 
-  DashboardController.$inject = ['$rootScope', '$location', '$stateParams', 'patientService', 'openmrsPatientMapper', 'reportService', '$log'];
+  DashboardController.$inject = ['$rootScope', '$location', '$stateParams', 'patientService'];
 
-  function DashboardController($rootScope, $location, $stateParams, patientService, openmrsPatientMapper, reportService, $log)
-  {
+  function DashboardController($rootScope, $location, $stateParams, patientService) {
     var patientUuid = $stateParams.patientUuid;
 
     var vm = this;
@@ -34,7 +33,7 @@
     }
 
     function linkPatientDetail() {
-      $location.url("/patient/detail/" + patientUuid + "/demographic"); // path not hash
+      $location.url("/patient/detail/" + patientUuid); // path not hash
     }
   }
 
