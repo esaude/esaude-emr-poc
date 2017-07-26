@@ -1,19 +1,33 @@
-"use strict";
+(function () {
+  'use strict';
 
-angular.module('application').service('applicationService', function ($http) {
-    var appUrl = "../common/application/resources/app.json";
+  angular
+    .module('application')
+    .factory('applicationService', applicationService);
 
-    this.getApps = function ()
-    {
-        var defer = $.Deferred();
-        $http.get(appUrl)
-                .success(function (response) {
-                    defer.resolve(response);
+  applicationService.$inject = ['$http', '$log'];
 
-                })
-                .error(function (error) {
-                    console.error("The async call has fail to: " + appUrl);
-                });
-        return defer.promise();
+  /* @ngInject */
+  function applicationService($http, $log) {
+
+    var APP_URL = "../common/application/resources/app.json";
+
+    var service = {
+      getApps: getApps
     };
-});
+    return service;
+
+    ////////////////
+
+    function getApps() {
+      return $http.get(APP_URL)
+        .then(function (response) {
+          return response.data.applications;
+        })
+        .catch(function (error) {
+          $log.error("The async call has fail to: " + APP_URL);
+        });
+    }
+  }
+
+})();

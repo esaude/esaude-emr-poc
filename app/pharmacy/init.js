@@ -1,9 +1,34 @@
-angular.module('pharmacy', ['bahmni.common.appFramework', 'ngRoute', 'ngCookies', 'ui.router', 'smart-table', 'bahmni.common.uiHelper', 'bahmni.common.config',
-                        'common.prescription', 'bahmni.common.domain', 'bahmni.common.appFramework', 'LocalStorageModule', 'datePicker',
-                        'frapontillo.bootstrap-switch', 'bahmni.common.uicontrols.programmanagment', 'serviceform',
-                        'ui.checkbox', 'application', 'ngMessages', 'poc.common.clinicalservices', 'common.patient',
-                        'pascalprecht.translate', 'bahmni.common.i18n', 'patient.details', 'ui.bootstrap', 'barcodeListener',
-                        'ngDialog']);
+angular
+  .module('pharmacy',
+    [
+      'bahmni.common.appFramework',
+      'ngRoute',
+      'ngCookies',
+      'ui.router',
+      'smart-table',
+      'bahmni.common.uiHelper',
+      'bahmni.common.config',
+      'common.prescription',
+      'bahmni.common.domain',
+      'bahmni.common.appFramework',
+      'LocalStorageModule',
+      'datePicker',
+      'frapontillo.bootstrap-switch',
+      'bahmni.common.uicontrols.programmanagment',
+      'serviceform',
+      'ui.checkbox',
+      'application',
+      'ngMessages',
+      'poc.common.clinicalservices',
+      'common.patient',
+      'pascalprecht.translate',
+      'bahmni.common.i18n',
+      'patient.details',
+      'ui.bootstrap',
+      'barcodeListener',
+      'ngDialog'
+    ]
+  );
 //to be initialized by config inside app.js
 //needed in dynamic states
 var $stateProviderRef = null;

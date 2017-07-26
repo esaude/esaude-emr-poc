@@ -63,7 +63,7 @@ describe('Controller: DashboardController', function() {
     scope.$apply();
 
     expect(applicationService.getApps).toHaveBeenCalled();
-    expect(scope.apps).toEqual(appJsonFixture.applications);
+    expect(scope.apps).toEqual(appJsonFixture);
   });
 
   it('should correctly set the chart data', function() {
