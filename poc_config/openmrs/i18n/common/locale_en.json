@@ -237,6 +237,8 @@
     "COMMON_MESSAGE_COULD_NOT_CREATE_PRESCRIPTION": "Could not create this prescription",
     "COMMON_MESSAGE_COULD_NOT_CANCEL_PRESCRIPTION_ITEM": "Could not cancel this prescription item",
     "COMMON_CANCELATION_PRESCRIPTION_ERROR_NO_REASON": "Please provide the reason of cancelation",
+    "COMMON_PROVIDER": "Provider",
+    "COMMON_PRESCRIPTION": "Prescription",
     "CLINIC_PRESCRIPTION_DRUG": "Drug",
     "CLINIC_PRESCRIPTION_DRUG_TYPE": "Drug Type",
     "CLINIC_PRESCRIPTION_NEW": "New Prescription",

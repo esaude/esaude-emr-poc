@@ -26,7 +26,7 @@ module.exports = function (config) {
       // bower:js
       'bower_components/q/q.js',
       'bower_components/jquery/dist/jquery.min.js',
-      'bower_components/angular/angular.min.js',
+      'bower_components/angular/angular.js',
       'bower_components/bootstrap/dist/js/bootstrap.min.js',
       'bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
       'bower_components/moment/min/moment.min.js',

@@ -3,7 +3,7 @@
 describe('PatientSimplifiedPrescriptionController', function () {
 
   var $controller, controller, $http, $filter, $rootScope, $stateParams, observationsService, commonService,
-    conceptService, localStorageService, notifier, spinner, drugService, prescriptionService, $q;
+    conceptService, localStorageService, notifier, spinner, drugService, prescriptionService, $q, providerService;
 
   var drugPrescriptionConvSet = [
     {
@@ -40,7 +40,8 @@ describe('PatientSimplifiedPrescriptionController', function () {
 
   beforeEach(inject(function (_$controller_, _$httpBackend_, _$filter_, _$rootScope_, _$stateParams_,
                               _observationsService_, _commonService_, _conceptService_, _localStorageService_,
-                              _notifier_, _spinner_, _drugService_, _prescriptionService_, _$q_) {
+                              _notifier_, _spinner_, _drugService_, _prescriptionService_, _$q_,
+                              _providerService_) {
 
     $controller = _$controller_;
     $http = _$httpBackend_;
@@ -56,6 +57,7 @@ describe('PatientSimplifiedPrescriptionController', function () {
     drugService = _drugService_;
     prescriptionService = _prescriptionService_;
     $q = _$q_;
+    providerService = _providerService_;
   }));
 
   beforeEach(function () {
@@ -75,7 +77,13 @@ describe('PatientSimplifiedPrescriptionController', function () {
       return $q(function (resolve) {
         return resolve([]);
       });
-    })
+    });
+
+    spyOn(providerService, 'getProviders').and.callFake(function () {
+      return $q(function (resolve) {
+        return resolve([]);
+      })
+    });
   });
 
   describe('activate', function () {
@@ -148,7 +156,7 @@ describe('PatientSimplifiedPrescriptionController', function () {
 
     beforeEach(function () {
 
-      spyOn(prescriptionService, 'stopPrescriptionItem').and.callFake(function  () {
+      spyOn(prescriptionService, 'stopPrescriptionItem').and.callFake(function () {
         return $q(function (resolve) {
           resolve();
         });

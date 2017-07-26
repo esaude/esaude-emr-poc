@@ -8,27 +8,6 @@
         <div ng-if="!vm.hasServiceToday">
 
           <div class="panel panel-primary panel-marginless-sides">
-            <div class="panel-heading">
-              <h3 class="panel-title">
-                {{'PRESCRIPTION_DATE' | translate}}
-              </h3>
-            </div>
-            <div class="panel-body">
-              <div class="form-horizontal">
-                <div class="form-group form-group-lg">
-                  <label for="prescriptionDate" class="col-sm-3 control-label">
-                    {{'PRESCRIPTION_DATE' | translate}}:
-                  </label>
-                  <div class="col-sm-9">
-                    <input date-time format="d MMM y" min-view="date" ng-model="vm.prescriptionDate" id="prescriptionDate"
-                           type="text" class="form-control keyboard-in"/>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="panel panel-primary panel-marginless-sides">
             <div class="list-group">
               <div class="list-group-item list-group-item-success">
                 <checkbox largest
@@ -39,17 +18,69 @@
             </div>
           </div>
 
+
+
           <div ng-include src="'../common/prescription/views/prescription-arv.html'"></div>
 
-          <div class="panel panel-primary panel-marginless-sides">
-            <div class="panel-heading">
-              <h3 class="panel-title">{{'CLINIC_PRESCRIPTION_DRUG'| translate}}</h3>
+          <form name="prescriptionForm" class="form-horizontal" autocomplete="off">
+
+            <div class="panel panel-primary panel-marginless-sides">
+              <div class="panel-heading">
+                <h3 class="panel-title">
+                  {{'COMMON_PRESCRIPTION' | translate}}
+                </h3>
+              </div>
+              <div class="panel-body">
+                <div class="form-horizontal">
+                  <div class="form-group form-group-lg"
+                       ng-class="{'has-error': prescriptionForm.prescriptionDate.$invalid && vm.showMessages}">
+                    <label for="prescriptionDate" class="col-sm-3 control-label">
+                      {{'PRESCRIPTION_DATE' | translate}}:<span class="asterick">*</span>
+                    </label>
+                    <div class="col-sm-9">
+                      <div ng-messages for="prescriptionForm.prescriptionDate.$error"
+                           ng-messages-include="../poc-common/form-display/views/error-messages.html"
+                           ng-show="vm.showMessages"></div>
+                      <input name="prescriptionDate"
+                             type="text"
+                             date-time format="d MMM y" min-view="date" ng-model="vm.prescriptionDate"
+                             id="prescriptionDate"
+                             type="text" class="form-control keyboard-in" required/>
+                    </div>
+                  </div>
+
+                  <div class="form-group form-group-lg"
+                       ng-class="{'has-error': prescriptionForm.drug.$invalid && vm.showMessages}">
+                    <label for="prescriptionDate" class="col-sm-3 control-label">
+                      {{'COMMON_PROVIDER' | translate}}:<span class="asterick">*</span>
+                    </label>
+                    <div class="col-sm-9">
+                      <div ng-messages for="prescriptionForm.selectedProvider.$error"
+                           ng-messages-include="../poc-common/form-display/views/error-messages.html"
+                           ng-show="vm.showMessages"></div>
+                      <input name="selectedProvider"
+                             uib-typeahead="p as p.display for p in vm.providers"
+                             type="text"
+                             ng-model="vm.selectedProvider"
+                             id="provider" type="text" class="form-control keyboard-in" required/>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="panel-body">
-              <form name="prescriptionForm" class="form-horizontal" autocomplete="off">
+
+            <div class="panel panel-primary panel-marginless-sides">
+              <div class="panel-heading">
+                <h3 class="panel-title">{{'CLINIC_PRESCRIPTION_DRUG'| translate}}</h3>
+              </div>
+              <div class="panel-body">
+
                 <div class="form-group form-group-lg"
-                     ng-class="{'has-error': prescriptionForm.drug.$invalid && vm.showMessages}" ng-show="!vm.prescriptionItem.isArv">
-                  <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_DRUG'| translate}}:<span class="asterick">*</span></label>
+                     ng-class="{'has-error': prescriptionForm.drug.$invalid && vm.showMessages}"
+                     ng-show="!vm.prescriptionItem.isArv">
+                  <label class="col-sm-3 control-label">
+                    {{'CLINIC_PRESCRIPTION_DRUG'| translate}}:<span class="asterick">*</span>
+                  </label>
                   <div class="col-sm-9">
                     <div ng-messages for="prescriptionForm.drug.$error"
                          ng-messages-include="../poc-common/form-display/views/error-messages.html"
@@ -65,8 +96,10 @@
                   </div>
                 </div>
                 <div class="form-group form-group-lg"
-                     ng-class="{'has-error': prescriptionForm.arvDrug.$invalid && vm.showMessages}" ng-show="vm.prescriptionItem.isArv">
-                  <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_DRUG'| translate}}:<span class="asterick">*</span></label>
+                     ng-class="{'has-error': prescriptionForm.arvDrug.$invalid && vm.showMessages}"
+                     ng-show="vm.prescriptionItem.isArv">
+                  <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_DRUG'| translate}}:<span
+                    class="asterick">*</span></label>
                   <div class="col-sm-9">
                     <div ng-messages for="prescriptionForm.arvDrug.$error"
                          ng-messages-include="../poc-common/form-display/views/error-messages.html"
@@ -79,7 +112,8 @@
                 </div>
                 <div class="form-group form-group-lg"
                      ng-class="{'has-error': prescriptionForm.doseAmount.$invalid && vm.showMessages}">
-                  <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_DOSE'| translate}}:<span class="asterick">*</span></label>
+                  <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_DOSE'| translate}}:<span
+                    class="asterick">*</span></label>
                   <div class="col-sm-3">
                     <div ng-messages for="prescriptionForm.doseAmount.$error"
                          ng-messages-include="../poc-common/form-display/views/error-messages.html"
@@ -92,46 +126,54 @@
                 </div>
                 <div class="form-group form-group-lg"
                      ng-class="{'has-error': prescriptionForm.dosingUnits.$invalid && vm.showMessages}">
-                  <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_UNITS'| translate}}:<span class="asterick">*</span></label>
+                  <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_UNITS'| translate}}:<span
+                    class="asterick">*</span></label>
                   <div class="col-sm-9">
                     <div ng-messages for="prescriptionForm.dosingUnits.$error"
                          ng-messages-include="../poc-common/form-display/views/error-messages.html"
                          ng-show="vm.showMessages"></div>
                     <select name="dosingUnits" class="form-control" ng-model="vm.prescriptionItem.drugOrder.doseUnits"
-                            ng-options="unit.display for unit in vm.fieldModels.dosingUnits.model.answers track by unit.uuid" required>
+                            ng-options="unit.display for unit in vm.fieldModels.dosingUnits.model.answers track by unit.uuid"
+                            required>
                       <option></option>
                     </select>
                   </div>
                 </div>
                 <div class="form-group form-group-lg"
                      ng-class="{'has-error': prescriptionForm.dosgeFrequency.$invalid && vm.showMessages}">
-                  <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_POSOLOGY'| translate}}:<span class="asterick">*</span></label>
+                  <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_POSOLOGY'| translate}}:<span
+                    class="asterick">*</span></label>
                   <div class="col-sm-9">
                     <div ng-messages for="prescriptionForm.dosgeFrequency.$error"
                          ng-messages-include="../poc-common/form-display/views/error-messages.html"
                          ng-show="vm.showMessages"></div>
-                    <select name="dosgeFrequency" class="form-control" ng-model="vm.prescriptionItem.drugOrder.frequency"
-                            ng-options="frequency.display for frequency in vm.fieldModels.dosgeFrequency.model.answers track by frequency.uuid" required>
+                    <select name="dosgeFrequency" class="form-control"
+                            ng-model="vm.prescriptionItem.drugOrder.frequency"
+                            ng-options="frequency.display for frequency in vm.fieldModels.dosgeFrequency.model.answers track by frequency.uuid"
+                            required>
                       <option></option>
                     </select>
                   </div>
                 </div>
                 <div class="form-group form-group-lg"
                      ng-class="{'has-error': prescriptionForm.drugRoute.$invalid && vm.showMessages}">
-                  <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_ROUTE'| translate}}:<span class="asterick">*</span></label>
+                  <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_ROUTE'| translate}}:<span
+                    class="asterick">*</span></label>
                   <div class="col-sm-9">
                     <div ng-messages for="prescriptionForm.drugRoute.$error"
                          ng-messages-include="../poc-common/form-display/views/error-messages.html"
                          ng-show="vm.showMessages"></div>
                     <select name="drugRoute" class="form-control" ng-model="vm.prescriptionItem.drugOrder.route"
-                            ng-options="route.display for route in vm.fieldModels.drugRoute.model.answers track by route.uuid" required>
+                            ng-options="route.display for route in vm.fieldModels.drugRoute.model.answers track by route.uuid"
+                            required>
                       <option></option>
                     </select>
                   </div>
                 </div>
                 <div class="form-group form-group-lg"
                      ng-class="{'has-error': prescriptionForm.duration.$invalid && vm.showMessages}">
-                  <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_DURATION'| translate}}:<span class="asterick">*</span></label>
+                  <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_DURATION'| translate}}:<span
+                    class="asterick">*</span></label>
                   <div class="col-sm-3">
                     <div ng-messages for="prescriptionForm.duration.$error"
                          ng-messages-include="../poc-common/form-display/views/error-messages.html"
@@ -146,27 +188,35 @@
                     <div ng-messages for="prescriptionForm.durationUnits.$error"
                          ng-messages-include="../poc-common/form-display/views/error-messages.html"
                          ng-show="vm.showMessages"></div>
-                    <select name="durationUnits" class="form-control" ng-model="vm.prescriptionItem.drugOrder.durationUnits"
-                            ng-options="durationUnit.display for durationUnit in vm.fieldModels.durationUnits.model.answers track by durationUnit.uuid" required>
+                    <select name="durationUnits" class="form-control"
+                            ng-model="vm.prescriptionItem.drugOrder.durationUnits"
+                            ng-options="durationUnit.display for durationUnit in vm.fieldModels.durationUnits.model.answers track by durationUnit.uuid"
+                            required>
                       <option></option>
                     </select>
                   </div>
                 </div>
                 <div class="form-group form-group-lg"
                      ng-class="{'has-error': prescriptionForm.dosingInstructions.$invalid && vm.showMessages}">
-                  <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_RECOMMENDATION'| translate}}:<span class="asterick">*</span></label>
+                  <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_RECOMMENDATION'| translate}}:<span
+                    class="asterick">*</span></label>
                   <div class="col-sm-9">
                     <div ng-messages for="prescriptionForm.dosingInstructions.$error"
                          ng-messages-include="../poc-common/form-display/views/error-messages.html"
                          ng-show="vm.showMessages"></div>
-                    <select name="dosingInstructions" class="form-control" ng-model="vm.prescriptionItem.drugOrder.dosingInstructions"
-                            ng-options="instruction.display for instruction in vm.fieldModels.dosingInstructions.model.answers track by instruction.uuid" required>
+                    <select name="dosingInstructions" class="form-control"
+                            ng-model="vm.prescriptionItem.drugOrder.dosingInstructions"
+                            ng-options="instruction.display for instruction in vm.fieldModels.dosingInstructions.model.answers track by instruction.uuid"
+                            required>
                       <option></option>
                     </select>
                   </div>
                 </div>
-              </form>
+              </div>
             </div>
+          </form>
+
+          <div class="panel panel-primary panel-marginless-sides">
             <div class="panel-footer go-to-right">
               <button class="btn btn-default btn-lg" type="button" ng-click="vm.reset(prescriptionForm)">
                 <span class="glyphicon glyphicon-erase"></span>

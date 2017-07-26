@@ -7,15 +7,14 @@
 
   PatientSimplifiedPrescriptionController.$inject = ['$http', '$filter', '$rootScope', '$stateParams',
     'observationsService', 'commonService', 'conceptService', 'localStorageService', 'notifier', 'spinner',
-    'drugService', 'prescriptionService'];
+    'drugService', 'prescriptionService', 'providerService'];
 
   /* @ngInject */
   function PatientSimplifiedPrescriptionController($http, $filter, $rootScope, $stateParams, observationsService,
                                                    commonService, conceptService, localStorageService, notifier, spinner,
-                                                   drugService, prescriptionService) {
+                                                   drugService, prescriptionService, providerService) {
 
 
-    var currentProvider = $rootScope.currentProvider;
     var drugMapping = $rootScope.drugMapping;
     var patientUuid;
     var patient = $rootScope.patient;
@@ -39,6 +38,7 @@
     vm.cancelationReasonTyped = null;
     vm.cancelationReasonSelected = null;
     vm.prescriptionItemToCancel = null;
+    vm.providers = [];
     vm.selectedProvider = { display: '' };
 
     vm.add = add;
@@ -91,6 +91,10 @@
         .then(loadAllRegimes());
 
       spinner.forPromise(load);
+
+      getProviders().then(function (providers) {
+        vm.providers = providers;
+      });
     }
 
 
@@ -219,6 +223,11 @@
     }
 
 
+    function getProviders() {
+      return providerService.getProviders();
+    }
+
+
     function initTherapeuticLine() {
       //use regimen of already selected ARV line as the default one
       var selectedArvItem = _.find(vm.listedPrescriptions, function (item) {
@@ -296,7 +305,7 @@
 
         prescriptionDate: vm.prescriptionDate,
         patient: {uuid: patientUuid},
-        provider: {uuid: currentProvider.uuid},
+        provider: {uuid: vm.selectedProvider.uuid},
         location: {uuid: localStorageService.cookie.get("emr.location").uuid},
         prescriptionItems: []
       };
@@ -374,16 +383,6 @@
     function isPrescriptionControl() {
       if (_.isEmpty(vm.listedPrescriptions)) {
         vm.showNewPrescriptionsControlls = false;
-      }
-    }
-
-
-    function genSimpleObs(concept, value, datetime) {
-      return {
-        concept: concept,
-        obsDatetime: datetime,
-        person: patientUuid,
-        value: value
       }
     }
 
