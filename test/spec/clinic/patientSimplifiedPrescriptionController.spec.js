@@ -160,27 +160,33 @@ describe('PatientSimplifiedPrescriptionController', function () {
 
       var item = {drugOrder: {action: 'NEW'}};
 
-      var scope = {cancelationReasonTyped: 'Mistake.', cancelationReasonSelected: '...'};
-
       spyOn(notifier, 'success').and.callFake(function () {
 
       });
 
-      controller = $controller('PatientSimplifiedPrescriptionController', {
-        $scope: scope
-      });
+      var form = {
+        $valid: true,
+        $setPristine: function () {
+
+        },
+        $setUntouched: function () {
+
+        }
+      };
+
+      controller = $controller('PatientSimplifiedPrescriptionController', {});
 
       controller.listedPrescriptions = [1];
-      scope.cancelationReasonTyped = 'Mistake.';
-      scope.cancelationReasonSelected = '...';
+      controller.cancelationReasonTyped = 'Mistake.';
+      controller.cancelationReasonSelected = '...';
 
       expect(controller.listedPrescriptions.length).toBe(1);
 
-      controller.cancelOrStop(item);
+      controller.cancelOrStop(form, item);
 
       $rootScope.$apply();
-      expect(scope.cancelationReasonTyped).toBeFalsy();
-      expect(scope.cancelationReasonSelected).toBeFalsy();
+      expect(controller.cancelationReasonTyped).toBeFalsy();
+      expect(controller.cancelationReasonSelected).toBeFalsy();
       expect(controller.listedPrescriptions.length).toBe(0);
       expect(notifier.success).toHaveBeenCalled();
       expect(prescriptionService.stopPrescriptionItem).toHaveBeenCalled();

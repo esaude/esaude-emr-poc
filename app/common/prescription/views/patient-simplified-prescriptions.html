@@ -273,7 +273,11 @@
                       </strong>
                     </span>
                     <span>
-                      <button type="button" class="close btn-lg content-border-margin-regular-sides" ng-click ="vm.setValueToModal(item)" data-toggle="modal" data-target="#cancelPrescriptionModal"  ng-hide="item.status == 'PHARMACY_FINALIZED' ">
+                      <button type="button" class="close btn-lg content-border-margin-regular-sides"
+                              ng-click ="vm.setPrescriptionItemToCancel(item)"
+                              data-toggle="modal"
+                              data-target="#cancelPrescriptionModal"
+                              ng-hide="item.status == 'PHARMACY_FINALIZED' ">
                             <span class="glyphicon glyphicon-trash"  ng-hide="item.drugOrder.action == 'REVISE' " ></span>
                             <span class="glyphicon glyphicon-floppy-remove"  ng-hide="item.drugOrder.action == 'NEW' " ></span>
                       </button>

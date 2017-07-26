@@ -5,53 +5,52 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="cancelPrescriptionModalLabel">{{'PHARMACY_CANCEL_PRESCRIPTION' | translate}} :</h4>
               <span>
-                <strong>{{vm.valueToModal.drugOrder.drug.display}}</strong>
-                <strong ng-if="vm.valueToModal.regime">
-                    ({{vm.valueToModal.regime.display}})
+                <strong>{{vm.prescriptionItemToCancel.drugOrder.drug.display}}</strong>
+                <strong ng-if="vm.prescriptionItemToCancel.regime">
+                    ({{vm.prescriptionItemToCancel.regime.display}})
                 </strong>-
-                {{vm.valueToModal.drugOrder.dose}}
-                {{vm.valueToModal.drugOrder.doseUnits.display}}, {{vm.valueToModal.drugOrder.frequency.display}},
-                {{vm.valueToModal.drugOrder.route.display}} - {{vm.valueToModal.drugOrder.duration}}
-                {{vm.valueToModal.drugOrder.durationUnits.display}}, {{vm.valueToModal.dosingInstructions}}
+                {{vm.prescriptionItemToCancel.drugOrder.dose}}
+                {{vm.prescriptionItemToCancel.drugOrder.doseUnits.display}}, {{vm.prescriptionItemToCancel.drugOrder.frequency.display}},
+                {{vm.prescriptionItemToCancel.drugOrder.route.display}} - {{vm.prescriptionItemToCancel.drugOrder.duration}}
+                {{vm.prescriptionItemToCancel.drugOrder.durationUnits.display}}, {{vm.prescriptionItemToCancel.dosingInstructions}}
             </span>
             </div>
-            <form class="form-horizontal" name="cancelPrescriptionForm">
-                <div class="alert alert-danger alert-dismissible content-border-margin" role="alert"  ng-show="errorMessage">
-                    <strong>{{errorMessage | translate}}</strong>
-                </div>
+            <form class="form-horizontal" name="cancelPrescriptionForm" novalidate>
+
                 <div class="modal-body content-border-margin">
                     <div class="form-group form-group-lg">
                         <label class="control-label col-sm-3">{{'PHARMACY_CANCEL_PRESCRIPTIONS_REASON' | translate}}:</label>
-
-                      <div class="col-sm-9" ng-hide="vm.valueToModal.drugOrder.action == 'NEW' ">
+                      <div class="col-sm-9" ng-hide="vm.prescriptionItemToCancel.drugOrder.action === 'NEW' ">
                         <div ng-messages for="cancelPrescriptionForm.cancelationReasonSelected.$error"
                              ng-messages-include="../poc-common/form-display/views/error-messages.html"
-                             ng-show="vm.showMessages"></div>
-                        <select name="cancelationReasonSelected" class="form-control" ng-model="$parent.cancelationReasonSelected"
+                             ng-show="cancelPrescriptionForm.$submitted || cancelPrescriptionForm.cancelationReasonSelected.$touched">
+                        </div>
+                        <select name="cancelationReasonSelected" class="form-control" ng-model="vm.cancelationReasonSelected"
                                 ng-options="reason.display for reason in vm.fieldModels.interruptedReason.model.answers"
-                                ng-required="vm.valueToModal.drugOrder.action == 'REVISE' ">
+                                ng-required="vm.prescriptionItemToCancel.drugOrder.action === 'REVISE' ">
                           <option></option>
                         </select>
                       </div>
-                      <div class="col-sm-9" ng-hide="vm.valueToModal.drugOrder.action == 'REVISE' ">
+                      <div class="col-sm-9" ng-hide="vm.prescriptionItemToCancel.drugOrder.action === 'REVISE' ">
                         <div ng-messages for="cancelPrescriptionForm.cancelationReasonTyped.$error"
                              ng-messages-include="../poc-common/form-display/views/error-messages.html"
-                             ng-show="vm.showMessages"></div>
+                             ng-show="cancelPrescriptionForm.$submitted || cancelPrescriptionForm.cancelationReasonTyped.$touched">
+                        </div>
                         <input type="text"
                                name="cancelationReasonTyped"
-                               ng-model="$parent.cancelationReasonTyped"
+                               ng-model="vm.cancelationReasonTyped"
                                class="form-control keyboard-in"
-                               ng-required="vm.valueToModal.drugOrder.action == 'NEW' "
+                               ng-required="vm.prescriptionItemToCancel.drugOrder.action === 'NEW' "
                                ng-minlength="10"
                                ng-focus="true">
                       </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-warning btn-lg" data-dismiss="modal">
+                    <button type="button" class="btn btn-warning btn-lg" ng-click="vm.closeCancellationModal(cancelPrescriptionForm)">
                         <span class="glyphicon glyphicon-minus-sign"></span>
                     </button>
-                    <button type="submit"  ng-click="vm.cancelOrStop(vm.valueToModal)"
+                    <button type="submit"  ng-click="vm.cancelOrStop(cancelPrescriptionForm, vm.prescriptionItemToCancel)"
                             class="btn btn-primary btn-lg">
                         <span class="glyphicon glyphicon-floppy-disk"></span>
                     </button>
@@ -60,9 +59,3 @@
         </div>
     </div>
 </div>
-<script>
-    $('.modal').on('show.bs.modal', function(){
-    $(this).find('form')[0].reset();
-    $('.alert').hide();
-});
-</script>
