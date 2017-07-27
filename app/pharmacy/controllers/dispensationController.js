@@ -5,14 +5,13 @@
     .module('pharmacy')
     .controller('DispensationController', DispensationController);
 
-  DispensationController.$inject = ['$scope', '$rootScope', '$filter', 'dispensationService', 'prescriptionService', 'localStorageService'];
+  DispensationController.$inject = ['$rootScope', 'dispensationService', 'prescriptionService', 'localStorageService'];
 
-  function DispensationController($scope, $rootScope, $filter, dispensationService, prescriptionService, localStorageService) {
+  function DispensationController($rootScope, dispensationService, prescriptionService, localStorageService) {
 
     var dateUtil = Bahmni.Common.Util.DateUtil;
 
     var vm = this;
-    //fake just for now
     vm.itemIndex = 0;
     vm.prescriptiontNoResultsMessage = "PHARMACY_LIST_NO_ITEMS";
     vm.prescriptions = [];
@@ -20,9 +19,6 @@
     vm.selectedItems = [];
     vm.today = dateUtil.getDateWithoutTime(dateUtil.now());
 
-
-    // TODO: Should Remove the hardedCode
-    // vm.barcodeHandler = barcodeHandler;
     vm.initPrescriptions = initPrescriptions;
     vm.dispense = dispense;
     vm.remove = remove;
@@ -229,27 +225,6 @@
         initPrescriptions();
       });
     }
-
-    // function barcodeHandler(code) {
-    //   // fake dcode
-    //   var invalidDrug = 'IZONIAZID100mg';
-    //
-    //   if (invalidDrug === code) {
-    //     toastr.error($filter('translate')('PHARMACY_THE_SELECTED_DRUG_IS_NOT_PART_OF_PRESCRIBED'), $filter('translate')('COMMON_ERROR'));
-    //     return;
-    //   }
-    //
-    //   $scope.$apply(function () {
-    //
-    //     var item = vm.prescriptions[vm.itemIndex];
-    //
-    //     if (_.includes(vm.selectedItems, item))
-    //       return;
-    //
-    //     select(item);
-    //     vm.itemIndex++;
-    //   });
-    // }
 
     function updateDispenseListMessage() {
       vm.dispenseListNoResultsMessage = vm.selectedItems.length === 0 ? "PHARMACY_LIST_NO_ITEMS" : null;
