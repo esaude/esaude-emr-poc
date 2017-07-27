@@ -5,9 +5,9 @@
     .module('bahmni.common.domain')
     .factory('prescriptionService', prescriptionService);
 
-  prescriptionService.$inject = ['encounterService', 'conceptService', 'appService', '$http', '$q', '$log'];
+  prescriptionService.$inject = ['$http', '$q', '$log'];
 
-  function prescriptionService(encounterService, conceptService, appService, $http, $q, $log) {
+  function prescriptionService($http, $q, $log) {
     return {
        create: create,
        stopPrescriptionItem: stopPrescriptionItem,
