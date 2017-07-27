@@ -5,14 +5,16 @@
     .module('authentication')
     .factory('sessionService', sessionService);
 
-  sessionService.$inject = ['$rootScope', '$http', '$q', '$cookies', 'userService', 'localStorageService'];
+  sessionService.$inject = ['$rootScope', '$http', '$q', '$cookies', 'userService', 'localStorageService', '$log'];
 
-  function sessionService($rootScope, $http, $q, $cookies, userService, localStorageService) {
+  function sessionService($rootScope, $http, $q, $cookies, userService, localStorageService, $log) {
 
     var SESSION_RESOURCE_PATH = '/openmrs/ws/rest/v1/session';
 
     var service = {
       destroy: destroy,
+      getCurrentProvider: getCurrentProvider,
+      getCurrentUser: getCurrentUser,
       getSession: getSession,
       loadCredentials: loadCredentials,
       loadProviders: loadProviders,
@@ -41,6 +43,31 @@
         localStorageService.cookie.remove("emr.location");
         $rootScope.currentUser = null;
       });
+    }
+
+    function getCurrentProvider() {
+      return getCurrentUser()
+        .then(function (currentUser) {
+          return loadProviders(currentUser)
+        })
+        .then(function (response) {
+          return (response.data.results.length > 0) ? response.data.results[0] : undefined;
+        })
+        .catch(function (error) {
+          $log.error('Could not load current provider. ' + error.data);
+        });
+    }
+
+    function getCurrentUser() {
+      var currentUser = $cookies.get(Bahmni.Common.Constants.currentUser);
+
+      return userService.getUser(currentUser)
+        .then(function(response) {
+          return response.data.results[0];
+        })
+        .catch(function (error) {
+          $log.error('XHR Failed for getCurrentUser. ' + error.data);
+        });
     }
 
     function loginUser(username, password) {

@@ -26,51 +26,6 @@
 
             <div class="panel panel-primary panel-marginless-sides">
               <div class="panel-heading">
-                <h3 class="panel-title">
-                  {{'COMMON_PRESCRIPTION' | translate}}
-                </h3>
-              </div>
-              <div class="panel-body">
-                <div class="form-horizontal">
-                  <div class="form-group form-group-lg"
-                       ng-class="{'has-error': prescriptionForm.prescriptionDate.$invalid && vm.showMessages}">
-                    <label for="prescriptionDate" class="col-sm-3 control-label">
-                      {{'PRESCRIPTION_DATE' | translate}}:<span class="asterick">*</span>
-                    </label>
-                    <div class="col-sm-9">
-                      <div ng-messages for="prescriptionForm.prescriptionDate.$error"
-                           ng-messages-include="../poc-common/form-display/views/error-messages.html"
-                           ng-show="vm.showMessages"></div>
-                      <input name="prescriptionDate"
-                             type="text"
-                             date-time format="d MMM y" min-view="date" ng-model="vm.prescriptionDate"
-                             id="prescriptionDate"
-                             type="text" class="form-control keyboard-in" required/>
-                    </div>
-                  </div>
-
-                  <div class="form-group form-group-lg"
-                       ng-class="{'has-error': prescriptionForm.drug.$invalid && vm.showMessages}">
-                    <label for="prescriptionDate" class="col-sm-3 control-label">
-                      {{'COMMON_PROVIDER' | translate}}:<span class="asterick">*</span>
-                    </label>
-                    <div class="col-sm-9">
-                      <div ng-messages for="prescriptionForm.selectedProvider.$error"
-                           ng-messages-include="../poc-common/form-display/views/error-messages.html"
-                           ng-show="vm.showMessages"></div>
-                      <input name="selectedProvider"
-                             uib-typeahead="p as p.display for p in vm.providers"
-                             type="text"
-                             ng-model="vm.selectedProvider"
-                             id="provider" type="text" class="form-control keyboard-in" required/>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="panel panel-primary panel-marginless-sides">
-              <div class="panel-heading">
                 <h3 class="panel-title">{{'CLINIC_PRESCRIPTION_DRUG'| translate}}</h3>
               </div>
               <div class="panel-body">

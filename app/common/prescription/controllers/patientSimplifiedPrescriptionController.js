@@ -7,12 +7,12 @@
 
   PatientSimplifiedPrescriptionController.$inject = ['$http', '$filter', '$rootScope', '$stateParams',
     'observationsService', 'commonService', 'conceptService', 'localStorageService', 'notifier', 'spinner',
-    'drugService', 'prescriptionService', 'providerService'];
+    'drugService', 'prescriptionService', 'providerService', 'sessionService'];
 
   /* @ngInject */
   function PatientSimplifiedPrescriptionController($http, $filter, $rootScope, $stateParams, observationsService,
                                                    commonService, conceptService, localStorageService, notifier, spinner,
-                                                   drugService, prescriptionService, providerService) {
+                                                   drugService, prescriptionService, providerService, sessionService) {
 
 
     var drugMapping = $rootScope.drugMapping;
@@ -88,7 +88,11 @@
       var load = conceptService.getPrescriptionConvSetConcept()
         .then(setFieldModels)
         .then(loadSavedPrescriptions(patient))
-        .then(loadAllRegimes());
+        .then(loadAllRegimes())
+        .then(getCurrentProvider)
+        .then(function (currentProvider) {
+          vm.selectedProvider = currentProvider;
+        });
 
       spinner.forPromise(load);
 
@@ -225,6 +229,10 @@
 
     function getProviders() {
       return providerService.getProviders();
+    }
+
+    function getCurrentProvider() {
+      return sessionService.getCurrentProvider();
     }
 
 

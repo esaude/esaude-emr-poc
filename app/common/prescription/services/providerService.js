@@ -22,7 +22,7 @@
           return response.data.results;
         })
         .catch(function (err) {
-          $log.error('XHR Failed for getLastPatientPrescription. ' + error.data);
+          $log.error('XHR Failed for getProviders. ' + error.data);
           return $q.reject(err);
         });
     }

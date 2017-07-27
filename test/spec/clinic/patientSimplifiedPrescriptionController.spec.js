@@ -3,7 +3,8 @@
 describe('PatientSimplifiedPrescriptionController', function () {
 
   var $controller, controller, $http, $filter, $rootScope, $stateParams, observationsService, commonService,
-    conceptService, localStorageService, notifier, spinner, drugService, prescriptionService, $q, providerService;
+    conceptService, localStorageService, notifier, spinner, drugService, prescriptionService, $q, providerService,
+    sessionService;
 
   var drugPrescriptionConvSet = [
     {
@@ -41,7 +42,7 @@ describe('PatientSimplifiedPrescriptionController', function () {
   beforeEach(inject(function (_$controller_, _$httpBackend_, _$filter_, _$rootScope_, _$stateParams_,
                               _observationsService_, _commonService_, _conceptService_, _localStorageService_,
                               _notifier_, _spinner_, _drugService_, _prescriptionService_, _$q_,
-                              _providerService_) {
+                              _providerService_, _sessionService_) {
 
     $controller = _$controller_;
     $http = _$httpBackend_;
@@ -58,6 +59,7 @@ describe('PatientSimplifiedPrescriptionController', function () {
     prescriptionService = _prescriptionService_;
     $q = _$q_;
     providerService = _providerService_;
+    sessionService = _sessionService_;
   }));
 
   beforeEach(function () {
@@ -84,6 +86,12 @@ describe('PatientSimplifiedPrescriptionController', function () {
         return resolve([]);
       })
     });
+
+    spyOn(sessionService, 'getCurrentProvider').and.callFake(function () {
+      return $q(function (resolve) {
+        return resolve([]);
+      })
+    });
   });
 
   describe('activate', function () {
@@ -104,6 +112,11 @@ describe('PatientSimplifiedPrescriptionController', function () {
     it('should set fieldModels', function () {
       $rootScope.$apply();
       expect(controller.fieldModels['dosingUnits'].model).toEqual(drugPrescriptionConvSet[0]);
+    });
+
+    it('should load currentProvider', function () {
+      $rootScope.$apply();
+      expect(sessionService.getCurrentProvider).toHaveBeenCalled();
     });
 
   });
