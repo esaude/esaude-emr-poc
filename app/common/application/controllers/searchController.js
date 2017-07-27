@@ -72,7 +72,7 @@ angular.module('application')
                     $rootScope.patient = patient;
                     redirectToPage(patient);
                 } else {
-                    patientService.getPatient(patient.uuid).success(function (patient) {
+                    patientService.getPatient(patient.uuid).then(function (patient) {
                         $rootScope.patient = patient;
                         redirectToPage(patient);
                     });
