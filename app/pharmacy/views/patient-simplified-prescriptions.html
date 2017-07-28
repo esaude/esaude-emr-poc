@@ -59,7 +59,7 @@
                        ng-messages-include="../poc-common/form-display/views/error-messages.html"
                        ng-show="vm.showMessages"></div>
                   <input name="selectedProvider"
-                         uib-typeahead="p as p.display for p in vm.providers"
+                         uib-typeahead="p as p.display for p in vm.providers | filter:vm.selectedProvider"
                          type="text"
                          ng-model="vm.selectedProvider"
                          id="provider" type="text" class="form-control keyboard-in" required/>
