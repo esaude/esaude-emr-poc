@@ -3,7 +3,8 @@
 describe('PatientSimplifiedPrescriptionController', function () {
 
   var $controller, controller, $http, $filter, $rootScope, $stateParams, observationsService, commonService,
-    conceptService, localStorageService, notifier, spinner, drugService, prescriptionService, $q;
+    conceptService, localStorageService, notifier, spinner, drugService, prescriptionService, $q, providerService,
+    sessionService;
 
   var drugPrescriptionConvSet = [
     {
@@ -40,7 +41,8 @@ describe('PatientSimplifiedPrescriptionController', function () {
 
   beforeEach(inject(function (_$controller_, _$httpBackend_, _$filter_, _$rootScope_, _$stateParams_,
                               _observationsService_, _commonService_, _conceptService_, _localStorageService_,
-                              _notifier_, _spinner_, _drugService_, _prescriptionService_, _$q_) {
+                              _notifier_, _spinner_, _drugService_, _prescriptionService_, _$q_,
+                              _providerService_, _sessionService_) {
 
     $controller = _$controller_;
     $http = _$httpBackend_;
@@ -56,6 +58,8 @@ describe('PatientSimplifiedPrescriptionController', function () {
     drugService = _drugService_;
     prescriptionService = _prescriptionService_;
     $q = _$q_;
+    providerService = _providerService_;
+    sessionService = _sessionService_;
   }));
 
   beforeEach(function () {
@@ -75,7 +79,19 @@ describe('PatientSimplifiedPrescriptionController', function () {
       return $q(function (resolve) {
         return resolve([]);
       });
-    })
+    });
+
+    spyOn(providerService, 'getProviders').and.callFake(function () {
+      return $q(function (resolve) {
+        return resolve([]);
+      })
+    });
+
+    spyOn(sessionService, 'getCurrentProvider').and.callFake(function () {
+      return $q(function (resolve) {
+        return resolve([]);
+      })
+    });
   });
 
   describe('activate', function () {
@@ -96,6 +112,11 @@ describe('PatientSimplifiedPrescriptionController', function () {
     it('should set fieldModels', function () {
       $rootScope.$apply();
       expect(controller.fieldModels['dosingUnits'].model).toEqual(drugPrescriptionConvSet[0]);
+    });
+
+    it('should load currentProvider', function () {
+      $rootScope.$apply();
+      expect(sessionService.getCurrentProvider).toHaveBeenCalled();
     });
 
   });
@@ -148,7 +169,7 @@ describe('PatientSimplifiedPrescriptionController', function () {
 
     beforeEach(function () {
 
-      spyOn(prescriptionService, 'stopPrescriptionItem').and.callFake(function  () {
+      spyOn(prescriptionService, 'stopPrescriptionItem').and.callFake(function () {
         return $q(function (resolve) {
           resolve();
         });
@@ -160,27 +181,33 @@ describe('PatientSimplifiedPrescriptionController', function () {
 
       var item = {drugOrder: {action: 'NEW'}};
 
-      var scope = {cancelationReasonTyped: 'Mistake.', cancelationReasonSelected: '...'};
-
       spyOn(notifier, 'success').and.callFake(function () {
 
       });
 
-      controller = $controller('PatientSimplifiedPrescriptionController', {
-        $scope: scope
-      });
+      var form = {
+        $valid: true,
+        $setPristine: function () {
+
+        },
+        $setUntouched: function () {
+
+        }
+      };
+
+      controller = $controller('PatientSimplifiedPrescriptionController', {});
 
       controller.listedPrescriptions = [1];
-      scope.cancelationReasonTyped = 'Mistake.';
-      scope.cancelationReasonSelected = '...';
+      controller.cancelationReasonTyped = 'Mistake.';
+      controller.cancelationReasonSelected = '...';
 
       expect(controller.listedPrescriptions.length).toBe(1);
 
-      controller.cancelOrStop(item);
+      controller.cancelOrStop(form, item);
 
       $rootScope.$apply();
-      expect(scope.cancelationReasonTyped).toBeFalsy();
-      expect(scope.cancelationReasonSelected).toBeFalsy();
+      expect(controller.cancelationReasonTyped).toBeFalsy();
+      expect(controller.cancelationReasonSelected).toBeFalsy();
       expect(controller.listedPrescriptions.length).toBe(0);
       expect(notifier.success).toHaveBeenCalled();
       expect(prescriptionService.stopPrescriptionItem).toHaveBeenCalled();

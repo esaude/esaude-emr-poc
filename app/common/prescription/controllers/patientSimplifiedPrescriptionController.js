@@ -5,17 +5,16 @@
     .module('common.prescription')
     .controller('PatientSimplifiedPrescriptionController', PatientSimplifiedPrescriptionController);
 
-  PatientSimplifiedPrescriptionController.$inject = ['$http', '$filter','$scope', '$rootScope', '$stateParams',
+  PatientSimplifiedPrescriptionController.$inject = ['$http', '$filter', '$rootScope', '$stateParams',
     'observationsService', 'commonService', 'conceptService', 'localStorageService', 'notifier', 'spinner',
-    'drugService', 'prescriptionService'];
+    'drugService', 'prescriptionService', 'providerService', 'sessionService'];
 
   /* @ngInject */
-  function PatientSimplifiedPrescriptionController($http, $filter, $scope, $rootScope, $stateParams, observationsService,
+  function PatientSimplifiedPrescriptionController($http, $filter, $rootScope, $stateParams, observationsService,
                                                    commonService, conceptService, localStorageService, notifier, spinner,
-                                                   drugService, prescriptionService) {
+                                                   drugService, prescriptionService, providerService, sessionService) {
 
 
-    var currentProvider = $rootScope.currentProvider;
     var drugMapping = $rootScope.drugMapping;
     var patientUuid;
     var patient = $rootScope.patient;
@@ -36,12 +35,15 @@
     vm.regimes = {};
     vm.showMessages = false;
     vm.showNewPrescriptionsControlls = false;
-    $scope.cancelationReasonTyped = null;
-    $scope.cancelationReasonSelected = null;
-    vm.valueToModal = null;
+    vm.cancelationReasonTyped = null;
+    vm.cancelationReasonSelected = null;
+    vm.prescriptionItemToCancel = null;
+    vm.providers = [];
+    vm.selectedProvider = { display: '' };
 
     vm.add = add;
     vm.checkDrugType = checkDrugType;
+    vm.closeCancellationModal = closeCancellationModal;
     vm.doPlanChanged = doPlanChanged;
     vm.doRegimenChanges = doRegimenChanges;
     vm.doTherapeuticLineChanges = doTherapeuticLineChanges;
@@ -55,7 +57,7 @@
     vm.save = save;
     vm.setPrescritpionItemStatus = setPrescritpionItemStatus;
     vm.cancelOrStop = cancelOrStop;
-    vm.setValueToModal = setValueToModal;
+    vm.setPrescriptionItemToCancel = setPrescriptionItemToCancel;
     vm.hasActivePrescription = hasActivePrescription;
 
     activate();
@@ -86,9 +88,17 @@
       var load = conceptService.getPrescriptionConvSetConcept()
         .then(setFieldModels)
         .then(loadSavedPrescriptions(patient))
-        .then(loadAllRegimes());
+        .then(loadAllRegimes())
+        .then(getCurrentProvider)
+        .then(function (currentProvider) {
+          vm.selectedProvider = currentProvider;
+        });
 
       spinner.forPromise(load);
+
+      getProviders().then(function (providers) {
+        vm.providers = providers;
+      });
     }
 
 
@@ -128,6 +138,16 @@
         vm.prescriptionItem.isPlanInterrupted = false;
         vm.prescriptionItem.arvPlan = {};
       }
+    }
+
+
+    function closeCancellationModal(form) {
+      // TODO: handle close via esc key
+      form.$setPristine();
+      form.$setUntouched();
+      vm.cancelationReasonSelected = null;
+      vm.cancelationReasonTyped = null;
+      getCancellationModal().modal('hide');
     }
 
 
@@ -207,6 +227,15 @@
     }
 
 
+    function getProviders() {
+      return providerService.getProviders();
+    }
+
+    function getCurrentProvider() {
+      return sessionService.getCurrentProvider();
+    }
+
+
     function initTherapeuticLine() {
       //use regimen of already selected ARV line as the default one
       var selectedArvItem = _.find(vm.listedPrescriptions, function (item) {
@@ -264,9 +293,8 @@
       isPrescriptionControl();
     }
 
-    function setValueToModal(item)
-    {
-      vm.valueToModal = item;
+    function setPrescriptionItemToCancel(item) {
+      vm.prescriptionItemToCancel = item;
     }
 
      function removeAll() {
@@ -285,7 +313,7 @@
 
         prescriptionDate: vm.prescriptionDate,
         patient: {uuid: patientUuid},
-        provider: {uuid: currentProvider.uuid},
+        provider: {uuid: vm.selectedProvider.uuid},
         location: {uuid: localStorageService.cookie.get("emr.location").uuid},
         prescriptionItems: []
       };
@@ -330,31 +358,26 @@
         });
     }
 
-    function cancelOrStop(item){
+    function cancelOrStop(form, item){
 
-      if((item.drugOrder.action =='NEW' && !$scope.cancelationReasonTyped) || (item.drugOrder.action =='REVISE' && !$scope.cancelationReasonSelected))
-      {
-         showMessage("COMMON_CANCELATION_PRESCRIPTION_ERROR_NO_REASON");
-          return;
+      if (!form.$valid) {
+        return;
       }
 
-        prescriptionService.stopPrescriptionItem(item.drugOrder, (item.drugOrder.action =='NEW') ? $scope.cancelationReasonTyped : $scope.cancelationReasonSelected.uuid)
-            .then(function () {
-              notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
-              vm.listedPrescriptions = [];
-              $scope.cancelationReasonSelected = null;
-              $scope.cancelationReasonTyped = null;
-              isPrescriptionControl();
-              spinner.forPromise(loadSavedPrescriptions(patient));
-            })
-            .catch(function () {
-              notifier.error($filter('translate')('COMMON_MESSAGE_COULD_NOT_CANCEL_PRESCRIPTION_ITEM'));
-         });
+      var reason = (item.drugOrder.action ==='NEW') ? vm.cancelationReasonTyped : vm.cancelationReasonSelected.uuid;
 
-        $(function (){
-              $('#cancelPrescriptionModal').modal('toggle');
-          });
-       }
+      prescriptionService.stopPrescriptionItem(item.drugOrder, reason)
+        .then(function () {
+          notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
+          vm.listedPrescriptions = [];
+          closeCancellationModal(form);
+          isPrescriptionControl();
+          spinner.forPromise(loadSavedPrescriptions(patient));
+        })
+        .catch(function () {
+          notifier.error($filter('translate')('COMMON_MESSAGE_COULD_NOT_CANCEL_PRESCRIPTION_ITEM'));
+        });
+    }
 
     function resetForm(form) {
       if (form) {
@@ -368,16 +391,6 @@
     function isPrescriptionControl() {
       if (_.isEmpty(vm.listedPrescriptions)) {
         vm.showNewPrescriptionsControlls = false;
-      }
-    }
-
-
-    function genSimpleObs(concept, value, datetime) {
-      return {
-        concept: concept,
-        obsDatetime: datetime,
-        person: patientUuid,
-        value: value
       }
     }
 
@@ -471,13 +484,9 @@
       });
     }
 
-
-      var showMessage = function (msg) {
-          $scope.errorMessage = msg;
-          $(function () {
-              $('.alert').show();
-          });
-      };
+    function getCancellationModal() {
+      return angular.element('#cancelPrescriptionModal');
+    }
 
   }
 

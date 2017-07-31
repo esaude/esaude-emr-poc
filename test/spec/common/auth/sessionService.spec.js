@@ -4,16 +4,22 @@ describe('sessionService', function () {
 
   var SESSION_RESOURCE_PATH = '/openmrs/ws/rest/v1/session';
 
-  var sessionService, $rootScope, $httpBackend, $cookies, localStorageService;
+  var CURRENT_USER_COOKIE_KEY = 'user';
+
+  var sessionService, $rootScope, $httpBackend, $cookies, localStorageService, userService, $q, $log;
 
   beforeEach(module('authentication'));
 
-  beforeEach(inject(function (_sessionService_, _$httpBackend_, _$cookies_, _$rootScope_, _localStorageService_) {
+  beforeEach(inject(function (_sessionService_, _$httpBackend_, _$cookies_, _$rootScope_, _localStorageService_,
+                              _userService_, _$q_, _$log_) {
     sessionService = _sessionService_;
     $httpBackend = _$httpBackend_;
     $cookies = _$cookies_;
     $rootScope = _$rootScope_;
     localStorageService = _localStorageService_;
+    userService = _userService_;
+    $q = _$q_;
+    $log = _$log_;
   }));
 
   describe('loginUser', function () {
@@ -23,7 +29,7 @@ describe('sessionService', function () {
 
     beforeEach(function () {
       loginRequest = $httpBackend.expectGET(SESSION_RESOURCE_PATH);
-      $cookies.remove(Bahmni.Common.Constants.currentUser);
+      $cookies.remove(CURRENT_USER_COOKIE_KEY);
     });
 
     describe('user authenticated', function () {
@@ -37,7 +43,7 @@ describe('sessionService', function () {
         sessionService.loginUser(username, '');
 
         $httpBackend.flush();
-        expect($cookies.get(Bahmni.Common.Constants.currentUser)).toEqual(username);
+        expect($cookies.get(CURRENT_USER_COOKIE_KEY)).toEqual(username);
       });
 
     });
@@ -53,7 +59,7 @@ describe('sessionService', function () {
         sessionService.loginUser(username, '');
 
         $httpBackend.flush();
-        expect($cookies.get(Bahmni.Common.Constants.currentUser)).toBeUndefined();
+        expect($cookies.get(CURRENT_USER_COOKIE_KEY)).toBeUndefined();
 
       });
 
@@ -75,12 +81,12 @@ describe('sessionService', function () {
 
     it('should remove current user from cookie', function () {
 
-      $cookies.put(Bahmni.Common.Constants.currentUser, 'currentUser');
+      $cookies.put(CURRENT_USER_COOKIE_KEY, 'currentUser');
 
       sessionService.destroy();
 
       $httpBackend.flush();
-      expect($cookies.get(Bahmni.Common.Constants.currentUser)).toBeUndefined();
+      expect($cookies.get(CURRENT_USER_COOKIE_KEY)).toBeUndefined();
 
     });
 
@@ -111,4 +117,88 @@ describe('sessionService', function () {
     });
 
   });
+
+  describe('getCurrentUser', function () {
+
+    var mockUser = { username: 'Malocy' };
+
+    beforeEach(function () {
+      spyOn($cookies, 'get').and.returnValue(mockUser.username);
+    });
+
+    it('should load logged in user details', function () {
+      spyOn(userService, 'getUser').and.callFake(function () {
+        return $q(function (resolve) {
+          return resolve({data: {results: [mockUser]}});
+        });
+      });
+
+      var user;
+
+      sessionService.getCurrentUser().then(function (currentUser) {
+        user = currentUser;
+      });
+
+      $rootScope.$apply();
+      expect(user).toEqual(mockUser);
+    });
+
+    describe('failed to get logged in user details', function () {
+
+      beforeEach(function () {
+        spyOn($log, 'error').and.callFake(function () {
+        });
+      });
+
+      it('should log error message', function () {
+
+        spyOn(userService, 'getUser').and.callFake(function () {
+          return $q(function (resolve, reject) {
+            return reject({ data: ''});
+          });
+        });
+
+        sessionService.getCurrentUser();
+        $rootScope.$apply();
+        expect($log.error).toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('getCurrentProvider', function () {
+    var mockUser = {username: 'Malocy'};
+    var mockProvider = {display: '21-6 - Generic Provider'};
+
+    beforeEach(function () {
+      $httpBackend
+        .expectGET('/openmrs/ws/rest/v1/provider')
+        .respond({results: [mockProvider]});
+
+      spyOn(userService, 'getUser').and.callFake(function () {
+        return $q(function (resolve) {
+          return resolve({data: {results: [mockUser]}});
+        });
+      });
+
+      spyOn($cookies, 'get').and.returnValue(mockUser.username);
+    });
+
+    it('should load provider details for logged in user', function () {
+      var provider;
+
+      sessionService.getCurrentProvider().then(function (currentProvider) {
+        provider = currentProvider;
+      });
+
+      $httpBackend.flush();
+      expect(provider).toEqual(mockProvider)
+    });
+
+    afterEach(function () {
+      $httpBackend.verifyNoOutstandingExpectation();
+      $httpBackend.verifyNoOutstandingRequest();
+    });
+
+  });
+
 });
