@@ -1,61 +1,6 @@
-<div ng-init="vm.initPrescriptions()">
-  <div ng-show="!vm.prescriptiontNoResultsMessage"
-       class="row bg-info-border bg-info content-border-margin-regular content-border-padding-regular border-rouded">
-    <div class="col-sm-12 header-text-lg"><!-- last visit type and dates -->
-      <img src="../../images/medical-prescription.png" class="img-responsive inline-align" width="24" height="24"
-           alt="prescription">
-      <span><b>{{'PHARMACY_PRESCRIBED_BY' | translate}}:</b> {{vm.prescription.provider.person.display}}</span>
-      <span>{{'COMMON_ON' | translate}}: {{vm.prescription.prescriptionDate | date:"MMM d, y"}}</span>
-    </div>
-  </div>
+<div>
 
   <div class="row content-border-margin-regular">
-    <div class="panel panel-primary">
-      <!-- Default panel contents -->
-      <div class="panel-heading">{{'PHARMACY_PRESCRIBED' | translate}}</div>
-
-      <!-- Table -->
-      <table class="table table-striped">
-        <thead>
-        <tr>
-          <th>{{'COMMON_ITEM' | translate}}</th>
-          <th>{{'PHARMACY_VALIDITY' | translate}}</th>
-          <th>{{'PHARMACY_TO_PICKUP' | translate}}</th>
-          <th>{{'PHARMACY_PICKEDUP' | translate}}</th>
-          <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="item in vm.prescriptions" ng-init="item.disable = false">
-          <td>
-            <span class="text-lg">
-                <strong>{{item.drugOrder.drug.display}}</strong>
-                {{item.drugOrder.dose}}
-                {{item.drugOrder.doseUnits.display}}, {{item.drugOrder.frequency.display}},
-                {{item.drugOrder.route.display}} - {{item.drugOrder.duration}}
-                {{item.drugOrder.durationUnits.display}} ({{item.dosingInstructions}})
-            </span>
-          </td>
-          <td>{{item.drugOrder.autoExpireDate | date:"MMM d, y"}}</td>
-          <td>{{item.drugToPickUp}}</td>
-          <td>{{item.drugPickedUp}}</td>
-          <td>
-            <button class="btn btn-primary btn-lg" type="button" ng-click="vm.select(item)" ng-disabled="item.disable">
-              <span class="glyphicon glyphicon-plus"></span>
-            </button>
-          </td>
-        </tr>
-        </tbody>
-        <tfoot>
-        <tr ng-show="vm.prescriptiontNoResultsMessage">
-          <td colspan="5" class="text-center">
-            {{vm.prescriptiontNoResultsMessage | translate}}
-          </td>
-        </tr>
-        </tfoot>
-      </table>
-    </div>
-
     <div class="panel panel-primary" ng-form>
       <!-- Default panel contents -->
       <div class="panel-heading">{{'PHARMACY_DISPENSE' | translate}}</div>
@@ -72,14 +17,14 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="item in vm.selectedItems track by $index">
+        <tr ng-repeat="item in vm.selectedPrescriptionItems track by $index">
           <td>
             <span class="text-lg">
-                <strong>{{item.drugOrder.drug.display}}</strong>
-                {{item.drugOrder.dose}}
-                {{item.drugOrder.doseUnits.display}}, {{item.drugOrder.frequency.display}},
-                {{item.drugOrder.route.display}} - {{item.drugOrder.duration}}
-                {{item.drugOrder.durationUnits.display}} ({{item.dosingInstructions}})
+              <strong>{{item.drugOrder.drug.display}}</strong>
+              {{item.drugOrder.dose}}
+              {{item.drugOrder.doseUnits.display}}, {{item.drugOrder.frequency.display}},
+              {{item.drugOrder.route.display}} - {{item.drugOrder.duration}}
+              {{item.drugOrder.durationUnits.display}} ({{item.dosingInstructions}})
             </span>
           </td>
           <td>
@@ -103,13 +48,15 @@
                      ng-show="showMessages">
                 </div>
                 <input type="number" name="quantity" class="form-control" ng-model="item.quantity"
-                       ng-change="vm.updatePickUp(item)" size="4" min="1" required>
+                       ng-change="vm.updatePickup(item)" size="4" min="1" required>
               </div>
             </div>
-            <span ng-if="!item.drugRegime">{{item.drugOrder.quantity}}</span>
+            <span>{{item.drugToPickUp}}</span>
           </td>
           <td>
+            <!--TODO: implement availability-->
             <label class="label label-success"><span class="glyphicon glyphicon-thumbs-up"></span></label>
+            <!--/TODO-->
           </td>
           <td>
             <button type="button" class="btn btn-danger btn-lg" ng-click="vm.remove(item)">
@@ -119,18 +66,81 @@
         </tr>
         </tbody>
         <tfoot>
-        <tr ng-show="vm.dispenseListNoResultsMessage">
+        <tr ng-show="!vm.selectedPrescriptionItems.length">
           <td colspan="5" class="text-center">
-            {{vm.dispenseListNoResultsMessage | translate}}
+            {{ vm.prescriptions.length ? 'PHARMACY_DISPENSATION_NO_ITEMS' : 'PHARMACY_LIST_NO_ITEMS' | translate }}
           </td>
         </tr>
         </tfoot>
       </table>
       <div class="panel-footer go-to-right" ng-show="!vm.dispenseListNoResultsMessage">
-        <button class="btn btn-primary btn-lg" type="button" ng-click="vm.dispense()">
+        <button class="btn btn-primary btn-lg" type="button" ng-click="vm.dispense()" ng-disabled="!vm.selectedPrescriptionItems.length">
           <span class="glyphicon glyphicon-floppy-disk"></span>
         </button>
       </div>
     </div>
   </div>
+
+  <div ng-repeat="p in vm.prescriptions" class="row content-border-margin-regular">
+    <div class="panel panel-primary">
+      <div class="panel-heading" ng-click="p.hidden = !p.hidden">
+        <strong>{{'PHARMACY_PRESCRIBED_BY' | translate}}:</strong>
+        {{p.provider.person.display}} {{'COMMON_ON' | translate}}: {{p.prescriptionDate | date:"MMM d, y"}}
+        <span ng-class="{'glyphicon glyphicon-chevron-down': p.hidden, 'glyphicon glyphicon-chevron-up': !p.hidden}"
+              class="pull-right"></span>
+      </div>
+
+      <!--<div ng-hide="p.hidden" class="panel-body">-->
+        <!--<img src="../../images/medical-prescription.png" class="img-responsive inline-align" width="24" height="24"-->
+             <!--alt="prescription">-->
+        <!--<strong>{{'PHARMACY_PRESCRIBED_BY' | translate}}:</strong> {{p.provider.person.display}}-->
+        <!--{{'COMMON_ON' | translate}}: {{p.prescriptionDate | date:"MMM d, y"}}-->
+      <!--</div>-->
+
+      <div ng-hide="p.hidden" class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th>{{'COMMON_ITEM' | translate}}</th>
+            <th>{{'PHARMACY_VALIDITY' | translate}}</th>
+            <th>{{'PHARMACY_TO_PICKUP' | translate}}</th>
+            <th>{{'PHARMACY_PICKEDUP' | translate}}</th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="item in p.prescriptionItems">
+            <td>
+        <span class="text-lg">
+          <strong>{{item.drugOrder.drug.display}}</strong>
+          {{item.drugOrder.dose}}
+          {{item.drugOrder.doseUnits.display}}, {{item.drugOrder.frequency.display}},
+          {{item.drugOrder.route.display}} - {{item.drugOrder.duration}}
+          {{item.drugOrder.durationUnits.display}} ({{item.dosingInstructions}})
+        </span>
+            </td>
+            <td>{{item.drugOrder.autoExpireDate | date:"MMM d, y"}}</td>
+            <td>{{item.drugToPickUp}}</td>
+            <td>{{item.drugPickedUp}}</td>
+            <td>
+              <button class="btn btn-primary btn-lg" type="button" ng-click="vm.select(p, item)" ng-disabled="item.selected">
+                <span class="glyphicon glyphicon-plus"></span>
+              </button>
+            </td>
+          </tr>
+          </tbody>
+          <tfoot>
+          <tr ng-show="!p.prescriptionItems.length">
+            <td colspan="5" class="text-center">
+              {{ 'PHARMACY_LIST_NO_ITEMS' | translate}}
+            </td>
+          </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <!-- Table -->
+    </div>
+  </div>
+
 </div>
