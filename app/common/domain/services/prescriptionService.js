@@ -12,7 +12,6 @@
        create: create,
        stopPrescriptionItem: stopPrescriptionItem,
        getAllPrescriptions: getAllPrescriptions,
-       getLastPatientPrescription: getLastPatientPrescription,
        getPatientNonDispensedPrescriptions: getPatientNonDispensedPrescriptions
     };
 
@@ -30,6 +29,7 @@
 
         params: {
           patient: patientUuid,
+          findAllActive: true,
           v: "full"
         },
 
@@ -76,22 +76,6 @@
             return $q.reject(error);
           });
      }
-
-    function getLastPatientPrescription(patient) {
-        return $http.get(Bahmni.Common.Constants.prescriptionUrl, {
-           params: {
-             patient: patient.uuid,
-             findLast: true,
-              v: "full"
-            },
-            withCredentials: true
-            }).then(function (response) {
-            return _.map(response.data.results, prescriptionMapper);
-          }).catch(function (error) {
-            $log.error('XHR Failed for getLastPatientPrescription. ' + error.data);
-            return $q.reject(error);
-        });
-    }
 
      function stopPrescriptionItem(drugorder, reason) {
 
