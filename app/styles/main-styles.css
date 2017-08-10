@@ -168,8 +168,8 @@ input[type=radio]:checked + label::before {
   position: fixed;
   width: 100%;
   height: 100%;
-  top: 0px;
-  left: 0px;
+  top: 0;
+  left: 0;
   background: rgba(0,0,0,0.6) url('../images/spinner.gif') no-repeat center center;
 }
 
@@ -195,4 +195,33 @@ p.capitalize {
 .barcode {
   width:20px;
   height: 10px;
+}
+
+.navbar {
+  min-height: 80px;
+  padding: 0;
+}
+
+.navbar .navbar-brand {
+  padding: 20px 15px;
+}
+
+.navbar .navbar-nav li a {
+  line-height: 80px;  /* navbar min-height */
+  height: 80px;       /* navbar min-height */
+  padding-top: 0;
+}
+
+.navbar-primary {
+  background-color: #337ab7;
+  border-color: #337ab7;
+}
+
+.navbar-primary .navbar-nav > li > a {
+  color: #fff;
+}
+
+.navbar-primary .navbar-nav > li > a:hover,
+.navbar-primary .nav .open > a {
+  background-color: #2d6ca3;
 }
