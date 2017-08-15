@@ -1,4 +1,5 @@
 {
+    "COMMON_DASHBOARD": "Dashboard",
     "COMMON_YEAR": "Year",
     "COMMON_QUANTITY": "Quantity",
     "COMMON_ITEM": "Item",
@@ -67,6 +68,7 @@
     "COMMON_CLINICAL_SERVICE_HEADER_ACTIONS": "Actions",
     "COMMON_ALERT":"Alert",
     "COMMON_ASSIGN_PROVIDER": "Assign Provider",
+    "EDIT_PATIENT": "Edit Patient",
     "SEARCH_PATIENT": "Search Patient",
     "SEARCH_PATIENT_PLACEHOLDER": "NID or name...",
     "SEARCH_PATIENT_NID": "NID",
@@ -74,6 +76,7 @@
     "SEARCH_PATIENT_LASTNAME": "Last Name",
     "SEARCH_PATIENT_GENDER": "Gender",
     "SEARCH_PATIENT_AGE": "Age",
+    "PATIENT_DETAILS": "Patient Details",
     "PATIENT_INFO_YEARS": "Years",
     "PATIENT_INFO_MONTHS": "Months",
     "PATIENT_INFO_DAYS": "Days",

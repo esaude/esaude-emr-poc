@@ -1,4 +1,5 @@
 {
+    "COMMON_DASHBOARD": "Dashboard",
     "COMMON_YEAR": "Ano",
     "COMMON_QUANTITY": "Quantidade",
     "COMMON_ITEM": "Item",
@@ -67,6 +68,7 @@
     "COMMON_CLINICAL_SERVICE_HEADER_ACTIONS": "Acções",
     "COMMON_ALERT":"Alerta",
     "COMMON_ASSIGN_PROVIDER": "Atribuir Provedor",
+    "EDIT_PATIENT": "Alterar Paciente",
     "SEARCH_PATIENT": "Procurar Paciente",
     "SEARCH_PATIENT_PLACEHOLDER": "NID ou nome...",
     "SEARCH_PATIENT_NID": "NID",
@@ -78,6 +80,7 @@
     "SEARCH_SCHEDULE_STATUS": "Marcado para",
     "SEARCH_PATIENT_NO_RESULT": "Nenhum resultado encontrado",
     "REGISTRATION_LAST_VISIT": "Última Visita",
+    "PATIENT_DETAILS": "Detalhes do Paciente",
     "PATIENT_INFO_DEMOGRAPHICS": "Demografia",
     "PATIENT_INFO_ADDRESSES": "Endereços",
     "PATIENT_INFO_ADDRESS": "Endereço",

@@ -3,7 +3,8 @@
 angular
   .module('application',
     [
-      'authentication'
+      'authentication',
+      'ncy-angular-breadcrumb'
     ]
   )
   .config(applicationModuleConfig);
