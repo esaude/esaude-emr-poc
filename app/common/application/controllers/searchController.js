@@ -109,6 +109,7 @@ angular.module('application')
 
                     preparedResults.push(patient);
                 }
+                preparedResults =   _.sortBy(preparedResults, ['givenName','familyName']);
                 return preparedResults;
             }
 
