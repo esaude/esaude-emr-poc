@@ -9,7 +9,8 @@
 
   function dispensationService($http, $q, $log) {
     return {
-      createDispensation: createDispensation
+      createDispensation: createDispensation,
+      cancelDispensationItem: cancelDispensationItem
     };
 
     ////////////////
@@ -29,6 +30,13 @@
       }).catch(function (error) {
         $log.error('XHR Failed for createDispensation. ' + error.data);
         return $q.reject(error);
+      });
+    }
+
+    function cancelDispensationItem(orderuuid, reason) {
+
+      return $http.delete(Bahmni.Common.Constants.dispensationUrl + "/" + orderuuid, {
+        params: {reason: reason}
       });
     }
   }
