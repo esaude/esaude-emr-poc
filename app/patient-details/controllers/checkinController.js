@@ -12,7 +12,6 @@ function CheckinController($rootScope, visitService, commonService, $stateParams
 
     (function () {
         //initialize visit info in scope
-        var pa
         visitService.search({patient: $stateParams.patientUuid, v: "full"})
             .success(function (data) {
                 var nonRetired = commonService.filterRetired(data.results);
