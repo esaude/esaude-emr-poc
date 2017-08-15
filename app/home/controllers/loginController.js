@@ -1,65 +1,85 @@
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('home')
-    .controller('LoginController', ['$rootScope', '$scope', '$location', 'sessionService', 'spinner', '$q',
-                '$stateParams', '$translate', 'localeService', '$window',
-        function ($rootScope, $scope, $location, sessionService, spinner, $q, $stateParams, $translate, localeService, $window) {
-        var landingPagePath = "/dashboard";
-        var loginPagePath = "/login";
+  angular
+    .module('home')
+    .controller('LoginController', LoginController);
 
-        (function () {
-            $scope.showMenu = true;
-            $rootScope.loginUser = {};
+  LoginController.$inject = ['$rootScope', '$scope', '$location', 'sessionService', 'spinner', '$q', '$stateParams',
+    '$translate'];
 
-            $scope.locales = ['en', 'pt'];
-            $scope.selectedLocale = $translate.use()? $translate.use() : $scope.locales[0];
+  /* @ngInject */
+  function LoginController($rootScope, $scope, $location, sessionService, spinner, $q, $stateParams, $translate) {
 
-        })();
+    var landingPagePath = "/dashboard";
+    var loginPagePath = "/login";
 
-        $scope.updateLocale = function (selectedLocale) {
-            $translate.use(selectedLocale);
-        };
+    var vm = this;
+    vm.errorMessageTranslateKey = null;
+    vm.locales = ['en', 'pt'];
+    vm.selectedLocale = $translate.use() ? $translate.use() : vm.locales[0];
+    vm.showMenu = true;
 
-        if ($stateParams.showLoginMessage) {
-            $scope.errorMessageTranslateKey = $stateParams.showLoginMessage;
+    // TODO: remove this later, needed in common/application/views/header.html
+    $scope.showMenu = vm.showMenu;
+
+    vm.login = login;
+    vm.updateLocale = updateLocale;
+
+    activate();
+
+    ////////////////
+
+    function activate() {
+      $rootScope.loginUser = {};
+
+      if ($stateParams.showLoginMessage) {
+        vm.errorMessageTranslateKey = $stateParams.showLoginMessage;
+      }
+
+      if ($location.path() === loginPagePath) {
+        redirectToLandingPageIfAlreadyAuthenticated();
+      }
+    }
+
+    function login() {
+      vm.errorMessageTranslateKey = null;
+      var deferrable = $q.defer();
+      sessionService.loginUser($scope.loginUser.username, $scope.loginUser.password).then(
+        function () {
+          sessionService.loadCredentials().then(
+            function () {
+              deferrable.resolve();
+            },
+            function (error) {
+              vm.errorMessageTranslateKey = error;
+              deferrable.reject(error);
+            }
+          )
+        },
+        function (error) {
+          vm.errorMessageTranslateKey = error;
+          deferrable.reject(error);
         }
-
-        var redirectToLandingPageIfAlreadyAuthenticated = function () {
-            sessionService.getSession().then(function (session) {
-                if (session.authenticated) {
-                    $location.path(landingPagePath);
-                }
-            });
-        };
-
-        if ($location.path() === loginPagePath) {
-            redirectToLandingPageIfAlreadyAuthenticated();
+      );
+      spinner.forPromise(deferrable.promise).then(
+        function () {
+          $location.path(landingPagePath).search({});
         }
+      );
+    }
 
-        $scope.login = function () {
-            $scope.errorMessageTranslateKey = null;
-            var deferrable = $q.defer();
-            sessionService.loginUser($scope.loginUser.username, $scope.loginUser.password).then(
-                function () {
-                    sessionService.loadCredentials().then(
-                        function () {
-                            deferrable.resolve();
-                        },
-                        function (error) {
-                            $scope.errorMessageTranslateKey = error;
-                            deferrable.reject(error);
-                        }
-                    )
-                },
-                function (error) {
-                    $scope.errorMessageTranslateKey = error;
-                    deferrable.reject(error);
-                }
-            );
-            spinner.forPromise(deferrable.promise).then(
-                function () {
-                    $location.path(landingPagePath).search({});
-                }
-            );
-        };
-    }]);
+    function redirectToLandingPageIfAlreadyAuthenticated() {
+      sessionService.getSession().then(function (session) {
+        if (session.authenticated) {
+          $location.path(landingPagePath);
+        }
+      });
+    }
+
+    function updateLocale(locale) {
+      spinner.forPromise($translate.use(locale));
+    }
+  }
+
+})();
