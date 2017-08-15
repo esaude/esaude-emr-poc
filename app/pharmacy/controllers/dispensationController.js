@@ -5,36 +5,32 @@
     .module('pharmacy')
     .controller('DispensationController', DispensationController);
 
-  DispensationController.$inject = ['$scope', '$rootScope', '$filter', 'dispensationService', 'prescriptionService', 'localStorageService'];
+  DispensationController.$inject = ['$rootScope', 'dispensationService', 'prescriptionService', 'localStorageService'];
 
-  function DispensationController($scope, $rootScope, $filter, dispensationService, prescriptionService, localStorageService) {
+  function DispensationController($rootScope, dispensationService, prescriptionService, localStorageService) {
 
     var dateUtil = Bahmni.Common.Util.DateUtil;
+    // TODO: use sessionService to get current user
+    var currentUser = $rootScope.currentUser;
+    // TODO: get patient from route param
+    var patient = $rootScope.patient;
 
     var vm = this;
-    //fake just for now
-    vm.itemIndex = 0;
-    vm.prescriptiontNoResultsMessage = "PHARMACY_LIST_NO_ITEMS";
     vm.prescriptions = [];
-    vm.prescription = {};
-    vm.selectedItems = [];
+    vm.selectedPrescriptionItems = [];
     vm.today = dateUtil.getDateWithoutTime(dateUtil.now());
 
-
-    // TODO: Should Remove the hardedCode
-    // vm.barcodeHandler = barcodeHandler;
-    vm.initPrescriptions = initPrescriptions;
     vm.dispense = dispense;
     vm.remove = remove;
     vm.select = select;
-    vm.updatePickUp = updatePickUp;
+    vm.updatePickup = updatePickup;
 
     activate();
 
     ////////////////
 
     function activate() {
-      updateDispenseListMessage();
+      initPrescriptions();
     }
 
 
@@ -42,103 +38,72 @@
 
       var patientUuid = $rootScope.patient.uuid;
 
-      prescriptionService.getPatientNonDispensedPrescriptions(patientUuid).then(function (patientPrescriptions) {
-
-        vm.prescriptions = [];
-        vm.prescription = {};
-
-        if(patientPrescriptions.length > 0){
-          vm.prescriptions = _.flatMap(patientPrescriptions, 'prescriptionItems');
-          vm.prescription = patientPrescriptions[0];
-        }
-
-        vm.prescriptiontNoResultsMessage = _.isEmpty(vm.prescriptions) ? "PHARMACY_LIST_NO_ITEMS" : null;
-      });
-    }
-
-
-    function select(item) {
-      if (!item.disable) {
-        setSelectedItem(item);
-        setDefaultArvData(item);
-        selectOtherDrugWithSomeRegime(item);
-      }
-    }
-
-
-    function setSelectedItem(item) {
-      item.disable = true;
-      vm.selectedItems.push(item);
-      updateDispenseListMessage();
-    }
-
-
-    function setDefaultArvData(item) {
-      if (item.regime) {
-        item.showNextPickupDate = true;
-        item.quantity = 1;
-        item.nextPickupDate = new Date();
-      }
-    }
-
-
-    function selectOtherDrugWithSomeRegime(item) {
-
-      _.forEach(vm.prescriptions, function (selectedItem) {
-
-        if (!selectedItem.disable) {
-          if (item.regime && selectedItem.regime) {
-            if (item.regime.uuid === selectedItem.regime.uuid) {
-              setSelectedItem(selectedItem);
-              setDefaultArvData(selectedItem);
-            }
-          }
-        }
-      });
+      prescriptionService
+        .getPatientNonDispensedPrescriptions(patientUuid).then(function (prescriptions) {
+            vm.prescriptions = prescriptions;
+            vm.prescriptions.slice(1).forEach(function (p) {
+              p.hidden = true;
+            });
+        });
     }
 
 
     function remove(item) {
-      setRemovedItem(item);
-      removeSimilarArvRegimeDrug(item);
+      if (!item.selected) {
+        return;
+      }
+
+      var sameRegimeItems = [item].concat(getSameRegimeItems(vm.selectedPrescriptionItems, item));
+
+      sameRegimeItems.forEach(function (i) {
+        i.selected = false;
+        i.quantity = null;
+        i.nextPickupDate = null;
+      });
+
+      _.pullAll(vm.selectedPrescriptionItems, sameRegimeItems);
     }
 
 
-    function setRemovedItem(item) {
-      item.disable = false;
-      _.pull(vm.selectedItems, item);
-      item.quantity = null;
-      item.nextPickupDate = null;
-      updateDispenseListMessage();
-    }
+    function select(prescription, item) {
+      if (item.selected) {
+        return;
+      }
 
+      var sameRegimeItems = [item].concat(getSameRegimeItems(prescription.prescriptionItems, item));
 
-    function removeSimilarArvRegimeDrug(item) {
-
-      _.forEach(vm.selectedItems, function (selectedItem) {
-
-        if (selectedItem.disable) {
-          if (item.regime && selectedItem.regime) {
-            if (item.regime.uuid === selectedItem.regime.uuid) {
-              setRemovedItem(selectedItem);
-            }
-          }
+      sameRegimeItems.forEach(function (i) {
+        i.selected = true;
+        i.prescription = prescription;
+        if (i.regime) {
+          i.nextPickupDate = new Date();
+          i.showNextPickupDate = true;
+          i.quantity = 1;
         }
+      });
+
+      vm.selectedPrescriptionItems = vm.selectedPrescriptionItems.concat(sameRegimeItems);
+    }
+
+
+    function updatePickup(item) {
+
+      var sameRegimeItems = [item].concat(getSameRegimeItems(vm.selectedPrescriptionItems, item));
+
+      var minAvailable = sameRegimeItems.reduce(function (min, i) {
+        return min.drugToPickUp > i.drugToPickUp ? i : min;
+      });
+
+      item.quantity = Math.min(item.quantity, minAvailable.drugToPickUp);
+
+      sameRegimeItems.forEach(function (i) {
+        i.quantity = item.quantity;
+        updatePickupDate(i);
       });
     }
 
 
-    function updatePickUp(item) {
-      setUpdatePickUp(item);
-      setUpdatePickUpForSimilarDrugRegime(item);
-    }
-
-
-    function setUpdatePickUp(item) {
-
-      if (item.quantity > item.drugToPickUp) {
-        item.quantity = item.drugToPickUp;
-      }
+    function updatePickupDate(item) {
 
       var twoDays = 2;
       var sunday = 0;
@@ -165,94 +130,39 @@
     }
 
 
-    function setUpdatePickUpForSimilarDrugRegime(item) {
-
-      var minumumQuantity = item.quantity;
-
-      var itemComparison = item;
-
-      _.forEach(vm.selectedItems, function (selectedItem) {
-
-        if (itemComparison.regime && selectedItem.regime) {
-
-          if (itemComparison.regime.uuid === selectedItem.regime.uuid) {
-
-            selectedItem.quantity = itemComparison.quantity;
-            setUpdatePickUp(selectedItem);
-
-            if (selectedItem.quantity > itemComparison.quantity) {
-
-              selectedItem.quantity = itemComparison.quantity;
-              setUpdatePickUp(selectedItem);
-            }
-            else if (selectedItem.quantity < itemComparison.quantity) {
-
-              itemComparison.quantity = selectedItem.quantity;
-              setUpdatePickUp(itemComparison);
-
-            }
-          }
+    function dispense() {
+      //--- TODO: this should be inside dispensationService
+      var items = vm.selectedPrescriptionItems.map(function (i) {
+        return {
+          orderUuid: i.drugOrder.uuid,
+          quantityToDispense: i.quantity ? i.quantity : i.drugOrder.quantity,
+          quantityDispensed: i.drugPickedUp,
+          dateOfNextPickUp: i.nextPickupDate,
+          regimeUuid: (i.regime) ? i.regime.uuid : null,
+          prescriptionUuid: i.prescription.prescriptionEncounter.uuid
         }
       });
-    }
-
-
-    function dispense() {
 
       var dispensation = {
-
-        providerUuid: $rootScope.currentUser.person.uuid,
-        patientUuid: $rootScope.patient.uuid,
+        providerUuid: currentUser.person.uuid,
+        patientUuid: patient.uuid,
         locationUuid: localStorageService.cookie.get("emr.location").uuid,
-        prescriptionEncounter: vm.prescription.prescriptionEncounter,
-
-        dispensationItems: []
+        dispensationItems: items
       };
-
-      _.forEach(vm.selectedItems, function (item) {
-
-        var dispensationItem = {
-
-          orderUuid: item.drugOrder.uuid,
-          quantityToDispense: item.quantity ? item.quantity : item.drugOrder.quantity,
-          quantityDispensed: item.drugPickedUp,
-          dateOfNextPickUp: item.nextPickupDate,
-          regimeUuid: (item.regime) ? item.regime.uuid : null
-        };
-
-        dispensation.dispensationItems.push(dispensationItem);
-      });
-
+      //---
       dispensationService.createDispensation(dispensation).then(function (dispensationUUID) {
-        vm.selectedItems = [];
-        updateDispenseListMessage();
+        vm.selectedPrescriptionItems = [];
         initPrescriptions();
       });
     }
 
-    // function barcodeHandler(code) {
-    //   // fake dcode
-    //   var invalidDrug = 'IZONIAZID100mg';
-    //
-    //   if (invalidDrug === code) {
-    //     toastr.error($filter('translate')('PHARMACY_THE_SELECTED_DRUG_IS_NOT_PART_OF_PRESCRIBED'), $filter('translate')('COMMON_ERROR'));
-    //     return;
-    //   }
-    //
-    //   $scope.$apply(function () {
-    //
-    //     var item = vm.prescriptions[vm.itemIndex];
-    //
-    //     if (_.includes(vm.selectedItems, item))
-    //       return;
-    //
-    //     select(item);
-    //     vm.itemIndex++;
-    //   });
-    // }
 
-    function updateDispenseListMessage() {
-      vm.dispenseListNoResultsMessage = vm.selectedItems.length === 0 ? "PHARMACY_LIST_NO_ITEMS" : null;
+    function getSameRegimeItems(list, item) {
+      return list.filter(function (i) {
+        return item.regime && i.regime
+          && item.regime.uuid === i.regime.uuid
+          && item !== i;
+      });
     }
   }
 })();
