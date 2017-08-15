@@ -36,14 +36,8 @@ angular.module('application')
 
             $scope.change = function (text) {
                 //start loading data at 3 chars
-                if(text.trim().length === 0) {
-                    $scope.results = [];
-                    $scope.displayed = [];
-                }
-                else if(text.trim().length > 2) {
-                    $scope.searchText = text;
-                    showSearchResults(searchBasedOnQueryParameters(text));
-                }
+              $scope.searchText = text;
+              showSearchResults(searchBasedOnQueryParameters(text));
             };
 
             $scope.barcodeHandler = function (code) {
