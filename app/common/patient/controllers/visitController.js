@@ -2,9 +2,9 @@
 
 angular.module('common.patient')
         .controller('VisitController', ['$rootScope', '$scope', '$stateParams', '$location', 'visitService', 'encounterService',
-            'commonService', 'localStorageService',
+            'commonService', 'localStorageService','patientService',
                     function ($rootScope, $scope, $stateParams, $location, visitService, encounterService,
-                        commonService, localStorageService) {
+                        commonService, localStorageService, patientService) {
             var patientUuid;
             var dateUtil = Bahmni.Common.Util.DateUtil;
 
@@ -20,18 +20,21 @@ angular.module('common.patient')
                     $scope.lastVisit = _.maxBy(data.results, 'startDatetime');
                 });
 
-                encounterService.getEncountersForEncounterType(patientUuid,
-                    ($rootScope.patient.age.years >= 15) ? $rootScope.encounterTypes.followUpAdult :
-                                                                $rootScope.encounterTypes.followUpChild)
-                            .success(function (data) {
-                                var last = _.maxBy(data.results, 'encounterDatetime');
-                                if (!last) return;
-                                $scope.lastConsultation = last;
-                                $scope.nextConsultation = _.find(last.obs, function (o) {
-                                    return o.concept.uuid === "e1dae630-1d5f-11e0-b929-000c29ad1d07";
-                                });
-                            }
-                );
+                patientService.getPatient(patientUuid).then(function (patient) {
+                  encounterService.getEncountersForEncounterType(patientUuid,
+                    (patient.age.years >= 15) ? $rootScope.encounterTypes.followUpAdult :
+                      $rootScope.encounterTypes.followUpChild)
+                    .success(function (data) {
+                        var last = _.maxBy(data.results, 'encounterDatetime');
+                        if (!last) return;
+                        $scope.lastConsultation = last;
+                        $scope.nextConsultation = _.find(last.obs, function (o) {
+                          return o.concept.uuid === "e1dae630-1d5f-11e0-b929-000c29ad1d07";
+                        });
+                      }
+                    );
+                });
+
 
                 encounterService.getEncountersForEncounterType(patientUuid, $rootScope.encounterTypes.fila)
                             .success(function (data) {
