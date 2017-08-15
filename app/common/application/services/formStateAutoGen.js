@@ -23,14 +23,17 @@
           return service.id === layout.id;
         });
 
-        var state = {};
-
         //create main state
         if (!_$state_.get(formLayout.sufix)) {
-          state = {
+          var state = {
             url: service.url + "/:patientUuid/:formId",
             views: {},
-            resolve: {initialization: 'initialization'}
+            resolve: {
+              initialization: 'initialization'
+            },
+            ncyBreadcrumb: {
+              skip: true
+            }
           };
           state.views["layout"] = {
             templateUrl: '../common/application/views/layout.html',
@@ -46,7 +49,12 @@
             var innerState = {
               url: part.sref.replace('.', '/'),
               templateUrl: '../poc-common/form-display/views/form-part-input-template.html',
-              resolve: {initialization: 'initialization'}
+              resolve: {
+                initialization: 'initialization'
+              },
+              ncyBreadcrumb: {
+                skip: true
+              }
             };
             $stateProviderRef.state(formLayout.sufix + part.sref, innerState);
           }
@@ -57,24 +65,34 @@
           var confirmState = {
             url: '/confirm',
             templateUrl: '../poc-common/form-display/views/form-confirm-template.html',
-            resolve: {initialization: 'initialization'}
+            resolve: {
+              initialization: 'initialization'
+            },
+            ncyBreadcrumb: {
+              skip: true
+            }
           };
           $stateProviderRef.state(formLayout.sufix + ".confirm", confirmState);
         }
 
         //create display state
         if (!_$state_.get(formLayout.sufix + "_display")) {
-          state = {
+          var displayState = {
             url: service.url + "/:patientUuid/:formId/display",
             views: {},
-            resolve: {initialization: 'initialization'}
+            resolve: {
+              initialization: 'initialization'
+            },
+            ncyBreadcrumb: {
+              skip: true
+            }
           };
-          state.views["layout"] = {
+          displayState.views["layout"] = {
             templateUrl: '../common/application/views/layout.html',
             controller: 'FormPrintController'
           };
-          state.views["content@" + formLayout.sufix + "_display"] = {templateUrl: '../service-form/views/form-display.html'};
-          $stateProviderRef.state(formLayout.sufix + "_display", state);
+          displayState.views["content@" + formLayout.sufix + "_display"] = {templateUrl: '../service-form/views/form-display.html'};
+          $stateProviderRef.state(formLayout.sufix + "_display", displayState);
         }
 
       });
