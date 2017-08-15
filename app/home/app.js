@@ -28,6 +28,9 @@
           'content@login': {
             templateUrl: 'views/login.html'
           }
+        },
+        ncyBreadcrumb: {
+          skip: true
         }
       })
       .state('dashboard', {
@@ -43,6 +46,9 @@
         },
         resolve: {
           initialization: 'initialization'
+        },
+        ncyBreadcrumb: {
+          skip: true
         }
       });
 
