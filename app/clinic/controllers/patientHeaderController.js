@@ -47,9 +47,8 @@ angular.module('clinic')
         var adultFollowupEncounterUuid = Bahmni.Common.Constants.adultFollowupEncounterUuid;
         var childFollowupEncounterUuid = Bahmni.Common.Constants.childFollowupEncounterUuid;
 
-        var patient = commonService.deferPatient($rootScope.patient);
-
-        encounterService.getEncountersForEncounterType(patient.uuid,
+        patientService.getPatient(patientUuid).then(function (patient) {
+          encounterService.getEncountersForEncounterType(patient.uuid,
           (patient.age.years >= 15) ? adultFollowupEncounterUuid : childFollowupEncounterUuid)
           .success(function (data) {
             patientPrescriptions = commonService.filterGroupReverseFollowupObs(conceptsTreatment, data.results);
@@ -62,6 +61,7 @@ angular.module('clinic')
             //TODO: Add infant and pregnant women
             var encounterType = ((patient.age.years >= 15) ? adultFollowupEncounterUuid : childFollowupEncounterUuid);
           });
+        });
       };
 
       var filterObs = function (data, concepts) {
