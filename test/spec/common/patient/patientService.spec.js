@@ -43,7 +43,7 @@ describe('patientService', function () {
       $httpBackend.expectGET('/openmrs/ws/rest/v1/patient/?v=full')
         .respond({});
 
-      $httpBackend.expectGET('/openmrs/ws/rest/v1/prescription?patient=&v=full')
+      $httpBackend.expectGET('/openmrs/ws/rest/v1/prescription?findAllActive=true&patient=&v=full')
         .respond([]);
 
       patientService.printPatientARVPickupHistory(year, patientUUID, pickups);

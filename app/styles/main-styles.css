@@ -198,17 +198,17 @@ p.capitalize {
 }
 
 .navbar {
-  min-height: 80px;
+  min-height: 62px;
   padding: 0;
 }
 
 .navbar .navbar-brand {
-  padding: 20px 15px;
+  padding: 10px 15px;
 }
 
 .navbar .navbar-nav li a {
-  line-height: 80px;  /* navbar min-height */
-  height: 80px;       /* navbar min-height */
+  line-height: 62px;  /* navbar min-height */
+  height: 62px;       /* navbar min-height */
   padding-top: 0;
 }
 

@@ -10,15 +10,21 @@ angular
             var $state = $injector.get('$state');
             $state.go('dashboard');
         });
-        
+
         $stateProvider
-            .state('login', {
-                url: '/login?showLoginMessage=LOGIN_LABEL_LOGIN_ERROR_MESSAGE_KEY',
-                views: {
-                    'layout': { templateUrl: '../common/application/views/layout.html', controller: 'LoginController'},
-                    'content@login': { templateUrl: 'views/login.html'}
-                }
-            })
+          .state('login', {
+            url: '/login?showLoginMessage=LOGIN_LABEL_LOGIN_ERROR_MESSAGE_KEY',
+            views: {
+              'layout': {
+                templateUrl: '../common/application/views/layout.html',
+                controller: 'LoginController',
+                controllerAs: 'vm'
+              },
+              'content@login': {
+                templateUrl: 'views/login.html'
+              }
+            }
+          })
             .state('dashboard', {
                 url: '/dashboard',
                 views: {

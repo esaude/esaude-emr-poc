@@ -49,10 +49,11 @@ angular
                 resolve: { initialization: 'initialization' }
             })
             .state('dashboard.chart', {
-                url: '/chart',
-                templateUrl: 'views/patient-chart.html',
-                controller: 'PatientChartController',
-                resolve: { initialization: 'initialization' }
+              url: '/chart',
+              templateUrl: 'views/patient-chart.html',
+              controller: 'PatientChartController',
+              controllerAs: 'vm',
+              resolve: { initialization: 'initialization' }
             })
             .state('dashboard.actual', {
                 url: '/actual',

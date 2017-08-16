@@ -25,7 +25,6 @@
     vm.arvLineEnabled = true;
     vm.existingPrescriptions = [];
     vm.fieldModels = angular.copy(Bahmni.Common.Constants.drugPrescriptionConvSet);
-    vm.hasServiceToday = null;//there is no prescription service for the patient today
     vm.isArvPlanInterruptedEdit = false;
     vm.isRegimenChangeEdit = false;
     vm.isRegimenEdit = false;
@@ -346,16 +345,45 @@
         prescription.prescriptionItems.push(prescriptionItem);
       });
 
-      prescriptionService.create(prescription)
-        .then(function () {
-          notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
-          vm.listedPrescriptions = [];
-          isPrescriptionControl();
-          spinner.forPromise(loadSavedPrescriptions(patient));
-        })
-        .catch(function () {
-          notifier.error($filter('translate')('COMMON_MESSAGE_COULD_NOT_CREATE_PRESCRIPTION'));
+      if(validateBeforeSave(prescription)){
+        prescriptionService.create(prescription)
+          .then(function () {
+            notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
+            vm.listedPrescriptions = [];
+            isPrescriptionControl();
+            spinner.forPromise(loadSavedPrescriptions(patient));
+          })
+          .catch(function () {
+            notifier.error($filter('translate')('COMMON_MESSAGE_COULD_NOT_CREATE_PRESCRIPTION'));
+          });
+      }
+    }
+
+    function validateBeforeSave(prescription){
+
+      var isArvPrescriptionToBeCreated = false;
+      _.forEach(prescription.prescriptionItems, function (prescriptionItem) {
+           if(prescriptionItem.regime){
+             isArvPrescriptionToBeCreated = true;
+           }
+      });
+
+        var hasExistingArvPrescription = false;
+       _.forEach(vm.existingPrescriptions, function (prescription) {
+         _.forEach(prescription.prescriptionItems, function (prescriptionItem) {
+            if( prescription.prescriptionStatus == 'ACTIVE' && prescriptionItem.regime){
+            hasExistingArvPrescription = true;
+            }
+         });
         });
+
+       if(isArvPrescriptionToBeCreated && hasExistingArvPrescription){
+         notifier.error($filter('translate')('COMMON_MESSAGE_COULD_NOT_CREATE_ARV_PRESCRIPTION_BECAUSE_EXISTS_AN_ACTIVE_ARV_PRESCRIPTION'));
+
+         return false;
+       }
+
+       return true;
     }
 
     function cancelOrStop(form, item){
@@ -396,8 +424,7 @@
 
     function loadSavedPrescriptions(patient) {
       return prescriptionService.getAllPrescriptions(patient).then(function (patientPrescriptions) {
-        vm.hasServiceToday = (hasActivePrescription(patientPrescriptions)) ? true : null;
-        vm.existingPrescriptions = patientPrescriptions.reverse();
+        vm.existingPrescriptions = _.sortBy(patientPrescriptions, ['prescriptionStatus','prescriptionDate'],['asc','desc']);
         vm.setPrescritpionItemStatus(vm.existingPrescriptions);
       });
     }
@@ -413,17 +440,7 @@
     function setPrescritpionItemStatus(prescriptions){
       _.forEach(prescriptions, function (prescription) {
          _.forEach(prescription.prescriptionItems, function (item) {
-              if(prescription.prescriptionStatus == true){
-                  if((item.drugOrder.action == 'NEW') ||(item.drugOrder.action == 'REVISE') ){
-                     item.status = "PHARMACY_ACTIVE";
-                  }
-                  else{
-                     item.status = "PHARMACY_FINALIZED";
-                  }
-              }
-              else{
-                item.status = "PHARMACY_FINALIZED";
-              }
+             item.statusStranslate = (item.status == 'FINALIZED') ? "PHARMACY_FINALIZED" : "PHARMACY_ACTIVE";
           });
        });
      }

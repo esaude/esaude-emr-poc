@@ -217,4 +217,79 @@ describe('PatientSimplifiedPrescriptionController', function () {
 
   });
 
+
+  describe('save', function () {
+
+    beforeEach(function () {
+
+      spyOn(prescriptionService, 'create').and.callFake(function () {
+
+      });
+
+      localStorageService = {
+        cookie: {
+          get: function () {
+            return { uuid: 'xpto'};
+          }
+        }
+      };
+
+      controller = $controller('PatientSimplifiedPrescriptionController', {
+        $scope: {},
+        localStorageService: localStorageService,
+        prescriptionService: prescriptionService,
+      });
+    });
+
+    beforeEach(function () {
+      controller.listedPrescriptions.push({
+          "drugOrder": {
+
+            "dosingInstructions": "Conforme indicado",
+            "dose": 1,
+            "doseUnits": {
+              "uuid": "9d674660-10e8-11e5-9009-0242ac110012"
+            },
+            "frequency": {
+              "uuid": "9d7127f9-10e8-11e5-9009-0242ac110012"
+            },
+            "route": {
+              "uuid": "9d6b861d-10e8-11e5-9009-0242ac110012"
+            },
+            "duration": 2,
+            "quantityUnits": {
+              "uuid": "9d6b861d-10e8-11e5-9009-0242ac110012"
+            },
+            "durationUnits": {
+              "uuid": "9d6b861d-10e8-11e5-9009-0242ac110012"
+            },
+            "drug": {
+              "uuid": "9d6b861d-10e8-11e5-9009-0242ac110012"
+            }
+          },
+          "isArv": true,
+          "regime": {
+            "uuid": "9d6b861d-10e8-11e5-9009-0242ac110012"
+
+          }
+        });
+      controller.existingPrescriptions.push({
+        "prescriptionItems": [{
+          "regime": {
+            "uuid": "9d6b861d-10e8-11e5-9009-0242ac110012"
+
+          }
+        }],
+        "prescriptionStatus": "ACTIVE"
+      });
+      controller.prescriptionDate = new Date();
+      controller.selectedProvider = { uuid: '123'};
+    });
+
+    it('should not create prescription with validation error', function () {
+      controller.save();
+      expect(prescriptionService.create).not.toHaveBeenCalled();
+    });
+
+  });
 });
