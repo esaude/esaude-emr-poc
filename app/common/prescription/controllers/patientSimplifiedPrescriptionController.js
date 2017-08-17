@@ -127,11 +127,18 @@
       if (!_.isObject(drug)) {
         return;
       }
+<<<<<<< HEAD
 
       if(!vm.prescriptionItem.drugOrder || vm.prescriptionItem.drugOrder.drug ){
       //check if drug is ARV
 
         drugService.isArvDrug(drug).then(function (isArv) {
+=======
+
+      if(vm.prescriptionItem.drugOrder.drug || !vm.prescriptionItem.drugOrder){
+      //check if drug is ARV
+        isArvDrug(drug).then(function (isArv) {
+>>>>>>> refs/remotes/origin/master
           if (isArv) {
             vm.prescriptionItem.isArv = true;
             vm.prescriptionItem.drugOrder = null;
@@ -231,6 +238,21 @@
         });
     }
 
+<<<<<<< HEAD
+=======
+    function isArvDrug(drug) {
+
+      return $http.get(Bahmni.Common.Constants.arvDrugUrl +'/'+ drug.uuid)
+        .then(function (response) {
+          return true;
+        })
+        .catch(function(){
+          return $q.reject();
+        });
+    }
+
+
+>>>>>>> refs/remotes/origin/master
     function getProviders() {
       return providerService.getProviders();
     }
@@ -494,6 +516,28 @@
     function initArvPlans(){
 
       observationsService.get(patientUuid, Bahmni.Common.Constants.drugPrescriptionConvSet.artPlan.uuid)
+<<<<<<< HEAD
+=======
+        .success(function (data) {
+          var nonRetired = commonService.filterRetired(data.results);
+          var maxObs = _.maxBy(nonRetired, 'obsDatetime');
+
+          if (maxObs) {
+            var swappedObsToConcept = swapObsToConceptAnswer(maxObs.value.uuid, vm.fieldModels.artPlan.model.answers);
+            vm.prescriptionItem.arvPlan = swappedObsToConcept;
+            if (swappedObsToConcept) {
+              vm.isArvPlanEdit = false;
+            } else {
+              vm.isArvPlanEdit = true;
+            }
+          }
+        });
+    }
+
+    function getDrugsOfRegimen(regime) {
+    //  vm.prescriptionItem.drugOrder.drug = null;
+      drugService.get(regime.uuid)
+>>>>>>> refs/remotes/origin/master
         .success(function (data) {
           var nonRetired = commonService.filterRetired(data.results);
           var maxObs = _.maxBy(nonRetired, 'obsDatetime');

@@ -57,8 +57,7 @@
                 encounterDatetime : encounter.encounterDatetime,
                 provider : encounter.provider.display,
                 members : filteredGroupMembers,
-                encounterPrecription : encounter,
-                status : "PHARMACY_ACTIVE"
+                encounterPrecription : encounter
               }
               observations.push(obs);
             }

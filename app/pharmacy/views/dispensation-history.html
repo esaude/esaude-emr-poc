@@ -7,7 +7,6 @@
       <th>{{'PHARMACY_QUANTITY' | translate}}</th>
       <th>{{'PHARMACY_NEXT_PICKUP' | translate}}</th>
       <th>{{'COMMON_BY' | translate}}</th>
-      <th>{{'COMMON_STATE' | translate}}</th>
       <th>{{'COMMON_CLINICAL_SERVICE_HEADER_ACTIONS' | translate}}</th>
     </tr>
     </thead>
@@ -18,7 +17,6 @@
       <td>{{vm.valueOfField(vm.filaObsList.quantity, pickup.members).value}}</td>
       <td>{{vm.valueOfField(vm.filaObsList.nextPickup, pickup.members).value | date:"MMM d, y"}}</td>
       <td>{{pickup.provider}}</td>
-      <td style="color:green;">{{pickup.status | translate}}</td>
       <td>
         <button type="button" class="close btn-lg content-border-margin-regular-sides" ng-click ="vm.setDispensationItemToCancel(vm.valueOfField(vm.filaObsList.quantity, pickup.members).order)" data-toggle="modal" data-target="#cancellationDispensationItemModal" >
           <span class="glyphicon glyphicon-trash"  ></span>
@@ -28,12 +26,12 @@
     </tbody>
     <tfoot>
     <tr ng-show="noResultsMessage">
-      <td  colspan="7" class="text-center">
+      <td  colspan="6" class="text-center">
         {{noResultsMessage | translate}}
       </td>
     </tr>
     <tr>
-      <td  colspan="7" class="text-center">
+      <td  colspan="6" class="text-center">
         <div  st-items-by-page="4" st-displayed-pages="7" st-pagination=""></div>
       </td>
     </tr>
