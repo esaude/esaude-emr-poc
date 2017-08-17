@@ -6,12 +6,12 @@
     .controller('PatientSimplifiedPrescriptionController', PatientSimplifiedPrescriptionController);
 
   PatientSimplifiedPrescriptionController.$inject = ['$http', '$filter', '$rootScope', '$stateParams',
-    'observationsService', 'commonService', 'conceptService', 'localStorageService', 'notifier', 'spinner',
+    'observationsService', 'commonService', 'conceptService', 'localStorageService', 'notifier', 'spinner', '$q',
     'drugService', 'prescriptionService', 'providerService', 'sessionService'];
 
   /* @ngInject */
   function PatientSimplifiedPrescriptionController($http, $filter, $rootScope, $stateParams, observationsService,
-                                                   commonService, conceptService, localStorageService, notifier, spinner,
+                                                   commonService, conceptService, localStorageService, notifier, spinner, $q,
                                                    drugService, prescriptionService, providerService, sessionService) {
 
 
@@ -49,6 +49,7 @@
     vm.edit = edit;
     vm.getDrugs = getDrugs;
     vm.initTherapeuticLine = initTherapeuticLine;
+    vm.initArvPlans = initArvPlans;
     vm.refill = refill;
     vm.remove = remove;
     vm.removeAll = removeAll;
@@ -126,16 +127,21 @@
       if (!_.isObject(drug)) {
         return;
       }
-      //check if drug is ARV
-      var arvRepr = drugMapping.arvDrugs[drug.uuid];
 
-      if (arvRepr) {
-        vm.prescriptionItem.isArv = true;
-      } else {
-        vm.prescriptionItem.isArv = false;
-        vm.prescriptionItem.interruptedReason = {};
-        vm.prescriptionItem.isPlanInterrupted = false;
-        vm.prescriptionItem.arvPlan = {};
+      if(!vm.prescriptionItem.drugOrder || vm.prescriptionItem.drugOrder.drug ){
+      //check if drug is ARV
+
+        drugService.isArvDrug(drug).then(function (isArv) {
+          if (isArv) {
+            vm.prescriptionItem.isArv = true;
+            vm.prescriptionItem.drugOrder = null;
+          } else {
+            vm.prescriptionItem.isArv = false;
+            vm.prescriptionItem.interruptedReason = {};
+            vm.prescriptionItem.isPlanInterrupted = false;
+            vm.prescriptionItem.arvPlan = {};
+          }
+        });
       }
     }
 
@@ -225,7 +231,6 @@
         });
     }
 
-
     function getProviders() {
       return providerService.getProviders();
     }
@@ -275,7 +280,6 @@
           initRegimes(filteredRegimes);
         });
     }
-
 
     function refill(item) {
       item.drugOrder.dosingInstructions = {uuid: item.drugOrder.dosingInstructions};
@@ -487,11 +491,29 @@
         });
     }
 
-    function getDrugsOfRegimen(regime) {
-      drugService.get(regime.uuid)
+    function initArvPlans(){
+
+      observationsService.get(patientUuid, Bahmni.Common.Constants.drugPrescriptionConvSet.artPlan.uuid)
         .success(function (data) {
-          vm.arvDrugs = _.map(data.results, 'drugItem.drug');
+          var nonRetired = commonService.filterRetired(data.results);
+          var maxObs = _.maxBy(nonRetired, 'obsDatetime');
+
+          if (maxObs) {
+            var swappedObsToConcept = swapObsToConceptAnswer(maxObs.value.uuid, vm.fieldModels.artPlan.model.answers);
+            vm.prescriptionItem.arvPlan = swappedObsToConcept;
+            if (swappedObsToConcept) {
+              vm.isArvPlanEdit = false;
+            } else {
+              vm.isArvPlanEdit = true;
+            }
+          }
         });
+    }
+
+    function getDrugsOfRegimen(regime) {
+      drugService.getDrugsOfRegimen(regime).then( function (drugs) {
+        vm.arvDrugs = drugs;
+      });
     }
 
 
