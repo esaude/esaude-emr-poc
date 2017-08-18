@@ -1,67 +1,122 @@
 'use strict';
 
-describe('Registration Visit Service', function () {
-    var visitService;
-    var openmrsUrl = "/openmrs/ws/rest/v1/visit";
-    var endVisitUrl = "/openmrs/ws/rest/v1/endVisit";
+describe('visitService', function () {
+
+  var visitService, $http, $log, $q, commonService;
+
+  beforeEach(module('bahmni.common.domain'));
+
+  beforeEach(inject(function (_visitService_, $httpBackend, _$log_, _$q_, _commonService_) {
+    visitService = _visitService_;
+    $http = $httpBackend;
+    $log = _$log_;
+    $q = _$q_;
+    commonService = _commonService_;
+  }));
+
+  var openmrsUrl = "/openmrs/ws/rest/v1/visit";
+
+  describe('search', function () {
+
     var uuid = "9e23a1bb-0615-4066-97b6-db309c9c6447";
-
-    var mockHttp = {
-        get: jasmine.createSpy('Http get').and.returnValue({'results': [{'uuid': uuid}]}),
-        post: jasmine.createSpy('Http post').and.returnValue({
-            'success': function (onSuccess) {
-                return {
-                    'then': function (thenMethod) {
-                        thenMethod()
-                    },
-                    'error': function (onError) {
-                        onError()
-                    }
-                }
-            }})
-    };
-
-    var offlineService = {offline: function(){}};
+    var parameters = {patient: uuid, includeInactive: false, v: "custom:(uuid)"};
+    var response = {results: [1, 2, 3]};
 
     beforeEach(function () {
-        module('bahmni.common.domain');
-        module(function ($provide) {
-            Bahmni.Common.Constants.endVisitUrl = endVisitUrl;
-            Bahmni.Common.Constants.visitUrl = openmrsUrl;
-            $provide.value('$http', mockHttp);
-            $provide.value('offlineService', offlineService);
-        });
-
-        inject(['visitService', function (visitServiceInjectted) {
-            visitService = visitServiceInjectted;
-        }]);
+      $http.expectGET(openmrsUrl + '?patient=' + parameters.patient + '&includeInactive=' + parameters.includeInactive
+        + '&v=' + parameters.v).respond(response);
     });
 
-    it('Should call search url in registration visit service', function () {
-        var parameters = {patient: uuid, includeInactive: false, v: "custom:(uuid)"};
-        var results = visitService.search(parameters);
-        expect(mockHttp.get).toHaveBeenCalled();
-        expect(mockHttp.get.calls.mostRecent().args[0]).toBe(openmrsUrl);
-        expect(mockHttp.get.calls.mostRecent().args[1].params.patient).toBe(uuid);
-        expect(mockHttp.get.calls.mostRecent().args[1].params.includeInactive).toBeFalsy();
+    it('should call search url in registration visit service', function () {
+      var resolve = {};
+      visitService.search(parameters).then(function (visits) {
+        resolve = visits;
+      });
+
+      $http.flush();
+      expect(resolve.data.results).toEqual(response.results);
     });
 
-    it('Should call end visit url in registration visit service', function () {
-        var results = visitService.endVisit(uuid);
-        expect(mockHttp.post).toHaveBeenCalled();
-        expect(mockHttp.post.calls.mostRecent().args[0]).toBe(endVisitUrl + '?visitUuid=' + uuid);
-        expect(mockHttp.post.calls.mostRecent().args[1].withCredentials).toBeTruthy();
+    afterEach(function () {
+      $http.verifyNoOutstandingExpectation();
+      $http.verifyNoOutstandingRequest();
     });
 
-  it("Should post visit details to create visit url", function () {
+  });
+
+  describe('create', function () {
+
     var visitDetails = {patientUuid: "uuid"};
 
-    visitService.create(visitDetails);
+    beforeEach(function () {
+      $http.expectPOST(openmrsUrl).respond({});
+    });
 
-    expect(mockHttp.post).toHaveBeenCalled();
-    expect(mockHttp.post.calls.mostRecent().args[0]).toBe(openmrsUrl);
-    expect(mockHttp.post.calls.mostRecent().args[1]).toBe(visitDetails);
-    expect(mockHttp.post.calls.mostRecent().args[2].withCredentials).toBeTruthy();
+    it('should call end visit url in registration visit service', function () {
+      var resolve;
+      visitService.create(visitDetails).then(function (response) {
+        resolve = response;
+      });
+
+      $http.flush();
+    });
+
+    afterEach(function () {
+      $http.verifyNoOutstandingExpectation();
+      $http.verifyNoOutstandingRequest();
+    });
+
+  });
+
+  describe('getTodaysVisit', function () {
+
+    var uuid = "9e23a1bb-0615-4066-97b6-db309c9c6447";
+    var datetime = '2017-08-17';
+    var response = {results: [{startDatetime: datetime, stopDatetime: datetime}]};
+
+    beforeEach(function () {
+      $http.expectGET(openmrsUrl + '?patient=' + uuid + '&v=full').respond(response);
+    });
+
+    describe('last visit is today', function () {
+
+      it('should return the patients visit', function () {
+
+        var dateUtil = Bahmni.Common.Util.DateUtil;
+        var resolve = {};
+
+        spyOn(dateUtil, 'now').and.callFake(function () {
+          return dateUtil.parseDatetime(datetime);
+        });
+
+        visitService.getTodaysVisit(uuid).then(function (todaysVisit) {
+          resolve = todaysVisit;
+        });
+
+        $http.flush();
+        expect(resolve).toEqual(response.results[0]);
+      });
+
+    });
+
+    describe('last visit not today', function () {
+      it('should return the patients visit', function () {
+
+        var resolve = {};
+
+        visitService.getTodaysVisit(uuid).then(function (todaysVisit) {
+          resolve = todaysVisit;
+        });
+
+        $http.flush();
+        expect(resolve).toEqual(null);
+      });
+    });
+
+    afterEach(function () {
+      $http.verifyNoOutstandingExpectation();
+      $http.verifyNoOutstandingRequest();
+    });
   });
 
 });

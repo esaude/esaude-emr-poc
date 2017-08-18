@@ -5,15 +5,16 @@
     .module('social')
     .controller('DashboardController', DashboardController);
 
-  DashboardController.$inject = ['$rootScope', '$scope', '$location', '$stateParams', 'patientService', 'visitService',
-    'commonService'];
+  DashboardController.$inject = ['$scope', '$location', '$stateParams', 'patientService', 'visitService'];
 
   /* @ngInject */
-  function DashboardController($rootScope, $scope, $location, $stateParams, patientService, visitService, commonService) {
-
-    var dateUtil = Bahmni.Common.Util.DateUtil;
+  function DashboardController($scope, $location, $stateParams, patientService, visitService) {
 
     $scope.patientUuid = $stateParams.patientUuid;
+    $scope.todayVisit = null;
+
+    $scope.linkPatientDetail = linkPatientDetail;
+    $scope.linkSearch = linkSearch;
 
     activate();
 
@@ -23,32 +24,24 @@
       patientService.getPatient($scope.patientUuid).then(function (patient) {
         $scope.patient = patient;
       });
-      visitService.search({patient: $scope.patientUuid, v: "full"})
-        .success(function (data) {
-          var nonRetired = commonService.filterRetired(data.results);
-          //in case the patient has an active visit
-          if (!_.isEmpty(nonRetired)) {
-            var lastVisit = _.maxBy(nonRetired, 'startDatetime');
-            var now = dateUtil.now();
-            //is last visit todays
-            if (dateUtil.parseDatetime(lastVisit.startDatetime) <= now &&
-              dateUtil.parseDatetime(lastVisit.stopDatetime) >= now) {
-              $scope.hasVisitToday = true;
-              $scope.todayVisit = lastVisit;
-            } else {
-              $scope.hasVisitToday = false;
-            }
-          }
-        });
+
+      visitService.getTodaysVisit($scope.patientUuid).then(function (visitToday) {
+        if (visitToday) {
+          $scope.hasVisitToday = true;
+          $scope.todayVisit = visitToday;
+        } else {
+          $scope.hasVisitToday = false;
+        }
+      });
     }
 
-    $scope.linkSearch = function() {
+    function linkSearch() {
       $location.url("/search"); // path not hash
-    };
+    }
 
-    $scope.linkPatientDetail = function() {
+    function linkPatientDetail() {
       $location.url("/patient/detail/" + $scope.patientUuid); // path not hash
-    };
+    }
   }
 
 })();

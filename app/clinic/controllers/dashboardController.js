@@ -5,16 +5,20 @@
     .module('clinic')
     .controller('DashboardController', DashboardController);
 
-  DashboardController.$inject = ['$rootScope', '$scope', '$location', '$stateParams', '$filter', 'patientService',
-    'alertService', 'visitService', 'commonService'];
+  DashboardController.$inject = ['$rootScope', '$scope', '$location', '$stateParams', 'patientService', 'alertService',
+    'visitService'];
 
   /* @ngInject */
-  function DashboardController($rootScope, $scope, $location, $stateParams, $filter, patientService, alertService,
-    visitService, commonService) {
+  function DashboardController($rootScope, $scope, $location, $stateParams, patientService, alertService, visitService) {
 
-    var dateUtil = Bahmni.Common.Util.DateUtil;
-
+    $scope.flags = [];
     $scope.patientUUID = $stateParams.patientUuid;
+    $scope.todayVisit = null;
+
+    $scope.getAlerts = getAlerts;
+    $scope.linkSearch = linkSearch;
+    $scope.linkPatientDetail = linkPatientDetail;
+
 
     activate();
 
@@ -24,38 +28,30 @@
       patientService.getPatient($scope.patientUUID).then(function (patient) {
         $rootScope.patient = patient;
       });
-      visitService.search({patient: $scope.patientUuid, v: "full"})
-        .success(function (data) {
-          var nonRetired = commonService.filterRetired(data.results);
-          //in case the patient has an active visit
-          if (!_.isEmpty(nonRetired)) {
-            var lastVisit = _.maxBy(nonRetired, 'startDatetime');
-            var now = dateUtil.now();
-            //is last visit todays
-            if (dateUtil.parseDatetime(lastVisit.startDatetime) <= now &&
-              dateUtil.parseDatetime(lastVisit.stopDatetime) >= now) {
-              $scope.hasVisitToday = true;
-              $scope.todayVisit = lastVisit;
-            } else {
-              $scope.hasVisitToday = false;
-            }
-          }
-        });
+
+      visitService.getTodaysVisit($scope.patientUUID).then(function (visitToday) {
+        if (visitToday) {
+          $scope.hasVisitToday = true;
+          $scope.todayVisit = visitToday;
+        } else {
+          $scope.hasVisitToday = false;
+        }
+      });
     }
 
-    $scope.linkSearch = function() {
+    function linkSearch() {
       $location.url("/search"); // path not hash
-    };
+    }
 
-    $scope.linkPatientDetail = function() {
+    function linkPatientDetail() {
       $location.url("/patient/detail/" + $scope.patientUUID); // path not hash
-    };
+    }
 
-    $scope.getAlerts = function () {
+    function getAlerts() {
       alertService.get($scope.patientUUID).success(function (data) {
         $scope.flags = data.flags;
       });
-    };
+    }
   }
 
 })();
