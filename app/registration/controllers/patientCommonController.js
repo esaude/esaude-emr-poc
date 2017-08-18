@@ -5,11 +5,12 @@
     .module('registration')
     .controller('PatientCommonController', PatientCommonController);
 
-  PatientCommonController.$inject = ['$scope', '$http', '$state', 'patientAttributeService', 'patientService', 'localStorageService', 'spinner'];
+  PatientCommonController.$inject = ['$scope', '$http', '$state', 'patientAttributeService', 'patientService', 
+    'localStorageService', 'spinner', 'notifier', '$filter'];
 
   /* @ngInject */
   function PatientCommonController($scope, $http, $state, patientAttributeService, patientService, localStorageService,
-                                   spinner) {
+                                   spinner, notifier, $filter) {
 
     var dateUtil = Bahmni.Common.Util.DateUtil;
     var patientConfiguration = $scope.patientConfiguration;
@@ -19,7 +20,6 @@
     vm.patient = $scope.patient;
     vm.patientAttributes = [];
     vm.patientIdentifierTypes = [];
-    vm.showMessages = false;
     vm.srefPrefix = $scope.srefPrefix;
     vm.today = dateUtil.getDateWithoutTime(dateUtil.now());
 
@@ -31,6 +31,7 @@
     vm.listRequiredIdentifiers = listRequiredIdentifiers;
     vm.removeIdentifier = removeIdentifier;
     vm.selectIdentifierType = selectIdentifierType;
+    vm.addNewIdentifier = addNewIdentifier;
     vm.selectIsDead = selectIsDead;
     vm.setPreferredId = setPreferredId;
     vm.stepForward = stepForward;
@@ -139,31 +140,43 @@
     }
 
 
-    function selectIdentifierType() {
+    function selectIdentifierType(patientIdentifier) {
 
-      vm.errorMessage = null;
+      var patientIdentifierType = patientIdentifier.selectedIdentifierType;
 
-      var patientIdentifierType = vm.patient.patientIdentifierType;
       if (patientIdentifierType !== null) {
         //validate already contained
         var found = _.find(vm.patient.identifiers, function (chr) {
-          return chr.identifierType.display === patientIdentifierType.display;
+          return chr.identifierType && chr.identifierType.display === patientIdentifierType.display;
         });
 
         if (!found) {
-          var fieldName = patientIdentifierType.name.trim().replace(/[^a-zA-Z0-9]/g, '');
-
-          vm.patient.identifiers.push({
-            identifierType: patientIdentifierType,
-            identifier: null, preferred: false,
-            location: localStorageService.cookie.get("emr.location").uuid,
-            fieldName: fieldName
-          });
+          patientIdentifier.identifierType = patientIdentifierType;
 
         } else {
-          vm.errorMessage = "PATIENT_INFO_IDENTIFIER_ERROR_EXISTING";
+          patientIdentifier.selectedIdentifierType = undefined;
+          notifier.error($filter('translate')('PATIENT_INFO_IDENTIFIER_ERROR_EXISTING'));
         }
       }
+    };
+
+    //TODO: Find and use a library that does this.
+    function randomStr(m) {
+      var m = m || 9; 
+      var s = ''; 
+      var r = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+      for (var i=0; i < m; i++) {
+        s += r.charAt(Math.floor(Math.random()*r.length)); 
+      }
+      return s;
+    };
+
+    function addNewIdentifier() {
+      vm.patient.identifiers.push({
+          identifier: null, preferred: false,
+          location: localStorageService.cookie.get("emr.location").uuid,
+          fieldName: randomStr()
+      });
     }
 
 

@@ -2,22 +2,6 @@
     <div class="panel-heading">
         <h3 class="panel-title">{{'PATIENT_INFO_IDENTIFIERS' | translate}}</h3>
     </div>
-
-    <div class="panel-body">
-        <div class="alert alert-danger alert-dismissible" role="alert"  ng-show="patientCommon.errorMessage">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <strong>{{patientCommon.errorMessage | translate}}</strong>
-        </div>
-        <div class="form-group form-group-lg">
-            <label for="patient_identifier_type" class="col-sm-2 control-label">{{'PATIENT_INFO_IDENTIFIER_TYPE_FULL' | translate}}:</label>
-            <div class="col-sm-10">
-                <select class="form-control" id="patient_identifier_type" ng-model="patientCommon.patient.patientIdentifierType" ng-change="patientCommon.selectIdentifierType()"
-                        ng-options="it.name for it in patientCommon.patientIdentifierTypes | filterNid">
-                    <option></option>
-                </select>
-            </div>
-        </div>
-    </div>
     <table class="table">
         <thead>
             <tr>
@@ -30,20 +14,29 @@
         </thead>
         <tbody ng-init="patientCommon.listRequiredIdentifiers()">
             <tr ng-repeat="pi in patientCommon.patient.identifiers">
-                <td class="col-sm-4 control-label">
-                    <div ng-messages for="aForm.{{pi.fieldName}}.$error"
+                <td class="col-sm-4">
+                    <span ng-if="pi.identifierType" class="control-label pull-left">{{pi.identifierType.display}}</span>
+
+                    <span ng-if="!pi.identifierType" class="pull-left">
+                        <select class="form-control input-lg" id="patient_identifier_type" ng-model="pi.selectedIdentifierType" ng-change="patientCommon.selectIdentifierType(pi)"
+                        ng-options="it.name for it in patientCommon.patientIdentifierTypes | filterNid">
+                            <option></option>
+                        </select>
+                    </span>
+
+                </td>
+                <td>
+                    <div class="pull-left" ng-messages for="aForm.{{pi.fieldName}}.$error"
                          ng-messages-include="../poc-common/form-display/views/error-messages.html"
                          ng-show="patientCommon.showMessages" >
                     </div>
-                    {{pi.identifierType.display}}
-                </td>
-                <td>
                     <div ng-class="{'has-error': aForm.{{pi.fieldName}}.$invalid && patientCommon.showMessages}">
                         <input type="text" class="form-control input-lg keyboard-in" name="{{pi.fieldName}}"
                                ng-model="pi.identifier"
                                record-availability-validator="/ws/rest/v1/patient"
                                ng-pattern="pi.identifierType.format"
                                placeholder="{{pi.identifierType.formatDescription}}"
+                               ng-disabled="!pi.identifierType"
                                required>
 
                     </div>
@@ -66,6 +59,16 @@
 
             </tr>
         </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="5">
+                    <button type="button" class="btn btn-primary btn-lg pull-left" ng-click="patientCommon.addNewIdentifier()">
+                        <span>{{'REGISTRATION_ADD_IDENTIFIER' | translate}}</span>&nbsp
+                        <span class="glyphicon glyphicon-plus-sign pull-right"></span>
+                    </button>    
+                </td>
+            </tr>
+        </tfoot>
     </table>
 </div><!-- identifier -->
 

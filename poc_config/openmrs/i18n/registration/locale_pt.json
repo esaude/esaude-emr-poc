@@ -49,6 +49,7 @@
     "COMMON_CLINICAL_SERVICE_HEADER_CREATOR": "Criado por",
     "COMMON_CLINICAL_SERVICE_HEADER_ACTIONS": "Acções",
     "REGISTRATION_LAST_VISIT": "Última Visita",
+    "REGISTRATION_ADD_IDENTIFIER": "Adicionar identificador",
     "PATIENT_INFO_DEMOGRAPHICS": "Demografia",
     "PATIENT_INFO_ADDRESSES": "Endereços",
     "PATIENT_INFO_ADDRESS": "Endereço",
