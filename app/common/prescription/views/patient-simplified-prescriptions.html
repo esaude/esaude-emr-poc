@@ -72,6 +72,7 @@
                     <input name="doseAmount" type="number" class="form-control keyboard-in"
                            ng-model="vm.prescriptionItem.drugOrder.dose"
                            placeholder="{{'CLINIC_PRESCRIPTION_DOSE' | translate}}"
+                           min="0"
                            required>
                   </div>
                 </div>
@@ -132,6 +133,7 @@
                     <input name="duration" type="number" class="form-control keyboard-in"
                            ng-model="vm.prescriptionItem.drugOrder.duration"
                            placeholder="{{'CLINIC_PRESCRIPTION_DURATION' | translate}}"
+                           min="0"
                            required>
                   </div>
                   <div class="col-sm-6"
