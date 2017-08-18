@@ -177,6 +177,59 @@ describe('PatientSimplifiedPrescriptionController', function () {
 
   });
 
+  describe('checkDrugType', function () {
+
+    describe('drug is an ARV', function () {
+      beforeEach(function () {
+
+        spyOn(drugService, 'isArvDrug').and.callFake(function () {
+          return $q(function (resolve) {
+            return resolve(true);
+          })
+        });
+
+        controller = $controller('PatientSimplifiedPrescriptionController', {
+          $scope: {}
+        });
+        controller.prescriptionItem = {};
+      });
+
+      it('should check a drug as ARV drug', function () {
+        var drug = {"uuid": "9d7127f9-10e8-11e5-9009-0242ac110012"};
+        controller.checkDrugType(drug);
+        $rootScope.$apply();
+        expect(controller.prescriptionItem.isArv).toBe(true);
+        expect(controller.prescriptionItem.drugOrder).toBe(null);
+      });
+    });
+
+    describe('drug is not ARV', function () {
+      beforeEach(function () {
+
+        spyOn(drugService, 'isArvDrug').and.callFake(function () {
+          return $q(function (resolve) {
+            return resolve(false);
+          })
+        });
+
+        controller = $controller('PatientSimplifiedPrescriptionController', {
+          $scope: {}
+        });
+        controller.prescriptionItem = {};
+      });
+
+
+      it('should check a drug as ARV drug', function () {
+        var drug = {"uuid": "9d7127f9-10e8-11e5-9009-0242ac110012"};
+        controller.checkDrugType(drug);
+        $rootScope.$apply();
+        expect(controller.prescriptionItem.isArv).toBe(false);
+      });
+    });
+
+
+  });
+
   describe('cancelOrStop', function () {
 
     beforeEach(function () {

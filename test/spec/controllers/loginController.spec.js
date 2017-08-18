@@ -67,7 +67,7 @@ describe('Controller: LoginController', function () {
 
     it('should redirect the user to the landing page on successful login', function () {
         // construct controller
-        controller('LoginController', {
+        var ctrl = controller('LoginController', {
             $scope: scope,
             $location: location,
             sessionService: sessionService
@@ -87,7 +87,7 @@ describe('Controller: LoginController', function () {
                     data: window.__fixtures__['local_en']
                 });
 
-        scope.login();
+        ctrl.login();
         scope.$apply();
 
         expect(sessionService.getSession).toHaveBeenCalled();
@@ -98,7 +98,7 @@ describe('Controller: LoginController', function () {
         spyOn(sessionService, 'loadCredentials').and.callThrough();
 
         // construct controller
-        controller('LoginController', {
+        var ctrl = controller('LoginController', {
             $scope: scope,
             $location: location,
             sessionService: sessionService
@@ -116,18 +116,18 @@ describe('Controller: LoginController', function () {
                 });
 
         // perform login
-        scope.login();
+        ctrl.login();
         scope.$apply();
 
         expect(sessionService.getSession).toHaveBeenCalled();
         expect(sessionService.loadCredentials).not.toHaveBeenCalled();
         expect(location.path).not.toHaveBeenCalledWith('/dashboard');
-        expect(scope.errorMessageTranslateKey).toEqual('invalid username or password');
+        expect(ctrl.errorMessageTranslateKey).toEqual('invalid username or password');
     });
 
     it('should stay on page and set $scope.errorMessage on failure to load credentiala', function () {
         // construct controller
-        controller('LoginController', {
+        var ctrl = controller('LoginController', {
             $scope: scope,
             $location: location,
             sessionService: sessionService
@@ -149,12 +149,12 @@ describe('Controller: LoginController', function () {
                 });
 
         // perform login
-        scope.login();
+        ctrl.login();
         scope.$apply();
 
         expect(sessionService.getSession).toHaveBeenCalled();
         expect(location.path).not.toHaveBeenCalledWith('/dashboard');
-        expect(scope.errorMessageTranslateKey).toEqual('failure to load credentials');
+        expect(ctrl.errorMessageTranslateKey).toEqual('failure to load credentials');
     });
 
     it('should redirect to the landing page if we are already logged in', function () {
@@ -185,12 +185,12 @@ describe('Controller: LoginController', function () {
         stateParams.showLoginMessage = 'LOGIN_LABEL_LOGIN_ERROR_MESSAGE_KEY';
 
         // construct controller
-        controller('LoginController', {
+        var ctrl = controller('LoginController', {
             $scope: scope,
             $location: location,
             sessionService: sessionService
         });
 
-        expect(scope.errorMessageTranslateKey).toEqual('LOGIN_LABEL_LOGIN_ERROR_MESSAGE_KEY');
+        expect(ctrl.errorMessageTranslateKey).toEqual('LOGIN_LABEL_LOGIN_ERROR_MESSAGE_KEY');
     });
 });
