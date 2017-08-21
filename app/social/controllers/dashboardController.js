@@ -1,24 +1,47 @@
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('social')
-        .controller('DashboardController', ["$rootScope", "$scope", "$location", "$stateParams", "patientService", function ($rootScope, $scope, $location, $stateParams, patientService) {
-            var patientUuid;
+  angular
+    .module('social')
+    .controller('DashboardController', DashboardController);
 
-            init();
+  DashboardController.$inject = ['$scope', '$location', '$stateParams', 'patientService', 'visitService'];
 
-            function init() {
-                patientUuid = $stateParams.patientUuid;
+  /* @ngInject */
+  function DashboardController($scope, $location, $stateParams, patientService, visitService) {
 
-                patientService.getPatient(patientUuid).then(function (patient) {
-                    $rootScope.patient = patient;
-                });
-            }
+    $scope.patientUuid = $stateParams.patientUuid;
+    $scope.todayVisit = null;
 
-            $scope.linkSearch = function() {
-                $location.url("/search"); // path not hash
-            };
+    $scope.linkPatientDetail = linkPatientDetail;
+    $scope.linkSearch = linkSearch;
 
-            $scope.linkPatientDetail = function() {
-                $location.url("/patient/detail/" + patientUuid); // path not hash
-            };
-        }]);
+    activate();
+
+    ////////////////
+
+    function activate() {
+      patientService.getPatient($scope.patientUuid).then(function (patient) {
+        $scope.patient = patient;
+      });
+
+      visitService.getTodaysVisit($scope.patientUuid).then(function (visitToday) {
+        if (visitToday) {
+          $scope.hasVisitToday = true;
+          $scope.todayVisit = visitToday;
+        } else {
+          $scope.hasVisitToday = false;
+        }
+      });
+    }
+
+    function linkSearch() {
+      $location.url("/search"); // path not hash
+    }
+
+    function linkPatientDetail() {
+      $location.url("/patient/detail/" + $scope.patientUuid); // path not hash
+    }
+  }
+
+})();

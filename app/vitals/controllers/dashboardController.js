@@ -1,24 +1,47 @@
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('vitals')
-        .controller('DashboardController', ["$rootScope", "$scope", "$location", "$stateParams", "patientService", function ($rootScope, $scope, $location, $stateParams, patientService) {
-            var patientUuid;
+  angular
+    .module('vitals')
+    .controller('DashboardController', DashboardController);
 
-            init();
+  DashboardController.$inject = ['$rootScope', '$scope', '$location', '$stateParams', 'patientService', 'visitService'];
 
-            function init() {
-                patientUuid = $stateParams.patientUuid;
+  /* @ngInject */
+  function DashboardController($rootScope, $scope, $location, $stateParams, patientService, visitService) {
 
-                patientService.getPatient(patientUuid).then(function (patient) {
-                    $rootScope.patient = patient;
-                });
-            }
+    $scope.patientUUID = $stateParams.patientUuid;
+    $scope.todayVisit = null;
 
-            $scope.linkSearch = function() {
-                $location.url("/search"); // path not hash
-            };
+    $scope.linkSearch = linkSearch;
+    $scope.linkPatientDetail = linkPatientDetail;
 
-            $scope.linkPatientDetail = function() {
-                $location.url("/patient/detail/" + patientUuid); // path not hash
-            };
-        }]);
+    activate();
+
+    ////////////////
+
+    function activate() {
+      patientService.getPatient($scope.patientUUID).then(function (patient) {
+        $rootScope.patient = patient;
+      });
+
+      visitService.getTodaysVisit($scope.patientUUID).then(function (visitToday) {
+        if (visitToday) {
+          $scope.hasVisitToday = true;
+          $scope.todayVisit = visitToday;
+        } else {
+          $scope.hasVisitToday = false;
+        }
+      });
+    }
+
+    function linkSearch() {
+      $location.url("/search"); // path not hash
+    }
+
+    function linkPatientDetail() {
+      $location.url("/patient/detail/" + $scope.patientUUID); // path not hash
+    }
+  }
+
+})();

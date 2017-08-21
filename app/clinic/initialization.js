@@ -19,7 +19,7 @@ angular.module('clinic').factory('initialization',
         };
 
         var initForms = function () {
-           formLoader.load(appService.getAppDescriptor().getClinicalServices()).then(function (data) {
+           return formLoader.load(appService.getAppDescriptor().getClinicalServices()).then(function (data) {
                $rootScope.serviceForms = data;
            });
         };

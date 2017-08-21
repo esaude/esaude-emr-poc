@@ -6,18 +6,18 @@
     .controller('PatientSimplifiedPrescriptionController', PatientSimplifiedPrescriptionController);
 
   PatientSimplifiedPrescriptionController.$inject = ['$http', '$filter', '$rootScope', '$stateParams',
-    'observationsService', 'commonService', 'conceptService', 'localStorageService', 'notifier', 'spinner', '$q',
-    'drugService', 'prescriptionService', 'providerService', 'sessionService'];
+    'observationsService', 'commonService', 'conceptService', 'localStorageService', 'notifier', 'spinner',
+    'drugService', 'prescriptionService', 'providerService', 'sessionService', 'patientService'];
 
   /* @ngInject */
   function PatientSimplifiedPrescriptionController($http, $filter, $rootScope, $stateParams, observationsService,
-                                                   commonService, conceptService, localStorageService, notifier, spinner, $q,
-                                                   drugService, prescriptionService, providerService, sessionService) {
-
+                                                   commonService, conceptService, localStorageService, notifier, spinner,
+                                                   drugService, prescriptionService, providerService, sessionService,
+                                                   patientService) {
 
     var drugMapping = $rootScope.drugMapping;
     var patientUuid;
-    var patient = $rootScope.patient;
+    var patient = {};
 
     var vm = this;
     vm.allRegimes = [];
@@ -75,6 +75,7 @@
             return element.uuid === fieldModel.uuid;
           });
         }
+        return true;
       }
 
       //also get the available regimens here for later
@@ -87,11 +88,20 @@
 
       var load = conceptService.getPrescriptionConvSetConcept()
         .then(setFieldModels)
-        .then(loadSavedPrescriptions(patient))
+        .then(function (z) {
+          return patientService.getPatient($stateParams.patientUuid)
+        })
+        .then(function (p) {
+          patient = p;
+          return loadSavedPrescriptions(patient);
+        })
         .then(loadAllRegimes())
         .then(getCurrentProvider)
         .then(function (currentProvider) {
           vm.selectedProvider = currentProvider;
+        })
+        .catch(function () {
+          notifier.error($filter('translate')('COMMON_ERROR'));
         });
 
       spinner.forPromise(load);
@@ -230,7 +240,10 @@
         });
     }
     function getProviders() {
-      return providerService.getProviders();
+      return providerService.getProviders()
+        .catch(function () {
+          notifier.error($filter('translate')('COMMON_ERROR'));
+        });
     }
 
     function getCurrentProvider() {
