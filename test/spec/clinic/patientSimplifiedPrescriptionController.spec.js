@@ -230,6 +230,81 @@ describe('PatientSimplifiedPrescriptionController', function () {
 
   });
 
+  describe('add', function () {
+
+    beforeEach(function () {
+      controller = $controller('PatientSimplifiedPrescriptionController', {
+        $scope: {}
+      });
+
+      spyOn(notifier, 'error').and.callFake(function () {
+
+      });
+    });
+
+    var form = {
+      $valid: true,
+      $setPristine: function () {
+      },
+      $setUntouched: function () {
+      }
+    };
+
+    describe('Not Allow adding a Drug with form validation errors ', function () {
+      beforeEach(function () {
+
+        controller = $controller('PatientSimplifiedPrescriptionController', {
+          $scope: {}
+        });
+
+      });
+      var formError = {
+        $valid: false,
+        $setPristine: function () {
+        },
+        $setUntouched: function () {
+        }
+      };
+
+      it('should not add a drugOrder with form validation errors', function () {
+        controller.add(formError.$valid,  formError);
+        expect(controller.showMessages).toBe(true);
+        });
+    });
+
+    describe('Not Allow adding a Drug with invalid dose', function () {
+      beforeEach(function () {
+
+        controller = $controller('PatientSimplifiedPrescriptionController', {
+          $scope: {}
+        });
+        controller.prescriptionItem = {drugOrder:{ duration : 0, dose : 0 }, frequency:{uuid : ''}};
+      });
+
+      it('should not add a drugOrder with invalid dose', function () {
+        controller.add(form.$valid,  form);
+        expect(notifier.error).toHaveBeenCalled();
+       });
+    });
+
+    describe(' Not Allow adding a Drug with invalid duration', function () {
+      beforeEach(function () {
+
+        controller = $controller('PatientSimplifiedPrescriptionController', {
+          $scope: {}
+        });
+        controller.prescriptionItem = {drugOrder:{ duration : 0, dose : 1 }, frequency:{uuid : ''}};
+      });
+
+      it('should not add a drugOrder with invalid duration', function () {
+        controller.add(form.$valid,  form);
+        expect(notifier.error).toHaveBeenCalled();
+      });
+    });
+
+  });
+
+
   describe('cancelOrStop', function () {
 
     beforeEach(function () {

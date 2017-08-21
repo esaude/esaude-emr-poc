@@ -117,6 +117,16 @@
         vm.showMessages = true;
         return;
       }
+
+      if(vm.prescriptionItem.drugOrder.dose === 0){
+        notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_DOSAGE_CANNOT_BE_ZERO'));
+        return;
+      }
+
+      if(vm.prescriptionItem.drugOrder.duration === 0){
+        notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_DURATION_CANNOT_BE_ZERO'));
+        return;
+      }
       //avoid duplication of drugs
       var sameOrderItem = _.find(vm.listedPrescriptions, function (item) {
         return item.drugOrder.drug.uuid === vm.prescriptionItem.drugOrder.drug.uuid;
