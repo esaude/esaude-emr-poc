@@ -5,11 +5,11 @@
     .module('registration')
     .controller('PatientCommonController', PatientCommonController);
 
-  PatientCommonController.$inject = ['$scope', '$http', '$state', 'patientAttributeService', 'patientService', 
+  PatientCommonController.$inject = ['$rootScope', '$scope', '$http', '$state', 'patientAttributeService', 'patientService',
     'localStorageService', 'spinner', 'notifier', '$filter'];
 
   /* @ngInject */
-  function PatientCommonController($scope, $http, $state, patientAttributeService, patientService, localStorageService,
+  function PatientCommonController($rootScope, $scope, $http, $state, patientAttributeService, patientService, localStorageService,
                                    spinner, notifier, $filter) {
 
     var dateUtil = Bahmni.Common.Util.DateUtil;
@@ -162,11 +162,11 @@
 
     //TODO: Find and use a library that does this.
     function randomStr(m) {
-      var m = m || 9; 
-      var s = ''; 
+      var m = m || 9;
+      var s = '';
       var r = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
       for (var i=0; i < m; i++) {
-        s += r.charAt(Math.floor(Math.random()*r.length)); 
+        s += r.charAt(Math.floor(Math.random()*r.length));
       }
       return s;
     };
@@ -210,7 +210,70 @@
       return patientService.getIdentifierTypes();
     }
 
+
+    $scope.tabManager = new TabManager();
+    if ($state.current.name.startsWith("newpatient")) {
+      $scope.tabManager.addStepDefinition("newpatient.identifier", 1);
+      $scope.tabManager.addStepDefinition("newpatient.name", 2);
+      $scope.tabManager.addStepDefinition("newpatient.gender", 3);
+      $scope.tabManager.addStepDefinition("newpatient.age", 4);
+      $scope.tabManager.addStepDefinition("newpatient.address", 5);
+      $scope.tabManager.addStepDefinition("newpatient.other", 6);
+    } else {
+      $scope.tabManager.addStepDefinition("editpatient.identifier", 1);
+      $scope.tabManager.addStepDefinition("editpatient.name", 2);
+      $scope.tabManager.addStepDefinition("editpatient.gender", 3);
+      $scope.tabManager.addStepDefinition("editpatient.age", 4);
+      $scope.tabManager.addStepDefinition("editpatient.address", 5);
+      $scope.tabManager.addStepDefinition("editpatient.other", 6);
+    }
+
+    //Since "aForm.$valid" is only available on angular expressions/directives
+    //we are using this hack to make its value available as a member of the controller
+    $scope.formCurrentlyValid = false;
+    $scope.$watch("aForm.$valid", function (newValue) {
+      $scope.formCurrentlyValid = newValue;
+    })
+
+    //Prevents the user from changing registration tabs while the current tab has invalid data
+    $scope.$on('$stateChangeStart',
+      function(event, toState, toParams, fromState, fromParams){
+        var stepingForward = $scope.tabManager.isStepingForward(fromState, toState);
+        var jumpingMoreThanOneTab = $scope.tabManager.isJumpingMoreThanOneTab(fromState, toState);
+
+        console.info("Debug");
+
+        if (!stepingForward || (stepingForward && !jumpingMoreThanOneTab && $scope.formCurrentlyValid)) {
+          vm.showMessages = false;
+        } else {
+          event.preventDefault();
+          vm.showMessages = true;
+        }
+      });
   }
 
 })();
+
+//Helps us validate user navigation along the registration tabs
+function TabManager() {
+  this.addStepDefinition = function (name, index) {
+    this[name] = index;
+  }
+
+  this.isStepingForward = function (fromState, toState) {
+    var fromIndex = this[fromState.name];
+    var toIndex = this[toState.name];
+    var stepingForward = (toIndex - fromIndex) > 0;
+    return stepingForward;
+  }
+
+  this.isJumpingMoreThanOneTab = function (fromState, toState) {
+    var fromIndex = this[fromState.name];
+    var toIndex = this[toState.name];
+    var jumpingMoreThanOneTab = Math.abs(toIndex - fromIndex) > 1;
+    return jumpingMoreThanOneTab;
+  }
+
+  return this;
+}
 
