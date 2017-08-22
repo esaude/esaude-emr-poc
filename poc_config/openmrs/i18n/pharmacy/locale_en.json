@@ -15,7 +15,7 @@
 	"PHARMACY_DISPENSE": "Dispense",
 	"PHARMACY_AVAILABLE": "Available",
 	"PHARMACY_LIST_NO_ITEMS": "No items to display",
-  "PHARMACY_DISPENSATION_NO_ITEMS": "No items to display, select one from the prescriptions bellow",
+  "PHARMACY_DISPENSATION_NO_ITEMS": "No items to display, select one from the prescriptions above",
   "PHARMACY_LEVEL_OF_ADHERENCE": "Level of adherence",
 	"PHARMACY_PRESCRIBED_BY": "Prescribed by",
 	"PHARMACY_DRUG" : "Drug",

@@ -5,15 +5,16 @@
     .module('pharmacy')
     .controller('DispensationController', DispensationController);
 
-  DispensationController.$inject = ['$rootScope', 'dispensationService', 'prescriptionService', 'localStorageService'];
+  DispensationController.$inject = ['$filter', '$stateParams', 'dispensationService', 'localStorageService', 'notifier',
+    'prescriptionService', 'sessionService', 'spinner'];
 
-  function DispensationController($rootScope, dispensationService, prescriptionService, localStorageService) {
+  function DispensationController($filter, $stateParams, dispensationService, localStorageService, notifier, prescriptionService,
+                                  sessionService, spinner) {
 
     var dateUtil = Bahmni.Common.Util.DateUtil;
-    // TODO: use sessionService to get current user
-    var currentUser = $rootScope.currentUser;
-    // TODO: get patient from route param
-    var patient = $rootScope.patient;
+
+    var currentUser = {};
+    var patientUUID = $stateParams.patientUuid;
 
     var vm = this;
     vm.prescriptions = [];
@@ -23,6 +24,7 @@
     vm.dispense = dispense;
     vm.remove = remove;
     vm.select = select;
+    vm.toggleVisibility = toggleVisibility;
     vm.updatePickup = updatePickup;
 
     activate();
@@ -30,21 +32,22 @@
     ////////////////
 
     function activate() {
-      initPrescriptions();
+      var load = getCurrentUser().then(function (user) {
+        currentUser = user;
+        return initPrescriptions();
+      });
+
+      spinner.forPromise(load);
     }
 
 
     function initPrescriptions() {
-
-      var patientUuid = $rootScope.patient.uuid;
-
-      prescriptionService
-        .getPatientNonDispensedPrescriptions(patientUuid).then(function (prescriptions) {
-            vm.prescriptions = prescriptions;
-            vm.prescriptions.slice(1).forEach(function (p) {
-              p.hidden = true;
-            });
+      return getPatientNonDispensedPrescriptions(patientUUID).then(function (prescriptions) {
+        vm.prescriptions = prescriptions;
+        vm.prescriptions.slice(1).forEach(function (p) {
+          p.hidden = true;
         });
+      });
     }
 
 
@@ -83,6 +86,17 @@
       });
 
       vm.selectedPrescriptionItems = vm.selectedPrescriptionItems.concat(sameRegimeItems);
+    }
+
+
+    function toggleVisibility(prescription) {
+      vm.prescriptions.forEach(function (p) {
+        if (p === prescription) {
+          p.hidden = !p.hidden;
+        } else {
+          p.hidden = true;
+        }
+      });
     }
 
 
@@ -145,7 +159,7 @@
 
       var dispensation = {
         providerUuid: currentUser.person.uuid,
-        patientUuid: patient.uuid,
+        patientUuid: patientUUID,
         locationUuid: localStorageService.cookie.get("emr.location").uuid,
         dispensationItems: items
       };
@@ -154,6 +168,25 @@
         vm.selectedPrescriptionItems = [];
         initPrescriptions();
       });
+    }
+
+
+    function errorHandler() {
+      notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ACTION'));
+    }
+
+
+    function getCurrentUser() {
+      return sessionService
+        .getCurrentUser()
+        .catch(errorHandler);
+    }
+
+
+    function getPatientNonDispensedPrescriptions(patientUUID) {
+      return prescriptionService
+        .getPatientNonDispensedPrescriptions(patientUUID)
+        .catch(errorHandler);
     }
 
 
