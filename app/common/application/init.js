@@ -9,11 +9,15 @@ angular
   )
   .config(applicationModuleConfig);
 
-applicationModuleConfig.$inject = ['$provide'];
+applicationModuleConfig.$inject = ['$provide', '$breadcrumbProvider'];
 
 /* @ngInject */
-function applicationModuleConfig($provide) {
+function applicationModuleConfig($provide, $breadcrumbProvider) {
   // $provide.decorator('applicationService', applicationServiceAuthorizationDecorator);
+
+  $breadcrumbProvider.setOptions({
+    templateUrl: '/common/application/views/breadcrumb.html'
+  });
 }
 
 applicationServiceAuthorizationDecorator.$inject = ['$delegate', 'authorizationService', '$log'];
