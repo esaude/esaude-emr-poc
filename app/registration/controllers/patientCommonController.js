@@ -5,23 +5,37 @@
     .module('registration')
     .controller('PatientCommonController', PatientCommonController);
 
-  PatientCommonController.$inject = ['$rootScope', '$scope', '$http', '$state', 'patientAttributeService', 'patientService',
-    'localStorageService', 'spinner', 'notifier', '$filter'];
+  PatientCommonController.$inject = ['$scope', '$http', '$state', 'patientAttributeService', 'patientService',
+    'localStorageService', 'spinner', 'notifier', '$filter', 'TabManager'];
 
   /* @ngInject */
-  function PatientCommonController($rootScope, $scope, $http, $state, patientAttributeService, patientService, localStorageService,
-                                   spinner, notifier, $filter) {
+  function PatientCommonController($scope, $http, $state, patientAttributeService, patientService, localStorageService,
+                                   spinner, notifier, $filter, TabManager) {
 
     var dateUtil = Bahmni.Common.Util.DateUtil;
     var patientConfiguration = $scope.patientConfiguration;
 
     // TODO: Remove dependency on $scope!
     var vm = this;
+    console.info(vm);
     vm.patient = $scope.patient;
     vm.patientAttributes = [];
     vm.patientIdentifierTypes = [];
     vm.srefPrefix = $scope.srefPrefix;
     vm.today = dateUtil.getDateWithoutTime(dateUtil.now());
+    vm.func = function (form, state) {
+      console.log(form.$valid, state);
+    };
+
+    vm.tabManager = new TabManager();
+    vm.tabManager.addStepDefinition(vm.srefPrefix + "identifier", 1);
+    vm.tabManager.addStepDefinition(vm.srefPrefix + "name",
+      2);
+    vm.tabManager.addStepDefinition(vm.srefPrefix + "gender", 3);
+    vm.tabManager.addStepDefinition(vm.srefPrefix + "age", 4);
+    vm.tabManager.addStepDefinition(vm.srefPrefix + "address", 5);
+    vm.tabManager.addStepDefinition(vm.srefPrefix + "other", 6);
+
 
     vm.disableIsDead = disableIsDead;
     vm.getAutoCompleteList = getAutoCompleteList;
@@ -35,6 +49,7 @@
     vm.selectIsDead = selectIsDead;
     vm.setPreferredId = setPreferredId;
     vm.stepForward = stepForward;
+    vm.changeTab = changeTab;
 
     activate();
 
@@ -195,7 +210,6 @@
       });
     }
 
-
     function stepForward(sref, validity) {
       if (validity) {
         vm.showMessages = false;
@@ -205,75 +219,27 @@
       }
     }
 
-
     function getIdentifierTypes() {
       return patientService.getIdentifierTypes();
     }
 
+    function changeTab (form, sref) {
+      var toStateName = vm.srefPrefix + sref;
+      var currentStateName = $state.current.name;
 
-    $scope.tabManager = new TabManager();
-    if ($state.current.name.startsWith("newpatient")) {
-      $scope.tabManager.addStepDefinition("newpatient.identifier", 1);
-      $scope.tabManager.addStepDefinition("newpatient.name", 2);
-      $scope.tabManager.addStepDefinition("newpatient.gender", 3);
-      $scope.tabManager.addStepDefinition("newpatient.age", 4);
-      $scope.tabManager.addStepDefinition("newpatient.address", 5);
-      $scope.tabManager.addStepDefinition("newpatient.other", 6);
-    } else {
-      $scope.tabManager.addStepDefinition("editpatient.identifier", 1);
-      $scope.tabManager.addStepDefinition("editpatient.name", 2);
-      $scope.tabManager.addStepDefinition("editpatient.gender", 3);
-      $scope.tabManager.addStepDefinition("editpatient.age", 4);
-      $scope.tabManager.addStepDefinition("editpatient.address", 5);
-      $scope.tabManager.addStepDefinition("editpatient.other", 6);
+      var stepingForward = vm.tabManager.isStepingForward(currentStateName, toStateName);
+      var jumpingMoreThanOneTab = vm.tabManager.isJumpingMoreThanOneTab(currentStateName, toStateName);
+
+      if (!stepingForward || (stepingForward && !jumpingMoreThanOneTab && form.$valid)) {
+        vm.showMessages = false;
+        $state.go(toStateName);
+      } if (stepingForward && jumpingMoreThanOneTab) {
+        notifier.warning("", $filter('translate')('FOLLOW_SEQUENCE_OF_TABS'));
+      } else {
+        vm.showMessages = true;
+      }
     }
 
-    //Since "aForm.$valid" is only available on angular expressions/directives
-    //we are using this hack to make its value available as a member of the controller
-    $scope.formCurrentlyValid = false;
-    $scope.$watch("aForm.$valid", function (newValue) {
-      $scope.formCurrentlyValid = newValue;
-    })
-
-    //Prevents the user from changing registration tabs while the current tab has invalid data
-    $scope.$on('$stateChangeStart',
-      function(event, toState, toParams, fromState, fromParams){
-        var stepingForward = $scope.tabManager.isStepingForward(fromState, toState);
-        var jumpingMoreThanOneTab = $scope.tabManager.isJumpingMoreThanOneTab(fromState, toState);
-
-        console.info("Debug");
-
-        if (!stepingForward || (stepingForward && !jumpingMoreThanOneTab && $scope.formCurrentlyValid)) {
-          vm.showMessages = false;
-        } else {
-          event.preventDefault();
-          vm.showMessages = true;
-        }
-      });
   }
 
 })();
-
-//Helps us validate user navigation along the registration tabs
-function TabManager() {
-  this.addStepDefinition = function (name, index) {
-    this[name] = index;
-  }
-
-  this.isStepingForward = function (fromState, toState) {
-    var fromIndex = this[fromState.name];
-    var toIndex = this[toState.name];
-    var stepingForward = (toIndex - fromIndex) > 0;
-    return stepingForward;
-  }
-
-  this.isJumpingMoreThanOneTab = function (fromState, toState) {
-    var fromIndex = this[fromState.name];
-    var toIndex = this[toState.name];
-    var jumpingMoreThanOneTab = Math.abs(toIndex - fromIndex) > 1;
-    return jumpingMoreThanOneTab;
-  }
-
-  return this;
-}
-

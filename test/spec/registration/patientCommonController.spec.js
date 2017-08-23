@@ -97,7 +97,8 @@ describe('PatientCommonController', function () {
       controller = $controller('PatientCommonController', {
         $scope: {
           patientConfiguration: patientConfig,
-          patient: {identifiers: identifiers}
+          patient: {identifiers: identifiers},
+          srefPrefix: "newpatient."
         },
         localStorageService: localStorageService
       });
@@ -111,5 +112,106 @@ describe('PatientCommonController', function () {
       expect(controller.patient.identifiers[0].fieldName.length).toBe(9);
     });
 
+    it('should show error message when form is not valid and the user goes to next tab', function () {
+      var form = { $valid: false };
+      var sref = "name";
+      controller.changeTab(form, sref);
+      expect(controller.showMessages).toBe(true);
+    });
+
+    it('should allow the user to go to a previous tab even when the form is invalid', function () {
+      controller = $controller('PatientCommonController', {
+        $scope: {
+          patientConfiguration: patientConfig,
+          patient: {identifiers: identifiers},
+          srefPrefix: "newpatient."
+        },
+        localStorageService: localStorageService,
+        $state: {
+          current: {
+            name: "newpatient.name"
+          },
+          go: function (sref) {
+            controller.sref = sref;
+          }
+        }
+      });
+      var form = { $valid: false };
+      controller.changeTab(form, "identifier");
+      expect(controller.sref).toBe("newpatient.identifier");
+    });
+
+    it('should allow the user to go to a next tab when the form is valid', function () {
+      controller = $controller('PatientCommonController', {
+        $scope: {
+          patientConfiguration: patientConfig,
+          patient: {identifiers: identifiers},
+          srefPrefix: "newpatient."
+        },
+        localStorageService: localStorageService,
+        $state: {
+          current: {
+            name: "newpatient.identifier"
+          },
+          go: function (sref) {
+            controller.sref = sref;
+          }
+        }
+      });
+      var form = { $valid: true };
+      controller.changeTab(form, "name");
+      expect(controller.sref).toBe("newpatient.name");
+    });
+
+    it('should not allow the user to jump tabs', function () {
+      controller = $controller('PatientCommonController', {
+        $scope: {
+          patientConfiguration: patientConfig,
+          patient: {identifiers: identifiers},
+          srefPrefix: "newpatient."
+        },
+        localStorageService: localStorageService,
+        $state: {
+          current: {
+            name: "newpatient.identifier"
+          },
+          go: function (sref) {
+            controller.sref = sref;
+          }
+        }
+      });
+      var form = { $valid: true };
+      controller.changeTab(form, "gender");
+      expect(controller.sref).toBeUndefined();
+    });
+
+    it('should notify the user when jumping tabs', function () {
+      controller = $controller('PatientCommonController', {
+        $scope: {
+          patientConfiguration: patientConfig,
+          patient: {identifiers: identifiers},
+          srefPrefix: "newpatient."
+        },
+        localStorageService: localStorageService,
+        $state: {
+          current: {
+            name: "newpatient.identifier"
+          },
+          go: function (sref) {
+            controller.sref = sref;
+          }
+        },
+        notifier: {
+          warning: function (title, message) {
+            controller.notificationMessage = message;
+          }
+        }
+      });
+      var form = { $valid: true };
+      controller.changeTab(form, "gender");
+      expect(controller.notificationMessage).toBe("FOLLOW_SEQUENCE_OF_TABS");
+    });
+
   });
+
 });
