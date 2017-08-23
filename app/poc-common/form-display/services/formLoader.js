@@ -1,32 +1,34 @@
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('poc.common.formdisplay')
-    .factory('formLoader', ['$q', 'formService', function ($q, formService) {
-        
-        var existingPromises = {};
+  angular
+    .module('poc.common.formdisplay')
+    .factory('formLoader', formLoader);
 
-        var load = function (forms) {
-            var promiseDefer = $q.defer();
-            var promises = [];
-            var loadedForms = [];
-            
-            _.forEach(forms, function(form) {
-                if (!existingPromises[form.id]) {
-                existingPromises[form.id] = formService.fetchByUuid(form.formId).then(function (response) {
-                    loadedForms[form.id] = response;
-                });
-                promises.push(existingPromises[form.id]);
-            }
-            });
-            $q.all(promises).then(function () {
-                promiseDefer.resolve(loadedForms);
-            });
+  formLoader.$inject = ['$q', 'formService'];
 
-            return promiseDefer.promise;
-        };
-        
-        return {
-            load: load
-        };
-        
-    }]);
+  /* @ngInject */
+  function formLoader($q, formService) {
+    var service = {
+      load: load
+    };
+    return service;
+
+    ////////////////
+
+    function load(forms) {
+      var formMap = {};
+
+      var loadForms = forms.map(function (form) {
+        return formService.getForm(form.formId).then(function (f) {
+          formMap[form.id] = f;
+        });
+      });
+
+      return $q.all(loadForms).then(function () {
+        return formMap;
+      });
+    }
+  }
+
+})();
