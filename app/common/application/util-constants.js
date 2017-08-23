@@ -22,15 +22,13 @@
     function isStepingForward(fromState, toState) {
       var fromIndex = this[fromState];
       var toIndex = this[toState];
-      var stepingForward = (toIndex - fromIndex) > 0;
-      return stepingForward;
+      return ((toIndex - fromIndex) > 0);
     }
 
     function isJumpingMoreThanOneTab(fromState, toState) {
       var fromIndex = this[fromState];
       var toIndex = this[toState];
-      var jumpingMoreThanOneTab = Math.abs(toIndex - fromIndex) > 1;
-      return jumpingMoreThanOneTab;
+      return Math.abs(toIndex - fromIndex) > 1;
     }
 
     return tabManager;

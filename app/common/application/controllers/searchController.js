@@ -94,7 +94,7 @@ angular.module('application')
 
                     $location.url(eval($rootScope.landingPageAfterSearch)); // path not hash
                 });
-            }
+            };
 
             $scope.linkPatientNew = function() {
                 $location.url("/patient/new/identifier"); // path not hash

@@ -41,7 +41,7 @@ angular.module('application')
                             resolve: { initialization: 'initialization' }
                         };
                         $stateProviderRef.state(formLayout.sufix + ".confirm", confirmState);
-                    };
+                    }
                     //create display state
                     if (!_$state_.get(formLayout.sufix + "_display")) {
                         var state = {

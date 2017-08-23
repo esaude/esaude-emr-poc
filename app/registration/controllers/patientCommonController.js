@@ -23,9 +23,6 @@
     vm.patientIdentifierTypes = [];
     vm.srefPrefix = $scope.srefPrefix;
     vm.today = dateUtil.getDateWithoutTime(dateUtil.now());
-    vm.func = function (form, state) {
-      console.log(form.$valid, state);
-    };
 
     vm.tabManager = new TabManager();
     vm.tabManager.addStepDefinition(vm.srefPrefix + "identifier", 1);
