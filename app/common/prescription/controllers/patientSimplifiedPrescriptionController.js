@@ -522,11 +522,7 @@
           if (maxObs) {
             var swappedObsToConcept = swapObsToConceptAnswer(maxObs.value.uuid, vm.fieldModels.artPlan.model.answers);
             vm.prescriptionItem.arvPlan = swappedObsToConcept;
-            if (swappedObsToConcept) {
-              vm.isArvPlanEdit = false;
-            } else {
-              vm.isArvPlanEdit = true;
-            }
+            vm.isArvPlanEdit = !swappedObsToConcept;
           }
         });
     }

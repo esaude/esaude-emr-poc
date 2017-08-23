@@ -53,8 +53,7 @@ angular.module('bahmni.common.domain')
     };
 
     this.deferPatient = function (patient) {
-        var newPatient = patient;
-        return newPatient;
+      return patient;
     };
 
     this.findByMemberConcept = function (group, uuid) {
