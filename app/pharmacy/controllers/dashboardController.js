@@ -23,8 +23,6 @@
     function activate() {
       patientService.getPatient(patientUuid).then(function (patient) {
         vm.patient = patient;
-        // This is needed because its tied to CheckinController.
-        $rootScope.patient = vm.patient;
       });
     }
 

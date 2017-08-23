@@ -71,9 +71,44 @@ describe('PatientCommonController', function () {
       expect(controller.patientIdentifierTypes).toBe(identifierTypes);
     });
 
-    it('should set patientAttributes', function () {
-      $rootScope.$apply();
-      expect(controller.patientAttributes).toEqual(_.flatMap(patientAttributes));
+  });
+
+  describe('create', function () {
+
+    var identifiers;
+    var patientConfig;
+
+    beforeEach(function () {
+      identifiers = [];
+      patientConfig = {
+        customAttributeRows: function () {
+          return patientAttributes;
+        }
+      };
+
+      localStorageService = {
+        cookie: {
+          get: function () {
+            return { uuid: 'xpto'};
+          }
+        }
+      };
+
+      controller = $controller('PatientCommonController', {
+        $scope: {
+          patientConfiguration: patientConfig,
+          patient: {identifiers: identifiers}
+        },
+        localStorageService: localStorageService
+      });
+    });
+
+    it('should create a new blank identifier', function () {
+      controller.addNewIdentifier();
+
+      expect(controller.patient.identifiers.length).toBe(1);
+      expect(controller.patient.identifiers[0].identifierType).not.toBeDefined();
+      expect(controller.patient.identifiers[0].fieldName.length).toBe(9);
     });
 
   });

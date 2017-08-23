@@ -10,14 +10,14 @@ describe('DispensationController', function () {
     {
       disable: false,
       prescriptionItems: [
-        {toPickup: true},
-        {toPickup: true}
+        {regime: {uuid: '1'}, drugToPickUp: 6},
+        {regime: {uuid: '1'}, drugToPickUp: 2}
       ]
     },
     {
       disable: false,
       prescriptionItems: [
-        {toPickup: true}
+        {drugToPickUp: 7}
       ]
     }
   ];
@@ -65,55 +65,60 @@ describe('DispensationController', function () {
 
   describe('activate', function () {
 
-    it('should update dispense list message', function () {
-      expect(controller.dispenseListNoResultsMessage).toBe('PHARMACY_LIST_NO_ITEMS');
-    });
-
-  });
-
-  describe('initPrescriptions', function () {
-
     it('should load patient prescriptions', function () {
-      expect(controller.prescriptions.length).toBe(0);
-
-      controller.initPrescriptions();
-
-      expect(controller.prescriptions.length).toBe(3);
-      expect(controller.prescriptions).toEqual(prescriptions[0].prescriptionItems.concat(prescriptions[1].prescriptionItems));
-      expect(controller.prescription).toBe(prescriptions[0]);
-      expect(controller.prescriptiontNoResultsMessage).toBeNull();
-      expect(controller.selectedItems.length).toBe(0);
+      expect(controller.prescriptions.length).toBe(2);
+      expect(controller.prescriptions).toEqual(prescriptions);
+      expect(controller.selectedPrescriptionItems.length).toBe(0);
     });
 
   });
 
   describe('select', function () {
 
-    var selection = 1;
+    var prescription = prescriptions[1];
+    var item = prescription.prescriptionItems[0];
+
+    it('should select item do dispense', function () {
+
+      controller.select(prescription, item);
+
+      expect(controller.selectedPrescriptionItems).toContain(item);
+    });
+
+    it('should mark item as selected', function () {
+
+      controller.select(prescription, item);
+
+      expect(controller.selectedPrescriptionItems[0]).toEqual({selected: true, drugToPickUp: 7, prescription: prescription});
+    });
+
+    it('should set reference to prescription on item', function () {
+
+      expect(item.prescription).toBeUndefined();
+
+      controller.select(prescription, item);
+
+      expect(item.prescription).toEqual(prescription);
+    });
 
     afterEach(function () {
-      prescriptions[selection].disable = false;
+      item.selected = false;
+      item.prescription = undefined;
     });
 
-    it('should select drug do dispense', function () {
+    describe('ARV prescription item', function () {
 
-      controller.select(prescriptions[1]);
+      it('should select all items from the same regime', function () {
 
-      expect(controller.selectedItems).toContain(prescriptions[1]);
-    });
+        var prescription = prescriptions[0];
+        var item = prescription.prescriptionItems[1];
 
-    it('should disable selection of selected drug', function () {
+        controller.select(prescription, item);
 
-      controller.select(prescriptions[selection]);
+        expect(controller.selectedPrescriptionItems).toContain(prescription.prescriptionItems[0]);
+        expect(controller.selectedPrescriptionItems).toContain(prescription.prescriptionItems[1]);
+      });
 
-      expect(controller.selectedItems[0]).toEqual({disable: true, prescriptionItems: [{toPickup: true}]});
-    });
-
-    it('should update dispense list message', function () {
-
-      controller.select(prescriptions[selection]);
-
-      expect(controller.dispenseListNoResultsMessage).toBeNull();
     });
 
   });
@@ -122,7 +127,43 @@ describe('DispensationController', function () {
 
   });
 
-  xdescribe('updatePickUp', function () {
+  describe('updatePickup', function () {
+
+    describe('ARV prescription item', function () {
+
+      var prescriptionItems = [
+        {regime: {uuid: '1'}, drugToPickUp: 6},
+        {regime: {uuid: '1'}, drugToPickUp: 2},
+        {regime: {uuid: '1'}, drugToPickUp: 3}
+      ];
+
+      it('should set the maximum quantity to dispense to the prescription item with the least available items to pickup', function () {
+
+        var item = prescriptionItems[0];
+
+        controller.selectedPrescriptionItems = prescriptionItems;
+        item.quantity = 3;
+        controller.updatePickup(item);
+
+        expect(item.quantity).toEqual(prescriptionItems[1].drugToPickUp);
+
+      });
+
+      it('should dispense all items in the same quantity', function () {
+
+        var item = prescriptionItems[0];
+
+        controller.selectedPrescriptionItems = prescriptionItems;
+        item.quantity = 3;
+        controller.updatePickup(item);
+
+        prescriptionItems.forEach(function (i) {
+          expect(i.quantity).toEqual(prescriptionItems[1].drugToPickUp);
+        });
+
+      });
+
+    });
 
   });
 

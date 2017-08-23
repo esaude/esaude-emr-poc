@@ -78,7 +78,7 @@
     }
 
     function updateLocale(locale) {
-      $translate.use(locale);
+      spinner.forPromise($translate.use(locale));
     }
   }
 

@@ -116,7 +116,6 @@
     "CLINIC_PATIENT_DIAGNOSIS": "Diagnosis (Dx)",
     "CLINIC_PATIENT_DIAGNOSED": "Diagnosed",
     "CLINIC_PATIENT_CHARTS": "Charts",
-    "CLINIC_PATIENT_CHARTS_CD4_TREND": "CD4 Trend",
     "CLINIC_PATIENT_CHARTS_BMI": "BMI",
     "CLINIC_PATIENT_CD4_COUNT": "CD4 Count",
     "CLINIC_PATIENT_CD4_PERCENT": "CD4%",
@@ -242,6 +241,8 @@
     "COMMON_CANCELLATION_PRESCRIPTION_ERROR_NO_REASON": "Please provide the reason of cancellation",
     "COMMON_CANCEL_PRESCRIPTIONS_REASON": "Cancellation Reason",
     "COMMON_CANCEL_PRESCRIPTION": "Cancel Prescription Item",
+    "COMMON_MESSAGE_COULD_NOT_CANCEL_DISPENSATION_ITEM": "Could not cancel this dispensation item",
+    "COMMON_MESSAGE_COULD_NOT_CREATE_ARV_PRESCRIPTION_BECAUSE_EXISTS_AN_ACTIVE_ARV_PRESCRIPTION": "Could not create this ARV Prescription because existis an active Prescription",
     "COMMON_PROVIDER": "Provider",
     "COMMON_PRESCRIPTION": "Prescription",
     "CLINIC_PRESCRIPTION_DRUG": "Drug",
@@ -266,5 +267,8 @@
     "CLINIC_PRESCRIPTION_THERAPEUTIC_LINE": "Therapeutic Line",
     "CLINIC_PRESCRIPTION_CURRENT_REGIMEN": "Current Regimen",
     "CLINIC_PRESCRIPTION_REGIMEN": "Regimen",
-    "CLINIC_MESSAGE_ERROR_CANNOT_CHANGE_REGIMEN": "Cannot change regimen because an ARV item is aready selected"
+    "CLINIC_MESSAGE_ERROR_CANNOT_CHANGE_REGIMEN": "Cannot change regimen because an ARV item is aready selected",
+    "COMMON_CANCELATION_ITEM": "Cancel Item",
+    "COMMON_MESSAGE_ERROR_DOSAGE_CANNOT_BE_ZERO": "The dosage value entered is not allowed",
+    "COMMON_MESSAGE_ERROR_DURATION_CANNOT_BE_ZERO": "The duration value entered is not allowed"
 }

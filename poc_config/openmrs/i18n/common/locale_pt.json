@@ -116,7 +116,6 @@
     "CLINIC_PATIENT_DIAGNOSIS": "Diagnosticos (Dx)",
     "CLINIC_PATIENT_DIAGNOSED": "Diagnosticado",
     "CLINIC_PATIENT_CHARTS": "Gráficos",
-    "CLINIC_PATIENT_CHARTS_CD4_TREND": "Tendência de CD4",
     "CLINIC_PATIENT_CHARTS_BMI": "IMC",
     "CLINIC_PATIENT_CONSULTATION": "Consultas",
     "CLINIC_PATIENT_PRESCRIPTIONS": "Prescrições",
@@ -234,6 +233,8 @@
     "COMMON_MESSAGE_COULD_NOT_CREATE_PRESCRIPTION": "Não foi possível criar a prescrição",
     "COMMON_MESSAGE_COULD_NOT_CANCEL_PRESCRIPTION_ITEM": "Não foi possível cancelar o item da prescrição",
     "COMMON_CANCELLATION_PRESCRIPTION_ERROR_NO_REASON": "Por favor indique o motivo de cancelamento",
+    "COMMON_MESSAGE_COULD_NOT_CANCEL_DISPENSATION_ITEM": "Não foi possível cancelar o item da dispensa",
+    "COMMON_MESSAGE_COULD_NOT_CREATE_ARV_PRESCRIPTION_BECAUSE_EXISTS_AN_ACTIVE_ARV_PRESCRIPTION": "Não foi possivel registar a prescrição pois existe uma prescrição ARV activa",
     "COMMON_CANCEL_PRESCRIPTIONS_REASON": "Motivo de Cancelamento",
     "COMMON_CANCEL_PRESCRIPTION": "Cancelar Item de Prescrição",
     "COMMON_PROVIDER": "Provedor",
@@ -260,5 +261,8 @@
     "CLINIC_PRESCRIPTION_THERAPEUTIC_LINE": "Linha terapeutica",
     "CLINIC_PRESCRIPTION_CURRENT_REGIMEN": "Regime Actual",
     "CLINIC_PRESCRIPTION_REGIMEN": "Regime",
-    "CLINIC_MESSAGE_ERROR_CANNOT_CHANGE_REGIMEN": "Regime não pode ser alterado porque pelo menos um item ARV se encontra seleccionado"
+    "CLINIC_MESSAGE_ERROR_CANNOT_CHANGE_REGIMEN": "Regime não pode ser alterado porque pelo menos um item ARV se encontra seleccionado",
+    "COMMON_CANCELATION_ITEM": "Cancelar Item",
+    "COMMON_MESSAGE_ERROR_DOSAGE_CANNOT_BE_ZERO": "O valor da dosagem introduzido não é permitido",
+    "COMMON_MESSAGE_ERROR_DURATION_CANNOT_BE_ZERO": "O valor da duração introduzido não é permitido"
 }

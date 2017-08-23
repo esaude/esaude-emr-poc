@@ -1,31 +1,58 @@
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('clinic')
-  .controller('DashboardController', ["$rootScope", "$scope", "$location", "$stateParams", "$filter", "patientService",
-    "alertService",
-    function ($rootScope, $scope, $location, $stateParams, $filter, patientService, alertService) {
-            var patientUuid;
+  angular
+    .module('clinic')
+    .controller('DashboardController', DashboardController);
 
-            init();
-            function init() {
-                patientUuid = $stateParams.patientUuid;
+  DashboardController.$inject = ['$rootScope', '$scope', '$location', '$stateParams', 'patientService', 'alertService',
+    'visitService'];
 
-                patientService.getPatient(patientUuid).then(function (patient) {
-                    $rootScope.patient = patient;
-                });
-            }
+  /* @ngInject */
+  function DashboardController($rootScope, $scope, $location, $stateParams, patientService, alertService, visitService) {
 
-            $scope.linkSearch = function() {
-                $location.url("/search"); // path not hash
-            };
+    $scope.flags = [];
+    $scope.patientUUID = $stateParams.patientUuid;
+    $scope.todayVisit = null;
 
-            $scope.linkPatientDetail = function() {
-                $location.url("/patient/detail/" + patientUuid); // path not hash
-            };
+    $scope.getAlerts = getAlerts;
+    $scope.linkSearch = linkSearch;
+    $scope.linkPatientDetail = linkPatientDetail;
 
-            $scope.getAlerts = function () {
-                alertService.get(patientUuid).success(function (data) {
-                    $scope.flags = data.flags;
-                });
-            };
-    }]);
+
+    activate();
+
+    ////////////////
+
+    function activate() {
+      patientService.getPatient($scope.patientUUID).then(function (patient) {
+        $rootScope.patient = patient;
+      });
+
+      visitService.getTodaysVisit($scope.patientUUID).then(function (visitToday) {
+        if (visitToday) {
+          $scope.hasVisitToday = true;
+          $scope.todayVisit = visitToday;
+        } else {
+          $scope.hasVisitToday = false;
+        }
+      });
+    }
+
+    function linkSearch() {
+      $location.url("/search"); // path not hash
+    }
+
+    function linkPatientDetail() {
+      $location.url("/patient/detail/" + $scope.patientUUID); // path not hash
+    }
+
+    function getAlerts() {
+      alertService.get($scope.patientUUID).success(function (data) {
+        $scope.flags = data.flags;
+      });
+    }
+  }
+
+})();
+

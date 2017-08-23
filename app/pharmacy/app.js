@@ -64,6 +64,7 @@ angular
                 url: '/dispensation-history',
                 templateUrl: 'views/dispensation-history.html',
                 controller: 'DispensationHistoryController',
+                controllerAs: 'vm',
                 resolve: { initialization: 'initialization' }
             })
             .state('dashboard.dispensation', {

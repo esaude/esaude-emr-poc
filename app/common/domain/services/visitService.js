@@ -1,75 +1,84 @@
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('bahmni.common.domain')
-    .service('visitService', ['$http', function ($http) {
+  angular
+    .module('bahmni.common.domain')
+    .factory('visitService', visitService);
 
-        this.create = function (visit) {
-            return $http.post(Bahmni.Common.Constants.visitUrl, visit, {
-                withCredentials:true,
-                headers: {"Accept": "application/json", "Content-Type": "application/json"}
-            });
-        };
+  visitService.$inject = ['$http', '$log', '$q', 'commonService'];
 
-        this.getVisit = function (uuid, params) {
-            var parameters = params ? params : "custom:(uuid,visitId,visitType,patient,encounters:(uuid,encounterType,voided,orders:(uuid,orderType,voided,concept:(uuid,set,name),),obs:(uuid,value,concept,obsDatetime,groupMembers:(uuid,concept:(uuid,name),obsDatetime,value:(uuid,name),groupMembers:(uuid,concept:(uuid,name),value:(uuid,name),groupMembers:(uuid,concept:(uuid,name),value:(uuid,name)))))))";
-            return $http.get(Bahmni.Common.Constants.visitUrl + '/' + uuid,
-                {
-                    params: {
-                        v: parameters
-                    }
-                }
-            );
-        };
+  /* @ngInject */
+  function visitService($http, $log, $q, commonService) {
+    var service = {
+      activeVisits: activeVisits,
+      create: create,
+      getTodaysVisit: getTodaysVisit,
+      getVisit: getVisit,
+      search: search
+    };
+    return service;
 
-      //TODO: Unused definition, to be removed after testing phase
-      //   this.getVisitForAdmissionDetails = function (uuid) {
-      //       var parameters = "custom:(uuid,visitId,visitType,patient,encounters:(uuid,encounterType,encounterDatetime,voided,provider,obs:(uuid,value,concept,obsDatetime)))";
-      //       return this.getVisit(uuid, parameters);
-      //   };
+    ////////////////
 
-        this.endVisit = function (visitUuid) {
-            return $http.post(Bahmni.Common.Constants.endVisitUrl + '?visitUuid=' + visitUuid, {
-                withCredentials: true
-            });
-        };
+    function activeVisits(visits) {
+      return _.filter(visits, function (visit) {
+        return visit.stopDatetime === null;
+      });
+    }
 
-      //TODO: Unused definition, to be removed after testing phase
-        // this.updateVisit = function (visitUuid, attributes) {
-        //     return $http.post(Bahmni.Common.Constants.visitUrl + '/' + visitUuid, attributes, {
-        //         withCredentials: true
-        //     });
-        // };
+    function create(visit) {
+      return $http.post(Bahmni.Common.Constants.visitUrl, visit, {
+        withCredentials: true,
+        headers: {"Accept": "application/json", "Content-Type": "application/json"}
+      });
+    }
 
-      //TODO: Unused definition, to be removed after testing phase
-      //   this.getVisitSummary = function (visitUuid) {
-      //       return $http.get(Bahmni.Common.Constants.visitSummaryUrl,
-      //           {
-      //               params: {
-      //                   visitUuid: visitUuid
-      //               },
-      //               withCredentials: true
-      //           }
-      //       );
-      //   };
+    function getTodaysVisit(patientUUID) {
+      var dateUtil = Bahmni.Common.Util.DateUtil;
 
-        this.search = function (parameters) {
-            return $http.get(Bahmni.Common.Constants.visitUrl, {
-                params: parameters,
-                withCredentials: true
-            });
-        };
+      return search({patient: patientUUID, v: "full"}).then(function (response) {
 
-      //TODO: Unused definition, to be removed after testing phase
-        // this.getVisitType = function () {
-        //     return $http.get(Bahmni.Common.Constants.visitTypeUrl, {
-        //         withCredentials: true
-        //     });
-        //
-        // };
+          var nonRetired = commonService.filterRetired(response.data.results);
 
-        this.activeVisits = function (visits) {
-            return _.filter(visits, function (visit) {
-                return visit.stopDatetime === null;
-            });
-        };
-    }]);
+          if (!_.isEmpty(nonRetired)) {
+
+            var lastVisit = _.maxBy(nonRetired, 'startDatetime');
+
+            var now = dateUtil.now();
+            var startDatetime = dateUtil.parseDatetime(lastVisit.startDatetime);
+            var stopDatetime = dateUtil.parseDatetime(lastVisit.stopDatetime);
+
+            if (startDatetime <= now && stopDatetime >= now) {
+              return lastVisit;
+            }
+          }
+
+          return null;
+        })
+        .catch(function (error) {
+          $log.error('XHR Failed for getTodaysVisit. ' + error.data);
+          return $q.reject(error);
+        });
+    }
+
+    function getVisit(uuid, params) {
+      var parameters = params ? params : "custom:(uuid,visitId,visitType,patient,encounters:(uuid,encounterType,voided,orders:(uuid,orderType,voided,concept:(uuid,set,name),),obs:(uuid,value,concept,obsDatetime,groupMembers:(uuid,concept:(uuid,name),obsDatetime,value:(uuid,name),groupMembers:(uuid,concept:(uuid,name),value:(uuid,name),groupMembers:(uuid,concept:(uuid,name),value:(uuid,name)))))))";
+      return $http.get(Bahmni.Common.Constants.visitUrl + '/' + uuid,
+        {
+          params: {
+            v: parameters
+          }
+        }
+      );
+    }
+
+    function search(params) {
+      return $http.get(Bahmni.Common.Constants.visitUrl, {
+        params: params,
+        withCredentials: true
+      });
+    }
+  }
+
+})();
+

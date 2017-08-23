@@ -4,7 +4,7 @@ describe('PatientSimplifiedPrescriptionController', function () {
 
   var $controller, controller, $http, $filter, $rootScope, $stateParams, observationsService, commonService,
     conceptService, localStorageService, notifier, spinner, drugService, prescriptionService, $q, providerService,
-    sessionService;
+    sessionService, patientService;
 
   var drugPrescriptionConvSet = [
     {
@@ -42,7 +42,7 @@ describe('PatientSimplifiedPrescriptionController', function () {
   beforeEach(inject(function (_$controller_, _$httpBackend_, _$filter_, _$rootScope_, _$stateParams_,
                               _observationsService_, _commonService_, _conceptService_, _localStorageService_,
                               _notifier_, _spinner_, _drugService_, _prescriptionService_, _$q_,
-                              _providerService_, _sessionService_) {
+                              _providerService_, _sessionService_, _patientService_) {
 
     $controller = _$controller_;
     $http = _$httpBackend_;
@@ -60,6 +60,7 @@ describe('PatientSimplifiedPrescriptionController', function () {
     $q = _$q_;
     providerService = _providerService_;
     sessionService = _sessionService_;
+    patientService = _patientService_;
   }));
 
   beforeEach(function () {
@@ -92,6 +93,12 @@ describe('PatientSimplifiedPrescriptionController', function () {
         return resolve([]);
       })
     });
+
+    spyOn(patientService, 'getPatient').and.callFake(function () {
+      return $q(function (resolve) {
+        return resolve({});
+      })
+    });
   });
 
   describe('activate', function () {
@@ -102,6 +109,11 @@ describe('PatientSimplifiedPrescriptionController', function () {
         conceptService: conceptService,
         prescriptionService: prescriptionService
       });
+    });
+
+    it('should load the patient', function () {
+      $rootScope.$apply();
+      expect(patientService.getPatient).toHaveBeenCalled();
     });
 
     it('should load patientPrescriptions', function () {
@@ -165,6 +177,134 @@ describe('PatientSimplifiedPrescriptionController', function () {
 
   });
 
+  describe('checkDrugType', function () {
+
+    describe('drug is an ARV', function () {
+      beforeEach(function () {
+
+        spyOn(drugService, 'isArvDrug').and.callFake(function () {
+          return $q(function (resolve) {
+            return resolve(true);
+          })
+        });
+
+        controller = $controller('PatientSimplifiedPrescriptionController', {
+          $scope: {}
+        });
+        controller.prescriptionItem = {};
+      });
+
+      it('should check a drug as ARV drug', function () {
+        var drug = {"uuid": "9d7127f9-10e8-11e5-9009-0242ac110012"};
+        controller.checkDrugType(drug);
+        $rootScope.$apply();
+        expect(controller.prescriptionItem.isArv).toBe(true);
+        expect(controller.prescriptionItem.drugOrder).toBe(null);
+      });
+    });
+
+    describe('drug is not ARV', function () {
+      beforeEach(function () {
+
+        spyOn(drugService, 'isArvDrug').and.callFake(function () {
+          return $q(function (resolve) {
+            return resolve(false);
+          })
+        });
+
+        controller = $controller('PatientSimplifiedPrescriptionController', {
+          $scope: {}
+        });
+        controller.prescriptionItem = {};
+      });
+
+
+      it('should check a drug as ARV drug', function () {
+        var drug = {"uuid": "9d7127f9-10e8-11e5-9009-0242ac110012"};
+        controller.checkDrugType(drug);
+        $rootScope.$apply();
+        expect(controller.prescriptionItem.isArv).toBe(false);
+      });
+    });
+
+
+  });
+
+  describe('add', function () {
+
+    beforeEach(function () {
+      controller = $controller('PatientSimplifiedPrescriptionController', {
+        $scope: {}
+      });
+
+      spyOn(notifier, 'error').and.callFake(function () {
+
+      });
+    });
+
+    var form = {
+      $valid: true,
+      $setPristine: function () {
+      },
+      $setUntouched: function () {
+      }
+    };
+
+    describe('Not Allow adding a Drug with form validation errors ', function () {
+      beforeEach(function () {
+
+        controller = $controller('PatientSimplifiedPrescriptionController', {
+          $scope: {}
+        });
+
+      });
+      var formError = {
+        $valid: false,
+        $setPristine: function () {
+        },
+        $setUntouched: function () {
+        }
+      };
+
+      it('should not add a drugOrder with form validation errors', function () {
+        controller.add(formError.$valid,  formError);
+        expect(controller.showMessages).toBe(true);
+        });
+    });
+
+    describe('Not Allow adding a Drug with invalid dose', function () {
+      beforeEach(function () {
+
+        controller = $controller('PatientSimplifiedPrescriptionController', {
+          $scope: {}
+        });
+        controller.prescriptionItem = {drugOrder:{ duration : 0, dose : 0 }, frequency:{uuid : ''}};
+      });
+
+      it('should not add a drugOrder with invalid dose', function () {
+        controller.add(form.$valid,  form);
+        expect(notifier.error).toHaveBeenCalled();
+       });
+    });
+
+    describe(' Not Allow adding a Drug with invalid duration', function () {
+      beforeEach(function () {
+
+        controller = $controller('PatientSimplifiedPrescriptionController', {
+          $scope: {}
+        });
+        controller.prescriptionItem = {drugOrder:{ duration : 0, dose : 1 }, frequency:{uuid : ''}};
+      });
+
+      it('should not add a drugOrder with invalid duration', function () {
+        controller.add(form.$valid,  form);
+        expect(notifier.error).toHaveBeenCalled();
+      });
+    });
+
+  });
+
+
   describe('cancelOrStop', function () {
 
     beforeEach(function () {
@@ -217,4 +357,79 @@ describe('PatientSimplifiedPrescriptionController', function () {
 
   });
 
+
+  describe('save', function () {
+
+    beforeEach(function () {
+
+      spyOn(prescriptionService, 'create').and.callFake(function () {
+
+      });
+
+      localStorageService = {
+        cookie: {
+          get: function () {
+            return { uuid: 'xpto'};
+          }
+        }
+      };
+
+      controller = $controller('PatientSimplifiedPrescriptionController', {
+        $scope: {},
+        localStorageService: localStorageService,
+        prescriptionService: prescriptionService,
+      });
+    });
+
+    beforeEach(function () {
+      controller.listedPrescriptions.push({
+          "drugOrder": {
+
+            "dosingInstructions": "Conforme indicado",
+            "dose": 1,
+            "doseUnits": {
+              "uuid": "9d674660-10e8-11e5-9009-0242ac110012"
+            },
+            "frequency": {
+              "uuid": "9d7127f9-10e8-11e5-9009-0242ac110012"
+            },
+            "route": {
+              "uuid": "9d6b861d-10e8-11e5-9009-0242ac110012"
+            },
+            "duration": 2,
+            "quantityUnits": {
+              "uuid": "9d6b861d-10e8-11e5-9009-0242ac110012"
+            },
+            "durationUnits": {
+              "uuid": "9d6b861d-10e8-11e5-9009-0242ac110012"
+            },
+            "drug": {
+              "uuid": "9d6b861d-10e8-11e5-9009-0242ac110012"
+            }
+          },
+          "isArv": true,
+          "regime": {
+            "uuid": "9d6b861d-10e8-11e5-9009-0242ac110012"
+
+          }
+        });
+      controller.existingPrescriptions.push({
+        "prescriptionItems": [{
+          "regime": {
+            "uuid": "9d6b861d-10e8-11e5-9009-0242ac110012"
+
+          }
+        }],
+        "prescriptionStatus": "ACTIVE"
+      });
+      controller.prescriptionDate = new Date();
+      controller.selectedProvider = { uuid: '123'};
+    });
+
+    it('should not create prescription with validation error', function () {
+      controller.save();
+      expect(prescriptionService.create).not.toHaveBeenCalled();
+    });
+
+  });
 });

@@ -1,1 +1,1 @@
-angular.module('serviceform', ['poc.common.formdisplay']);
+angular.module('serviceform', ['poc.common.formdisplay', 'bahmni.common.uiHelper']);
