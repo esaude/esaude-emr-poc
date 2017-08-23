@@ -30,6 +30,7 @@ angular.module('patient.details')
         parentFields.forEach(function (parentField) {
           if (!parent) return;
           $scope.address[parentField] = parent.name;
+
           parent = parent.parent;
         });
         autocompletedFields = [];

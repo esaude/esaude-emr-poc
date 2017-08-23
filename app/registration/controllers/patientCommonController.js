@@ -5,23 +5,34 @@
     .module('registration')
     .controller('PatientCommonController', PatientCommonController);
 
-  PatientCommonController.$inject = ['$scope', '$http', '$state', 'patientAttributeService', 'patientService', 
-    'localStorageService', 'spinner', 'notifier', '$filter'];
+  PatientCommonController.$inject = ['$scope', '$http', '$state', 'patientAttributeService', 'patientService',
+    'localStorageService', 'spinner', 'notifier', '$filter', 'TabManager'];
 
   /* @ngInject */
   function PatientCommonController($scope, $http, $state, patientAttributeService, patientService, localStorageService,
-                                   spinner, notifier, $filter) {
+                                   spinner, notifier, $filter, TabManager) {
 
     var dateUtil = Bahmni.Common.Util.DateUtil;
     var patientConfiguration = $scope.patientConfiguration;
 
     // TODO: Remove dependency on $scope!
     var vm = this;
+    console.info(vm);
     vm.patient = $scope.patient;
     vm.patientAttributes = [];
     vm.patientIdentifierTypes = [];
     vm.srefPrefix = $scope.srefPrefix;
     vm.today = dateUtil.getDateWithoutTime(dateUtil.now());
+
+    vm.tabManager = new TabManager();
+    vm.tabManager.addStepDefinition(vm.srefPrefix + "identifier", 1);
+    vm.tabManager.addStepDefinition(vm.srefPrefix + "name",
+      2);
+    vm.tabManager.addStepDefinition(vm.srefPrefix + "gender", 3);
+    vm.tabManager.addStepDefinition(vm.srefPrefix + "age", 4);
+    vm.tabManager.addStepDefinition(vm.srefPrefix + "address", 5);
+    vm.tabManager.addStepDefinition(vm.srefPrefix + "other", 6);
+
 
     vm.disableIsDead = disableIsDead;
     vm.getAutoCompleteList = getAutoCompleteList;
@@ -35,6 +46,7 @@
     vm.selectIsDead = selectIsDead;
     vm.setPreferredId = setPreferredId;
     vm.stepForward = stepForward;
+    vm.changeTab = changeTab;
 
     activate();
 
@@ -162,11 +174,11 @@
 
     //TODO: Find and use a library that does this.
     function randomStr(m) {
-      var m = m || 9; 
-      var s = ''; 
+      var m = m || 9;
+      var s = '';
       var r = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
       for (var i=0; i < m; i++) {
-        s += r.charAt(Math.floor(Math.random()*r.length)); 
+        s += r.charAt(Math.floor(Math.random()*r.length));
       }
       return s;
     };
@@ -195,7 +207,6 @@
       });
     }
 
-
     function stepForward(sref, validity) {
       if (validity) {
         vm.showMessages = false;
@@ -205,12 +216,27 @@
       }
     }
 
-
     function getIdentifierTypes() {
       return patientService.getIdentifierTypes();
+    }
+
+    function changeTab (form, sref) {
+      var toStateName = vm.srefPrefix + sref;
+      var currentStateName = $state.current.name;
+
+      var stepingForward = vm.tabManager.isStepingForward(currentStateName, toStateName);
+      var jumpingMoreThanOneTab = vm.tabManager.isJumpingMoreThanOneTab(currentStateName, toStateName);
+
+      if (!stepingForward || (stepingForward && !jumpingMoreThanOneTab && form.$valid)) {
+        vm.showMessages = false;
+        $state.go(toStateName);
+      } if (stepingForward && jumpingMoreThanOneTab) {
+        notifier.warning("", $filter('translate')('FOLLOW_SEQUENCE_OF_TABS'));
+      } else {
+        vm.showMessages = true;
+      }
     }
 
   }
 
 })();
-
