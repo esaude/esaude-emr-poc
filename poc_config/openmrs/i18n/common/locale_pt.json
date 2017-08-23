@@ -214,7 +214,7 @@
     "COMMON_DIAGNOSIS_FORM": "Diagnositicos",
     "COMMON_RETURN": "Regressar aos",
     "COMMON_ERROR": "Erro",
-    "COMMON_MOVE_PATIENT": "Mudar este paciente para",
+    "COMMON_MOVE_PATIENT": "Ir para o módulo",
     "APP_REGISTRATION": "Cadastro",
     "APP_SOCIAL": "Social",
     "APP_CLINIC": "Clinico",
@@ -262,5 +262,13 @@
     "COMMON_CANCELATION_ITEM": "Cancelar Item",
     "COMMON_MESSAGE_ERROR_DOSAGE_CANNOT_BE_ZERO": "O valor da dosagem introduzido não é permitido",
     "COMMON_MESSAGE_ERROR_DURATION_CANNOT_BE_ZERO": "O valor da duração introduzido não é permitido",
-    "FOLLOW_SEQUENCE_OF_TABS": "Por favor siga a sequencia das abas"
+    "FOLLOW_SEQUENCE_OF_TABS": "Por favor siga a sequencia das abas",
+    "HELP": "Ajuda",
+    "NEXT_STEP": "Próximo",
+    "PREVIOUS_STEP": "Voltar",
+    "GO_TO": "Ir Para",
+    "VIEW": "Visualizar",
+    "EDIT": "Edit",
+    "REMOVE": "Remover",
+    "NEW_PROGRAM": "New Program"
 }

@@ -225,3 +225,7 @@ p.capitalize {
 .navbar-primary .nav .open > a {
   background-color: #2d6ca3;
 }
+
+.button-label {
+  font-size: 10pt;
+}

@@ -19,7 +19,8 @@
                     </span>
                 </button>-->
                 <button type="button" class="btn btn-primary btn-lg" ng-click="linkPatientNew()">
-                    <span class="glyphicon glyphicon-plus"></span>
+                  <span class="glyphicon glyphicon-plus-sign" />
+                  <span class="button-label">{{'NEW_PATIENT' | translate}}</span>
                 </button>
             </div>
         </div>
@@ -44,8 +45,8 @@
                     <td>{{patient.age.years}}</td>
                     <td>{{patient.birthdate | date}}</td>
                     <td>
-	                    <span ng-if="patient.scheduledTo" class="label label-default" 
-	                    ng-class="{'label label-default': patient.scheduledTo === 'P', 
+	                    <span ng-if="patient.scheduledTo" class="label label-default"
+	                    ng-class="{'label label-default': patient.scheduledTo === 'P',
 	                    'label label-success': patient.scheduledTo === 'A',
 	                    'label label-primary': patient.scheduledTo === 'F'}">
 	                    	{{patient.scheduledTo}} - {{patient.nextConsultation | date}}
