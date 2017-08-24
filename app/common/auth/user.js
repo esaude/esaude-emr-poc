@@ -17,45 +17,14 @@ Bahmni.Auth.User = function (user) {
         delete user.recentlyViewedPatients;
         return user;
     };
-
-    //TODO: Unused definition, to be removed after testing phase
-    // this.addToRecentlyViewed = function (patient, maxPatients) {
-    //     if (!_.any(this.recentlyViewedPatients, {'uuid': patient.uuid})) {
-    //         this.recentlyViewedPatients.unshift({
-    //             uuid: patient.uuid,
-    //             name: patient.name,
-    //             identifier: patient.identifier
-    //         });
-    //         if (_.size(this.recentlyViewedPatients) >= maxPatients) {
-    //             this.recentlyViewedPatients = _.first(this.recentlyViewedPatients, maxPatients);
-    //         }
-    //     }
-    // };
-
+ 
     this.isFavouriteObsTemplate = function (conceptName) {
         return _.contains(this.favouriteObsTemplates, conceptName);
-    };
-
-  //TODO: Unused definition, to be removed after testing phase
-    // this.toggleFavoriteObsTemplate = function (conceptName) {
-    //     if (this.isFavouriteObsTemplate(conceptName)) {
-    //         this.favouriteObsTemplates = _.without(this.favouriteObsTemplates, conceptName);
-    //     } else {
-    //         this.favouriteObsTemplates.push(conceptName);
-    //     }
-    // };
+    }; 
 
     this.isFavouriteWard = function (wardName) {
         return _.contains(this.favouriteWards, wardName);
     };
-
-  //TODO: Unused definition, to be removed after testing phase
-    // this.toggleFavoriteWard = function (wardName) {
-    //     if (this.isFavouriteWard(wardName)) {
-    //         this.favouriteWards = _.without(this.favouriteWards, wardName)
-    //     } else {
-    //         this.favouriteWards.push(wardName);
-    //     }
-    // }
+ 
 };
 

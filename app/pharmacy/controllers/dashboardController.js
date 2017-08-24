@@ -5,9 +5,9 @@
     .module('pharmacy')
     .controller('DashboardController', DashboardController);
 
-  DashboardController.$inject = ['$rootScope', '$location', '$stateParams', 'patientService'];
+  DashboardController.$inject = ['$location', '$stateParams', 'patientService'];
 
-  function DashboardController($rootScope, $location, $stateParams, patientService) {
+  function DashboardController($location, $stateParams, patientService) {
     var patientUuid = $stateParams.patientUuid;
 
     var vm = this;

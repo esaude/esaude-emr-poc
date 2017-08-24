@@ -17,11 +17,7 @@ angular.module('common.patient')
             };
 
             var calculateBirthdateEstimated = function (value) {
-                if (value === 'age') {
-                    this.birthdateEstimated = true;
-                } else {
-                    this.birthdateEstimated = false;
-                }
+                this.birthdateEstimated = value === 'age';
                 
             };
 

@@ -3,9 +3,9 @@
 
   angular.module('pharmacy').controller('DispensationHistoryController', DispensationHistoryController);
 
-  DispensationHistoryController.$inject = ["$filter", "$rootScope", "$stateParams", "encounterService", "dispensationService", "commonService", "notifier", "spinner", "prescriptionService"];
+  DispensationHistoryController.$inject = ["$filter", "$stateParams", "encounterService", "dispensationService", "commonService", "notifier", "spinner"];
 
-  function DispensationHistoryController($filter, $rootScope, $stateParams, encounterService, dispensationService, commonService,  notifier, spinner, prescriptionService) {
+  function DispensationHistoryController($filter, $stateParams, encounterService, dispensationService, commonService,  notifier, spinner) {
 
     var patientUuid = null;
     var pharmacyEncounterTypeUuid = null;
@@ -58,7 +58,7 @@
                 provider : encounter.provider.display,
                 members : filteredGroupMembers,
                 encounterPrecription : encounter
-              }
+              };
               observations.push(obs);
             }
           }
@@ -104,11 +104,9 @@
 
     function valueOfField(conceptUuid, members) {
 
-      var field = _.find(members, function (member) {
+      return _.find(members, function (member) {
         return member.concept.uuid === conceptUuid;
       });
-
-      return field;
     }
 
     function closeCancellationModal(form) {

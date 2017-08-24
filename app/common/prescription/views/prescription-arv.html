@@ -45,7 +45,7 @@
                 <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_REGIMEN'| translate}}:<span class="asterick">*</span></label>
                 <div ng-show="!vm.isRegimenEdit">
                     <div class="col-sm-7 default-border-bottom">
-                        <label class="control-label">{{vm.prescriptionItem.regime.display}}</span><span ng-if="!vm.prescriptionItem.regime">N/A</span></label>
+                        <label class="control-label">{{vm.prescriptionItem.regime.display}}<span ng-if="!vm.prescriptionItem.regime">N/A</span></label>
                     </div>
                     <div class="col-sm-2">
                         <button class="btn btn-default btn-lg" type="button" ng-click="vm.isRegimenEdit = true">
