@@ -214,7 +214,7 @@
     "COMMON_DIAGNOSIS_FORM": "Diagnositicos",
     "COMMON_RETURN": "Regressar aos",
     "COMMON_ERROR": "Erro",
-    "COMMON_MOVE_PATIENT": "Ir para o módulo",
+    "COMMON_MOVE_PATIENT": "Ir para módulo",
     "APP_REGISTRATION": "Cadastro",
     "APP_SOCIAL": "Social",
     "APP_CLINIC": "Clinico",
@@ -270,5 +270,10 @@
     "VIEW": "Visualizar",
     "EDIT": "Edit",
     "REMOVE": "Remover",
-    "NEW_PROGRAM": "New Program"
+    "NEW_PROGRAM": "New Program",
+    "SAVE": "Confirm",
+    "PRINT": "Print",
+    "CANCEL": "Cancel",
+    "ADD": "Adicionar",
+    "LIST": "Listar"
 }

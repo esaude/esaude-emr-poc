@@ -49,6 +49,7 @@
                 <td>
                     <button ng-show="!pi.identifierType.required && srefPrefix !== 'editpatient.'" type="button" class="btn btn-danger btn-lg" ng-click="patientCommon.removeIdentifier(pi)">
                         <span class="glyphicon glyphicon-remove-sign"></span>
+                        <span class="button-label">{{'REMOVE' | translate}}</span>
                     </button>
                 </td>
                 <td>
@@ -77,6 +78,6 @@
     <button type="button" class="btn btn-success btn-lg"
             ng-click="patientCommon.stepForward('name', aForm.$valid)">
         <span class="glyphicon glyphicon glyphicon-step-forward"></span>
-      <span class="button-label">{{'NEXT_STEP' | translate}}</span>
+        <span class="button-label">{{'NEXT_STEP' | translate}}</span>
     </button>
 </div>

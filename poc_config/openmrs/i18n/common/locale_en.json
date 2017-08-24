@@ -275,6 +275,11 @@
     "GO_TO": "Go To",
     "VIEW": "View",
     "EDIT": "Edit",
-    "REMOVE": "Delete",
-    "NEW_PROGRAM": "New Program"
+    "REMOVE": "Remove",
+    "NEW_PROGRAM": "New Program",
+    "SAVE": "Save",
+    "PRINT": "Print",
+    "CANCEL": "Cancel",
+    "ADD": "Add",
+    "LIST": "List"
 }
