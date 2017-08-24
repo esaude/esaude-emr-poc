@@ -61,6 +61,7 @@
           <td>
             <button type="button" class="btn btn-danger btn-lg" ng-click="vm.remove(item)">
               <span class="glyphicon glyphicon-remove-sign"></span>
+              <span class="button-label">{{'REMOVE' | translate}}</span>
             </button>
           </td>
         </tr>
@@ -76,6 +77,7 @@
       <div class="panel-footer go-to-right" ng-show="!vm.dispenseListNoResultsMessage">
         <button class="btn btn-primary btn-lg" type="button" ng-click="vm.dispense()" ng-disabled="!vm.selectedPrescriptionItems.length">
           <span class="glyphicon glyphicon-floppy-disk"></span>
+          <span class="button-label">{{'SAVE' | translate}}</span>
         </button>
       </div>
     </div>
@@ -125,6 +127,7 @@
             <td>
               <button class="btn btn-primary btn-lg" type="button" ng-click="vm.select(p, item)" ng-disabled="item.selected">
                 <span class="glyphicon glyphicon-plus"></span>
+                <span class="button-label">{{'ADD' | translate}}</span>
               </button>
             </td>
           </tr>

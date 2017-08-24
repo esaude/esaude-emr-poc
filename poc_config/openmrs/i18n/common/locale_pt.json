@@ -275,5 +275,7 @@
     "PRINT": "Print",
     "CANCEL": "Cancel",
     "ADD": "Adicionar",
-    "LIST": "Listar"
+    "LIST": "Listar",
+    "CLEAR": "Clear",
+    "REMOVE_ALL": "Remover Todos"
 }
