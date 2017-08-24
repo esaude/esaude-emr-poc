@@ -239,7 +239,8 @@
     "COMMON_CANCEL_PRESCRIPTIONS_REASON": "Cancellation Reason",
     "COMMON_CANCEL_PRESCRIPTION": "Cancel Prescription Item",
     "COMMON_MESSAGE_COULD_NOT_CANCEL_DISPENSATION_ITEM": "Could not cancel this dispensation item",
-    "COMMON_MESSAGE_COULD_NOT_CREATE_ARV_PRESCRIPTION_BECAUSE_EXISTS_AN_ACTIVE_ARV_PRESCRIPTION": "Could not create this ARV Prescription because existis an active Prescription",
+    "COMMON_MESSAGE_COULD_NOT_ADD_ITEM_ARV_BECAUSE_EXISTS_AN_ACTIVE_ARV_PRESCRIPTION": "Item {{EXISTING_ITEM}} cannot be added because there is an active ARV prescription",
+    "COMMON_MESSAGE_COULD_NOT_CREATE_ARV_PRESCRIPTION_BECAUSE_EXISTS_AN_ACTIVE_ARV_PRESCRIPTION": "Prescription cannot be created because there is an active ARV prescription",
     "COMMON_PROVIDER": "Provider",
     "COMMON_PRESCRIPTION": "Prescription",
     "CLINIC_PRESCRIPTION_DRUG": "Drug",
@@ -268,5 +269,9 @@
     "COMMON_CANCELATION_ITEM": "Cancel Item",
     "COMMON_MESSAGE_ERROR_DOSAGE_CANNOT_BE_ZERO": "The dosage value entered is not allowed",
     "COMMON_MESSAGE_ERROR_DURATION_CANNOT_BE_ZERO": "The duration value entered is not allowed",
-    "FOLLOW_SEQUENCE_OF_TABS": "Please follow the sequence of the tabs"
+    "FOLLOW_SEQUENCE_OF_TABS": "Please follow the sequence of the tabs",
+    "COMMON_MESSAGE_ERROR_EXISTIS_ACTIVE_PRESCRIPTION_FOR_ENTERED_ITEM": "Exists active prescription for the item {{EXISTING_ITEM}}",
+    "COMMON_MESSAGE_ERROR_EXISTIS_ACTIVE_PRESCRIPTIONS_FOR_ENTERED_ITEMS": "Exists active prescription(s) for the item(s) {{EXISTING_ITEM}}",
+    "COMMON_MESSAGE_ERROR_ENTER_PROVIDER_THEN_PRESS_SAVE_BUTTON": "Enter the provider and press the button to save the prescription",
+    "COMMON_MESSAGE_QUESTION_CREATE_ARV_PRESCRIPTION_ITEM": "Create ARV prescription item?"
 }

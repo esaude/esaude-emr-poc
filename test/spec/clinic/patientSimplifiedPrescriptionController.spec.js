@@ -272,36 +272,6 @@ describe('PatientSimplifiedPrescriptionController', function () {
         });
     });
 
-    describe('Not Allow adding a Drug with invalid dose', function () {
-      beforeEach(function () {
-
-        controller = $controller('PatientSimplifiedPrescriptionController', {
-          $scope: {}
-        });
-        controller.prescriptionItem = {drugOrder:{ duration : 0, dose : 0 }, frequency:{uuid : ''}};
-      });
-
-      it('should not add a drugOrder with invalid dose', function () {
-        controller.add(form.$valid,  form);
-        expect(notifier.error).toHaveBeenCalled();
-       });
-    });
-
-    describe(' Not Allow adding a Drug with invalid duration', function () {
-      beforeEach(function () {
-
-        controller = $controller('PatientSimplifiedPrescriptionController', {
-          $scope: {}
-        });
-        controller.prescriptionItem = {drugOrder:{ duration : 0, dose : 1 }, frequency:{uuid : ''}};
-      });
-
-      it('should not add a drugOrder with invalid duration', function () {
-        controller.add(form.$valid,  form);
-        expect(notifier.error).toHaveBeenCalled();
-      });
-    });
-
   });
 
 

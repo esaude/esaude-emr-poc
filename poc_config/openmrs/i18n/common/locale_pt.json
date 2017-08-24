@@ -231,7 +231,8 @@
     "COMMON_MESSAGE_COULD_NOT_CANCEL_PRESCRIPTION_ITEM": "Não foi possível cancelar o item da prescrição",
     "COMMON_CANCELLATION_PRESCRIPTION_ERROR_NO_REASON": "Por favor indique o motivo de cancelamento",
     "COMMON_MESSAGE_COULD_NOT_CANCEL_DISPENSATION_ITEM": "Não foi possível cancelar o item da dispensa",
-    "COMMON_MESSAGE_COULD_NOT_CREATE_ARV_PRESCRIPTION_BECAUSE_EXISTS_AN_ACTIVE_ARV_PRESCRIPTION": "Não foi possivel registar a prescrição pois existe uma prescrição ARV activa",
+    "COMMON_MESSAGE_COULD_NOT_ADD_ITEM_ARV_BECAUSE_EXISTS_AN_ACTIVE_ARV_PRESCRIPTION": "Item {{EXISTING_ITEM}} não pode ser adicionado pois existe uma prescrição ARV activa",
+    "COMMON_MESSAGE_COULD_NOT_CREATE_ARV_PRESCRIPTION_BECAUSE_EXISTS_AN_ACTIVE_ARV_PRESCRIPTION": "Prescrição não pode ser criada pois existe uma prescrição ARV activa",
     "COMMON_CANCEL_PRESCRIPTIONS_REASON": "Motivo de Cancelamento",
     "COMMON_CANCEL_PRESCRIPTION": "Cancelar Item de Prescrição",
     "COMMON_PROVIDER": "Provedor",
@@ -262,5 +263,9 @@
     "COMMON_CANCELATION_ITEM": "Cancelar Item",
     "COMMON_MESSAGE_ERROR_DOSAGE_CANNOT_BE_ZERO": "O valor da dosagem introduzido não é permitido",
     "COMMON_MESSAGE_ERROR_DURATION_CANNOT_BE_ZERO": "O valor da duração introduzido não é permitido",
-    "FOLLOW_SEQUENCE_OF_TABS": "Por favor siga a sequencia das abas"
+    "FOLLOW_SEQUENCE_OF_TABS": "Por favor siga a sequencia das abas",
+    "COMMON_MESSAGE_ERROR_EXISTIS_ACTIVE_PRESCRIPTION_FOR_ENTERED_ITEM": "Existe prescrição activa para o item {{EXISTING_ITEM}}",
+    "COMMON_MESSAGE_ERROR_EXISTIS_ACTIVE_PRESCRIPTIONS_FOR_ENTERED_ITEMS": "Existe(m) prescrição(ões) activa(s) para o(s) item(s) {{EXISTING_ITEM}}",
+    "COMMON_MESSAGE_ERROR_ENTER_PROVIDER_THEN_PRESS_SAVE_BUTTON": "Indique o provedor e pressione o botão para salvar a prescrição",
+    "COMMON_MESSAGE_QUESTION_CREATE_ARV_PRESCRIPTION_ITEM": "Criar item de prescrição ARV?"
 }
