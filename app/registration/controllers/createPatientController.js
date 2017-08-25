@@ -5,11 +5,11 @@
     .module('registration')
     .controller('CreatePatientController', CreatePatientController);
 
-  CreatePatientController.$inject = ['$rootScope', '$scope', '$location', '$filter', 'patient', 'patientService',
-    'appService', 'openmrsPatientMapper', 'notifier'];
+  CreatePatientController.$inject = ['$rootScope', '$scope', '$location', '$filter', '$state', 'patient',
+    'patientService', 'appService', 'openmrsPatientMapper', 'notifier'];
 
   /* @ngInject */
-  function CreatePatientController($rootScope, $scope, $location, $filter, patient, patientService, appService,
+  function CreatePatientController($rootScope, $scope, $location, $filter, $state, patient, patientService, appService,
                                    openmrsPatientMapper, notifier) {
 
     $scope.actions = {};
@@ -17,17 +17,18 @@
     $scope.patient = patient.create();
     $scope.srefPrefix = "newpatient.";
 
-    $scope.linkSearch = linkSearch;
+    $scope.linkCancel = linkCancel;
     $scope.save = save;
 
     ////////////////
 
-    function linkSearch() {
-      $location.url("/search");
+    function linkCancel() {
+      $state.go('search');
     }
 
     function save() {
-      var errMsg = Bahmni.Common.Util.ValidationUtil.validate($scope.patient,$scope.patientConfiguration.personAttributeTypes);
+      var errMsg = Bahmni.Common.Util.ValidationUtil
+        .validate($scope.patient,$scope.patientConfiguration.personAttributeTypes);
       if(errMsg){
         return;
       }
