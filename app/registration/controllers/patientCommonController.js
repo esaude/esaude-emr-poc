@@ -17,36 +17,33 @@
 
     // TODO: Remove dependency on $scope!
     var vm = this;
-    console.info(vm);
     vm.patient = $scope.patient;
     vm.patientAttributes = [];
     vm.patientIdentifierTypes = [];
     vm.srefPrefix = $scope.srefPrefix;
     vm.today = dateUtil.getDateWithoutTime(dateUtil.now());
 
-    vm.tabManager = new TabManager();
-    vm.tabManager.addStepDefinition(vm.srefPrefix + "identifier", 1);
-    vm.tabManager.addStepDefinition(vm.srefPrefix + "name",
-      2);
-    vm.tabManager.addStepDefinition(vm.srefPrefix + "gender", 3);
-    vm.tabManager.addStepDefinition(vm.srefPrefix + "age", 4);
-    vm.tabManager.addStepDefinition(vm.srefPrefix + "address", 5);
-    vm.tabManager.addStepDefinition(vm.srefPrefix + "other", 6);
-
-
+    vm.addNewIdentifier = addNewIdentifier;
+    vm.changeTab = changeTab;
     vm.disableIsDead = disableIsDead;
+    vm.filterRetireDeathConcepts = filterRetireDeathConcepts;
     vm.getAutoCompleteList = getAutoCompleteList;
     vm.getDataResults = getDataResults;
     vm.getDeathConcepts = getDeathConcepts;
-    vm.filterRetireDeathConcepts = filterRetireDeathConcepts;
     vm.listRequiredIdentifiers = listRequiredIdentifiers;
     vm.removeIdentifier = removeIdentifier;
     vm.selectIdentifierType = selectIdentifierType;
-    vm.addNewIdentifier = addNewIdentifier;
     vm.selectIsDead = selectIsDead;
     vm.setPreferredId = setPreferredId;
     vm.stepForward = stepForward;
-    vm.changeTab = changeTab;
+
+    var tabManager = new TabManager();
+    tabManager.addStepDefinition(vm.srefPrefix + "identifier", 1);
+    tabManager.addStepDefinition(vm.srefPrefix + "name", 2);
+    tabManager.addStepDefinition(vm.srefPrefix + "gender", 3);
+    tabManager.addStepDefinition(vm.srefPrefix + "age", 4);
+    tabManager.addStepDefinition(vm.srefPrefix + "address", 5);
+    tabManager.addStepDefinition(vm.srefPrefix + "other", 6);
 
     activate();
 
@@ -181,7 +178,7 @@
         s += r.charAt(Math.floor(Math.random()*r.length));
       }
       return s;
-    };
+    }
 
     function addNewIdentifier() {
       vm.patient.identifiers.push({
@@ -224,8 +221,8 @@
       var toStateName = vm.srefPrefix + sref;
       var currentStateName = $state.current.name;
 
-      var stepingForward = vm.tabManager.isStepingForward(currentStateName, toStateName);
-      var jumpingMoreThanOneTab = vm.tabManager.isJumpingMoreThanOneTab(currentStateName, toStateName);
+      var stepingForward = tabManager.isStepingForward(currentStateName, toStateName);
+      var jumpingMoreThanOneTab = tabManager.isJumpingMoreThanOneTab(currentStateName, toStateName);
 
       if (!stepingForward || (stepingForward && !jumpingMoreThanOneTab && form.$valid)) {
         vm.showMessages = false;
