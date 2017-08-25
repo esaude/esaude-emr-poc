@@ -17,7 +17,6 @@
 
     // TODO: Remove dependency on $scope!
     var vm = this;
-    console.info(vm);
     vm.patient = $scope.patient;
     vm.patientAttributes = [];
     vm.patientIdentifierTypes = [];
