@@ -23,9 +23,9 @@
         $state.go('search');
       }
     });
-
     // used in formStateAutoGen
     // TODO: check if formStateAutoGen can be run in angular configuration phase to eliminating this hack!!!
+
     $stateProviderRef = $stateProvider;
     $bahmniTranslateProvider.init({app: 'clinical', shouldMerge: true});
 
@@ -56,7 +56,7 @@
           initialization: 'initialization'
         },
         ncyBreadcrumb: {
-          label: '{{\'SEARCH_PATIENT\' | translate}}'
+          label: '{{\'APP_CLINIC\' | translate}} /  {{\'SEARCH_PATIENT\' | translate}}'
         }
       })
       .state('dashboard', {
@@ -74,7 +74,7 @@
           initialization: 'initialization'
         },
         ncyBreadcrumb: {
-          label: '{{ \'COMMON_DASHBOARD\' | translate}}',
+          label: '{{\'COMMON_DASHBOARD\' | translate}}',
           parent: 'search'
         }
       })

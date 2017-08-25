@@ -45,7 +45,7 @@
         },
         resolve: {initialization: 'initialization'},
         ncyBreadcrumb: {
-          label: '{{\'SEARCH_PATIENT\' | translate}}'
+          label: '{{\'APP_REGISTRATION\' | translate}} /  {{\'SEARCH_PATIENT\' | translate}}'
         }
       })
       .state('dashboard', {
