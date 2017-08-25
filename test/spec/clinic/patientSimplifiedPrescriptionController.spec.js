@@ -1,6 +1,6 @@
 'use strict';
 
-describe('PatientSimplifiedPrescriptionController', function () {
+fdescribe('PatientSimplifiedPrescriptionController', function () {
 
   var $controller, controller, $http, $filter, $rootScope, $stateParams, observationsService, commonService,
     conceptService, localStorageService, notifier, spinner, drugService, prescriptionService, $q, providerService,
@@ -332,11 +332,7 @@ describe('PatientSimplifiedPrescriptionController', function () {
 
     beforeEach(function () {
 
-      spyOn(prescriptionService, 'create').and.callFake(function () {
-
-      });
-
-      localStorageService = {
+     localStorageService = {
         cookie: {
           get: function () {
             return { uuid: 'xpto'};
@@ -348,6 +344,130 @@ describe('PatientSimplifiedPrescriptionController', function () {
         $scope: {},
         localStorageService: localStorageService,
         prescriptionService: prescriptionService,
+      });
+
+      spyOn(notifier, 'error').and.callFake(function () {
+      });
+
+      spyOn(notifier, 'success').and.callFake(function () {
+      });
+
+      });
+
+    var form = {
+      $valid: true,
+      $setPristine: function () {
+      },
+      $setUntouched: function () {
+      },
+      selectedProvider: {$invalid : false}
+    };
+
+    describe('Create a Prescription', function () {
+
+      beforeEach(function () {
+
+        spyOn(prescriptionService, 'create').and.callFake(function () {
+          return $q(function (resolve) {
+            return resolve([]);
+          })
+        });
+
+        controller = $controller('PatientSimplifiedPrescriptionController', {
+          $scope: {},
+          localStorageService: localStorageService,
+          prescriptionService: prescriptionService,
+        });
+
+        controller.listedPrescriptions.push({
+          "drugOrder": {
+
+            "dosingInstructions": "Conforme indicado",
+            "dose": 1,
+            "doseUnits": {
+              "uuid": "9d674660-10e8-11e5-9009-0242ac110012"
+            },
+            "frequency": {
+              "uuid": "9d7127f9-10e8-11e5-9009-0242ac110012"
+            },
+            "route": {
+              "uuid": "9d6b861d-10e8-11e5-9009-0242ac110012"
+            },
+            "duration": 2,
+            "quantityUnits": {
+              "uuid": "9d6b861d-10e8-11e5-9009-0242ac110012"
+            },
+            "durationUnits": {
+              "uuid": "9d6b861d-10e8-11e5-9009-0242ac110012"
+            },
+            "drug": {
+              "uuid": "9d6b861d-10e8-11e5-9009-0242ac110012"
+            }
+          }
+        });
+        controller.prescriptionDate = new Date();
+        controller.selectedProvider = { uuid: '123'};
+        controller.showNewPrescriptionsControlls = null;
+      });
+
+      it('Should create a prescription', function () {
+        controller.save(form);
+        $rootScope.$apply();
+        expect(prescriptionService.create).toHaveBeenCalled();
+        expect(notifier.success).toHaveBeenCalled();
+      });
+    });
+
+    describe('Not Create a Prescription due prescriptionServices Error Request', function () {
+      beforeEach(function () {
+
+        spyOn(prescriptionService, 'create').and.callFake(function () {
+          return $q(function (resolve, reject) {
+            return reject([]);
+          })
+        });
+
+        controller = $controller('PatientSimplifiedPrescriptionController', {
+          $scope: {},
+          localStorageService: localStorageService,
+          prescriptionService: prescriptionService,
+        });
+
+        controller.listedPrescriptions.push({
+          "drugOrder": {
+
+            "dosingInstructions": "Conforme indicado",
+            "dose": 1,
+            "doseUnits": {
+              "uuid": "9d674660-10e8-11e5-9009-0242ac110012"
+            },
+            "frequency": {
+              "uuid": "9d7127f9-10e8-11e5-9009-0242ac110012"
+            },
+            "route": {
+              "uuid": "9d6b861d-10e8-11e5-9009-0242ac110012"
+            },
+            "duration": 2,
+            "quantityUnits": {
+              "uuid": "9d6b861d-10e8-11e5-9009-0242ac110012"
+            },
+            "durationUnits": {
+              "uuid": "9d6b861d-10e8-11e5-9009-0242ac110012"
+            },
+            "drug": {
+              "uuid": "9d6b861d-10e8-11e5-9009-0242ac110012"
+            }
+          }
+        });
+        controller.prescriptionDate = new Date();
+        controller.selectedProvider = { uuid: '123'};
+        controller.showNewPrescriptionsControlls = null;
+      });
+
+      it('Should Not Create a Prescription due prescriptionServices Error Request', function () {
+        controller.save(form);
+        $rootScope.$apply();
+        expect(notifier.error).toHaveBeenCalled();
       });
     });
 
@@ -396,10 +516,115 @@ describe('PatientSimplifiedPrescriptionController', function () {
       controller.selectedProvider = { uuid: '123'};
     });
 
-    it('should not create prescription with validation error', function () {
-      controller.save();
-      expect(prescriptionService.create).not.toHaveBeenCalled();
+    describe('Not create prescription with validation error', function () {
+
+      var formWithInvalidProvider = {
+        $valid: true,
+        $setPristine: function () {
+        },
+        $setUntouched: function () {
+        },
+        selectedProvider: {$invalid : true}
+      };
+
+      it('should not create prescription with validation error', function () {
+        controller.save(formWithInvalidProvider);
+      });
+    });
+
+    describe('Not Save Arv Prescription due to existence of Active ARV Prescription', function () {
+      var form = {
+        $valid: true,
+        $setPristine: function () {
+        },
+        $setUntouched: function () {
+        },
+        selectedProvider: {$invalid : false}
+      };
+
+      it('should not Save Arv Prescription due to existence of Active ARV Prescription', function () {
+        controller.save(form);
+        expect(notifier.error).toHaveBeenCalled();
+      });
+    });
+
+    describe('Not Save Prescription due to existence of at least one Item in the new Prescription that exists in an Active  Prescription', function () {
+      beforeEach(function () {
+
+        controller = $controller('PatientSimplifiedPrescriptionController', {
+          $scope: {},
+          localStorageService: localStorageService,
+          prescriptionService: prescriptionService,
+        });
+        controller.listedPrescriptions.push({
+          "drugOrder": {
+
+            "dosingInstructions": "Conforme indicado",
+            "dose": 1,
+            "doseUnits": {
+              "uuid": "9d674660-10e8-11e5-9009-0242ac110012"
+            },
+            "frequency": {
+              "uuid": "9d7127f9-10e8-11e5-9009-0242ac110012"
+            },
+            "route": {
+              "uuid": "9d6b861d-10e8-11e5-9009-0242ac110012"
+            },
+            "duration": 2,
+            "quantityUnits": {
+              "uuid": "9d6b861d-10e8-11e5-9009-0242ac110012"
+            },
+            "durationUnits": {
+              "uuid": "9d6b861d-10e8-11e5-9009-0242ac110012"
+            },
+            "drug": {
+              "uuid": "9d6b861d-10e8-11e5-9009-0242ac110012"
+            }
+          }
+        });
+        controller.existingPrescriptions.push({
+          "prescriptionItems": [{
+            "drugOrder": {
+              "drug": {
+                "uuid": "9d6b861d-10e8-11e5-9009-0242ac110012"
+              }
+            },
+            "status": "ACTIVE"
+          }]
+        });
+
+      });
+
+      it('should not Save Prescription due to existence of at least one Item in the new Prescription that exists in an Active  Prescription', function () {
+        controller.save(form);
+        expect(notifier.error).toHaveBeenCalled();
+      });
     });
 
   });
+
+  describe('cleanDrugIfUnchecked', function () {
+
+    beforeEach(function () {
+      controller = $controller('PatientSimplifiedPrescriptionController', {
+        $scope: {}
+      });
+
+      controller.prescriptionItem = {
+        "isArv" : false,
+        "drugOrder" : { "drug" : {}},
+        "therapeuticLine": {},
+        "currentArvLine" : {},
+        "currentRegimen" : {},
+        "regime" : {},
+        "arvPlan" : {}
+        }
+    });
+    it('should  clean Arv fields if unchecked ARV checkBox', function () {
+      controller.cleanDrugIfUnchecked();
+      expect(controller.prescriptionItem.arvPlan).toBe(null);
+    });
+
+    });
+
 });
