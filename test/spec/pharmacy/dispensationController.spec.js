@@ -2,71 +2,93 @@
 
 describe('DispensationController', function () {
 
-  var $controller, controller, dispensationService, prescriptionService, localStorageService;
+  var $controller, $q, $rootScope, controller, dispensationService, localStorageService, notifier, prescriptionService,
+    sessionService, spinner;
 
   var rootScope = {'patient': {'uuid': '0810aecc-6642-4c1c-ac1e-537a0cfed81'}};
 
   var prescriptions = [
     {
-      disable: false,
+      hidden: false,
       prescriptionItems: [
         {regime: {uuid: '1'}, drugToPickUp: 6},
         {regime: {uuid: '1'}, drugToPickUp: 2}
       ]
     },
     {
-      disable: false,
+      hidden: false,
       prescriptionItems: [
         {drugToPickUp: 7}
+      ]
+    },
+    {
+      hidden: false,
+      prescriptionItems: [
+        {drugToPickUp: 9}
       ]
     }
   ];
 
-  beforeEach(module('pharmacy'));
-
-  beforeEach(inject(function (_$controller_) {
-    $controller = _$controller_;
+  beforeEach(module('pharmacy', function ($provide, $translateProvider) {
+    // Mock initialization
+    $provide.factory('initialization', function () {
+    });
+    // Mock appService
+    var appService = jasmine.createSpyObj('appService', ['initApp']);
+    appService.initApp.and.returnValue({
+      then: function (fn) {
+      }
+    });
+    $provide.value('appService', appService);
+    // Mock translate asynchronous loader
+    $provide.factory('mergeLocaleFilesService', function ($q) {
+      return function () {
+        var deferred = $q.defer();
+        deferred.resolve({});
+        return deferred.promise;
+      };
+    });
+    $translateProvider.useLoader('mergeLocaleFilesService');
   }));
 
-  beforeEach(function () {
-    dispensationService = jasmine.createSpyObj('dispensationService', ['create']);
-    dispensationService.create.and.returnValue({
-      then: function (fn) {
-        fn();
-      }
-    });
-
-    prescriptionService = jasmine.createSpyObj('prescriptionService', ['getPatientNonDispensedPrescriptions']);
-    prescriptionService.getPatientNonDispensedPrescriptions.and.returnValue({
-      then: function (fn) {
-        fn(prescriptions);
-      }
-    });
-
-    localStorageService = {
-      cookie: {
-        get: jasmine.createSpy(function () {
-          return {uuid: 'uuid'};
-        })
-      }
-    }
-  });
-
-  beforeEach(function () {
-    controller = $controller('DispensationController', {
-      $scope: {},
-      $rootScope: rootScope,
-      $filter: {},
-      dispensationService: dispensationService,
-      prescriptionService: prescriptionService,
-      localStorageService: localStorageService
-    });
-  });
+  beforeEach(inject(function (_$controller_, _$q_,  _$rootScope_, _dispensationService_, _localStorageService_, _notifier_,
+                              _prescriptionService_, _sessionService_, _spinner_) {
+    $controller = _$controller_;
+    $q = _$q_;
+    $rootScope = _$rootScope_;
+    sessionService = _sessionService_;
+    spinner = _spinner_;
+    dispensationService = _dispensationService_;
+    prescriptionService = _prescriptionService_;
+  }));
 
   describe('activate', function () {
 
+    beforeEach(function () {
+
+      spyOn(sessionService, 'getCurrentUser').and.callFake(function () {
+        return $q(function (resolve) {
+          resolve({});
+        });
+      });
+
+      spyOn(prescriptionService, 'getPatientNonDispensedPrescriptions').and.callFake(function () {
+        return $q(function (resolve) {
+          resolve(prescriptions);
+        });
+      });
+
+      controller = $controller('DispensationController', {
+        $filter: {},
+        prescriptionService: prescriptionService,
+        sessionService: sessionService,
+        spinner: spinner
+      });
+    });
+
     it('should load patient prescriptions', function () {
-      expect(controller.prescriptions.length).toBe(2);
+      $rootScope.$apply();
+      expect(controller.prescriptions.length).toBe(3);
       expect(controller.prescriptions).toEqual(prescriptions);
       expect(controller.selectedPrescriptionItems.length).toBe(0);
     });
@@ -74,6 +96,10 @@ describe('DispensationController', function () {
   });
 
   describe('select', function () {
+
+    beforeEach(function () {
+      controller = $controller('DispensationController');
+    });
 
     var prescription = prescriptions[1];
     var item = prescription.prescriptionItems[0];
@@ -89,7 +115,11 @@ describe('DispensationController', function () {
 
       controller.select(prescription, item);
 
-      expect(controller.selectedPrescriptionItems[0]).toEqual({selected: true, drugToPickUp: 7, prescription: prescription});
+      expect(controller.selectedPrescriptionItems[0]).toEqual({
+        selected: true,
+        drugToPickUp: 7,
+        prescription: prescription
+      });
     });
 
     it('should set reference to prescription on item', function () {
@@ -99,11 +129,6 @@ describe('DispensationController', function () {
       controller.select(prescription, item);
 
       expect(item.prescription).toEqual(prescription);
-    });
-
-    afterEach(function () {
-      item.selected = false;
-      item.prescription = undefined;
     });
 
     describe('ARV prescription item', function () {
@@ -121,6 +146,35 @@ describe('DispensationController', function () {
 
     });
 
+    afterEach(function () {
+      item.selected = false;
+      item.prescription = undefined;
+    });
+
+  });
+
+  describe('toggleVisibility', function () {
+
+    var selectedPrescription = prescriptions[0];
+
+    beforeEach(function () {
+      controller = $controller('DispensationController');
+      controller.prescriptions = prescriptions;
+    });
+
+    it('it should show the selected prescription and hide all other', function () {
+
+      selectedPrescription.hidden = true;
+      prescriptions[1].hidden = true;
+      prescriptions[2].hidden = false;
+
+      controller.toggleVisibility(selectedPrescription);
+
+      expect(prescriptions[0].hidden).toBe(false);
+      expect(prescriptions[1].hidden).toBe(true);
+      expect(prescriptions[2].hidden).toBe(true);
+    });
+
   });
 
   xdescribe('remove', function () {
@@ -128,6 +182,10 @@ describe('DispensationController', function () {
   });
 
   describe('updatePickup', function () {
+
+    beforeEach(function () {
+      controller = $controller('DispensationController');
+    });
 
     describe('ARV prescription item', function () {
 

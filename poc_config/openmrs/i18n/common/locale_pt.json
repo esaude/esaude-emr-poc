@@ -264,5 +264,6 @@
     "CLINIC_MESSAGE_ERROR_CANNOT_CHANGE_REGIMEN": "Regime não pode ser alterado porque pelo menos um item ARV se encontra seleccionado",
     "COMMON_CANCELATION_ITEM": "Cancelar Item",
     "COMMON_MESSAGE_ERROR_DOSAGE_CANNOT_BE_ZERO": "O valor da dosagem introduzido não é permitido",
-    "COMMON_MESSAGE_ERROR_DURATION_CANNOT_BE_ZERO": "O valor da duração introduzido não é permitido"
+    "COMMON_MESSAGE_ERROR_DURATION_CANNOT_BE_ZERO": "O valor da duração introduzido não é permitido",
+    "FOLLOW_SEQUENCE_OF_TABS": "Por favor siga a sequencia das abas"
 }

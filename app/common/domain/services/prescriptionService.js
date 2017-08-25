@@ -8,6 +8,11 @@
   prescriptionService.$inject = ['$http', '$q', '$log'];
 
   function prescriptionService($http, $q, $log) {
+
+    var sortByEncounterDateTime = _.curryRight(_.sortBy, 2)(function (encounter) {
+      return encounter.encounterDatetime;
+    });
+
     return {
        create: create,
        stopPrescriptionItem: stopPrescriptionItem,
@@ -35,7 +40,8 @@
 
         withCredentials: true
       }).then(function (response) {
-        return _.map(response.data.results, prescriptionMapper);
+        var mapPrescription = _.curryRight(_.map)(prescriptionMapper);
+        return _.flow([mapPrescription, sortByEncounterDateTime])(response.data.results);
       }).catch(function (error) {
         $log.error('XHR Failed for getPatientNonDispensedPrescriptions. ' + error.data);
         return $q.reject(error);

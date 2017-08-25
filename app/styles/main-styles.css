@@ -197,6 +197,7 @@ p.capitalize {
   height: 10px;
 }
 
+/* Header */
 .navbar {
   min-height: 62px;
   padding: 0;
@@ -225,3 +226,11 @@ p.capitalize {
 .navbar-primary .nav .open > a {
   background-color: #2d6ca3;
 }
+/**/
+
+/* Dispensation */
+/* All prescriptions except the last one */
+.dispensation  > .prescription:not(:nth-last-child(2)) .panel {
+  margin-bottom: 5px;
+}
+/**/

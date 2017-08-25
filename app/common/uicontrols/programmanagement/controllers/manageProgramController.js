@@ -232,11 +232,7 @@ angular.module('bahmni.common.uicontrols.programmanagment')
                   showMessage("COMMON_PROGRAM_COMPLETION_DATE_NOT_IN_FUTURE");
                   return;
                 }
-
-//                if (!isOutcomeSelected(patientProgram)) {
-//                    return;
-//                }
-
+ 
                 var outcomeConceptUuid = patientProgram.outcome ? patientProgram.outcome.uuid : null;
                 spinner.forPromise(programService.editPatientProgram(patientProgram.uuid, dateEnrolled,
                                     dateCompleted, outcomeConceptUuid)
