@@ -1,6 +1,6 @@
 'use strict';
 
-fdescribe('PatientSimplifiedPrescriptionController', function () {
+  describe('PatientSimplifiedPrescriptionController', function () {
 
   var $controller, controller, $http, $filter, $rootScope, $stateParams, observationsService, commonService,
     conceptService, localStorageService, notifier, spinner, drugService, prescriptionService, $q, providerService,
