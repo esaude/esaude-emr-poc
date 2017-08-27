@@ -250,7 +250,7 @@
       }
     };
 
-    describe('Not Allow adding a Drug with form validation errors ', function () {
+    describe('form has validation errors', function () {
       beforeEach(function () {
 
         controller = $controller('PatientSimplifiedPrescriptionController', {
@@ -266,7 +266,7 @@
         }
       };
 
-      it('should not add a drugOrder with form validation errors', function () {
+      it('should not add a drug order', function () {
         controller.add(formError.$valid,  formError);
         expect(controller.showMessages).toBe(true);
         });
@@ -343,7 +343,7 @@
       controller = $controller('PatientSimplifiedPrescriptionController', {
         $scope: {},
         localStorageService: localStorageService,
-        prescriptionService: prescriptionService,
+        prescriptionService: prescriptionService
       });
 
       spyOn(notifier, 'error').and.callFake(function () {
@@ -363,7 +363,7 @@
       selectedProvider: {$invalid : false}
     };
 
-    describe('Create a Prescription', function () {
+    describe('valid prescription', function () {
 
       beforeEach(function () {
 
@@ -376,7 +376,7 @@
         controller = $controller('PatientSimplifiedPrescriptionController', {
           $scope: {},
           localStorageService: localStorageService,
-          prescriptionService: prescriptionService,
+          prescriptionService: prescriptionService
         });
 
         controller.listedPrescriptions.push({
@@ -410,7 +410,7 @@
         controller.showNewPrescriptionsControlls = null;
       });
 
-      it('Should create a prescription', function () {
+      it('should create a prescription', function () {
         controller.save(form);
         $rootScope.$apply();
         expect(prescriptionService.create).toHaveBeenCalled();
@@ -418,7 +418,7 @@
       });
     });
 
-    describe('Not Create a Prescription due prescriptionServices Error Request', function () {
+    describe('create prescription failed', function () {
       beforeEach(function () {
 
         spyOn(prescriptionService, 'create').and.callFake(function () {
@@ -430,7 +430,7 @@
         controller = $controller('PatientSimplifiedPrescriptionController', {
           $scope: {},
           localStorageService: localStorageService,
-          prescriptionService: prescriptionService,
+          prescriptionService: prescriptionService
         });
 
         controller.listedPrescriptions.push({
@@ -464,7 +464,7 @@
         controller.showNewPrescriptionsControlls = null;
       });
 
-      it('Should Not Create a Prescription due prescriptionServices Error Request', function () {
+      it('should not create a prescription', function () {
         controller.save(form);
         $rootScope.$apply();
         expect(notifier.error).toHaveBeenCalled();
@@ -516,7 +516,7 @@
       controller.selectedProvider = { uuid: '123'};
     });
 
-    describe('Not create prescription with validation error', function () {
+    describe('invalid prescription', function () {
 
       var formWithInvalidProvider = {
         $valid: true,
@@ -527,12 +527,12 @@
         selectedProvider: {$invalid : true}
       };
 
-      it('should not create prescription with validation error', function () {
+      it('should not create a prescription', function () {
         controller.save(formWithInvalidProvider);
       });
     });
 
-    describe('Not Save Arv Prescription due to existence of Active ARV Prescription', function () {
+    describe('another active ARV prescription exists', function () {
       var form = {
         $valid: true,
         $setPristine: function () {
@@ -542,19 +542,19 @@
         selectedProvider: {$invalid : false}
       };
 
-      it('should not Save Arv Prescription due to existence of Active ARV Prescription', function () {
+      it('should not create a prescription', function () {
         controller.save(form);
         expect(notifier.error).toHaveBeenCalled();
       });
     });
 
-    describe('Not Save Prescription due to existence of at least one Item in the new Prescription that exists in an Active  Prescription', function () {
+    describe('at least one item in the new prescription exists in another active prescription', function () {
       beforeEach(function () {
 
         controller = $controller('PatientSimplifiedPrescriptionController', {
           $scope: {},
           localStorageService: localStorageService,
-          prescriptionService: prescriptionService,
+          prescriptionService: prescriptionService
         });
         controller.listedPrescriptions.push({
           "drugOrder": {
@@ -595,7 +595,7 @@
 
       });
 
-      it('should not Save Prescription due to existence of at least one Item in the new Prescription that exists in an Active  Prescription', function () {
+      it('should not create a prescription', function () {
         controller.save(form);
         expect(notifier.error).toHaveBeenCalled();
       });
@@ -620,7 +620,7 @@
         "arvPlan" : {}
         }
     });
-    it('should  clean Arv fields if unchecked ARV checkBox', function () {
+    it('should clean ARV fields', function () {
       controller.cleanDrugIfUnchecked();
       expect(controller.prescriptionItem.arvPlan).toBe(null);
     });
