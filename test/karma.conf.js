@@ -52,7 +52,6 @@ module.exports = function (config) {
       'bower_components/angular-translate-storage-local/angular-translate-storage-local.js',
       'bower_components/angular-translate-handler-log/angular-translate-handler-log.min.js',
       'bower_components/angular-mocks/angular-mocks.js',
-
       'bower_components/angular-smart-table/dist/smart-table.min.js',
       'bower_components/angular-datepicker/dist/angular-datepicker.min.js',
       'bower_components/bootstrap-switch/dist/js/bootstrap-switch.min.js',
@@ -71,6 +70,7 @@ module.exports = function (config) {
       'bower_components/angular-barcode-listener/angular-barcode-listener.min.js',
       'bower_components/ng-dialog/js/ngDialog.min.js',
       'bower_components/toastr/toastr.js',
+      'bower_components/angular-breadcrumb/dist/angular-breadcrumb.js',
 
       // endbower
       // bundled libraries

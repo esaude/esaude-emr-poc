@@ -1,27 +1,28 @@
 <div ng-include src="'../../common/patient/header/views/header.html'"></div><!--patient header -->
 
 <div class="row bg-info-border content-border border-rouded-bottom go-to-right"><!-- patient header controls -->
-    <button id="add_patient" type="button" class="btn btn-warning btn-lg" ng-click="linkSearch()">
-      <span class="glyphicon glyphicon-step-backward"></span>
-      <span class="button-label">{{'PREVIOUS_STEP' | translate}}</span>
-    </button>
-    <button ng-controller="MovePatientActionController" id="transfer_patient" type="button" class="btn btn-warning btn-lg" ng-click="movePatientTo()">
-        <span class="glyphicon glyphicon-share"></span>
-        <span class="button-label">{{'GO_TO' | translate}}</span>
-    </button>
-    <button id="detail_patient" type="button"
-            class="btn btn-success btn-lg" ng-click="linkPatientDetail()">
-        <span class="glyphicon glyphicon-eye-open"></span>
-        <span class="button-label">{{'VIEW' | translate}}</span>
-    </button>
-    <button id="edit_patient" type="button" class="btn btn-default btn-lg" ng-click="linkPatientEdit()">
-        <span class="glyphicon glyphicon-pencil"></span>
-        <span class="button-label">{{'EDIT' | translate}}</span>
-    </button>
-    <button id="delete_patient" type="button" class="btn btn-danger btn-lg">
-        <span class="glyphicon glyphicon-remove-sign"></span>
-        <span class="button-label">{{'REMOVE' | translate}}</span>
-    </button>
+  <button id="add_patient" type="button" class="btn btn-warning btn-lg" ng-click="vm.linkSearch()">
+    <span class="glyphicon glyphicon-step-backward"></span>
+    <span class="button-label">{{'PREVIOUS_STEP' | translate}}</span>
+  </button>
+  <button ng-controller="MovePatientActionController" id="transfer_patient" type="button" class="btn btn-warning btn-lg"
+          ng-click="movePatientTo()">
+    <span class="glyphicon glyphicon-share"></span>
+    <span class="button-label">{{'GO_TO' | translate}}</span>
+  </button>
+  <button id="detail_patient" type="button"
+          class="btn btn-success btn-lg" ng-click="vm.linkPatientDetail()">
+    <span class="glyphicon glyphicon-eye-open"></span>
+    <span class="button-label">{{'VIEW' | translate}}</span>
+  </button>
+  <button id="edit_patient" type="button" class="btn btn-default btn-lg" ng-click="vm.linkPatientEdit()">
+    <span class="glyphicon glyphicon-pencil"></span>
+    <span class="button-label">{{'EDIT' | translate}}</span>
+  </button>
+  <button id="delete_patient" type="button" class="btn btn-danger btn-lg">
+    <span class="glyphicon glyphicon-remove-sign"></span>
+    <span class="button-label">{{'REMOVE' | translate}}</span>
+  </button>
 </div><!-- patient header controls -->
 
 <div ng-include src="'views/visit.html'"></div>
