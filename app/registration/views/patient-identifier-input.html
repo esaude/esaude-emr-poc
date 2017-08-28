@@ -49,11 +49,13 @@
                 <td>
                     <button ng-show="!pi.identifierType.required && srefPrefix !== 'editpatient.'" type="button" class="btn btn-danger btn-lg" ng-click="patientCommon.removeIdentifier(pi)">
                         <span class="glyphicon glyphicon-remove-sign"></span>
+                        <span class="button-label">{{'REMOVE' | translate}}</span>
                     </button>
                 </td>
                 <td>
                     <button popover-placement="Top" uib-popover="{{pi.identifierType.formatDescription}}" type="button" class="btn btn-info btn-lg">
                         <span class="glyphicon glyphicon-question-sign"></span>
+                        <span class="button-label">{{'HELP' | translate}}</span>
                     </button>
                 </td>
 
@@ -63,9 +65,9 @@
             <tr>
                 <td colspan="5">
                     <button type="button" class="btn btn-primary btn-lg pull-left" ng-click="patientCommon.addNewIdentifier()">
-                        <span>{{'REGISTRATION_ADD_IDENTIFIER' | translate}}</span>&nbsp
-                        <span class="glyphicon glyphicon-plus-sign pull-right"></span>
-                    </button>    
+                      <span class="glyphicon glyphicon-plus-sign"></span>
+                      <span class="button-label">{{'REGISTRATION_ADD_IDENTIFIER' | translate}}</span>
+                    </button>
                 </td>
             </tr>
         </tfoot>
@@ -76,5 +78,6 @@
     <button type="button" class="btn btn-success btn-lg"
             ng-click="patientCommon.stepForward('name', aForm.$valid)">
         <span class="glyphicon glyphicon glyphicon-step-forward"></span>
+        <span class="button-label">{{'NEXT_STEP' | translate}}</span>
     </button>
 </div>

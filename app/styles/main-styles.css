@@ -234,3 +234,7 @@ p.capitalize {
   margin-bottom: 5px;
 }
 /**/
+
+.button-label {
+  font-size: 10pt;
+}
