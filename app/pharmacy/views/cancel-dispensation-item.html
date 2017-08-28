@@ -32,10 +32,12 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-warning btn-lg" ng-click="vm.closeCancellationModal(cancellationDispensationForm)">
                         <span class="glyphicon glyphicon-minus-sign"></span>
+                        <span class="button-label">{{'CANCEL' | translate}}</span>
                     </button>
                     <button type="submit"  ng-click="vm.cancelDispensationItem(cancellationDispensationForm, vm.dispensationItemToCancel)"
                             class="btn btn-primary btn-lg">
                         <span class="glyphicon glyphicon-floppy-disk"></span>
+                        <span class="button-label">{{'SAVE' | translate}}</span>
                     </button>
                 </div>
             </form>

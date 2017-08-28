@@ -12,9 +12,10 @@
                         <td ng-if="state.endDate">{{state.startDate| date:"MM/dd/yyyy"}} to {{state.endDate| date:"MM/dd/yyyy"}}</td>
                         <td ng-if="!state.endDate">Started on {{state.startDate| date:"MM/dd/yyyy"}}</td>
                         <td>By {{state.auditInfo.creator.display}} on {{state.auditInfo.dateCreated| date:"MM/dd/yyyy"}}</td>
-                        <td>
+                        <td class="go-to-right">
                             <button type="button" class="btn btn-danger btn-lg" ng-confirm-click="removePatientState(programSelected)" ng-if="canRemovePatientState(state)">
                                 <span class="glyphicon glyphicon-remove-sign"></span>
+                                <span class="button-label">{{'REMOVE' | translate}}</span>
                             </button>
                         </td>
                     </tr>
@@ -24,6 +25,7 @@
                         <td colspan="5" class="go-to-right">
                             <button type="button" class="btn btn-warning btn-lg" data-dismiss="modal">
                                 <span class="glyphicon glyphicon-minus-sign"></span>
+                                <span class="button-label">{{'CANCEL' | translate}}</span>
                             </button>
                         </td>
                     </tr>

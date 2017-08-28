@@ -31,8 +31,10 @@
 <div class="row bg-info-border content-border border-rouded-bottom go-to-right"><!-- visit header controls -->
     <button type="button" class="btn btn-warning btn-lg" ng-click="patientCommon.linkDashboard()">
         <span class="glyphicon glyphicon-step-backward"></span>
+        <span class="button-label">{{'PREVIOUS_STEP' | translate}}</span>
     </button>
     <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addVisitModal" ng-click="patientCommon.print()">
-        <span class="glyphicon glyphicon glyphicon-print"></span>
+        <span class="glyphicon glyphicon-print"></span>
+        <span class="button-label">{{'PRINT' | translate}}</span>
     </button>
 </div><!-- visit header controls -->
