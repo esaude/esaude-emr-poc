@@ -1,4 +1,4 @@
-<div ng-controller="VisitController as vm">
+<div ng-controller="VisitController as vm" class="checkin">
   <div class="row bg-info-border bg-info content-border border-rouded-top"><!--visit header -->
 
     <div class="col-sm-12">
@@ -41,25 +41,43 @@
   </div><!--visit header -->
 
   <div class="row bg-info-border content-border header-text-lg">
-    <div ng-if="vm.lastUnclosedVisit">
-      <span class="glyphicon glyphicon-ban-circle"></span>
-      <span>Has an unterminated visit of {{vm.lastUnclosedVisit.visitType.display}}, started on
-        {{vm.lastUnclosedVisit.startDatetime | date:'MMM d, y h:mm:ss a'}}</span>
+
+    <div class="col-sm-12">
+
+      <div class="pull-left status">
+        <div ng-if="vm.lastUnclosedVisit">
+          <span class="glyphicon glyphicon-ban-circle"></span>
+          <span>
+            Has an unterminated visit of {{vm.lastUnclosedVisit.visitType.display}}, started on
+            {{vm.lastUnclosedVisit.startDatetime | date:'medium'}}
+          </span>
+        </div>
+
+        <div ng-if="vm.todayVisit">
+          <span class="glyphicon glyphicon-info-sign"></span>
+          <span>
+            Checked in today to {{vm.todayVisit.visitType.display}} at
+            {{vm.todayVisit.startDatetime | date:'medium'}}
+          </span>
+        </div>
+
+        <div ng-if="!vm.todayVisit && !vm.lastUnclosedVisit">
+          <span class="glyphicon glyphicon-warning-sign"></span>
+          <span>Not checked in yet Today</span>
+        </div>
+      </div>
+
+
+      <div class="pull-right" ng-if="!vm.disableCheckin"><!-- visit header controls -->
+        <button type="button" class="btn btn-primary btn-lg" ng-disabled="vm.disableCheckin" ng-click="vm.checkIn()">
+          <span class="glyphicon glyphicon-log-in"></span>
+          <span class="button-label">{{'COMMON_CHECKIN' | translate}}</span>
+        </button>
+      </div>
+
     </div>
-    <div ng-if="vm.todayVisit">
-      <span class="glyphicon glyphicon-info-sign"></span>
-      <span>Checked in today to {{vm.todayVisit.visitType.display}} at
-        {{vm.todayVisit.startDatetime | date:'MMM d, y h:mm:ss a'}}</span>
-    </div>
-    <div ng-if="!vm.todayVisit && !vm.lastUnclosedVisit">
-      <span class="glyphicon glyphicon-warning-sign"></span> <span>Not checked in yet Today</span>
-    </div>
+
   </div>
 
-  <div class="row bg-info-border content-border border-rouded-bottom go-to-right"><!-- visit header controls -->
-    <button type="button" class="btn btn-primary btn-lg" ng-disabled="vm.disableCheckin" ng-click="vm.checkIn()">
-      <span class="glyphicon glyphicon-log-in"></span>
-      <span class="button-label">{{'COMMON_CHECKIN' | translate}}</span>
-    </button>
-  </div><!-- visit header controls -->
+  <!-- visit header controls -->
 </div>

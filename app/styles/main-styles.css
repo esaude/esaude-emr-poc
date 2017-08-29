@@ -238,3 +238,8 @@ p.capitalize {
 .button-label {
   font-size: 10pt;
 }
+
+/* Checkin */
+.checkin .status {
+  line-height: 2.4;
+}
