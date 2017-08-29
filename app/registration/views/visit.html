@@ -19,7 +19,8 @@
         </div>
         <div class="col-sm-9 col-md-10">
           {{vm.lastConsultationMessage}}
-          <span ng-if="vm.lastConsultation" class="label label-default" ng-class="{'label-warning': !vm.nextConsultation}">
+          <span ng-if="vm.lastConsultation" class="label label-default"
+                ng-class="{'label-warning': !vm.nextConsultation}">
             {{vm.nextConsultationMessage}}
           </span>
         </div>
@@ -41,29 +42,28 @@
   </div><!--visit header -->
 
   <div class="row bg-info-border content-border header-text-lg">
-
     <div class="col-sm-12">
 
       <div class="pull-left status">
         <div ng-if="vm.lastUnclosedVisit">
           <span class="glyphicon glyphicon-ban-circle"></span>
-          <span>
-            Has an unterminated visit of {{vm.lastUnclosedVisit.visitType.display}}, started on
-            {{vm.lastUnclosedVisit.startDatetime | date:'medium'}}
+          <span translate="CHECKIN_UNTERMINATED_VISIT"
+                translate-value-visittype="{{vm.lastUnclosedVisit.visitType.display}}"
+                translate-value-startdatetime="{{vm.lastUnclosedVisit.startDatetime | date:'medium'}}">
           </span>
         </div>
 
         <div ng-if="vm.todayVisit">
           <span class="glyphicon glyphicon-info-sign"></span>
-          <span>
-            Checked in today to {{vm.todayVisit.visitType.display}} at
-            {{vm.todayVisit.startDatetime | date:'medium'}}
+          <span translate="CHECKIN_CHECKED_IN_TODAY"
+                translate-value-visitType="{{vm.todayVisit.visitType.display}}"
+                translate-value-startDateTime="{{vm.todayVisit.startDatetime | date:'medium'}}">
           </span>
         </div>
 
         <div ng-if="!vm.todayVisit && !vm.lastUnclosedVisit">
           <span class="glyphicon glyphicon-warning-sign"></span>
-          <span>Not checked in yet Today</span>
+          <span>{{'CHECKIN_NOT_CHECKED_IN_TODAY' | translate}}</span>
         </div>
       </div>
 
@@ -76,7 +76,6 @@
       </div>
 
     </div>
-
   </div>
 
   <!-- visit header controls -->
