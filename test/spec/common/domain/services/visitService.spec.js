@@ -34,7 +34,7 @@ describe('visitService', function () {
       });
 
       $http.flush();
-      expect(resolve.data.results).toEqual(response.results);
+      expect(resolve).toEqual(response.results);
     });
 
     afterEach(function () {

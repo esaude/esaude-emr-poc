@@ -30,15 +30,20 @@
       return $http.post(Bahmni.Common.Constants.visitUrl, visit, {
         withCredentials: true,
         headers: {"Accept": "application/json", "Content-Type": "application/json"}
+      }).then(function (response) {
+        return response.data;
+      }).catch(function (error) {
+        $log.error('XHR Failed for create. ' + error.data);
+        return $q.reject(error);
       });
     }
 
     function getTodaysVisit(patientUUID) {
       var dateUtil = Bahmni.Common.Util.DateUtil;
 
-      return search({patient: patientUUID, v: "full"}).then(function (response) {
+      return search({patient: patientUUID, v: "full"}).then(function (visits) {
 
-          var nonRetired = commonService.filterRetired(response.data.results);
+          var nonRetired = commonService.filterRetired(visits);
 
           if (!_.isEmpty(nonRetired)) {
 
@@ -76,7 +81,14 @@
       return $http.get(Bahmni.Common.Constants.visitUrl, {
         params: params,
         withCredentials: true
-      });
+      })
+        .then(function (response) {
+          return response.data.results;
+        })
+        .catch(function (error) {
+          $log.error('XHR Failed for search. ' + error.data);
+          return $q.reject(error);
+        });
     }
   }
 

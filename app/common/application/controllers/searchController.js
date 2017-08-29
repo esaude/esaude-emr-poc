@@ -76,8 +76,8 @@ angular.module('application')
             var redirectToPage = function (patient) {
                  //initialize visit info in scope
                 visitService.search({patient: patient.uuid, v: "full"})
-                    .success(function (data) {
-                        var nonRetired = commonService.filterRetired(data.results);
+                    .then(function (visits) {
+                        var nonRetired = commonService.filterRetired(visits);
                         //in case the patient has an active visit
                         if (!_.isEmpty(nonRetired)) {
                             var lastVisit = _.maxBy(nonRetired, 'startDatetime');
