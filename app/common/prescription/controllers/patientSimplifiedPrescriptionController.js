@@ -23,42 +23,47 @@
     vm.allRegimes = [];
     vm.arvDrugs = [];
     vm.arvLineEnabled = true;
+    vm.cancelationReasonSelected = null;
+    vm.cancelationReasonTyped = null;
     vm.existingPrescriptions = [];
     vm.fieldModels = angular.copy(Bahmni.Common.Constants.drugPrescriptionConvSet);
     vm.isArvPlanInterruptedEdit = false;
     vm.isRegimenChangeEdit = false;
     vm.isRegimenEdit = false;
     vm.listedPrescriptions = [];
-    vm.prescriptionItem = {};
     vm.prescriptionDate = new Date();
-    vm.regimes = {};
-    vm.showMessages = false;
-    vm.showNewPrescriptionsControlls = false;
-    vm.cancelationReasonTyped = null;
-    vm.cancelationReasonSelected = null;
+    vm.prescriptionItem = {};
     vm.prescriptionItemToCancel = null;
     vm.providers = [];
+    vm.regimes = {};
     vm.selectedProvider = { display: '' };
+    vm.showMessages = false;
+    vm.showMessagesInModal = false;
+    vm.showNewPrescriptionsControlls = false;
+
 
     vm.add = add;
+    vm.cancelOrStop = cancelOrStop;
     vm.checkDrugType = checkDrugType;
+    vm.cleanDrugIfUnchecked = cleanDrugIfUnchecked;
     vm.closeCancellationModal = closeCancellationModal;
+    vm.closeProviderAndPrescriptionModal = closeProviderAndPrescriptionModal;
     vm.doPlanChanged = doPlanChanged;
     vm.doRegimenChanges = doRegimenChanges;
     vm.doTherapeuticLineChanges = doTherapeuticLineChanges;
     vm.edit = edit;
     vm.getDrugs = getDrugs;
-    vm.initTherapeuticLine = initTherapeuticLine;
-    vm.initArvPlans = initArvPlans;
-    vm.refill = refill;
-    vm.remove = remove;
-    vm.removeAll = removeAll;
-    vm.reset = reset;
-    vm.save = save;
-    vm.setPrescritpionItemStatus = setPrescritpionItemStatus;
-    vm.cancelOrStop = cancelOrStop;
-    vm.setPrescriptionItemToCancel = setPrescriptionItemToCancel;
     vm.hasActivePrescription = hasActivePrescription;
+    vm.initArvPlans = initArvPlans;
+    vm.initTherapeuticLine = initTherapeuticLine;
+    vm.refill = refill;
+    vm.removeAll = removeAll;
+    vm.remove = remove;
+    vm.reset = reset;
+    vm.saveRefill = saveRefill;
+    vm.save = save;
+    vm.setPrescriptionItemToCancel = setPrescriptionItemToCancel;
+    vm.setPrescritpionItemStatus = setPrescritpionItemStatus;
 
     activate();
 
@@ -98,7 +103,7 @@
         .then(loadAllRegimes())
         .then(getCurrentProvider)
         .then(function (currentProvider) {
-          vm.selectedProvider = currentProvider;
+        //  vm.selectedProvider = currentProvider;
         })
         .catch(function () {
           notifier.error($filter('translate')('COMMON_ERROR'));
@@ -118,15 +123,10 @@
         return;
       }
 
-      if(vm.prescriptionItem.drugOrder.dose === 0){
-        notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_DOSAGE_CANNOT_BE_ZERO'));
+      if(!validateAddItem()){
         return;
       }
 
-      if(vm.prescriptionItem.drugOrder.duration === 0){
-        notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_DURATION_CANNOT_BE_ZERO'));
-        return;
-      }
       //avoid duplication of drugs
       var sameOrderItem = _.find(vm.listedPrescriptions, function (item) {
         return item.drugOrder.drug.uuid === vm.prescriptionItem.drugOrder.drug.uuid;
@@ -140,6 +140,21 @@
       resetForm(form);
       vm.showNewPrescriptionsControlls = true;
       vm.showMessages = false;
+    }
+
+    function validateAddItem() {
+
+      var prescription = { prescriptionItems: [vm.prescriptionItem]};
+      if(hasActiveArvPrescriptionForNewArvItem(prescription)){
+        notifier.error($filter('translate')('COMMON_MESSAGE_COULD_NOT_ADD_ITEM_ARV_BECAUSE_EXISTS_AN_ACTIVE_ARV_PRESCRIPTION',{EXISTING_ITEM: vm.prescriptionItem.drugOrder.drug.display}));
+        return false;
+      }
+
+      if(!_.isEmpty(getDuplicatedExistingActivePrescriptionItems(prescription))){
+        notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_EXISTIS_ACTIVE_PRESCRIPTION_FOR_ENTERED_ITEM', {EXISTING_ITEM: vm.prescriptionItem.drugOrder.drug.display}));
+        return false;
+      }
+      return true;
     }
 
 
@@ -174,6 +189,11 @@
       getCancellationModal().modal('hide');
     }
 
+     function closeProviderAndPrescriptionModal(form){
+       form.$setPristine();
+       form.$setUntouched();
+       getProviderAndPrescriptionDateModal().modal('hide');
+     }
 
     function doPlanChanged(item) {
       if (vm.prescriptionItem.arvPlan.uuid === Bahmni.Common.Constants.artInterruptedPlanUuid) {
@@ -331,7 +351,16 @@
       resetForm(form);
     }
 
-    function save() {
+    function saveRefill(form){
+
+      if(!form.$valid){
+        vm.showMessagesInModal = true;
+        return;
+      }
+      save(form);
+    }
+
+    function save(form) {
 
       var prescription = {
 
@@ -370,45 +399,90 @@
         prescription.prescriptionItems.push(prescriptionItem);
       });
 
-      if(validateBeforeSave(prescription)){
-        prescriptionService.create(prescription)
+      if(validateCreatePrescription(form, prescription)){
+
+           prescriptionService.create(prescription)
           .then(function () {
             notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
             vm.listedPrescriptions = [];
+            vm.selectedProvider =  { display: '' };
             isPrescriptionControl();
+            getProviderAndPrescriptionDateModal().modal('hide');
             spinner.forPromise(loadSavedPrescriptions(patient));
           })
           .catch(function () {
             notifier.error($filter('translate')('COMMON_MESSAGE_COULD_NOT_CREATE_PRESCRIPTION'));
           });
       }
+      else{
+        vm.selectedProvider = { display: '' };
+      }
+     }
+
+    function validateCreatePrescription(form, prescription){
+
+      if(form.selectedProvider.$invalid)
+      {
+        return false;
+      }
+
+      if(hasActiveArvPrescriptionForNewArvItem(prescription)){
+        notifier.error($filter('translate')('COMMON_MESSAGE_COULD_NOT_CREATE_ARV_PRESCRIPTION_BECAUSE_EXISTS_AN_ACTIVE_ARV_PRESCRIPTION'));
+        return false;
+      }
+      var duplicatedItems = getDuplicatedExistingActivePrescriptionItems(prescription);
+      if(!_.isEmpty(duplicatedItems)){
+        notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_EXISTIS_ACTIVE_PRESCRIPTIONS_FOR_ENTERED_ITEMS', {EXISTING_ITEM: _.flatMap(duplicatedItems, 'drugOrder.drug.display').toString()}));
+        return false;
+      }
+      return true;
     }
 
-    function validateBeforeSave(prescription){
-
-      var isArvPrescriptionToBeCreated = false;
-      _.forEach(prescription.prescriptionItems, function (prescriptionItem) {
-           if(prescriptionItem.regime){
-             isArvPrescriptionToBeCreated = true;
-           }
+    function hasActiveArvPrescriptionForNewArvItem(prescription){
+      var exists = false;
+      _.forEach(prescription.prescriptionItems, function (newPrescriptionItem) {
+        if(newPrescriptionItem.regime){
+          _.forEach(vm.existingPrescriptions, function (existingPrescription) {
+            _.forEach(existingPrescription.prescriptionItems, function (prescriptionItem) {
+              if(existingPrescription.prescriptionStatus === 'ACTIVE' && prescriptionItem.regime){
+                exists = true;
+                return;
+              }
+            });
+          });
+        }
       });
-
-        var hasExistingArvPrescription = false;
-       _.forEach(vm.existingPrescriptions, function (prescription) {
-         _.forEach(prescription.prescriptionItems, function (prescriptionItem) {
-            if( prescription.prescriptionStatus == 'ACTIVE' && prescriptionItem.regime){
-            hasExistingArvPrescription = true;
-            }
-         });
+      return exists;
+    }
+    function getDuplicatedExistingActivePrescriptionItems(prescription) {
+      var hasDuplicated = [];
+      _.forEach(prescription.prescriptionItems, function (newPrescriptionItem) {
+        _.forEach(vm.existingPrescriptions, function (existingPrescription) {
+          _.forEach(existingPrescription.prescriptionItems, function (prescriptionItem) {
+              if( prescriptionItem.status != 'FINALIZED'){
+                  if(newPrescriptionItem.drugOrder.drug.uuid === prescriptionItem.drugOrder.drug.uuid){
+                    hasDuplicated.push(prescriptionItem);
+                  }
+              }
+          });
         });
+      });
+      return hasDuplicated;
+    }
 
-       if(isArvPrescriptionToBeCreated && hasExistingArvPrescription){
-         notifier.error($filter('translate')('COMMON_MESSAGE_COULD_NOT_CREATE_ARV_PRESCRIPTION_BECAUSE_EXISTS_AN_ACTIVE_ARV_PRESCRIPTION'));
+    function cleanDrugIfUnchecked(){
 
-         return false;
-       }
-
-       return true;
+      if(!vm.prescriptionItem.isArv)
+      {
+        if(vm.prescriptionItem && vm.prescriptionItem.drugOrder){
+          vm.prescriptionItem.drugOrder.drug = null;
+          vm.prescriptionItem.therapeuticLine = null;
+          vm.prescriptionItem.currentArvLine = null;
+          vm.prescriptionItem.currentRegimen = null;
+          vm.prescriptionItem.regime = null;
+          vm.prescriptionItem.arvPlan = null;
+        }
+      }
     }
 
     function cancelOrStop(form, item){
@@ -461,7 +535,6 @@
         });
     }
 
-
     function setPrescritpionItemStatus(prescriptions){
       _.forEach(prescriptions, function (prescription) {
          _.forEach(prescription.prescriptionItems, function (item) {
@@ -469,7 +542,6 @@
           });
        });
      }
-
 
     function filterRegimes(allRegimes, therapeuticLine) {
       var age = (patient.age.years >= 15) ? "adult" : "child";
@@ -541,6 +613,10 @@
 
     function getCancellationModal() {
       return angular.element('#cancelPrescriptionModal');
+    }
+
+    function getProviderAndPrescriptionDateModal() {
+      return angular.element('#addProviderAndPrescriptionDateModel');
     }
 
   }

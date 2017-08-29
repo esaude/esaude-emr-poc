@@ -8,8 +8,9 @@
               <div class="list-group-item list-group-item-success">
                 <checkbox largest
                           name="drugType"
-                          ng-model="vm.prescriptionItem.isArv">
-                </checkbox> Create ARV prescription item?
+                          ng-model="vm.prescriptionItem.isArv"
+                          ng-change="vm.cleanDrugIfUnchecked()">
+                </checkbox> {{'COMMON_MESSAGE_QUESTION_CREATE_ARV_PRESCRIPTION_ITEM' | translate}}
               </div>
             </div>
           </div>
@@ -67,12 +68,14 @@
                     class="asterick">*</span></label>
                   <div class="col-sm-3">
                     <div ng-messages for="prescriptionForm.doseAmount.$error"
-                         ng-messages-include="../poc-common/form-display/views/error-messages.html"
-                         ng-show="vm.showMessages"></div>
+                         ng-show="vm.showMessages"
+                         ng-messages-include="../poc-common/form-display/views/error-messages.html">
+                      <div class="label label-danger" ng-message="min">{{ 'COMMON_MESSAGE_ERROR_DOSAGE_CANNOT_BE_ZERO' | translate }}</div>
+                    </div>
                     <input name="doseAmount" type="number" class="form-control keyboard-in"
                            ng-model="vm.prescriptionItem.drugOrder.dose"
                            placeholder="{{'CLINIC_PRESCRIPTION_DOSE' | translate}}"
-                           min="0"
+                           min="0.1"
                            required>
                   </div>
                 </div>
@@ -129,11 +132,13 @@
                   <div class="col-sm-3">
                     <div ng-messages for="prescriptionForm.duration.$error"
                          ng-messages-include="../poc-common/form-display/views/error-messages.html"
-                         ng-show="vm.showMessages"></div>
+                         ng-show="vm.showMessages">
+                        <div class="label label-danger" ng-message="min">{{ 'COMMON_MESSAGE_ERROR_DURATION_CANNOT_BE_ZERO' | translate }}</div>
+                    </div>
                     <input name="duration" type="number" class="form-control keyboard-in"
                            ng-model="vm.prescriptionItem.drugOrder.duration"
                            placeholder="{{'CLINIC_PRESCRIPTION_DURATION' | translate}}"
-                           min="0"
+                           min="0.1"
                            required>
                   </div>
                   <div class="col-sm-6"
