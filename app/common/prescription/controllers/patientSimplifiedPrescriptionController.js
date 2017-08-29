@@ -150,7 +150,7 @@
         return false;
       }
 
-      if(hasDuplicatedExistingActivePrescriptionItems(prescription)){
+      if(!_.isEmpty(getDuplicatedExistingActivePrescriptionItems(prescription))){
         notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_EXISTIS_ACTIVE_PRESCRIPTION_FOR_ENTERED_ITEM', {EXISTING_ITEM: vm.prescriptionItem.drugOrder.drug.display}));
         return false;
       }
@@ -430,8 +430,7 @@
         notifier.error($filter('translate')('COMMON_MESSAGE_COULD_NOT_CREATE_ARV_PRESCRIPTION_BECAUSE_EXISTS_AN_ACTIVE_ARV_PRESCRIPTION'));
         return false;
       }
-      var duplicatedItems = [];
-      duplicatedItems = hasDuplicatedExistingActivePrescriptionItems(prescription, duplicatedItems);
+      var duplicatedItems = getDuplicatedExistingActivePrescriptionItems(prescription);
       if(!_.isEmpty(duplicatedItems)){
         notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_EXISTIS_ACTIVE_PRESCRIPTIONS_FOR_ENTERED_ITEMS', {EXISTING_ITEM: _.flatMap(duplicatedItems, 'drugOrder.drug.display').toString()}));
         return false;
@@ -455,7 +454,7 @@
       });
       return exists;
     }
-    function hasDuplicatedExistingActivePrescriptionItems(prescription, returnResult) {
+    function getDuplicatedExistingActivePrescriptionItems(prescription) {
       var hasDuplicated = [];
       _.forEach(prescription.prescriptionItems, function (newPrescriptionItem) {
         _.forEach(vm.existingPrescriptions, function (existingPrescription) {
@@ -468,13 +467,7 @@
           });
         });
       });
-      if(returnResult){
-        _.forEach(hasDuplicated, function (duplicated) {
-          returnResult.push(duplicated);
-        });
-        return returnResult;
-      }
-      return !_.isEmpty(hasDuplicated);
+      return hasDuplicated;
     }
 
     function cleanDrugIfUnchecked(){
