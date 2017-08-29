@@ -49,7 +49,7 @@
     "COMMON_CLINICAL_SERVICE_HEADER_CREATOR": "Created by",
     "COMMON_CLINICAL_SERVICE_HEADER_ACTIONS": "Actions",
     "REGISTRATION_LAST_VISIT": "Last Visit",
-    "REGISTRATION_ADD_IDENTIFIER": "Add identifier",
+    "REGISTRATION_ADD_IDENTIFIER": "Add Identifier",
     "PATIENT_INFO_DEMOGRAPHICS": "Demographics",
     "PATIENT_INFO_ADDRESSES": "Addresses",
     "PATIENT_INFO_ADDRESS": "Address",
@@ -88,6 +88,7 @@
     "Localidade": "Locality",
     "Bairro":"Neighborhood",
     "Celula":"Celll",
-    "Av./Rua/Casa": "Av./Street/Home"
+    "Av./Rua/Casa": "Av./Street/Home",
+    "NEW_PATIENT": "New Patient"
 
 }

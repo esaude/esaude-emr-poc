@@ -1,34 +1,52 @@
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('registration')
-        .controller('DashboardController', ["$scope", "$location", "$stateParams", "ngDialog",
-                    function ($scope, $location, $stateParams, ngDialog) {
-            var patientUuid;
+  angular
+    .module('registration')
+    .controller('DashboardController', DashboardController);
 
-            function init() {
-                patientUuid = $stateParams.patientUuid;
-            }
+  DashboardController.$inject = ['$location', '$stateParams'];
 
-            $scope.linkSearch = function() {
-                $location.url("/search"); // path not hash
-            };
+  /* @ngInject */
+  function DashboardController($location, $stateParams) {
 
-            $scope.linkVisit = function() {
-                $location.url("/visit/" + patientUuid); // path not hash
-            };
+    var patientUuid;
 
-            $scope.linkPatientDetail = function() {
-                $location.url("/patient/detail/" + patientUuid); // path not hash
-            };
+    var vm = this;
+    vm.linkSearch = linkSearch;
+    vm.linkVisit = linkVisit;
+    vm.linkPatientDetail = linkPatientDetail;
+    vm.linkServicesList = linkServicesList;
+    vm.linkPatientEdit = linkPatientEdit;
 
-            $scope.linkServicesList = function() {
-                $location.url("/services/" + patientUuid); // path not hash
-            };
+    activate();
 
-            $scope.linkPatientEdit = function() {
-                $location.url("/patient/edit/" + patientUuid + "/identifier"); // path not hash
-            };
+    ////////////////
 
-            init();
+    function activate() {
+      patientUuid = $stateParams.patientUuid;
+    }
 
-        }]);
+    function linkSearch() {
+      $location.url("/search"); // path not hash
+    }
+
+    function linkVisit() {
+      $location.url("/visit/" + patientUuid); // path not hash
+    }
+
+    function linkPatientDetail() {
+      $location.url("/patient/detail/" + patientUuid); // path not hash
+    }
+
+    function linkServicesList() {
+      $location.url("/services/" + patientUuid); // path not hash
+    }
+
+    function linkPatientEdit() {
+      $location.url("/patient/edit/" + patientUuid + "/identifier"); // path not hash
+    }
+  }
+
+})();
+

@@ -17,7 +17,6 @@
             <strong>{{lastNotesMessageType.value.display}}!</strong> {{lastNotesStory.value}}
             <br/><strong>{{'COMMON_BY'| translate}}</strong> {{lastNotes.provider.display}} <strong>{{'COMMON_ON'| translate}}</strong> {{lastNotes.encounterDatetime | date:"MM/dd/yyyy"}}
         </div>
-        <div ng-include src="'../clinic/views/notes-add.html'" ng-show="notes.show"></div>
     </div>
 
     <div class="panel panel-primary" ng-controller="ClinicalServiceController" >

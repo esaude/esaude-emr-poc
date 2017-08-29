@@ -3,16 +3,20 @@
 <div class="row bg-info-border content-border border-rouded-bottom go-to-right"><!-- patient header controls -->
     <button id="add_patient" type="button" class="btn btn-warning btn-lg" ng-click="linkSearch()">
         <span class="glyphicon glyphicon-step-backward"></span>
+        <span class="button-label">{{'PREVIOUS_STEP' | translate}}</span>
     </button>
     <button ng-controller="MovePatientActionController" id="transfer_patient" type="button" class="btn btn-warning btn-lg" ng-click="movePatientTo()">
         <span class="glyphicon glyphicon-share"></span>
+        <span class="button-label">{{'GO_TO' | translate}}</span>
     </button>
     <button id="detail_patient" type="button"
             class="btn btn-success btn-lg" ng-click="linkPatientDetail()">
         <span class="glyphicon glyphicon-eye-open"></span>
+        <span class="button-label">{{'VIEW' | translate}}</span>
     </button>
     <button id="delete_patient" type="button" class="btn btn-danger btn-lg">
         <span class="glyphicon glyphicon-remove-sign"></span>
+        <span class="button-label">{{'REMOVE' | translate}}</span>
     </button>
 </div><!-- patient header controls -->
 <div class="row bg-info-border content-border border-rouded" ng-init="getAlerts()" ng-show="{{flags.length !== 0}}">
@@ -23,11 +27,11 @@
 
 <div class="bg-info-border content-border border-rouded">
     <ul class="nav nav-tabs">
-        <li role="presentation" data-toggle="tab"><a ui-sref="dashboard.summary">{{'CLINIC_PATIENT_CHART_SUMMARY' | translate}}</a></li>
-        <li role="presentation" data-toggle="tab" class="active"><a ui-sref="dashboard.chart">{{'CLINIC_PATIENT_CHARTS' | translate}}</a></li>
-        <li role="presentation" data-toggle="tab" class="active"><a ui-sref="dashboard.consultation">{{'CLINIC_PATIENT_CONSULTATION' | translate}}</a></li>
-        <li ng-if="hasVisitToday" role="presentation" data-toggle="tab" class="active"><a ui-sref="dashboard.prescriptions">{{'CLINIC_PATIENT_PRESCRIPTIONS' | translate}}</a></li>
-        <li role="presentation" data-toggle="tab" class="active"><a ui-sref="dashboard.current">{{'CLINIC_PATIENT_CURRENT_STATUS' | translate}}</a></li>
+        <li role="presentation" ui-sref-active="active"><a ui-sref="dashboard.summary">{{'CLINIC_PATIENT_CHART_SUMMARY' | translate}}</a></li>
+        <li role="presentation" ui-sref-active="active"><a ui-sref="dashboard.chart">{{'CLINIC_PATIENT_CHARTS' | translate}}</a></li>
+        <li role="presentation" ui-sref-active="active"><a ui-sref="dashboard.consultation">{{'CLINIC_PATIENT_CONSULTATION' | translate}}</a></li>
+        <li ng-if="hasVisitToday" role="presentation" ui-sref-active="active"><a ui-sref="dashboard.prescriptions">{{'CLINIC_PATIENT_PRESCRIPTIONS' | translate}}</a></li>
+        <li role="presentation" ui-sref-active="active"><a ui-sref="dashboard.current">{{'CLINIC_PATIENT_CURRENT_STATUS' | translate}}</a></li>
     </ul>
     <div ui-view=""></div>
 </div>

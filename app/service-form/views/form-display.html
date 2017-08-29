@@ -12,17 +12,19 @@
     </div>
 
     <field-read payload="formPayload" form-part="part"></field-read>
-    
+
 </div>
 
 <div class="row bg-info-border content-border border-rouded go-to-right">
     <button type="button" class="btn btn-primary btn-lg" ng-click="save()">
         <span class="glyphicon glyphicon-print"></span>
+        <span class="button-label">{{'PRINT' | translate}}</span>
     </button>
 </div>
 
 <div class="row bg-info-border content-border border-rouded-bottom go-to-left">
     <button type="button" class="btn btn-warning btn-lg" ng-click="linkDashboard()">
         <span class="glyphicon glyphicon-minus-sign"></span>
+        <span class="button-label">{{'CANCEL' | translate}}</span>
     </button>
 </div>
