@@ -20,4 +20,4 @@ angular.module('bahmni.common.uiHelper').directive('autoScroll', function ($loca
             })
         }
     }
-})
+});

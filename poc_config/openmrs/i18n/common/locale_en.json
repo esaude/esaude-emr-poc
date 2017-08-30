@@ -291,5 +291,8 @@
     "ADD": "Add",
     "LIST": "List",
     "CLEAR": "Clear",
-    "REMOVE_ALL": "Remove All"
+    "REMOVE_ALL": "Remove All",
+    "CHECKIN_CHECKED_IN_TODAY": "Checked in today to {{visittype}} at {{startdatetime}}",
+    "CHECKIN_NOT_CHECKED_IN_TODAY": "Not checked in yet today",
+    "CHECKIN_UNTERMINATED_VISIT": "Has an unterminated visit of {{visittype}}, started on {{startdatetime}}"
 }

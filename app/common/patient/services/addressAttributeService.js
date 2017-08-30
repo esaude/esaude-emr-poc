@@ -10,7 +10,7 @@ angular.module('common.patient')
                 params: {searchString: query, addressField: fieldName ,parentField: parentField, parentName: parentName, limit: defaults.maxAutocompleteResults},
                 withCredentials: true
             });
-        }
+        };
 
         return{
             search : search

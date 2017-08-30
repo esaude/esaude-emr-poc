@@ -53,7 +53,7 @@ angular.module('clinic').factory('initialization',
                 var providerUuid = (data.results.length > 0) ? data.results[0].uuid : undefined;
                 $rootScope.currentProvider = {uuid: providerUuid};
             });
-        }
+        };
 
         return spinner.forPromise(authenticator.authenticateUser()
                 .then(initApp)

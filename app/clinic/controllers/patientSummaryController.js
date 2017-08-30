@@ -9,8 +9,7 @@
 
   /* @ngInject */
   function PatientSummaryController($rootScope, $stateParams, encounterService, observationsService, commonService,
-                                    orderService, $filter, spinner, prescriptionService, patientService) {
-
+                                    $filter, spinner, prescriptionService, patientService) {
     var patientUuid = $stateParams.patientUuid;
     var patient = {};
     var vm = this;
