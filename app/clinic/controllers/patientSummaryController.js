@@ -5,7 +5,7 @@
     .controller('PatientSummaryController', PatientSummaryController);
 
   PatientSummaryController.$inject = ['$rootScope', '$stateParams', 'encounterService', 'observationsService',
-    'commonService', 'orderService', '$filter', 'spinner', 'prescriptionService', 'patientService'];
+    'commonService', '$filter', 'spinner', 'prescriptionService', 'patientService'];
 
   /* @ngInject */
   function PatientSummaryController($rootScope, $stateParams, encounterService, observationsService, commonService,
@@ -24,7 +24,7 @@
     ];
 
     vm.displayLimit = _.find(vm.displayLimits, function (item) {
-      return item.value == $rootScope.defaultDisplayLimit;
+      return item.value === $rootScope.defaultDisplayLimit;
     });
 
     vm.filterDate = filterDate;
@@ -62,7 +62,7 @@
         .then(initPrescriptions)
         .then(initAllergies)
         .then(initVitals));
-    };
+    }
 
     function initVisitHistory() {
       return encounterService.getEncountersOfPatient(patientUuid).success(function (data) {
@@ -170,7 +170,7 @@
     //TODO: Remove this duplicated function
     function hasActivePrescription(prescriptions){
       return _.find(prescriptions, function (prescription) {
-        return prescription.prescriptionStatus == true;
+        return prescription.prescriptionStatus === true;
       });
     }
 
@@ -178,8 +178,8 @@
     function setPrescritpionItemStatus(prescriptions){
       _.forEach(prescriptions, function (prescription) {
         _.forEach(prescription.prescriptionItems, function (item) {
-          if(prescription.prescriptionStatus == true){
-            if((item.drugOrder.action == 'NEW') ||(item.drugOrder.action == 'REVISE') ){
+          if(prescription.prescriptionStatus === true){
+            if((item.drugOrder.action === 'NEW') ||(item.drugOrder.action === 'REVISE') ){
               item.status = "PHARMACY_ACTIVE";
             }
             else{
@@ -228,7 +228,7 @@
 
     function isObject(value) {
       return _.isObject(value);
-    };
+    }
 
     function filterDate(obs) {
       if (obs.concept.uuid === "892a98b2-9c98-4813-b4e5-0b434d14404d"
@@ -237,12 +237,12 @@
       }
 
       return obs.value;
-    };
+    }
 
     function getPatient() {
       return patientService.getPatient(patientUuid);
     }
 
-  };
+  }
 
 })();
