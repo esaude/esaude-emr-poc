@@ -103,7 +103,7 @@ angular.module('bahmni.common.uiHelper')
                     }
                 });
             }, 0);
-        }
+        };
         return {
             link: link,
             require: 'form',

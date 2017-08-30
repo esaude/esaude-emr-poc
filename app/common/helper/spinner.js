@@ -12,14 +12,14 @@ angular.module('bahmni.common.uiHelper')
            }
            $('#overlay').stop().show();
            return token;
-        }
+        };
 
         var hide = function (token) {
             _.pull(tokens, token);
             if(tokens.length === 0) {
                 $('#overlay').fadeOut(300);
             }
-        }
+        };
 
         var forPromise = function(promise) {
             var token = show();
