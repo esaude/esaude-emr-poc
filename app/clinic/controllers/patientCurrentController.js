@@ -5,7 +5,7 @@
     .module('clinic')
     .controller('PatientCurrentController', PatientCurrentController);
 
-  PatientCurrentController.$inject = ['$scope',  $stateParams', 'encounterService', 'observationsService', 'patientService'];
+  PatientCurrentController.$inject = ['$scope',  '$stateParams', 'encounterService', 'observationsService', 'patientService'];
 
   /* @ngInject */
   function PatientCurrentController($scope, $stateParams, encounterService, observationsService, patientService) {
