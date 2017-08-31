@@ -45,8 +45,6 @@
       vm.filaDisplacements1[1].dateRowSpanSize = 0;
       vm.filaDisplacements1[2].dateRowSpanSize = 0;
 
-      console.log(vm);
-
       loadTemplate(PATIENT_ARV_PICKUP_HISTORY_TEMPLATE)
         .then(compileWith(vm))
         .then(printHTML);
