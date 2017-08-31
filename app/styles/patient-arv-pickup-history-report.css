@@ -1,5 +1,5 @@
 @page {
-  margin: 0 10mm;
+  margin: 5mm;
 }
 
 .arv-pickup {
@@ -27,4 +27,58 @@
 .calendar .table .week-header {
   display: inline-block;
   transform: rotate(-90deg) translate(-100%, 50%);
+}
+
+div.simbol-area {
+  width: 25mm;
+  font-size: 4pt;
+}
+
+div.simbol-area p {
+  margin: 0mm;
+  padding: 0mm;
+  text-align: center;
+}
+
+div.title-area {
+  width: 120mm;
+  font-size: 14pt;
+  font-weight: bold;
+  text-align: center;
+  border: 1px red solid;
+}
+
+div.top-foot-note {
+  font-size: 6pt;
+  width: 30mm;
+}
+
+.flex-enabled {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.flex-item {
+  width: 50%;
+}
+
+th, td {
+  font-size: 6pt;
+  font-weight: normal;
+  padding: 1mm;
+  border: 1px black solid;
+  text-align: center;
+}
+
+th{
+  font-weight: bold;
+}
+
+th.long-side-header {
+  transform: rotate(-90deg);
+}
+
+th.empty {
+  border: none;
 }

@@ -3,97 +3,129 @@
 <link href="../../styles/patient-arv-pickup-history-report.css" rel="stylesheet" media="print">
 <!-- endbuild -->
 
-<div class="arv-pickup container-fluid">
+<div class="header-container" style="display: flex;">
 
-  <div class="row">
-    <div class="col-xs-10 col-xs-offset-1">
-      <div class="header">
-        <img class="emblem" src="../../images/emblem-md.png" />
-        <h1> Ficha Individual de Levantamento de ARVs (FILA)</h1>
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-xs-10 col-xs-offset-1">
-      <div class="patient">
-        <div class="row">
-          <div class="col-xs-12">
-            <b>{{'PATIENT_INFO_IDENTIFIER_IDENTIFIER' | translate}}({{patient.identifierType}})</b>
-            <p>{{patient.identifier}}</p>
-            <b>{{'PATIENT_INFO_NAMES' | translate}}</b>
-            <p>{{patient.fullName}}</p>
-            <b>{{'PATIENT_INFO_OTHERS' | translate}}</b>
-            <p>{{patient['Numero de Telefone 1']}} / {{patient['Numero de Telefone 2']}}</p>
-            <b>{{'PATIENT_INFO_ADDRESS' | translate}}</b>
-            <p>
-              {{'COMMON_AVENUE' | translate}}/{{'COMMON_STREET' | translate}}/{{'COMMON_HOUSE' | translate}}:
-              {{patient.address.display}} <br />
-              {{'COMMON_NEIGHBORHOOD' | translate }} : {{patient.address.address5 }}
-              {{'COMMON_CELL' | translate}}/{{'COMMON_BLOCK' | translate}}: {{patient.address.address3}} <br />
-              {{'COMMON_DISTRICT' | translate}}: {{patient.address.countyDistrict}} <br />
-              {{'COMMON_PROVINCE' | translate}}: {{patient.address.stateProvince}}</p>
-          </div>
+  <div id="top-left-area" style="width: 145mm;">
+    <div style="display: flex; flex-wrap: wrap;">
+      <div style="width: 30mm;">
+        <div class="simbol-area">
+          <p class="simbol-text"><img style="width: 15mm;" class="emblem" src="../../images/emblem-md.png" /></p>
+          <p style="margin-top: 2mm;" class="simbol-text">REPÚBLICA DE MOÇAMBIQUE</p>
+          <p class="simbol-text">MINISTÉRIO DA SAÚDE</p>
+          <p class="simbol-text">SERVIÇO NACIONAL DE SAÚDE</p>
         </div>
       </div>
-    </div>
-  </div>
-
-  <br>
-
-  <div class="row">
-    <div class="col-xs-10 col-xs-offset-1">
-      <h2>Receitas</h2>
-      <div class="calendar">
-        <table class="table table-bordered">
-          <tbody>
-          <tr ng-repeat="row in calendar">
-            <!--Month names-->
-            <td ng-if="$index === 0" colspan="2"></td>
-            <!--Week header-->
-            <td ng-if="$index === 1" rowspan="4">
-              <span class="week-header">Semana</span>
-            </td>
-            <!--Week number-->
-            <td ng-if="$index >= 1">
-              {{$index}}
-            </td>
-            <!--Expiration dates-->
-            <td ng-repeat="x in row track by $index">
-              {{x}}
-            </td>
+      <div style="width: 110mm; align-self: center; text-align: center; font-size: 16pt; font-weight: bold;">
+        Ficha Individual de Levantamento de ARVs (FILA)
+      </div>
+      <div style="width: 30mm; font-size: 6pt; margin-top: 2mm; text-align: justify; align-self: center;">* Registe um X no quadro que corresponda a data de expiração da receita médica. Não avia MARVs a partir desta data até o paciente apresenta uma nova receita</div>
+      <div style="width: 110mm; margin-top: 2mm; text-align: center;">
+        <h2 style="font-size: 8pt; font-weight: bold; margin-top: 0mm;">Calendário de Controlo das Receitas para MARVs</h2>
+        <table style="margin-left: 2mm; display: inline;">
+          <tr>
+            <th class="empty"></th>
+            <th class="empty"></th>
+            <th ng-repeat="month in months track by $index">{{month}}</th>
           </tr>
-          </tbody>
+          <tr>
+            <th class="long-side-header" rowspan="5">Semana</th>
+            <th>1a</th>
+            <td ng-repeat="x in calendar[0] track by $index">{{x}}</td>
+          </tr>
+          <tr>
+            <th>2a</th>
+            <td ng-repeat="x in calendar[1] track by $index">{{x}}</td>
+          </tr>
+          <tr>
+            <th>3a</th>
+            <td ng-repeat="x in calendar[2] track by $index">{{x}}</td>
+          </tr>
+          <tr>
+            <th>4a</th>
+            <td ng-repeat="x in calendar[3] track by $index">{{x}}</td>
+          </tr>
         </table>
       </div>
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-xs-10 col-xs-offset-1">
-      <h2>Levantamentos</h2>
-      <div class="pickups">
-        <table class="table table-bordered table-striped">
-          <thead>
-            <tr>
-              <th>{{'PHARMACY_PICKUP_DATE' | translate}}</th>
-              <th>{{'PHARMACY_REGIMEN'     | translate}}</th>
-              <th>{{'PHARMACY_QUANTITY_SHORT' | translate}}</th>
-              <th>{{'PHARMACY_POSOLOGY'    | translate}}</th>
-              <th>{{'PHARMACY_NEXT_PICKUP' | translate}}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="p in patient.pickups">
-              <td>{{p.encounterDatetime | date:"MMM d, y"}}</td>
-              <td>{{p.regimen}}</td>
-              <td>{{p.quantity}}</td>
-              <td>{{p.posology}}</td>
-              <td>{{p.nextPickup  | date:"MMM d, y"}}</td>
-            </tr>
-          </tbody>
-        </table>
+  <div id="top-right-area" style="border: 1px black solid; width: 145mm;">
+    <h2 style="font-size: 8pt; font-weight: bold; margin-top: 0mm; text-align: center; margin-top: 1mm;">Preenche o nº do Livro, Página,
+      e Linha onde o doente foi registado no Registo de TARV depois do 1º levantamento registado</h2>
+    <div style="display: flex;">
+      <div style="font-size: 8pt; font-weight: bold; width: 40mm; margin-left: 3mm; align-self: center; font-size: 10pt; text-align: center;">
+        <span style="font-size: 14pt;">NID:</span> {{patient.identifier}}
+      </div>
+      <div style="margin-left: 3mm; align-self: center;">
+        <div style="font-size: 10pt; margin-top: 5mm; font-weight: bold;">Nº do Livro TARV: ______, Pág: _____, Linha: _____</div>
+        <div style="font-size: 10pt; margin-top: 2mm;">Nome: {{patient.fullName}}</div>
+        <div style="font-size: 10pt; margin-top: 2mm;">Contacto: {{patient['Numero de Telefone 1']}} / {{patient['Numero de Telefone 2']}}</div>
+        <div style="font-size: 10pt; margin-top: 2mm;">Endereço: {{patient.address.display}}</div>
       </div>
     </div>
   </div>
+
+</div>
+
+
+<div class="main-container" style="margin-top: 3mm; display: flex;">
+
+  <table style="width: 145mm;">
+      <thead>
+        <tr>
+          <th rowspan="2">Data de Levantamento de ARVs</th>
+          <th rowspan="2" style="width: 80mm;">Medicamentos ARVs</th>
+          <th>Quantidade Aviada</th>
+          <th rowspan="2">Data do Próximo Levantamento</th>
+        </tr>
+        <tr>
+          <th>Dosagem</th>
+        </tr>
+      </thead>
+      <tbody ng-repeat="displacement in filaDisplacements1 track by $index">
+        <tr>
+          <td rowspan="2">{{displacement.date | date:"MMM d, y"}}&nbsp;</td>
+          <td rowspan="2">{{displacement.displacements[0].medicine}}&nbsp;</td>
+          <td>{{displacement.displacements[0].quantity}}&nbsp;</td>
+          <td rowspan="2">{{displacement.displacements[0].nextDisplacement | date:"MMM d, y"}}&nbsp;</td>
+        </tr>
+        <tr>
+          <td>{{displacement.displacements[0].dosage}}&nbsp;</td>
+        </tr>
+      </tbody>
+
+      <tfoot>
+        <tr>
+          <td colspan="4" style="border: none; text-align: left;">* O farmacêutico não pode aviar mais MARVs depois da expiração da receita médica</td>
+        </tr>
+      </tfoot>
+
+    </table>
+
+    <table style="width: 144mm; margin-left: 1mm;">
+      <thead>
+      <tr>
+        <th rowspan="2">Data de Levantamento de ARVs</th>
+        <th rowspan="2" style="width: 80mm;">Medicamentos ARVs</th>
+        <th>Quantidade Aviada</th>
+        <th rowspan="2">Data do Próximo Levantamento</th>
+      </tr>
+      <tr>
+        <th>Dosagem</th>
+      </tr>
+      </thead>
+      <tbody ng-repeat="displacement in filaDisplacements2 track by $index">
+        <tr>
+          <td rowspan="2">{{displacement.date | date:"MMM d, y"}}&nbsp;</td>
+          <td rowspan="2">{{displacement.displacements[0].medicine}}&nbsp;</td>
+          <td>{{displacement.displacements[0].quantity}}&nbsp;</td>
+          <td rowspan="2">{{displacement.displacements[0].nextDisplacement | date:"MMM d, y"}}&nbsp;</td>
+        </tr>
+        <tr>
+          <td>{{displacement.displacements[0].dosage}}&nbsp;</td>
+        </tr>
+      </tbody>
+
+    </table>
+
 </div>

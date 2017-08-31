@@ -26,29 +26,107 @@
     function printPatientARVPickupHistory(patient) {
       var vm = {};
       vm.patient = patient;
-      vm.calendar = [[]];
+      vm.months = moment.monthsShort();
+      vm.calendar = Array(4);
 
-      // Builds week of month x month calendar
-      var WEEKS_IN_MONTH = 4;
-      var months = moment.monthsShort();
-      var dates = _.map(patient.prescriptions, 'prescriptionDate');
-      for (var i = 0; i < WEEKS_IN_MONTH; i++) {
-        vm.calendar[i] = [];
-        for (var j = 0; j < months.length; j++) {
-          var found = false;
-          for (var d = 0; d < dates.length; d++) {
-            if (dates[d].getMonth() === j
-                  && Math.min(Math.floor(dates[d].getDate() / 7), 3) === i)
-              found = true;
-          }
-          vm.calendar[i][j] = found ? "X" : "";
-        }
-      }
-      vm.calendar.unshift(months);
+      fillCalendar(vm);
+
+      var NUMBER_OF_DISPLACEMENT_LINES = 12;
+      var emptyFilaDisplacement = getEmptyFilaDisplacement();
+      vm.filaDisplacements1 = Array(NUMBER_OF_DISPLACEMENT_LINES).fill(emptyFilaDisplacement);
+      vm.filaDisplacements2 = Array(NUMBER_OF_DISPLACEMENT_LINES).fill(emptyFilaDisplacement);
+
+      fillDisplacements(vm);
+
+      console.log(vm);
 
       loadTemplate(PATIENT_ARV_PICKUP_HISTORY_TEMPLATE)
         .then(compileWith(vm))
         .then(printHTML);
+    }
+
+    function fillDisplacements(vm) {
+      var pickups = vm.patient.pickups;
+      var allFilaDisplacements = [];
+      pickups.forEach(function (pickup) {
+        var filaDisplacement = generateFilaDisplacement(pickup);
+        allFilaDisplacements.unshift(filaDisplacement);
+      });
+
+      allFilaDisplacements = allFilaDisplacements.reverse();
+      allFilaDisplacements.forEach(function (displacement) {
+        vm.filaDisplacements1.pop();
+        vm.filaDisplacements1.unshift(displacement);
+      });
+    }
+
+    function generateFilaDisplacement(pickup) {
+      var filaDisplacement = getEmptyFilaDisplacement();
+      filaDisplacement.date = pickup.encounterDatetime;
+      filaDisplacement.displacements[0].medicine = pickup.regimen;
+      filaDisplacement.displacements[0].quantity = pickup.quantity;
+      filaDisplacement.displacements[0].dosage = pickup.posology;
+      filaDisplacement.displacements[0].nextDisplacement = pickup.nextPickup;
+      return filaDisplacement;
+    }
+
+    function getEmptyFilaDisplacement() {
+      return {
+        numberOfDisplacements: 1,
+        date: "",
+        displacements: [{
+          medicine: "",
+          quantity: "",
+          dosage: "",
+          nextDisplacement: ""
+        }]
+      };
+    }
+
+    function fillCalendar(vm) {
+
+      vm.calendar[0] = Array(12).fill("");
+      vm.calendar[1] = Array(12).fill("");
+      vm.calendar[2] = Array(12).fill("");
+      vm.calendar[3] = Array(12).fill("");
+
+      var firstPickup = vm.patient.pickups[0];
+      var monthOfFirstPickup = firstPickup.encounterDatetime.getMonth();
+      shiftLeft(vm.months, monthOfFirstPickup);
+
+      var WEEKS_IN_MONTH = 4;
+      var MONTHS_IN_YEAR = 12;
+      var dates = _.map(vm.patient.prescriptions, 'prescriptionDate');
+
+      dates.forEach(function (date) {
+        var markIndexes = getMarkIndexesForDate(date, monthOfFirstPickup);
+        vm.calendar[markIndexes.week][markIndexes.month] = "X";
+      });
+    }
+
+    function getMarkIndexesForDate(date, monthOfFirstPickup) {
+      var month = date.getMonth() - monthOfFirstPickup;
+      if (month < 0) {
+        month += MONTHS_IN_YEAR;
+      }
+      var week = Math.ceil(date.getDate() / 7.0);
+
+      //dias posteriores ao dia 28 serão considerados quarta semana
+      if (week > 4) {
+        week = 4;
+      }
+
+      //para compatibilizar com a nossa estrura de array onde os indices da semana são entre 0 e 3
+      week -= 1;
+
+      return { week: week, month: month };
+    }
+
+    function shiftLeft(array, numberOfTimes) {
+      for (var i = 1; i <= numberOfTimes; i++) {
+        var elementToShift = array.shift();
+        array.push(elementToShift);
+      }
     }
 
     /**
