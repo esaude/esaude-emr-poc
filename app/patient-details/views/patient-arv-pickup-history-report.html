@@ -73,24 +73,20 @@
   <table style="width: 145mm;">
       <thead>
         <tr>
-          <th rowspan="2">Data de Levantamento de ARVs</th>
-          <th rowspan="2" style="width: 80mm;">Medicamentos ARVs</th>
+          <th>Data de Levantamento de ARVs</th>
+          <th style="width: 80mm;">Medicamentos ARVs</th>
           <th>Quantidade Aviada</th>
-          <th rowspan="2">Data do Próximo Levantamento</th>
-        </tr>
-        <tr>
           <th>Dosagem</th>
+          <th>Data do Próximo Levantamento</th>
         </tr>
       </thead>
-      <tbody ng-repeat="displacement in filaDisplacements1 track by $index">
-        <tr>
-          <td rowspan="2">{{displacement.date | date:"MMM d, y"}}&nbsp;</td>
-          <td rowspan="2">{{displacement.displacements[0].medicine}}&nbsp;</td>
+      <tbody >
+        <tr ng-repeat="displacement in filaDisplacements1 track by $index" style="height: 15mm;">
+          <td ng-if="displacement.dateRowSpanSize > 0" rowspan="{{displacement.dateRowSpanSize}}">{{displacement.date | date:"MMM d, y"}}&nbsp;</td>
+          <td>{{displacement.displacements[0].medicine}}&nbsp;</td>
           <td>{{displacement.displacements[0].quantity}}&nbsp;</td>
-          <td rowspan="2">{{displacement.displacements[0].nextDisplacement | date:"MMM d, y"}}&nbsp;</td>
-        </tr>
-        <tr>
           <td>{{displacement.displacements[0].dosage}}&nbsp;</td>
+          <td>{{displacement.displacements[0].nextDisplacement | date:"MMM d, y"}}&nbsp;</td>
         </tr>
       </tbody>
 
@@ -105,27 +101,22 @@
     <table style="width: 144mm; margin-left: 1mm;">
       <thead>
       <tr>
-        <th rowspan="2">Data de Levantamento de ARVs</th>
-        <th rowspan="2" style="width: 80mm;">Medicamentos ARVs</th>
+        <th>Data de Levantamento de ARVs</th>
+        <th style="width: 80mm;">Medicamentos ARVs</th>
         <th>Quantidade Aviada</th>
-        <th rowspan="2">Data do Próximo Levantamento</th>
-      </tr>
-      <tr>
         <th>Dosagem</th>
+        <th>Data do Próximo Levantamento</th>
       </tr>
       </thead>
-      <tbody ng-repeat="displacement in filaDisplacements2 track by $index">
-        <tr>
-          <td rowspan="2">{{displacement.date | date:"MMM d, y"}}&nbsp;</td>
-          <td rowspan="2">{{displacement.displacements[0].medicine}}&nbsp;</td>
-          <td>{{displacement.displacements[0].quantity}}&nbsp;</td>
-          <td rowspan="2">{{displacement.displacements[0].nextDisplacement | date:"MMM d, y"}}&nbsp;</td>
-        </tr>
-        <tr>
-          <td>{{displacement.displacements[0].dosage}}&nbsp;</td>
-        </tr>
+      <tbody >
+      <tr ng-repeat="displacement in filaDisplacements2 track by $index" style="height: 15mm;">
+        <td ng-if="displacement.dateRowSpanSize > 0" rowspan="{{displacement.dateRowSpanSize}}">{{displacement.date | date:"MMM d, y"}}&nbsp;</td>
+        <td>{{displacement.displacements[0].medicine}}&nbsp;</td>
+        <td>{{displacement.displacements[0].quantity}}&nbsp;</td>
+        <td>{{displacement.displacements[0].dosage}}&nbsp;</td>
+        <td>{{displacement.displacements[0].nextDisplacement | date:"MMM d, y"}}&nbsp;</td>
+      </tr>
       </tbody>
-
     </table>
 
 </div>

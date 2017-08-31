@@ -13,6 +13,10 @@
 
     var PATIENT_DAILY_HOSPITAL_PROCESS_TEMPLATE = "../patient-details/views/patient-daily-hospital-process-report.html";
 
+    var NUMBER_OF_DISPLACEMENT_LINES = 8;
+    var WEEKS_IN_MONTH = 4;
+    var MONTHS_IN_YEAR = 12;
+
     return {
       printPatientDailyHospitalProcess: printPatientDailyHospitalProcess,
       printPatientARVPickupHistory: printPatientARVPickupHistory
@@ -27,16 +31,19 @@
       var vm = {};
       vm.patient = patient;
       vm.months = moment.monthsShort();
-      vm.calendar = Array(4);
+      vm.calendar = Array(WEEKS_IN_MONTH);
 
       fillCalendar(vm);
 
-      var NUMBER_OF_DISPLACEMENT_LINES = 12;
       var emptyFilaDisplacement = getEmptyFilaDisplacement();
       vm.filaDisplacements1 = Array(NUMBER_OF_DISPLACEMENT_LINES).fill(emptyFilaDisplacement);
       vm.filaDisplacements2 = Array(NUMBER_OF_DISPLACEMENT_LINES).fill(emptyFilaDisplacement);
 
       fillDisplacements(vm);
+
+      vm.filaDisplacements1[0].dateRowSpanSize = 3;
+      vm.filaDisplacements1[1].dateRowSpanSize = 0;
+      vm.filaDisplacements1[2].dateRowSpanSize = 0;
 
       console.log(vm);
 
@@ -72,6 +79,7 @@
 
     function getEmptyFilaDisplacement() {
       return {
+        dateRowSpanSize: 1,
         numberOfDisplacements: 1,
         date: "",
         displacements: [{
@@ -85,17 +93,15 @@
 
     function fillCalendar(vm) {
 
-      vm.calendar[0] = Array(12).fill("");
-      vm.calendar[1] = Array(12).fill("");
-      vm.calendar[2] = Array(12).fill("");
-      vm.calendar[3] = Array(12).fill("");
+      vm.calendar[0] = Array(MONTHS_IN_YEAR).fill("");
+      vm.calendar[1] = Array(MONTHS_IN_YEAR).fill("");
+      vm.calendar[2] = Array(MONTHS_IN_YEAR).fill("");
+      vm.calendar[3] = Array(MONTHS_IN_YEAR).fill("");
 
       var firstPickup = vm.patient.pickups[0];
       var monthOfFirstPickup = firstPickup.encounterDatetime.getMonth();
       shiftLeft(vm.months, monthOfFirstPickup);
 
-      var WEEKS_IN_MONTH = 4;
-      var MONTHS_IN_YEAR = 12;
       var dates = _.map(vm.patient.prescriptions, 'prescriptionDate');
 
       dates.forEach(function (date) {
