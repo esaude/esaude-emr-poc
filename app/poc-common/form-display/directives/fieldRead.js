@@ -1,50 +1,62 @@
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('poc.common.formdisplay')
-    .directive('fieldRead', function () {
-        
+  angular
+    .module('poc.common.formdisplay')
+    .directive('fieldRead', fieldRead);
+
+  fieldRead.$inject = [];
+
+  /* @ngInject */
+  function fieldRead() {
+    var directive = {
+      // TODO: Use vm
+      // bindToController: true,
+      controller: FieldReadDirectiveController,
+      // controllerAs: 'vm',
+      restrict: 'AE',
+      scope: {
+        payload: '=',
+        formPart: '='
+      },
+      templateUrl: ' ../poc-common/form-display/views/fieldRead.html'
+    };
+    return directive;
+  }
+
+  FieldReadDirectiveController.$inject = ['$scope', '$rootScope'];
+
+  /* @ngInject */
+  function FieldReadDirectiveController($scope, $rootScope) {
+
+    $scope.getFieldValidity = getFieldValidity;
+    $scope.isTrueFalseQuestion = isTrueFalseQuestion;
+    $scope.stringToJson = stringToJson;
+
+    function stringToJson(str) {
+      return str ? JSON.parse(str) : str;
+    }
+
+    function getFieldValidity(fieldUuid) {
+      if ($rootScope.postAction === "display") {
         return {
-            restrict: 'AE',
-            templateUrl: ' ../poc-common/form-display/views/fieldRead.html',
-            controller: 'FieldReadDirectiveController',
-            scope: {
-                payload: '=',
-                formPart: '='
-            }
+          uuid: fieldUuid,
+          valid: true
         };
-    })
-    .controller('FieldReadDirectiveController', function ($scope, $rootScope) {
-        (function () {
-        })();
+      }
 
-        $scope.stringToJson = function (str) {
+      return $scope.$parent.visitedFields[fieldUuid];
+    }
 
-            if (str !== undefined) {
-                return JSON.parse(str);
-            }
-            return undefined;
-          
-        };
-        
-        $scope.getFieldValidity = function (fieldUuid) {
-            if ($rootScope.postAction === "display") {
-                return {
-                        uuid: fieldUuid,
-                        valid: true
-                    };;
-            }
+    function isTrueFalseQuestion(question) {
+      var found = _.find(question, function (answer) {
+        return answer.uuid === "e1d81b62-1d5f-11e0-b929-000c29ad1d07" ||
+          answer.uuid === "e1d81c70-1d5f-11e0-b929-000c29ad1d07";
+      });
+      return angular.isDefined(found);
+    }
 
-            return $scope.$parent.visitedFields[fieldUuid];
-        };
-        
-        $scope.isTrueFalseQuestion = function (question) {
-            var found = _.find(question, function (answer) {
-             
-                return answer.uuid === "e1d81b62-1d5f-11e0-b929-000c29ad1d07" || 
-                        answer.uuid === "e1d81c70-1d5f-11e0-b929-000c29ad1d07";
-            });
-            return typeof found !== "undefined";
-        };
-    
+  }
 
-    });
+})();
+

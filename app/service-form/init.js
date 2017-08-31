@@ -1,1 +1,5 @@
-angular.module('serviceform', ['poc.common.formdisplay', 'bahmni.common.uiHelper']);
+angular
+  .module('serviceform', [
+    'bahmni.common.uiHelper',
+    'poc.common.formdisplay'
+  ]);
