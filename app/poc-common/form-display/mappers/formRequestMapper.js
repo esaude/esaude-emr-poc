@@ -48,7 +48,7 @@
         //find obs for field
         _.forEach(filteredObs, function (obs) {
           //compare field concept with obs concept
-          if(eachField.fieldConcept.concept.uuid === obs.concept.uuid) {
+          if (eachField.fieldConcept.concept.uuid === obs.concept.uuid) {
 
             //multiple select filter
             if (eachField.fieldConcept.selectMultiple) {
@@ -66,10 +66,10 @@
 
 
             } else if (!eachField.fieldConcept.selectMultiple
-                        && eachField.fieldConcept.concept.datatype.display === "Coded") {
+              && eachField.fieldConcept.concept.datatype.display === "Coded") {
 
               if (eachField.fieldConcept.concept.answers.length === 0
-                  || eachField.fieldConcept.concept.answers.length > 3) {
+                || eachField.fieldConcept.concept.answers.length > 3) {
                 eachField.value = realValueOfField(eachField.fieldConcept.concept.answers, obs.value);
               } else {
                 eachField.value = JSON.stringify(realValueOfField(eachField.fieldConcept.concept.answers, obs.value));
@@ -93,7 +93,7 @@
     }
 
     function createFormFields(formFields) {
-      var fields = [];
+      var fields = {};
 
       _.forEach(formFields, function (formField) {
         fields[formField.uuid] = {};

@@ -11,34 +11,49 @@
   function fieldRead() {
     var directive = {
       // TODO: Use vm
-      // bindToController: true,
+      bindToController: true,
       controller: FieldReadDirectiveController,
-      // controllerAs: 'vm',
+      controllerAs: 'vm',
       restrict: 'AE',
       scope: {
         payload: '=',
-        formPart: '='
+        formPart: '=',
+        displaying: '='
       },
       templateUrl: ' ../poc-common/form-display/views/fieldRead.html'
     };
     return directive;
   }
 
-  FieldReadDirectiveController.$inject = ['$scope', '$rootScope'];
+  FieldReadDirectiveController.$inject = ['$scope'];
 
   /* @ngInject */
-  function FieldReadDirectiveController($scope, $rootScope) {
+  function FieldReadDirectiveController($scope) {
 
-    $scope.getFieldValidity = getFieldValidity;
-    $scope.isTrueFalseQuestion = isTrueFalseQuestion;
-    $scope.stringToJson = stringToJson;
+    var vm = this;
+
+    vm.getFieldValidity = getFieldValidity;
+    vm.isTrueFalseQuestion = isTrueFalseQuestion;
+    vm.stringToJson = stringToJson;
+    vm.$onInit = onInit;
+
+    function onInit() {
+      $scope.$watch('vm.payload', function (value) {
+        if (value) {
+          vm.payload = value;
+          // This makes the directive re-render itself. Needed when vm.payload is loaded asynchronously.
+          vm.formPart = angular.copy(vm.formPart);
+          console.log(value);
+        }
+      });
+    }
 
     function stringToJson(str) {
       return str ? JSON.parse(str) : str;
     }
 
     function getFieldValidity(fieldUuid) {
-      if ($rootScope.postAction === "display") {
+      if (vm.displaying) {
         return {
           uuid: fieldUuid,
           valid: true

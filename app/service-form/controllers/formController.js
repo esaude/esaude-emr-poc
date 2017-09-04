@@ -1,149 +1,184 @@
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('serviceform')
-    .controller('FormController', ['$rootScope', 'localStorageService','$stateParams', '$scope', '$state',
-                    '$location', 'patientAttributeService', 'encounterService', 'visitService', 'commonService', 'notifier', '$filter',
-        function ($rootScope, localStorageService, $stateParams, $scope, $state,
-                    $location, patientAttributeService, encounterService, visitService, commonService, notifier, $filter) {
+  angular
+    .module('serviceform')
+    .controller('FormController', FormController);
 
-            var dateUtil = Bahmni.Common.Util.DateUtil;
+  FormController.$inject = ['$rootScope', 'localStorageService', '$stateParams', '$scope', '$state',
+    '$location', 'patientAttributeService', 'encounterService', 'visitService',  'notifier', '$filter',
+    'clinicalServiceForms'];
 
-            (function () {
-                    $scope.submitted = false;
-                    $scope.visitedFields = [];
-                    $scope.hasVisitToday = false;
+  /* @ngInject */
+  function FormController($rootScope, localStorageService, $stateParams, $scope, $state,
+                          $location, patientAttributeService, encounterService, visitService, notifier, $filter,
+                          clinicalServiceForms) {
 
-                    var formId = $stateParams.formId;
+    var dateUtil = Bahmni.Common.Util.DateUtil;
 
-                    $scope.formInfo = _.find($scope.formLayout, function (form) {
-                        return form.id === formId;
-                    });
+    var patientUUID = $stateParams.patientUuid;
 
-                    var currentSref = $state.current.url.replace("/", ".");
+    var serviceId = $stateParams.serviceId;
 
-                    $scope.currentFormPart = _.find($scope.formInfo.parts, function (formPart) {
-                        return formPart.sref === currentSref;
-                    });
-                    //initialize visit info in scope
-                    visitService.getTodaysVisit($scope.patient.uuid).then(function (visitToday) {
-                      if (visitToday) {
-                        $scope.hasVisitToday = true;
-                        $scope.todayVisit = visitToday;
-                      } else {
-                        $scope.hasVisitToday = false;
-                      }
-                    });
-                })();
+    $scope.currentFormPart = {};
+    $scope.formInfo = {};
+    $scope.formLayout = {};
+    $scope.hasVisitToday = false;
+    $scope.submitted = false;
+    $scope.todayVisit = null;
+    $scope.visitedFields = [];
 
-                $scope.stepInFormPart = function(formPart) {
-                    $scope.currentFormPart = formPart;
-                };
+    $scope.compactName = compactName;
+    $scope.getAutoCompleteList = getAutoCompleteList;
+    $scope.getDataResults = getDataResults;
+    $scope.linkDashboard = linkDashboard;
+    $scope.save = save;
+    $scope.stepInFormPart = stepInFormPart;
+    $scope.updateCurrentFormPart = updateCurrentFormPart;
 
-                $scope.updateCurrentFormPart = function (nextSref, validity) {
-                    if (validity) {
-                        $scope.currentFormPart = _.find($scope.formInfo.parts, function (formPart) {
-                            return formPart.sref === nextSref;
-                        });
-                        $scope.submitted = false;
-                        $state.go($scope.formInfo.sufix + nextSref);
-                    } else {
-                        $scope.submitted = true;
-                    }
-                };
+    activate();
 
-                $scope.getAutoCompleteList = function (attributeName, query, type) {
-                    return patientAttributeService.search(attributeName, query, type);
-                };
+    ////////////////
 
-                $scope.getDataResults = function (data) {
-                    return  data.results;
-                };
+    function activate() {
+      var currentSref = $state.current.url.replace("/", ".");
+      var encounter = $stateParams.encounter;
 
-                $scope.compactName = function (name) {
-                    return name.trim().replace(/[^a-zA-Z0-9]/g, '');
-                };
+      $scope.formInfo = clinicalServiceForms.getFormLayouts({id: serviceId});
 
-                $scope.save = function () {
-                    var currDate = Bahmni.Common.Util.DateUtil.now();
-                    var location = localStorageService.cookie.get("emr.location");
+      var patient = {uuid: patientUUID};
+      var service = {id: serviceId};
 
-                    var encounterMapper = new Poc.Common.CreateEncounterRequestMapper(currDate);
+      clinicalServiceForms.getFormData(patient, service, encounter).then(function (formData) {
+        $scope.formPayload = formData;
+      });
 
-                    var openMRSEncounter = encounterMapper.mapFromFormPayload($scope.formPayload,
-                            $scope.formInfo.parts,
-                            $scope.patient.uuid,
-                            location.uuid,
-                            $rootScope.currentUser.person.uuid);//set date
+      $scope.currentFormPart = _.find($scope.formInfo.parts, function (formPart) {
+        return formPart.sref === currentSref;
+      });
 
+      //initialize visit info in scope
+      visitService.getTodaysVisit($scope.patient.uuid).then(function (visitToday) {
+        if (visitToday) {
+          $scope.hasVisitToday = true;
+          $scope.todayVisit = visitToday;
+        } else {
+          $scope.hasVisitToday = false;
+        }
+      });
+    }
 
-                    if ($rootScope.postAction === 'create') {
-                        //in case the service has a date mark
-                        openMRSEncounter = addMappedDateObs(openMRSEncounter);
+    function stepInFormPart(formPart) {
+      $scope.currentFormPart = formPart;
+    }
 
-                        if ($scope.hasVisitToday) {
-                            encounterService.create(openMRSEncounter).success(encounterSuccessCallback);
-                        } else {
-                            checkIn().then(encounterService.create(openMRSEncounter).success(encounterSuccessCallback).error(encounterErrorCallback));
-                        }
-                    }
+    function updateCurrentFormPart(nextSref, validity) {
+      if (validity) {
+        $scope.currentFormPart = _.find($scope.formInfo.parts, function (formPart) {
+          return formPart.sref === nextSref;
+        });
+        $scope.submitted = false;
+        $state.go($scope.formInfo.sufix + nextSref);
+      } else {
+        $scope.submitted = true;
+      }
+    }
 
-                    if ($rootScope.postAction === 'edit' || $rootScope.postAction === 'add') {
-                        if ($rootScope.postAction === 'add') {
-                            openMRSEncounter = addMappedDateObs(openMRSEncounter);
-                        }
-                        var encounterMapper = new Poc.Common.UpdateEncounterRequestMapper(currDate);
+    function getAutoCompleteList(attributeName, query, type) {
+      return patientAttributeService.search(attributeName, query, type);
+    }
 
-                        var editEncounter = encounterMapper.mapFromFormPayload(openMRSEncounter,
-                                $scope.formPayload.encounter);//set date
-                        encounterService.update(editEncounter)
-                        .success(encounterSuccessCallback)
-                        .error(encounterErrorCallback);
-                    }
-                };
+    function getDataResults(data) {
+      return data.results;
+    }
 
-                var addMappedDateObs = function (openMRSEncounter) {
-                    //in case the service has a date mark
-                    if ($rootScope.maskedOn) {
-                        var obs = {
-                            concept: $rootScope.maskedOn,
-                            obsDatetime: dateUtil.now(),
-                            person: openMRSEncounter.patient,
-                            value: dateUtil.getDateInDatabaseFormat(dateUtil.now())
-                        };
-                        openMRSEncounter.obs.push(obs);
-                    }
-                    return openMRSEncounter;
-                }
+    function compactName(name) {
+      return name.trim().replace(/[^a-zA-Z0-9]/g, '');
+    }
 
-                var checkIn = function () {
-                    var visitType = _.find($rootScope.defaultVisitTypes, function (o) {
-                            return o.occurOn === "following";
-                        });
-                    var location = localStorageService.cookie.get("emr.location");
-                    //create visit object
-                    var visit = {
-                        patient: $scope.patient.uuid,
-                        visitType: visitType.uuid,
-                        location: location.uuid,
-                        startDatetime: dateUtil.now(),
-                        stopDatetime: dateUtil.endOfToday()
-                    };
-                    return visitService.create(visit);
-                };
+    function save() {
+      var currDate = Bahmni.Common.Util.DateUtil.now();
+      var location = localStorageService.cookie.get("emr.location");
 
-                var encounterSuccessCallback = function (encounterProfileData) {
-                    $rootScope.hasVisitToday = true;
-                    $location.url(eval($rootScope.landingPageAfterSave));
-                    notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
-                };
+      var encounterMapper = new Poc.Common.CreateEncounterRequestMapper(currDate);
 
-                var encounterErrorCallback = function (encounterProfileData, status) {
-                    notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ACTION'));
-                };
+      var openMRSEncounter = encounterMapper.mapFromFormPayload($scope.formPayload,
+        $scope.formInfo.parts,
+        $scope.patient.uuid,
+        location.uuid,
+        $rootScope.currentUser.person.uuid);//set date
 
-                $scope.linkDashboard = function () {
-                    $location.url('/dashboard/' + $rootScope.patient.uuid);
-                };
+      // create
+      if (!$scope.formPayload.service.hasEntryToday) {
+        //in case the service has a date mark
+        openMRSEncounter = addMappedDateObs(openMRSEncounter);
 
+        if ($scope.hasVisitToday) {
+          encounterService.create(openMRSEncounter).success(encounterSuccessCallback);
+        } else {
+          checkIn().then(encounterService.create(openMRSEncounter).success(encounterSuccessCallback).error(encounterErrorCallback));
+        }
 
-        }]);
+      } else {
+
+        // add
+        if ($scope.formPayload.service.hasEntryToday) {
+          openMRSEncounter = addMappedDateObs(openMRSEncounter);
+        }
+
+        var encounterMapper = new Poc.Common.UpdateEncounterRequestMapper(currDate);
+
+        //set date
+        var editEncounter = encounterMapper.mapFromFormPayload(openMRSEncounter, $scope.formPayload.encounter);
+
+        encounterService.update(editEncounter)
+          .success(encounterSuccessCallback)
+          .error(encounterErrorCallback);
+      }
+    }
+
+    function linkDashboard() {
+      $location.url('/dashboard/' + $rootScope.patient.uuid);
+    }
+
+    function addMappedDateObs(openMRSEncounter) {
+      //in case the service has a date mark
+      if ($rootScope.maskedOn) {
+        var obs = {
+          concept: $rootScope.maskedOn,
+          obsDatetime: dateUtil.now(),
+          person: openMRSEncounter.patient,
+          value: dateUtil.getDateInDatabaseFormat(dateUtil.now())
+        };
+        openMRSEncounter.obs.push(obs);
+      }
+      return openMRSEncounter;
+    }
+
+    function checkIn() {
+      var visitType = _.find($rootScope.defaultVisitTypes, function (o) {
+        return o.occurOn === "following";
+      });
+      var location = localStorageService.cookie.get("emr.location");
+      //create visit object
+      var visit = {
+        patient: $scope.patient.uuid,
+        visitType: visitType.uuid,
+        location: location.uuid,
+        startDatetime: dateUtil.now(),
+        stopDatetime: dateUtil.endOfToday()
+      };
+      return visitService.create(visit);
+    }
+
+    function encounterSuccessCallback(encounterProfileData) {
+      $rootScope.hasVisitToday = true;
+      $location.url(eval($rootScope.landingPageAfterSave));
+      notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
+    }
+
+    function encounterErrorCallback(encounterProfileData, status) {
+      notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ACTION'));
+    }
+  }
+})();

@@ -71,7 +71,10 @@
           }
         },
         resolve: {
-          initialization: 'initialization'
+          initialization: 'initialization',
+          clinicalServiceForms: function (clinicalServiceForms) {
+            return clinicalServiceForms.init('social');
+          }
         },
         ncyBreadcrumb: {
           label: '{{ \'COMMON_DASHBOARD\' | translate}}',

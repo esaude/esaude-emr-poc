@@ -68,6 +68,20 @@
         }
       });
 
+      $scope.$watch('formParts', function (value) {
+        if (value) {
+          $scope.fieldModel = $scope.formParts.form.fields[$scope.fieldUuid];
+
+          if (!$scope.fieldModel.value) {
+            loadField()
+          }
+
+          if ($scope.fieldModel.field.uuid === whoCurrentStageuuId) {
+            loadField();
+          }
+        }
+      });
+
       if ($scope.field.fireHideEvent) {
         fireHideEvent($scope.field.fireHideEvent);
       }
@@ -79,19 +93,6 @@
       if ($scope.field.dateController) {
         dateController($scope.field.dateController);
       }
-
-      $scope.initFieldModel = function () {
-        $scope.fieldModel = $scope.formParts.form.fields[$scope.fieldUuid];
-
-        if (!$scope.fieldModel.value) {
-          loadField()
-        }
-
-        if ($scope.fieldModel.field.uuid === whoCurrentStageuuId) {
-          loadField();
-        }
-      };
-
     }
 
     function fireHideEvent(event) {
