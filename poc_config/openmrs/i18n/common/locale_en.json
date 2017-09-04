@@ -287,5 +287,10 @@
     "ADD": "Add",
     "LIST": "List",
     "CLEAR": "Clear",
-    "REMOVE_ALL": "Remove All"
+    "REMOVE_ALL": "Remove All",
+    "FIRST.ABRV": "1ª",
+    "SECOND.ABRV": "2ª",
+    "THIRD.ABRV": "3ª",
+    "FORTH.ABRV": "4ª"
+
 }

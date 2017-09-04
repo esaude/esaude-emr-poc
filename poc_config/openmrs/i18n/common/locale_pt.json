@@ -281,5 +281,9 @@
     "ADD": "Adicionar",
     "LIST": "Listar",
     "CLEAR": "Limpar",
-    "REMOVE_ALL": "Remover Todos"
+    "REMOVE_ALL": "Remover Todos",
+    "FIRST.ABRV": "1ª",
+    "SECOND.ABRV": "2ª",
+    "THIRD.ABRV": "3ª",
+    "FORTH.ABRV": "4ª"
 }

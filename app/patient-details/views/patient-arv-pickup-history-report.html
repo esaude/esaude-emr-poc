@@ -24,19 +24,19 @@
           </tr>
           <tr>
             <th class="long-side-header" rowspan="5">Semana</th>
-            <th>1a</th>
+            <th>{{'FIRST.ABRV' | translate}}</th>
             <td ng-repeat="x in calendar[0] track by $index">{{x}}</td>
           </tr>
           <tr>
-            <th>2a</th>
+            <th>{{'SECOND.ABRV' | translate}}</th>
             <td ng-repeat="x in calendar[1] track by $index">{{x}}</td>
           </tr>
           <tr>
-            <th>3a</th>
+            <th>{{'THIRD.ABRV' | translate}}</th>
             <td ng-repeat="x in calendar[2] track by $index">{{x}}</td>
           </tr>
           <tr>
-            <th>4a</th>
+            <th>{{'FORTH.ABRV' | translate}}</th>
             <td ng-repeat="x in calendar[3] track by $index">{{x}}</td>
           </tr>
         </table>

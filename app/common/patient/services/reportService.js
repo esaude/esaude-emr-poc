@@ -36,8 +36,10 @@
       fillCalendar(vm);
 
       var emptyFilaDisplacement = getEmptyFilaDisplacement();
-      vm.filaDisplacements1 = Array(NUMBER_OF_DISPLACEMENT_LINES).fill(emptyFilaDisplacement);
-      vm.filaDisplacements2 = Array(NUMBER_OF_DISPLACEMENT_LINES).fill(emptyFilaDisplacement);
+      vm.filaDisplacements1 = Array(NUMBER_OF_DISPLACEMENT_LINES);
+      vm.filaDisplacements2 = Array(NUMBER_OF_DISPLACEMENT_LINES);
+      fill(vm.filaDisplacements1, emptyFilaDisplacement);
+      fill(vm.filaDisplacements2, emptyFilaDisplacement);
 
       fillDisplacements(vm);
 
@@ -48,6 +50,12 @@
       loadTemplate(PATIENT_ARV_PICKUP_HISTORY_TEMPLATE)
         .then(compileWith(vm))
         .then(printHTML);
+    }
+
+    function fill(array, value) {
+      for (var i = 0; i < array.length; i++) {
+        array[i] = value;
+      }
     }
 
     function fillDisplacements(vm) {
@@ -91,10 +99,14 @@
 
     function fillCalendar(vm) {
 
-      vm.calendar[0] = Array(MONTHS_IN_YEAR).fill("");
-      vm.calendar[1] = Array(MONTHS_IN_YEAR).fill("");
-      vm.calendar[2] = Array(MONTHS_IN_YEAR).fill("");
-      vm.calendar[3] = Array(MONTHS_IN_YEAR).fill("");
+      vm.calendar[0] = Array(MONTHS_IN_YEAR);
+      vm.calendar[1] = Array(MONTHS_IN_YEAR);
+      vm.calendar[2] = Array(MONTHS_IN_YEAR);
+      vm.calendar[3] = Array(MONTHS_IN_YEAR);
+      fill(vm.calendar[0], "");
+      fill(vm.calendar[1], "");
+      fill(vm.calendar[2], "");
+      fill(vm.calendar[3], "");
 
       var firstPickup = vm.patient.pickups[0];
       var monthOfFirstPickup = firstPickup.encounterDatetime.getMonth();

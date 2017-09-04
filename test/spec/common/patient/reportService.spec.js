@@ -50,7 +50,7 @@ describe('reportService', function () {
     });
 
     it('should generate report', function () {
-      var patient = {fullName: "Malocy Landon"};
+      var patient = {fullName: "Malocy Landon", pickups: [ { encounterDatetime: new Date() } ]};
       var template = "<div>{{patient.fullName}}</div>";
 
       loadTemplate.respond(200, template);
@@ -64,12 +64,13 @@ describe('reportService', function () {
     });
 
     it('should cancel report generation if load fails', function () {
+      var patient = { pickups: [ { encounterDatetime: new Date() } ]};
       loadTemplate.respond(404, 'Not Found');
 
       spyOn($log, "error").and.callThrough();
       spyOn($q, "reject").and.callThrough();
 
-      reportService.printPatientARVPickupHistory({});
+      reportService.printPatientARVPickupHistory(patient);
       $http.flush();
 
       expect($log.error).toHaveBeenCalled();
