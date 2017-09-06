@@ -274,8 +274,9 @@
             ncyBreadcrumb: {
               skip: true
             },
-            //used when editing
-            params: { encounter: null }
+            params: {
+              encounter: null // used when editing or updating existing encounter for clinical service
+            }
           };
           state.views["layout"] = {
             templateUrl: '../common/application/views/layout.html',

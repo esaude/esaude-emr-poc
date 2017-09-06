@@ -16,8 +16,8 @@
 
     var dateUtil = Bahmni.Common.Util.DateUtil;
 
+    var serviceEncounter = $stateParams.encounter;
     var patientUUID = $stateParams.patientUuid;
-
     var serviceId = $stateParams.serviceId;
 
     $scope.currentFormPart = {};
@@ -42,14 +42,13 @@
 
     function activate() {
       var currentSref = $state.current.url.replace("/", ".");
-      var encounter = $stateParams.encounter;
 
       $scope.formInfo = clinicalServiceForms.getFormLayouts({id: serviceId});
 
       var patient = {uuid: patientUUID};
       var service = {id: serviceId};
 
-      clinicalServiceForms.getFormData(patient, service, encounter).then(function (formData) {
+      clinicalServiceForms.getFormData(patient, service, serviceEncounter).then(function (formData) {
         $scope.formPayload = formData;
       });
 
@@ -96,22 +95,24 @@
       return name.trim().replace(/[^a-zA-Z0-9]/g, '');
     }
 
+    // TODO: move this to clinicalServiceForms service
     function save() {
       var currDate = Bahmni.Common.Util.DateUtil.now();
       var location = localStorageService.cookie.get("emr.location");
 
-      var encounterMapper = new Poc.Common.CreateEncounterRequestMapper(currDate);
+      var createEncounterMapper = new Poc.Common.CreateEncounterRequestMapper(currDate);
 
-      var openMRSEncounter = encounterMapper.mapFromFormPayload($scope.formPayload,
+      var openMRSEncounter = createEncounterMapper.mapFromFormPayload($scope.formPayload,
         $scope.formInfo.parts,
         $scope.patient.uuid,
         location.uuid,
         $rootScope.currentUser.person.uuid);//set date
 
-      // create
-      if (!$scope.formPayload.service.hasEntryToday) {
+      var clinicalService = $scope.formPayload.service;
+
+      if (!serviceEncounter) {
         //in case the service has a date mark
-        openMRSEncounter = addMappedDateObs(openMRSEncounter);
+        openMRSEncounter = addMappedDateObs(clinicalService, openMRSEncounter);
 
         if ($scope.hasVisitToday) {
           encounterService.create(openMRSEncounter).success(encounterSuccessCallback);
@@ -121,18 +122,15 @@
 
       } else {
 
-        // add
-        if ($scope.formPayload.service.hasEntryToday) {
-          openMRSEncounter = addMappedDateObs(openMRSEncounter);
+        if (serviceEncounter === clinicalService.lastEncounterForService) {
+          openMRSEncounter = addMappedDateObs(clinicalService, openMRSEncounter);
         }
 
-        var encounterMapper = new Poc.Common.UpdateEncounterRequestMapper(currDate);
+        var updateEncounterMapper = new Poc.Common.UpdateEncounterRequestMapper(currDate);
 
-        //set date
-        var editEncounter = encounterMapper.mapFromFormPayload(openMRSEncounter, $scope.formPayload.encounter);
+        var editEncounter = updateEncounterMapper.mapFromFormPayload(openMRSEncounter, $scope.formPayload.encounter);
 
-        encounterService.update(editEncounter)
-          .success(encounterSuccessCallback)
+        encounterService.update(editEncounter).success(encounterSuccessCallback)
           .error(encounterErrorCallback);
       }
     }
@@ -141,11 +139,11 @@
       $location.url('/dashboard/' + $rootScope.patient.uuid);
     }
 
-    function addMappedDateObs(openMRSEncounter) {
+    function addMappedDateObs(clinicalService, openMRSEncounter) {
       //in case the service has a date mark
-      if ($rootScope.maskedOn) {
+      if (clinicalService.markedOn) {
         var obs = {
-          concept: $rootScope.maskedOn,
+          concept: clinicalService.markedOn,
           obsDatetime: dateUtil.now(),
           person: openMRSEncounter.patient,
           value: dateUtil.getDateInDatabaseFormat(dateUtil.now())

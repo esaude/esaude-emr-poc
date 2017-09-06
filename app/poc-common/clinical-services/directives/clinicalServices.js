@@ -73,7 +73,8 @@
       var formLayout = clinicalServiceForms.getFormLayouts(service);
       $state.go(formLayout.sufix + formLayout.parts[0].sref, {
         patientUuid: vm.patientUuid,
-        serviceId: service.id
+        serviceId: service.id,
+        encounter: service.hasEntryToday ? service.lastEncounterForService : null
       });
     }
 

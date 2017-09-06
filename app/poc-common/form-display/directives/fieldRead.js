@@ -43,7 +43,6 @@
           vm.payload = value;
           // This makes the directive re-render itself. Needed when vm.payload is loaded asynchronously.
           vm.formPart = angular.copy(vm.formPart);
-          console.log(value);
         }
       });
     }
