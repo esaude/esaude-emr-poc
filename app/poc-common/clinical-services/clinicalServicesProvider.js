@@ -26,7 +26,8 @@
         init: init,
         getFormData: getFormData,
         getFormLayouts: getFormLayouts,
-        getClinicalServiceWithEncountersForPatient: getClinicalServicesWithEncountersForPatient
+        getClinicalServiceWithEncountersForPatient: getClinicalServicesWithEncountersForPatient,
+        loadClinicalServices: loadClinicalServices
       };
 
       return service;
@@ -36,11 +37,11 @@
       /**
        * Loads clinical services and related form layout then registers the required routes for each form and form parts.
        *
-       * NOTE: Don't forget to handle returned promise failure.
+       * NOTE: Don't forget to handle returned promise failure if not using in route resolve.
        *
        * SEE: clinicalServices.json and formLayout.json
        *
-       * @param moduleName Name of the current module being loaded.
+       * @param moduleName Name of the module for which clinical services should be loaded.
        */
       function init(moduleName) {
 
@@ -50,7 +51,7 @@
 
         _currentModule = moduleName;
 
-        return $q.all([loadClinicalServices(), loadFormLayouts()]).then(function (result) {
+        return $q.all([service.loadClinicalServices(), loadFormLayouts()]).then(function (result) {
           _clinicalServices = result[0];
           formLayouts = result[1];
           registerRoutes($state, _clinicalServices, formLayouts);
@@ -126,7 +127,6 @@
       }
 
       /**
-       *
        * @param {Object} [clinicalService]
        * @returns {Object| Array}
        */
@@ -141,6 +141,14 @@
         })[0];
       }
 
+      /**
+       * Loads clinicalServices for current module.
+       *
+       * NOTE: As this method will be decorated for authorization, inside clinicalServicesService always refer to it using
+       * service.loadClinicalServices.
+       *
+       * @returns {Promise}
+       */
       function loadClinicalServices() {
         return $http.get("/poc_config/openmrs/apps/" + _currentModule + "/clinicalServices.json")
           .then(function (response) {
@@ -180,8 +188,10 @@
       }
 
       /**
+       * Returns clinical services with respective encounters.
+       *
        * @param {Object} patient
-       * @param {Object} [service]
+       * @param {Object} [service] The clinical service, if not specified all services will be returned.
        * @returns {Promise}
        */
       function getClinicalServicesWithEncountersForPatient(patient, service) {

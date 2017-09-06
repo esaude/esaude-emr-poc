@@ -6,8 +6,12 @@
     <p class="col-sm-2"><b>{{'COMMON_CLINICAL_SERVICE_HEADER_ACTIONS'| translate}}</b></p>
   </div>
 
-  <div ng-if="vm.services.length === 0">
+  <div ng-if="!vm.services">
     <p class="text-center">{{'LOADING' | translate}}</p>
+  </div>
+
+  <div ng-if="vm.services.length === 0">
+    <p class="text-center">{{ 'NO_LIST_ITEMS' | translate}}</p>
   </div>
 
   <div ng-repeat="service in vm.services">

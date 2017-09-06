@@ -7,7 +7,7 @@ angular.module('common.patient')
 
             return $http.get(url, {
                 method: "GET",
-                params: {searchString: query, addressField: fieldName ,parentField: parentField, parentName: parentName, limit: defaults.maxAutocompleteResults},
+                params: {searchString: query, addressField: fieldName ,parentField: parentField, parentName: parentName, limit: 20},
                 withCredentials: true
             });
         };

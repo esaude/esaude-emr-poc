@@ -28,7 +28,7 @@
 
     var vm = this;
 
-    vm.services = [];
+    vm.services = null;
 
     vm.$onInit = onInit;
     vm.canAdd = canAdd;
