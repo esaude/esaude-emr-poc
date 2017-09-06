@@ -2,13 +2,13 @@
   'use strict';
 
   angular
-    .module('serviceform')
+    .module('poc.common.clinicalservices.serviceform')
     .controller('FormPrintController', FormPrintController);
 
-  FormPrintController.$inject = ['$state', '$stateParams', 'clinicalServiceForms'];
+  FormPrintController.$inject = ['$state', '$stateParams', 'clinicalServicesService'];
 
   /* @ngInject */
-  function FormPrintController($state, $stateParams, clinicalServiceForms) {
+  function FormPrintController($state, $stateParams, clinicalServicesService) {
 
     var patientUUID = $stateParams.patientUuid;
     var encounter = $stateParams.encounter;
@@ -29,9 +29,9 @@
       var patient = {uuid: patientUUID};
       var service = {id: serviceId};
 
-      vm.formInfo = clinicalServiceForms.getFormLayouts({id: serviceId});
+      vm.formInfo = clinicalServicesService.getFormLayouts({id: serviceId});
 
-      clinicalServiceForms.getFormData(patient, service, encounter).then(function (formData) {
+      clinicalServicesService.getFormData(patient, service, encounter).then(function (formData) {
         vm.formPayload = formData;
       });
     }

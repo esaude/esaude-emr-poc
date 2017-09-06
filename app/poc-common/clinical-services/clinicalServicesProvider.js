@@ -1,12 +1,12 @@
 (function () {
   'use strict';
 
-  angular.module('poc.common.formdisplay')
-    .provider('clinicalServiceForms', clinicalServiceFormsProvider);
+  angular.module('poc.common.clinicalservices.formdisplay')
+    .provider('clinicalServicesService', clinicalServicesProvider);
 
-  clinicalServiceFormsProvider.$inject = ['$stateProvider'];
+  clinicalServicesProvider.$inject = ['$stateProvider'];
 
-  function clinicalServiceFormsProvider($stateProvider) {
+  function clinicalServicesProvider($stateProvider) {
 
     this.$get = ClinicalServiceForms;
 
@@ -282,7 +282,7 @@
             templateUrl: '../common/application/views/layout.html',
             controller: 'FormController'
           };
-          state.views["content@" + formLayout.sufix] = {templateUrl: '../service-form/views/form-add.html'};
+          state.views["content@" + formLayout.sufix] = {templateUrl: '../poc-common/clinical-services/service-form/views/form-add.html'};
           $stateProvider.state(formLayout.sufix, state);
         }
 
@@ -291,7 +291,7 @@
           if (!$state.get(formLayout.sufix + part.sref)) {
             var innerState = {
               url: part.sref.replace('.', '/'),
-              templateUrl: '../poc-common/form-display/views/form-part-input-template.html',
+              templateUrl: '../poc-common/clinical-services/form-display/views/form-part-input-template.html',
               resolve: {
                 initialization: 'initialization'
               },
@@ -307,7 +307,7 @@
         if (!$state.get(formLayout.sufix + ".confirm")) {
           var confirmState = {
             url: '/confirm',
-            templateUrl: '../poc-common/form-display/views/form-confirm-template.html',
+            templateUrl: '../poc-common/clinical-services/form-display/views/form-confirm-template.html',
             resolve: {
               initialization: 'initialization'
             },
@@ -329,14 +329,16 @@
             ncyBreadcrumb: {
               skip: true
             },
-            params: { encounter: null }
+            params: {encounter: null}
           };
           displayState.views["layout"] = {
             templateUrl: '../common/application/views/layout.html',
             controller: 'FormPrintController',
             controllerAs: 'vm'
           };
-          displayState.views["content@" + formLayout.sufix + "_display"] = {templateUrl: '../service-form/views/form-display.html'};
+          displayState.views["content@" + formLayout.sufix + "_display"] = {
+            templateUrl: '../poc-common/clinical-services/service-form/views/form-display.html'
+          };
           $stateProvider.state(formLayout.sufix + "_display", displayState);
         }
 

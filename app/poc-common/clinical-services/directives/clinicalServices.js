@@ -21,9 +21,9 @@
   }
 
   ClinicalServiceDirectiveController.$inject = ['$filter', '$q', '$state', 'patientService', 'visitService',
-    'clinicalServiceForms', 'notifier'];
+    'clinicalServicesService', 'notifier'];
 
-  function ClinicalServiceDirectiveController($filter, $q, $state, patientService, visitService, clinicalServiceForms,
+  function ClinicalServiceDirectiveController($filter, $q, $state, patientService, visitService, clinicalServicesService,
                                               notifier) {
 
     var vm = this;
@@ -56,7 +56,7 @@
 
     function initServices(patient, todayVisit) {
 
-      clinicalServiceForms
+      clinicalServicesService
         .getClinicalServiceWithEncountersForPatient(patient)
         .then(function (clinicalServices) {
           vm.services = clinicalServices;
@@ -70,7 +70,7 @@
     }
 
     function linkServiceAdd(service) {
-      var formLayout = clinicalServiceForms.getFormLayouts(service);
+      var formLayout = clinicalServicesService.getFormLayouts(service);
       $state.go(formLayout.sufix + formLayout.parts[0].sref, {
         patientUuid: vm.patientUuid,
         serviceId: service.id,
@@ -79,7 +79,7 @@
     }
 
     function linkServiceEdit(service, encounter) {
-      var formLayout = clinicalServiceForms.getFormLayouts(service);
+      var formLayout = clinicalServicesService.getFormLayouts(service);
       $state.go(formLayout.sufix + formLayout.parts[0].sref, {
         patientUuid: vm.patientUuid,
         serviceId: service.id,
@@ -88,7 +88,7 @@
     }
 
     function linkServiceDisplay(service, encounter) {
-      var formLayout = clinicalServiceForms.getFormLayouts(service);
+      var formLayout = clinicalServicesService.getFormLayouts(service);
       $state.go(formLayout.sufix + '_display', {
         patientUuid: vm.patientUuid,
         serviceId: service.id,

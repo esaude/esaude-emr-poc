@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('poc.common.formdisplay')
+    .module('poc.common.clinicalservices.formdisplay')
     .directive('fieldRead', fieldRead);
 
   fieldRead.$inject = [];
@@ -20,7 +20,7 @@
         formPart: '=',
         displaying: '='
       },
-      templateUrl: ' ../poc-common/form-display/views/fieldRead.html'
+      templateUrl: ' ../poc-common/clinical-services/form-display/views/fieldRead.html'
     };
     return directive;
   }

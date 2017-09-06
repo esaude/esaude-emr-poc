@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('poc.common.formdisplay')
+angular.module('poc.common.clinicalservices.formdisplay')
 .directive('recordAvailabilityValidator', ['$http', function ($http) {
 
     return {

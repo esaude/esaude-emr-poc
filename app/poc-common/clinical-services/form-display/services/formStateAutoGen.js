@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('poc.common.formdisplay')
+    .module('poc.common.clinicalservices.formdisplay')
     .factory('formStatesAutoGen', formStatesAutoGen);
 
   formStatesAutoGen.$inject = [];

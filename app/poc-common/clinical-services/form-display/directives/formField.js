@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('poc.common.formdisplay')
+    .module('poc.common.clinicalservices.formdisplay')
     .directive('formField', formField);
 
   formField.$inject = [];
@@ -21,7 +21,7 @@
         fieldUuid: '=',
         fieldId: '='
       },
-      templateUrl: ' ../poc-common/form-display/views/formField.html'
+      templateUrl: ' ../poc-common/clinical-services/form-display/views/formField.html'
     };
     return directive;
 
@@ -69,7 +69,7 @@
       });
 
       $scope.$watch('formParts', function (value) {
-        if (value) {
+        if (value && value.form) {
           $scope.fieldModel = $scope.formParts.form.fields[$scope.fieldUuid];
 
           if (!$scope.fieldModel.value) {

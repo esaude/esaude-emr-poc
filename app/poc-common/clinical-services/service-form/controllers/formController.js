@@ -2,17 +2,17 @@
   'use strict';
 
   angular
-    .module('serviceform')
+    .module('poc.common.clinicalservices.serviceform')
     .controller('FormController', FormController);
 
   FormController.$inject = ['$rootScope', 'localStorageService', '$stateParams', '$scope', '$state',
     '$location', 'patientAttributeService', 'encounterService', 'visitService',  'notifier', '$filter',
-    'clinicalServiceForms'];
+    'clinicalServicesService'];
 
   /* @ngInject */
   function FormController($rootScope, localStorageService, $stateParams, $scope, $state,
                           $location, patientAttributeService, encounterService, visitService, notifier, $filter,
-                          clinicalServiceForms) {
+                          clinicalServicesService) {
 
     var dateUtil = Bahmni.Common.Util.DateUtil;
 
@@ -43,12 +43,12 @@
     function activate() {
       var currentSref = $state.current.url.replace("/", ".");
 
-      $scope.formInfo = clinicalServiceForms.getFormLayouts({id: serviceId});
+      $scope.formInfo = clinicalServicesService.getFormLayouts({id: serviceId});
 
       var patient = {uuid: patientUUID};
       var service = {id: serviceId};
 
-      clinicalServiceForms.getFormData(patient, service, serviceEncounter).then(function (formData) {
+      clinicalServicesService.getFormData(patient, service, serviceEncounter).then(function (formData) {
         $scope.formPayload = formData;
       });
 
@@ -95,7 +95,7 @@
       return name.trim().replace(/[^a-zA-Z0-9]/g, '');
     }
 
-    // TODO: move this to clinicalServiceForms service
+    // TODO: move this to clinicalServicesService service
     function save() {
       var currDate = Bahmni.Common.Util.DateUtil.now();
       var location = localStorageService.cookie.get("emr.location");

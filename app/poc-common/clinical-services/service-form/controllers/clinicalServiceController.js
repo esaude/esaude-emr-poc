@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('serviceform')
+    .module('poc.common.clinicalservices.serviceform')
     .controller('ClinicalServiceController', ClinicalServiceController);
 
   ClinicalServiceController.$inject = ['$rootScope', '$scope', '$location', '$stateParams', 'formRequestMapper'];
