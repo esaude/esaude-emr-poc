@@ -19,12 +19,8 @@ angular
       'pascalprecht.translate',
       'patient.details',
       'poc.common.clinicalservices',
-      'serviceform',
       'smart-table',
       'ui.checkbox',
-      'ui.router',
+      'ui.router'
     ]
   );
-//to be initialized by config inside app.js
-//needed in dynamic states
-var $stateProviderRef = null;
