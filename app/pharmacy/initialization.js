@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('pharmacy').factory('initialization',
-    ['$cookies', '$rootScope', 'configurations', 'authenticator', 'appService', 'spinner', 'userService', 'formLoader', 'sessionService',
-    function ($cookies, $rootScope, configurations, authenticator, appService, spinner, userService, formLoader, sessionService) {
+    ['$cookies', '$rootScope', 'configurations', 'authenticator', 'appService', 'spinner', 'userService', 'sessionService',
+    function ($cookies, $rootScope, configurations, authenticator, appService, spinner, userService, sessionService) {
         var getConfigs = function () {
             var configNames = ['patientAttributesConfig', 'addressLevels'];
             return configurations.load(configNames).then(function () {
@@ -18,22 +18,8 @@ angular.module('pharmacy').factory('initialization',
             });
         };
 
-        var initForms = function () {
-           return formLoader.load(appService.getAppDescriptor().getClinicalServices()).then(function (data) {
-               $rootScope.serviceForms = data;
-           });
-        };
-
         var initDrugMapping = function () {
             $rootScope.drugMapping = appService.getAppDescriptor().getDrugMapping()[0];
-        };
-
-        var initClinicalServices = function () {
-            $rootScope.clinicalServices = appService.getAppDescriptor().getClinicalServices();
-        };
-
-        var initFormLayout = function () {
-            $rootScope.formLayout = appService.getAppDescriptor().getFormLayout();
         };
 
         var initApp = function() {
@@ -59,10 +45,7 @@ angular.module('pharmacy').factory('initialization',
                 .then(initApp)
                 .then(getConfigs)
                 .then(loadUser)
-                .then(initFormLayout)
-                .then(initForms)
                 .then(initDrugMapping)
-                .then(initClinicalServices)
                 .then(loadProvider));
     }]
 );

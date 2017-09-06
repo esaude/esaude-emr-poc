@@ -1,6 +1,5 @@
 angular
-  .module('pharmacy',
-    [
+  .module('pharmacy', [
       'application',
       'bahmni.common.appFramework',
       'bahmni.common.appFramework',
@@ -22,13 +21,8 @@ angular
       'pascalprecht.translate',
       'patient.details',
       'poc.common.clinicalservices',
-      'serviceform',
       'smart-table',
       'ui.bootstrap',
       'ui.checkbox',
       'ui.router'
-    ]
-  );
-//to be initialized by config inside app.js
-//needed in dynamic states
-var $stateProviderRef = null;
+    ]);
