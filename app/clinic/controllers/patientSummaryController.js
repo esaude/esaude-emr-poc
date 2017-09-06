@@ -5,7 +5,7 @@
     .controller('PatientSummaryController', PatientSummaryController);
 
   PatientSummaryController.$inject = ['$rootScope', '$stateParams', 'encounterService', 'observationsService',
-    'commonService', 'orderService', '$filter', 'spinner', 'prescriptionService', 'patientService'];
+    'commonService', '$filter', 'spinner', 'prescriptionService', 'patientService'];
 
   /* @ngInject */
   function PatientSummaryController($rootScope, $stateParams, encounterService, observationsService, commonService,
