@@ -288,5 +288,6 @@
     "REMOVE_ALL": "Remover Todos",
     "CHECKIN_CHECKED_IN_TODAY": "Deu entrada hoje em {{visittype}} aos {{startdatetime}}",
     "CHECKIN_NOT_CHECKED_IN_TODAY": "Ainda não deu entrada hoje",
-    "CHECKIN_UNTERMINATED_VISIT": "Tem uma visita não terminada de {{visittype}}, iniciada aos {{startdatetime}}"
+    "CHECKIN_UNTERMINATED_VISIT": "Tem uma visita não terminada de {{visittype}}, iniciada aos {{startdatetime}}",
+    "LOADING": "Carregando..."
 }

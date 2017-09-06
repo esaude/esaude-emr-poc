@@ -7,7 +7,7 @@
   </div>
 
   <div ng-if="vm.services.length === 0">
-    <p style="text-align: center;">Loading...</p>
+    <p class="text-center">{{'LOADING' | translate}}</p>
   </div>
 
   <div ng-repeat="service in vm.services">
