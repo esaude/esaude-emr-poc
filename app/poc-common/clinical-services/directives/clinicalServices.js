@@ -151,9 +151,12 @@
     }
 
     function getVisibleServices() {
-      return vm.services.filter(function (s) {
-        return s.showService;
-      })
+      if (vm.services) {
+        return vm.services.filter(function (s) {
+          return s.showService;
+        });
+      }
+      return null;
     }
 
   }
