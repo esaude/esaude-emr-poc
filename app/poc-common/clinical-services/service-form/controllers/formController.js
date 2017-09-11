@@ -95,7 +95,7 @@
       return name.trim().replace(/[^a-zA-Z0-9]/g, '');
     }
 
-    // TODO: move this to clinicalServicesService service
+    // TODO: move this to clinicalServicesService
     function save() {
       var currDate = Bahmni.Common.Util.DateUtil.now();
       var location = localStorageService.cookie.get("emr.location");
