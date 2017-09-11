@@ -33,6 +33,7 @@
     vm.$onInit = onInit;
     vm.canAdd = canAdd;
     vm.getPrivilege = getPrivilege;
+    vm.getVisibleServices = getVisibleServices;
     vm.linkServiceAdd = linkServiceAdd;
     vm.linkServiceDisplay = linkServiceDisplay;
     vm.linkServiceEdit = linkServiceEdit;
@@ -147,6 +148,12 @@
 
     function getPrivilege(prefix, service) {
       return prefix + ' ' + service.privilege;
+    }
+
+    function getVisibleServices() {
+      return vm.services.filter(function (s) {
+        return s.showService;
+      })
     }
 
   }

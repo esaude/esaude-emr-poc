@@ -6,16 +6,16 @@
     <p class="col-sm-2"><b>{{'COMMON_CLINICAL_SERVICE_HEADER_ACTIONS'| translate}}</b></p>
   </div>
 
-  <div ng-if="!vm.services">
+  <div ng-if="!vm.getVisibleServices()">
     <p class="text-center">{{'LOADING' | translate}}</p>
   </div>
 
-  <div ng-if="vm.services.length === 0">
+  <div ng-if="vm.getVisibleServices().length === 0">
     <p class="text-center">{{ 'NO_LIST_ITEMS' | translate}}</p>
   </div>
 
-  <div ng-repeat="service in vm.services">
-    <div class="list-group-item" ng-if="service.showService">
+  <div ng-repeat="service in vm.getVisibleServices()">
+    <div class="list-group-item">
       <div class="row">
         <div class="col-sm-4">
           <p>{{service.label | translate | uppercase}}</p>
