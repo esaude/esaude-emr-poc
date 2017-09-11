@@ -24,7 +24,7 @@
     ];
 
     vm.displayLimit = _.find(vm.displayLimits, function (item) {
-      return item.value === $rootScope.defaultDisplayLimit;
+      return item.value === +$rootScope.defaultDisplayLimit;
     });
 
     vm.filterDate = filterDate;
