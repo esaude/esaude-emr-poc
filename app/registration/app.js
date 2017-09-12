@@ -197,6 +197,13 @@
         ncyBreadcrumb: {
           label: '{{\'EDIT_PATIENT\' | translate }}',
           parent: 'dashboard'
+        },
+        resolve: {
+          patient: function ($stateParams, initialization, patientService) {
+            return initialization.then(function () {
+              return patientService.getPatient($stateParams.patientUuid);
+            });
+          }
         }
       })
       .state('editpatient.name', {
