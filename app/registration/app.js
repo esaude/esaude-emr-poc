@@ -279,6 +279,9 @@
         ncyBreadcrumb: {
           label: '{{\'PATIENT_DETAILS\' | translate }}',
           parent: 'dashboard'
+        },
+        resolve: {
+          initialization: 'initialization'
         }
       });
   }

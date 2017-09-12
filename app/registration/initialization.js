@@ -13,7 +13,6 @@ angular.module('registration').factory('initialization',
                 $rootScope.defaultVisitTypes = appService.getAppDescriptor().getConfigValue("defaultVisitTypes");
                 $rootScope.landingPageAfterSearch = appService.getAppDescriptor().getConfigValue("landingPageAfterSearch");
                 $rootScope.landingPageAfterSave = appService.getAppDescriptor().getConfigValue("landingPageAfterSave");
-                $rootScope.addressLevels = configurations.addressLevels();
                 $rootScope.appId = appService.getAppDescriptor().getId();
             });
         };
