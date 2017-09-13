@@ -38,7 +38,7 @@
         </div>
 
         <div ng-if="fieldMeta.fieldConcept.concept.datatype.display === 'Date'">
-          {{fieldMeta.value | date:"MM/dd/yyyy"}}
+          {{fieldMeta.value | date:Poc.Common.Constants.dateFormat}}
         </div>
 
         <div ng-if="fieldMeta.fieldConcept.concept.datatype.display === 'Datetime'">

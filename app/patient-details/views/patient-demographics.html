@@ -6,7 +6,7 @@
         <b>{{'PATIENT_INFO_GENDER' | translate}}: </b> {{patientCommon.patient.gender}}
     </li>
     <li class="list-group-item">
-        <b>{{'PATIENT_INFO_BIRTHDATE' | translate}}: </b> {{patientCommon.patient.birthdate | date:"MM/dd/yyyy"}} <b> {{'PATIENT_INFO_ESTIMATED' | translate}}: </b> {{(patientCommon.patient.birthdateEstimated == true)? 'COMMON_YES' : 'COMMON_NO' | translate}}
+        <b>{{'PATIENT_INFO_BIRTHDATE' | translate}}: </b> {{patientCommon.patient.birthdate | date}} <b> {{'PATIENT_INFO_ESTIMATED' | translate}}: </b> {{(patientCommon.patient.birthdateEstimated == true)? 'COMMON_YES' : 'COMMON_NO' | translate}}
     </li>
     <li class="list-group-item">
         <b>{{'PATIENT_INFO_AGE' | translate}}: </b> {{patientCommon.patient.age.years}}

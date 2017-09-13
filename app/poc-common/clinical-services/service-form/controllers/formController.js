@@ -6,13 +6,13 @@
     .controller('FormController', FormController);
 
   FormController.$inject = ['$location', '$q', '$rootScope', '$scope', '$state', '$stateParams',
-    'clinicalServicesService', 'encounterService', '$filter', 'localStorageService', 'notifier',
-    'patientAttributeService', 'spinner', 'visitService'];
+    'clinicalServicesService', 'createEncounterMapper', 'encounterService', '$filter', 'localStorageService', 'notifier',
+    'patientAttributeService', 'spinner', 'visitService', 'updateEncounterMapper'];
 
   /* @ngInject */
   function FormController($location, $q, $rootScope, $scope, $state, $stateParams, clinicalServicesService,
-                          encounterService, $filter, localStorageService, notifier, patientAttributeService,
-                          spinner, visitService) {
+                          createEncounterMapper, encounterService, $filter, localStorageService, notifier, patientAttributeService,
+                          spinner, visitService, updateEncounterMapper) {
 
     var dateUtil = Bahmni.Common.Util.DateUtil;
 
@@ -105,13 +105,12 @@
       var currDate = Bahmni.Common.Util.DateUtil.now();
       var location = localStorageService.cookie.get("emr.location");
 
-      var createEncounterMapper = new Poc.Common.CreateEncounterRequestMapper(currDate);
-
       var openMRSEncounter = createEncounterMapper.mapFromFormPayload($scope.formPayload,
         $scope.formInfo.parts,
         $scope.patient.uuid,
         location.uuid,
-        $rootScope.currentUser.person.uuid);//set date
+        $rootScope.currentUser.person.uuid,
+        currDate);//set date
 
       var clinicalService = $scope.formPayload.service;
 
@@ -130,8 +129,6 @@
         if (serviceEncounter === clinicalService.lastEncounterForService) {
           openMRSEncounter = addMappedDateObs(clinicalService, openMRSEncounter);
         }
-
-        var updateEncounterMapper = new Poc.Common.UpdateEncounterRequestMapper(currDate);
 
         var editEncounter = updateEncounterMapper.mapFromFormPayload(openMRSEncounter, $scope.formPayload.encounter);
 

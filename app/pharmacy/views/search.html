@@ -78,7 +78,7 @@
                 <tr ng-repeat="patient in cohortMembers" ng-click="linkDashboard(patient)">
                     <td>{{patient.display}}</td>
                     <td>{{patient.lastEncounter.provider.display}}</td>
-                    <td>{{patient.lastEncounter.encounterDatetime | date:"MMM d, y h:mm:ss a"}}</td>
+                    <td>{{patient.lastEncounter.encounterDatetime | date:'medium'}}</td>
                 </tr>
             </tbody>
             <tfoot>

@@ -1,0 +1,1459 @@
+{
+  "results": [
+    {
+      "uuid": "ceb22fe4-a88f-4959-a085-9d5c741d18fb",
+      "provider": {
+        "uuid": "7c59c517-bfd1-487d-a76f-0b90cd975fd1",
+        "display": "",
+        "person": {
+          "uuid": "e2bc25aa-1d5f-11e0-b929-000c29ad1d07",
+          "display": "Super User",
+          "links": [
+            {
+              "rel": "self",
+              "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/person/e2bc25aa-1d5f-11e0-b929-000c29ad1d07"
+            }
+          ]
+        },
+        "identifier": null,
+        "attributes": [],
+        "retired": false,
+        "links": [
+          {
+            "rel": "self",
+            "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/provider/7c59c517-bfd1-487d-a76f-0b90cd975fd1"
+          },
+          {
+            "rel": "full",
+            "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/provider/7c59c517-bfd1-487d-a76f-0b90cd975fd1?v=full"
+          }
+        ],
+        "resourceVersion": "1.9"
+      },
+      "patient": {
+        "uuid": "e5ce82d7-c09c-44f8-83d8-438d2b974975",
+        "display": "12124578/45/89777 - last Stand",
+        "identifiers": [
+          {
+            "uuid": "4536af48-f4bf-450e-8c32-ab8b51203cfb",
+            "display": "NID (SERVICO TARV) = 12124578/45/89777",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/patient/e5ce82d7-c09c-44f8-83d8-438d2b974975/identifier/4536af48-f4bf-450e-8c32-ab8b51203cfb"
+              }
+            ]
+          }
+        ],
+        "person": {
+          "uuid": "e5ce82d7-c09c-44f8-83d8-438d2b974975",
+          "display": "last Stand",
+          "gender": "M",
+          "age": 45,
+          "birthdate": "1972-07-06T00:00:00.000+0200",
+          "birthdateEstimated": true,
+          "dead": false,
+          "deathDate": null,
+          "causeOfDeath": null,
+          "preferredName": {
+            "uuid": "c0f21e97-feb2-4bac-969b-d2c8124cbaba",
+            "display": "last Stand",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/person/e5ce82d7-c09c-44f8-83d8-438d2b974975/name/c0f21e97-feb2-4bac-969b-d2c8124cbaba"
+              }
+            ]
+          },
+          "preferredAddress": {
+            "uuid": "3f2afc00-f785-49c0-b1c5-ac227bcfe031",
+            "display": null,
+            "links": [
+              {
+                "rel": "self",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/person/e5ce82d7-c09c-44f8-83d8-438d2b974975/address/3f2afc00-f785-49c0-b1c5-ac227bcfe031"
+              }
+            ]
+          },
+          "attributes": [],
+          "voided": false,
+          "deathdateEstimated": false,
+          "birthtime": null,
+          "links": [
+            {
+              "rel": "self",
+              "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/person/e5ce82d7-c09c-44f8-83d8-438d2b974975"
+            },
+            {
+              "rel": "full",
+              "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/person/e5ce82d7-c09c-44f8-83d8-438d2b974975?v=full"
+            }
+          ],
+          "resourceVersion": "1.11"
+        },
+        "voided": false,
+        "links": [
+          {
+            "rel": "self",
+            "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/patient/e5ce82d7-c09c-44f8-83d8-438d2b974975"
+          },
+          {
+            "rel": "full",
+            "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/patient/e5ce82d7-c09c-44f8-83d8-438d2b974975?v=full"
+          }
+        ],
+        "resourceVersion": "1.8"
+      },
+      "prescriptionDate": "2017-07-27T09:18:34.000+0200",
+      "prescriptionItems": [
+        {
+          "display": "Tenofovir/lamivudina/efavirenz 300mg + 300mg + 600mg 30comp (embalagem)",
+          "prescriptionUuid": "ceb22fe4-a88f-4959-a085-9d5c741d18fb",
+          "drugToPickUp": 60,
+          "drugPickedUp": 0,
+          "drugOrder": {
+            "uuid": "b3cf7702-f88d-4de4-8bb3-7e9b0d9ef865",
+            "orderNumber": "ORD-365",
+            "patient": {
+              "uuid": "e5ce82d7-c09c-44f8-83d8-438d2b974975",
+              "display": "12124578/45/89777 - last Stand",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/patient/e5ce82d7-c09c-44f8-83d8-438d2b974975"
+                }
+              ]
+            },
+            "concept": {
+              "uuid": "adec1dba-610f-4548-bf5d-cda3bfc34d2a",
+              "display": "TENOFOVIR/LAMIVUDINA/EFAVIRENZ",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/adec1dba-610f-4548-bf5d-cda3bfc34d2a"
+                }
+              ]
+            },
+            "action": "NEW",
+            "careSetting": {
+              "uuid": "6f0c9a92-6f24-11e3-af88-005056821db0",
+              "display": "Outpatient",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/caresetting/6f0c9a92-6f24-11e3-af88-005056821db0"
+                }
+              ]
+            },
+            "previousOrder": null,
+            "dateActivated": "2017-07-27T09:19:45.000+0200",
+            "dateStopped": null,
+            "autoExpireDate": "2017-09-27T09:19:44.000+0200",
+            "encounter": {
+              "uuid": "f876eb11-d8d5-415c-b2d4-334bb60a647c",
+              "display": "S.TARV: ADULTO SEGUIMENTO 07/27/2017",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/encounter/f876eb11-d8d5-415c-b2d4-334bb60a647c"
+                }
+              ]
+            },
+            "orderer": {
+              "uuid": "7c59c517-bfd1-487d-a76f-0b90cd975fd1",
+              "display": "",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/provider/7c59c517-bfd1-487d-a76f-0b90cd975fd1"
+                }
+              ]
+            },
+            "orderReason": null,
+            "orderReasonNonCoded": null,
+            "urgency": "ROUTINE",
+            "instructions": null,
+            "commentToFulfiller": null,
+            "display": "(NEW) Tenofovir/lamivudina/efavirenz 300mg + 300mg + 600mg 30comp (embalagem): 1.0 Tablet(s) Oral Once a day 2 Month(s) 9d74899a-10e8-11e5-9009-0242ac110012",
+            "drug": {
+              "uuid": "15d8350e-7a8e-4d38-9f52-89fecdfbaed7",
+              "display": "Tenofovir/lamivudina/efavirenz 300mg + 300mg + 600mg 30comp (embalagem)",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/arvdrug/15d8350e-7a8e-4d38-9f52-89fecdfbaed7"
+                }
+              ]
+            },
+            "dosingType": "org.openmrs.SimpleDosingInstructions",
+            "dose": 1,
+            "doseUnits": {
+              "uuid": "9d674660-10e8-11e5-9009-0242ac110012",
+              "display": "Tablet(s)",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/9d674660-10e8-11e5-9009-0242ac110012"
+                }
+              ]
+            },
+            "frequency": {
+              "uuid": "9d7127f9-10e8-11e5-9009-0242ac110012",
+              "display": "Once a day",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/orderfrequency/9d7127f9-10e8-11e5-9009-0242ac110012"
+                }
+              ]
+            },
+            "asNeeded": false,
+            "asNeededCondition": null,
+            "quantity": 60,
+            "quantityUnits": {
+              "uuid": "9d674660-10e8-11e5-9009-0242ac110012",
+              "display": "Tablet(s)",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/9d674660-10e8-11e5-9009-0242ac110012"
+                }
+              ]
+            },
+            "numRefills": 0,
+            "dosingInstructions": "9d74899a-10e8-11e5-9009-0242ac110012",
+            "duration": 2,
+            "durationUnits": {
+              "uuid": "9d96d012-10e8-11e5-9009-0242ac110012",
+              "display": "Month(s)",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/9d96d012-10e8-11e5-9009-0242ac110012"
+                }
+              ]
+            },
+            "route": {
+              "uuid": "9d6b861d-10e8-11e5-9009-0242ac110012",
+              "display": "Oral",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/9d6b861d-10e8-11e5-9009-0242ac110012"
+                }
+              ]
+            },
+            "brandName": null,
+            "dispenseAsWritten": false,
+            "links": [
+              {
+                "rel": "self",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/order/b3cf7702-f88d-4de4-8bb3-7e9b0d9ef865"
+              },
+              {
+                "rel": "full",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/order/b3cf7702-f88d-4de4-8bb3-7e9b0d9ef865?v=full"
+              }
+            ],
+            "type": "drugorder",
+            "resourceVersion": "1.10"
+          },
+          "dosingInstructions": "Depois das refeições",
+          "regime": {
+            "uuid": "9dc17c1b-7b6d-488e-a38d-505a7b65ec82",
+            "display": "TDF+3TC+EFV",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/9dc17c1b-7b6d-488e-a38d-505a7b65ec82"
+              }
+            ]
+          },
+          "arvPlan": {
+            "uuid": "e1d9f036-1d5f-11e0-b929-000c29ad1d07",
+            "display": "CONTINUE REGIMEN",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/e1d9f036-1d5f-11e0-b929-000c29ad1d07"
+              }
+            ]
+          },
+          "therapeuticLine": {
+            "uuid": "a6bbe1ac-5243-40e4-98cb-7d4a1467dfbe",
+            "display": "FIRST LINE",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/a6bbe1ac-5243-40e4-98cb-7d4a1467dfbe"
+              }
+            ]
+          },
+          "changeReason": null,
+          "interruptionReason": null,
+          "status": "NEW",
+          "links": [
+            {
+              "rel": "self",
+              "uri": "/prescriptionItem/415b7922-483f-49d1-a112-ef5198f425ad"
+            },
+            {
+              "rel": "full",
+              "uri": "/prescriptionItem/415b7922-483f-49d1-a112-ef5198f425ad?v=full"
+            }
+          ],
+          "resourceVersion": "1.8"
+        },
+        {
+          "display": "Efavirenz (efv) 50mg 30caps (embalagem)",
+          "prescriptionUuid": "ceb22fe4-a88f-4959-a085-9d5c741d18fb",
+          "drugToPickUp": 30,
+          "drugPickedUp": 0,
+          "drugOrder": {
+            "uuid": "b1e565fd-2b0e-4ee4-a38e-43f91b4a857a",
+            "orderNumber": "ORD-366",
+            "patient": {
+              "uuid": "e5ce82d7-c09c-44f8-83d8-438d2b974975",
+              "display": "12124578/45/89777 - last Stand",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/patient/e5ce82d7-c09c-44f8-83d8-438d2b974975"
+                }
+              ]
+            },
+            "concept": {
+              "uuid": "dea3d292-f5d5-4f22-b220-07cedf706c55",
+              "display": "EFAVIRENZ (EFV)",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/dea3d292-f5d5-4f22-b220-07cedf706c55"
+                }
+              ]
+            },
+            "action": "NEW",
+            "careSetting": {
+              "uuid": "6f0c9a92-6f24-11e3-af88-005056821db0",
+              "display": "Outpatient",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/caresetting/6f0c9a92-6f24-11e3-af88-005056821db0"
+                }
+              ]
+            },
+            "previousOrder": null,
+            "dateActivated": "2017-07-27T09:19:45.000+0200",
+            "dateStopped": null,
+            "autoExpireDate": "2017-09-27T09:19:44.000+0200",
+            "encounter": {
+              "uuid": "f876eb11-d8d5-415c-b2d4-334bb60a647c",
+              "display": "S.TARV: ADULTO SEGUIMENTO 07/27/2017",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/encounter/f876eb11-d8d5-415c-b2d4-334bb60a647c"
+                }
+              ]
+            },
+            "orderer": {
+              "uuid": "7c59c517-bfd1-487d-a76f-0b90cd975fd1",
+              "display": "",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/provider/7c59c517-bfd1-487d-a76f-0b90cd975fd1"
+                }
+              ]
+            },
+            "orderReason": null,
+            "orderReasonNonCoded": null,
+            "urgency": "ROUTINE",
+            "instructions": null,
+            "commentToFulfiller": null,
+            "display": "(NEW) Efavirenz (efv) 50mg 30caps (embalagem): 1.0 Tablet(s) Oral Once a day 2 Month(s) 9d74899a-10e8-11e5-9009-0242ac110012",
+            "drug": {
+              "uuid": "aaaafe5a-0dd7-4543-a10f-c51cda6bb1b0",
+              "display": "Efavirenz (efv) 50mg 30caps (embalagem)",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/arvdrug/aaaafe5a-0dd7-4543-a10f-c51cda6bb1b0"
+                }
+              ]
+            },
+            "dosingType": "org.openmrs.SimpleDosingInstructions",
+            "dose": 1,
+            "doseUnits": {
+              "uuid": "9d674660-10e8-11e5-9009-0242ac110012",
+              "display": "Tablet(s)",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/9d674660-10e8-11e5-9009-0242ac110012"
+                }
+              ]
+            },
+            "frequency": {
+              "uuid": "9d7127f9-10e8-11e5-9009-0242ac110012",
+              "display": "Once a day",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/orderfrequency/9d7127f9-10e8-11e5-9009-0242ac110012"
+                }
+              ]
+            },
+            "asNeeded": false,
+            "asNeededCondition": null,
+            "quantity": 30,
+            "quantityUnits": {
+              "uuid": "9d674660-10e8-11e5-9009-0242ac110012",
+              "display": "Tablet(s)",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/9d674660-10e8-11e5-9009-0242ac110012"
+                }
+              ]
+            },
+            "numRefills": 0,
+            "dosingInstructions": "9d74899a-10e8-11e5-9009-0242ac110012",
+            "duration": 2,
+            "durationUnits": {
+              "uuid": "9d96d012-10e8-11e5-9009-0242ac110012",
+              "display": "Month(s)",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/9d96d012-10e8-11e5-9009-0242ac110012"
+                }
+              ]
+            },
+            "route": {
+              "uuid": "9d6b861d-10e8-11e5-9009-0242ac110012",
+              "display": "Oral",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/9d6b861d-10e8-11e5-9009-0242ac110012"
+                }
+              ]
+            },
+            "brandName": null,
+            "dispenseAsWritten": false,
+            "links": [
+              {
+                "rel": "self",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/order/b1e565fd-2b0e-4ee4-a38e-43f91b4a857a"
+              },
+              {
+                "rel": "full",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/order/b1e565fd-2b0e-4ee4-a38e-43f91b4a857a?v=full"
+              }
+            ],
+            "type": "drugorder",
+            "resourceVersion": "1.10"
+          },
+          "dosingInstructions": "Depois das refeições",
+          "regime": {
+            "uuid": "9dc17c1b-7b6d-488e-a38d-505a7b65ec82",
+            "display": "TDF+3TC+EFV",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/9dc17c1b-7b6d-488e-a38d-505a7b65ec82"
+              }
+            ]
+          },
+          "arvPlan": {
+            "uuid": "e1d9f036-1d5f-11e0-b929-000c29ad1d07",
+            "display": "CONTINUE REGIMEN",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/e1d9f036-1d5f-11e0-b929-000c29ad1d07"
+              }
+            ]
+          },
+          "therapeuticLine": {
+            "uuid": "a6bbe1ac-5243-40e4-98cb-7d4a1467dfbe",
+            "display": "FIRST LINE",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/a6bbe1ac-5243-40e4-98cb-7d4a1467dfbe"
+              }
+            ]
+          },
+          "changeReason": null,
+          "interruptionReason": null,
+          "status": "NEW",
+          "links": [
+            {
+              "rel": "self",
+              "uri": "/prescriptionItem/6f287beb-e12d-4e2c-a377-91ed1f57e800"
+            },
+            {
+              "rel": "full",
+              "uri": "/prescriptionItem/6f287beb-e12d-4e2c-a377-91ed1f57e800?v=full"
+            }
+          ],
+          "resourceVersion": "1.8"
+        }
+      ],
+      "prescriptionEncounter": {
+        "uuid": "f876eb11-d8d5-415c-b2d4-334bb60a647c",
+        "display": "S.TARV: ADULTO SEGUIMENTO 07/27/2017",
+        "encounterDatetime": "2017-07-27T09:18:34.000+0200",
+        "patient": {
+          "uuid": "e5ce82d7-c09c-44f8-83d8-438d2b974975",
+          "display": "12124578/45/89777 - last Stand",
+          "links": [
+            {
+              "rel": "self",
+              "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/patient/e5ce82d7-c09c-44f8-83d8-438d2b974975"
+            }
+          ]
+        },
+        "location": {
+          "uuid": "8d6c993e-c2cc-11de-8d13-0010c6dffd0f",
+          "display": "Local Desconhecido",
+          "links": [
+            {
+              "rel": "self",
+              "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/location/8d6c993e-c2cc-11de-8d13-0010c6dffd0f"
+            }
+          ]
+        },
+        "form": null,
+        "encounterType": {
+          "uuid": "e278f956-1d5f-11e0-b929-000c29ad1d07",
+          "display": "S.TARV: ADULTO SEGUIMENTO",
+          "links": [
+            {
+              "rel": "self",
+              "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/encountertype/e278f956-1d5f-11e0-b929-000c29ad1d07"
+            }
+          ]
+        },
+        "obs": [
+          {
+            "uuid": "17ea44b4-2fc9-4c2a-bf88-f40636153cb7",
+            "display": "PREVIOUS ANTIRETROVIRAL DRUGS USED FOR TREATMENT: TDF+3TC+EFV",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/obs/17ea44b4-2fc9-4c2a-bf88-f40636153cb7"
+              }
+            ]
+          },
+          {
+            "uuid": "445927f5-7f46-4d50-a1cf-c27f29cb3588",
+            "display": "ANTIRETROVIRAL PLAN: CONTINUE REGIMEN",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/obs/445927f5-7f46-4d50-a1cf-c27f29cb3588"
+              }
+            ]
+          },
+          {
+            "uuid": "4453f3be-6dc8-46b1-b026-e85a5bf6904f",
+            "display": "THERAPEUTIC LINE: FIRST LINE",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/obs/4453f3be-6dc8-46b1-b026-e85a5bf6904f"
+              }
+            ]
+          },
+          {
+            "uuid": "0dc35cc9-4de3-4ff1-bedb-fca8cd303338",
+            "display": "POC MAPPING PRESCRIPTION DATE: July 27, 2017 9:18:34 AM CAT",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/obs/0dc35cc9-4de3-4ff1-bedb-fca8cd303338"
+              }
+            ]
+          }
+        ],
+        "orders": [
+          {
+            "uuid": "b3cf7702-f88d-4de4-8bb3-7e9b0d9ef865",
+            "display": "(NEW) Tenofovir/lamivudina/efavirenz 300mg + 300mg + 600mg 30comp (embalagem): 1.0 Tablet(s) Oral Once a day 2 Month(s) 9d74899a-10e8-11e5-9009-0242ac110012",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/order/b3cf7702-f88d-4de4-8bb3-7e9b0d9ef865"
+              }
+            ],
+            "type": "drugorder"
+          },
+          {
+            "uuid": "b1e565fd-2b0e-4ee4-a38e-43f91b4a857a",
+            "display": "(NEW) Efavirenz (efv) 50mg 30caps (embalagem): 1.0 Tablet(s) Oral Once a day 2 Month(s) 9d74899a-10e8-11e5-9009-0242ac110012",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/order/b1e565fd-2b0e-4ee4-a38e-43f91b4a857a"
+              }
+            ],
+            "type": "drugorder"
+          }
+        ],
+        "voided": false,
+        "visit": null,
+        "encounterProviders": [
+          {
+            "uuid": "0a6bb281-5138-4ff4-a72c-320a683714c4",
+            "display": "Super User: Unknown",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/encounter/f876eb11-d8d5-415c-b2d4-334bb60a647c/encounterprovider/0a6bb281-5138-4ff4-a72c-320a683714c4"
+              }
+            ]
+          }
+        ],
+        "links": [
+          {
+            "rel": "self",
+            "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/encounter/f876eb11-d8d5-415c-b2d4-334bb60a647c"
+          },
+          {
+            "rel": "full",
+            "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/encounter/f876eb11-d8d5-415c-b2d4-334bb60a647c?v=full"
+          }
+        ],
+        "resourceVersion": "1.9"
+      },
+      "location": {
+        "uuid": "8d6c993e-c2cc-11de-8d13-0010c6dffd0f",
+        "display": "Local Desconhecido",
+        "name": "Local Desconhecido",
+        "description": "Sem Informaçao",
+        "address1": null,
+        "address2": null,
+        "cityVillage": null,
+        "stateProvince": null,
+        "country": "Mozambique",
+        "postalCode": null,
+        "latitude": null,
+        "longitude": null,
+        "countyDistrict": null,
+        "address3": null,
+        "address4": null,
+        "address5": null,
+        "address6": null,
+        "tags": [
+          {
+            "uuid": "b8bbf83e-645f-451f-8efe-a0db56f09676",
+            "display": "Login Location",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/locationtag/b8bbf83e-645f-451f-8efe-a0db56f09676"
+              }
+            ]
+          }
+        ],
+        "parentLocation": null,
+        "childLocations": [],
+        "retired": false,
+        "attributes": [],
+        "links": [
+          {
+            "rel": "self",
+            "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/location/8d6c993e-c2cc-11de-8d13-0010c6dffd0f"
+          },
+          {
+            "rel": "full",
+            "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/location/8d6c993e-c2cc-11de-8d13-0010c6dffd0f?v=full"
+          }
+        ],
+        "resourceVersion": "1.9"
+      },
+      "regime": {
+        "uuid": "9dc17c1b-7b6d-488e-a38d-505a7b65ec82",
+        "display": "TDF+3TC+EFV",
+        "name": {
+          "display": "TDF+3TC+EFV",
+          "uuid": "473fa544-8aec-4ab4-8dd4-ded52ea959aa",
+          "name": "TDF+3TC+EFV",
+          "locale": "en",
+          "localePreferred": true,
+          "conceptNameType": "FULLY_SPECIFIED",
+          "links": [
+            {
+              "rel": "self",
+              "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/9dc17c1b-7b6d-488e-a38d-505a7b65ec82/name/473fa544-8aec-4ab4-8dd4-ded52ea959aa"
+            },
+            {
+              "rel": "full",
+              "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/9dc17c1b-7b6d-488e-a38d-505a7b65ec82/name/473fa544-8aec-4ab4-8dd4-ded52ea959aa?v=full"
+            }
+          ],
+          "resourceVersion": "1.9"
+        },
+        "datatype": {
+          "uuid": "8d4a4c94-c2cc-11de-8d13-0010c6dffd0f",
+          "display": "N/A",
+          "links": [
+            {
+              "rel": "self",
+              "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/conceptdatatype/8d4a4c94-c2cc-11de-8d13-0010c6dffd0f"
+            }
+          ]
+        },
+        "conceptClass": {
+          "uuid": "8d490dfc-c2cc-11de-8d13-0010c6dffd0f",
+          "display": "Drug",
+          "links": [
+            {
+              "rel": "self",
+              "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/conceptclass/8d490dfc-c2cc-11de-8d13-0010c6dffd0f"
+            }
+          ]
+        },
+        "set": false,
+        "version": null,
+        "retired": false,
+        "names": [
+          {
+            "uuid": "fe655ef9-4680-40c2-b1a0-197f972250b6",
+            "display": "TDF+3TC+EFV",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/9dc17c1b-7b6d-488e-a38d-505a7b65ec82/name/fe655ef9-4680-40c2-b1a0-197f972250b6"
+              }
+            ]
+          },
+          {
+            "uuid": "473fa544-8aec-4ab4-8dd4-ded52ea959aa",
+            "display": "TDF+3TC+EFV",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/9dc17c1b-7b6d-488e-a38d-505a7b65ec82/name/473fa544-8aec-4ab4-8dd4-ded52ea959aa"
+              }
+            ]
+          }
+        ],
+        "descriptions": [],
+        "mappings": [
+          {
+            "uuid": "47139819-da81-45d0-9fd4-486278a0496c",
+            "display": "eSaude: 6324",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/9dc17c1b-7b6d-488e-a38d-505a7b65ec82/mapping/47139819-da81-45d0-9fd4-486278a0496c"
+              }
+            ]
+          }
+        ],
+        "answers": [],
+        "setMembers": [],
+        "links": [
+          {
+            "rel": "self",
+            "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/9dc17c1b-7b6d-488e-a38d-505a7b65ec82"
+          },
+          {
+            "rel": "full",
+            "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/9dc17c1b-7b6d-488e-a38d-505a7b65ec82?v=full"
+          }
+        ],
+        "resourceVersion": "1.11"
+      },
+      "arvPlan": {
+        "uuid": "e1d9f036-1d5f-11e0-b929-000c29ad1d07",
+        "display": "CONTINUE REGIMEN",
+        "name": {
+          "display": "CONTINUE REGIMEN",
+          "uuid": "e2404f70-1d5f-11e0-b929-000c29ad1d07",
+          "name": "CONTINUE REGIMEN",
+          "locale": "en",
+          "localePreferred": true,
+          "conceptNameType": "FULLY_SPECIFIED",
+          "links": [
+            {
+              "rel": "self",
+              "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/e1d9f036-1d5f-11e0-b929-000c29ad1d07/name/e2404f70-1d5f-11e0-b929-000c29ad1d07"
+            },
+            {
+              "rel": "full",
+              "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/e1d9f036-1d5f-11e0-b929-000c29ad1d07/name/e2404f70-1d5f-11e0-b929-000c29ad1d07?v=full"
+            }
+          ],
+          "resourceVersion": "1.9"
+        },
+        "datatype": {
+          "uuid": "8d4a4c94-c2cc-11de-8d13-0010c6dffd0f",
+          "display": "N/A",
+          "links": [
+            {
+              "rel": "self",
+              "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/conceptdatatype/8d4a4c94-c2cc-11de-8d13-0010c6dffd0f"
+            }
+          ]
+        },
+        "conceptClass": {
+          "uuid": "8d492ee0-c2cc-11de-8d13-0010c6dffd0f",
+          "display": "Misc Order",
+          "links": [
+            {
+              "rel": "self",
+              "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/conceptclass/8d492ee0-c2cc-11de-8d13-0010c6dffd0f"
+            }
+          ]
+        },
+        "set": false,
+        "version": null,
+        "retired": false,
+        "names": [
+          {
+            "uuid": "e24e3d24-1d5f-11e0-b929-000c29ad1d07",
+            "display": "MANTER",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/e1d9f036-1d5f-11e0-b929-000c29ad1d07/name/e24e3d24-1d5f-11e0-b929-000c29ad1d07"
+              }
+            ]
+          },
+          {
+            "uuid": "e2404f70-1d5f-11e0-b929-000c29ad1d07",
+            "display": "CONTINUE REGIMEN",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/e1d9f036-1d5f-11e0-b929-000c29ad1d07/name/e2404f70-1d5f-11e0-b929-000c29ad1d07"
+              }
+            ]
+          },
+          {
+            "uuid": "7f86a5e2-f1b0-4e7f-b4c5-dc09ffc838f4",
+            "display": "CONTINUAR",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/e1d9f036-1d5f-11e0-b929-000c29ad1d07/name/7f86a5e2-f1b0-4e7f-b4c5-dc09ffc838f4"
+              }
+            ]
+          }
+        ],
+        "descriptions": [
+          {
+            "uuid": "e2227c5c-1d5f-11e0-b929-000c29ad1d07",
+            "display": "Answer on encounter form.  Implies that a patient will continue on the same drug regimen as previously described.",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/e1d9f036-1d5f-11e0-b929-000c29ad1d07/description/e2227c5c-1d5f-11e0-b929-000c29ad1d07"
+              }
+            ]
+          },
+          {
+            "uuid": "e22d1a9a-1d5f-11e0-b929-000c29ad1d07",
+            "display": "Resposta no formulario de encontro. Implica que um paciente vai continuar no mesmo esquema medicamentoso como descrito anteriormente.",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/e1d9f036-1d5f-11e0-b929-000c29ad1d07/description/e22d1a9a-1d5f-11e0-b929-000c29ad1d07"
+              }
+            ]
+          }
+        ],
+        "mappings": [
+          {
+            "uuid": "38f4905b-e72c-40bc-a7db-a78d19adde53",
+            "display": "eSaude: 1257",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/e1d9f036-1d5f-11e0-b929-000c29ad1d07/mapping/38f4905b-e72c-40bc-a7db-a78d19adde53"
+              }
+            ]
+          }
+        ],
+        "answers": [],
+        "setMembers": [],
+        "links": [
+          {
+            "rel": "self",
+            "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/e1d9f036-1d5f-11e0-b929-000c29ad1d07"
+          },
+          {
+            "rel": "full",
+            "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/e1d9f036-1d5f-11e0-b929-000c29ad1d07?v=full"
+          }
+        ],
+        "resourceVersion": "1.11"
+      },
+      "therapeuticLine": {
+        "uuid": "a6bbe1ac-5243-40e4-98cb-7d4a1467dfbe",
+        "display": "FIRST LINE",
+        "name": {
+          "display": "FIRST LINE",
+          "uuid": "d9cfddfd-67bf-4b50-8162-7ef2086bc87a",
+          "name": "FIRST LINE",
+          "locale": "en",
+          "localePreferred": true,
+          "conceptNameType": "FULLY_SPECIFIED",
+          "links": [
+            {
+              "rel": "self",
+              "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/a6bbe1ac-5243-40e4-98cb-7d4a1467dfbe/name/d9cfddfd-67bf-4b50-8162-7ef2086bc87a"
+            },
+            {
+              "rel": "full",
+              "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/a6bbe1ac-5243-40e4-98cb-7d4a1467dfbe/name/d9cfddfd-67bf-4b50-8162-7ef2086bc87a?v=full"
+            }
+          ],
+          "resourceVersion": "1.9"
+        },
+        "datatype": {
+          "uuid": "8d4a4c94-c2cc-11de-8d13-0010c6dffd0f",
+          "display": "N/A",
+          "links": [
+            {
+              "rel": "self",
+              "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/conceptdatatype/8d4a4c94-c2cc-11de-8d13-0010c6dffd0f"
+            }
+          ]
+        },
+        "conceptClass": {
+          "uuid": "8d492774-c2cc-11de-8d13-0010c6dffd0f",
+          "display": "Misc",
+          "links": [
+            {
+              "rel": "self",
+              "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/conceptclass/8d492774-c2cc-11de-8d13-0010c6dffd0f"
+            }
+          ]
+        },
+        "set": false,
+        "version": null,
+        "retired": false,
+        "names": [
+          {
+            "uuid": "d9cfddfd-67bf-4b50-8162-7ef2086bc87a",
+            "display": "FIRST LINE",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/a6bbe1ac-5243-40e4-98cb-7d4a1467dfbe/name/d9cfddfd-67bf-4b50-8162-7ef2086bc87a"
+              }
+            ]
+          },
+          {
+            "uuid": "7d60c4c8-f350-462e-9ea2-79ab713de84e",
+            "display": "1st Line",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/a6bbe1ac-5243-40e4-98cb-7d4a1467dfbe/name/7d60c4c8-f350-462e-9ea2-79ab713de84e"
+              }
+            ]
+          },
+          {
+            "uuid": "2482bee1-13bb-4f8e-96f9-f63a6e18b03e",
+            "display": "PRIMEIRA LINHA",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/a6bbe1ac-5243-40e4-98cb-7d4a1467dfbe/name/2482bee1-13bb-4f8e-96f9-f63a6e18b03e"
+              }
+            ]
+          }
+        ],
+        "descriptions": [
+          {
+            "uuid": "78054ca4-77d9-4f07-a0e6-db820dc55235",
+            "display": "Arv drugs for first line treatment",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/a6bbe1ac-5243-40e4-98cb-7d4a1467dfbe/description/78054ca4-77d9-4f07-a0e6-db820dc55235"
+              }
+            ]
+          }
+        ],
+        "mappings": [
+          {
+            "uuid": "bd62cbdc-32f2-4d13-8092-847ee118512e",
+            "display": "eSaude: 20727",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/a6bbe1ac-5243-40e4-98cb-7d4a1467dfbe/mapping/bd62cbdc-32f2-4d13-8092-847ee118512e"
+              }
+            ]
+          }
+        ],
+        "answers": [],
+        "setMembers": [],
+        "links": [
+          {
+            "rel": "self",
+            "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/a6bbe1ac-5243-40e4-98cb-7d4a1467dfbe"
+          },
+          {
+            "rel": "full",
+            "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/a6bbe1ac-5243-40e4-98cb-7d4a1467dfbe?v=full"
+          }
+        ],
+        "resourceVersion": "1.11"
+      },
+      "changeReason": null,
+      "interruptionReason": null,
+      "prescriptionStatus": "ACTIVE",
+      "links": [
+        {
+          "rel": "self",
+          "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/prescription/ceb22fe4-a88f-4959-a085-9d5c741d18fb"
+        }
+      ],
+      "resourceVersion": "1.11"
+    },
+    {
+      "uuid": "f9039035-8f70-493b-8baa-9a8d666d1636",
+      "provider": {
+        "uuid": "7c59c517-bfd1-487d-a76f-0b90cd975fd1",
+        "display": "",
+        "person": {
+          "uuid": "e2bc25aa-1d5f-11e0-b929-000c29ad1d07",
+          "display": "Super User",
+          "links": [
+            {
+              "rel": "self",
+              "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/person/e2bc25aa-1d5f-11e0-b929-000c29ad1d07"
+            }
+          ]
+        },
+        "identifier": null,
+        "attributes": [],
+        "retired": false,
+        "links": [
+          {
+            "rel": "self",
+            "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/provider/7c59c517-bfd1-487d-a76f-0b90cd975fd1"
+          },
+          {
+            "rel": "full",
+            "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/provider/7c59c517-bfd1-487d-a76f-0b90cd975fd1?v=full"
+          }
+        ],
+        "resourceVersion": "1.9"
+      },
+      "patient": {
+        "uuid": "e5ce82d7-c09c-44f8-83d8-438d2b974975",
+        "display": "12124578/45/89777 - last Stand",
+        "identifiers": [
+          {
+            "uuid": "4536af48-f4bf-450e-8c32-ab8b51203cfb",
+            "display": "NID (SERVICO TARV) = 12124578/45/89777",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/patient/e5ce82d7-c09c-44f8-83d8-438d2b974975/identifier/4536af48-f4bf-450e-8c32-ab8b51203cfb"
+              }
+            ]
+          }
+        ],
+        "person": {
+          "uuid": "e5ce82d7-c09c-44f8-83d8-438d2b974975",
+          "display": "last Stand",
+          "gender": "M",
+          "age": 45,
+          "birthdate": "1972-07-06T00:00:00.000+0200",
+          "birthdateEstimated": true,
+          "dead": false,
+          "deathDate": null,
+          "causeOfDeath": null,
+          "preferredName": {
+            "uuid": "c0f21e97-feb2-4bac-969b-d2c8124cbaba",
+            "display": "last Stand",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/person/e5ce82d7-c09c-44f8-83d8-438d2b974975/name/c0f21e97-feb2-4bac-969b-d2c8124cbaba"
+              }
+            ]
+          },
+          "preferredAddress": {
+            "uuid": "3f2afc00-f785-49c0-b1c5-ac227bcfe031",
+            "display": null,
+            "links": [
+              {
+                "rel": "self",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/person/e5ce82d7-c09c-44f8-83d8-438d2b974975/address/3f2afc00-f785-49c0-b1c5-ac227bcfe031"
+              }
+            ]
+          },
+          "attributes": [],
+          "voided": false,
+          "deathdateEstimated": false,
+          "birthtime": null,
+          "links": [
+            {
+              "rel": "self",
+              "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/person/e5ce82d7-c09c-44f8-83d8-438d2b974975"
+            },
+            {
+              "rel": "full",
+              "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/person/e5ce82d7-c09c-44f8-83d8-438d2b974975?v=full"
+            }
+          ],
+          "resourceVersion": "1.11"
+        },
+        "voided": false,
+        "links": [
+          {
+            "rel": "self",
+            "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/patient/e5ce82d7-c09c-44f8-83d8-438d2b974975"
+          },
+          {
+            "rel": "full",
+            "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/patient/e5ce82d7-c09c-44f8-83d8-438d2b974975?v=full"
+          }
+        ],
+        "resourceVersion": "1.8"
+      },
+      "prescriptionDate": "2017-07-26T22:08:46.000+0200",
+      "prescriptionItems": [
+        {
+          "display": "Paracetamol 500mg (comprimidos)",
+          "prescriptionUuid": "f9039035-8f70-493b-8baa-9a8d666d1636",
+          "drugToPickUp": 30,
+          "drugPickedUp": 0,
+          "drugOrder": {
+            "uuid": "0c46bcde-0f6c-4f7a-9bf6-9ebb71dacd95",
+            "orderNumber": "ORD-361",
+            "patient": {
+              "uuid": "e5ce82d7-c09c-44f8-83d8-438d2b974975",
+              "display": "12124578/45/89777 - last Stand",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/patient/e5ce82d7-c09c-44f8-83d8-438d2b974975"
+                }
+              ]
+            },
+            "concept": {
+              "uuid": "e1cf2944-1d5f-11e0-b929-000c29ad1d07",
+              "display": "PARACETAMOL",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/e1cf2944-1d5f-11e0-b929-000c29ad1d07"
+                }
+              ]
+            },
+            "action": "NEW",
+            "careSetting": {
+              "uuid": "6f0c9a92-6f24-11e3-af88-005056821db0",
+              "display": "Outpatient",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/caresetting/6f0c9a92-6f24-11e3-af88-005056821db0"
+                }
+              ]
+            },
+            "previousOrder": null,
+            "dateActivated": "2017-07-26T22:09:32.000+0200",
+            "dateStopped": null,
+            "autoExpireDate": "2017-08-26T22:09:31.000+0200",
+            "encounter": {
+              "uuid": "c551a92c-19f8-4f1e-ab93-3b7b711f9b8d",
+              "display": "S.TARV: ADULTO SEGUIMENTO 07/26/2017",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/encounter/c551a92c-19f8-4f1e-ab93-3b7b711f9b8d"
+                }
+              ]
+            },
+            "orderer": {
+              "uuid": "7c59c517-bfd1-487d-a76f-0b90cd975fd1",
+              "display": "",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/provider/7c59c517-bfd1-487d-a76f-0b90cd975fd1"
+                }
+              ]
+            },
+            "orderReason": null,
+            "orderReasonNonCoded": null,
+            "urgency": "ROUTINE",
+            "instructions": null,
+            "commentToFulfiller": null,
+            "display": "(NEW) Paracetamol 500mg (comprimidos): 1.0 Tablet(s) Oral Once a day 1 Month(s) 9d74899a-10e8-11e5-9009-0242ac110012",
+            "drug": {
+              "uuid": "a244fc47-3e10-404b-abbc-02332e015769",
+              "display": "Paracetamol 500mg (comprimidos)",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/arvdrug/a244fc47-3e10-404b-abbc-02332e015769"
+                }
+              ]
+            },
+            "dosingType": "org.openmrs.SimpleDosingInstructions",
+            "dose": 1,
+            "doseUnits": {
+              "uuid": "9d674660-10e8-11e5-9009-0242ac110012",
+              "display": "Tablet(s)",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/9d674660-10e8-11e5-9009-0242ac110012"
+                }
+              ]
+            },
+            "frequency": {
+              "uuid": "9d7127f9-10e8-11e5-9009-0242ac110012",
+              "display": "Once a day",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/orderfrequency/9d7127f9-10e8-11e5-9009-0242ac110012"
+                }
+              ]
+            },
+            "asNeeded": false,
+            "asNeededCondition": null,
+            "quantity": 30,
+            "quantityUnits": {
+              "uuid": "9d674660-10e8-11e5-9009-0242ac110012",
+              "display": "Tablet(s)",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/9d674660-10e8-11e5-9009-0242ac110012"
+                }
+              ]
+            },
+            "numRefills": 0,
+            "dosingInstructions": "9d74899a-10e8-11e5-9009-0242ac110012",
+            "duration": 1,
+            "durationUnits": {
+              "uuid": "9d96d012-10e8-11e5-9009-0242ac110012",
+              "display": "Month(s)",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/9d96d012-10e8-11e5-9009-0242ac110012"
+                }
+              ]
+            },
+            "route": {
+              "uuid": "9d6b861d-10e8-11e5-9009-0242ac110012",
+              "display": "Oral",
+              "links": [
+                {
+                  "rel": "self",
+                  "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/concept/9d6b861d-10e8-11e5-9009-0242ac110012"
+                }
+              ]
+            },
+            "brandName": null,
+            "dispenseAsWritten": false,
+            "links": [
+              {
+                "rel": "self",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/order/0c46bcde-0f6c-4f7a-9bf6-9ebb71dacd95"
+              },
+              {
+                "rel": "full",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/order/0c46bcde-0f6c-4f7a-9bf6-9ebb71dacd95?v=full"
+              }
+            ],
+            "type": "drugorder",
+            "resourceVersion": "1.10"
+          },
+          "dosingInstructions": "Depois das refeições",
+          "regime": null,
+          "arvPlan": null,
+          "therapeuticLine": null,
+          "changeReason": null,
+          "interruptionReason": null,
+          "status": "NEW",
+          "links": [
+            {
+              "rel": "self",
+              "uri": "/prescriptionItem/e90425a1-db11-4573-94b2-c32fa7834c3b"
+            },
+            {
+              "rel": "full",
+              "uri": "/prescriptionItem/e90425a1-db11-4573-94b2-c32fa7834c3b?v=full"
+            }
+          ],
+          "resourceVersion": "1.8"
+        }
+      ],
+      "prescriptionEncounter": {
+        "uuid": "c551a92c-19f8-4f1e-ab93-3b7b711f9b8d",
+        "display": "S.TARV: ADULTO SEGUIMENTO 07/26/2017",
+        "encounterDatetime": "2017-07-26T22:08:46.000+0200",
+        "patient": {
+          "uuid": "e5ce82d7-c09c-44f8-83d8-438d2b974975",
+          "display": "12124578/45/89777 - last Stand",
+          "links": [
+            {
+              "rel": "self",
+              "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/patient/e5ce82d7-c09c-44f8-83d8-438d2b974975"
+            }
+          ]
+        },
+        "location": {
+          "uuid": "8d6c993e-c2cc-11de-8d13-0010c6dffd0f",
+          "display": "Local Desconhecido",
+          "links": [
+            {
+              "rel": "self",
+              "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/location/8d6c993e-c2cc-11de-8d13-0010c6dffd0f"
+            }
+          ]
+        },
+        "form": null,
+        "encounterType": {
+          "uuid": "e278f956-1d5f-11e0-b929-000c29ad1d07",
+          "display": "S.TARV: ADULTO SEGUIMENTO",
+          "links": [
+            {
+              "rel": "self",
+              "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/encountertype/e278f956-1d5f-11e0-b929-000c29ad1d07"
+            }
+          ]
+        },
+        "obs": [
+          {
+            "uuid": "4ccccd50-6c0b-438c-aeb2-cb1cfbe97adf",
+            "display": "POC MAPPING PRESCRIPTION DATE: July 26, 2017 10:08:46 PM CAT",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/obs/4ccccd50-6c0b-438c-aeb2-cb1cfbe97adf"
+              }
+            ]
+          },
+          {
+            "uuid": "3fd301f7-c831-4d7c-8729-a425906d9b81",
+            "display": "TREATMENT PRESCRIBED: PARACETAMOL",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/obs/3fd301f7-c831-4d7c-8729-a425906d9b81"
+              }
+            ]
+          }
+        ],
+        "orders": [
+          {
+            "uuid": "0c46bcde-0f6c-4f7a-9bf6-9ebb71dacd95",
+            "display": "(NEW) Paracetamol 500mg (comprimidos): 1.0 Tablet(s) Oral Once a day 1 Month(s) 9d74899a-10e8-11e5-9009-0242ac110012",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/order/0c46bcde-0f6c-4f7a-9bf6-9ebb71dacd95"
+              }
+            ],
+            "type": "drugorder"
+          }
+        ],
+        "voided": false,
+        "visit": null,
+        "encounterProviders": [
+          {
+            "uuid": "6db94ea5-3930-4af2-a977-242e1f48eeba",
+            "display": "Super User: Unknown",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/encounter/c551a92c-19f8-4f1e-ab93-3b7b711f9b8d/encounterprovider/6db94ea5-3930-4af2-a977-242e1f48eeba"
+              }
+            ]
+          }
+        ],
+        "links": [
+          {
+            "rel": "self",
+            "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/encounter/c551a92c-19f8-4f1e-ab93-3b7b711f9b8d"
+          },
+          {
+            "rel": "full",
+            "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/encounter/c551a92c-19f8-4f1e-ab93-3b7b711f9b8d?v=full"
+          }
+        ],
+        "resourceVersion": "1.9"
+      },
+      "location": {
+        "uuid": "8d6c993e-c2cc-11de-8d13-0010c6dffd0f",
+        "display": "Local Desconhecido",
+        "name": "Local Desconhecido",
+        "description": "Sem Informaçao",
+        "address1": null,
+        "address2": null,
+        "cityVillage": null,
+        "stateProvince": null,
+        "country": "Mozambique",
+        "postalCode": null,
+        "latitude": null,
+        "longitude": null,
+        "countyDistrict": null,
+        "address3": null,
+        "address4": null,
+        "address5": null,
+        "address6": null,
+        "tags": [
+          {
+            "uuid": "b8bbf83e-645f-451f-8efe-a0db56f09676",
+            "display": "Login Location",
+            "links": [
+              {
+                "rel": "self",
+                "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/locationtag/b8bbf83e-645f-451f-8efe-a0db56f09676"
+              }
+            ]
+          }
+        ],
+        "parentLocation": null,
+        "childLocations": [],
+        "retired": false,
+        "attributes": [],
+        "links": [
+          {
+            "rel": "self",
+            "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/location/8d6c993e-c2cc-11de-8d13-0010c6dffd0f"
+          },
+          {
+            "rel": "full",
+            "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/location/8d6c993e-c2cc-11de-8d13-0010c6dffd0f?v=full"
+          }
+        ],
+        "resourceVersion": "1.9"
+      },
+      "regime": null,
+      "arvPlan": null,
+      "therapeuticLine": null,
+      "changeReason": null,
+      "interruptionReason": null,
+      "prescriptionStatus": "ACTIVE",
+      "links": [
+        {
+          "rel": "self",
+          "uri": "http://0.0.0.0:9000/openmrs/ws/rest/v1/prescription/f9039035-8f70-493b-8baa-9a8d666d1636"
+        }
+      ],
+      "resourceVersion": "1.11"
+    }
+  ]
+}
