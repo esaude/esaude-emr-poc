@@ -22,11 +22,11 @@
       <div class="col-sm-8">
 
         <span class="label label-danger" ng-if="!fieldValidity">
-            This field was never visited, please visit this field before save
+            {{ 'FIELD_NEVER_VISITED' | translate }}
         </span>
 
         <span class="label label-danger" ng-if="fieldValidity && !fieldValidity.valid">
-            This field didn't pass validation rules
+            {{ 'FIELD_NOT_VALID' | translate }}
         </span>
 
         <div ng-if="fieldMeta.fieldConcept.concept.datatype.display === 'Text'">

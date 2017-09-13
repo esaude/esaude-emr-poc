@@ -296,5 +296,7 @@
     "CHECKIN_NOT_CHECKED_IN_TODAY": "Not checked in yet today",
     "CHECKIN_UNTERMINATED_VISIT": "Has an unterminated visit of {{visittype}}, started on {{startdatetime}}",
     "LOADING": "Loading...",
-    "NO_LIST_ITEMS": "No items to display"
+    "NO_LIST_ITEMS": "No items to display",
+    "FIELD_NEVER_VISITED": "This field was never visited, please visit this field before save",
+    "FIELD_NOT_VALID": "This field didn't pass validation rules"
 }

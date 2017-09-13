@@ -290,5 +290,7 @@
     "CHECKIN_NOT_CHECKED_IN_TODAY": "Ainda não deu entrada hoje",
     "CHECKIN_UNTERMINATED_VISIT": "Tem uma visita não terminada de {{visittype}}, iniciada aos {{startdatetime}}",
     "LOADING": "Carregando...",
-    "NO_LIST_ITEMS": "Nenhum item para mostrar"
+    "NO_LIST_ITEMS": "Nenhum item para mostrar",
+    "FIELD_NEVER_VISITED": "Este campo não foi visitado, por favor visite este campo antes de salvar",
+    "FIELD_NOT_VALID": "Este campo não é válido"
 }
