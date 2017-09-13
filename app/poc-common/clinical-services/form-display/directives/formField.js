@@ -137,20 +137,9 @@
       });
     }
 
-    function defaultValueIsLastEntry(param) {
-      observationsService.get($rootScope.patient.uuid, param).success(function (data) {
-        var nonRetired = observationsService.filterRetiredObs(data.results);
-
-        if (!_.isEmpty(nonRetired)) {
-          var last = _.maxBy(nonRetired, 'obsDatetime');
-
-          if (last.value.datatype && last.value.datatype.display === "Coded") {
-            $scope.fieldModel.value = realValueOfField($scope.fieldModel.fieldConcept.concept.answers, last.value);
-            return;
-
-          }
-          $scope.fieldModel.value = last.value;
-        }
+    function defaultValueIsLastEntry(concept) {
+      observationsService.getLastValueForConcept($rootScope.patient.uuid, concept).then(function (value) {
+        $scope.fieldModel.value = value;
       });
     }
 
@@ -170,16 +159,9 @@
       return angular.isDefined(found);
     }
 
-    function getConceptInAnswers(answres, conceptUuid) {
-      return _.find(answres, function (answer) {
+    function getConceptInAnswers(answers, conceptUuid) {
+      return _.find(answers, function (answer) {
         return answer.uuid === conceptUuid;
-      });
-    }
-
-    function realValueOfField(conceptAnswers, obsValue) {
-      return _.find(conceptAnswers, function (answer) {
-        return answer.uuid === obsValue.uuid;
-
       });
     }
 
