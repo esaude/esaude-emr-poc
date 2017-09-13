@@ -42,7 +42,7 @@
         </div>
 
         <div ng-if="fieldMeta.fieldConcept.concept.datatype.display === 'Datetime'">
-          {{fieldMeta.value | date:'yyyy-MM-dd HH:mm:ss'}}
+          {{fieldMeta.value | date:'medium'}}
         </div>
 
         <div ng-if="fieldMeta.fieldConcept.concept.datatype.display === 'Coded'">
