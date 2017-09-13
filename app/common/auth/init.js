@@ -17,6 +17,7 @@ authModuleConfig.$inject = ['$provide'];
 
 /* @ngInject */
 function authModuleConfig($provide) {
+  // Will be used when authorization is fully implemented
   // $provide.decorator('pocAuthorizeDirective', pocAuthorizeDirectiveDecorator)
 }
 

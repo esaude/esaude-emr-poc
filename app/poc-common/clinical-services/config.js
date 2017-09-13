@@ -8,6 +8,7 @@
   config.$inject = ['$provide'];
 
   function config($provide) {
+    // Will be used when authorization is fully implemented
     // $provide.decorator('clinicalServicesService', clinicalServicesServiceAuthorizationDecorator);
   }
 

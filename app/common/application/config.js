@@ -9,6 +9,7 @@
 
   /* @ngInject */
   function applicationModuleConfig($provide, $breadcrumbProvider) {
+    // Will be used when authorization is fully implemented
     // $provide.decorator('applicationService', applicationServiceAuthorizationDecorator);
 
     $breadcrumbProvider.setOptions({
