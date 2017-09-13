@@ -5,10 +5,10 @@
     .module('poc.common.clinicalservices.serviceform')
     .controller('FormPrintController', FormPrintController);
 
-  FormPrintController.$inject = ['$state', '$stateParams', 'clinicalServicesService'];
+  FormPrintController.$inject = ['$state', '$stateParams', 'clinicalServicesService', 'spinner'];
 
   /* @ngInject */
-  function FormPrintController($state, $stateParams, clinicalServicesService) {
+  function FormPrintController($state, $stateParams, clinicalServicesService, spinner) {
 
     var patientUUID = $stateParams.patientUuid;
     var encounter = $stateParams.encounter;
@@ -31,9 +31,11 @@
 
       vm.formInfo = clinicalServicesService.getFormLayouts({id: serviceId});
 
-      clinicalServicesService.getFormData(patient, service, encounter).then(function (formData) {
+      var load = clinicalServicesService.getFormData(patient, service, encounter).then(function (formData) {
         vm.formPayload = formData;
       });
+
+      spinner.forPromise(load);
     }
 
     function linkDashboard() {

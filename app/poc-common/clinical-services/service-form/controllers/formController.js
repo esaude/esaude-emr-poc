@@ -5,14 +5,14 @@
     .module('poc.common.clinicalservices.serviceform')
     .controller('FormController', FormController);
 
-  FormController.$inject = ['$rootScope', 'localStorageService', '$stateParams', '$scope', '$state',
-    '$location', 'patientAttributeService', 'encounterService', 'visitService',  'notifier', '$filter',
-    'clinicalServicesService'];
+  FormController.$inject = ['$location', '$q', '$rootScope', '$scope', '$state', '$stateParams',
+    'clinicalServicesService', 'encounterService', '$filter', 'localStorageService', 'notifier',
+    'patientAttributeService', 'spinner', 'visitService'];
 
   /* @ngInject */
-  function FormController($rootScope, localStorageService, $stateParams, $scope, $state,
-                          $location, patientAttributeService, encounterService, visitService, notifier, $filter,
-                          clinicalServicesService) {
+  function FormController($location, $q, $rootScope, $scope, $state, $stateParams, clinicalServicesService,
+                          encounterService, $filter, localStorageService, notifier, patientAttributeService,
+                          spinner, visitService) {
 
     var dateUtil = Bahmni.Common.Util.DateUtil;
 
@@ -42,22 +42,25 @@
 
     function activate() {
       var currentSref = $state.current.url.replace("/", ".");
-
-      $scope.formInfo = clinicalServicesService.getFormLayouts({id: serviceId});
-
       var patient = {uuid: patientUUID};
       var service = {id: serviceId};
 
-      clinicalServicesService.getFormData(patient, service, serviceEncounter).then(function (formData) {
-        $scope.formPayload = formData;
-      });
+      $scope.formInfo = clinicalServicesService.getFormLayouts({id: serviceId});
 
       $scope.currentFormPart = _.find($scope.formInfo.parts, function (formPart) {
         return formPart.sref === currentSref;
       });
 
+      var getFormData = clinicalServicesService.getFormData(patient, service, serviceEncounter);
       //initialize visit info in scope
-      visitService.getTodaysVisit($scope.patient.uuid).then(function (visitToday) {
+      var getTodaysVisit = visitService.getTodaysVisit($scope.patient.uuid);
+
+      var load = $q.all([getFormData, getTodaysVisit]).then(function (results) {
+        var formData = results[0];
+        var visitToday = results[1];
+
+        $scope.formPayload = formData;
+
         if (visitToday) {
           $scope.hasVisitToday = true;
           $scope.todayVisit = visitToday;
@@ -65,6 +68,8 @@
           $scope.hasVisitToday = false;
         }
       });
+
+      spinner.forPromise(load);
     }
 
     function stepInFormPart(formPart) {
