@@ -55,9 +55,6 @@
       $scope.$watch('$parent.submitted', function (value) {
         $scope.showMessages = value;
       });
-      $scope.$watch('$parent.submitted', function (value) {
-        $scope.showMessages = value;
-      });
 
       $scope.$watch('aForm.' + $scope.fieldId + '.$valid', function (value) {
         if (angular.isDefined(value)) {
