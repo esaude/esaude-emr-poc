@@ -17,9 +17,10 @@
       restrict: 'AE',
       scope: {
         field: '=',
-        formParts: '=',
         fieldUuid: '=',
-        fieldId: '='
+        fieldId: '=',
+        formParts: '=',
+        formLayout: '='
       },
       templateUrl: ' ../poc-common/clinical-services/form-display/views/formField.html'
     };
@@ -196,7 +197,7 @@
 
       for (var i = 0; i < lastPart; i++) {
 
-        var part = $rootScope.formInfo.parts[i];
+        var part = $scope.formLayout.parts[i];
         var model = $scope.formParts.form.fields[part.fields[firstField].id];
 
         angular.forEach(model.fieldConcept.concept.answers, function (answer) {

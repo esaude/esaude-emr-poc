@@ -5,8 +5,12 @@
         </div>
         <div class="panel-body">
 
-            <form-field ng-repeat="field in currentFormPart.fields" field="field" form-parts="formPayload"
-                        field-uuid="field.id" field-id="compactName(field.name)">
+            <form-field ng-repeat="field in currentFormPart.fields"
+                        field="field"
+                        form-layout="formInfo"
+                        form-parts="formPayload"
+                        field-uuid="field.id"
+                        field-id="compactName(field.name)">
             </form-field>
 
         </div>
