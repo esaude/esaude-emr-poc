@@ -68,17 +68,22 @@
       <!-- endbuild -->
 
       <!-- build:js scripts/registration.min.js -->
-      <script src="../poc-common/constants.js"></script>
-      <script src="../poc-common/form-display/init.js"></script>
-      <script src="../poc-common/form-display/services/formService.js"></script>
-      <script src="../poc-common/form-display/mappers/formRequestMapper.js"></script>
-      <script src="../poc-common/form-display/directives/formField.js"></script>
-      <script src="../poc-common/form-display/directives/fieldRead.js"></script>
-      <script src="../poc-common/form-display/directives/recordAvailabilityValidator.js"></script>
-      <script src="../poc-common/form-display/services/formLoader.js"></script>
 
-      <script src="../poc-common/domain/mappers/createEncounterMapper.js"></script>
-      <script src="../poc-common/domain/mappers/updateEncounterMapper.js"></script>
+      <script src="../poc-common/clinical-services/form-display/init.js"></script>
+      <script src="../poc-common/clinical-services/form-display/mappers/formRequestMapper.js"></script>
+      <script src="../poc-common/clinical-services/form-display/directives/formField.js"></script>
+      <script src="../poc-common/clinical-services/form-display/directives/fieldRead.js"></script>
+      <script src="../poc-common/clinical-services/form-display/directives/recordAvailabilityValidator.js"></script>
+      <script src="../poc-common/clinical-services/service-form/init.js"></script>
+      <script src="../poc-common/clinical-services/service-form/controllers/formController.js"></script>
+      <script src="../poc-common/clinical-services/service-form/controllers/formPrintController.js"></script>
+      <script src="../poc-common/clinical-services/clinicalServicesProvider.js"></script>
+      <script src="../poc-common/clinical-services/init.js"></script>
+      <script src="../poc-common/clinical-services/directives/clinicalServices.js"></script>
+      <script src="../poc-common/clinical-services/config.js"></script>
+
+      <script src="../poc-common/clinical-services/mappers/createEncounterMapper.js"></script>
+      <script src="../poc-common/clinical-services/mappers/updateEncounterMapper.js"></script>
 
       <script src="../common/patient/constants.js"></script>
       <script src="../common/patient/init.js"></script>
@@ -92,9 +97,6 @@
       <script src="../common/patient/mappers/openmrsPatientMapper.js"></script>
       <script src="../common/patient/mappers/patientAttributeTypeMapper.js"></script>
       <script src="../common/patient/header/controllers/patientHeaderController.js"></script>
-
-      <script src="../poc-common/clinical-services/init.js"></script>
-      <script src="../poc-common/clinical-services/directives/clinicalServices.js"></script>
 
       <script src="../common/constants.js"></script>
       <script src="../common/util/init.js"></script>
@@ -138,7 +140,6 @@
 
       <script src="../common/patient/controllers/visitController.js"></script>
 
-
       <script src="../common/config/init.js"></script>
       <script src="../common/config/services/configurations.js"></script>
       <script src="../common/domain/services/locationService.js"></script>
@@ -161,11 +162,11 @@
       <script src="../common/app-framework/services/mergeService.js"></script>
 
       <script src="../common/application/init.js"></script>
-      <script src="../common/application/util-constants.js"></script>
+      <script src="../common/application/constants.js"></script>
+      <script src="../common/application/config.js"></script>
 
       <script src="../common/application/services/adminConfigService.js"></script>
       <script src="../common/application/services/applicationService.js"></script>
-      <script src="../common/application/services/formStateAutoGen.js"></script>
       <script src="../common/application/controllers/searchController.js"></script>
       <script src="../common/application/controllers/similarPatientsController.js"></script>
       <script src="../common/application/controllers/movePatientActionController.js"></script>
@@ -177,12 +178,6 @@
       <script src="../common/uicontrols/programmanagement/controllers/manageProgramController.js"></script>
       <script src="../common/uicontrols/programmanagement/directive/managePrograms.js"></script>
       <script src="../common/uicontrols/programmanagement/directive/timeline.js"></script>
-
-      <script src="../service-form/constants.js"></script>
-      <script src="../service-form/init.js"></script>
-      <script src="../service-form/controllers/formController.js"></script>
-      <script src="../service-form/controllers/formPrintController.js"></script>
-      <script src="../service-form/controllers/clinicalServiceController.js"></script>
 
       <script src="../common/i18n/init.js"></script>
       <script src="../common/i18n/services/bahmni-translate.js"></script>
@@ -197,11 +192,8 @@
 
       <script src="init.js"></script>
       <script src="initialization.js"></script>
-      <script src="run-before-app.js"></script>
       <script src="app.js"></script>
-      <script src="run-after-app.js"></script>
       <script src="constants.js"></script>
-      <script src="defaults.js"></script>
       <script src="controllers/dashboardController.js"></script>
       <script src="controllers/createPatientController.js"></script>
       <script src="controllers/updatePatientController.js"></script>

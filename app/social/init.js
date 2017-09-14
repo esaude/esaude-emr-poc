@@ -1,32 +1,27 @@
 angular
   .module('social',
     [
-      'ngRoute',
-      'ngCookies',
-      'ui.router',
-      'smart-table',
-      'bahmni.common.uiHelper',
+      'application',
+      'bahmni.common.appFramework',
       'bahmni.common.config',
       'bahmni.common.domain',
-      'bahmni.common.appFramework',
-      'LocalStorageModule',
+      'bahmni.common.i18n',
+      'bahmni.common.uicontrols.programmanagment',
+      'bahmni.common.uiHelper',
+      'common.patient',
       'datePicker',
       'frapontillo.bootstrap-switch',
-      'bahmni.common.uicontrols.programmanagment',
-      'serviceform',
-      'ui.checkbox',
-      'application',
+      'LocalStorageModule',
+      'ngCookies',
+      'ngDialog',
       'ngMessages',
-      'poc.common.clinicalservices',
-      'common.patient',
+      'ngRoute',
       'pascalprecht.translate',
-      'bahmni.common.i18n',
       'patient.details',
+      'poc.common.clinicalservices',
+      'smart-table',
       'ui.bootstrap',
-      'ngDialog'
+      'ui.checkbox',
+      'ui.router'
     ]
   );
-
-//to be initialized by config inside app.js
-//needed in dynamic states
-var $stateProviderRef = null;

@@ -6,7 +6,7 @@
 
         <div class="panel-heading" ng-click="vm.toggleVisibility(p)">
           <strong>{{'PHARMACY_PRESCRIBED_BY' | translate}}:</strong>
-          {{p.provider.person.display}} {{'COMMON_ON' | translate}}: {{p.prescriptionDate | date:"MMM d, y"}}
+          {{p.provider.person.display}} {{'COMMON_ON' | translate}}: {{p.prescriptionDate | date}}
           <span ng-class="{'glyphicon glyphicon-chevron-down': p.hidden, 'glyphicon glyphicon-chevron-up': !p.hidden}"
                 class="pull-right"></span>
         </div>
@@ -33,7 +33,7 @@
                   {{item.drugOrder.durationUnits.display}} ({{item.dosingInstructions}})
                 </span>
               </td>
-              <td>{{item.drugOrder.autoExpireDate | date:"MMM d, y"}}</td>
+              <td>{{item.drugOrder.autoExpireDate | date}}</td>
               <td>{{item.drugToPickUp}}</td>
               <td>{{item.drugPickedUp}}</td>
               <td>
@@ -96,7 +96,7 @@
                        ng-messages-include="../poc-common/form-display/views/error-messages.html"
                        ng-show="showMessages">
                   </div>
-                  <span>{{item.nextPickupDate | date:"MMM d, y"}} </span>
+                  <span>{{item.nextPickupDate | date}} </span>
                 </div>
               </div>
             </td>

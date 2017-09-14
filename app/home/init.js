@@ -1,18 +1,16 @@
 'use strict';
 
 angular
-  .module('home',
-    [
-      'ngRoute',
-      'ngCookies',
-      'ui.router',
-      'application',
-      'chart.js',
-      'bahmni.common.uiHelper',
-      'bahmni.common.appFramework',
-      'bahmni.common.domain',
-      'bahmni.common.config',
-      'bahmni.common.i18n',
-      'pascalprecht.translate'
-    ]
-  );
+  .module('home', [
+    'application',
+    'bahmni.common.appFramework',
+    'bahmni.common.config',
+    'bahmni.common.domain',
+    'bahmni.common.i18n',
+    'bahmni.common.uiHelper',
+    'chart.js',
+    'ngCookies',
+    'ngRoute',
+    'pascalprecht.translate',
+    'ui.router'
+  ]);

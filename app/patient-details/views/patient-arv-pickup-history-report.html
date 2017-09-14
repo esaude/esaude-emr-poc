@@ -85,11 +85,11 @@
           </thead>
           <tbody>
             <tr ng-repeat="p in patient.pickups">
-              <td>{{p.encounterDatetime | date:"MMM d, y"}}</td>
+              <td>{{p.encounterDatetime | date}}</td>
               <td>{{p.regimen}}</td>
               <td>{{p.quantity}}</td>
               <td>{{p.posology}}</td>
-              <td>{{p.nextPickup  | date:"MMM d, y"}}</td>
+              <td>{{p.nextPickup  | date}}</td>
             </tr>
           </tbody>
         </table>

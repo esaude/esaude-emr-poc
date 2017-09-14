@@ -255,7 +255,7 @@
             </div>
             <div class="list-group" ng-repeat="existingPrescription in vm.existingPrescriptions">
                 <div class="bg-info content-border-padding-li">
-                    {{'CLINIC_PATIENT_PRESCRIBED' | translate}} {{'COMMON_ON' | translate}} {{existingPrescription.prescriptionDate | date:"MMM d, y"}}
+                    {{'CLINIC_PATIENT_PRESCRIBED' | translate}} {{'COMMON_ON' | translate}} {{existingPrescription.prescriptionDate | date}}
                 </div>
                 <div class="list-group-item" ng-repeat="item in existingPrescription.prescriptionItems">
                    <span>

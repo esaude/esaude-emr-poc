@@ -30,11 +30,11 @@
     </thead>
     <tbody>
     <tr ng-repeat="p in vm.displayedPickups">
-      <td>{{p.encounterDatetime | date:"MMM d, y"}}</td>
+      <td>{{p.encounterDatetime | date}}</td>
       <td>{{p.regimen}}</td>
       <td>{{p.posology}}</td>
       <td>{{p.quantity}}</td>
-      <td>{{p.nextPickup | date:"MMM d, y"}}</td>
+      <td>{{p.nextPickup | date}}</td>
       <td>{{p.provider}}</td>
     </tr>
     </tbody>

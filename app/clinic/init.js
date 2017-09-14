@@ -1,34 +1,30 @@
 angular
   .module('clinic',
     [
-      'ngRoute',
-      'ngCookies',
-      'ui.router',
-      'smart-table',
-      'bahmni.common.uiHelper',
-      'bahmni.common.config',
-      'common.prescription',
-      'bahmni.common.domain',
+      'application',
       'bahmni.common.appFramework',
-      'LocalStorageModule',
+      'bahmni.common.config',
+      'bahmni.common.domain',
+      'bahmni.common.i18n',
+      'bahmni.common.uicontrols.programmanagment',
+      'bahmni.common.uiHelper',
+      'chart.js',
+      'common.patient',
+      'common.prescription',
       'datePicker',
       'frapontillo.bootstrap-switch',
-      'bahmni.common.uicontrols.programmanagment',
-      'serviceform',
-      'chart.js',
-      'ui.checkbox',
-      'application',
+      'LocalStorageModule',
+      'ngCookies',
+      'ngDialog',
       'ngMessages',
-      'poc.common.clinicalservices',
-      'common.patient',
+      'ngRoute',
       'pascalprecht.translate',
-      'bahmni.common.i18n',
       'patient.details',
-      'ui.select2',
+      'poc.common.clinicalservices',
+      'smart-table',
       'ui.bootstrap',
-      'ngDialog'
+      'ui.checkbox',
+      'ui.router',
+      'ui.select2'
     ]
   );
-//to be initialized by config inside app.js
-//needed in dynamic states
-var $stateProviderRef = null;

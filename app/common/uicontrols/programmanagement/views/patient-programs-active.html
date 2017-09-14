@@ -10,31 +10,31 @@
     <tbody>
         <tr ng-if="hasPatientEnrolledToSomePrograms()" ng-repeat="program in filteredActivePrograms">
             <td>
-                <button class="btn btn-primary btn-lg" type="button" data-toggle="modal" data-target="#editProgramModal" 
+                <button class="btn btn-primary btn-lg" type="button" data-toggle="modal" data-target="#editProgramModal"
                         ng-click="setProgramSelected(program)">
                     {{program.display}}
                     <span class="glyphicon glyphicon-pencil"></span>
                 </button>
             </td>
             <td>
-                {{'COMMON_PROGRAM_ENROLLMENT_ENROLLED_ON' | translate}}: ({{program.dateEnrolled | date:"MM/dd/yyyy"}})
+                {{'COMMON_PROGRAM_ENROLLMENT_ENROLLED_ON' | translate}}: ({{program.dateEnrolled | date}})
             </td>
             <td ng-if="hasValidProgramStateToShow(program.states)" ng-init="currentState = getCurrentProgramState(program.states)">
-                <button class="btn btn-primary btn-lg" type="button"  
+                <button class="btn btn-primary btn-lg" type="button"
                         data-toggle="modal" data-target="#editProgramStateModal" ng-click="setProgramSelected(program)">
                     {{currentState.state.concept.display}}
                     <span ng-if="currentState.endDate !== null">
-                        {{'COMMON_TO' | translate}} {{currentState.endDate | date:"MM/dd/yyyy"}}
+                        {{'COMMON_TO' | translate}} {{currentState.endDate | date}}
                     </span>
                     <span ng-if="currentState.endDate === null">
-                        {{'COMMON_FROM' | translate}} ({{currentState.startDate | date:"MM/dd/yyyy"}})
+                        {{'COMMON_FROM' | translate}} ({{currentState.startDate | date}})
                     </span>
                     <span class="glyphicon glyphicon-pencil"></span>
                 </button>
             </td>
             <td ng-if="!hasValidProgramStateToShow(program.states)">
                 <button class="btn btn-primary btn-lg" type="button">
-                      <span class="glyphicon glyphicon-plus"></span>      
+                      <span class="glyphicon glyphicon-plus"></span>
                 </button>
             </td>
             <td>

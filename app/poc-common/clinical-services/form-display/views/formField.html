@@ -1,0 +1,132 @@
+<div ng-form="aForm" class="form-group form-group-lg"
+     ng-class="{'has-error': aForm.{{fieldId}}.$invalid && $parent.submitted}" ng-hide="field.hidden">
+
+  <label class="col-sm-4 control-label">
+    {{field.label | translate}}:
+    <span ng-if="fieldModel.field.required" class="asterick">*</span>
+  </label>
+
+  <div ng-if="!fieldModel">
+    <div class="col-sm-8">
+      <input disabled type="text" placeholder="{{'LOADING' | translate}}" class="form-control keyboard-in">
+    </div>
+  </div>
+
+
+  <div class="col-sm-8" ng-if="fieldModel.fieldConcept.fieldType.display === 'Concept'">
+
+    <div ng-switch="fieldModel.fieldConcept.concept.datatype.display">
+
+      <div ng-messages for="aForm.{{fieldId}}.$error"
+           ng-messages-include="../poc-common/form-display/views/error-messages.html"
+           ng-show="showMessages">
+      </div>
+
+      <div ng-switch-when="Text">
+        <input ng-if="!field.textSize" type="text" name="{{fieldId}}" class="form-control keyboard-in"
+               placeholder="{{field.label | translate}}"
+               ng-model="fieldModel.value"
+               ng-required="{{fieldModel.field.required}}">
+
+        <textarea ng-if="field.textSize" type="text" name="{{fieldId}}" class="form-control keyboard-in"
+                  placeholder="{{field.label | translate}}"
+                  ng-model="fieldModel.value"
+                  size="{{field.textSize}}"
+                  ng-required="{{fieldModel.field.required}}"></textarea>
+      </div>
+
+      <div ng-switch-when="Numeric">
+        <input name="{{fieldId}}" type="number" class="form-control keyboard-in"
+               placeholder="{{field.label | translate}}"
+               ng-model="fieldModel.value"
+               ng-required="{{fieldModel.field.required}}"
+               ng-min="{{(field.constraints) ? field.constraints.min : ''}}"
+               ng-max="{{(field.constraints) ? field.constraints.max : ''}}">
+      </div>
+
+      <div ng-switch-when="Datetime" class="input-group date">
+        <input
+
+          name="{{fieldId}}" type="text" class="form-control keyboard-in"
+          placeholder="{{field.label | translate}}"
+          ng-model="fieldModel.value"
+          date-time min-view="date" auto-close="true"
+          ng-required="{{fieldModel.field.required}}">
+        <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+      </div>
+
+      <div ng-switch-when="Date" class="input-group date" ng-hide="field.hidden">
+                <span ng-if="validDate==true" class="input-group-addon">
+                <span class="glyphicon glyphicon-remove btn-md btn-danger" title="Date is wrong"></span>
+                </span>
+        <input ng-disabled="{{field.disabled}}"
+               name="{{fieldId}}" type="text" class="form-control keyboard-in"
+               placeholder="{{field.label | translate}}"
+               ng-model="fieldModel.value"
+               date-time format="yyyy-MM-dd" min-view="date" auto-close="true"
+               ng-required="{{fieldModel.field.required}}">
+        <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+
+      </div>
+
+      <div ng-switch-when="Coded">
+        <div ng-if="field.searchBySource">
+          <input type="text" name="{{fieldId}}"
+                 ng-model="fieldModel.value"
+                 uib-typeahead="concept as concept.display for concept in getConcepts($viewValue)"
+                 typeahead-loading="loadingLocations"
+                 typeahead-no-results="noResults"
+                 class="form-control keyboard-in"
+                 ng-required="{{fieldModel.field.required}}"
+                 autocomplete="off">
+
+
+        </div>
+        <div ng-if="!field.searchBySource">
+          <div class="bg-info-border border-rouded" ng-if="fieldModel.fieldConcept.selectMultiple">
+            <div class="content-border-padding" ng-repeat="answer in fieldModel.fieldConcept.concept.answers">
+              <checkbox largest
+                        id="{{answer.uuid}}"
+                        name="{{fieldId}}"
+                        ng-true-value="{{answer}}"
+                        ng-false-value="undefined"
+                        ng-model="fieldModel.value[answer.uuid]"
+                        ng-required="{{fieldModel.field.required && !fieldModel.value}}">
+              </checkbox>
+              {{answer.display}}
+            </div>
+          </div>
+          <div ng-if="!fieldModel.fieldConcept.selectMultiple">
+            <div ng-if="fieldModel.fieldConcept.concept.answers.length > 3">
+              <select name="{{fieldId}}" class="form-control"
+                      ng-model="fieldModel.value"
+                      ng-options="answer.display for answer in fieldModel.fieldConcept.concept.answers"
+                      ng-required="{{fieldModel.field.required}}"
+                      ng-disabled="{{field.disabled}}">
+                <option></option>
+              </select>
+            </div>
+            <div class="bg-info-border border-rouded"
+                 ng-class="{'bg-error-border': aForm.{{fieldId}}.$invalid && showMessages}"
+                 ng-if="fieldModel.fieldConcept.concept.answers.length <= 3">
+              <div class="content-border-padding" ng-repeat="answer in fieldModel.fieldConcept.concept.answers">
+                <input type="radio"
+                       id="{{fieldId}}{{answer.uuid}}"
+                       class="radio-lx"
+                       name="{{fieldId}}"
+                       ng-value="'{{answer}}'"
+                       ng-model="fieldModel.value"
+                       ng-required="{{fieldModel.field.required && !fieldModel.value}}">
+                <label for="{{fieldId}}{{answer.uuid}}">{{answer.display}}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

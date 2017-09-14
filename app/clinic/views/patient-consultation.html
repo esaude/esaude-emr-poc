@@ -15,21 +15,14 @@
                 <span class="glyphicon glyphicon-plus"></span>
             </button>
             <strong>{{lastNotesMessageType.value.display}}!</strong> {{lastNotesStory.value}}
-            <br/><strong>{{'COMMON_BY'| translate}}</strong> {{lastNotes.provider.display}} <strong>{{'COMMON_ON'| translate}}</strong> {{lastNotes.encounterDatetime | date:"MM/dd/yyyy"}}
+            <br/><strong>{{'COMMON_BY'| translate}}</strong> {{lastNotes.provider.display}} <strong>{{'COMMON_ON'| translate}}</strong> {{lastNotes.encounterDatetime | date}}
         </div>
     </div>
 
-    <div class="panel panel-primary" ng-controller="ClinicalServiceController" >
+    <div class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title">{{'COMMON_CLINIC_SERVICES_TITLE'| translate}}</h3>
         </div>
-      <clinical-services patient-uuid="patientUUID"
-                         services="clinicalServices"
-                         service-forms="serviceForms"
-                         has-visit-today="hasVisitToday"
-                         today-visit="todayVisit"
-                         on-add="linkServiceAdd(service)"
-                         on-edit="linkServiceEdit(service, encounter)"
-                         on-click="linkServiceDisplay(service, encounter)"></clinical-services>
+      <clinical-services patient-uuid="patientUUID"></clinical-services>
     </div>
 </div>

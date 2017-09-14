@@ -3,7 +3,7 @@
         <b>{{'PATIENT_INFO_DEAD' | translate}}: </b> {{(vm.patient.dead === true) ? 'COMMON_YES' : 'COMMON_NO' | translate}}
     </li>
     <li class="list-group-item">
-        <b>{{'PATIENT_INFO_DEATH_DATE' | translate}}: </b> {{vm.patient.deathDate | date:"MM/dd/yyyy"}}
+        <b>{{'PATIENT_INFO_DEATH_DATE' | translate}}: </b> {{vm.patient.deathDate | date}}
     </li>
     <li class="list-group-item">
         <b>{{'PATIENT_INFO_DEATH_REASON' | translate}}: </b> {{vm.patient.causeOfDeath.display}}
