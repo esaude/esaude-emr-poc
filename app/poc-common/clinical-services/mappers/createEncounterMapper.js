@@ -164,11 +164,7 @@
         try {
           isObj = JSON.parse(value);
 
-          if (typeof isObj === 'object') {
-            return true;
-          } else {
-            return false;
-          }
+          return typeof isObj === 'object';
         } catch (err) {
           return false;
         }

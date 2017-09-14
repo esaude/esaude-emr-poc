@@ -167,7 +167,7 @@
           notifier.error($filter('translate')('PATIENT_INFO_IDENTIFIER_ERROR_EXISTING'));
         }
       }
-    };
+    }
 
     //TODO: Find and use a library that does this.
     function randomStr(m) {

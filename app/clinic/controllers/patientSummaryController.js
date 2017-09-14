@@ -50,7 +50,7 @@
       return _.slice(list, 0, vm.displayLimit.value);
     }
 
-    function updateDisplayLimit(item) {
+    function updateDisplayLimit() {
       spinner.forPromise(getPatient()
         .then(function (p) { patient = p; })
         .then(initVisitHistory)

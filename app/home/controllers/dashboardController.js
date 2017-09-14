@@ -13,7 +13,7 @@ angular.module('home')
 
                 //find default location and validate it
                 return loadDefaultLocation();
-            };
+            }
 
             var loadDefaultLocation = function () {
                 var configNames = ['defaultLocation'];

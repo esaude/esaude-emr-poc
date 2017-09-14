@@ -1,11 +1,11 @@
 <ul class="list-group content-border-margin-regular">
     <li class="list-group-item">
-        <b>{{'PATIENT_INFO_DEAD' | translate}}: </b> {{(vm.patient.dead === true) ? 'COMMON_YES' : 'COMMON_NO' | translate}}
+        <b>{{'PATIENT_INFO_DEAD' | translate}}: </b> {{(patientCommon.patient.dead === true) ? 'COMMON_YES' : 'COMMON_NO' | translate}}
     </li>
     <li class="list-group-item">
-        <b>{{'PATIENT_INFO_DEATH_DATE' | translate}}: </b> {{vm.patient.deathDate | date}}
+        <b>{{'PATIENT_INFO_DEATH_DATE' | translate}}: </b> {{patientCommon.patient.deathDate | date}}
     </li>
     <li class="list-group-item">
-        <b>{{'PATIENT_INFO_DEATH_REASON' | translate}}: </b> {{vm.patient.causeOfDeath.display}}
+        <b>{{'PATIENT_INFO_DEATH_REASON' | translate}}: </b> {{patientCommon.patient.causeOfDeath.display}}
     </li>
 </ul>

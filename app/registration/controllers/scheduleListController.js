@@ -6,8 +6,6 @@ angular.module('registration')
                     function ($rootScope, $scope, patientService,
                         commonService, cohortService, patientMapper, observationsService, visitService) {
 
-            //TODO: To be removed if unused
-            var dateUtil = Bahmni.Common.Util.DateUtil;
             $scope.hasSchedules = false;
 
             function init() {
@@ -16,7 +14,7 @@ angular.module('registration')
                         $scope.hasSchedules = true;
 
                     });
-            };
+            }
 
             $scope.getLastConsultationAndVisit = function () {
                 _.forEach($scope.cohortMembers, function (member) {

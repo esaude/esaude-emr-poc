@@ -13,7 +13,7 @@ angular.module('clinic')
                         $scope.hasSchedules = true;
 
                     });
-            };
+            }
 
             $scope.getLastConsultationAndVisit = function () {
                 _.forEach($scope.cohortMembers, function (member) {
