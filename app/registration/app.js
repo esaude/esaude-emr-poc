@@ -25,9 +25,6 @@
       }
     });
 
-    // used in formStateAutoGen
-    // TODO: check if formStateAutoGen can be run in angular configuration phase to eliminating this hack!!!
-    $stateProviderRef = $stateProvider;
     $bahmniTranslateProvider.init({app: 'registration', shouldMerge: true});
 
     $stateProvider
@@ -60,7 +57,9 @@
             templateUrl: 'views/dashboard.html'
           }
         },
-        resolve: {initialization: 'initialization'},
+        resolve: {
+          initialization: 'initialization'
+        },
         ncyBreadcrumb: {
           label: '{{ \'COMMON_DASHBOARD\' | translate}}',
           parent: 'search'
@@ -93,6 +92,11 @@
           label: '{{\'COMMON_CLINIC_SERVICES_TITLE\' | translate}}',
           parent: 'dashboard',
           skip: true
+        },
+        resolve: {
+          clinicalServicesService: function (clinicalServicesService) {
+            return clinicalServicesService.init('registration');
+          }
         }
       })
       .state('dashboard.alerts', {

@@ -20,7 +20,7 @@
                         <label class="control-label col-sm-4">{{'COMMON_PROGRAM_ENROLLMENT_ADMISSION_DATE' | translate}}:</label>
                         <div class="input-group date col-sm-8">
                             <input type="text" class="form-control" date-time ng-model="programSelected.dateEnrolled"
-                                   placeholder="{{programSelected.dateEnrolled | date:'yyyy-MM-dd HH:mm'}}"
+                                   placeholder="{{programSelected.dateEnrolled | date:'medium'}}"
                            min-view="date" auto-close="true" />
                             <span class="input-group-addon">
                                 <span class="glyphicon glyphicon-calendar"></span>
@@ -31,7 +31,7 @@
                         <label class="control-label col-sm-4">{{'COMMON_PROGRAM_ENROLLMENT_COMPLETION_DATE' | translate}}:</label>
                         <div class="input-group date col-sm-8">
                             <input type="text" class="form-control" date-time ng-model="programSelected.dateCompleted"
-                                placeholder="{{programSelected.dateCompleted | date:'yyyy-MM-dd HH:mm'}}"
+                                placeholder="{{programSelected.dateCompleted | date:'medium'}}"
                            min-view="date" auto-close="true"/>
                             <span class="input-group-addon">
                                 <span class="glyphicon glyphicon-calendar"></span>

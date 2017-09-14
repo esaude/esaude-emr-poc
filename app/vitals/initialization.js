@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('vitals').factory('initialization',
-    ['$cookies', '$rootScope', 'configurations', 'authenticator', 'appService', 'spinner', 'userService', 'formLoader',
-    function ($cookies, $rootScope, configurations, authenticator, appService, spinner, userService, formLoader) {
+    ['$cookies', '$rootScope', 'configurations', 'authenticator', 'appService', 'spinner', 'userService',
+    function ($cookies, $rootScope, configurations, authenticator, appService, spinner, userService) {
         var getConfigs = function () {
             var configNames = ['patientAttributesConfig', 'addressLevels'];
             return configurations.load(configNames).then(function () {
@@ -15,20 +15,6 @@ angular.module('vitals').factory('initialization',
                 $rootScope.defaultVisitTypes = appService.getAppDescriptor().getConfigValue("defaultVisitTypes");
                 $rootScope.appId = appService.getAppDescriptor().getId();
             });
-        };
-
-        var initForms = function () {
-           return formLoader.load(appService.getAppDescriptor().getClinicalServices()).then(function (data) {
-               $rootScope.serviceForms = data;
-           });
-        };
-
-        var initClinicalServices = function () {
-            $rootScope.clinicalServices = appService.getAppDescriptor().getClinicalServices();
-        };
-
-        var initFormLayout = function () {
-            $rootScope.formLayout = appService.getAppDescriptor().getFormLayout();
         };
 
         var initApp = function() {
@@ -46,9 +32,6 @@ angular.module('vitals').factory('initialization',
         return spinner.forPromise(authenticator.authenticateUser()
                 .then(initApp)
                 .then(getConfigs)
-                .then(loadUser)
-                .then(initFormLayout)
-                .then(initForms)
-                .then(initClinicalServices));
+                .then(loadUser));
     }]
 );

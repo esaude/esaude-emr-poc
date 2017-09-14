@@ -5,7 +5,7 @@
         <h3 class="panel-title">{{'CLINIC_PATIENT_VITALS' | translate}}</h3>
       </div>
         <div class="bg-info content-border-padding-li">
-          {{'CLINIC_PATIENT_CAPTURED' | translate}} {{'COMMON_ON' | translate}} {{vitals[0].encounterDatetime | date:"MMM d, y"}}
+          {{'CLINIC_PATIENT_CAPTURED' | translate}} {{'COMMON_ON' | translate}} {{vitals[0].encounterDatetime | date}}
         </div>
         <div ng-repeat="obs in vitals[0].obs">
           <div class="list-group-item">
@@ -22,7 +22,7 @@
       </div>
         <div ng-repeat="encounter in labResults[0]">
           <div class="bg-info content-border-padding-li">
-            {{'CLINIC_PATIENT_COLLECTED' | translate}} {{'COMMON_ON' | translate}} {{encounter.encounterDatetime | date:"MMM d, y"}}
+            {{'CLINIC_PATIENT_COLLECTED' | translate}} {{'COMMON_ON' | translate}} {{encounter.encounterDatetime | date}}
           </div>
           <div ng-repeat="obs in encounter.obs">
             <div ng-if="obs.groupMembers">

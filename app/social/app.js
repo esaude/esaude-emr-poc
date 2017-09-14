@@ -24,9 +24,6 @@
       }
     });
 
-    // used in formStateAutoGen
-    // TODO: check if formStateAutoGen can be run in angular configuration phase to eliminating this hack!!!
-    $stateProviderRef = $stateProvider;
     $bahmniTranslateProvider.init({app: 'social', shouldMerge: true});
 
     $stateProvider
@@ -71,7 +68,10 @@
           }
         },
         resolve: {
-          initialization: 'initialization'
+          initialization: 'initialization',
+          clinicalServicesService: function (clinicalServicesService) {
+            return clinicalServicesService.init('social');
+          }
         },
         ncyBreadcrumb: {
           label: '{{ \'COMMON_DASHBOARD\' | translate}}',

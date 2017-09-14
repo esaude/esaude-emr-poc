@@ -11,3 +11,4 @@
 /esaude-emr-poc*
 /.idea
 *.log
+*.patch

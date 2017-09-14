@@ -6,10 +6,10 @@
             </div>
             <div class="list-group" ng-repeat="visit in visits">
                 <div class="bg-info content-border-padding-li">
-                    {{'CLINIC_PATIENT_VISIT' | translate}} {{'COMMON_ON' | translate}} {{visit[0].encounterDatetime | date:"MMM d, y"}}
+                    {{'CLINIC_PATIENT_VISIT' | translate}} {{'COMMON_ON' | translate}} {{visit[0].encounterDatetime | date}}
                 </div>
                 <div class="list-group-item" ng-repeat="encounter in visit">
-                    <div>{{encounter.encounterType.display}} {{'COMMON_ON' | translate}} {{encounter.encounterDatetime | date:"MMM d, y"}}, 
+                    <div>{{encounter.encounterType.display}} {{'COMMON_ON' | translate}} {{encounter.encounterDatetime | date}},
                         {{'COMMON_BY' | translate}}: {{encounter.provider.display}}</div>
                 </div>
             </div>
@@ -22,7 +22,7 @@
             </div>
             <div class="list-group">
                 <div class="bg-info content-border-padding-li">
-                    {{'CLINIC_PATIENT_COLLECTED' | translate}} {{'COMMON_ON' | translate}} {{maxLab.encounterDatetime | date:"MMM d, y"}}
+                    {{'CLINIC_PATIENT_COLLECTED' | translate}} {{'COMMON_ON' | translate}} {{maxLab.encounterDatetime | date}}
                 </div>
                 <div ng-repeat="obs in maxLab.obs">
                     <div ng-if="obs.groupMembers">
@@ -35,12 +35,12 @@
                     </div>
                     <div ng-if="!obs.groupMembers">
                         <div class="list-group-item">
-                            {{obs.concept.name.display}}: 
+                            {{obs.concept.name.display}}:
                             <span class="badge">{{isObject(obs.value) ? obs.value.display : obs.value}}</span>
                         </div>
                     </div>
                 </div>
             </div>
-        </div> 
+        </div>
     </div>
 </div>
