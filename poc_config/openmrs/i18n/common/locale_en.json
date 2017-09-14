@@ -298,5 +298,5 @@
     "LOADING": "Loading...",
     "NO_LIST_ITEMS": "No items to display",
     "FIELD_NEVER_VISITED": "This field was never visited, please visit this field before save",
-    "FIELD_NOT_VALID": "This field didn't pass validation rules"
+    "FIELD_NOT_VALID": "This field didn't pass validation rules. Please fix it before save"
 }

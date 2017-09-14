@@ -20,11 +20,11 @@
     return directive;
   }
 
-  ClinicalServiceDirectiveController.$inject = ['$filter', '$q', '$state', 'patientService', 'visitService',
-    'clinicalServicesService', 'notifier'];
+  ClinicalServiceDirectiveController.$inject = ['$filter', '$q', '$state', 'clinicalServicesService', 'notifier',
+    'patientService', 'spinner', 'visitService'];
 
-  function ClinicalServiceDirectiveController($filter, $q, $state, patientService, visitService, clinicalServicesService,
-                                              notifier) {
+  function ClinicalServiceDirectiveController($filter, $q, $state, clinicalServicesService, notifier, patientService,
+                                              spinner, visitService) {
 
     var vm = this;
 
@@ -43,21 +43,23 @@
     ////////////////
 
     function onInit() {
-      $q.all([
+      var load = $q.all([
         visitService.getTodaysVisit(vm.patientUuid),
         patientService.getPatient(vm.patientUuid)
       ])
         .then(function (result) {
           var todaysVisit = result[0];
           var patient = result[1];
-          initServices(patient, todaysVisit);
+          return initServices(patient, todaysVisit);
         });
+
+      spinner.forPromise(load);
     }
 
 
     function initServices(patient, todayVisit) {
 
-      clinicalServicesService
+      return clinicalServicesService
         .getClinicalServiceWithEncountersForPatient(patient)
         .then(function (clinicalServices) {
           vm.services = clinicalServices;

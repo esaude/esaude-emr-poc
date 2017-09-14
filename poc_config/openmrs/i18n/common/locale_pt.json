@@ -292,5 +292,5 @@
     "LOADING": "Carregando...",
     "NO_LIST_ITEMS": "Nenhum item para mostrar",
     "FIELD_NEVER_VISITED": "Este campo não foi visitado, por favor visite este campo antes de salvar",
-    "FIELD_NOT_VALID": "Este campo não é válido"
+    "FIELD_NOT_VALID": "Este campo contem erro de validação. Favor de corrigir antes de salvar"
 }
