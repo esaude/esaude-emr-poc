@@ -12,7 +12,6 @@ angular.module('clinic').factory('initialization',
                 $rootScope.landingPageAfterSearch = appService.getAppDescriptor().getConfigValue("landingPageAfterSearch");
                 $rootScope.landingPageAfterSave = appService.getAppDescriptor().getConfigValue("landingPageAfterSave");
                 $rootScope.defaultVisitTypes = appService.getAppDescriptor().getConfigValue("defaultVisitTypes");
-                $rootScope.addressLevels = configurations.addressLevels();
                 $rootScope.defaultDisplayLimit = appService.getAppDescriptor().getConfigValue("defaultDisplayLimit");
                 $rootScope.appId = appService.getAppDescriptor().getId();
             });

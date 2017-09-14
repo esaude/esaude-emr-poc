@@ -5,13 +5,14 @@
     .module('registration')
     .controller('UpdatePatientController', UpdatePatientController);
 
-  UpdatePatientController.$inject = ['$scope', '$location', '$state', '$stateParams', 'patientService', 'notifier', '$filter'];
+  UpdatePatientController.$inject = ['$filter', '$scope', '$location', '$state', '$stateParams', 'patient', 'patientService', 'notifier'];
 
   /* @ngInject */
-  function UpdatePatientController($scope, $location, $state, $stateParams, patientService, notifier, $filter) {
+  function UpdatePatientController($filter, $scope, $location, $state, $stateParams, patient, patientService, notifier) {
 
     var uuid = $stateParams.patientUuid;
 
+    $scope.patient = patient;
     $scope.openMRSPatient = {};
     $scope.srefPrefix = "editpatient.";
 
@@ -29,7 +30,7 @@
     }
 
     function linkCancel() {
-      $state.go('dashboard');
+      $state.go('dashboard', {patientUuid: uuid});
     }
 
     function save() {

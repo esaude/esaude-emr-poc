@@ -4,14 +4,17 @@
   angular.module('patient.details')
     .controller('DetailPatientController', DetailPatientController);
 
-  DetailPatientController.$inject = ["$scope", "$stateParams", "$location", "reportService"];
+  DetailPatientController.$inject = ["$stateParams", "$location", "reportService", "patientService",
+    "notifier", "translateFilter"];
 
-  function DetailPatientController($scope, $stateParams, $location, reportService) {
+  function DetailPatientController($stateParams, $location, reportService, patientService, notifier,
+                                   translateFilter) {
+
+    var patientUUID = $stateParams.patientUuid;
+
     var vm = this;
 
-    vm.patient = $scope.patient;
-    vm.patientAttributes = [];
-    vm.initAttributes = initAttributes;
+    vm.patient = {};
     vm.linkDashboard = linkDashboard;
     vm.print = print;
 
@@ -20,27 +23,25 @@
     ////////////////
 
     function activate() {
-      initAttributes();
-    }
-
-
-    function initAttributes() {
-      vm.patientAttributes = [];
-      angular.forEach($scope.patientConfiguration.customAttributeRows(), function (value) {
-        angular.forEach(value, function (value) {
-          vm.patientAttributes.push(value);
+      getPatient(patientUUID)
+        .then(function (patient) {
+          vm.patient = patient;
+        })
+        .catch(function () {
+          notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
         });
-      });
     }
-
 
     function linkDashboard() {
-      $location.url("/dashboard/" + $stateParams.patientUuid); // path not hash
+      $location.url("/dashboard/" + patientUUID); // path not hash
     }
-
 
     function print() {
       reportService.printPatientDailyHospitalProcess(vm.patient);
+    }
+
+    function getPatient(uuid) {
+      return patientService.getPatient(uuid);
     }
   }
 })();

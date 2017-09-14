@@ -73,8 +73,6 @@ module.exports = function (config) {
       'bower_components/angular-breadcrumb/dist/angular-breadcrumb.js',
 
       // endbower
-      // bundled libraries
-      'lib/modernizr.custom.80690.js',
       // application files
       'app/**/*.js',
       'app/home/**/*.js',
