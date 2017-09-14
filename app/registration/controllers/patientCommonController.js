@@ -12,6 +12,7 @@
   function PatientCommonController($scope, $http, $state, patientAttributeService, patientService, localStorageService,
                                    spinner, notifier, $filter, TabManager) {
 
+    console.info('PatientCommonController');
     var dateUtil = Bahmni.Common.Util.DateUtil;
     var patientConfiguration = $scope.patientConfiguration;
 
@@ -22,6 +23,7 @@
     vm.patientIdentifierTypes = [];
     vm.srefPrefix = $scope.srefPrefix;
     vm.today = dateUtil.getDateWithoutTime(dateUtil.now());
+    vm.deathConcepts = [];
 
     vm.addNewIdentifier = addNewIdentifier;
     vm.changeTab = changeTab;
@@ -36,6 +38,10 @@
     vm.selectIsDead = selectIsDead;
     vm.setPreferredId = setPreferredId;
     vm.stepForward = stepForward;
+
+    vm.deceasedPatient = deceasedPatient;
+    vm.deletePatient = deletePatient;
+
 
     var tabManager = new TabManager();
     tabManager.addStepDefinition(vm.srefPrefix + "identifier", 1);
@@ -59,13 +65,23 @@
 
       var load = getIdentifierTypes().then(function (identifierTypes) {
         vm.patientIdentifierTypes = identifierTypes;
+        vm.getDeathConcepts();
       });
+
 
       spinner.forPromise(load);
     }
 
+    function successCallback() {
+      notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
+    }
+    function failureCallback() {
+      notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ACTION'));
+    }
+
 
     function disableIsDead() {
+      // return null;
       return (vm.patient.causeOfDeath !== null || vm.patient.deathDate !== null) && vm.patient.dead;
     }
 
@@ -82,9 +98,9 @@
 
     function getDeathConcepts() {
       var deathConcept;
-      var deathConceptValue;
+      var deathConceptValue, deathConceptUuid;
       $http({
-        url: '/openmrs/ws/rest/v1/systemsetting',
+        url: Bahmni.Common.Constants.systemSetting,
         method: 'GET',
         params: {
           q: 'concept.causeOfDeath',
@@ -94,19 +110,32 @@
         transformResponse: [function (data) {
           deathConcept = JSON.parse(data);
           deathConceptValue = deathConcept.results[0].value;
-          $http.get(Bahmni.Common.Constants.conceptUrl, {
-            params: {
-              q: deathConceptValue,
-              v: 'custom:(uuid,name,set,answers:(uuid,display,name:(uuid,name),retired))'
-            },
-            withCredentials: true
-          }).then(function (results) {
-            vm.deathConcepts = results.data.results[0] !== null ? results.data.results[0].answers : [];
+          $http.get(Bahmni.Common.Constants.conceptUrl +'/'+deathConceptValue).then(function (results) {
+            vm.deathConcepts = results.data !== null ? results.data.answers : [];
             vm.deathConcepts = filterRetireDeathConcepts(vm.deathConcepts);
           });
         }]
       });
     }
+
+    function deceasedPatient() {
+      console.log(vm.patient.causeOfDeath.uuid);
+      var patientState = {
+        dead: true,
+        causeOfDeath: vm.patient.causeOfDeath.uuid,
+        deathDate:vm.patient.deathDate
+      };
+      patientService.diedPatient(vm.patient.uuid, patientState)
+        .then(successCallback())
+        .catch(failureCallback());
+    }
+
+    function deletePatient() {
+      patientService.deletePatient(vm.patient.uuid, deleteReason)
+        .then(successCallback(), failureCallback());
+    }
+
+
 
 
     function filterRetireDeathConcepts(deathConcepts) {
@@ -167,7 +196,7 @@
           notifier.error($filter('translate')('PATIENT_INFO_IDENTIFIER_ERROR_EXISTING'));
         }
       }
-    }
+    };
 
     //TODO: Find and use a library that does this.
     function randomStr(m) {
@@ -182,9 +211,9 @@
 
     function addNewIdentifier() {
       vm.patient.identifiers.push({
-          identifier: null, preferred: false,
-          location: localStorageService.cookie.get("emr.location").uuid,
-          fieldName: randomStr()
+        identifier: null, preferred: false,
+        location: localStorageService.cookie.get("emr.location").uuid,
+        fieldName: randomStr()
       });
     }
 

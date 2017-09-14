@@ -89,6 +89,12 @@
     "Bairro":"Neighborhood",
     "Celula":"Celll",
     "Av./Rua/Casa": "Av./Street/Home",
-    "NEW_PATIENT": "New Patient"
+    "NEW_PATIENT": "New Patient",
+    "DELETE_PATIENT": "Delete",
+    "REASON_TO_DELETE": "Reason to Delete",
+    "PATIENT_DELETED": "Patient Deleted"
+
+
+
 
 }
