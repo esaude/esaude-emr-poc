@@ -34,7 +34,7 @@
           return response.data.setMembers;
         })
         .catch(function (error) {
-          $log.error('XHR Failed for getPrescriptionConvSetConcept. ' + error.data);
+          $log.error('XHR Failed for getPrescriptionConvSetConcept: ' + error.data.error.message);
           return $q.reject(error);
         });
     }
