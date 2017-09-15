@@ -108,13 +108,19 @@
         deathDate:vm.patient.deathDate
       };
       patientService.updatePerson(vm.patient.uuid, patientState)
-        .then(successCallback())
-        .catch(failureCallback());
+        .then(successCallback)
+        .catch(failureCallback);
+      $(function () {
+        $('#deletePatientModal').modal('toggle');
+      });
     }
 
     function deletePatient() {
       patientService.voidPatient(vm.patient.uuid, deleteReason)
-        .then(successCallback(), failureCallback());
+        .then(successCallback, failureCallback);
+      $(function () {
+        $('#deletePatientModal').modal('toggle');
+      });
     }
 
     function listRequiredIdentifiers() {
