@@ -25,8 +25,8 @@
       search: search,
       update: update,
       updatePatientIdentifier: updatePatientIdentifier,
-      deletePatient: deletePatient,
-      diedPatient: diedPatient
+      voidPatient: voidPatient,
+      updatePerson: updatePerson
     };
 
     ////////////////
@@ -135,11 +135,11 @@
       });
     }
 
-    function diedPatient(personUuid, patientState) {
+    function updatePerson(personUuid, patientState) {
       return $http.post(BASE_OPENMRS_REST_URL+"/person/"+personUuid , patientState);
     }
 
-    function deletePatient(patientUuid, reason){
+    function voidPatient(patientUuid, reason){
       return $http.delete(BASE_OPENMRS_REST_URL+ patientUuid + "?reason="+ reason );
     }
   }

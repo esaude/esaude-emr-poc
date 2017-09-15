@@ -11,7 +11,8 @@
 
     var service = {
       get: get,
-      getPrescriptionConvSetConcept: getPrescriptionConvSetConcept
+      getPrescriptionConvSetConcept: getPrescriptionConvSetConcept,
+      getDeathConcepts: getDeathConcepts
     };
 
     return service;
@@ -38,6 +39,30 @@
           return $q.reject(error);
         });
     }
+
+    function  getDeathConcepts() {
+
+      function filterRetireDeathConcepts(deathConcepts) {
+        return _.filter(deathConcepts, function (concept) {
+          return !concept.retired;
+        });
+      }
+
+      return $http.get(Bahmni.Common.Constants.systemSetting + '?q=concept.causeOfDeath&v=custom:value')
+            .then(function(response) {
+
+              var all = response.data.results.map(function (r) {
+                return $http.get(Bahmni.Common.Constants.conceptUrl +'/'+r.value);
+              });
+
+              return $q.all(all).then(function (results) {
+                return _.flatMap(results, function (r) {
+                  return r.data !== null ? filterRetireDeathConcepts(r.data.answers) : [];
+                });
+              });
+      });
+    }
+
   }
 
 })();
