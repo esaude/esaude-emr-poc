@@ -1,5 +1,5 @@
 describe('Controller: LoginController', function () {
-    var scope, q, controller, location, sessionService, stateParams, mockLocaleService, $httpBackend, $window;
+    var scope, $q, controller, location, sessionService, stateParams, mockLocaleService, $httpBackend, $window;
 
     beforeEach(module('home'));
 
@@ -16,54 +16,62 @@ describe('Controller: LoginController', function () {
         });
     });
 
-    beforeEach(inject(function ($controller, $rootScope, _$location_, _sessionService_, $q, $stateParams, localeService, _$httpBackend_) {
+    beforeEach(inject(function ($controller, $rootScope, _$location_, _sessionService_, _$q_, $stateParams, localeService, _$httpBackend_) {
         scope = $rootScope.$new();
-        q = $q;
+        $q = _$q_;
         location = _$location_;
         controller = $controller;
         stateParams = $stateParams;
         sessionService = _sessionService_;
         mockLocaleService = localeService;
         $httpBackend = _$httpBackend_;
-
-        // mock sessionService.loginUser
-        spyOn(sessionService, 'loginUser').and.callFake(function (testUser) {
-            var defer = $q.defer();
-
-            if (testUser === 'testSuccessUser') {
-                defer.resolve();
-            } else {
-                defer.reject('invalid username or password');
-            }
-
-            return defer.promise;
-        });
-
-        // mock sessionService.getSession
-        spyOn(sessionService, 'getSession').and.callFake(function () {
-            return {
-                then: function (callback) {
-                    var data = {};
-                    data.authenticated = false;
-                    callback(data);
-                }
-            };
-        });
-
-        // mock localService
-        spyOn(mockLocaleService, 'allowedLocalesList').and.callFake(function () {
-            var defer = $q.defer();
-
-            defer.resolve({
-                data: 'en, es, fr, it, pt'
-            });
-
-            return defer.promise;
-        });
-
-        location.path('/login');
-        spyOn(location, 'path').and.callThrough();
     }));
+
+    beforeEach(function () {
+      // mock sessionService.loginUser
+      spyOn(sessionService, 'loginUser').and.callFake(function (testUser) {
+        var defer = $q.defer();
+
+        if (testUser === 'testSuccessUser') {
+          defer.resolve();
+        } else {
+          defer.reject('invalid username or password');
+        }
+
+        return defer.promise;
+      });
+
+      // mock sessionService.getSession
+      spyOn(sessionService, 'getSession').and.callFake(function () {
+        return {
+          then: function (callback) {
+            var data = {};
+            data.authenticated = false;
+            callback(data);
+          }
+        };
+      });
+
+      // mock localService
+      spyOn(mockLocaleService, 'allowedLocalesList').and.callFake(function () {
+        var defer = $q.defer();
+
+        defer.resolve({
+          data: 'en, es, fr, it, pt'
+        });
+
+        return defer.promise;
+      });
+
+      spyOn(sessionService, 'setLocale').and.callFake(function () {
+        return $q(function (resolve) {
+          return resolve();
+        });
+      });
+
+      location.path('/login');
+      spyOn(location, 'path').and.callThrough();
+    });
 
     it('should redirect the user to the landing page on successful login', function () {
         // construct controller
@@ -74,7 +82,7 @@ describe('Controller: LoginController', function () {
         });
 
         // mock sessionService.loadCredentials (success)
-        spyOn(sessionService, 'loadCredentials').and.returnValue(q.when({}));
+        spyOn(sessionService, 'loadCredentials').and.returnValue($q.when({}));
 
         scope.loginUser = {
             username: 'testSuccessUser',
@@ -135,7 +143,7 @@ describe('Controller: LoginController', function () {
 
         // mock sessionService.loadCredentials (failure)
         spyOn(sessionService, 'loadCredentials').and.callFake(function () {
-            return q.reject('failure to load credentials');
+            return $q.reject('failure to load credentials');
         });
 
         scope.loginUser = {
@@ -175,7 +183,7 @@ describe('Controller: LoginController', function () {
         });
 
         // mock sessionService.loadCredentials
-        spyOn(sessionService, 'loadCredentials').and.returnValue(q.when({}));
+        spyOn(sessionService, 'loadCredentials').and.returnValue($q.when({}));
 
         expect(sessionService.getSession).toHaveBeenCalled();
         expect(location.path).toHaveBeenCalledWith('/dashboard');

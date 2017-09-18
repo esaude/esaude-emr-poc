@@ -64,7 +64,7 @@ describe('reportService', function () {
     });
 
     it('should cancel report generation if load fails', function () {
-      loadTemplate.respond(404, 'Not Found');
+      loadTemplate.respond(404, {error: {data: {error: {message: ''}}}});
 
       spyOn($log, "error").and.callThrough();
       spyOn($q, "reject").and.callThrough();

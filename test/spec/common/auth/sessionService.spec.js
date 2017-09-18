@@ -154,7 +154,7 @@ describe('sessionService', function () {
 
         spyOn(userService, 'getUser').and.callFake(function () {
           return $q(function (resolve, reject) {
-            return reject({ data: ''});
+            return reject({data: {error: {message: ''}}});
           });
         });
 
@@ -192,6 +192,29 @@ describe('sessionService', function () {
 
       $httpBackend.flush();
       expect(provider).toEqual(mockProvider)
+    });
+
+    afterEach(function () {
+      $httpBackend.verifyNoOutstandingExpectation();
+      $httpBackend.verifyNoOutstandingRequest();
+    });
+
+  });
+
+  describe('setLocale', function () {
+
+    var locale = 'pt_MZ';
+
+    beforeEach(function () {
+      $httpBackend
+        .expectPOST('/openmrs/ws/rest/v1/session', {locale: locale})
+        .respond();
+    });
+
+    it('should set set selected locale', function () {
+      sessionService.setLocale(locale);
+
+      $httpBackend.flush();
     });
 
     afterEach(function () {
