@@ -47,8 +47,8 @@
     function decoratedDateFilter(date, format, timezone) {
       if (!format) {
         format = dateFormat.shortDate;
-      } else if (format === 'medium') {
-        format = dateFormat.medium;
+      } else if (format === 'short') {
+        format = dateFormat.short;
       }
       return originalFilter(date, format, timezone);
     }
