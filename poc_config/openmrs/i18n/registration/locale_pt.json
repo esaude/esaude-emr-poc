@@ -90,7 +90,7 @@
     "Celula":"Celula",
     "Av./Rua/Casa": "Av./Rua/Casa",
     "NEW_PATIENT": "Novo Paciente",
-    "DELETE_PATIENT": "Delete Paciente",
+    "DELETE_PATIENT": "Apagar Paciente",
     "REASON_TO_DELETE": "Motivo para Anular",
     "PATIENT_DELETED": "Paciente removido com sucesso"
 

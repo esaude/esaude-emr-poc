@@ -60,7 +60,10 @@
                   return r.data !== null ? filterRetireDeathConcepts(r.data.answers) : [];
                 });
               });
-      });
+        }).catch(function (error) {
+            $log.error('XHR Failed for getDeahtConcepts. '+error.data);
+            return $q.reject(error);
+        });
     }
 
   }

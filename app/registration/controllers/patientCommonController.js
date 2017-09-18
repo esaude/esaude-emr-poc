@@ -97,7 +97,9 @@
       conceptService.getDeathConcepts()
         .then(function(deathConcepts) {
           vm.deathConcepts = deathConcepts;
-        });
+        }).catch(function(error) {
+          notifer.error(($filter('translate')('COMMON_MESSAGE_ERROR_ACTION')));
+      });
     }
 
     function deceasedPatient() {
