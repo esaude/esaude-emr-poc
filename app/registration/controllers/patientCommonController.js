@@ -66,7 +66,6 @@
         vm.getDeathConcepts();
       });
 
-
       spinner.forPromise(load);
     }
 
@@ -194,7 +193,6 @@
         fieldName: randomStr()
       });
     }
-
 
     function selectIsDead() {
       if (vm.patient.causeOfDeath !== null || vm.patient.deathDate !== null) {
