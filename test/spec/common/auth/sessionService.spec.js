@@ -213,7 +213,6 @@ describe('sessionService', function () {
 
     it('should set set selected locale', function () {
       sessionService.setLocale(locale);
-
       $httpBackend.flush();
     });
 

@@ -73,55 +73,67 @@ describe('Controller: LoginController', function () {
       spyOn(location, 'path').and.callThrough();
     });
 
-    it('should redirect the user to the landing page on successful login', function () {
+
+    describe('activate', function () {
+      it('should set selected locale on session', function () {
+        var ctrl = controller('LoginController', {
+          $scope: {}
+        });
+        expect(sessionService.setLocale).toHaveBeenCalled();
+      });
+    });
+
+    describe('login', function () {
+
+      it('should redirect the user to the landing page on successful login', function () {
         // construct controller
         var ctrl = controller('LoginController', {
-            $scope: scope,
-            $location: location,
-            sessionService: sessionService
+          $scope: scope,
+          $location: location,
+          sessionService: sessionService
         });
 
         // mock sessionService.loadCredentials (success)
         spyOn(sessionService, 'loadCredentials').and.returnValue($q.when({}));
 
         scope.loginUser = {
-            username: 'testSuccessUser',
-            password: 'testSuccessPass'
+          username: 'testSuccessUser',
+          password: 'testSuccessPass'
         };
 
         // mock backend & ensure it gets called
         $httpBackend.expectGET("/poc_config/openmrs/i18n/common/locale_en.json")
-                .respond({
-                    data: window.__fixtures__['local_en']
-                });
+          .respond({
+            data: window.__fixtures__['local_en']
+          });
 
         ctrl.login();
         scope.$apply();
 
         expect(sessionService.getSession).toHaveBeenCalled();
         expect(location.path).toHaveBeenCalledWith('/dashboard');
-    });
+      });
 
-    it('should stay on page and set $scope.errorMessage on invalid user/pass', function () {
+      it('should stay on page and set $scope.errorMessage on invalid user/pass', function () {
         spyOn(sessionService, 'loadCredentials').and.callThrough();
 
         // construct controller
         var ctrl = controller('LoginController', {
-            $scope: scope,
-            $location: location,
-            sessionService: sessionService
+          $scope: scope,
+          $location: location,
+          sessionService: sessionService
         });
 
         scope.loginUser = {
-            username: 'testFailureUser',
-            password: 'testFailurePass'
+          username: 'testFailureUser',
+          password: 'testFailurePass'
         };
 
         // mock backend & ensure it gets called
         $httpBackend.expectGET("/poc_config/openmrs/i18n/common/locale_en.json")
-                .respond({
-                    data: window.__fixtures__['local_en']
-                });
+          .respond({
+            data: window.__fixtures__['local_en']
+          });
 
         // perform login
         ctrl.login();
@@ -131,30 +143,30 @@ describe('Controller: LoginController', function () {
         expect(sessionService.loadCredentials).not.toHaveBeenCalled();
         expect(location.path).not.toHaveBeenCalledWith('/dashboard');
         expect(ctrl.errorMessageTranslateKey).toEqual('invalid username or password');
-    });
+      });
 
-    it('should stay on page and set $scope.errorMessage on failure to load credentiala', function () {
+      it('should stay on page and set $scope.errorMessage on failure to load credentiala', function () {
         // construct controller
         var ctrl = controller('LoginController', {
-            $scope: scope,
-            $location: location,
-            sessionService: sessionService
+          $scope: scope,
+          $location: location,
+          sessionService: sessionService
         });
 
         // mock sessionService.loadCredentials (failure)
         spyOn(sessionService, 'loadCredentials').and.callFake(function () {
-            return $q.reject('failure to load credentials');
+          return $q.reject('failure to load credentials');
         });
 
         scope.loginUser = {
-            username: 'testSuccessUser',
-            password: 'testSuccessPass'
+          username: 'testSuccessUser',
+          password: 'testSuccessPass'
         };
 
         $httpBackend.expectGET("/poc_config/openmrs/i18n/common/locale_en.json")
-                .respond({
-                    data: window.__fixtures__['local_en']
-                });
+          .respond({
+            data: window.__fixtures__['local_en']
+          });
 
         // perform login
         ctrl.login();
@@ -163,23 +175,23 @@ describe('Controller: LoginController', function () {
         expect(sessionService.getSession).toHaveBeenCalled();
         expect(location.path).not.toHaveBeenCalledWith('/dashboard');
         expect(ctrl.errorMessageTranslateKey).toEqual('failure to load credentials');
-    });
+      });
 
-    it('should redirect to the landing page if we are already logged in', function () {
+      it('should redirect to the landing page if we are already logged in', function () {
         // mock sessionService.getSession
         sessionService.getSession.and.returnValue({
-            then: function (callback) {
-                var data = {};
-                data.authenticated = true;
-                callback(data);
-            }
+          then: function (callback) {
+            var data = {};
+            data.authenticated = true;
+            callback(data);
+          }
         });
 
         // construct controller
         controller('LoginController', {
-            $scope: scope,
-            $location: location,
-            sessionService: sessionService
+          $scope: scope,
+          $location: location,
+          sessionService: sessionService
         });
 
         // mock sessionService.loadCredentials
@@ -187,6 +199,7 @@ describe('Controller: LoginController', function () {
 
         expect(sessionService.getSession).toHaveBeenCalled();
         expect(location.path).toHaveBeenCalledWith('/dashboard');
+      });
     });
 
     it('should show session expired message if indicated by state', function () {
