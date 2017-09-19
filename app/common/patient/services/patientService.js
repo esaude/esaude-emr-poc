@@ -136,11 +136,25 @@
     }
 
     function updatePerson(personUuid, patientState) {
-      return $http.post(BASE_OPENMRS_REST_URL+"/person/"+personUuid , patientState);
+      return $http.post(BASE_OPENMRS_REST_URL+"/person/"+personUuid , patientState)
+        .then(function (response) {
+          $log.info('XHR Succed for updatePerson. ' + response);
+        })
+        .catch(function (error) {
+          $log.error('XHR Failed for updatePerson. ' + error.data.error.message);
+          return $q.reject(error);
+        });
     }
 
     function voidPatient(patientUuid, reason){
-      return $http.delete(BASE_OPENMRS_REST_URL+ patientUuid + "?reason="+ reason );
+      return $http.delete(OPENMRS_PATIENT_URL+ patientUuid + "?reason="+ reason )
+        .then(function (response) {
+          $log.info('XHR Succed for voidPatient. ');
+        })
+        .catch(function (error) {
+          $log.error('XHR Failed for voidPatient. ' + error.data.error.message);
+          return $q.reject(error);
+        });
     }
   }
 

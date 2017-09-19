@@ -63,7 +63,7 @@
 
       var load = getIdentifierTypes().then(function (identifierTypes) {
         vm.patientIdentifierTypes = identifierTypes;
-        vm.getDeathConcepts();
+        return vm.getDeathConcepts();
       });
 
       spinner.forPromise(load);
@@ -94,11 +94,11 @@
 
 
     function getDeathConcepts() {
-      conceptService.getDeathConcepts()
+      return conceptService.getDeathConcepts()
         .then(function(deathConcepts) {
           vm.deathConcepts = deathConcepts;
         }).catch(function(error) {
-          notifer.error(($filter('translate')('COMMON_MESSAGE_ERROR_ACTION')));
+          notifier.error(($filter('translate')('COMMON_MESSAGE_ERROR_ACTION')));
       });
     }
 
@@ -117,7 +117,7 @@
     }
 
     function deletePatient() {
-      patientService.voidPatient(vm.patient.uuid, deleteReason)
+      patientService.voidPatient(vm.patient.uuid, vm.deleteReason)
         .then(successCallback, failureCallback);
       $(function () {
         $('#deletePatientModal').modal('toggle');

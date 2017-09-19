@@ -61,7 +61,7 @@
                 });
               });
         }).catch(function (error) {
-            $log.error('XHR Failed for getDeahtConcepts. '+error.data);
+            $log.error('XHR Failed for getDeahtConcepts. '+error.data.message);
             return $q.reject(error);
         });
     }
