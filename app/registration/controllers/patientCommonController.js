@@ -5,12 +5,12 @@
     .module('registration')
     .controller('PatientCommonController', PatientCommonController);
 
-  PatientCommonController.$inject = ['$scope', '$http', '$state', 'patientAttributeService', 'patientService',
-    'localStorageService', 'spinner', 'notifier', '$filter', 'TabManager', 'configurations'];
+  PatientCommonController.$inject = ['$scope', '$state', 'patientAttributeService', 'patientService',
+    'localStorageService', 'spinner', 'notifier', '$filter', 'TabManager', 'conceptService', 'configurations'];
 
   /* @ngInject */
-  function PatientCommonController($scope, $http, $state, patientAttributeService, patientService, localStorageService,
-                                   spinner, notifier, $filter, TabManager, configurations) {
+  function PatientCommonController($scope, $state, patientAttributeService, patientService, localStorageService,
+                                   spinner, notifier, $filter, TabManager, conceptService, configurations) {
 
     var dateUtil = Bahmni.Common.Util.DateUtil;
     var patientConfiguration = $scope.patientConfiguration;
@@ -23,11 +23,11 @@
     vm.patientIdentifierTypes = [];
     vm.srefPrefix = $scope.srefPrefix;
     vm.today = dateUtil.getDateWithoutTime(dateUtil.now());
+    vm.deathConcepts = [];
 
     vm.addNewIdentifier = addNewIdentifier;
     vm.changeTab = changeTab;
     vm.disableIsDead = disableIsDead;
-    vm.filterRetireDeathConcepts = filterRetireDeathConcepts;
     vm.getAutoCompleteList = getAutoCompleteList;
     vm.getDataResults = getDataResults;
     vm.getDeathConcepts = getDeathConcepts;
@@ -37,6 +37,10 @@
     vm.selectIsDead = selectIsDead;
     vm.setPreferredId = setPreferredId;
     vm.stepForward = stepForward;
+
+    vm.deceasedPatient = deceasedPatient;
+    vm.deletePatient = deletePatient;
+
 
     var tabManager = new TabManager();
     tabManager.addStepDefinition(vm.srefPrefix + "identifier", 1);
@@ -60,13 +64,22 @@
 
       var load = getIdentifierTypes().then(function (identifierTypes) {
         vm.patientIdentifierTypes = identifierTypes;
+        return vm.getDeathConcepts();
       });
 
       spinner.forPromise(load);
     }
 
+    function successCallback() {
+      notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
+    }
+    function failureCallback() {
+      notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ACTION'));
+    }
+
 
     function disableIsDead() {
+      // return null;
       return (vm.patient.causeOfDeath !== null || vm.patient.deathDate !== null) && vm.patient.dead;
     }
 
@@ -82,40 +95,35 @@
 
 
     function getDeathConcepts() {
-      var deathConcept;
-      var deathConceptValue;
-      $http({
-        url: '/openmrs/ws/rest/v1/systemsetting',
-        method: 'GET',
-        params: {
-          q: 'concept.causeOfDeath',
-          v: 'full'
-        },
-        withCredentials: true,
-        transformResponse: [function (data) {
-          deathConcept = JSON.parse(data);
-          deathConceptValue = deathConcept.results[0].value;
-          $http.get(Bahmni.Common.Constants.conceptUrl, {
-            params: {
-              q: deathConceptValue,
-              v: 'custom:(uuid,name,set,answers:(uuid,display,name:(uuid,name),retired))'
-            },
-            withCredentials: true
-          }).then(function (results) {
-            vm.deathConcepts = results.data.results[0] !== null ? results.data.results[0].answers : [];
-            vm.deathConcepts = filterRetireDeathConcepts(vm.deathConcepts);
-          });
-        }]
+      return conceptService.getDeathConcepts()
+        .then(function(deathConcepts) {
+          vm.deathConcepts = deathConcepts;
+        }).catch(function(error) {
+          notifier.error(($filter('translate')('COMMON_MESSAGE_ERROR_ACTION')));
       });
     }
 
-
-    function filterRetireDeathConcepts(deathConcepts) {
-      return _.filter(deathConcepts, function (concept) {
-        return !concept.retired;
+    function deceasedPatient() {
+      var patientState = {
+        dead: true,
+        causeOfDeath: vm.patient.causeOfDeath.uuid,
+        deathDate:vm.patient.deathDate
+      };
+      patientService.updatePerson(vm.patient.uuid, patientState)
+        .then(successCallback)
+        .catch(failureCallback);
+      $(function () {
+        $('#deletePatientModal').modal('toggle');
       });
     }
 
+    function deletePatient() {
+      patientService.voidPatient(vm.patient.uuid, vm.deleteReason)
+        .then(successCallback, failureCallback);
+      $(function () {
+        $('#deletePatientModal').modal('toggle');
+      });
+    }
 
     function listRequiredIdentifiers() {
       if (!_.isEmpty(vm.patient.identifiers)) {
@@ -183,12 +191,11 @@
 
     function addNewIdentifier() {
       vm.patient.identifiers.push({
-          identifier: null, preferred: false,
-          location: localStorageService.cookie.get("emr.location").uuid,
-          fieldName: randomStr()
+        identifier: null, preferred: false,
+        location: localStorageService.cookie.get("emr.location").uuid,
+        fieldName: randomStr()
       });
     }
-
 
     function selectIsDead() {
       if (vm.patient.causeOfDeath !== null || vm.patient.deathDate !== null) {

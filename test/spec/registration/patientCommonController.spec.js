@@ -2,7 +2,7 @@
 
 describe('PatientCommonController', function () {
 
-  var controller, $controller, $http, patientAttributeService, patientService, localStorageService, $q, $rootScope;
+  var controller, $controller, $http,conceptService, patientAttributeService, patientService, localStorageService, $q, $rootScope;
 
   var identifierTypes = [1, 2, 3];
 
@@ -30,7 +30,7 @@ describe('PatientCommonController', function () {
     $translateProvider.useLoader('mergeLocaleFilesService');
   }));
 
-  beforeEach(inject(function (_$controller_, _$httpBackend_, _patientAttributeService_, _patientService_, _localStorageService_, _$q_, _$rootScope_) {
+  beforeEach(inject(function (_$controller_, _$httpBackend_, _patientAttributeService_, _patientService_, _localStorageService_, _$q_, _$rootScope_,_conceptService_) {
       $q = _$q_;
       $rootScope = _$rootScope_;
       $controller = _$controller_;
@@ -38,6 +38,7 @@ describe('PatientCommonController', function () {
       patientAttributeService = _patientAttributeService_;
       patientService = _patientService_;
       localStorageService = _localStorageService_;
+      conceptService = _conceptService_;
     })
   );
 
@@ -54,7 +55,13 @@ describe('PatientCommonController', function () {
 
       spyOn(patientService, 'getIdentifierTypes').and.callFake(function () {
         return $q(function (resolve) {
-          return resolve(identifierTypes)
+          return resolve(identifierTypes);
+        })
+      });
+
+      spyOn(conceptService, 'getDeathConcepts').and.callFake(function () {
+        return $q(function (resolve) {
+          return resolve([]);
         })
       });
 
@@ -69,6 +76,11 @@ describe('PatientCommonController', function () {
     it('should load patient identifier types ', function () {
       $rootScope.$apply();
       expect(controller.patientIdentifierTypes).toBe(identifierTypes);
+    });
+
+    it('should load deathConcepts ', function () {
+      $rootScope.$apply();
+      expect(controller.deathConcepts).toEqual([]);
     });
 
   });

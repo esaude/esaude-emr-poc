@@ -10,8 +10,6 @@
   /* @ngInject */
   function openmrsPatientMapper(patientModel, $rootScope, age) {
 
-    var dateUtil = Bahmni.Common.Util.DateUtil;
-
     var mapper = {
       map: map,
       mapPatient: mapPatient

@@ -18,7 +18,7 @@ describe('patientService', function () {
 
     var query = 'mal';
 
-    $httpBackend.expectGET('/openmrs/ws/rest/v1/patient?identifier=' + query + '&q=mal&v=full')
+    $httpBackend.expectGET('/openmrs/ws/rest/v1/patient/?identifier=' + query + '&q=mal&v=full')
       .respond({});
 
     patientService.search(query);
@@ -27,6 +27,8 @@ describe('patientService', function () {
     $httpBackend.verifyNoOutstandingExpectation();
     $httpBackend.verifyNoOutstandingRequest();
   });
+
+
 
   describe('printPatientARVPickupHistory', function () {
 

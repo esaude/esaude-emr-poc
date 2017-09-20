@@ -13,6 +13,8 @@
 
     var BASE_OPENMRS_REST_URL = Poc.Patient.Constants.baseOpenMRSRESTURL;
 
+    var OPENMRS_PATIENT_URL = OPENMRS_URL + "/ws/rest/v1/patient/";
+
     return {
       create: create,
       getIdentifierTypes: getIdentifierTypes,
@@ -22,13 +24,15 @@
       printPatientARVPickupHistory: printPatientARVPickupHistory,
       search: search,
       update: update,
-      updatePatientIdentifier: updatePatientIdentifier
+      updatePatientIdentifier: updatePatientIdentifier,
+      voidPatient: voidPatient,
+      updatePerson: updatePerson
     };
 
     ////////////////
 
     function search(query) {
-      return $http.get(OPENMRS_URL + "/ws/rest/v1/patient", {
+      return $http.get(OPENMRS_PATIENT_URL, {
         method: "GET",
         params: {
           q: query,
@@ -47,14 +51,14 @@
       }).then(function (response) {
         return response.data.results;
       })
-      .catch(function (error) {
-        $log.error('XHR Failed for getIdentifierTypes. ' + error.data);
-        return $q.reject(error);
-      });
+        .catch(function (error) {
+          $log.error('XHR Failed for getIdentifierTypes. ' + error.data);
+          return $q.reject(error);
+        });
     }
 
     function get(uuid) {
-      return $http.get(OPENMRS_URL + "/ws/rest/v1/patient/" + uuid, {
+      return $http.get(OPENMRS_PATIENT_URL + uuid, {
         method: "GET",
         params: {v: "full"},
         withCredentials: true
@@ -62,14 +66,14 @@
     }
 
     function getPatientIdentifiers(patientUuid) {
-      return $http.get(OPENMRS_URL + "/ws/rest/v1/patient/" + patientUuid + "/identifier", {
+      return $http.get(OPENMRS_PATIENT_URL + patientUuid + "/identifier", {
         method: "GET",
         withCredentials: true
       });
     }
 
     function updatePatientIdentifier(patientUuid, identifierUuid, identifier) {
-      return $http.post(OPENMRS_URL + "/ws/rest/v1/patient/" + patientUuid + "/identifier/" + identifierUuid, identifier, {
+      return $http.post(OPENMRS_PATIENT_URL + patientUuid + "/identifier/" + identifierUuid, identifier, {
         withCredentials:true,
         headers: {"Accept": "application/json", "Content-Type": "application/json"}
       });
@@ -129,6 +133,28 @@
         });
         reportService.printPatientARVPickupHistory(patient);
       });
+    }
+
+    function updatePerson(personUuid, patientState) {
+      return $http.post(BASE_OPENMRS_REST_URL+"/person/"+personUuid , patientState)
+        .then(function (response) {
+          $log.info('XHR Succed for updatePerson. ' + response);
+        })
+        .catch(function (error) {
+          $log.error('XHR Failed for updatePerson. ' + error.data.error.message);
+          return $q.reject(error);
+        });
+    }
+
+    function voidPatient(patientUuid, reason){
+      return $http.delete(OPENMRS_PATIENT_URL+ patientUuid + "?reason="+ reason )
+        .then(function (response) {
+          $log.info('XHR Succed for voidPatient. ');
+        })
+        .catch(function (error) {
+          $log.error('XHR Failed for voidPatient. ' + error.data.error.message);
+          return $q.reject(error);
+        });
     }
   }
 
