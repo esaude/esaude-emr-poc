@@ -5,10 +5,10 @@
     .module('common.patient')
     .factory('openmrsPatientMapper', openmrsPatientMapper);
 
-  openmrsPatientMapper.$inject = ['patient', '$rootScope', 'age', 'configurations'];
+  openmrsPatientMapper.$inject = ['patient', '$rootScope', 'age'];
 
   /* @ngInject */
-  function openmrsPatientMapper(patientModel, $rootScope, age, configurations) {
+  function openmrsPatientMapper(patientModel, $rootScope, age) {
 
     var dateUtil = Bahmni.Common.Util.DateUtil;
 
@@ -46,8 +46,6 @@
       patient.identifiers = openmrsPatient.identifiers;
       patient.uuid = openmrsPatient.uuid;
 
-      mapAddressLevels(patient);
-
       return patient;
     }
 
@@ -81,7 +79,6 @@
       attributes.filter(whereAttributeTypeExists).forEach(function (attribute) {
         addAttributeToPatient(patient, attribute);
       });
-      mapPatientAttributes(patient);
     }
 
     function parseDate(dateStr) {
@@ -90,32 +87,6 @@
 
     function mapAddress(preferredAddress) {
       return preferredAddress || {};
-    }
-
-    function mapAddressLevels(patient) {
-      patient.addressLevels = [];
-      configurations.addressLevels().forEach(function (a) {
-        patient.addressLevels.push({name: a.name, value: patient.address[a.addressField]});
-      });
-    }
-
-    function mapPatientAttributes(patient) {
-      var patientAttributes = $rootScope.patientConfiguration.customAttributeRows().reduce(function (acc, curr) {
-        return acc.concat(curr);
-      });
-
-      patient.patientAttributes = patientAttributes.map(function (attr) {
-        var value = patient[attr.name];
-        if (attr.format === "org.openmrs.Concept") {
-          var found = attr.answers.filter(function (a) {
-            return a.conceptId === value;
-          })[0];
-          if (found) {
-            value = found.description;
-          }
-        }
-        return {name: attr.name, value: value};
-      });
     }
   }
 
