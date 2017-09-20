@@ -5,12 +5,12 @@
     .module('registration')
     .controller('PatientCommonController', PatientCommonController);
 
-  PatientCommonController.$inject = ['$scope', '$http', '$state', 'patientAttributeService', 'patientService',
-    'localStorageService', 'spinner', 'notifier', '$filter', 'TabManager', 'conceptService'];
+  PatientCommonController.$inject = ['$scope', '$state', 'patientAttributeService', 'patientService',
+    'localStorageService', 'spinner', 'notifier', '$filter', 'TabManager', 'conceptService', 'configurations'];
 
   /* @ngInject */
-  function PatientCommonController($scope, $http, $state, patientAttributeService, patientService, localStorageService,
-                                   spinner, notifier, $filter, TabManager, conceptService) {
+  function PatientCommonController($scope, $state, patientAttributeService, patientService, localStorageService,
+                                   spinner, notifier, $filter, TabManager, conceptService, configurations) {
 
     var dateUtil = Bahmni.Common.Util.DateUtil;
     var patientConfiguration = $scope.patientConfiguration;
@@ -18,6 +18,7 @@
     // TODO: Remove dependency on $scope!
     var vm = this;
     vm.patient = $scope.patient;
+    vm.addressLevels = configurations.addressLevels();
     vm.patientAttributes = [];
     vm.patientIdentifierTypes = [];
     vm.srefPrefix = $scope.srefPrefix;

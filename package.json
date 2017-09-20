@@ -1,7 +1,7 @@
 {
   "name": "esaude-emr-poc",
   "private": true,
-  "version": "1.2.5-alpha",
+  "version": "1.2.5-alpha.2",
   "description": "eSaude EMR point of care",
   "devDependencies": {
     "async": "^0.9.2",
