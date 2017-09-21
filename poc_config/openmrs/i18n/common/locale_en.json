@@ -154,6 +154,7 @@
     "ERROR_ALREADY_IN_USE": "This field value is already in use",
     "ERROR_TOO_BIG": "The value is too big for this field",
     "ERROR_TOO_SMALL": "The value is too small for this field",
+    "ERROR_INVALID_DATE": "THis field needs to be a valid date. Please use this format [dd/MM/yyyy]",
     "COMMON_CONTACT_PERSON": "Contact Person",
     "COMMON_NAME": "Name",
     "COMMON_SURNAME": "Surname",

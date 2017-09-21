@@ -11,7 +11,6 @@ angular
       'barcode',
       'barcodeListener',
       'common.patient',
-      'datePicker',
       'frapontillo.bootstrap-switch',
       'LocalStorageModule',
       'ngCookies',

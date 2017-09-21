@@ -5,16 +5,24 @@
     .module('application')
     .config(applicationModuleConfig);
 
-  applicationModuleConfig.$inject = ['$provide', '$breadcrumbProvider'];
+  applicationModuleConfig.$inject = ['$provide', '$breadcrumbProvider', 'uibDatepickerConfig', 'uibDatepickerPopupConfig',
+    'dateFormat'];
 
   /* @ngInject */
-  function applicationModuleConfig($provide, $breadcrumbProvider) {
+  function applicationModuleConfig($provide, $breadcrumbProvider, uibDatepickerConfig, uibDatepickerPopupConfig,
+                                   dateFormat) {
     // Will be used when authorization is fully implemented
     // $provide.decorator('applicationService', applicationServiceAuthorizationDecorator);
 
+
+    // Breadcrumb config
     $breadcrumbProvider.setOptions({
       templateUrl: '/common/application/views/breadcrumb.html'
     });
+
+    // Datepicker config
+    uibDatepickerConfig.showWeeks = false;
+    uibDatepickerPopupConfig.datepickerPopup = dateFormat.shortDate;
 
     $provide.decorator('dateFilter', dateFilterDecorator);
   }

@@ -148,6 +148,7 @@
     "ERROR_INVALID_FORMAT": "O formato do campo é inválido",
     "ERROR_ALREADY_IN_USE": "O valor do campo já foi usado",
     "ERROR_TOO_SMALL": "Este campo é muito pequeno",
+    "ERROR_INVALID_DATE": "A data não é válida. Por favor use o formato [dd/MM/aaaa]",
     "COMMON_CONTACT_PERSON": "Pessoa de Referência",
     "COMMON_NAME": "Nome",
     "COMMON_SURNAME": "Apelido",
