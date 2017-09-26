@@ -14,8 +14,6 @@
                                                    commonService, conceptService, localStorageService, notifier, spinner,
                                                    drugService, prescriptionService, providerService, sessionService,
                                                    patientService) {
-
-    var drugMapping = $rootScope.drugMapping;
     var patientUuid;
     var patient = {};
 
@@ -446,7 +444,6 @@
             _.forEach(existingPrescription.prescriptionItems, function (prescriptionItem) {
               if(existingPrescription.prescriptionStatus === 'ACTIVE' && prescriptionItem.regime){
                 exists = true;
-                return;
               }
             });
           });

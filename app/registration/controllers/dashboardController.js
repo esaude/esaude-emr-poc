@@ -5,12 +5,12 @@
     .module('registration')
     .controller('DashboardController', DashboardController);
 
-  DashboardController.$inject = ['$location', '$stateParams'];
+  DashboardController.$inject = ['$location', '$stateParams', 'notifier', 'patientService', 'translateFilter'];
 
   /* @ngInject */
-  function DashboardController($location, $stateParams) {
+  function DashboardController($location, $stateParams, notifier, patientService, translateFilter) {
 
-    var patientUuid;
+    var patientUUID = $stateParams.patientUuid;
 
     var vm = this;
     vm.linkSearch = linkSearch;
@@ -24,7 +24,13 @@
     ////////////////
 
     function activate() {
-      patientUuid = $stateParams.patientUuid;
+      getPatient(patientUUID)
+        .then(function (patient) {
+          vm.patient = patient;
+        })
+        .catch(function () {
+          notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
+        });
     }
 
     function linkSearch() {
@@ -32,19 +38,23 @@
     }
 
     function linkVisit() {
-      $location.url("/visit/" + patientUuid); // path not hash
+      $location.url("/visit/" + patientUUID); // path not hash
     }
 
     function linkPatientDetail() {
-      $location.url("/patient/detail/" + patientUuid); // path not hash
+      $location.url("/patient/detail/" + patientUUID); // path not hash
     }
 
     function linkServicesList() {
-      $location.url("/services/" + patientUuid); // path not hash
+      $location.url("/services/" + patientUUID); // path not hash
     }
 
     function linkPatientEdit() {
-      $location.url("/patient/edit/" + patientUuid + "/identifier"); // path not hash
+      $location.url("/patient/edit/" + patientUUID + "/identifier"); // path not hash
+    }
+
+    function getPatient(uuid) {
+      return patientService.getPatient(uuid);
     }
   }
 

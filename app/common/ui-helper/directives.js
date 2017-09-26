@@ -1,48 +1,6 @@
 'use strict';
 
 angular.module('bahmni.common.uiHelper')
-    .directive('nonBlank', function () {
-        return function ($scope, element, attrs) {
-            var addNonBlankAttrs = function () {
-                    element.attr({'required': 'required'});
-            };
-
-            var removeNonBlankAttrs = function () {
-                element.removeAttr('required');
-            };
-
-            if (!attrs.nonBlank) return addNonBlankAttrs(element);
-
-            $scope.$watch(attrs.nonBlank, function (value) {
-                return value ? addNonBlankAttrs() : removeNonBlankAttrs();
-            });
-        }
-    })
-    .directive('datepicker', function () {
-        var link = function ($scope, element, attrs, ngModel) {
-            var maxDate = attrs.maxDate;
-            var minDate = attrs.minDate || "-120y";
-            var format = attrs.dateFormat || 'dd-mm-yy';
-            element.datepicker({
-                changeYear: true,
-                changeMonth: true,
-                maxDate: maxDate,
-                minDate: minDate,
-                yearRange: 'c-120:c+120',
-                dateFormat: format,
-                onSelect: function (dateText) {
-                    $scope.$apply(function () {
-                        ngModel.$setViewValue(dateText);
-                    });
-                }
-            });
-        };
-
-        return {
-            require: 'ngModel',
-            link: link
-        }
-    })
     .directive('myAutocomplete', function ($parse) {
         var link = function (scope, element, attrs, ngModelCtrl) {
             var ngModel = $parse(attrs.ngModel);
@@ -87,31 +45,6 @@ angular.module('bahmni.common.uiHelper')
             }
         }
     })
-    .directive('bmForm', function () {
-        var link = function (scope, elem, attrs) {
-            setTimeout(function () {
-                $(elem).unbind('submit').submit(function (e) {
-                    var formScope = scope.$parent;
-                    var formName = attrs.name;
-                    e.preventDefault();
-                    if(scope.autofillable) $(elem).find('input').trigger('change');
-                    if(formScope[formName].$valid) {
-                        formScope.$apply(attrs.ngSubmit);
-                        $(elem).removeClass('submitted-with-error');
-                    } else {
-                        $(elem).addClass('submitted-with-error');
-                    }
-                });
-            }, 0);
-        };
-        return {
-            link: link,
-            require: 'form',
-            scope: {
-               autofillable: "=" 
-            }
-        };
-    })
     .directive('patternValidate', function () {
         return function ($scope, element, attrs) {
             var addPatternToElement = function () {
@@ -124,22 +57,4 @@ angular.module('bahmni.common.uiHelper')
                 addPatternToElement();
             });
         }
-    })
-    .directive('validateOn', function(){
-        var link = function(scope, element, attrs, ngModelCtrl){
-            var validationMessage = attrs.validationMessage || 'Please enter a valid detail';
-
-            var setValidity = function (value) {
-                var valid = value? true: false;
-                ngModelCtrl.$setValidity('blank', valid);
-                element[0].setCustomValidity(!valid ?  validationMessage: '');
-            };
-            scope.$watch(attrs.validateOn, setValidity, true);
-        };
-
-        return {
-            link: link,
-            require: 'ngModel'
-        }
-
     });

@@ -17,14 +17,10 @@ Bahmni.Auth.User = function (user) {
         delete user.recentlyViewedPatients;
         return user;
     };
- 
-    this.isFavouriteObsTemplate = function (conceptName) {
-        return _.contains(this.favouriteObsTemplates, conceptName);
-    }; 
 
-    this.isFavouriteWard = function (wardName) {
-        return _.contains(this.favouriteWards, wardName);
-    };
- 
+
+
+
+
 };
 
