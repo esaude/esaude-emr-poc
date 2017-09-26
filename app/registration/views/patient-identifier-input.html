@@ -29,6 +29,11 @@
                     <div class="pull-left" ng-messages for="aForm.{{pi.fieldName}}.$error"
                          ng-messages-include="../poc-common/form-display/views/error-messages.html"
                          ng-show="patientCommon.showMessages" >
+                      <div ng-message="pattern">
+                        <span class="label label-danger"
+                              translate="ERROR_INVALID_FORMAT_PATTERN"
+                              translate-value-pattern="{{pi.identifierType.formatDescription}}"></span>
+                      </div>
                     </div>
                     <div ng-class="{'has-error': aForm.{{pi.fieldName}}.$invalid && patientCommon.showMessages}">
                         <input type="text" class="form-control input-lg keyboard-in" name="{{pi.fieldName}}"
