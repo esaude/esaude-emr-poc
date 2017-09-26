@@ -5,15 +5,16 @@
     .module('bahmni.common.domain')
     .factory('visitService', visitService);
 
-  visitService.$inject = ['$http', '$log', '$q', 'commonService'];
+  visitService.$inject = ['$http', '$log', '$q', 'commonService', 'encounterService'];
 
   /* @ngInject */
-  function visitService($http, $log, $q, commonService) {
+  function visitService($http, $log, $q, commonService, encounterService) {
     var service = {
       activeVisits: activeVisits,
       create: create,
       getTodaysVisit: getTodaysVisit,
       getVisit: getVisit,
+      getVisitHistoryForPatient: getVisitHistoryForPatient,
       search: search
     };
     return service;
@@ -89,6 +90,12 @@
           $log.error('XHR Failed for search. ' + error.data);
           return $q.reject(error);
         });
+    }
+
+    function getVisitHistoryForPatient(patient) {
+      return encounterService.getEncountersOfPatient(patient.uuid).then(function (response) {
+        return commonService.filterGroupReverse(response.data);
+      });
     }
   }
 
