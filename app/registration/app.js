@@ -88,6 +88,7 @@
       .state('dashboard.services', {
         url: '/services',
         templateUrl: 'views/patient-services.html',
+        controller: 'ClinicalServicesController',
         ncyBreadcrumb: {
           label: '{{\'COMMON_CLINIC_SERVICES_TITLE\' | translate}}',
           parent: 'dashboard',

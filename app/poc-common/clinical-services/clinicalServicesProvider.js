@@ -100,7 +100,7 @@
           return $q.reject();
         }
 
-        var representation = "custom:(description,display,encounterType,uuid,formFields:(uuid,field:(uuid,selectMultiple,fieldType:(display),concept:(answers,set,setMembers,uuid,datatype:(display)))))";
+        var representation = "custom:(description,display,encounterType,uuid,formFields:(uuid,required,field:(uuid,selectMultiple,fieldType:(display),concept:(answers,set,setMembers,uuid,datatype:(display)))))";
 
         return getClinicalServicesWithEncountersForPatient(patient, cs).then(function (service) {
           return getForm(service.formId, representation).then(function (form) {
