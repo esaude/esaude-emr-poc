@@ -243,3 +243,17 @@ p.capitalize {
 .checkin .status {
   line-height: 2.4;
 }
+
+/* smart-table sort cursor and row selection */
+.st-sort-ascent:before {
+  content: '\25B2';
+}
+
+.st-sort-descent:before {
+  content: '\25BC';
+}
+
+.st-selected{
+  background: #85adad !important;
+  color: white !important;
+}
