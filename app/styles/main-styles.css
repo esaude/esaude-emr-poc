@@ -8,6 +8,15 @@ and open the template in the editor.
     Author     : eSaude
 */
 
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 20px; /* .footer height */
+}
+
 .panel-marginless-sides {
     margin-left: -10px;
     margin-right: -10px;
@@ -179,13 +188,16 @@ input[type=radio]:checked + label::before {
 }
 
 .footer {
-    padding: 0;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 20px;
 }
 
-.footer-version {
-    float: right;
-    color: #337ABA;
-    font-weight: bold;
+.footer .version {
+  color: #337ABA;
+  font-weight: bold;
+  margin: 0 25px;
 }
 
 p.capitalize {
