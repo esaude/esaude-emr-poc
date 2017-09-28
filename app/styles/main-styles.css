@@ -253,7 +253,7 @@ p.capitalize {
   content: '\25BC';
 }
 
-.st-selected{
-  background: #85adad !important;
-  color: white !important;
+.table-striped > tbody > tr.st-selected {
+  background: #85adad;
+  color: white;
 }
