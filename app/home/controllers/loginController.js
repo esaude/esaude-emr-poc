@@ -16,12 +16,12 @@
 
     var vm = this;
     vm.errorMessageTranslateKey = null;
-    vm.locales = ['en', 'pt'];
-    vm.selectedLocale = $translate.use() ? $translate.use() : vm.locales[0];
+    vm.locales = [
+      {label: 'English', key: 'en'},
+      {label: 'Português', key: 'pt'}
+    ];
+    vm.selectedLocale = $translate.use() ? $translate.use() : vm.locales[0].key;
     vm.showMenu = true;
-
-    // TODO: remove this later, needed in common/application/views/header.html
-    $scope.showMenu = vm.showMenu;
 
     vm.login = login;
     vm.updateLocale = updateLocale;
@@ -78,7 +78,7 @@
     }
 
     function updateLocale(locale) {
-      spinner.forPromise($translate.use(locale));
+      spinner.forPromise($translate.use(locale.key));
     }
   }
 

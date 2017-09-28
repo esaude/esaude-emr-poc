@@ -216,7 +216,9 @@ p.capitalize {
 }
 
 .navbar .navbar-brand {
-  padding: 10px 15px;
+  line-height: 34px;
+  height: 62px;       /* navbar min-height */
+  color: #ffffff;
 }
 
 .navbar .navbar-nav li a {
@@ -254,4 +256,28 @@ p.capitalize {
 /* Checkin */
 .checkin .status {
   line-height: 2.4;
+}
+
+/* Login */
+.login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 85vh;
+}
+
+.login form {
+  border: 1px solid #ccc;
+  padding: 20px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.login form > h1 {
+  margin-bottom: 30px;
+}
+
+.login form .form-group:last-child {
+  margin-bottom: 0;
 }
