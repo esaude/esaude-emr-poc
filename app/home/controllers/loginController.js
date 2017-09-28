@@ -47,7 +47,7 @@
     function login() {
       vm.errorMessageTranslateKey = null;
       var deferrable = $q.defer();
-      sessionService.loginUser($scope.loginUser.username, $scope.loginUser.password, vm.selectedLocale).then(
+      sessionService.loginUser($scope.loginUser.username, $scope.loginUser.password).then(
         function () {
           sessionService.loadCredentials().then(
             function () {
@@ -80,11 +80,11 @@
     }
 
     function setLocale(locale) {
-      return $translate.use(locale).then(sessionService.setLocale(locale));
+      return $translate.use(locale.key).then(sessionService.setLocale(locale.key));
     }
 
     function updateLocale(locale) {
-      spinner.forPromise($translate.use(locale.key));
+      spinner.forPromise(setLocale(locale));
     }
 
     function getSelectedLocale() {
