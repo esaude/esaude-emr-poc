@@ -22,7 +22,7 @@
           return response.data.results;
         })
         .catch(function (err) {
-          $log.error('XHR Failed for getProviders. ' + error.data);
+          $log.error('XHR Failed for getProviders: ' + error.data.error.message);
           return $q.reject(err);
         });
     }

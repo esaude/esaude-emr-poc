@@ -33,7 +33,7 @@
       }).then(function (response) {
         return response.data;
       }).catch(function (error) {
-        $log.error('XHR Failed for create. ' + error.data);
+        $log.error('XHR Failed for create: ' + error.data.error.message);
         return $q.reject(error);
       });
     }
@@ -61,7 +61,7 @@
           return null;
         })
         .catch(function (error) {
-          $log.error('XHR Failed for getTodaysVisit. ' + error.data);
+          $log.error('XHR Failed for getTodaysVisit: ' + error.data.error.message);
           return $q.reject(error);
         });
     }
@@ -86,7 +86,7 @@
           return response.data.results;
         })
         .catch(function (error) {
-          $log.error('XHR Failed for search. ' + error.data);
+          $log.error('XHR Failed for search: ' + error.data.error.message);
           return $q.reject(error);
         });
     }

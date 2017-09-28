@@ -155,7 +155,7 @@
             return response.data;
           })
           .catch(function (error) {
-            $log.error('XHR Failed for loadClinicalServices. ' + error.data);
+            $log.error('XHR Failed for loadClinicalServices: ' + error.data);
             return $q.reject(error);
           });
       }
@@ -206,7 +206,7 @@
 
         return $q.all(getAll)
           .catch(function (error) {
-            $log.error('XHR Failed for getClinicalServicesWithEncountersForPatient. ' + error.data);
+            $log.error('XHR Failed for getClinicalServicesWithEncountersForPatient: ' + error.data.error.message);
             return $q.reject(error);
           });
       }

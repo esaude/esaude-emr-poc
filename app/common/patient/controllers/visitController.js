@@ -13,8 +13,8 @@
                            localStorageService, patientService, notifier) {
 
 
-    var d = $filter('date');
-    var t = $filter('translate');
+    var dateFilter = $filter('date');
+    var translateFilter = $filter('translate');
 
     var dateUtil = Bahmni.Common.Util.DateUtil;
     var isFirstVisit = false;
@@ -23,13 +23,13 @@
 
     var vm = this;
     vm.disableCheckin = false;
-    vm.lastConsultationMessage = t('COMMON_NONE');
+    vm.lastConsultationMessage = translateFilter('COMMON_NONE');
     vm.lastConsultation = null;
-    vm.lastPharmacyMessage = t('COMMON_NONE');
+    vm.lastPharmacyMessage = translateFilter('COMMON_NONE');
     vm.lastPharmacy = null;
     vm.lastUnclosedVisit = null;
-    vm.lastVisitMessage = t('COMMON_NONE');
-    vm.nextConsultationMessage = t('COMMON_NOT_SCHEDULED');
+    vm.lastVisitMessage = translateFilter('COMMON_NONE');
+    vm.nextConsultationMessage = translateFilter('COMMON_NOT_SCHEDULED');
     vm.nextConsultation = null;
     vm.nextPharmacy = null;
     vm.todayVisit = null;
@@ -109,7 +109,7 @@
     function checkIn() {
       var location = localStorageService.cookie.get("emr.location");
       if (!location) {
-        notifier.error(t('COMMON_MESSAGE_ERROR_ACTION'));
+        notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
         return;
       }
 
@@ -136,7 +136,7 @@
       visitService.create(visit)
         .then(successCallback)
         .catch(function () {
-          notifier.error(t('COMMON_MESSAGE_ERROR_ACTION'));
+          notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
         });
     }
 
@@ -158,40 +158,45 @@
 
     function updateLastVisitMessage() {
       if (lastVisit) {
-        vm.lastVisitMessage = lastVisit.visitType.name + ' ' + t('COMMON_FROM') + ' '
-          + d(lastVisit.startDatetime, 'short') + ' ' + t('COMMON_TO') + ' ' + d(lastVisit.stopDatetime, 'short')
+        vm.lastVisitMessage = lastVisit.visitType.name + ' ' + translateFilter('COMMON_FROM') + ' '
+          + dateFilter(lastVisit.startDatetime, 'short') + ' ' + translateFilter('COMMON_TO') + ' '
+          + dateFilter(lastVisit.stopDatetime, 'short')
       } else {
-        vm.lastVisitMessage = t('COMMON_NONE');
+        vm.lastVisitMessage = translateFilter('COMMON_NONE');
       }
     }
 
     function updateConsultationMessages() {
       if (vm.lastConsultation) {
-        vm.lastConsultationMessage = t('COMMON_LAST') + ': ' + d(vm.lastConsultation.encounterDatetime, 'short')
-          + ' | ' + t('COMMON_BY') + ': ' + vm.lastConsultation.provider.display + ' | ' + t('COMMON_NEXT') + ': ';
+        vm.lastConsultationMessage = translateFilter('COMMON_LAST') + ': '
+          + dateFilter(vm.lastConsultation.encounterDatetime, 'short')
+          + ' | ' + translateFilter('COMMON_BY') + ': ' + vm.lastConsultation.provider.display + ' | '
+          + translateFilter('COMMON_NEXT') + ': ';
       } else {
-        vm.lastConsultationMessage = t('COMMON_NONE');
+        vm.lastConsultationMessage = translateFilter('COMMON_NONE');
       }
 
       if (vm.nextConsultation) {
-        vm.nextConsultationMessage = d(vm.nextConsultation.value, 'short');
+        vm.nextConsultationMessage = dateFilter(vm.nextConsultation.value, 'short');
       } else {
-        vm.nextConsultationMessage = t('COMMON_NOT_SCHEDULED');
+        vm.nextConsultationMessage = translateFilter('COMMON_NOT_SCHEDULED');
       }
     }
 
     function updatePharmacyMessages() {
       if (vm.lastPharmacy) {
-        vm.lastPharmacyMessage = t('COMMON_LAST') + ': ' + d(vm.lastPharmacy.encounterDatetime, 'short')
-          + ' | ' + t('COMMON_BY') + ': ' + vm.lastPharmacy.provider.display + ' | ' + t('COMMON_NEXT') + ': ';
+        vm.lastPharmacyMessage = translateFilter('COMMON_LAST') + ': '
+          + dateFilter(vm.lastPharmacy.encounterDatetime, 'short')
+          + ' | ' + translateFilter('COMMON_BY') + ': ' + vm.lastPharmacy.provider.display + ' | '
+          + translateFilter('COMMON_NEXT') + ': ';
       } else {
-        vm.lastPharmacyMessage = t('COMMON_NONE');
+        vm.lastPharmacyMessage = translateFilter('COMMON_NONE');
       }
 
       if (vm.nextPharmacy) {
-        vm.nextPharmacyMessage = d(vm.nextPharmacy.value, 'short');
+        vm.nextPharmacyMessage = dateFilter(vm.nextPharmacy.value, 'short');
       } else {
-        vm.nextPharmacyMessage = t('COMMON_NOT_SCHEDULED');
+        vm.nextPharmacyMessage = translateFilter('COMMON_NOT_SCHEDULED');
       }
     }
   }

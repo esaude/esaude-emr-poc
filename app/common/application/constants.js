@@ -8,7 +8,7 @@
     .constant('location', 'emr.location')
     .constant('dateFormat', {
       shortDate: 'dd/MM/yyyy',
-      medium: "dd/MM/yyyy H:mm:ss"
+      short: "d/M/yyyy H:mm:ss"
     });
 
   //Helps us validate user navigation along the registration tabs
