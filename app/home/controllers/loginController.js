@@ -20,7 +20,7 @@
       {label: 'English', key: 'en'},
       {label: 'Português', key: 'pt'}
     ];
-    vm.selectedLocale = $translate.use() ? $translate.use() : vm.locales[0].key;
+    vm.selectedLocale = getSelectedLocale();
     vm.showMenu = true;
 
     vm.login = login;
@@ -79,6 +79,10 @@
 
     function updateLocale(locale) {
       spinner.forPromise($translate.use(locale.key));
+    }
+
+    function getSelectedLocale() {
+      return $translate.use() ? _.find(vm.locales, {key: $translate.use()}) : vm.locales[0];
     }
   }
 
