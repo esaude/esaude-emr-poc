@@ -87,9 +87,9 @@
             <tbody>
                 <tr st-select-row="patient" st-select-mode="single" ng-repeat="patient in cohortMembers" ng-init="getLastConsultationAndVisit()" ng-click="linkDashboard(patient)">
                     <td>{{patient.display}}</td>
-                    <td>{{patient.scheduledInfo.encounter.encounterDatetime | date:'medium'}}</td>
+                    <td>{{patient.scheduledInfo.encounter.encounterDatetime | date:'short'}}</td>
                     <td>{{patient.scheduledInfo.encounter.provider.display}}</td>
-                    <td ng-if="patient.lastVisit">{{patient.lastVisit.startDatetime | date:'medium'}} {{'COMMON_AT' | translate}} {{patient.lastVisit.visitType.name}}</td>
+                    <td ng-if="patient.lastVisit">{{patient.lastVisit.startDatetime | date:'short'}} {{'COMMON_AT' | translate}} {{patient.lastVisit.visitType.name}}</td>
                     <td ng-if="!patient.lastVisit">{{'COMMON_NONE' | translate}}</td>
                 </tr>
             </tbody>

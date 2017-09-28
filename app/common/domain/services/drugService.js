@@ -21,7 +21,7 @@
       }).then(function (response){
         return _.map(response.data.results, 'drugItem.drug');
       }).catch(function (error) {
-        $log.error('XHR Failed for getDrugsOfRegimen. ' + error.data);
+        $log.error('XHR Failed for getDrugsOfRegimen: ' + error.data.error.message);
         return $q.reject(error);
     });
   }
@@ -32,7 +32,7 @@
           return true;
         })
         .catch(function(error){
-          $log.error('XHR Failed for isArvDrug. ' + error.data);
+          $log.error('XHR Failed for isArvDrug: ' + error.data.error.message);
           return $q.reject();
       });
   }

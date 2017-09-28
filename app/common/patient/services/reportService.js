@@ -110,7 +110,7 @@
           return response.data;
         })
         .catch(function (error) {
-          $log.error('XHR Failed for loadTemplate. ' + error.data);
+          $log.error('XHR Failed for loadTemplate: ' + error.data.error.message);
           return $q.reject(error);
         });
     }

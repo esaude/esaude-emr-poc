@@ -9,7 +9,6 @@ angular
       'bahmni.common.uicontrols.programmanagment',
       'bahmni.common.uiHelper',
       'common.patient',
-      'datePicker',
       'frapontillo.bootstrap-switch',
       'LocalStorageModule',
       'ngCookies',

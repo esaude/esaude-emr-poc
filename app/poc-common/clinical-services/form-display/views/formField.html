@@ -46,31 +46,25 @@
 
       <div ng-switch-when="Datetime" class="input-group date">
         <input
-
-          name="{{fieldId}}" type="text" class="form-control keyboard-in"
-          placeholder="{{field.label | translate}}"
-          ng-model="fieldModel.value"
-          date-time min-view="date" auto-close="true"
+          class="form-control keyboard-in" name="{{fieldId}}" type="text" placeholder="{{field.label | translate}}"
+          ng-model="fieldModel.value" uib-datepicker-popup ng-focus="focused=true" is-open="focused"
           ng-required="{{fieldModel.field.required}}">
         <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
-                </span>
+          <span class="glyphicon glyphicon-calendar"></span>
+        </span>
       </div>
 
       <div ng-switch-when="Date" class="input-group date" ng-hide="field.hidden">
-                <span ng-if="validDate==true" class="input-group-addon">
-                <span class="glyphicon glyphicon-remove btn-md btn-danger" title="Date is wrong"></span>
-                </span>
-        <input ng-disabled="{{field.disabled}}"
-               name="{{fieldId}}" type="text" class="form-control keyboard-in"
-               placeholder="{{field.label | translate}}"
-               ng-model="fieldModel.value"
-               date-time format="yyyy-MM-dd" min-view="date" auto-close="true"
+        <span ng-if="validDate==true" class="input-group-addon">
+          <span class="glyphicon glyphicon-remove btn-md btn-danger" title="Date is wrong"></span>
+        </span>
+        <input class="form-control keyboard-in" name="{{fieldId}}" type="text" uib-datepicker-popup
+               ng-focus="focused=true" is-open="focused" ng-disabled="field.disabled"
+               placeholder="{{field.label | translate}}" ng-model="fieldModel.value"
                ng-required="{{fieldModel.field.required}}">
         <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
-                </span>
-
+          <span class="glyphicon glyphicon-calendar"></span>
+        </span>
       </div>
 
       <div ng-switch-when="Coded">

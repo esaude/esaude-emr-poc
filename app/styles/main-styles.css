@@ -244,6 +244,7 @@ p.capitalize {
   line-height: 2.4;
 }
 
+
 /* smart-table sort cursor and row selection */
 .st-sort-ascent:before {
   content: '\25B2';
@@ -256,4 +257,9 @@ p.capitalize {
 .table-striped > tbody > tr.st-selected {
   background: #85adad;
   color: white;
+}
+
+/* Datepicker */
+.uib-datepicker .btn-default {
+  border: none;
 }

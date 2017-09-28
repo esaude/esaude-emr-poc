@@ -169,7 +169,7 @@
           return _.flow([filterRetiredEncoounters, sortByEncounterDateTime, _.reverse])(response.data.results);
         })
         .catch(function (error) {
-          $log.error('XHR Failed for getPatientChildFollowupEncounters. ' + error.data);
+          $log.error('XHR Failed for getPatientChildFollowupEncounters: ' + error.data.error.message);
           return $q.reject(error);
         })
     }
@@ -186,7 +186,7 @@
           return _.flow([filterRetiredEncoounters, sortByEncounterDateTime, _.reverse])(response.data.results);
         })
         .catch(function (error) {
-          $log.error('XHR Failed for getPatientAdultFollowupEncounters. ' + error.data);
+          $log.error('XHR Failed for getPatientAdultFollowupEncounters: ' + error.data.error.message);
           return $q.reject(error);
         })
     }
@@ -217,7 +217,7 @@
       }
 
       function getEncountersFailed(error) {
-        $log.error('XHR Failed for getPatientFilaEncounters. ' + error.data);
+        $log.error('XHR Failed for getPatientFilaEncounters: ' + error.data.error.message);
         return $q.reject(error);
       }
 
