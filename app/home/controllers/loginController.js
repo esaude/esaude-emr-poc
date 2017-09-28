@@ -5,11 +5,11 @@
     .module('home')
     .controller('LoginController', LoginController);
 
-  LoginController.$inject = ['$rootScope', '$scope', '$location', 'sessionService', 'spinner', '$q', '$stateParams',
-    '$translate'];
+  LoginController.$inject = ['$location', '$q', '$rootScope', '$scope', '$stateParams', '$translate', 'sessionService',
+    'spinner'];
 
   /* @ngInject */
-  function LoginController($rootScope, $scope, $location, sessionService, spinner, $q, $stateParams, $translate) {
+  function LoginController($location, $q, $rootScope, $scope, $stateParams, $translate, sessionService, spinner) {
 
     var landingPagePath = "/dashboard";
     var loginPagePath = "/login";
@@ -40,12 +40,14 @@
       if ($location.path() === loginPagePath) {
         redirectToLandingPageIfAlreadyAuthenticated();
       }
+
+      spinner.forPromise(setLocale(vm.selectedLocale));
     }
 
     function login() {
       vm.errorMessageTranslateKey = null;
       var deferrable = $q.defer();
-      sessionService.loginUser($scope.loginUser.username, $scope.loginUser.password).then(
+      sessionService.loginUser($scope.loginUser.username, $scope.loginUser.password, vm.selectedLocale).then(
         function () {
           sessionService.loadCredentials().then(
             function () {
@@ -77,8 +79,12 @@
       });
     }
 
+    function setLocale(locale) {
+      return $translate.use(locale).then(sessionService.setLocale(locale));
+    }
+
     function updateLocale(locale) {
-      spinner.forPromise($translate.use(locale));
+      spinner.forPromise(setLocale(locale));
     }
   }
 

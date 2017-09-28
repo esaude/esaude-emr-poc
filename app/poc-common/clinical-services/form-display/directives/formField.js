@@ -77,20 +77,20 @@
           if ($scope.fieldModel.field.uuid === whoCurrentStageuuId) {
             loadField();
           }
+
+          if ($scope.field.fireHideEvent) {
+            fireHideEvent($scope.field.fireHideEvent);
+          }
+
+          if ($scope.field.listenHideEvent) {
+            listenHideEvent($scope.field.listenHideEvent);
+          }
+
+          if ($scope.field.dateController) {
+            dateController($scope.field.dateController);
+          }
         }
       });
-
-      if ($scope.field.fireHideEvent) {
-        fireHideEvent($scope.field.fireHideEvent);
-      }
-
-      if ($scope.field.listenHideEvent) {
-        listenHideEvent($scope.field.listenHideEvent);
-      }
-
-      if ($scope.field.dateController) {
-        dateController($scope.field.dateController);
-      }
     }
 
     function fireHideEvent(event) {
@@ -106,12 +106,12 @@
         var valJson = JSON.parse(val);
         if (valJson.uuid === "e1d81b62-1d5f-11e0-b929-000c29ad1d07") {
           $scope.field.hidden = false;
-          $rootScope.formPayload.form.fields[event.currentScope.fieldUuid].field.required = true;
+          $scope.formParts.form.fields[event.currentScope.fieldUuid].field.required = true;
 
 
         } else {
           $scope.field.hidden = true;
-          $rootScope.formPayload.form.fields[event.currentScope.fieldUuid].field.required = false;
+          $scope.formParts.form.fields[event.currentScope.fieldUuid].field.required = false;
         }
       });
     }
@@ -120,7 +120,7 @@
       $scope.$watch('aForm.' + $scope.fieldId + '.$viewValue', function (newVal, oldVal) {
         var dateUtil = Bahmni.Common.Util.DateUtil;
 
-        var startDate = $rootScope.formPayload.form.fields[param].value;
+        var startDate = $scope.formParts.form.fields[param].value;
         var _date = dateUtil.getDateWithoutTime(startDate);
         var date = dateUtil.getDateWithoutTime(new Date());
         var _dateu = dateUtil.getDateWithoutTime(newVal);

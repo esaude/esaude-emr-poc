@@ -49,7 +49,7 @@
           <span class="glyphicon glyphicon-ban-circle"></span>
           <span translate="CHECKIN_UNTERMINATED_VISIT"
                 translate-value-visittype="{{vm.lastUnclosedVisit.visitType.display}}"
-                translate-value-startdatetime="{{vm.lastUnclosedVisit.startDatetime | date:'medium'}}">
+                translate-value-startdatetime="{{vm.lastUnclosedVisit.startDatetime | date:'short'}}">
           </span>
         </div>
 
@@ -57,7 +57,7 @@
           <span class="glyphicon glyphicon-info-sign"></span>
           <span translate="CHECKIN_CHECKED_IN_TODAY"
                 translate-value-visitType="{{vm.todayVisit.visitType.display}}"
-                translate-value-startDateTime="{{vm.todayVisit.startDatetime | date:'medium'}}">
+                translate-value-startDateTime="{{vm.todayVisit.startDatetime | date:'short'}}">
           </span>
         </div>
 
