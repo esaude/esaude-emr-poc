@@ -51,10 +51,10 @@
       }).then(function (response) {
         return response.data.results;
       })
-        .catch(function (error) {
-          $log.error('XHR Failed for getIdentifierTypes. ' + error.data);
-          return $q.reject(error);
-        });
+      .catch(function (error) {
+        $log.error('XHR Failed for getIdentifierTypes: ' + error.data.error.message);
+        return $q.reject(error);
+      });
     }
 
     function get(uuid) {
@@ -100,7 +100,7 @@
       return get(patientUUID).then(function (response) {
         return response.data;
       }).catch(function (error) {
-        $log.error('XHR Failed for getOpenMRSPatient. ' + error.data);
+        $log.error('XHR Failed for getOpenMRSPatient: ' + error.data.error.message);
         return $q.reject(error);
       });
     }
@@ -109,7 +109,7 @@
       return get(patientUuid).then(function (response) {
         return openmrsPatientMapper.map(response.data);
       }).catch(function (error) {
-        $log.error('XHR Failed for getPatient. ' + error.data);
+        $log.error('XHR Failed for getPatient: ' + error.data.error.message);
         return $q.reject(error);
       });
     }

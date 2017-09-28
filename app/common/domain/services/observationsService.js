@@ -58,7 +58,7 @@
           }
         })
         .catch(function (error) {
-          $log.error('XHR Failed for getLastValueForConcept. ' + error.data);
+          $log.error('XHR Failed for getLastValueForConcept: ' + error.data.error.message);
           return $q.reject(error);
         });
     }

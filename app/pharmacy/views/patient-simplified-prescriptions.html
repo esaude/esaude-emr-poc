@@ -21,11 +21,14 @@
                   <div ng-messages for="prescriptionForm.prescriptionDate.$error"
                        ng-messages-include="../poc-common/form-display/views/error-messages.html"
                        ng-show="vm.showMessages"></div>
-                  <input name="prescriptionDate"
-                         type="text"
-                         date-time format="d MMM y" min-view="date" ng-model="vm.prescriptionDate"
-                         id="prescriptionDate"
-                         class="form-control keyboard-in" required/>
+                  <div class="input-group">
+                    <input class="form-control keyboard-in" id="prescriptionDate" type="text" name="prescriptionDate"
+                           uib-datepicker-popup ng-focus="focused=true" is-open="focused" ng-model="vm.prescriptionDate"
+                           required>
+                    <span class="input-group-addon">
+                      <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                  </div>
                 </div>
               </div>
 

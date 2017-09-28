@@ -58,7 +58,7 @@ describe('authorizationService', function () {
       beforeEach(function () {
         spyOn(sessionService, 'getSession').and.callFake(function () {
           return $q(function (resolve, reject) {
-            return reject();
+            return reject({data: {error: {message: ''}}});
           });
         });
         spyOn($log, 'error').and.callFake(function () {});
@@ -113,7 +113,7 @@ describe('authorizationService', function () {
       beforeEach(function () {
         spyOn(sessionService, 'getSession').and.callFake(function () {
           return $q(function (resolve, reject) {
-            return reject();
+            return reject({data: {error: {message: ''}}});
           });
         });
         spyOn($log, 'error').and.callFake(function () {});

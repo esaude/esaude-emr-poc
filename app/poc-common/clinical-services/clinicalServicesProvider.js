@@ -100,7 +100,7 @@
           return $q.reject();
         }
 
-        var representation = "custom:(description,display,encounterType,uuid,formFields:(uuid,field:(uuid,selectMultiple,fieldType:(display),concept:(answers,set,setMembers,uuid,datatype:(display)))))";
+        var representation = "custom:(description,display,encounterType,uuid,formFields:(uuid,required,field:(uuid,selectMultiple,fieldType:(display),concept:(answers,set,setMembers,uuid,datatype:(display)))))";
 
         return getClinicalServicesWithEncountersForPatient(patient, cs).then(function (service) {
           return getForm(service.formId, representation).then(function (form) {
@@ -155,7 +155,7 @@
             return response.data;
           })
           .catch(function (error) {
-            $log.error('XHR Failed for loadClinicalServices. ' + error.data);
+            $log.error('XHR Failed for loadClinicalServices: ' + error.data);
             return $q.reject(error);
           });
       }
@@ -206,7 +206,7 @@
 
         return $q.all(getAll)
           .catch(function (error) {
-            $log.error('XHR Failed for getClinicalServicesWithEncountersForPatient. ' + error.data);
+            $log.error('XHR Failed for getClinicalServicesWithEncountersForPatient: ' + error.data.error.message);
             return $q.reject(error);
           });
       }

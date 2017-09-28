@@ -5,28 +5,32 @@
     .module('registration')
     .controller('PatientCommonController', PatientCommonController);
 
-  PatientCommonController.$inject = ['$scope', '$state', 'patientAttributeService', 'patientService',
-    'localStorageService', 'spinner', 'notifier', '$filter', 'TabManager', 'conceptService', 'configurations'];
+  PatientCommonController.$inject = ['$filter', '$scope', '$state', 'conceptService', 'configurations',
+    'localStorageService', 'notifier', 'patientAttributeService', 'patientService', 'spinner', 'TabManager'];
+
 
   /* @ngInject */
-  function PatientCommonController($scope, $state, patientAttributeService, patientService, localStorageService,
-                                   spinner, notifier, $filter, TabManager, conceptService, configurations) {
+  function PatientCommonController($filter, $scope, $state, conceptService, configurations, localStorageService,
+                                   notifier, patientAttributeService, patientService, spinner, TabManager) {
 
-    var dateUtil = Bahmni.Common.Util.DateUtil;
     var patientConfiguration = $scope.patientConfiguration;
+    var now = new Date();
 
     // TODO: Remove dependency on $scope!
     var vm = this;
-    vm.patient = $scope.patient;
     vm.addressLevels = configurations.addressLevels();
+    vm.birthDatepickerOptions = {maxDate: now};
+    vm.deathDatepickerOptions = {maxDate: now};
+    vm.deathConcepts = [];
     vm.patientAttributes = [];
     vm.patientIdentifierTypes = [];
+    vm.patient = $scope.patient;
     vm.srefPrefix = $scope.srefPrefix;
-    vm.today = dateUtil.getDateWithoutTime(dateUtil.now());
-    vm.deathConcepts = [];
 
     vm.addNewIdentifier = addNewIdentifier;
     vm.changeTab = changeTab;
+    vm.deceasedPatient = deceasedPatient;
+    vm.deletePatient = deletePatient;
     vm.disableIsDead = disableIsDead;
     vm.getAutoCompleteList = getAutoCompleteList;
     vm.getDataResults = getDataResults;
@@ -37,9 +41,6 @@
     vm.selectIsDead = selectIsDead;
     vm.setPreferredId = setPreferredId;
     vm.stepForward = stepForward;
-
-    vm.deceasedPatient = deceasedPatient;
-    vm.deletePatient = deletePatient;
 
 
     var tabManager = new TabManager();

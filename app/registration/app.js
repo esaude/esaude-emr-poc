@@ -78,7 +78,8 @@
       .state('dashboard.visits', {
         url: '/visits',
         templateUrl: 'views/patient-visits.html',
-        controller: 'VisitController',
+        controller: 'VisitHistoryController',
+        controllerAs: 'vm',
         ncyBreadcrumb: {
           label: '{{\'COMMON_VISIT_HISTORY_TITLE\' | translate}}',
           parent: 'dashboard',
@@ -88,6 +89,7 @@
       .state('dashboard.services', {
         url: '/services',
         templateUrl: 'views/patient-services.html',
+        controller: 'ClinicalServicesController',
         ncyBreadcrumb: {
           label: '{{\'COMMON_CLINIC_SERVICES_TITLE\' | translate}}',
           parent: 'dashboard',

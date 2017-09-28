@@ -5,15 +5,16 @@
     .module('bahmni.common.domain')
     .factory('visitService', visitService);
 
-  visitService.$inject = ['$http', '$log', '$q', 'commonService'];
+  visitService.$inject = ['$http', '$log', '$q', 'commonService', 'encounterService'];
 
   /* @ngInject */
-  function visitService($http, $log, $q, commonService) {
+  function visitService($http, $log, $q, commonService, encounterService) {
     var service = {
       activeVisits: activeVisits,
       create: create,
       getTodaysVisit: getTodaysVisit,
       getVisit: getVisit,
+      getVisitHistoryForPatient: getVisitHistoryForPatient,
       search: search
     };
     return service;
@@ -33,7 +34,7 @@
       }).then(function (response) {
         return response.data;
       }).catch(function (error) {
-        $log.error('XHR Failed for create. ' + error.data);
+        $log.error('XHR Failed for create: ' + error.data.error.message);
         return $q.reject(error);
       });
     }
@@ -61,7 +62,7 @@
           return null;
         })
         .catch(function (error) {
-          $log.error('XHR Failed for getTodaysVisit. ' + error.data);
+          $log.error('XHR Failed for getTodaysVisit: ' + error.data.error.message);
           return $q.reject(error);
         });
     }
@@ -86,9 +87,15 @@
           return response.data.results;
         })
         .catch(function (error) {
-          $log.error('XHR Failed for search. ' + error.data);
+          $log.error('XHR Failed for search: ' + error.data.error.message);
           return $q.reject(error);
         });
+    }
+
+    function getVisitHistoryForPatient(patient) {
+      return encounterService.getEncountersOfPatient(patient.uuid).then(function (response) {
+        return commonService.filterGroupReverse(response.data);
+      });
     }
   }
 

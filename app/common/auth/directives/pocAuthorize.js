@@ -20,7 +20,7 @@
     return directive;
 
     /**
-     * NOTE: Real implementation is inside pocAuthorizeDirectiveDecorator in module definition.
+     * NOTE: Real implementation is inside pocAuthorizeDirectiveDecorator in module config.
      * @param scope
      */
     function link(scope) {

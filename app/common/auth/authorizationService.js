@@ -33,7 +33,7 @@
           return found.length > 0;
         })
         .catch(function (error) {
-          $log.error('Could not check user role. ' + error);
+          $log.error('Could not check user role: ' + error.data.error.message);
           return $q.reject();
         });
     }
@@ -53,7 +53,7 @@
           return found.length > 0;
         })
         .catch(function (error) {
-          $log.error('Could not check user privilege. ' + error);
+          $log.error('Could not check user privilege: ' + error.data.error.message);
           return $q.reject();
         });
     }
@@ -71,7 +71,7 @@
           return getAuthorizedApps(apps, userRoles);
         })
         .catch(function (error) {
-          $log.error('Could not authorize apps. ' + error);
+          $log.error('Could not authorize apps: ' + error.data.error.message);
           return $q.reject();
         });
     }
@@ -89,7 +89,7 @@
           return getAuthorizedClinicalServices(clinicalServices, userPrivileges);
         })
         .catch(function (error) {
-          $log.error('Could not authorize clinical services. ' + error);
+          $log.error('Could not authorize clinical services: ' + error.data.error.message);
           return $q.reject();
         });
     }
