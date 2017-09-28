@@ -257,6 +257,7 @@ p.capitalize {
 .checkin .status {
   line-height: 2.4;
 }
+/**/
 
 /* Login */
 .login {
@@ -281,3 +282,10 @@ p.capitalize {
 .login form .form-group:last-child {
   margin-bottom: 0;
 }
+/**/
+
+/* Datepicker */
+.uib-datepicker .btn-default {
+  border: none;
+}
+/**/

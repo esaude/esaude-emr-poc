@@ -51,11 +51,11 @@
 
               <div class="col-sm-8">
                 <div class="input-group">
-                  <input type="text" name="deathDate"class="form-control" date-time ng-model="patientCommon.patient.deathDate"
-                         min-view="date" auto-close="true" required/>
+                  <input class="form-control" type="text" name="deathDate" uib-datepicker-popup ng-focus="focused=true"
+                         is-open="focused" ng-model="patientCommon.patient.deathDate" datepicker-options="patientCommon.deathDatepickerOptions" required>
                   <span class="input-group-addon">
-                                  <span class="glyphicon glyphicon-calendar"></span>
-                              </span>
+                    <span class="glyphicon glyphicon-calendar"></span>
+                  </span>
                 </div>
               </div>
 

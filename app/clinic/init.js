@@ -11,7 +11,6 @@ angular
       'chart.js',
       'common.patient',
       'common.prescription',
-      'datePicker',
       'frapontillo.bootstrap-switch',
       'LocalStorageModule',
       'ngCookies',

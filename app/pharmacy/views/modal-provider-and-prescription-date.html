@@ -17,11 +17,14 @@
                         <div ng-messages for="providerAndPrescriptionDateForm.prescriptionDate.$error"
                              ng-messages-include="../poc-common/form-display/views/error-messages.html"
                              ng-show="vm.showMessagesInModal"></div>
-                        <input name="prescriptionDate"
-                               type="text"
-                               date-time format="d MMM y" min-view="date" ng-model="vm.prescriptionDate"
-                               id="prescriptionDate"
-                               type="text" class="form-control keyboard-in" required/>
+                        <div class="input-group">
+                          <input class="form-control keyboard-in" id="prescriptionDate" type="text" name="prescriptionDate"
+                                 uib-datepicker-popup ng-focus="focused=true" is-open="focused" ng-model="vm.prescriptionDate"
+                                 required>
+                          <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                          </span>
+                        </div>
                       </div>
                     </div>
                     <div class="form-group form-group-lg"
@@ -45,10 +48,12 @@
                 <div class="modal-footer">
                   <button type="button" class="btn btn-warning btn-lg" ng-click="vm.closeProviderAndPrescriptionModal(providerAndPrescriptionDateForm)">
                     <span class="glyphicon glyphicon-minus-sign"></span>
+                    <span class="button-label">{{'CANCEL' | translate}}</span>
                   </button>
                   <button type="submit"  ng-click="vm.saveRefill(providerAndPrescriptionDateForm)"
                           class="btn btn-primary btn-lg">
                     <span class="glyphicon glyphicon-floppy-disk"></span>
+                    <span class="button-label">{{'SAVE' | translate}}</span>
                   </button>
                 </div>
             </form>
