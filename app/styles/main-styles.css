@@ -243,3 +243,8 @@ p.capitalize {
 .checkin .status {
   line-height: 2.4;
 }
+
+/* Datepicker */
+.uib-datepicker .btn-default {
+  border: none;
+}

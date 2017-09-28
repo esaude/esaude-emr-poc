@@ -4,7 +4,8 @@
   angular
     .module('application', [
       'authentication',
-      'ncy-angular-breadcrumb'
+      'ncy-angular-breadcrumb',
+      'ui.bootstrap'
     ]);
 
 })();

@@ -11,9 +11,17 @@
                      ng-messages-include="../poc-common/form-display/views/error-messages.html"
                      ng-show="patientCommon.showMessages">
                 </div>
-                <input type="text" name="patientBirthdate" class="form-control" date-time format="yyyy-MM-dd" ng-model="patientCommon.patient.birthdate"
-                           min-view="date" auto-close="true" date-chenge="{{patient.calculateAge()}}" max-date="{{patientCommon.today}}"
-                           required ng-blur="patient.calculateBirthdateEstimated('birthdate')">
+              <div class="input-group">
+                <input class="form-control" id="createdDate1" name="patientBirthdate" type="text" uib-datepicker-popup
+                       ng-model="patientCommon.patient.birthdate" ng-focus="focused=true" is-open="focused"
+                       datepicker-options="patientCommon.birthDatepickerOptions"
+                       ng-change="patient.calculateAge()"
+                       placeholder=""
+                       required/>
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+              </div>
             </div>
         </div>
         <div class="form-group form-group-lg"
@@ -28,7 +36,7 @@
                   <span class="input-group-addon" id="age-addon">{{'PATIENT_INFO_YEARS' | translate}}</span>
                   <input id="patientYears" name="patientYears" type="number"
                        ng-min="0" ng-max="120" class="form-control" ng-model="patientCommon.patient.age.years"
-                       ng-change="patient.calculateBirthDate();patient.calculateBirthdateEstimated('age')"
+                       ng-change="patient.calculateBirthDate()"
                        required  aria-describedby="age-addon">
                 </div>
             </div>
@@ -37,7 +45,7 @@
                   <span class="input-group-addon" id="months-addon">{{'PATIENT_INFO_MONTHS' | translate}}</span>
                   <input id="patientMonths" name="patientMonths" type="number"
                        ng-min="0" class="form-control" ng-model="patientCommon.patient.age.months"
-                       ng-change="patient.calculateBirthDate();patient.calculateBirthdateEstimated('age')"
+                       ng-change="patient.calculateBirthDate()"
                        required  aria-describedby="months-addon">
                 </div>
             </div>
@@ -46,13 +54,13 @@
                   <span class="input-group-addon" id="days-addon">{{'PATIENT_INFO_DAYS' | translate}}</span>
                   <input id="patientDays" name="patientDays" type="number"
                        ng-min="0" class="form-control" ng-model="patientCommon.patient.age.days"
-                       ng-change="patient.calculateBirthDate();patient.calculateBirthdateEstimated('age')"
+                       ng-change="patient.calculateBirthDate()"
                        required  aria-describedby="days-addon">
                 </div>
             </div>
         </div>
         <div class="form-group form-group-lg" ng-show="aForm.patientBirthdate.$valid">
-            <label for="birthdateEstimated" class="col-sm-2 control-label"><b>{{'PATIENT_INFO_ESTIMATED' | translate}}:</b></label>
+            <label class="col-sm-2 control-label"><b>{{'PATIENT_INFO_ESTIMATED' | translate}}:</b></label>
             <label class="col-sm-1 control-label go-left">
                 {{(patient.birthdateEstimated) ? 'COMMON_YES' : 'COMMON_NO' | translate}}
             </label>
