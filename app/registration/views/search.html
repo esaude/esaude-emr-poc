@@ -28,16 +28,16 @@
             <thead>
                 <tr>
                     <th>{{'SEARCH_PATIENT_NID' | translate}}</th>
-                    <th>{{'SEARCH_PATIENT_FIRSTNAME' | translate}}</th>
-                    <th>{{'SEARCH_PATIENT_LASTNAME' | translate}}</th>
-                    <th>{{'SEARCH_PATIENT_GENDER' | translate}}</th>
-                    <th>{{'SEARCH_PATIENT_AGE' | translate}}</th>
-                    <th>{{'SEARCH_PATIENT_BIRTHDATE' | translate}}</th>
+                    <th st-sort="givenName">{{'SEARCH_PATIENT_FIRSTNAME' | translate}}</th>
+                    <th st-sort="familyName">{{'SEARCH_PATIENT_LASTNAME' | translate}}</th>
+                    <th st-sort="gender">{{'SEARCH_PATIENT_GENDER' | translate}}</th>
+                    <th st-sort="age.years">{{'SEARCH_PATIENT_AGE' | translate}}</th>
+                    <th st-sort="birthdate">{{'SEARCH_PATIENT_BIRTHDATE' | translate}}</th>
                     <th>{{'SEARCH_SCHEDULE_STATUS' | translate}}</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="patient in results" ng-click="linkDashboard(patient)">
+                <tr st-select-row="patient" st-select-mode="single" ng-repeat="patient in results" ng-click="linkDashboard(patient)">
                     <td>{{patient.identifier}}</td>
                     <td>{{patient.givenName}}</td>
                     <td>{{patient.familyName}}</td>
@@ -85,7 +85,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="patient in cohortMembers" ng-init="getLastConsultationAndVisit()" ng-click="linkDashboard(patient)">
+                <tr st-select-row="patient" st-select-mode="single" ng-repeat="patient in cohortMembers" ng-init="getLastConsultationAndVisit()" ng-click="linkDashboard(patient)">
                     <td>{{patient.display}}</td>
                     <td>{{patient.scheduledInfo.encounter.encounterDatetime | date:'short'}}</td>
                     <td>{{patient.scheduledInfo.encounter.provider.display}}</td>
