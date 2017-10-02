@@ -255,8 +255,8 @@ p.capitalize {
 }
 
 .table-striped > tbody > tr.st-selected {
-  background: #85adad;
-  color: white;
+   background: #85adad;
+   color: white;
 }
 
 /* Datepicker */
