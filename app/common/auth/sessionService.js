@@ -73,7 +73,7 @@
         });
     }
 
-    function loginUser(username, password, locale) {
+    function loginUser(username, password) {
       var deferrable = $q.defer();
       createSession(username, password).success(function (data) {
         if (data.authenticated) {

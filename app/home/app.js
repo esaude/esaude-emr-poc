@@ -24,12 +24,9 @@
         url: '/login?showLoginMessage=LOGIN_LABEL_LOGIN_ERROR_MESSAGE_KEY',
         views: {
           'layout': {
-            templateUrl: '../common/application/views/layout.html',
+            templateUrl: 'views/login.html',
             controller: 'LoginController',
             controllerAs: 'vm'
-          },
-          'content@login': {
-            templateUrl: 'views/login.html'
           }
         },
         ncyBreadcrumb: {
