@@ -12,6 +12,7 @@
 
     var uuid = $stateParams.patientUuid;
 
+    $scope.headerText = "PATIENT_INFO_EDIT";
     $scope.patient = patient;
     $scope.openMRSPatient = {};
     $scope.srefPrefix = "editpatient.";
