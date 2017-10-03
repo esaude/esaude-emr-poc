@@ -15,6 +15,7 @@ html {
 
 body {
   margin-bottom: 20px; /* .footer height */
+  font-size: 18px;
 }
 
 .panel-marginless-sides {
@@ -125,15 +126,10 @@ body {
 }
 
 b, li, th, p .text-lg {
-    font-size: 18px;
     vertical-align: middle;
 }
 
-keyboard {
-    font-size: 18px;
-}
-
-#status-buttons a               { display:inline-block; text-align:center; text-transform:uppercase; margin:0 60px 0 5px; font-size: 20px;}
+#status-buttons a               { display:inline-block; text-align:center; text-transform:uppercase; margin:0 60px 0 5px; font-size: 20px; }
 #status-buttons a:hover         { text-decoration:none; }
 #status-buttons span            { display:block; height:30px; margin:0 auto 10px; padding-top:5px; width:30px;
     border-radius:50%; }
@@ -156,10 +152,6 @@ input[type=radio]:checked + label::before {
 .radio-lx + label::before {
     width: 2.0em;
     height: 2.0em;
-}
-
-.label {
-    font-size: 14px;
 }
 
 #loader {
