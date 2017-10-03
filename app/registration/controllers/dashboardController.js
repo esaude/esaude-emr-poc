@@ -5,10 +5,10 @@
     .module('registration')
     .controller('DashboardController', DashboardController);
 
-  DashboardController.$inject = ['$location', '$stateParams', 'notifier', 'patientService', 'translateFilter'];
+  DashboardController.$inject = ['$state', '$stateParams', 'notifier', 'patientService', 'translateFilter'];
 
   /* @ngInject */
-  function DashboardController($location, $stateParams, notifier, patientService, translateFilter) {
+  function DashboardController($state, $stateParams, notifier, patientService, translateFilter) {
 
     var patientUUID = $stateParams.patientUuid;
 
@@ -34,23 +34,29 @@
     }
 
     function linkSearch() {
-      $location.url("/search"); // path not hash
+      $state.go('search');
     }
 
     function linkVisit() {
-      $location.url("/visit/" + patientUUID); // path not hash
+      $state.go('visit', {patientUuid: patientUUID});
     }
 
     function linkPatientDetail() {
-      $location.url("/patient/detail/" + patientUUID); // path not hash
+      $state.go('detailpatient', {
+        patientUuid: patientUUID,
+        returnState: $state.current
+      });
     }
 
     function linkServicesList() {
-      $location.url("/services/" + patientUUID); // path not hash
+      $state.go('services', {patientUuid: patientUUID});
     }
 
     function linkPatientEdit() {
-      $location.url("/patient/edit/" + patientUUID + "/identifier"); // path not hash
+      $state.go('editpatient.identifier', {
+        patientUuid: patientUUID,
+        returnState: $state.current
+      });
     }
 
     function getPatient(uuid) {

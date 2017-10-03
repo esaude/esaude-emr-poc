@@ -5,10 +5,10 @@
     .module('social')
     .controller('DashboardController', DashboardController);
 
-  DashboardController.$inject = ['$scope', '$location', '$stateParams', 'patientService', 'visitService'];
+  DashboardController.$inject = ['$scope', '$state', '$stateParams', 'patientService', 'visitService'];
 
   /* @ngInject */
-  function DashboardController($scope, $location, $stateParams, patientService, visitService) {
+  function DashboardController($scope, $state, $stateParams, patientService, visitService) {
 
     $scope.patientUuid = $stateParams.patientUuid;
     $scope.todayVisit = null;
@@ -36,11 +36,14 @@
     }
 
     function linkSearch() {
-      $location.url("/search"); // path not hash
+      $state.go('search');
     }
 
     function linkPatientDetail() {
-      $location.url("/patient/detail/" + $scope.patientUuid); // path not hash
+      $state.go('detailpatient', {
+        patientUuid: $scope.patientUuid,
+        returnState: $state.current
+      });
     }
   }
 

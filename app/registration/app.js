@@ -205,6 +205,9 @@
           label: '{{\'EDIT_PATIENT\' | translate }}',
           parent: 'dashboard'
         },
+        params: {
+          returnState: null
+        },
         resolve: {
           patient: function ($stateParams, initialization, patientService) {
             return initialization.then(function () {
@@ -293,6 +296,9 @@
         ncyBreadcrumb: {
           label: '{{\'PATIENT_DETAILS\' | translate }}',
           parent: 'dashboard'
+        },
+        params: {
+          returnState: null
         },
         resolve: {
           initialization: 'initialization'

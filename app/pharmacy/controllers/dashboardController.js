@@ -5,9 +5,9 @@
     .module('pharmacy')
     .controller('DashboardController', DashboardController);
 
-  DashboardController.$inject = ['$location', '$stateParams', 'patientService'];
+  DashboardController.$inject = ['$state', '$stateParams', 'patientService'];
 
-  function DashboardController($location, $stateParams, patientService) {
+  function DashboardController($state, $stateParams, patientService) {
     var patientUuid = $stateParams.patientUuid;
 
     var vm = this;
@@ -27,11 +27,14 @@
     }
 
     function linkSearch() {
-      $location.url("/search"); // path not hash
+      $state.go("search");
     }
 
     function linkPatientDetail() {
-      $location.url("/patient/detail/" + patientUuid); // path not hash
+      $state.go('detailpatient', {
+        patientUuid: patientUuid,
+        returnState: $state.current
+      });
     }
   }
 
