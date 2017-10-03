@@ -20,6 +20,7 @@
     var patientUUID = $stateParams.patientUuid;
     var serviceId = $stateParams.serviceId;
 
+    $scope.patient = {};
     $scope.currentFormPart = {};
     $scope.formInfo = {};
     $scope.formLayout = {};
@@ -42,8 +43,8 @@
 
     function activate() {
       var currentSref = $state.current.url.replace("/", ".");
-      var patient = {uuid: patientUUID};
       var service = {id: serviceId};
+      $scope.patient = {uuid: patientUUID};
 
       $scope.formInfo = clinicalServicesService.getFormLayouts({id: serviceId});
 
@@ -51,7 +52,7 @@
         return formPart.sref === currentSref;
       });
 
-      var getFormData = clinicalServicesService.getFormData(patient, service, serviceEncounter);
+      var getFormData = clinicalServicesService.getFormData($scope.patient, service, serviceEncounter);
       //initialize visit info in scope
       var getTodaysVisit = visitService.getTodaysVisit($scope.patient.uuid);
 
@@ -138,7 +139,7 @@
     }
 
     function linkDashboard() {
-      $location.url('/dashboard/' + $rootScope.patient.uuid);
+      $location.url('/dashboard/' + $scope.patient.uuid);
     }
 
     function addMappedDateObs(clinicalService, openMRSEncounter) {
