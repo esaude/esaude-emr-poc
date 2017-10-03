@@ -19,7 +19,6 @@ angular
       'ngRoute',
       'pascalprecht.translate',
       'patient.details',
-      'poc.common.clinicalservices',
       'smart-table',
       'ui.bootstrap',
       'ui.checkbox',

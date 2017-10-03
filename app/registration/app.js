@@ -90,6 +90,7 @@
         url: '/services',
         templateUrl: 'views/patient-services.html',
         controller: 'ClinicalServicesController',
+        controllerAs: 'vm',
         ncyBreadcrumb: {
           label: '{{\'COMMON_CLINIC_SERVICES_TITLE\' | translate}}',
           parent: 'dashboard',
