@@ -29,10 +29,10 @@
 
   }
 
-  FormFieldDirectiveController.$inject = ['$http', '$scope', 'observationsService'];
+  FormFieldDirectiveController.$inject = ['$scope', 'observationsService', 'conceptService'];
 
   /* @ngInject */
-  function FormFieldDirectiveController($http, $scope, observationsService) {
+  function FormFieldDirectiveController($scope, observationsService, conceptService) {
 
     var whoCurrentStageuuId = "e27ffd6e-1d5f-11e0-b929-000c29ad1d07";
 
@@ -170,20 +170,7 @@
     }
 
     function getConcepts(request) {
-      if (request.length < 2) return;
-
-      return $http.get(Bahmni.Common.Constants.conceptUrl, {
-        params: {
-          source: $scope.field.searchBySource,
-          q: request,
-          v: "custom:(uuid,name,display)"
-        }
-      })
-        .then(function (response) {
-          return response.data.results.map(function (concept) {
-            return concept;
-          });
-        });
+      return conceptService.searchBySource(request, $scope.field.searchBySource);
     }
   }
 

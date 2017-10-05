@@ -1,6 +1,6 @@
 describe('conceptService', function () {
 
-  var  conceptService, appService, $http, $q, $log, $rootScope;
+  var conceptService, appService, $http, $q, $log, $rootScope;
 
   beforeEach(module('bahmni.common.domain'));
 
@@ -14,17 +14,77 @@ describe('conceptService', function () {
     $http = _$httpBackend_;
   }));
 
-  it('should fetch the death concept by uuid', function() {
+  it('should fetch the death concept by uuid', function () {
 
     var query = '/openmrs/ws/rest/v1/systemsetting?q=concept.causeOfDeath&v=custom:value';
 
-    $http.expectGET(query).respond({results:[]});
+    $http.expectGET(query).respond({results: []});
 
     conceptService.getDeathConcepts();
 
     $http.flush();
     $http.verifyNoOutstandingExpectation();
     $http.verifyNoOutstandingRequest();
+  });
+
+  describe('searchBySource', function () {
+
+    var results = [
+      {
+        mappings: [{
+          conceptReferenceTerm: {
+            conceptSource: {
+              uuid: 'ICD10'
+            }
+          }
+        }]
+      },
+      {
+        mappings: [{
+          conceptReferenceTerm: {
+            conceptSource: {
+              uuid: 'ICD10'
+            }
+          }
+        }]
+      },
+      {
+        mappings: [{
+          conceptReferenceTerm: {
+            conceptSource: {
+              uuid: 'NOT ICD10'
+            }
+          }
+        }]
+      }
+    ];
+
+    it('should search for concepts and filter by mapping source', function () {
+
+      var term = 'tuber';
+      var source = 'ICD10';
+
+      $http.expectGET('/openmrs/ws/rest/v1/concept?q=' + term + '&source=' + source
+        + '&v=custom:(uuid,name,display,mappings:(conceptReferenceTerm:(conceptSource:(uuid))))')
+        .respond({results: results});
+
+      var result;
+      conceptService.searchBySource(term, source).then(function (concepts) {
+        result = concepts;
+      });
+
+      $http.flush();
+      expect(result).toContain(results[0]);
+      expect(result).toContain(results[1]);
+      expect(result).not.toContain(results[2]);
+
+    });
+
+    afterEach(function () {
+      $http.verifyNoOutstandingExpectation();
+      $http.verifyNoOutstandingRequest();
+    });
+
   });
 
 });

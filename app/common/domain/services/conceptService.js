@@ -12,7 +12,8 @@
     var service = {
       get: get,
       getPrescriptionConvSetConcept: getPrescriptionConvSetConcept,
-      getDeathConcepts: getDeathConcepts
+      getDeathConcepts: getDeathConcepts,
+      searchBySource: searchBySource
     };
 
     return service;
@@ -63,6 +64,31 @@
         }).catch(function (error) {
             $log.error('XHR Failed for getDeahtConcepts. '+error.data.message);
             return $q.reject(error);
+        });
+    }
+
+    function searchBySource(term, source) {
+
+      var options = {
+        params: {
+          source: source,
+          q: term,
+          v: "custom:(uuid,name,display,mappings:(conceptReferenceTerm:(conceptSource:(uuid))))"
+        }
+      };
+
+      return $http.get(Bahmni.Common.Constants.conceptUrl, options)
+        .then(function (response) {
+          return response.data.results.filter(function (c) {
+            var sameSource = c.mappings.filter(function (m) {
+              return m.conceptReferenceTerm.conceptSource.uuid === source;
+            });
+            return sameSource.length !== 0;
+          });
+        })
+        .catch(function (error) {
+          $log.error('XHR Failed for searchBySource: ' + error.data.message);
+          return $q.reject(error);
         });
     }
 
