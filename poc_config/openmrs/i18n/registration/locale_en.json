@@ -88,7 +88,7 @@
     "Posto Administrativo": "Division",
     "Localidade": "Locality",
     "Bairro":"Neighborhood",
-    "Celula":"Celll",
+    "Celula":"Cell",
     "Av./Rua/Casa": "Av./Street/Home",
     "NEW_PATIENT": "New Patient",
     "DELETE_PATIENT": "Delete",
