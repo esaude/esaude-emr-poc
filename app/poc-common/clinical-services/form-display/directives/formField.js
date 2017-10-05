@@ -78,40 +78,9 @@
             loadField();
           }
 
-          if ($scope.field.fireHideEvent) {
-            fireHideEvent($scope.field.fireHideEvent);
-          }
-
-          if ($scope.field.listenHideEvent) {
-            listenHideEvent($scope.field.listenHideEvent);
-          }
-
           if ($scope.field.dateController) {
             dateController($scope.field.dateController);
           }
-        }
-      });
-    }
-
-    function fireHideEvent(event) {
-      $scope.$watch('aForm.' + $scope.fieldId + '.$viewValue', function (newVal, oldVal) {
-        if (newVal !== oldVal && !_.isUndefined(oldVal)) {
-          $rootScope.$broadcast(event, newVal);
-        }
-      });
-    }
-
-    function listenHideEvent(event) {
-      $scope.$on(event, function (event, val) {
-        var valJson = JSON.parse(val);
-        if (valJson.uuid === "e1d81b62-1d5f-11e0-b929-000c29ad1d07") {
-          $scope.field.hidden = false;
-          $scope.formParts.form.fields[event.currentScope.fieldUuid].field.required = true;
-
-
-        } else {
-          $scope.field.hidden = true;
-          $scope.formParts.form.fields[event.currentScope.fieldUuid].field.required = false;
         }
       });
     }
