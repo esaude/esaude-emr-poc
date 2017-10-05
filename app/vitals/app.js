@@ -61,7 +61,8 @@
         views: {
           'layout': {
             templateUrl: '../common/application/views/layout.html',
-            controller: 'DashboardController'
+            controller: 'DashboardController',
+            controllerAs: 'vm'
           },
           'content@dashboard': {
             templateUrl: 'views/dashboard.html'
@@ -89,6 +90,9 @@
           'content@detailpatient': {
             templateUrl: '../patient-details/views/patient-details.html'
           }
+        },
+        params: {
+          returnState: null
         },
         resolve: {
           initialization: 'initialization'

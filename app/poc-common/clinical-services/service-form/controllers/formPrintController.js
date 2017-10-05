@@ -12,15 +12,16 @@
   function FormPrintController($state, $stateParams, clinicalServicesService, notifier, patientService, spinner,
                                translateFilter) {
 
-    var patientUUID = $stateParams.patientUuid;
     var encounter = $stateParams.encounter;
     var serviceId = $stateParams.serviceId;
+    var returnState = $stateParams.returnState;
 
     var vm = this;
 
     vm.patient = {};
     vm.formPayload = null;
     vm.formInfo = null;
+    vm.patientUUID = $stateParams.patientUuid;
 
     vm.linkDashboard = linkDashboard;
 
@@ -33,7 +34,7 @@
 
       vm.formInfo = clinicalServicesService.getFormLayouts({id: serviceId});
 
-      var load = patientService.getPatient(patientUUID)
+      var load = patientService.getPatient(vm.patientUUID)
         .then(function (patient) {
           vm.patient = patient;
           return clinicalServicesService.getFormData(vm.patient, service, encounter);
@@ -48,7 +49,7 @@
     }
 
     function linkDashboard() {
-      $state.go('dashboard', {patientUuid: patientUUID});
+      $state.go(returnState, {patientUuid: vm.patientUUID});
     }
   }
 

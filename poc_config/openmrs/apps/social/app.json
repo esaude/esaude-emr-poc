@@ -4,7 +4,6 @@
         "description": "Poc Social Info App",
         "config" : {
             "landingPageAfterSearch": "'/dashboard/' + patient.uuid",
-            "landingPageAfterSave": "'/dashboard/' + encounterProfileData.patient.uuid",
             "encounterTypes" : {
               "fila": "e279133c-1d5f-11e0-b929-000c29ad1d07"
             },

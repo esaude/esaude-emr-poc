@@ -5,12 +5,14 @@
     .module('registration')
     .controller('UpdatePatientController', UpdatePatientController);
 
-  UpdatePatientController.$inject = ['$filter', '$scope', '$location', '$state', '$stateParams', 'patient', 'patientService', 'notifier'];
+  UpdatePatientController.$inject = ['$filter', '$scope', '$state', '$stateParams', 'patient', 'patientService', 'notifier'];
 
   /* @ngInject */
-  function UpdatePatientController($filter, $scope, $location, $state, $stateParams, patient, patientService, notifier) {
+  function UpdatePatientController($filter, $scope, $state, $stateParams, patient, patientService, notifier) {
 
+    var returnState = $stateParams.returnState;
     var uuid = $stateParams.patientUuid;
+
 
     $scope.patient = patient;
     $scope.openMRSPatient = {};
@@ -30,7 +32,7 @@
     }
 
     function linkCancel() {
-      $state.go('dashboard', {patientUuid: uuid});
+      $state.go(returnState, {patientUuid: uuid});
     }
 
     function save() {
@@ -57,7 +59,7 @@
       $scope.patient.uuid = patientProfileData.patient.uuid;
       $scope.patient.name = patientProfileData.patient.person.names[0].display;
       $scope.patient.isNew = false;
-      $location.url("/dashboard/" + $scope.patient.uuid);
+      $state.go(returnState, {patientUuid: uuid});
     }
 
     function errorCallback() {

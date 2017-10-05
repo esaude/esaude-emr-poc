@@ -8,7 +8,7 @@
   ClinicalServicesController.$inject = ['$stateParams', 'notifier', 'patientService', 'translateFilter'];
 
   /* @ngInject */
-  function ClinicalServicesController($stateParams, notifier, patientService, translateFilter) {
+  function ClinicalServicesController($stateParams) {
 
     var vm = this;
     vm.patient = {};
@@ -18,19 +18,8 @@
     ////////////////
 
     function activate() {
-      getPatient();
-    }
-
-    function getPatient() {
-      return patientService.getPatient($stateParams.patientUuid)
-        .then(function (patient) {
-          vm.patient = patient;
-        })
-        .catch(function () {
-          notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'))
-        });
+      vm.patient = {uuid: $stateParams.patientUuid};
     }
   }
 
 })();
-

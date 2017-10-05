@@ -5,11 +5,11 @@
     .module('clinic')
     .controller('DashboardController', DashboardController);
 
-  DashboardController.$inject = ['$rootScope', '$scope', '$location', '$stateParams', 'patientService', 'alertService',
+  DashboardController.$inject = ['$rootScope', '$scope', '$state', '$stateParams', 'patientService', 'alertService',
     'visitService'];
 
   /* @ngInject */
-  function DashboardController($rootScope, $scope, $location, $stateParams, patientService, alertService, visitService) {
+  function DashboardController($rootScope, $scope, $state, $stateParams, patientService, alertService, visitService) {
 
     $scope.flags = [];
     $scope.patientUUID = $stateParams.patientUuid;
@@ -40,11 +40,14 @@
     }
 
     function linkSearch() {
-      $location.url("/search"); // path not hash
+      $state.go('search');
     }
 
     function linkPatientDetail() {
-      $location.url("/patient/detail/" + $scope.patientUUID); // path not hash
+      $state.go('detailpatient', {
+        patientUuid: $scope.patientUUID,
+        returnState: $state.current
+      });
     }
 
     function getAlerts() {
