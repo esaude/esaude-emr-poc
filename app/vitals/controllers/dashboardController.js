@@ -5,32 +5,34 @@
     .module('vitals')
     .controller('DashboardController', DashboardController);
 
-  DashboardController.$inject = ['$rootScope', '$scope', '$state', '$stateParams', 'patientService', 'visitService'];
+  DashboardController.$inject = ['$state', '$stateParams', 'patientService', 'visitService'];
 
   /* @ngInject */
-  function DashboardController($rootScope, $scope, $state, $stateParams, patientService, visitService) {
+  function DashboardController($state, $stateParams, patientService, visitService) {
 
-    $scope.patientUUID = $stateParams.patientUuid;
-    $scope.todayVisit = null;
+    var vm = this;
 
-    $scope.linkSearch = linkSearch;
-    $scope.linkPatientDetail = linkPatientDetail;
+    vm.patientUUID = $stateParams.patientUuid;
+    vm.todayVisit = null;
+
+    vm.linkSearch = linkSearch;
+    vm.linkPatientDetail = linkPatientDetail;
 
     activate();
 
     ////////////////
 
     function activate() {
-      patientService.getPatient($scope.patientUUID).then(function (patient) {
-        $rootScope.patient = patient;
+      patientService.getPatient(vm.patientUUID).then(function (patient) {
+        vm.patient = patient;
       });
 
-      visitService.getTodaysVisit($scope.patientUUID).then(function (visitToday) {
+      visitService.getTodaysVisit(vm.patientUUID).then(function (visitToday) {
         if (visitToday) {
-          $scope.hasVisitToday = true;
-          $scope.todayVisit = visitToday;
+          vm.hasVisitToday = true;
+          vm.todayVisit = visitToday;
         } else {
-          $scope.hasVisitToday = false;
+          vm.hasVisitToday = false;
         }
       });
     }
@@ -41,7 +43,7 @@
 
     function linkPatientDetail() {
       $state.go('detailpatient', {
-        patientUuid: $scope.patientUUID,
+        patientUuid: vm.patientUUID,
         returnState: $state.current
       });
     }
