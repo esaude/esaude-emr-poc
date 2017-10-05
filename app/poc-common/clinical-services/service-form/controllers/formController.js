@@ -5,12 +5,12 @@
     .module('poc.common.clinicalservices.serviceform')
     .controller('FormController', FormController);
 
-  FormController.$inject = ['$filter', '$location', '$q', '$rootScope', '$scope', '$state', '$stateParams',
+  FormController.$inject = ['$filter', '$q', '$rootScope', '$scope', '$state', '$stateParams',
     'clinicalServicesService', 'createEncounterMapper', 'encounterService', 'localStorageService', 'notifier',
     'patientAttributeService', 'patientService', 'spinner', 'updateEncounterMapper', 'visitService'];
 
   /* @ngInject */
-  function FormController($filter, $location, $q, $rootScope, $scope, $state, $stateParams, clinicalServicesService,
+  function FormController($filter, $q, $rootScope, $scope, $state, $stateParams, clinicalServicesService,
                           createEncounterMapper, encounterService, localStorageService, notifier,
                           patientAttributeService, patientService, spinner, updateEncounterMapper, visitService) {
 
@@ -19,6 +19,7 @@
     var serviceEncounter = $stateParams.encounter;
     var patientUUID = $stateParams.patientUuid;
     var serviceId = $stateParams.serviceId;
+    var returnState = $stateParams.returnState;
 
     $scope.patient = {};
     $scope.currentFormPart = {};
@@ -144,7 +145,7 @@
     }
 
     function linkDashboard() {
-      $location.url('/dashboard/' + $scope.patient.uuid);
+      $state.go(returnState, {patientUuid: patientUUID});
     }
 
     function addMappedDateObs(clinicalService, openMRSEncounter) {
@@ -179,7 +180,7 @@
 
     function encounterSuccessCallback(encounterProfileData) {
       $rootScope.hasVisitToday = true;
-      $location.url(eval($rootScope.landingPageAfterSave));
+      $state.go(returnState, {patientUuid: patientUUID});
       notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
     }
 

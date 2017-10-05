@@ -77,7 +77,8 @@
       $state.go(formLayout.sufix + formLayout.parts[0].sref, {
         patientUuid: vm.patientUuid,
         serviceId: service.id,
-        encounter: service.hasEntryToday ? service.lastEncounterForService : null
+        encounter: service.hasEntryToday ? service.lastEncounterForService : null,
+        returnState: $state.current
       });
     }
 
@@ -86,7 +87,8 @@
       $state.go(formLayout.sufix + formLayout.parts[0].sref, {
         patientUuid: vm.patientUuid,
         serviceId: service.id,
-        encounter: encounter
+        encounter: encounter,
+        returnState: $state.current
       });
     }
 
@@ -95,7 +97,8 @@
       $state.go(formLayout.sufix + '_display', {
         patientUuid: vm.patientUuid,
         serviceId: service.id,
-        encounter: encounter
+        encounter: encounter,
+        returnState: $state.current
       });
     }
 

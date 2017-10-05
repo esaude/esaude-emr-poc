@@ -4,15 +4,15 @@
   angular.module('patient.details')
     .controller('DetailPatientController', DetailPatientController);
 
-  DetailPatientController.$inject = ["$stateParams", "$location", "$scope", "reportService", "patientService",
+  DetailPatientController.$inject = ["$stateParams", "$state", "$scope", "reportService", "patientService",
     "notifier", "translateFilter", "configurations"];
 
-  function DetailPatientController($stateParams, $location, $scope, reportService, patientService, notifier,
+  function DetailPatientController($stateParams, $state, $scope, reportService, patientService, notifier,
                                    translateFilter, configurations) {
 
     var patientUUID = $stateParams.patientUuid;
     var patientConfiguration = $scope.patientConfiguration;
-
+    var returnState = $stateParams.returnState;
 
     var vm = this;
 
@@ -40,7 +40,7 @@
     }
 
     function linkDashboard() {
-      $location.url("/dashboard/" + patientUUID); // path not hash
+      $state.go(returnState, {patientUuid: patientUUID});
     }
 
     function print() {

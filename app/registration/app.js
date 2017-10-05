@@ -90,6 +90,7 @@
         url: '/services',
         templateUrl: 'views/patient-services.html',
         controller: 'ClinicalServicesController',
+        controllerAs: 'vm',
         ncyBreadcrumb: {
           label: '{{\'COMMON_CLINIC_SERVICES_TITLE\' | translate}}',
           parent: 'dashboard',
@@ -204,6 +205,9 @@
           label: '{{\'EDIT_PATIENT\' | translate }}',
           parent: 'dashboard'
         },
+        params: {
+          returnState: null
+        },
         resolve: {
           patient: function ($stateParams, initialization, patientService) {
             return initialization.then(function () {
@@ -292,6 +296,9 @@
         ncyBreadcrumb: {
           label: '{{\'PATIENT_DETAILS\' | translate }}',
           parent: 'dashboard'
+        },
+        params: {
+          returnState: null
         },
         resolve: {
           initialization: 'initialization'

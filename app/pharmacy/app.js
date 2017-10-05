@@ -132,6 +132,9 @@
               templateUrl: '../patient-details/views/patient-details.html'
             }
           },
+          params: {
+            returnState: null
+          },
           resolve: {
             initialization: 'initialization'
           },
