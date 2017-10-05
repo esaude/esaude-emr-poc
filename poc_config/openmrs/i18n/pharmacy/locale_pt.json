@@ -24,8 +24,5 @@
 	"PHARMACY_THE_SELECTED_DRUG_IS_NOT_PART_OF_PRESCRIBED" : "O Medicamento Seleccionado não consta na lista de items da prescrição!",
 	"CLINIC_PATIENT_PRESCRIPTIONS": "Prescrições",
   "PRESCRIPTION_DATE": "Data da Prescrição",
-  "PHARMACY_STATUS": "Estado",
-  "PHARMACY_ACTIVE": "Ativo",
-  "PHARMACY_FINALIZED": "Finalizado",
-  "PHARMACY_CANCEL": "Cancelar"
+  "PHARMACY_STATUS": "Estado"
 }

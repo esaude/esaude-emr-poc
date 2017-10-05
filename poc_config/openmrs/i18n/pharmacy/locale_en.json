@@ -24,8 +24,5 @@
 	"PHARMACY_THE_SELECTED_DRUG_IS_NOT_PART_OF_PRESCRIBED" : "The selected drug is not part of Prescribed",
 	"CLINIC_PATIENT_PRESCRIPTIONS": "Prescriptions",
   "PRESCRIPTION_DATE": "Prescription date",
-  "PHARMACY_STATUS": "Status",
-  "PHARMACY_ACTIVE": "Active",
-  "PHARMACY_FINALIZED": "Finalized",
-  "PHARMACY_CANCEL": "Cancel"
+  "PHARMACY_STATUS": "Status"
 }
