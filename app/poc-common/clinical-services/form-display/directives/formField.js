@@ -20,7 +20,8 @@
         fieldUuid: '=',
         fieldId: '=',
         formParts: '=',
-        formLayout: '='
+        formLayout: '=',
+        patient: '='
       },
       templateUrl: ' ../poc-common/clinical-services/form-display/views/formField.html'
     };
@@ -28,10 +29,10 @@
 
   }
 
-  FormFieldDirectiveController.$inject = ['$http', '$rootScope', '$scope', 'observationsService'];
+  FormFieldDirectiveController.$inject = ['$http', '$scope', 'observationsService'];
 
   /* @ngInject */
-  function FormFieldDirectiveController($http, $rootScope, $scope, observationsService) {
+  function FormFieldDirectiveController($http, $scope, observationsService) {
 
     var whoCurrentStageuuId = "e27ffd6e-1d5f-11e0-b929-000c29ad1d07";
 
@@ -107,7 +108,7 @@
     }
 
     function defaultValueIsLastEntry(concept) {
-      observationsService.getLastValueForConcept($rootScope.patient.uuid, concept).then(function (value) {
+      observationsService.getLastValueForConcept($scope.patient.uuid, concept).then(function (value) {
         $scope.fieldModel.value = value;
       });
     }
