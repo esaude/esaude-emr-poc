@@ -20,6 +20,14 @@
       <div ng-messages for="aForm.{{fieldId}}.$error"
            ng-messages-include="../poc-common/form-display/views/error-messages.html"
            ng-show="showMessages">
+        <div ng-message="min" ng-if="field.constraints">
+          <span class="label label-danger" translate="ERROR_TOO_SMALL_VALUE"
+                translate-value-min="{{field.constraints.min}}"></span>
+        </div>
+        <div ng-message="max" ng-if="field.constraints">
+          <span class="label label-danger" translate="ERROR_TOO_BIG_VALUE"
+                translate-value-max="{{field.constraints.max}}"></span>
+        </div>
       </div>
 
       <div ng-switch-when="Text">

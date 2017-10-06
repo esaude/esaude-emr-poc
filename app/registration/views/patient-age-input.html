@@ -35,7 +35,7 @@
                 <div class="input-group">
                   <span class="input-group-addon" id="age-addon">{{'PATIENT_INFO_YEARS' | translate}}</span>
                   <input id="patientYears" name="patientYears" type="number"
-                       ng-min="0" ng-max="120" class="form-control" ng-model="patientCommon.patient.age.years"
+                       min="0" max="120" class="form-control" ng-model="patientCommon.patient.age.years"
                        ng-change="patient.calculateBirthDate()"
                        required  aria-describedby="age-addon">
                 </div>
@@ -44,7 +44,7 @@
                 <div class="input-group">
                   <span class="input-group-addon" id="months-addon">{{'PATIENT_INFO_MONTHS' | translate}}</span>
                   <input id="patientMonths" name="patientMonths" type="number"
-                       ng-min="0" class="form-control" ng-model="patientCommon.patient.age.months"
+                       min="0" class="form-control" ng-model="patientCommon.patient.age.months"
                        ng-change="patient.calculateBirthDate()"
                        required  aria-describedby="months-addon">
                 </div>
@@ -53,7 +53,7 @@
                 <div class="input-group">
                   <span class="input-group-addon" id="days-addon">{{'PATIENT_INFO_DAYS' | translate}}</span>
                   <input id="patientDays" name="patientDays" type="number"
-                       ng-min="0" class="form-control" ng-model="patientCommon.patient.age.days"
+                       min="0" class="form-control" ng-model="patientCommon.patient.age.days"
                        ng-change="patient.calculateBirthDate()"
                        required  aria-describedby="days-addon">
                 </div>
