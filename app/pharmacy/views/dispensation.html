@@ -107,6 +107,11 @@
                   <div ng-messages for="dispenseForm.quantity.$error"
                        ng-messages-include="../poc-common/form-display/views/error-messages.html"
                        ng-show="showMessages">
+
+                    <div ng-message="min">
+                      <span class="label label-danger" translate="ERROR_TOO_SMALL_VALUE" translate-value-min="1"></span>
+                    </div>
+
                   </div>
                   <input type="number" name="quantity" class="form-control" ng-model="item.quantity"
                          ng-change="vm.updatePickup(item)" size="4" min="1" required>

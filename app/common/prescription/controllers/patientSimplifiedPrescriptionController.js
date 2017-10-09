@@ -535,7 +535,7 @@
     function setPrescritpionItemStatus(prescriptions){
       _.forEach(prescriptions, function (prescription) {
          _.forEach(prescription.prescriptionItems, function (item) {
-             item.statusStranslate = (item.status == 'FINALIZED') ? "PHARMACY_FINALIZED" : "PHARMACY_ACTIVE";
+             item.statusStranslate = (item.status == 'FINALIZED') ? "PRESCRIPTION_FINALIZED" : "PRESCRIPTION_ACTIVE";
           });
        });
      }
