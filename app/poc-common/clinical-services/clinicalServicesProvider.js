@@ -107,12 +107,6 @@
 
             var formPayload = {};
 
-            form.formFields.forEach(function (formField) {
-              // TODO: This field is not really necessary, should be removed after refactoring all other parts of dynamic
-              // forms to not use fieldConcept
-              formField.fieldConcept = angular.copy(formField.field);
-            });
-
             if (service.hasEntryToday || encounter) {
               formPayload = formRequestMapper.mapFromOpenMRSFormWithEncounter(form, encounter || service.lastEncounterForService);
             } else {

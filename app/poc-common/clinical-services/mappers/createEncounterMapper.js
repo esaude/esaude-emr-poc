@@ -33,7 +33,7 @@
 
     function filterOnlyConceptFields(fields) {
       return _.pickBy(fields, function (o) {
-        return o.fieldConcept.concept;
+        return o.field.concept;
       });
     }
 
@@ -52,17 +52,17 @@
       for (var key in fields) {
         var field = fields[key];
         //check if field is a concept set
-        if (field.fieldConcept.concept.set) {
+        if (field.field.concept.set) {
           var obs = {
-            concept: field.fieldConcept.concept.uuid,
+            concept: field.field.concept.uuid,
             obsDatetime: Bahmni.Common.Util.DateUtil.now(),
             person: person,
             groupMembers: []
 
           };
-          _.forEach(field.fieldConcept.concept.setMembers, function (member) {
+          _.forEach(field.field.concept.setMembers, function (member) {
             var memberFieldUuid = _.findKey(fields, function (data) {
-              return data.fieldConcept.concept.uuid === member.uuid;
+              return data.field.concept.uuid === member.uuid;
             });
             var removedMemberField = _.remove(flattenFields, function (data) {
               return data === memberFieldUuid;
@@ -72,12 +72,12 @@
               var memberField = fields[removedMemberField[0]];
               if (typeof memberField.value !== 'undefined' && memberField.value !== null) {
                 //to accomodate multiple select
-                if (memberField.fieldConcept.selectMultiple) {
-                  _.forEach(memberField.fieldConcept.concept.answers, function (answer) {
+                if (memberField.field.selectMultiple) {
+                  _.forEach(memberField.field.concept.answers, function (answer) {
                     var answerValue = memberField.value[answer.uuid];
                     if (answerValue !== 'undefined' && answerValue != null) {
                       obs.groupMembers.push({
-                        concept: memberField.fieldConcept.concept.uuid,
+                        concept: memberField.field.concept.uuid,
                         value: JSON.parse(answerValue).uuid,
                         obsDatetime: Bahmni.Common.Util.DateUtil.now(),
                         person: person
@@ -86,7 +86,7 @@
                   });
                 } else {
                   var value;
-                  if (memberField.fieldConcept.concept.datatype.display === 'Coded') {
+                  if (memberField.field.concept.datatype.display === 'Coded') {
                     if (_.isString(memberField.value)) {
                       value = JSON.parse(memberField.value).uuid;
                     } else {
@@ -98,7 +98,7 @@
                   //only if obs has value
                   if (typeof value !== 'undefined') {
                     obs.groupMembers.push({
-                      concept: memberField.fieldConcept.concept.uuid,
+                      concept: memberField.field.concept.uuid,
                       value: value,
                       obsDatetime: Bahmni.Common.Util.DateUtil.now(),
                       person: person
@@ -124,12 +124,12 @@
         var formField = fields[field];
         if (typeof formField.value !== 'undefined' && formField.value != null) {
           //to accomodate multiple select
-          if (formField.fieldConcept.selectMultiple) {
-            _.forEach(formField.fieldConcept.concept.answers, function (answer) {
+          if (formField.field.selectMultiple) {
+            _.forEach(formField.field.concept.answers, function (answer) {
               var answerValue = formField.value[answer.uuid];
               if (answerValue !== 'undefined' && answerValue != null) {
                 obs.push({
-                  concept: formField.fieldConcept.concept.uuid,
+                  concept: formField.field.concept.uuid,
                   value: JSON.parse(answerValue).uuid,
                   obsDatetime: Bahmni.Common.Util.DateUtil.now(),
                   person: person
@@ -138,9 +138,9 @@
             });
           } else {
             obs.push({
-              concept: formField.fieldConcept.concept.uuid,
+              concept: formField.field.concept.uuid,
               value: (isAnyObject(formField.value) &&
-                formField.fieldConcept.concept.datatype.display === 'Coded') ? ensureObject(formField.value).uuid : formField.value,
+                formField.field.concept.datatype.display === 'Coded') ? ensureObject(formField.value).uuid : formField.value,
               obsDatetime: Bahmni.Common.Util.DateUtil.now(),
               person: person
             });

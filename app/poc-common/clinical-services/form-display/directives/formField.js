@@ -137,7 +137,7 @@
 
     function calculateWHOStage(param) {
 
-      var whoStages = $scope.fieldModel.fieldConcept.concept.answers;
+      var whoStages = $scope.fieldModel.field.concept.answers;
 
       var firstField = 0;
       var lastPart = 4;
@@ -152,14 +152,14 @@
         var part = $scope.formLayout.parts[i];
         var model = $scope.formParts.form.fields[part.fields[firstField].id];
 
-        angular.forEach(model.fieldConcept.concept.answers, function (answer) {
+        angular.forEach(model.field.concept.answers, function (answer) {
 
           if (angular.isDefined(model.value)) {
 
             if (model.value[answer.uuid] !== "undefined") {
 
               $scope.fieldModel.value = _.find(whoStages, function (stage) {
-                return stage.uuid === model.fieldConcept.concept.uuid;
+                return stage.uuid === model.field.concept.uuid;
               });
 
             }

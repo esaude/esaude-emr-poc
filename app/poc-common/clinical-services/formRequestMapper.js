@@ -48,39 +48,39 @@
         //find obs for field
         _.forEach(filteredObs, function (obs) {
           //compare field concept with obs concept
-          if (eachField.fieldConcept.concept.uuid === obs.concept.uuid) {
+          if (eachField.field.concept.uuid === obs.concept.uuid) {
 
             //multiple select filter
-            if (eachField.fieldConcept.selectMultiple) {
+            if (eachField.field.selectMultiple) {
 
               if (angular.isUndefined(eachField.value)) {
                 eachField.value = {};
               }
 
-              if (_.isEmpty(eachField.fieldConcept.concept.answers)) {
+              if (_.isEmpty(eachField.field.concept.answers)) {
                 eachField.value[obs.value.uuid] = obs.value;
               } else {
                 eachField.value[obs.value.uuid]
-                  = JSON.stringify(realValueOfField(eachField.fieldConcept.concept.answers, obs.value));
+                  = JSON.stringify(realValueOfField(eachField.field.concept.answers, obs.value));
               }
 
 
-            } else if (!eachField.fieldConcept.selectMultiple
-              && eachField.fieldConcept.concept.datatype.display === "Coded") {
+            } else if (!eachField.field.selectMultiple
+              && eachField.field.concept.datatype.display === "Coded") {
 
-              if (eachField.fieldConcept.concept.answers.length === 0
-                || eachField.fieldConcept.concept.answers.length > 3) {
-                eachField.value = realValueOfField(eachField.fieldConcept.concept.answers, obs.value);
+              if (eachField.field.concept.answers.length === 0
+                || eachField.field.concept.answers.length > 3) {
+                eachField.value = realValueOfField(eachField.field.concept.answers, obs.value);
               } else {
-                eachField.value = JSON.stringify(realValueOfField(eachField.fieldConcept.concept.answers, obs.value));
+                eachField.value = JSON.stringify(realValueOfField(eachField.field.concept.answers, obs.value));
               }
 
             } else {
 
-              if (_.isEmpty(eachField.fieldConcept.concept.answers)) {
+              if (_.isEmpty(eachField.field.concept.answers)) {
                 eachField.value = obs.value;
               } else {
-                eachField.value = realValueOfField(eachField.fieldConcept.concept.answers, obs.value);
+                eachField.value = realValueOfField(eachField.field.concept.answers, obs.value);
               }
 
             }
@@ -107,7 +107,9 @@
         fields[formField.uuid].field.pageNumber = formField.pageNumber;
         fields[formField.uuid].field.parent = formField.parent;
         fields[formField.uuid].field.uuid = formField.field.uuid;
-        fields[formField.uuid].fieldConcept = formField.fieldConcept;
+        fields[formField.uuid].field.concept = formField.field.concept;
+        fields[formField.uuid].field.fieldType = formField.field.fieldType;
+        fields[formField.uuid].field.selectMultiple = formField.field.selectMultiple;
       });
 
       return fields;
@@ -127,7 +129,7 @@
 
     function filterOnlyConceptFields(fields) {
       return _.pickBy(fields, function (o) {
-        return o.fieldConcept.concept;
+        return o.field.concept;
       });
     }
 

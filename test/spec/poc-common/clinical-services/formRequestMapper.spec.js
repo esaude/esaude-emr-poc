@@ -42,22 +42,6 @@ describe('formRequestMapper', function () {
         }
       }
     },
-    fieldConcept: {
-      uuid: "e27a0c56-1d5f-11e0-b929-000c29ad1d07",
-      selectMultiple: false,
-      fieldType: {
-        display: "Concept"
-      },
-      concept: {
-        answers: [],
-        set: false,
-        setMembers: [],
-        uuid: "e1e2e934-1d5f-11e0-b929-000c29ad1d07",
-        datatype: {
-          display: "Numeric"
-        }
-      }
-    }
   };
 
   describe('mapFromOpenMRSForm', function () {
@@ -85,9 +69,11 @@ describe('formRequestMapper', function () {
                 minOccurs: givenForm.formFields[0].minOccurs,
                 pageNumber: givenForm.formFields[0].pageNumber,
                 parent: givenForm.formFields[0].parent,
-                uuid: givenForm.formFields[0].field.uuid
-              },
-              fieldConcept: givenForm.formFields[0].fieldConcept
+                uuid: givenForm.formFields[0].field.uuid,
+                concept: givenForm.formFields[0].field.concept,
+                fieldType: givenForm.formFields[0].field.fieldType,
+                selectMultiple: givenForm.formFields[0].field.selectMultiple
+              }
             }
           }
         }
@@ -115,7 +101,7 @@ describe('formRequestMapper', function () {
 
         it('should fill form field values with value from encounter observations', function () {
 
-          heightField.fieldConcept.concept.answers = [];
+          heightField.field.concept.answers = [];
           givenForm.formFields = [heightField];
           encounter.obs[0].value = 181;
           var mapped = formRequestMapper.mapFromOpenMRSFormWithEncounter(givenForm, encounter);
@@ -137,9 +123,11 @@ describe('formRequestMapper', function () {
                     minOccurs: givenForm.formFields[0].minOccurs,
                     pageNumber: givenForm.formFields[0].pageNumber,
                     parent: givenForm.formFields[0].parent,
-                    uuid: givenForm.formFields[0].field.uuid
+                    uuid: givenForm.formFields[0].field.uuid,
+                    concept: givenForm.formFields[0].field.concept,
+                    fieldType: givenForm.formFields[0].field.fieldType,
+                    selectMultiple: givenForm.formFields[0].field.selectMultiple
                   },
-                  fieldConcept: givenForm.formFields[0].fieldConcept,
                   value: encounter.obs[0].value
                 }
               }
@@ -157,7 +145,7 @@ describe('formRequestMapper', function () {
 
         it('should fill form field values with value from encounter observations', function () {
 
-          heightField.fieldConcept.concept.answers = [
+          heightField.field.concept.answers = [
             {uuid: "e1e2e934-1d5f-11e0-b929-000c29ad1d07"}
           ];
           givenForm.formFields = [heightField];
@@ -181,10 +169,12 @@ describe('formRequestMapper', function () {
                     minOccurs: givenForm.formFields[0].minOccurs,
                     pageNumber: givenForm.formFields[0].pageNumber,
                     parent: givenForm.formFields[0].parent,
-                    uuid: givenForm.formFields[0].field.uuid
+                    uuid: givenForm.formFields[0].field.uuid,
+                    concept: givenForm.formFields[0].field.concept,
+                    fieldType: givenForm.formFields[0].field.fieldType,
+                    selectMultiple: givenForm.formFields[0].field.selectMultiple
                   },
-                  fieldConcept: givenForm.formFields[0].fieldConcept,
-                  value: heightField.fieldConcept.concept.answers[0]
+                  value: heightField.field.concept.answers[0]
                 }
               }
             },
@@ -202,89 +192,6 @@ describe('formRequestMapper', function () {
       var selectMultipleField = {
         required: false,
         uuid: "bd03f34d-c438-4052-b83a-b530ee8c7c0a",
-        fieldConcept: {
-          uuid: "00b84b88-dc3e-4554-8eec-6072a6a0992c",
-          selectMultiple: true,
-          fieldType: {
-            display: "Concept"
-          },
-          concept: {
-            answers: [
-              {
-                uuid: "e1e5232a-1d5f-11e0-b929-000c29ad1d07",
-                display: "CANDIDIASIS, ORAL",
-                name: {
-                  display: "CANDIDIASIS, ORAL",
-                  uuid: "e2445a98-1d5f-11e0-b929-000c29ad1d07",
-                  name: "CANDIDIASIS, ORAL",
-                  locale: "en",
-                  localePreferred: true,
-                  conceptNameType: "FULLY_SPECIFIED"
-                },
-                datatype: {
-                  uuid: "8d4a48b6-c2cc-11de-8d13-0010c6dffd0f",
-                  display: "Coded"
-                },
-                conceptClass: {
-                  uuid: "8d4918b0-c2cc-11de-8d13-0010c6dffd0f",
-                  display: "Diagnosis"
-                },
-                set: false,
-                version: null,
-                retired: false,
-                names: [
-                  {
-                    uuid: "e24c3088-1d5f-11e0-b929-000c29ad1d07",
-                    display: "CANDIDIASE ORAL"
-                  },
-                  {
-                    uuid: "e2660c6a-1d5f-11e0-b929-000c29ad1d07",
-                    display: "THRUSH"
-                  },
-                  {
-                    uuid: "e2445a98-1d5f-11e0-b929-000c29ad1d07",
-                    display: "CANDIDIASIS, ORAL"
-                  },
-                  {
-                    uuid: "e25e5e20-1d5f-11e0-b929-000c29ad1d07",
-                    display: "AFTA"
-                  }
-                ],
-                descriptions: [
-                  {
-                    uuid: "e225c7ea-1d5f-11e0-b929-000c29ad1d07",
-                    display: "Fungal infection of the mouth.  Also the WHO Stage 3 Condition - Oral Candidiasis (Thrush)."
-                  },
-                  {
-                    uuid: "e22bffe8-1d5f-11e0-b929-000c29ad1d07",
-                    display: "Infeccao fungica da boca."
-                  }
-                ],
-                mappings: [],
-                answers: [
-                  {
-                    uuid: "e1d81b62-1d5f-11e0-b929-000c29ad1d07",
-                    display: "YES"
-                  },
-                  {
-                    uuid: "e1d81c70-1d5f-11e0-b929-000c29ad1d07",
-                    display: "NO"
-                  },
-                  {
-                    uuid: "e1dbff8e-1d5f-11e0-b929-000c29ad1d07",
-                    display: "NO INFORMATION"
-                  }
-                ],
-                setMembers: []
-              }
-            ],
-            set: true,
-            uuid: "e1d9077a-1d5f-11e0-b929-000c29ad1d07",
-            datatype: {
-              display: "Coded"
-            }
-          }
-        },
         field: {
           uuid: "00b84b88-dc3e-4554-8eec-6072a6a0992c",
           selectMultiple: true,
@@ -468,7 +375,7 @@ describe('formRequestMapper', function () {
           var mapped = formRequestMapper.mapFromOpenMRSFormWithEncounter(givenForm, encounter);
 
           var value = {};
-          value[encounter.obs[0].value.uuid] = JSON.stringify(selectMultipleField.fieldConcept.concept.answers[0]);
+          value[encounter.obs[0].value.uuid] = JSON.stringify(selectMultipleField.field.concept.answers[0]);
 
           expect(mapped).toEqual({
             encounterType: givenForm.encounterType,
@@ -487,9 +394,11 @@ describe('formRequestMapper', function () {
                     minOccurs: givenForm.formFields[0].minOccurs,
                     pageNumber: givenForm.formFields[0].pageNumber,
                     parent: givenForm.formFields[0].parent,
-                    uuid: givenForm.formFields[0].field.uuid
+                    uuid: givenForm.formFields[0].field.uuid,
+                    concept: givenForm.formFields[0].field.concept,
+                    fieldType: givenForm.formFields[0].field.fieldType,
+                    selectMultiple: givenForm.formFields[0].field.selectMultiple
                   },
-                  fieldConcept: givenForm.formFields[0].fieldConcept,
                   value: value
                 }
               }
@@ -505,7 +414,6 @@ describe('formRequestMapper', function () {
 
         it('should fill form field values with value from encounter observations', function () {
 
-          selectMultipleField.fieldConcept.concept.answers = [];
           selectMultipleField.field.concept.answers = [];
           givenForm.formFields = [selectMultipleField];
 
@@ -531,9 +439,11 @@ describe('formRequestMapper', function () {
                     minOccurs: givenForm.formFields[0].minOccurs,
                     pageNumber: givenForm.formFields[0].pageNumber,
                     parent: givenForm.formFields[0].parent,
-                    uuid: givenForm.formFields[0].field.uuid
+                    uuid: givenForm.formFields[0].field.uuid,
+                    concept: givenForm.formFields[0].field.concept,
+                    fieldType: givenForm.formFields[0].field.fieldType,
+                    selectMultiple: givenForm.formFields[0].field.selectMultiple
                   },
-                  fieldConcept: givenForm.formFields[0].fieldConcept,
                   value: value
                 }
               }
@@ -552,11 +462,8 @@ describe('formRequestMapper', function () {
         uuid: "e29399fa-1d5f-11e0-b929-000c29ad1d07",
         required: false,
         field: {
-          required: false,
-          uuid: "e27ffd6e-1d5f-11e0-b929-000c29ad1d07"
-        },
-        fieldConcept: {
           uuid: "e27ffd6e-1d5f-11e0-b929-000c29ad1d07",
+          required: false,
           selectMultiple: false,
           fieldType: {
             display: "Concept"
@@ -588,7 +495,7 @@ describe('formRequestMapper', function () {
 
         it('should fill form field values with value from encounter observations', function () {
 
-          codedField.fieldConcept.concept.answers = [
+          codedField.field.concept.answers = [
             {uuid: "e1d9055e-1d5f-11e0-b929-000c29ad1d07"},
             {uuid: "e1d9066c-1d5f-11e0-b929-000c29ad1d07"},
             {uuid: "e1d9077a-1d5f-11e0-b929-000c29ad1d07"},
@@ -598,7 +505,7 @@ describe('formRequestMapper', function () {
 
           var mapped = formRequestMapper.mapFromOpenMRSFormWithEncounter(givenForm, encounter);
 
-          var value = codedField.fieldConcept.concept.answers[0];
+          var value = codedField.field.concept.answers[0];
 
           expect(mapped).toEqual({
             encounterType: givenForm.encounterType,
@@ -617,9 +524,11 @@ describe('formRequestMapper', function () {
                     minOccurs: givenForm.formFields[0].minOccurs,
                     pageNumber: givenForm.formFields[0].pageNumber,
                     parent: givenForm.formFields[0].parent,
-                    uuid: givenForm.formFields[0].field.uuid
+                    uuid: givenForm.formFields[0].field.uuid,
+                    concept: givenForm.formFields[0].field.concept,
+                    fieldType: givenForm.formFields[0].field.fieldType,
+                    selectMultiple: givenForm.formFields[0].field.selectMultiple
                   },
-                  fieldConcept: givenForm.formFields[0].fieldConcept,
                   value: value
                 }
               }
@@ -634,7 +543,7 @@ describe('formRequestMapper', function () {
 
         it('should fill form field values with value from encounter observations', function () {
 
-          codedField.fieldConcept.concept.answers = [
+          codedField.field.concept.answers = [
             {uuid: "e1d9055e-1d5f-11e0-b929-000c29ad1d07"},
             {uuid: "e1d9066c-1d5f-11e0-b929-000c29ad1d07"},
             {uuid: "e1d9077a-1d5f-11e0-b929-000c29ad1d07"}
@@ -662,9 +571,11 @@ describe('formRequestMapper', function () {
                     minOccurs: givenForm.formFields[0].minOccurs,
                     pageNumber: givenForm.formFields[0].pageNumber,
                     parent: givenForm.formFields[0].parent,
-                    uuid: givenForm.formFields[0].field.uuid
+                    uuid: givenForm.formFields[0].field.uuid,
+                    concept: givenForm.formFields[0].field.concept,
+                    fieldType: givenForm.formFields[0].field.fieldType,
+                    selectMultiple: givenForm.formFields[0].field.selectMultiple
                   },
-                  fieldConcept: givenForm.formFields[0].fieldConcept,
                   value: value
                 }
               }

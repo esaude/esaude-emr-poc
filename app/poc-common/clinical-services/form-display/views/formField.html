@@ -13,9 +13,9 @@
   </div>
 
 
-  <div class="col-sm-8" ng-if="fieldModel.fieldConcept.fieldType.display === 'Concept'">
+  <div class="col-sm-8" ng-if="fieldModel.field.fieldType.display === 'Concept'">
 
-    <div ng-switch="fieldModel.fieldConcept.concept.datatype.display">
+    <div ng-switch="fieldModel.field.concept.datatype.display">
 
       <div ng-messages for="aForm.{{fieldId}}.$error"
            ng-messages-include="../poc-common/form-display/views/error-messages.html"
@@ -90,8 +90,8 @@
 
         </div>
         <div ng-if="!field.searchBySource">
-          <div class="bg-info-border border-rouded" ng-if="fieldModel.fieldConcept.selectMultiple">
-            <div class="content-border-padding" ng-repeat="answer in fieldModel.fieldConcept.concept.answers">
+          <div class="bg-info-border border-rouded" ng-if="fieldModel.field.selectMultiple">
+            <div class="content-border-padding" ng-repeat="answer in fieldModel.field.concept.answers">
               <checkbox largest
                         id="{{answer.uuid}}"
                         name="{{fieldId}}"
@@ -103,11 +103,11 @@
               {{answer.display}}
             </div>
           </div>
-          <div ng-if="!fieldModel.fieldConcept.selectMultiple">
-            <div ng-if="fieldModel.fieldConcept.concept.answers.length > 3">
+          <div ng-if="!fieldModel.field.selectMultiple">
+            <div ng-if="fieldModel.field.concept.answers.length > 3">
               <select name="{{fieldId}}" class="form-control"
                       ng-model="fieldModel.value"
-                      ng-options="answer.display for answer in fieldModel.fieldConcept.concept.answers"
+                      ng-options="answer.display for answer in fieldModel.field.concept.answers"
                       ng-required="{{fieldModel.field.required}}"
                       ng-disabled="{{field.disabled}}">
                 <option></option>
@@ -115,8 +115,8 @@
             </div>
             <div class="bg-info-border border-rouded"
                  ng-class="{'bg-error-border': aForm.{{fieldId}}.$invalid && showMessages}"
-                 ng-if="fieldModel.fieldConcept.concept.answers.length <= 3">
-              <div class="content-border-padding" ng-repeat="answer in fieldModel.fieldConcept.concept.answers">
+                 ng-if="fieldModel.field.concept.answers.length <= 3">
+              <div class="content-border-padding" ng-repeat="answer in fieldModel.field.concept.answers">
                 <input type="radio"
                        id="{{fieldId}}{{answer.uuid}}"
                        class="radio-lx"
