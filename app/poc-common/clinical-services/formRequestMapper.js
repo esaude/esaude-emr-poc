@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('poc.common.clinicalservices.formdisplay')
+    .module('poc.common.clinicalservices')
     .factory('formRequestMapper', formRequestMapper);
 
   formRequestMapper.$inject = [];
@@ -116,7 +116,7 @@
     function filterObsWithoutGroups(observations) {
       var plainObs = [];
       _.forEach(observations, function (obs) {
-        if (obs.groupMembers !== null) {
+        if (obs.groupMembers) {
           plainObs = _.union(plainObs, obs.groupMembers);
         } else {
           plainObs.push(obs);
