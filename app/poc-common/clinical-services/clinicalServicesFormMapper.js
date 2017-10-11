@@ -3,21 +3,20 @@
 
   angular
     .module('poc.common.clinicalservices')
-    .factory('formRequestMapper', formRequestMapper);
+    .factory('clinicalServicesFormMapper', clinicalServicesFormMapper);
 
-  formRequestMapper.$inject = [];
+  clinicalServicesFormMapper.$inject = [];
 
   /* @ngInject */
-  function formRequestMapper() {
+  function clinicalServicesFormMapper() {
     var service = {
-      mapFromOpenMRSForm: mapFromOpenMRSForm,
-      mapFromOpenMRSFormWithEncounter: mapFromOpenMRSFormWithEncounter
+      mapFromOpenMRSForm: mapFromOpenMRSForm
     };
     return service;
 
     ////////////////
 
-    function mapFromOpenMRSForm(givenForm) {
+    function mapForm(givenForm) {
       var openMRSForm = angular.copy(givenForm);
 
       var fields = filterOnlyConceptFields(openMRSForm.formFields);
@@ -33,8 +32,14 @@
       };
     }
 
-    function mapFromOpenMRSFormWithEncounter(openMRSForm, encounter) {
-      var formPayload = this.mapFromOpenMRSForm(openMRSForm);
+    function mapFromOpenMRSForm(openMRSForm, encounter) {
+
+      var formPayload = mapForm(openMRSForm);
+
+      if (!encounter) {
+        return formPayload;
+      }
+
       formPayload.encounter = angular.copy(encounter);
 
       var filteredObs = filterObsWithoutGroups(encounter.obs);
@@ -47,40 +52,42 @@
 
         //find obs for field
         _.forEach(filteredObs, function (obs) {
+
           //compare field concept with obs concept
           if (eachField.field.concept.uuid === obs.concept.uuid) {
+
+            var conceptAnswers = eachField.field.concept.answers;
 
             //multiple select filter
             if (eachField.field.selectMultiple) {
 
-              if (angular.isUndefined(eachField.value)) {
+              if (!eachField.value) {
                 eachField.value = {};
               }
 
-              if (_.isEmpty(eachField.field.concept.answers)) {
+              if (_.isEmpty(conceptAnswers)) {
                 eachField.value[obs.value.uuid] = obs.value;
               } else {
                 eachField.value[obs.value.uuid]
-                  = JSON.stringify(realValueOfField(eachField.field.concept.answers, obs.value));
+                  = JSON.stringify(realValueOfField(conceptAnswers, obs.value));
               }
 
 
             } else if (!eachField.field.selectMultiple
               && eachField.field.concept.datatype.display === "Coded") {
 
-              if (eachField.field.concept.answers.length === 0
-                || eachField.field.concept.answers.length > 3) {
-                eachField.value = realValueOfField(eachField.field.concept.answers, obs.value);
+              if (conceptAnswers.length === 0 || conceptAnswers.length > 3) {
+                eachField.value = realValueOfField(conceptAnswers, obs.value);
               } else {
-                eachField.value = JSON.stringify(realValueOfField(eachField.field.concept.answers, obs.value));
+                eachField.value = JSON.stringify(realValueOfField(conceptAnswers, obs.value));
               }
 
             } else {
 
-              if (_.isEmpty(eachField.field.concept.answers)) {
+              if (_.isEmpty(conceptAnswers)) {
                 eachField.value = obs.value;
               } else {
-                eachField.value = realValueOfField(eachField.field.concept.answers, obs.value);
+                eachField.value = realValueOfField(conceptAnswers, obs.value);
               }
 
             }

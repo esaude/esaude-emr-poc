@@ -10,11 +10,12 @@
 
     this.$get = ClinicalServiceForms;
 
-    ClinicalServiceForms.$inject = ['$http', '$log', '$q', '$state', 'encounterService', 'visitService', 'formRequestMapper'];
+    ClinicalServiceForms.$inject = ['$http', '$log', '$q', '$state', 'clinicalServicesFormMapper', 'encounterService',
+      'visitService'];
 
     // TODO: force this service to be initialized before calling other methods.
     /* @ngInject */
-    function ClinicalServiceForms($http, $log, $q, $state, encounterService, visitService, formRequestMapper) {
+    function ClinicalServiceForms($http, $log, $q, $state, clinicalServicesFormMapper, encounterService, visitService) {
 
       var dateUtil = Bahmni.Common.Util.DateUtil;
 
@@ -100,21 +101,13 @@
           return $q.reject();
         }
 
-        var representation = "custom:(description,display,encounterType,uuid,formFields:(uuid,required,field:(uuid,selectMultiple,fieldType:(display),concept:(answers,set,setMembers,uuid,datatype:(display)))))";
+        var representation = "custom:(description,display,encounterType,uuid,formFields:(uuid,required," +
+          "field:(uuid,selectMultiple,fieldType:(display),concept:(answers,set,setMembers,uuid,datatype:(display)))))";
 
         return getClinicalServicesWithEncountersForPatient(patient, cs).then(function (service) {
           return getForm(service.formId, representation).then(function (form) {
-
-            var formPayload = {};
-
-            if (service.hasEntryToday || encounter) {
-              formPayload = formRequestMapper.mapFromOpenMRSFormWithEncounter(form, encounter || service.lastEncounterForService);
-            } else {
-              formPayload = formRequestMapper.mapFromOpenMRSForm(form);
-            }
-
+            var formPayload = clinicalServicesFormMapper.mapFromOpenMRSForm(form, encounter || service.lastEncounterForService);
             formPayload.service = service;
-
             return formPayload;
           });
         });
@@ -217,11 +210,12 @@
             var form = result[1];
 
             // TODO: use 'getEncounters.then' after getEncountersForEncounterType is properly refactored to handle xhr failures
-            return encounterService.getEncountersForEncounterType(patient.uuid, form.encounterType.uuid).then(function (response) {
-              var nonVoidedEncounters = encounterService.filterRetiredEncoounters(response.data.results);
-              var sortedEncounters = _.sortBy(nonVoidedEncounters, function (encounter) {
-                return moment(encounter.encounterDatetime).toDate();
-              }).reverse();
+            return encounterService.getEncountersForEncounterType(patient.uuid, form.encounterType.uuid)
+              .then(function (response) {
+                var nonVoidedEncounters = encounterService.filterRetiredEncoounters(response.data.results);
+                var sortedEncounters = _.sortBy(nonVoidedEncounters, function (encounter) {
+                  return moment(encounter.encounterDatetime).toDate();
+                }).reverse();
 
               if (service.markedOn) {
                 service.encountersForService = _.filter(sortedEncounters, function (e) {
@@ -287,7 +281,9 @@
             templateUrl: '../common/application/views/layout.html',
             controller: 'FormController'
           };
-          state.views["content@" + formLayout.sufix] = {templateUrl: '../poc-common/clinical-services/service-form/views/form-add.html'};
+          state.views["content@" + formLayout.sufix] = {
+            templateUrl: '../poc-common/clinical-services/service-form/views/form-add.html'
+          };
           $stateProvider.state(formLayout.sufix, state);
         }
 
