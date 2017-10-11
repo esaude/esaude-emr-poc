@@ -106,7 +106,10 @@
 
         return getClinicalServicesWithEncountersForPatient(patient, cs).then(function (service) {
           return getForm(service.formId, representation).then(function (form) {
-            var formPayload = clinicalServicesFormMapper.mapFromOpenMRSForm(form, encounter || service.lastEncounterForService);
+            if (service.hasEntryToday) {
+              encounter = service.lastEncounterForService;
+            }
+            var formPayload = clinicalServicesFormMapper.mapFromOpenMRSForm(form, encounter);
             formPayload.service = service;
             return formPayload;
           });
