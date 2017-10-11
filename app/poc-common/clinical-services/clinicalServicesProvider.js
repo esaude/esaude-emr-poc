@@ -60,7 +60,9 @@
         });
       }
 
-      function getFormByService(clinicalService) {
+      function getServiceFormEncounterType(clinicalService) {
+
+        var representation = 'custom:(encounterType:(uuid))';
 
         var cs = findClinicalService(clinicalService);
 
@@ -68,7 +70,9 @@
           return $q.reject();
         }
 
-        return getForm(cs.formId);
+        return getForm(cs.formId, representation).then(function (form) {
+          return form.encounterType;
+        });
       }
 
       function findClinicalService(clinicalService) {
@@ -207,13 +211,13 @@
 
         var getTodaysVisit = visitService.getTodaysVisit(patient.uuid);
 
-        return $q.all([getTodaysVisit, getFormByService(service)])
+        return $q.all([getTodaysVisit, getServiceFormEncounterType(service)])
           .then(function (result) {
             var todayVisit = result[0];
-            var form = result[1];
+            var encounterType = result[1];
 
             // TODO: use 'getEncounters.then' after getEncountersForEncounterType is properly refactored to handle xhr failures
-            return encounterService.getEncountersForEncounterType(patient.uuid, form.encounterType.uuid)
+            return encounterService.getEncountersForEncounterType(patient.uuid, encounterType.uuid)
               .then(function (response) {
                 var nonVoidedEncounters = encounterService.filterRetiredEncoounters(response.data.results);
                 var sortedEncounters = _.sortBy(nonVoidedEncounters, function (encounter) {

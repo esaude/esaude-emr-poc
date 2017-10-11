@@ -192,7 +192,8 @@ describe('clinicalServicesService', function () {
 
       it('should load form data from the last encounter', function () {
 
-        $http.expectGET('/openmrs/ws/rest/v1/form/' + clinicalService.formId).respond(form);
+        // Challenge: refactor clinicalServicesService.getFormData to make only one call to /form endpoint!
+        $http.expectGET('/openmrs/ws/rest/v1/form/' + clinicalService.formId + "?v=custom:(encounterType:(uuid))").respond(form);
         $http.expectGET('/openmrs/ws/rest/v1/form/' + clinicalService.formId + "?v=" + representation).respond(form);
 
         clinicalServicesService.getFormData(patient, clinicalService);
