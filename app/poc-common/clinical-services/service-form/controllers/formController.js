@@ -133,7 +133,7 @@
 
       } else {
 
-        if (serviceEncounter === clinicalService.lastEncounterForService) {
+        if (serviceEncounter.uuid === clinicalService.lastEncounterForService.uuid) {
           openMRSEncounter = addMappedDateObs(clinicalService, openMRSEncounter);
         }
 
