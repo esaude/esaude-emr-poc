@@ -48,11 +48,11 @@
 
         var formField = formPayload.form.fields[formFieldUUID];
 
-        var obs = filteredObs.find(function (obs) {
+        var obs = filteredObs.filter(function (obs) {
           return formField.field.concept.uuid === obs.concept.uuid;
         });
 
-        if (obs) {
+        obs.forEach(function (obs) {
 
           if (formField.field.selectMultiple) {
 
@@ -74,7 +74,7 @@
             handleNormalConceptField(formField, obs);
 
           }
-        }
+        });
       });
 
       return formPayload;
@@ -107,7 +107,11 @@
     function handleNormalConceptField(formField, obs) {
       var conceptAnswers = formField.field.concept.answers;
       if (_.isEmpty(conceptAnswers)) {
-        formField.value = obs.value;
+        if (formField.field.concept.datatype.display === 'Date') {
+          formField.value = new Date(obs.value);
+        } else {
+          formField.value = obs.value;
+        }
       } else {
         formField.value = realValueOfField(conceptAnswers, obs.value);
       }
