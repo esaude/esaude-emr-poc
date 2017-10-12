@@ -148,11 +148,7 @@ describe('clinicalServicesService', function () {
     var representation = "custom:(description,display,encounterType,uuid,formFields:(uuid,required," +
       "field:(uuid,selectMultiple,fieldType:(display),concept:(answers,set,setMembers,uuid,datatype:(display)))))";
 
-    var response = {
-      data: {
-        results: [{encounterDatetime: new Date()}, {encounterDatetime: new Date()}]
-      }
-    };
+    var encounters = [{encounterDatetime: new Date()}, {encounterDatetime: new Date()}];
 
     var form = {
       encounterType: {
@@ -160,7 +156,7 @@ describe('clinicalServicesService', function () {
       }
     };
 
-    var lastEncounterForService = response.data.results[1];
+    var lastEncounterForService = encounters[1];
 
     beforeEach(function () {
       $http.expectGET('/poc_config/openmrs/apps/' + module + '/clinicalServices.json').respond(clinicalServices);
@@ -176,9 +172,9 @@ describe('clinicalServicesService', function () {
           return resolve({});
         });
       });
-      spyOn(encounterService, 'getEncountersForEncounterType').and.callFake(function () {
+      spyOn(encounterService, 'getEncountersForPatientByEncounterType').and.callFake(function () {
         return $q(function (resolve) {
-          return resolve(response);
+          return resolve(encounters);
         });
       });
     });

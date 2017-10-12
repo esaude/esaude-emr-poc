@@ -211,53 +211,51 @@
 
         var getTodaysVisit = visitService.getTodaysVisit(patient.uuid);
 
-        return $q.all([getTodaysVisit, getServiceFormEncounterType(service)])
-          .then(function (result) {
-            var todayVisit = result[0];
-            var encounterType = result[1];
+        return $q.all([getTodaysVisit, getServiceFormEncounterType(service)]).then(function (result) {
 
-            // TODO: use 'getEncounters.then' after getEncountersForEncounterType is properly refactored to handle xhr failures
-            return encounterService.getEncountersForEncounterType(patient.uuid, encounterType.uuid)
-              .then(function (response) {
-                var nonVoidedEncounters = encounterService.filterRetiredEncoounters(response.data.results);
-                var sortedEncounters = _.sortBy(nonVoidedEncounters, function (encounter) {
-                  return moment(encounter.encounterDatetime).toDate();
-                }).reverse();
+          var todayVisit = result[0];
+          var encounterType = result[1];
 
-              if (service.markedOn) {
-                service.encountersForService = _.filter(sortedEncounters, function (e) {
-                  var foundObs = _.find(e.obs, function (o) {
-                    return o.concept.uuid === service.markedOn;
-                  });
-                  return angular.isDefined(foundObs);
+
+          var representation = 'custom:(encounterDatetime,obs:(value,concept:(display,uuid,mappings:(' +
+            'conceptReferenceTerm:(conceptSource:(display,uuid))))),provider:(display))';
+          return encounterService.getEncountersForPatientByEncounterType(patient.uuid, encounterType.uuid, representation)
+            .then(function (encounters) {
+
+            if (service.markedOn) {
+              service.encountersForService = _.filter(encounters, function (e) {
+                var foundObs = _.find(e.obs, function (o) {
+                  return o.concept.uuid === service.markedOn;
                 });
+                return angular.isDefined(foundObs);
+              });
+            } else {
+              service.encountersForService = encounters;
+            }
+            service.lastEncounterForService = encounters[0];
+            service.lastEncounterForServiceMarked = service.encountersForService[0];
+
+            if (service.lastEncounterForServiceMarked) {
+              if (service.markedOn) {
+                service.lastEncounterForServiceDate = _.find(service.lastEncounterForServiceMarked.obs, function (o) {
+                  return o.concept.uuid === service.markedOn;
+                }).value;
               } else {
-                service.encountersForService = sortedEncounters;
+                service.lastEncounterForServiceDate = service.lastEncounterForServiceMarked.encounterDatetime;
               }
-              service.lastEncounterForService = sortedEncounters[0];
-              service.lastEncounterForServiceMarked = service.encountersForService[0];
+            }
 
-              if (service.lastEncounterForServiceMarked) {
-                if (service.markedOn) {
-                  service.lastEncounterForServiceDate = _.find(service.lastEncounterForServiceMarked.obs, function (o) {
-                    return o.concept.uuid === service.markedOn;
-                  }).value;
-                } else {
-                  service.lastEncounterForServiceDate = service.lastEncounterForServiceMarked.encounterDatetime;
-                }
-              }
+            service.hasEntryToday = false;
+            if (todayVisit && service.lastEncounterForService) {
+              service.hasEntryToday = (dateUtil.diffInDaysRegardlessOfTime(todayVisit.startDatetime,
+                service.lastEncounterForService.encounterDatetime) === 0);
+            }
 
-              service.hasEntryToday = false;
-              if (todayVisit && service.lastEncounterForService) {
-                service.hasEntryToday = (dateUtil.diffInDaysRegardlessOfTime(todayVisit.startDatetime,
-                  service.lastEncounterForService.encounterDatetime) === 0);
-              }
+            service.list = false;
 
-              service.list = false;
-
-              return service;
-            });
+            return service;
           });
+        });
       }
     }
 

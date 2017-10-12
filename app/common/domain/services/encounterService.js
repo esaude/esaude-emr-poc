@@ -29,6 +29,7 @@
       getPatientFollowupEncounters: getPatientFollowupEncounters,
       getPatientFilaEncounters: getPatientFilaEncounters,
       getEncountersOfPatient: getEncountersOfPatient,
+      getEncountersForPatientByEncounterType: getEncountersForPatientByEncounterType,
       search: search,
       update: update
     };
@@ -130,6 +131,12 @@
       });
     }
 
+    /**
+     * @deprecated {@see getEncountersForPatientByEncounterType}
+     * @param patientUuid
+     * @param encounterTypeUuid
+     * @param v
+     */
     function getEncountersForEncounterType(patientUuid, encounterTypeUuid, v) {
       if (!v) {
         v = "custom:(uuid,encounterDatetime,provider,voided,visit:(uuid,startDatetime,stopDatetime),obs:(uuid,concept:(uuid,name),obsDatetime,value,groupMembers:(uuid,concept:(uuid,name),order:(uuid,voided,drug,quantity,dose,doseUnits,frequency,quantityUnits,dosingInstructions,duration,durationUnits,route),obsDatetime,value)))";
@@ -144,6 +151,34 @@
       });
     }
 
+    /**
+     * @param patientUUID
+     * @param encounterTypeUUID
+     * @param representation
+     * @returns {Promise} Non retired encounters for patient by encounterType ordered by most recent.
+     */
+    function getEncountersForPatientByEncounterType(patientUUID, encounterTypeUUID, representation) {
+
+      var config = {
+        params: {
+          patient: patientUUID,
+          encounterType: encounterTypeUUID
+        },
+        withCredentials: true
+      };
+
+      if (representation) {
+        config.params.v = representation
+      }
+
+      return $http.get(Bahmni.Common.Constants.encounterUrl, config)
+        .then(function (response) {
+          return _.flow([filterRetiredEncoounters, sortByEncounterDateTime, _.reverse])(response.data.results);
+        }).catch(function (error) {
+          $log.error('XHR Failed for getEncountersForPatientByEncounterType: ' + error.data.error.message);
+          return $q.reject();
+      });
+    }
 
     /**
      * @param {Object} patient Patient.
