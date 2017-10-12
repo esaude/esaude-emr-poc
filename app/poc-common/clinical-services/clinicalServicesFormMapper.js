@@ -10,7 +10,7 @@
   /* @ngInject */
   function clinicalServicesFormMapper() {
     var service = {
-      mapFromOpenMRSForm: mapFromOpenMRSForm
+      map: map
     };
     return service;
 
@@ -32,9 +32,9 @@
       };
     }
 
-    function mapFromOpenMRSForm(openMRSForm, encounter) {
+    function map(clinicalService, encounter) {
 
-      var formPayload = mapForm(openMRSForm);
+      var formPayload = mapForm(clinicalService.form);
 
       if (!encounter) {
         return formPayload;
@@ -44,59 +44,103 @@
 
       var filteredObs = filterObsWithoutGroups(encounter.obs);
 
-      for (var field in formPayload.form.fields) {
+      Object.getOwnPropertyNames(formPayload.form.fields).forEach(function (formFieldUUID) {
 
-        var eachField = formPayload.form.fields[field];
+        var formField = formPayload.form.fields[formFieldUUID];
 
-        eachField.value = undefined;
+        var obs = filteredObs.find(function (obs) {
+          return formField.field.concept.uuid === obs.concept.uuid;
+        });
 
-        //find obs for field
-        _.forEach(filteredObs, function (obs) {
+        if (obs) {
 
-          //compare field concept with obs concept
-          if (eachField.field.concept.uuid === obs.concept.uuid) {
+          if (formField.field.selectMultiple) {
 
-            var conceptAnswers = eachField.field.concept.answers;
+            handleSelectMultipleField(formField, obs);
 
-            //multiple select filter
-            if (eachField.field.selectMultiple) {
+          } else if (formField.field.concept.datatype.display === "Coded") {
 
-              if (!eachField.value) {
-                eachField.value = {};
-              }
+            if (isSearchBySourceField(clinicalService, formFieldUUID)) {
 
-              if (_.isEmpty(conceptAnswers)) {
-                eachField.value[obs.value.uuid] = obs.value;
-              } else {
-                eachField.value[obs.value.uuid]
-                  = JSON.stringify(realValueOfField(conceptAnswers, obs.value));
-              }
-
-
-            } else if (!eachField.field.selectMultiple
-              && eachField.field.concept.datatype.display === "Coded") {
-
-              if (conceptAnswers.length === 0 || conceptAnswers.length > 3) {
-                eachField.value = realValueOfField(conceptAnswers, obs.value);
-              } else {
-                eachField.value = JSON.stringify(realValueOfField(conceptAnswers, obs.value));
-              }
+              handleSearchBySourceField(formPayload.form.fields, formField, obs);
 
             } else {
 
-              if (_.isEmpty(conceptAnswers)) {
-                eachField.value = obs.value;
-              } else {
-                eachField.value = realValueOfField(conceptAnswers, obs.value);
-              }
-
+              handleCodedField(formField, obs);
             }
-          }
 
-        });
-      }
+          } else {
+
+            handleNormalConceptField(formField, obs);
+
+          }
+        }
+      });
 
       return formPayload;
+    }
+
+    function handleSelectMultipleField(formField, obs) {
+      if (!formField.value) {
+        formField.value = {};
+      }
+
+      var conceptAnswers = formField.field.concept.answers;
+
+      if (_.isEmpty(conceptAnswers)) {
+        formField.value[obs.value.uuid] = obs.value;
+      } else {
+        formField.value[obs.value.uuid]
+          = JSON.stringify(realValueOfField(conceptAnswers, obs.value));
+      }
+    }
+
+    function handleCodedField(formField, obs) {
+      var conceptAnswers = formField.field.concept.answers;
+      if (conceptAnswers.length === 0 || conceptAnswers.length > 3) {
+        formField.value = realValueOfField(conceptAnswers, obs.value);
+      } else {
+        formField.value = JSON.stringify(realValueOfField(conceptAnswers, obs.value));
+      }
+    }
+
+    function handleNormalConceptField(formField, obs) {
+      var conceptAnswers = formField.field.concept.answers;
+      if (_.isEmpty(conceptAnswers)) {
+        formField.value = obs.value;
+      } else {
+        formField.value = realValueOfField(conceptAnswers, obs.value);
+      }
+    }
+
+    function handleSearchBySourceField(allFields, formField, obs) {
+      // See if the value for this obs was already used for the value of another field.
+      // This is necessary because for fields with searchBySource there is no link between the obs value and the field
+      // that originated it, if we have two fields associated with the same concept we cannot know from which field the
+      // obs value originated.
+      // Even with this workaround depending on the order of the obs its possible that the values are associated with
+      // the wrong field.
+      var alreadyUsed = Object.getOwnPropertyNames(allFields).find(function (f) {
+        var formField = allFields[f];
+        if (formField.value) {
+          return formField.value.uuid === obs.value.uuid;
+        }
+      });
+
+      if (!alreadyUsed) {
+        formField.value = obs.value;
+      }
+    }
+
+    function isSearchBySourceField(clinicalService, formFieldUUID) {
+      var found = clinicalService.formLayout.parts
+        .reduce(function (acc, curr) {
+          return acc.concat(curr.fields);
+        }, [])
+        .find(function (f) {
+          return f.id === formFieldUUID;
+        });
+      return found && angular.isDefined(found.searchBySource);
     }
 
     function createFormFields(formFields) {

@@ -21,7 +21,6 @@
 
       var _currentModule = '';
       var _clinicalServices = [];
-      var formLayouts = {};
 
       var service = {
         init: init,
@@ -54,8 +53,13 @@
 
         return $q.all([service.loadClinicalServices(), loadFormLayouts()]).then(function (result) {
           _clinicalServices = result[0];
-          formLayouts = result[1];
-          registerRoutes($state, _clinicalServices, formLayouts);
+          var formLayouts = result[1];
+          _clinicalServices.forEach(function (cs) {
+            cs.formLayout = formLayouts.filter(function (f) {
+              return cs.id === f.id;
+            })[0];
+          });
+          registerRoutes($state, _clinicalServices);
           return service;
         });
       }
@@ -113,7 +117,8 @@
             if (service.hasEntryToday) {
               encounter = service.lastEncounterForService;
             }
-            var formPayload = clinicalServicesFormMapper.mapFromOpenMRSForm(form, encounter);
+            service.form = form;
+            var formPayload = clinicalServicesFormMapper.map(service, encounter);
             formPayload.service = service;
             return formPayload;
           });
@@ -121,18 +126,14 @@
       }
 
       /**
-       * @param {Object} [clinicalService]
-       * @returns {Object| Array}
+       * @param {Object} clinicalService
+       * @returns {Object}
        */
       function getFormLayouts(clinicalService) {
-
-        if (!clinicalService) {
-          return formLayouts;
+        var service = findClinicalService(clinicalService);
+        if (service) {
+          return service.formLayout;
         }
-
-        return formLayouts.filter(function (f) {
-          return f.id === clinicalService.id;
-        })[0];
       }
 
       /**
@@ -259,12 +260,10 @@
       }
     }
 
-    function registerRoutes($state, clinicalServices, formLayouts) {
+    function registerRoutes($state, clinicalServices) {
       clinicalServices.forEach(function (service) {
 
-        var formLayout = _.find(formLayouts, function (layout) {
-          return service.id === layout.id;
-        });
+        var formLayout = service.formLayout;
 
         //create main state
         if (!$state.get(formLayout.sufix)) {

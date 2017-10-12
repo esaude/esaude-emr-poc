@@ -166,7 +166,7 @@ describe('clinicalServicesService', function () {
     });
 
     beforeEach(function () {
-      spyOn(clinicalServicesFormMapper, 'mapFromOpenMRSForm').and.returnValue({});
+      spyOn(clinicalServicesFormMapper, 'map').and.returnValue({});
       spyOn(visitService, 'getTodaysVisit').and.callFake(function () {
         return $q(function (resolve) {
           return resolve({});
@@ -196,7 +196,8 @@ describe('clinicalServicesService', function () {
 
         $http.flush();
         $rootScope.$apply();
-        expect(clinicalServicesFormMapper.mapFromOpenMRSForm).toHaveBeenCalledWith(form, lastEncounterForService);
+        var param = jasmine.objectContaining({form: form, formLayout: formLayouts[0]});
+        expect(clinicalServicesFormMapper.map).toHaveBeenCalledWith(param, lastEncounterForService);
       });
 
     });

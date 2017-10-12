@@ -10,17 +10,22 @@ describe('formRequestMapper', function () {
     clinicalServicesFormMapper = _clinicalServicesFormMapper_;
   }));
 
-  var givenForm = {
-    encounterType: {
-      uuid: "e278f956-1d5f-11e0-b929-000c29ad1d07",
-      display: "S.TARV: ADULTO SEGUIMENTO",
-      name: "S.TARV: ADULTO SEGUIMENTO",
-      description: "seguimento visita do paciente adulto"
+  var clinicalService = {
+    form: {
+      encounterType: {
+        uuid: "e278f956-1d5f-11e0-b929-000c29ad1d07",
+        display: "S.TARV: ADULTO SEGUIMENTO",
+        name: "S.TARV: ADULTO SEGUIMENTO",
+        description: "seguimento visita do paciente adulto"
+      },
+      description: "Ficha de Seguimento adulto",
+      display: "ADULTO: SEGUIMENTO",
+      uuid: "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
+      formFields: []
     },
-    description: "Ficha de Seguimento adulto",
-    display: "ADULTO: SEGUIMENTO",
-    uuid: "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
-    formFields: []
+    formLayout: {
+      parts: []
+    }
   };
 
   var heightField = {
@@ -44,37 +49,37 @@ describe('formRequestMapper', function () {
     },
   };
 
-  describe('mapFromOpenMRSForm', function () {
+  describe('map', function () {
 
     describe('without encounter', function () {
 
       it('should map from OpenMRS Form', function () {
 
-        givenForm.formFields = [heightField];
+        clinicalService.form.formFields = [heightField];
 
-        var mapped = clinicalServicesFormMapper.mapFromOpenMRSForm(givenForm);
+        var mapped = clinicalServicesFormMapper.map(clinicalService);
 
         expect(mapped).toEqual({
-          encounterType: givenForm.encounterType,
+          encounterType: clinicalService.form.encounterType,
           form: {
-            name: givenForm.display,
-            description: givenForm.description,
-            uuid: givenForm.uuid,
+            name: clinicalService.form.display,
+            description: clinicalService.form.description,
+            uuid: clinicalService.form.uuid,
             fields: {
               'e292b558-1d5f-11e0-b929-000c29ad1d07': {
                 field: {
-                  name: givenForm.formFields[0].name,
-                  required: givenForm.formFields[0].required,
-                  fieldNumber: givenForm.formFields[0].fieldNumber,
-                  fieldPart: givenForm.formFields[0].fieldPart,
-                  maxOccurs: givenForm.formFields[0].maxOccurs,
-                  minOccurs: givenForm.formFields[0].minOccurs,
-                  pageNumber: givenForm.formFields[0].pageNumber,
-                  parent: givenForm.formFields[0].parent,
-                  uuid: givenForm.formFields[0].field.uuid,
-                  concept: givenForm.formFields[0].field.concept,
-                  fieldType: givenForm.formFields[0].field.fieldType,
-                  selectMultiple: givenForm.formFields[0].field.selectMultiple
+                  name: clinicalService.form.formFields[0].name,
+                  required: clinicalService.form.formFields[0].required,
+                  fieldNumber: clinicalService.form.formFields[0].fieldNumber,
+                  fieldPart: clinicalService.form.formFields[0].fieldPart,
+                  maxOccurs: clinicalService.form.formFields[0].maxOccurs,
+                  minOccurs: clinicalService.form.formFields[0].minOccurs,
+                  pageNumber: clinicalService.form.formFields[0].pageNumber,
+                  parent: clinicalService.form.formFields[0].parent,
+                  uuid: clinicalService.form.formFields[0].field.uuid,
+                  concept: clinicalService.form.formFields[0].field.concept,
+                  fieldType: clinicalService.form.formFields[0].field.fieldType,
+                  selectMultiple: clinicalService.form.formFields[0].field.selectMultiple
                 }
               }
             }
@@ -106,31 +111,31 @@ describe('formRequestMapper', function () {
           it('should fill form field values with value from encounter observations', function () {
 
             heightField.field.concept.answers = [];
-            givenForm.formFields = [heightField];
+            clinicalService.form.formFields = [heightField];
             encounter.obs[0].value = 181;
-            var mapped = clinicalServicesFormMapper.mapFromOpenMRSForm(givenForm, encounter);
+            var mapped = clinicalServicesFormMapper.map(clinicalService, encounter);
 
             expect(mapped).toEqual({
-              encounterType: givenForm.encounterType,
+              encounterType: clinicalService.form.encounterType,
               form: {
-                name: givenForm.display,
-                description: givenForm.description,
-                uuid: givenForm.uuid,
+                name: clinicalService.form.display,
+                description: clinicalService.form.description,
+                uuid: clinicalService.form.uuid,
                 fields: {
                   'e292b558-1d5f-11e0-b929-000c29ad1d07': {
                     field: {
-                      name: givenForm.formFields[0].name,
-                      required: givenForm.formFields[0].required,
-                      fieldNumber: givenForm.formFields[0].fieldNumber,
-                      fieldPart: givenForm.formFields[0].fieldPart,
-                      maxOccurs: givenForm.formFields[0].maxOccurs,
-                      minOccurs: givenForm.formFields[0].minOccurs,
-                      pageNumber: givenForm.formFields[0].pageNumber,
-                      parent: givenForm.formFields[0].parent,
-                      uuid: givenForm.formFields[0].field.uuid,
-                      concept: givenForm.formFields[0].field.concept,
-                      fieldType: givenForm.formFields[0].field.fieldType,
-                      selectMultiple: givenForm.formFields[0].field.selectMultiple
+                      name: clinicalService.form.formFields[0].name,
+                      required: clinicalService.form.formFields[0].required,
+                      fieldNumber: clinicalService.form.formFields[0].fieldNumber,
+                      fieldPart: clinicalService.form.formFields[0].fieldPart,
+                      maxOccurs: clinicalService.form.formFields[0].maxOccurs,
+                      minOccurs: clinicalService.form.formFields[0].minOccurs,
+                      pageNumber: clinicalService.form.formFields[0].pageNumber,
+                      parent: clinicalService.form.formFields[0].parent,
+                      uuid: clinicalService.form.formFields[0].field.uuid,
+                      concept: clinicalService.form.formFields[0].field.concept,
+                      fieldType: clinicalService.form.formFields[0].field.fieldType,
+                      selectMultiple: clinicalService.form.formFields[0].field.selectMultiple
                     },
                     value: encounter.obs[0].value
                   }
@@ -152,31 +157,31 @@ describe('formRequestMapper', function () {
             heightField.field.concept.answers = [
               {uuid: "e1e2e934-1d5f-11e0-b929-000c29ad1d07"}
             ];
-            givenForm.formFields = [heightField];
+            clinicalService.form.formFields = [heightField];
             encounter.obs[0].value = {uuid: "e1e2e934-1d5f-11e0-b929-000c29ad1d07"};
-            var mapped = clinicalServicesFormMapper.mapFromOpenMRSForm(givenForm, encounter);
+            var mapped = clinicalServicesFormMapper.map(clinicalService, encounter);
 
             expect(mapped).toEqual({
-              encounterType: givenForm.encounterType,
+              encounterType: clinicalService.form.encounterType,
               form: {
-                name: givenForm.display,
-                description: givenForm.description,
-                uuid: givenForm.uuid,
+                name: clinicalService.form.display,
+                description: clinicalService.form.description,
+                uuid: clinicalService.form.uuid,
                 fields: {
                   'e292b558-1d5f-11e0-b929-000c29ad1d07': {
                     field: {
-                      name: givenForm.formFields[0].name,
-                      required: givenForm.formFields[0].required,
-                      fieldNumber: givenForm.formFields[0].fieldNumber,
-                      fieldPart: givenForm.formFields[0].fieldPart,
-                      maxOccurs: givenForm.formFields[0].maxOccurs,
-                      minOccurs: givenForm.formFields[0].minOccurs,
-                      pageNumber: givenForm.formFields[0].pageNumber,
-                      parent: givenForm.formFields[0].parent,
-                      uuid: givenForm.formFields[0].field.uuid,
-                      concept: givenForm.formFields[0].field.concept,
-                      fieldType: givenForm.formFields[0].field.fieldType,
-                      selectMultiple: givenForm.formFields[0].field.selectMultiple
+                      name: clinicalService.form.formFields[0].name,
+                      required: clinicalService.form.formFields[0].required,
+                      fieldNumber: clinicalService.form.formFields[0].fieldNumber,
+                      fieldPart: clinicalService.form.formFields[0].fieldPart,
+                      maxOccurs: clinicalService.form.formFields[0].maxOccurs,
+                      minOccurs: clinicalService.form.formFields[0].minOccurs,
+                      pageNumber: clinicalService.form.formFields[0].pageNumber,
+                      parent: clinicalService.form.formFields[0].parent,
+                      uuid: clinicalService.form.formFields[0].field.uuid,
+                      concept: clinicalService.form.formFields[0].field.concept,
+                      fieldType: clinicalService.form.formFields[0].field.fieldType,
+                      selectMultiple: clinicalService.form.formFields[0].field.selectMultiple
                     },
                     value: heightField.field.concept.answers[0]
                   }
@@ -374,34 +379,34 @@ describe('formRequestMapper', function () {
 
           it('should fill form field values with value from encounter observations', function () {
 
-            givenForm.formFields = [selectMultipleField];
+            clinicalService.form.formFields = [selectMultipleField];
 
-            var mapped = clinicalServicesFormMapper.mapFromOpenMRSForm(givenForm, encounter);
+            var mapped = clinicalServicesFormMapper.map(clinicalService, encounter);
 
             var value = {};
             value[encounter.obs[0].value.uuid] = JSON.stringify(selectMultipleField.field.concept.answers[0]);
 
             expect(mapped).toEqual({
-              encounterType: givenForm.encounterType,
+              encounterType: clinicalService.form.encounterType,
               form: {
-                name: givenForm.display,
-                description: givenForm.description,
-                uuid: givenForm.uuid,
+                name: clinicalService.form.display,
+                description: clinicalService.form.description,
+                uuid: clinicalService.form.uuid,
                 fields: {
                   'bd03f34d-c438-4052-b83a-b530ee8c7c0a': {
                     field: {
-                      name: givenForm.formFields[0].name,
-                      required: givenForm.formFields[0].required,
-                      fieldNumber: givenForm.formFields[0].fieldNumber,
-                      fieldPart: givenForm.formFields[0].fieldPart,
-                      maxOccurs: givenForm.formFields[0].maxOccurs,
-                      minOccurs: givenForm.formFields[0].minOccurs,
-                      pageNumber: givenForm.formFields[0].pageNumber,
-                      parent: givenForm.formFields[0].parent,
-                      uuid: givenForm.formFields[0].field.uuid,
-                      concept: givenForm.formFields[0].field.concept,
-                      fieldType: givenForm.formFields[0].field.fieldType,
-                      selectMultiple: givenForm.formFields[0].field.selectMultiple
+                      name: clinicalService.form.formFields[0].name,
+                      required: clinicalService.form.formFields[0].required,
+                      fieldNumber: clinicalService.form.formFields[0].fieldNumber,
+                      fieldPart: clinicalService.form.formFields[0].fieldPart,
+                      maxOccurs: clinicalService.form.formFields[0].maxOccurs,
+                      minOccurs: clinicalService.form.formFields[0].minOccurs,
+                      pageNumber: clinicalService.form.formFields[0].pageNumber,
+                      parent: clinicalService.form.formFields[0].parent,
+                      uuid: clinicalService.form.formFields[0].field.uuid,
+                      concept: clinicalService.form.formFields[0].field.concept,
+                      fieldType: clinicalService.form.formFields[0].field.fieldType,
+                      selectMultiple: clinicalService.form.formFields[0].field.selectMultiple
                     },
                     value: value
                   }
@@ -419,34 +424,34 @@ describe('formRequestMapper', function () {
           it('should fill form field values with value from encounter observations', function () {
 
             selectMultipleField.field.concept.answers = [];
-            givenForm.formFields = [selectMultipleField];
+            clinicalService.form.formFields = [selectMultipleField];
 
-            var mapped = clinicalServicesFormMapper.mapFromOpenMRSForm(givenForm, encounter);
+            var mapped = clinicalServicesFormMapper.map(clinicalService, encounter);
 
             var value = {};
             value[encounter.obs[0].value.uuid] = encounter.obs[0].value;
 
             expect(mapped).toEqual({
-              encounterType: givenForm.encounterType,
+              encounterType: clinicalService.form.encounterType,
               form: {
-                name: givenForm.display,
-                description: givenForm.description,
-                uuid: givenForm.uuid,
+                name: clinicalService.form.display,
+                description: clinicalService.form.description,
+                uuid: clinicalService.form.uuid,
                 fields: {
                   'bd03f34d-c438-4052-b83a-b530ee8c7c0a': {
                     field: {
-                      name: givenForm.formFields[0].name,
-                      required: givenForm.formFields[0].required,
-                      fieldNumber: givenForm.formFields[0].fieldNumber,
-                      fieldPart: givenForm.formFields[0].fieldPart,
-                      maxOccurs: givenForm.formFields[0].maxOccurs,
-                      minOccurs: givenForm.formFields[0].minOccurs,
-                      pageNumber: givenForm.formFields[0].pageNumber,
-                      parent: givenForm.formFields[0].parent,
-                      uuid: givenForm.formFields[0].field.uuid,
-                      concept: givenForm.formFields[0].field.concept,
-                      fieldType: givenForm.formFields[0].field.fieldType,
-                      selectMultiple: givenForm.formFields[0].field.selectMultiple
+                      name: clinicalService.form.formFields[0].name,
+                      required: clinicalService.form.formFields[0].required,
+                      fieldNumber: clinicalService.form.formFields[0].fieldNumber,
+                      fieldPart: clinicalService.form.formFields[0].fieldPart,
+                      maxOccurs: clinicalService.form.formFields[0].maxOccurs,
+                      minOccurs: clinicalService.form.formFields[0].minOccurs,
+                      pageNumber: clinicalService.form.formFields[0].pageNumber,
+                      parent: clinicalService.form.formFields[0].parent,
+                      uuid: clinicalService.form.formFields[0].field.uuid,
+                      concept: clinicalService.form.formFields[0].field.concept,
+                      fieldType: clinicalService.form.formFields[0].field.fieldType,
+                      selectMultiple: clinicalService.form.formFields[0].field.selectMultiple
                     },
                     value: value
                   }
@@ -505,33 +510,33 @@ describe('formRequestMapper', function () {
               {uuid: "e1d9077a-1d5f-11e0-b929-000c29ad1d07"},
               {uuid: "e1d90888-1d5f-11e0-b929-000c29ad1d07"}
             ];
-            givenForm.formFields = [codedField];
+            clinicalService.form.formFields = [codedField];
 
-            var mapped = clinicalServicesFormMapper.mapFromOpenMRSForm(givenForm, encounter);
+            var mapped = clinicalServicesFormMapper.map(clinicalService, encounter);
 
             var value = codedField.field.concept.answers[0];
 
             expect(mapped).toEqual({
-              encounterType: givenForm.encounterType,
+              encounterType: clinicalService.form.encounterType,
               form: {
-                name: givenForm.display,
-                description: givenForm.description,
-                uuid: givenForm.uuid,
+                name: clinicalService.form.display,
+                description: clinicalService.form.description,
+                uuid: clinicalService.form.uuid,
                 fields: {
                   'e29399fa-1d5f-11e0-b929-000c29ad1d07': {
                     field: {
-                      name: givenForm.formFields[0].name,
-                      required: givenForm.formFields[0].required,
-                      fieldNumber: givenForm.formFields[0].fieldNumber,
-                      fieldPart: givenForm.formFields[0].fieldPart,
-                      maxOccurs: givenForm.formFields[0].maxOccurs,
-                      minOccurs: givenForm.formFields[0].minOccurs,
-                      pageNumber: givenForm.formFields[0].pageNumber,
-                      parent: givenForm.formFields[0].parent,
-                      uuid: givenForm.formFields[0].field.uuid,
-                      concept: givenForm.formFields[0].field.concept,
-                      fieldType: givenForm.formFields[0].field.fieldType,
-                      selectMultiple: givenForm.formFields[0].field.selectMultiple
+                      name: clinicalService.form.formFields[0].name,
+                      required: clinicalService.form.formFields[0].required,
+                      fieldNumber: clinicalService.form.formFields[0].fieldNumber,
+                      fieldPart: clinicalService.form.formFields[0].fieldPart,
+                      maxOccurs: clinicalService.form.formFields[0].maxOccurs,
+                      minOccurs: clinicalService.form.formFields[0].minOccurs,
+                      pageNumber: clinicalService.form.formFields[0].pageNumber,
+                      parent: clinicalService.form.formFields[0].parent,
+                      uuid: clinicalService.form.formFields[0].field.uuid,
+                      concept: clinicalService.form.formFields[0].field.concept,
+                      fieldType: clinicalService.form.formFields[0].field.fieldType,
+                      selectMultiple: clinicalService.form.formFields[0].field.selectMultiple
                     },
                     value: value
                   }
@@ -545,46 +550,104 @@ describe('formRequestMapper', function () {
 
         describe('without answers', function () {
 
-          it('should fill form field values with value from encounter observations', function () {
+          beforeEach(function () {
+            clinicalService.formLayout.parts = [];
+          });
 
-            codedField.field.concept.answers = [
-              {uuid: "e1d9055e-1d5f-11e0-b929-000c29ad1d07"},
-              {uuid: "e1d9066c-1d5f-11e0-b929-000c29ad1d07"},
-              {uuid: "e1d9077a-1d5f-11e0-b929-000c29ad1d07"}
-            ];
-            givenForm.formFields = [codedField];
+          describe('searchBySource', function () {
 
-            var mapped = clinicalServicesFormMapper.mapFromOpenMRSForm(givenForm, encounter);
+            it('should fill form field values with value from encounter observations', function () {
 
-            var value = JSON.stringify(encounter.obs[0].value);
-
-            expect(mapped).toEqual({
-              encounterType: givenForm.encounterType,
-              form: {
-                name: givenForm.display,
-                description: givenForm.description,
-                uuid: givenForm.uuid,
-                fields: {
-                  'e29399fa-1d5f-11e0-b929-000c29ad1d07': {
-                    field: {
-                      name: givenForm.formFields[0].name,
-                      required: givenForm.formFields[0].required,
-                      fieldNumber: givenForm.formFields[0].fieldNumber,
-                      fieldPart: givenForm.formFields[0].fieldPart,
-                      maxOccurs: givenForm.formFields[0].maxOccurs,
-                      minOccurs: givenForm.formFields[0].minOccurs,
-                      pageNumber: givenForm.formFields[0].pageNumber,
-                      parent: givenForm.formFields[0].parent,
-                      uuid: givenForm.formFields[0].field.uuid,
-                      concept: givenForm.formFields[0].field.concept,
-                      fieldType: givenForm.formFields[0].field.fieldType,
-                      selectMultiple: givenForm.formFields[0].field.selectMultiple
-                    },
-                    value: value
+              clinicalService.formLayout.parts = [
+                {
+                  fields: {
+                    id: 'e29399fa-1d5f-11e0-b929-000c29ad1d07',
+                    searchBySource: '3f65bd34-26fe-102b-80cb-0017a47871b2'
                   }
                 }
-              },
-              encounter: encounter
+              ];
+              clinicalService.form.formFields = [codedField];
+
+              var mapped = clinicalServicesFormMapper.map(clinicalService, encounter);
+
+              var value = encounter.obs[0].value;
+
+              expect(mapped).toEqual({
+                encounterType: clinicalService.form.encounterType,
+                form: {
+                  name: clinicalService.form.display,
+                  description: clinicalService.form.description,
+                  uuid: clinicalService.form.uuid,
+                  fields: {
+                    'e29399fa-1d5f-11e0-b929-000c29ad1d07': {
+                      field: {
+                        name: clinicalService.form.formFields[0].name,
+                        required: clinicalService.form.formFields[0].required,
+                        fieldNumber: clinicalService.form.formFields[0].fieldNumber,
+                        fieldPart: clinicalService.form.formFields[0].fieldPart,
+                        maxOccurs: clinicalService.form.formFields[0].maxOccurs,
+                        minOccurs: clinicalService.form.formFields[0].minOccurs,
+                        pageNumber: clinicalService.form.formFields[0].pageNumber,
+                        parent: clinicalService.form.formFields[0].parent,
+                        uuid: clinicalService.form.formFields[0].field.uuid,
+                        concept: clinicalService.form.formFields[0].field.concept,
+                        fieldType: clinicalService.form.formFields[0].field.fieldType,
+                        selectMultiple: clinicalService.form.formFields[0].field.selectMultiple
+                      },
+                      value: value
+                    }
+                  }
+                },
+                encounter: encounter
+              });
+            });
+
+          });
+
+          describe('not searchBySource', function () {
+
+            it('should fill form field values with value from encounter observations', function () {
+
+              codedField.field.concept.answers = [
+                {uuid: "e1d9055e-1d5f-11e0-b929-000c29ad1d07"},
+                {uuid: "e1d9066c-1d5f-11e0-b929-000c29ad1d07"},
+                {uuid: "e1d9077a-1d5f-11e0-b929-000c29ad1d07"}
+              ];
+              clinicalService.form.formFields = [codedField];
+
+              var mapped = clinicalServicesFormMapper.map(clinicalService, encounter);
+
+              var value = JSON.stringify(encounter.obs[0].value);
+
+              expect(mapped).toEqual({
+                encounterType: clinicalService.form.encounterType,
+                form: {
+                  name: clinicalService.form.display,
+                  description: clinicalService.form.description,
+                  uuid: clinicalService.form.uuid,
+                  fields: {
+                    'e29399fa-1d5f-11e0-b929-000c29ad1d07': {
+                      field: {
+                        name: clinicalService.form.formFields[0].name,
+                        required: clinicalService.form.formFields[0].required,
+                        fieldNumber: clinicalService.form.formFields[0].fieldNumber,
+                        fieldPart: clinicalService.form.formFields[0].fieldPart,
+                        maxOccurs: clinicalService.form.formFields[0].maxOccurs,
+                        minOccurs: clinicalService.form.formFields[0].minOccurs,
+                        pageNumber: clinicalService.form.formFields[0].pageNumber,
+                        parent: clinicalService.form.formFields[0].parent,
+                        uuid: clinicalService.form.formFields[0].field.uuid,
+                        concept: clinicalService.form.formFields[0].field.concept,
+                        fieldType: clinicalService.form.formFields[0].field.fieldType,
+                        selectMultiple: clinicalService.form.formFields[0].field.selectMultiple
+                      },
+                      value: value
+                    }
+                  }
+                },
+                encounter: encounter
+              });
+
             });
 
           });
