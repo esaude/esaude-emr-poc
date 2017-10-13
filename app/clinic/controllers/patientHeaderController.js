@@ -9,9 +9,6 @@ angular.module('clinic')
       (function () {
         patientUuid = $stateParams.patientUuid;
       })();
-
-      // console.log(this);
-
       var patientPrescriptions = [];
 
       //TODO: Add patientState Tests, fix followup refresh scope issue
