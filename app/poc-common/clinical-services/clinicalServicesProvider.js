@@ -10,17 +10,17 @@
 
     this.$get = ClinicalServiceForms;
 
-    ClinicalServiceForms.$inject = ['$http', '$log', '$q', '$state', 'encounterService', 'visitService', 'formRequestMapper'];
+    ClinicalServiceForms.$inject = ['$http', '$log', '$q', '$state', 'clinicalServicesFormMapper', 'encounterService',
+      'visitService'];
 
     // TODO: force this service to be initialized before calling other methods.
     /* @ngInject */
-    function ClinicalServiceForms($http, $log, $q, $state, encounterService, visitService, formRequestMapper) {
+    function ClinicalServiceForms($http, $log, $q, $state, clinicalServicesFormMapper, encounterService, visitService) {
 
       var dateUtil = Bahmni.Common.Util.DateUtil;
 
       var _currentModule = '';
       var _clinicalServices = [];
-      var formLayouts = {};
 
       var service = {
         init: init,
@@ -53,13 +53,20 @@
 
         return $q.all([service.loadClinicalServices(), loadFormLayouts()]).then(function (result) {
           _clinicalServices = result[0];
-          formLayouts = result[1];
-          registerRoutes($state, _clinicalServices, formLayouts);
+          var formLayouts = result[1];
+          _clinicalServices.forEach(function (cs) {
+            cs.formLayout = formLayouts.filter(function (f) {
+              return cs.id === f.id;
+            })[0];
+          });
+          registerRoutes($state, _clinicalServices);
           return service;
         });
       }
 
-      function getFormByService(clinicalService) {
+      function getServiceFormEncounterType(clinicalService) {
+
+        var representation = 'custom:(encounterType:(uuid))';
 
         var cs = findClinicalService(clinicalService);
 
@@ -67,7 +74,9 @@
           return $q.reject();
         }
 
-        return getForm(cs.formId);
+        return getForm(cs.formId, representation).then(function (form) {
+          return form.encounterType;
+        });
       }
 
       function findClinicalService(clinicalService) {
@@ -100,45 +109,31 @@
           return $q.reject();
         }
 
-        var representation = "custom:(description,display,encounterType,uuid,formFields:(uuid,required,field:(uuid,selectMultiple,fieldType:(display),concept:(answers,set,setMembers,uuid,datatype:(display)))))";
+        var representation = "custom:(description,display,encounterType,uuid,formFields:(uuid,required," +
+          "field:(uuid,selectMultiple,fieldType:(display),concept:(answers,set,setMembers,uuid,datatype:(display)))))";
 
         return getClinicalServicesWithEncountersForPatient(patient, cs).then(function (service) {
           return getForm(service.formId, representation).then(function (form) {
-
-            var formPayload = {};
-
-            form.formFields.forEach(function (formField) {
-              // TODO: This field is not really necessary, should be removed after refactoring all other parts of dynamic
-              // forms to not use fieldConcept
-              formField.fieldConcept = angular.copy(formField.field);
-            });
-
-            if (service.hasEntryToday || encounter) {
-              formPayload = formRequestMapper.mapFromOpenMRSFormWithEncounter(form, encounter || service.lastEncounterForService);
-            } else {
-              formPayload = formRequestMapper.mapFromOpenMRSForm(form);
+            if (service.hasEntryToday) {
+              encounter = service.lastEncounterForService;
             }
-
+            service.form = form;
+            var formPayload = clinicalServicesFormMapper.map(service, encounter);
             formPayload.service = service;
-
             return formPayload;
           });
         });
       }
 
       /**
-       * @param {Object} [clinicalService]
-       * @returns {Object| Array}
+       * @param {Object} clinicalService
+       * @returns {Object}
        */
       function getFormLayouts(clinicalService) {
-
-        if (!clinicalService) {
-          return formLayouts;
+        var service = findClinicalService(clinicalService);
+        if (service) {
+          return service.formLayout;
         }
-
-        return formLayouts.filter(function (f) {
-          return f.id === clinicalService.id;
-        })[0];
       }
 
       /**
@@ -217,61 +212,58 @@
 
         var getTodaysVisit = visitService.getTodaysVisit(patient.uuid);
 
-        return $q.all([getTodaysVisit, getFormByService(service)])
-          .then(function (result) {
-            var todayVisit = result[0];
-            var form = result[1];
+        return $q.all([getTodaysVisit, getServiceFormEncounterType(service)]).then(function (result) {
 
-            // TODO: use 'getEncounters.then' after getEncountersForEncounterType is properly refactored to handle xhr failures
-            return encounterService.getEncountersForEncounterType(patient.uuid, form.encounterType.uuid).then(function (response) {
-              var nonVoidedEncounters = encounterService.filterRetiredEncoounters(response.data.results);
-              var sortedEncounters = _.sortBy(nonVoidedEncounters, function (encounter) {
-                return moment(encounter.encounterDatetime).toDate();
-              }).reverse();
+          var todayVisit = result[0];
+          var encounterType = result[1];
 
-              if (service.markedOn) {
-                service.encountersForService = _.filter(sortedEncounters, function (e) {
-                  var foundObs = _.find(e.obs, function (o) {
-                    return o.concept.uuid === service.markedOn;
-                  });
-                  return angular.isDefined(foundObs);
+
+          var representation = 'custom:(uuid,encounterDatetime,obs:(value,concept:(display,uuid,mappings:(' +
+            'conceptReferenceTerm:(conceptSource:(display,uuid))))),provider:(display))';
+          return encounterService.getEncountersForPatientByEncounterType(patient.uuid, encounterType.uuid, representation)
+            .then(function (encounters) {
+
+            if (service.markedOn) {
+              service.encountersForService = _.filter(encounters, function (e) {
+                var foundObs = _.find(e.obs, function (o) {
+                  return o.concept.uuid === service.markedOn;
                 });
+                return angular.isDefined(foundObs);
+              });
+            } else {
+              service.encountersForService = encounters;
+            }
+            service.lastEncounterForService = encounters[0];
+            service.lastEncounterForServiceMarked = service.encountersForService[0];
+
+            if (service.lastEncounterForServiceMarked) {
+              if (service.markedOn) {
+                service.lastEncounterForServiceDate = _.find(service.lastEncounterForServiceMarked.obs, function (o) {
+                  return o.concept.uuid === service.markedOn;
+                }).value;
               } else {
-                service.encountersForService = sortedEncounters;
+                service.lastEncounterForServiceDate = service.lastEncounterForServiceMarked.encounterDatetime;
               }
-              service.lastEncounterForService = sortedEncounters[0];
-              service.lastEncounterForServiceMarked = service.encountersForService[0];
+            }
 
-              if (service.lastEncounterForServiceMarked) {
-                if (service.markedOn) {
-                  service.lastEncounterForServiceDate = _.find(service.lastEncounterForServiceMarked.obs, function (o) {
-                    return o.concept.uuid === service.markedOn;
-                  }).value;
-                } else {
-                  service.lastEncounterForServiceDate = service.lastEncounterForServiceMarked.encounterDatetime;
-                }
-              }
+            service.hasEntryToday = false;
+            if (todayVisit && service.lastEncounterForService) {
+              service.hasEntryToday = (dateUtil.diffInDaysRegardlessOfTime(todayVisit.startDatetime,
+                service.lastEncounterForService.encounterDatetime) === 0);
+            }
 
-              service.hasEntryToday = false;
-              if (todayVisit && service.lastEncounterForService) {
-                service.hasEntryToday = (dateUtil.diffInDaysRegardlessOfTime(todayVisit.startDatetime,
-                  service.lastEncounterForService.encounterDatetime) === 0);
-              }
+            service.list = false;
 
-              service.list = false;
-
-              return service;
-            });
+            return service;
           });
+        });
       }
     }
 
-    function registerRoutes($state, clinicalServices, formLayouts) {
+    function registerRoutes($state, clinicalServices) {
       clinicalServices.forEach(function (service) {
 
-        var formLayout = _.find(formLayouts, function (layout) {
-          return service.id === layout.id;
-        });
+        var formLayout = service.formLayout;
 
         //create main state
         if (!$state.get(formLayout.sufix)) {
@@ -293,7 +285,9 @@
             templateUrl: '../common/application/views/layout.html',
             controller: 'FormController'
           };
-          state.views["content@" + formLayout.sufix] = {templateUrl: '../poc-common/clinical-services/service-form/views/form-add.html'};
+          state.views["content@" + formLayout.sufix] = {
+            templateUrl: '../poc-common/clinical-services/service-form/views/form-add.html'
+          };
           $stateProvider.state(formLayout.sufix, state);
         }
 

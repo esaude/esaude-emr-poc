@@ -10,7 +10,6 @@
   /* @ngInject */
   function fieldRead() {
     var directive = {
-      // TODO: Use vm
       bindToController: true,
       controller: FieldReadDirectiveController,
       controllerAs: 'vm',

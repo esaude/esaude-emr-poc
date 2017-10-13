@@ -12,7 +12,7 @@
     ng-init="fieldMeta = vm.payload.form.fields[formField.id]">
 
   <li class="list-group-item"
-      ng-if="fieldMeta.fieldConcept.fieldType.display === 'Concept'"
+      ng-if="fieldMeta.field.fieldType.display === 'Concept'"
       ng-init="fieldValidity = vm.getFieldValidity(formField.id)">
 
     <div class="row">
@@ -29,38 +29,38 @@
             {{ 'FIELD_NOT_VALID' | translate }}
         </span>
 
-        <div ng-if="fieldMeta.fieldConcept.concept.datatype.display === 'Text'">
+        <div ng-if="fieldMeta.field.concept.datatype.display === 'Text'">
           {{fieldMeta.value}}
         </div>
 
-        <div ng-if="fieldMeta.fieldConcept.concept.datatype.display === 'Numeric'">
+        <div ng-if="fieldMeta.field.concept.datatype.display === 'Numeric'">
           {{fieldMeta.value}}
         </div>
 
-        <div ng-if="fieldMeta.fieldConcept.concept.datatype.display === 'Date'">
+        <div ng-if="fieldMeta.field.concept.datatype.display === 'Date'">
           {{fieldMeta.value | date:Poc.Common.Constants.dateFormat}}
         </div>
 
-        <div ng-if="fieldMeta.fieldConcept.concept.datatype.display === 'Datetime'">
+        <div ng-if="fieldMeta.field.concept.datatype.display === 'Datetime'">
           {{fieldMeta.value | date:'short'}}
         </div>
 
-        <div ng-if="fieldMeta.fieldConcept.concept.datatype.display === 'Coded'">
-          <div ng-if="fieldMeta.fieldConcept.selectMultiple"
-               ng-repeat="answer in fieldMeta.fieldConcept.concept.answers">
+        <div ng-if="fieldMeta.field.concept.datatype.display === 'Coded'">
+          <div ng-if="fieldMeta.field.selectMultiple"
+               ng-repeat="answer in fieldMeta.field.concept.answers">
             <div ng-if="fieldMeta.value[answer.uuid] !== 'undefined'"
                  ng-init="value = vm.stringToJson(fieldMeta.value[answer.uuid])">
               <span ng-if="value !== undefined">{{value.display}},&nbsp;</span>
             </div>
           </div>
 
-          <div ng-if="!fieldMeta.fieldConcept.selectMultiple">
+          <div ng-if="!fieldMeta.field.selectMultiple">
             <div
-              ng-if="fieldMeta.fieldConcept.concept.answers.length > 0 && fieldMeta.fieldConcept.concept.answers.length <= 3">
+              ng-if="fieldMeta.field.concept.answers.length > 0 && fieldMeta.field.concept.answers.length <= 3">
               {{vm.stringToJson(fieldMeta.value).display}}
             </div>
             <div
-              ng-if="fieldMeta.fieldConcept.concept.answers.length == 0 || fieldMeta.fieldConcept.concept.answers.length > 3">
+              ng-if="fieldMeta.field.concept.answers.length == 0 || fieldMeta.field.concept.answers.length > 3">
               {{fieldMeta.value.display}}
             </div>
           </div>
