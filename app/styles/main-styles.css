@@ -18,6 +18,13 @@ body {
   font-size: 18px;
 }
 
+
+.patientdeceased {
+  border: 1px solid #b73339;
+  background-color: #fa9898;
+  font-weight: bold;
+}
+
 .panel-marginless-sides {
     margin-left: -10px;
     margin-right: -10px;

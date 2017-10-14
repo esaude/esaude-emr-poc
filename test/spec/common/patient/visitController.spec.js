@@ -1,14 +1,14 @@
 describe('VisitController', function () {
 
-  var $controller, $rootScope, $scope, $stateParams, $filter, visitService, encounterService, commonService,
-    localStorageService, patientService, notifier, controller, $q;
+  var $controller, $rootScope, visitService, encounterService,
+    localStorageService, patientService, notifier, controller, $q, observationsService;
 
   var visits = [];
 
   beforeEach(module('common.patient'));
 
   beforeEach(inject(function (_$controller_, _localStorageService_, _visitService_, _$rootScope_, _patientService_,
-                              _encounterService_, _$q_, _notifier_) {
+                              _encounterService_, _$q_, _notifier_, _observationsService_) {
     $controller = _$controller_;
     localStorageService = _localStorageService_;
     visitService = _visitService_;
@@ -17,6 +17,7 @@ describe('VisitController', function () {
     encounterService = _encounterService_;
     $q = _$q_;
     notifier = _notifier_;
+    observationsService = _observationsService_;
   }));
 
   beforeEach(function () {
@@ -35,6 +36,13 @@ describe('VisitController', function () {
         return fn([]);
       }
     });
+    spyOn(observationsService, 'filterLastPatientVitalsObs').and.callFake(function () {
+      return $q(function (resolve) {
+        return resolve();
+      })
+    });
+
+
   });
 
   describe('checkIn', function () {
@@ -76,7 +84,7 @@ describe('VisitController', function () {
           encounterService: encounterService
         });
 
-        $rootScope.$apply();
+        $rootScope. $apply();
         controller.checkIn();
 
         expect(visitService.create)

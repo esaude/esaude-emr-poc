@@ -109,6 +109,7 @@
     "PATIENT_INFO_DEATH_DATE": "Date of death",
     "PATIENT_INFO_DEATH_REASON": "Reason of death",
     "PATIENT_INFO_DEAD": "Is Dead",
+    "PATIENT_IS_DEAD": "This patient is deceased",
     "PATIENT_INFO_NEW": "New Patient",
     "CLINIC_PATIENT_SUMMARY": "Summary",
     "CLINIC_PATIENT_VISIT_HISTORY": "Visit History",

@@ -38,6 +38,22 @@
           </span>
         </div>
       </div>
+
+      <div class="row">
+        <div class="col-sm-3 col-md-2">
+          <img src="../../images/bmi.png" class="img-responsive inline-align" width="24" height="24" alt="bmi">
+          <b>{{'VITALS_LAST_BMI'| translate}}: </b>
+        </div>
+        <div class="col-sm-9 col-md-10">
+            <span ng-if="vm.lastBmi">
+                        <span class="label label-default">{{vm.lastBmi.value}}</span>
+                        {{'COMMON_ON'| translate}} {{vm.lastBmi.obsDatetime| date:'short'}}
+                    </span>
+            <span ng-if="!vm.lastBmi">
+                        {{'COMMON_NONE' | translate}}
+                    </span>
+        </div>
+      </div>
     </div>
   </div><!--visit header -->
 
