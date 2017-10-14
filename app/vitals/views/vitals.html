@@ -11,7 +11,7 @@
                 <img src="../../images/ruler.png" class="img-responsive inline-align" width="24" height="24" alt="height">
                 {{'VITALS_LAST_HEIGHT'| translate}}:
                 <span ng-if="lastHeight">
-                    <span class="label label-default">{{lastHeight.value}} cm</span> {{'COMMON_ON'| translate}} {{lastHeight.obsDatetime| date:'short'}}
+                    <span class="label label-default">{{lastHeight.value}} m</span> {{'COMMON_ON'| translate}} {{lastHeight.obsDatetime| date:'short'}}
                 </span>
                 <span ng-if="!lastHeight">
                     {{'COMMON_NONE' | translate}}
@@ -21,7 +21,7 @@
                 <img src="../../images/bmi.png" class="img-responsive inline-align" width="24" height="24" alt="height">
                 {{'VITALS_LAST_BMI'| translate}}:
                 <span ng-if="lastBmi">
-                    <span class="label label-default">{{lastBmi.value}}</span> {{'COMMON_ON'| translate}} {{lastBmi.obsDatetime| date:'short'}}
+                    <span class="label label-default">{{lastBmi.value}} Kg</span> {{'COMMON_ON'| translate}} {{lastBmi.obsDatetime| date:'short'}}
                 </span>
                 <span ng-if="!lastBmi">
                     {{'COMMON_NONE' | translate}}

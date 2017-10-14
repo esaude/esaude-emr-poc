@@ -5,9 +5,12 @@ angular.module('clinic')
     function ($rootScope, $scope, $filter, $stateParams, patientService, encounterService, observationsService, commonService) {
       var patientUuid;
 
+
       (function () {
         patientUuid = $stateParams.patientUuid;
       })();
+
+      // console.log(this);
 
       var patientPrescriptions = [];
 
@@ -15,10 +18,15 @@ angular.module('clinic')
       $scope.initPatientState = function () {
         var labEncounterUuid = "e2790f68-1d5f-11e0-b929-000c29ad1d07";
         var conceptsLabs = ["e1e68f26-1d5f-11e0-b929-000c29ad1d07",
-          "e1d6247e-1d5f-11e0-b929-000c29ad1d07"];
+          "e1d6247e-1d5f-11e0-b929-000c29ad1d07",
+          "e1da52ba-1d5f-11e0-b929-000c29ad1d07"
+        ];
 
-        var seriesLabs = [$filter('translate')('CLINIC_PATIENT_CD4_COUNT'),
-          $filter('translate')('CLINIC_PATIENT_HIV_VIRAL_LOAD')];
+        var seriesLabs = [
+          $filter('translate')('CLINIC_PATIENT_CD4_COUNT'),
+          $filter('translate')('CLINIC_PATIENT_HIV_VIRAL_LOAD'),
+          $filter('translate')('CLINIC_PATIENT_BMI')
+        ];
         var name = "labResults";
 
         encounterService.getEncountersForEncounterType(patientUuid, labEncounterUuid)
@@ -36,13 +44,16 @@ angular.module('clinic')
         var conceptsTreatment = [
           "e1e53c02-1d5f-11e0-b929-000c29ad1d07",
           "e1d9fbda-1d5f-11e0-b929-000c29ad1d07",
-          "e1d83d4a-1d5f-11e0-b929-000c29ad1d07"
+          "e1d83d4a-1d5f-11e0-b929-000c29ad1d07",
+          "e1da52ba-1d5f-11e0-b929-000c29ad1d07"
         ];
 
         var seriesFollowUp = [
           $filter('translate')('CURRENT_WHO_HIV_STAGE'),
           $filter('translate')('TUBERCULOSIS_TREATMENT_PLAN'),
-          $filter('translate')('PREVIOUS_ANTIRETROVIRAL_DRUGS_USED_FOR_TREATMENT')];
+          $filter('translate')('PREVIOUS_ANTIRETROVIRAL_DRUGS_USED_FOR_TREATMENT'),
+          $filter('translate')('CLINIC_PATIENT_BMI')
+        ];
 
         var adultFollowupEncounterUuid = Bahmni.Common.Constants.adultFollowupEncounterUuid;
         var childFollowupEncounterUuid = Bahmni.Common.Constants.childFollowupEncounterUuid;

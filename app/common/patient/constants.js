@@ -9,6 +9,7 @@ Poc.Patient.Constants = {
     bahmniRESTBaseURL: "/openmrs/ws/rest/v1/bahmnicore",
     emrApiRESTBaseURL: "/openmrs/ws/rest/emrapi",
     emrApiEncounterUrl: "/openmrs/ws/rest/emrapi/encounter",
+    obsRestUrl: "/openmrs/ws/rest/v1/obs",
     webServiceRestBaseURL: "/openmrs/ws/rest/v1"
 };
 
