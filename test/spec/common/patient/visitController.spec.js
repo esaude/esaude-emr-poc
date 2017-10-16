@@ -36,7 +36,7 @@ describe('VisitController', function () {
         return fn([]);
       }
     });
-    spyOn(observationsService, 'filterLastPatientVitalsObs').and.callFake(function () {
+    spyOn(observationsService, 'getLastPatientObs').and.callFake(function () {
       return $q(function (resolve) {
         return resolve();
       })
