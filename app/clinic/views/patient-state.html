@@ -4,7 +4,7 @@
       <div ng-repeat="patientState in patientStates">
         <p ng-class="capitalize"><strong> {{patientState.exam}} :</strong>
           <span class="label label-danger">{{patientState.result}}
-            </span> {{'COMMON_FROM' | translate }} {{labDate}}</p>
+            </span> {{'COMMON_FROM' | translate }} {{labDate | date }}</p>
       </div>
     </div>
 

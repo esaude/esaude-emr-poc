@@ -17,7 +17,7 @@
       filterRetiredObs: filterRetiredObs,
       getObs: getObs,
       getLastValueForConcept: getLastValueForConcept,
-      filterLastPatientVitalsObs: filterLastPatientVitalsObs
+      filterLastPatientVitalsObs: getLastPatientVitalsObs
     };
     return service;
 
@@ -92,12 +92,13 @@
       return filtered;
     }
 
-    function filterLastPatientVitalsObs(patientUuid, concepts) {
+    function getLastPatientVitalsObs(patientUuid, concepts) {
         return getObs(patientUuid, concepts).then(function(response) {
             var nonRetired = filterRetiredObs(response.data.results);
                 return _.maxBy(nonRetired, 'obsDatetime');
           }).catch(function (error) {
-              $q.reject(error);
+              $log.error('XHR Failed for getLastPatientVitalsObs: ' + error.data.error.message);
+              return $q.reject(error);
           });
       }
 

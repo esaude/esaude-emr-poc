@@ -85,7 +85,7 @@
         .then(function (data) {
           vm.lastBmi = data;
         }).catch(function (data) {
-
+          notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
       });
     }
 

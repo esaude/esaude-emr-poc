@@ -16,14 +16,14 @@ angular.module('vitals')
                     $scope.lastVisit = _.maxBy(visits, 'startDatetime');
                 });
 
-                observationsService.filterLastPatientVitalsObs(patientUuid, Bahmni.Common.Constants.BMI)
+                observationsService.getLastPatientVitalsObs(patientUuid, Bahmni.Common.Constants.BMI)
                   .then(function (data) {
                         $scope.lastBmi = data;
                   }).catch(function (data) {
-
+                    notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ACTION'));
                 });
 
-                observationsService.filterLastPatientVitalsObs(patientUuid, Bahmni.Common.Constants.HEIGHT_CM)
+                observationsService.getLastPatientVitalsObs(patientUuid, Bahmni.Common.Constants.HEIGHT_CM)
                   .then(function (data) {
                         $scope.lastHeight = data;
                     }).catch(function (error) {

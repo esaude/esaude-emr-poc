@@ -201,7 +201,8 @@ Bahmni.Common = Bahmni.Common || {};
         otherDrugsConceptUuid: "e1de3092-1d5f-11e0-b929-000c29ad1d07",
         arvRegimensConvSet: "7d5728ac-730f-495e-8368-73fc3d7e3c45",
         regimenGroups: regimenGroups,
-        systemSetting: '/openmrs/ws/rest/v1/systemsetting'
+        systemSetting: '/openmrs/ws/rest/v1/systemsetting',
+        labEncounterUuid : 'e2790f68-1d5f-11e0-b929-000c29ad1d07'
 
     };
 })();

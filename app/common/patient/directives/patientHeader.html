@@ -10,7 +10,7 @@
                class="img-responsive inline-align" width="24" height="24" alt="male">
         </span>
         <span>{{vm.patient.age.years}}</span>
-        <span>{{vm.patient.birthdateEstimated ? '~': ''}}({{vm.patient.birthdate | date:"MM/dd/yyyy"}})</span>
+        <span>{{vm.patient.birthdateEstimated ? '~': ''}}({{vm.patient.birthdate | date }})</span>
         <!-- TODO: must check "Header Attribute Types" from openmrs configurations -->
         <span ng-if="patient['Numero de Telefone']">Phone number: {{patient['Numero de Telefone']}}</span>
       </div>

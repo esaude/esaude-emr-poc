@@ -53,7 +53,7 @@
     var originalFilter = $delegate;
 
     function decoratedDateFilter(date, format, timezone) {
-      if (!format) {
+      if (!format || format === 'shortDate') {
         format = dateFormat.shortDate;
       } else if (format === 'short') {
         format = dateFormat.short;

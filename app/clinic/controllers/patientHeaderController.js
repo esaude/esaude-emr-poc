@@ -13,7 +13,7 @@ angular.module('clinic')
 
       //TODO: Add patientState Tests, fix followup refresh scope issue
       $scope.initPatientState = function () {
-        var labEncounterUuid = "e2790f68-1d5f-11e0-b929-000c29ad1d07";
+        var labEncounterUuid = Bahmni.Common.Constants.labEncounterUuid;
         var conceptsLabs = ["e1e68f26-1d5f-11e0-b929-000c29ad1d07",
           "e1d6247e-1d5f-11e0-b929-000c29ad1d07",
           "e1da52ba-1d5f-11e0-b929-000c29ad1d07"
