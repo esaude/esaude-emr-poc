@@ -8,9 +8,13 @@
   dispensationService.$inject = ['$http', '$q', '$log'];
 
   function dispensationService($http, $q, $log) {
+
+    var OPENMRS_URL = Poc.Patient.Constants.openmrsUrl;
+
     return {
       createDispensation: createDispensation,
-      cancelDispensationItem: cancelDispensationItem
+      cancelDispensationItem: cancelDispensationItem,
+      getDispensation: getDispensation
     };
 
     ////////////////
@@ -39,6 +43,23 @@
         params: {reason: reason}
       });
     }
+
+    function getDispensation(patientUuid, startDate, endDate) {
+      return $http.get(Bahmni.Common.Constants.dispensationUrl, {
+        params: {
+          patient: patientUuid,
+          startDate: startDate,
+          endDate: endDate
+        },
+        withCredentials: true
+      }).then(function (response) {
+        return response.data.results;
+      }).catch(function (error) {
+        $log.error('XHR Failed for getDispensation. ' + error.data);
+        return $q.reject(error);
+      });
+    }
+
   }
 
 })();
