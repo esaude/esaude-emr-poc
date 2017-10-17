@@ -28,7 +28,6 @@
      * @param {Object} patient
      */
     function printPatientARVPickupHistory(patient) {
-      console.log(patient);
       var vm = {};
       vm.patient = patient;
       vm.months = moment.monthsShort();
@@ -130,9 +129,8 @@
       fill(vm.calendar[2], "");
       fill(vm.calendar[3], "");
 
-      //var firstPickup = vm.patient.pickups[0];
-      //var monthOfFirstPickup = firstPickup.encounterDatetime.getMonth();
-      //shiftLeft(vm.months, monthOfFirstPickup);
+      var initialCalendarMonth = vm.patient.startDate.getMonth();
+      shiftLeft(vm.months, initialCalendarMonth);
 
       var dates = [];
       vm.patient.dispensations.forEach(function (dispensation) {
@@ -142,13 +140,13 @@
       });
 
       dates.forEach(function (date) {
-        //var markIndexes = getMarkIndexesForDate(date, monthOfFirstPickup);
-        //vm.calendar[markIndexes.week][markIndexes.month] = "X";
+        var markIndexes = getMarkIndexesForDate(date, initialCalendarMonth);
+        vm.calendar[markIndexes.week][markIndexes.month] = "X";
       });
     }
 
-    function getMarkIndexesForDate(date, monthOfFirstPickup) {
-      var month = date.getMonth() - monthOfFirstPickup;
+    function getMarkIndexesForDate(date, initialCalendarMonth) {
+      var month = date.getMonth() - initialCalendarMonth;
       if (month < 0) {
         month += MONTHS_IN_YEAR;
       }
