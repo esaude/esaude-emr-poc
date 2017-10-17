@@ -81,7 +81,7 @@
 
       visitService.search({patient: patientUuid, v: "full"}).then(searchVisitByPatientCallback);
 
-      observationsService.filterLastPatientVitalsObs(patientUuid, Bahmni.Common.Constants.BMI)
+      observationsService.getLastPatientObs(patientUuid, Bahmni.Common.Constants.BMI)
         .then(function (data) {
           vm.lastBmi = data;
         }).catch(function (data) {

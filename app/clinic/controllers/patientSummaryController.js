@@ -246,7 +246,7 @@
 
 
     observationsService
-      .filterLastPatientVitalsObs(patientUuid, 'e1da52ba-1d5f-11e0-b929-000c29ad1d07')
+      .getLastPatientObs(patientUuid, Bahmni.Common.Constants.BMI)
       .then(function (data) {
           vm.patientVitals = data;
       }).catch(function (data) {
