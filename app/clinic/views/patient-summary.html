@@ -17,11 +17,11 @@
             </div>
         <div class="list-group" ng-repeat="visit in vm.visits" ng-hide="showDivVisit">
                 <div class="bg-info content-border-padding-li">
-                    {{'CLINIC_PATIENT_VISIT' | translate}} {{'COMMON_ON' | translate}} {{visit[0].encounterDatetime | date:"MMM d, y"}}
+                    {{'CLINIC_PATIENT_VISIT' | translate}} {{'COMMON_ON' | translate}} {{visit[0].encounterDatetime | date}}
                 </div>
                 <div class="list-group-item" ng-repeat="encounter in visit">
                   <div>{{encounter.encounterType.display}} {{'COMMON_ON' | translate}} {{encounter.encounterDatetime |
-                    date:"MMM d, y"}},
+                    date}},
                         {{'COMMON_BY' | translate}}: {{encounter.provider.display}}</div>
                 </div>
             </div>
@@ -37,7 +37,7 @@
                     <tr ng-repeat="diagn in vm.diagnosis">
                         <td>{{diagn.concept.name.display}}</td>
                         <td>{{vm.isObject(diagn.value) ? diagn.value.display : diagn.value}}</td>
-                        <td>{{'CLINIC_PATIENT_DIAGNOSED' | translate}} {{'COMMON_ON' | translate}} {{diagn.obsDatetime | date:"MMM d, y"}}</td>
+                        <td>{{'CLINIC_PATIENT_DIAGNOSED' | translate}} {{'COMMON_ON' | translate}} {{diagn.obsDatetime | date}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -52,7 +52,7 @@
                 <tbody>
                     <tr ng-repeat="diagn in vm.icdDiagnosis">
                         <td>{{vm.isObject(diagn.value) ? diagn.value.display : diagn.value}}</td>
-                        <td>{{'CLINIC_PATIENT_DIAGNOSED' | translate}} {{'COMMON_ON' | translate}} {{diagn.obsDatetime | date:"MMM d, y"}}</td>
+                        <td>{{'CLINIC_PATIENT_DIAGNOSED' | translate}} {{'COMMON_ON' | translate}} {{diagn.obsDatetime | date}}</td>
                         <td>{{'COMMON_BY' | translate}} {{diagn.encounter.provider.display}}</td>
                     </tr>
                 </tbody>
@@ -66,7 +66,7 @@
             </div>
         <div class="list-group" ng-repeat="existingPrescription in vm.prescriptions" ng-hide="showDivPrescriptions">
                 <div class="bg-info content-border-padding-li">
-                    {{'CLINIC_PATIENT_PRESCRIBED' | translate}} {{'COMMON_ON' | translate}} {{existingPrescription.prescriptionDate | date:"MMM d, y"}}
+                    {{'CLINIC_PATIENT_PRESCRIBED' | translate}} {{'COMMON_ON' | translate}} {{existingPrescription.prescriptionDate | date}}
                 </div>
                 <div class="list-group-item" ng-repeat="item in existingPrescription.prescriptionItems">
                     <span>
@@ -107,7 +107,7 @@
             </div>
         <div class="list-group" ng-repeat="encounter in vm.vitals" ng-hide="showDivVitals">
                 <div class="bg-info content-border-padding-li">
-                    {{'CLINIC_PATIENT_CAPTURED' | translate}} {{'COMMON_ON' | translate}} {{encounter.encounterDatetime | date:"MMM d, y"}}
+                    {{'CLINIC_PATIENT_CAPTURED' | translate}} {{'COMMON_ON' | translate}} {{encounter.encounterDatetime | date}}
                 </div>
                 <div ng-repeat="obs in encounter.obs">
                     <div class="list-group-item">
@@ -126,7 +126,7 @@
             </div>
         <div class="list-group" ng-repeat="visit in vm.labs" ng-hide="showDivLAB">
                 <div class="bg-info content-border-padding-li">
-                    {{'CLINIC_PATIENT_COLLECTED' | translate}} {{'COMMON_ON' | translate}} {{visit[0].encounterDatetime | date:"MMM d, y"}}
+                    {{'CLINIC_PATIENT_COLLECTED' | translate}} {{'COMMON_ON' | translate}} {{visit[0].encounterDatetime | date}}
                 </div>
                 <div ng-repeat="encounter in visit">
                     <div ng-repeat="obs in encounter.obs">
@@ -156,7 +156,7 @@
             </div>
             <div class="list-group" ng-repeat="visit in vm.pickups" ng-hide="showDivPharmacy">
                 <div class="bg-info content-border-padding-li">
-                        {{'CLINIC_PATIENT_DISPENSED' | translate}} {{'COMMON_ON' | translate}} {{visit[0].encounterDatetime | date:"MMM d, y"}}
+                        {{'CLINIC_PATIENT_DISPENSED' | translate}} {{'COMMON_ON' | translate}} {{visit[0].encounterDatetime | date}}
                 </div>
                 <div ng-repeat="encounter in visit">
                     <div ng-repeat="obs in encounter.obs" class="list-group-item">
@@ -175,13 +175,13 @@
 
             <div class="list-group" ng-repeat="pickup in vm.newPickups" ng-hide="showDivPharmacyNew">
                 <div class="bg-info content-border-padding-li">
-                        {{'CLINIC_PATIENT_DISPENSED' | translate}} {{'COMMON_ON' | translate}} {{pickup.detetime | date:"MMM d, y"}}
+                        {{'CLINIC_PATIENT_DISPENSED' | translate}} {{'COMMON_ON' | translate}} {{pickup.detetime | date}}
                         {{'COMMON_BY' | translate}} {{pickup.provider.display}}
                 </div>
                 <div ng-repeat="item in pickup.items" class="list-group-item">
                     <span><strong>{{item.order.drug.display}}</strong> {{item.order.dose}}{{item.order.doseUnits.display}}</span>,
                     <span>{{'COMMON_QUANTITY' | translate}}: {{item.quantity.value}}</span>
-                    <span ng-if="item.returnDate.value">| {{'COMMON_RETURN' | translate}} {{item.returnDate.value | date:"MMM d, y"}}</span>
+                    <span ng-if="item.returnDate.value">| {{'COMMON_RETURN' | translate}} {{item.returnDate.value | date}}</span>
                 </div>
             </div>
           </div>
@@ -193,7 +193,7 @@
             </div>
         <div class="list-group" ng-repeat="encounter in vm.allergies" ng-hide="showDivAllergies">
                 <div class="bg-info content-border-padding-li">
-                    {{'CLINIC_PATIENT_DIAGNOSED' | translate}} {{'COMMON_ON' | translate}} {{encounter.encounterDatetime | date:"MMM d, y"}}
+                    {{'CLINIC_PATIENT_DIAGNOSED' | translate}} {{'COMMON_ON' | translate}} {{encounter.encounterDatetime | date}}
                 </div>
                 <div ng-repeat="obs in encounter.obs" class="list-group-item">
                     {{vm.isObject(obs.value) ? obs.value.display : obs.value}}
@@ -210,15 +210,15 @@
                     <span class="label label-success" ng-if="!program.dateCompleted">A</span>
                     <span class="label label-warning" ng-if="program.dateCompleted">P</span>
                     <span>{{program.display}}</span>
-                    <span>{{'COMMON_PROGRAM_ENROLLMENT_ENROLLED_ON' | translate}}: ({{program.dateEnrolled | date:"MM/dd/yyyy"}})</span>
-                    <span ng-if="program.dateCompleted">{{'COMMON_PROGRAM_ENROLLMENT_COMPLETED_ON' | translate}}: ({{program.dateCompleted | date:"MM/dd/yyyy"}})</span>
+                    <span>{{'COMMON_PROGRAM_ENROLLMENT_ENROLLED_ON' | translate}}: ({{program.dateEnrolled | date}})</span>
+                    <span ng-if="program.dateCompleted">{{'COMMON_PROGRAM_ENROLLMENT_COMPLETED_ON' | translate}}: ({{program.dateCompleted | date}})</span>
                 </div>
               <div ng-if="hasValidProgramStateToShow(program.states)"
                    ng-repeat="state in program.states" class="list-group-item">
                     {{state.state.concept.display}}
-                    <span>{{'COMMON_FROM' | translate}} ({{state.startDate | date:"MM/dd/yyyy"}})</span>
+                    <span>{{'COMMON_FROM' | translate}} ({{state.startDate | date}})</span>
                     <span ng-if="state.endDate">
-                        {{'COMMON_TO' | translate}} {{state.endDate | date:"MM/dd/yyyy"}}
+                        {{'COMMON_TO' | translate}} {{state.endDate | date}}
                     </span>
                 </div>
             </div>

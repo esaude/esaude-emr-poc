@@ -16,8 +16,7 @@
 
     var service = {
       getAppDescriptor: getAppDescriptor,
-      initApp: initApp,
-      loadClinicalServices: loadClinicalServices
+      initApp: initApp
     };
     return service;
 
@@ -42,8 +41,6 @@
       promises.push(loadCredentialsPromise);
 
       if (opts.service) {
-        promises.push(loadFormLayout(appDescriptor));
-        promises.push(this.loadClinicalServices(appDescriptor));
         promises.push(loadDrugMapping(appDescriptor));
       }
 
@@ -59,45 +56,8 @@
       return appLoader.promise;
     }
 
-    /**
-     * Loads clinicalServices configured for current app.
-     * NOTE: As this method will be decorated for authorization, inside appService always refer to it using
-     * this.loadClinicalServices.
-     * @param {Bahmni.Common.AppFramework.AppDescriptor} appDescriptor
-     * @return {Promise}
-     */
-    function loadClinicalServices(appDescriptor) {
-      return loadConfig(baseUrl  + appDescriptor.contextPath +  "/clinicalServices.json")
-        .then(function (result) {
-          appDescriptor.setClinicalServices(result.data);
-          return appDescriptor;
-        })
-        .catch(function (error) {
-          return error.status !== 404 ? $q.reject(error) : appDescriptor;
-        });
-    }
-
     function loadConfig(url) {
       return $http.get(url, {withCredentials: true});
-    }
-
-    function  loadFormLayout(appDescriptor) {
-      var deferrable = $q.defer();
-      loadConfig(baseUrl + "/common/formLayout.json").then(
-        function (result) {
-          appDescriptor.setFormLayout(result.data);
-
-          deferrable.resolve(appDescriptor);
-        },
-        function (error) {
-          if (error.status !== 404) {
-            deferrable.reject(error);
-          } else {
-            deferrable.resolve(appDescriptor);
-          }
-        }
-      );
-      return deferrable.promise;
     }
 
     function loadDrugMapping(appDescriptor) {

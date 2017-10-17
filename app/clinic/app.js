@@ -23,10 +23,7 @@
         $state.go('search');
       }
     });
-    // used in formStateAutoGen
-    // TODO: check if formStateAutoGen can be run in angular configuration phase to eliminating this hack!!!
 
-    $stateProviderRef = $stateProvider;
     $bahmniTranslateProvider.init({app: 'clinical', shouldMerge: true});
 
     $stateProvider
@@ -124,6 +121,11 @@
           label: '{{\'CLINIC_PATIENT_CONSULTATION\' | translate}}',
           parent: 'dashboard',
           skip: true
+        },
+        resolve: {
+          clinicalServicesService: function (clinicalServicesService) {
+            clinicalServicesService.init('clinical');
+          }
         }
       })
       .state('dashboard.current', {
@@ -147,6 +149,9 @@
           'content@detailpatient': {
             templateUrl: '../patient-details/views/patient-details.html'
           }
+        },
+        params: {
+          returnState: null
         },
         resolve: {
           initialization: 'initialization'

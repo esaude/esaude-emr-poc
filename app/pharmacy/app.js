@@ -24,9 +24,6 @@
         }
       });
 
-      // used in formStateAutoGen
-      // TODO: check if formStateAutoGen can be run in angular configuration phase to eliminating this hack!!!
-      $stateProviderRef = $stateProvider;
       $bahmniTranslateProvider.init({app: 'pharmacy', shouldMerge: true});
 
       $stateProvider
@@ -134,6 +131,9 @@
             'content@detailpatient': {
               templateUrl: '../patient-details/views/patient-details.html'
             }
+          },
+          params: {
+            returnState: null
           },
           resolve: {
             initialization: 'initialization'

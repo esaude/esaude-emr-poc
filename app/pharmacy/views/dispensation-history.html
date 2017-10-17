@@ -12,10 +12,10 @@
     </thead>
     <tbody>
     <tr ng-repeat="pickup in vm.pickups">
-      <td>{{pickup.encounterDatetime | date:"MMM d, y"}}</td>
+      <td>{{pickup.encounterDatetime | date}}</td>
       <td>{{vm.valueOfField(vm.filaObsList.quantity, pickup.members).order.drug.display}}</td>
       <td>{{vm.valueOfField(vm.filaObsList.quantity, pickup.members).value}}</td>
-      <td>{{vm.valueOfField(vm.filaObsList.nextPickup, pickup.members).value | date:"MMM d, y"}}</td>
+      <td>{{vm.valueOfField(vm.filaObsList.nextPickup, pickup.members).value | date}}</td>
       <td>{{pickup.provider}}</td>
       <td>
         <button type="button" class="close btn-lg content-border-margin-regular-sides" ng-click ="vm.setDispensationItemToCancel(vm.valueOfField(vm.filaObsList.quantity, pickup.members).order)" data-toggle="modal" data-target="#cancellationDispensationItemModal" >

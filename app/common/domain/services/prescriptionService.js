@@ -43,7 +43,7 @@
         var mapPrescription = _.curryRight(_.map)(prescriptionMapper);
         return _.flow([mapPrescription, sortByEncounterDateTime])(response.data.results);
       }).catch(function (error) {
-        $log.error('XHR Failed for getPatientNonDispensedPrescriptions. ' + error.data);
+        $log.error('XHR Failed for getPatientNonDispensedPrescriptions: ' + error.data.error.message);
         return $q.reject(error);
       });
     }
@@ -61,7 +61,7 @@
       }).then(function (response) {
         return response.data;
       }).catch(function (error) {
-        $log.error('XHR Failed for create. ' + error.data);
+        $log.error('XHR Failed for create: ' + error.data.error.message);
         return $q.reject();
       });
     }
@@ -78,7 +78,7 @@
           }).then(function (response) {
             return _.map(response.data.results, prescriptionMapper);
           }).catch(function (error) {
-            $log.error('XHR Failed for getAllPrescription. ' + error.data);
+            $log.error('XHR Failed for getAllPrescription: ' + error.data.error.message);
             return $q.reject(error);
           });
      }

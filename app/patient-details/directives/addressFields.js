@@ -9,7 +9,8 @@ angular.module('patient.details')
       scope: {
         address: '=',
         addressLevels: '=',
-        fieldValidation: '='
+        fieldValidation: '=',
+        showMessages: '='
       }
     };
   })
@@ -71,8 +72,4 @@ angular.module('patient.details')
         });
       }
     };
-
-    $scope.$watch('$parent.showMessages', function (value) {
-      $scope.showMessages = value;
-    });
   });

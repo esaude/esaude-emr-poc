@@ -104,6 +104,7 @@
       spinner.forPromise(load);
     }
 
+    //TODO: Show calcaculated IMC on graph line
     function initImc() {
       var concepts = [
         "e1e2e826-1d5f-11e0-b929-000c29ad1d07",

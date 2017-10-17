@@ -76,6 +76,7 @@
     "PATIENT_INFO_DEATH_REASON": "Reason of death",
     "PATIENT_INFO_DEAD": "Is Dead",
     "PATIENT_INFO_NEW": "New Patient",
+    "PATIENT_INFO_EDIT": "Edit Patient",
     "LOGIN_LABEL_LOGGEDIN_KEY": "Logged in as",
     "PATIENT_DAILY_HOSPITAL_PROCESS" : "DAILY HOSPITAL PROCESS",
     "SIMILAR_PATIENTS": "Similar patients",
@@ -87,8 +88,14 @@
     "Posto Administrativo": "Division",
     "Localidade": "Locality",
     "Bairro":"Neighborhood",
-    "Celula":"Celll",
+    "Celula":"Cell",
     "Av./Rua/Casa": "Av./Street/Home",
-    "NEW_PATIENT": "New Patient"
+    "NEW_PATIENT": "New Patient",
+    "DELETE_PATIENT": "Delete",
+    "REASON_TO_DELETE": "Reason to Delete",
+    "PATIENT_DELETED": "Patient Deleted"
+
+
+
 
 }

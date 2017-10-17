@@ -23,7 +23,7 @@
       "hideEasing": "linear",
       "showMethod": "fadeIn",
       "hideMethod": "fadeOut"
-    }
+    };
 
     return  {
       success: success,

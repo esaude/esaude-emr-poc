@@ -1,41 +1,16 @@
 (function () {
   'use strict';
 
+  /**
+   * Top level module, application wide configuration goes here.
+   * Ideally it should load all the other modules as described here: {@link https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md#module-dependencies}.
+   * For now we'll let all other modules load this one, because it has as similar end-result.
+   */
   angular
     .module('application', [
       'authentication',
-      'ncy-angular-breadcrumb'
-    ])
-    .config(applicationModuleConfig);
-
-  applicationModuleConfig.$inject = ['$provide', '$breadcrumbProvider'];
-
-  /* @ngInject */
-  function applicationModuleConfig($provide, $breadcrumbProvider) {
-    // $provide.decorator('applicationService', applicationServiceAuthorizationDecorator);
-
-    $breadcrumbProvider.setOptions({
-      templateUrl: '/common/application/views/breadcrumb.html'
-    });
-  }
-
-  applicationServiceAuthorizationDecorator.$inject = ['$delegate', 'authorizationService', '$log'];
-
-  /* @ngInject */
-  function applicationServiceAuthorizationDecorator($delegate, authorizationService, $log) {
-
-    $log.info('applicationServiceAuthorizationDecorator: decorating applicationService with authorization.');
-
-    var getApps = $delegate.getApps;
-
-    function getAuthorizedApps() {
-      return getApps().then(function (applications) {
-        return authorizationService.authorizeApps(applications);
-      });
-    }
-
-    $delegate.getApps = getAuthorizedApps;
-    return $delegate;
-  }
+      'ncy-angular-breadcrumb',
+      'ui.bootstrap'
+    ]);
 
 })();

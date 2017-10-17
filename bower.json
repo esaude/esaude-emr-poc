@@ -1,6 +1,6 @@
 {
   "name": "esaude-emr-poc",
-  "version": "1.2.4",
+  "version": "1.2.5-alpha.4 ",
   "description": "eSaude EMR point of care",
   "authors": [
     "eSaude Mozambique"
@@ -29,7 +29,6 @@
     "at-table": "~1.0.5",
     "angular-local-storage": "~0.2.2",
     "moment": "~2.10.6",
-    "angular-datepicker": "~1.0.17",
     "angular-bootstrap-switch": "~0.5.0",
     "bootstrap-switch": "~3.3.2",
     "zeroclipboard": "~2.2.0",

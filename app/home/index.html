@@ -18,17 +18,17 @@
     <!-- endbuild -->
   </head>
   <body>
-      <div  class="container-fluid">
-          <div ng-app="home">
-              <div ui-view="layout"></div>
-          </div>
-      </div>
+
+    <div ng-app="home">
+      <div ui-view="layout"></div>
+    </div>
 
       <!-- build:js scripts/vendor.home.min.js -->
       <!-- bower:js -->
       <script src="../../bower_components/jquery/dist/jquery.min.js"></script>
       <script src="../../bower_components/angular/angular.min.js"></script>
       <script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+      <script src="../../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
       <script src="../../bower_components/moment/min/moment.min.js"></script>
       <script src="../../bower_components/jquery-ui/ui/minified/jquery-ui.min.js"></script>
       <script src="../../bower_components/keyboard/dist/js/jquery.keyboard.min.js"></script>
@@ -57,21 +57,22 @@
 
     <!-- build:js scripts/home.min.js -->
     <script src="../common/constants.js"></script>
-    <script src="../poc-common/constants.js"></script>
 
     <script src="../common/application/init.js"></script>
+    <script src="../common/application/constants.js"></script>
+    <script src="../common/application/config.js"></script>
     <script src="../common/application/services/applicationService.js"></script>
     <script src="../common/ui-helper/init.js"></script>
     <script src="../common/ui-helper/spinner.js"></script>
 
     <script src="../common/auth/init.js"></script>
+    <script src="../common/auth/config.js"></script>
+    <script src="../common/auth/run.js"></script>
     <script src="../common/auth/user.js"></script>
     <script src="../common/auth/userService.js"></script>
-    <script src="../common/auth/authentication.js"></script>
     <script src="../common/auth/authenticator.js"></script>
     <script src="../common/auth/sessionService.js"></script>
     <script src="../common/auth/authorizationService.js"></script>
-    <script src="../common/auth/directives/btnUserInfo.js"></script>
     <script src="../common/auth/directives/logout.js"></script>
     <script src="../common/auth/directives/pocAuthorize.js"></script>
 

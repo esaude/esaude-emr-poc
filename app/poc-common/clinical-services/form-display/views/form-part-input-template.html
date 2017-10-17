@@ -1,0 +1,27 @@
+<form name="aForm" class="form-horizontal">
+    <div class="panel panel-primary content-border-margin">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{currentFormPart.label | translate}}</h3>
+        </div>
+        <div class="panel-body">
+
+            <form-field ng-repeat="field in currentFormPart.fields"
+                        field="field"
+                        form-layout="formInfo"
+                        form-parts="formPayload"
+                        field-uuid="field.id"
+                        field-id="compactName(field.name)"
+                        patient="patient">
+            </form-field>
+
+        </div>
+    </div>
+
+    <div class="row bg-info-border content-border border-rouded go-to-right">
+        <button type="button" class="btn btn-success btn-lg"
+                ng-click="updateCurrentFormPart(currentFormPart.nextSref, aForm.$valid)">
+            <span class="glyphicon glyphicon glyphicon-step-forward"></span>
+            <span class="button-label">{{'NEXT_STEP' | translate}}</span>
+        </button>
+    </div>
+</form>

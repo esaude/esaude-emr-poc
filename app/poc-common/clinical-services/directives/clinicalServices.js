@@ -14,114 +14,114 @@
       restrict: 'AE',
       templateUrl: ' ../poc-common/clinical-services/views/clinicalServices.html',
       scope: {
-        add: '&onAdd',
-        edit: '&onEdit',
-        display: '&onClick',
-        patientUuid: '=',
-        serviceForms: '=',
-        services: '=',
-        hasVisitToday: '=',
-        todayVisit: '='
+        patientUuid: '='
       }
     };
     return directive;
   }
 
-  ClinicalServiceDirectiveController.$inject = ['encounterService', 'patientService'];
+  ClinicalServiceDirectiveController.$inject = ['$filter', '$q', '$state', 'clinicalServicesService', 'notifier',
+    'patientService', 'spinner', 'visitService'];
 
-  function ClinicalServiceDirectiveController(encounterService, patientService) {
-
-    var dateUtil = Bahmni.Common.Util.DateUtil;
+  function ClinicalServiceDirectiveController($filter, $q, $state, clinicalServicesService, notifier, patientService,
+                                              spinner, visitService) {
 
     var vm = this;
 
-    vm.patient = {};
+    vm.services = null;
+
     vm.$onInit = onInit;
-    vm.checkRestrictionsToAdd = checkRestrictionsToAdd;
+    vm.canAdd = canAdd;
     vm.getPrivilege = getPrivilege;
+    vm.getVisibleServices = getVisibleServices;
+    vm.linkServiceAdd = linkServiceAdd;
+    vm.linkServiceDisplay = linkServiceDisplay;
+    vm.linkServiceEdit = linkServiceEdit;
     vm.removeEncounter = removeEncounter;
     vm.toggleListEncounters = toggleListEncounters;
 
     ////////////////
 
     function onInit() {
-      patientService.getPatient(vm.patientUuid).then(function (patient) {
-        vm.patient = patient;
-        vm.services.forEach(function (s) {
-          initService(s, patient);
+      var load = $q.all([
+        visitService.getTodaysVisit(vm.patientUuid),
+        patientService.getPatient(vm.patientUuid)
+      ])
+        .then(function (result) {
+          var todaysVisit = result[0];
+          var patient = result[1];
+          return initServices(patient, todaysVisit);
         });
+
+      spinner.forPromise(load);
+    }
+
+
+    function initServices(patient, todayVisit) {
+
+      return clinicalServicesService
+        .getClinicalServiceWithEncountersForPatient(patient)
+        .then(function (clinicalServices) {
+          vm.services = clinicalServices;
+          vm.services.forEach(function (s) {
+            checkConstraints(s, patient, todayVisit);
+          });
+        })
+        .catch(function () {
+          notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ACTION'));
+        });
+    }
+
+    function linkServiceAdd(service) {
+      var formLayout = clinicalServicesService.getFormLayouts(service);
+      $state.go(formLayout.sufix + formLayout.parts[0].sref, {
+        patientUuid: vm.patientUuid,
+        serviceId: service.id,
+        encounter: service.hasEntryToday ? service.lastEncounterForService : null,
+        returnState: $state.current
       });
     }
 
-
-    function initService(service, patient) {
-      var formPayload = vm.serviceForms[service.id];
-
-      var getEncounters = encounterService.getEncountersForEncounterType(patient.uuid, formPayload.encounterType.uuid);
-
-      // TODO: use 'getEncounters.then' after getEncountersForEncounterType is properly refactored to handle xhr failures
-      getEncounters.success(function (data) {
-          var nonVoidedEncounters = encounterService.filterRetiredEncoounters(data.results);
-          var sortedEncounters = _.sortBy(nonVoidedEncounters, function (encounter) {
-            return moment(encounter.encounterDatetime).toDate();
-          }).reverse();
-
-          if (service.markedOn) {
-            service.encountersForService = _.filter(sortedEncounters, function (e) {
-              var foundObs = _.find(e.obs, function (o) {
-                return o.concept.uuid === service.markedOn;
-              });
-              return angular.isDefined(foundObs);
-            });
-          } else {
-            service.encountersForService = sortedEncounters;
-          }
-          service.lastEncounterForService = sortedEncounters[0];
-          service.lastEncounterForServiceMarked = service.encountersForService[0];
-
-          if (service.lastEncounterForServiceMarked) {
-            if (service.markedOn) {
-              service.lastEncounterForServiceDate = _.find(service.lastEncounterForServiceMarked.obs, function (o) {
-                return o.concept.uuid === service.markedOn;
-              }).value;
-            } else {
-              service.lastEncounterForServiceDate = service.lastEncounterForServiceMarked.encounterDatetime;
-            }
-          }
-
-          service.hasEntryToday = false;
-
-          if (vm.todayVisit && service.lastEncounterForService) {
-            service.hasEntryToday = (dateUtil.diffInDaysRegardlessOfTime(vm.todayVisit.startDatetime,
-              service.lastEncounterForService.encounterDatetime) === 0);
-          }
-          service.list = false;
-        });
-
-      checkContraints(service);
+    function linkServiceEdit(service, encounter) {
+      var formLayout = clinicalServicesService.getFormLayouts(service);
+      $state.go(formLayout.sufix + formLayout.parts[0].sref, {
+        patientUuid: vm.patientUuid,
+        serviceId: service.id,
+        encounter: encounter,
+        returnState: $state.current
+      });
     }
 
+    function linkServiceDisplay(service, encounter) {
+      var formLayout = clinicalServicesService.getFormLayouts(service);
+      $state.go(formLayout.sufix + '_display', {
+        patientUuid: vm.patientUuid,
+        serviceId: service.id,
+        encounter: encounter,
+        returnState: $state.current
+      });
+    }
 
-    function checkContraints(service) {
+    function checkConstraints(service, patient, todayVisit) {
       service.showService = true;
 
       if (service.constraints.requireChekin) {
-        service.showService =  vm.hasVisitToday;
+        service.showService = todayVisit !== null;
       }
 
       if (service.constraints.minAge &&
-        vm.patient.age.years < service.constraints.minAge) {
+        patient.age.years < service.constraints.minAge) {
         service.showService = false;
       }
 
       if (service.constraints.maxAge &&
-        vm.patient.age.years > service.constraints.maxAge) {
+        patient.age.years > service.constraints.maxAge) {
         service.showService = false;
       }
     }
 
 
-    function checkRestrictionsToAdd(service) {
+    function canAdd(service) {
       var canAdd;
       if (service.maxOccur < 0 || service.encountersForService.length < service.maxOccur) {
         canAdd = true;
@@ -153,6 +153,15 @@
 
     function getPrivilege(prefix, service) {
       return prefix + ' ' + service.privilege;
+    }
+
+    function getVisibleServices() {
+      if (vm.services) {
+        return vm.services.filter(function (s) {
+          return s.showService;
+        });
+      }
+      return null;
     }
 
   }

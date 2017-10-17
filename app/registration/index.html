@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="../../bower_components/keyboard/dist/css/keyboard.min.css" />
     <link rel="stylesheet" href="../../bower_components/keyboard/dist/css/keyboard-previewkeyset.min.css" />
-    <link rel="stylesheet" href="../../bower_components/angular-datepicker/dist/angular-datepicker.min.css">
     <link rel="stylesheet" href="../../bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css"/>
     <link rel="stylesheet" href="../../bower_components/toastr/toastr.css" />
     <link rel="stylesheet" href="../../bower_components/ng-dialog/css/ngDialog.min.css" />
@@ -23,11 +22,11 @@
     <!-- endbuild -->
   </head>
   <body>
-      <div  class="container-fluid">
-          <div ng-app="registration">
-              <div ui-view="layout"></div>
-          </div>
-      </div>
+
+    <div ng-app="registration">
+      <div ui-view="layout"></div>
+    </div>
+
       <!-- build:js scripts/vendor.registration.min.js -->
       <!-- bower:js -->
       <script src="../../bower_components/jquery/dist/jquery.min.js"></script>
@@ -47,7 +46,6 @@
       <script src="../../bower_components/angular-cookies/angular-cookies.min.js"></script>
       <script src="../../bower_components/lodash/dist/lodash.min.js"></script>
       <script src="../../bower_components/angular-local-storage/dist/angular-local-storage.min.js"></script>
-      <script src="../../bower_components/angular-datepicker/dist/angular-datepicker.min.js"></script>
       <script src="../../bower_components/bootstrap-switch/dist/js/bootstrap-switch.min.js"></script>
       <script src="../../bower_components/angular-bootstrap-switch/dist/angular-bootstrap-switch.min.js"></script>
       <script src="../../bower_components/ng-clip/dest/ng-clip.min.js"></script>
@@ -68,17 +66,22 @@
       <!-- endbuild -->
 
       <!-- build:js scripts/registration.min.js -->
-      <script src="../poc-common/constants.js"></script>
-      <script src="../poc-common/form-display/init.js"></script>
-      <script src="../poc-common/form-display/services/formService.js"></script>
-      <script src="../poc-common/form-display/mappers/formRequestMapper.js"></script>
-      <script src="../poc-common/form-display/directives/formField.js"></script>
-      <script src="../poc-common/form-display/directives/fieldRead.js"></script>
-      <script src="../poc-common/form-display/directives/recordAvailabilityValidator.js"></script>
-      <script src="../poc-common/form-display/services/formLoader.js"></script>
 
-      <script src="../poc-common/domain/mappers/createEncounterMapper.js"></script>
-      <script src="../poc-common/domain/mappers/updateEncounterMapper.js"></script>
+      <script src="../poc-common/clinical-services/form-display/init.js"></script>
+      <script src="../poc-common/clinical-services/form-display/directives/formField.js"></script>
+      <script src="../poc-common/clinical-services/form-display/directives/fieldRead.js"></script>
+      <script src="../poc-common/clinical-services/form-display/directives/recordAvailabilityValidator.js"></script>
+      <script src="../poc-common/clinical-services/service-form/init.js"></script>
+      <script src="../poc-common/clinical-services/service-form/controllers/formController.js"></script>
+      <script src="../poc-common/clinical-services/service-form/controllers/formPrintController.js"></script>
+      <script src="../poc-common/clinical-services/clinicalServicesProvider.js"></script>
+      <script src="../poc-common/clinical-services/init.js"></script>
+      <script src="../poc-common/clinical-services/directives/clinicalServices.js"></script>
+      <script src="../poc-common/clinical-services/clinicalServicesFormMapper.js"></script>
+      <script src="../poc-common/clinical-services/config.js"></script>
+
+      <script src="../poc-common/clinical-services/mappers/createEncounterMapper.js"></script>
+      <script src="../poc-common/clinical-services/mappers/updateEncounterMapper.js"></script>
 
       <script src="../common/patient/constants.js"></script>
       <script src="../common/patient/init.js"></script>
@@ -91,45 +94,29 @@
       <script src="../common/patient/models/patientConfig.js"></script>
       <script src="../common/patient/mappers/openmrsPatientMapper.js"></script>
       <script src="../common/patient/mappers/patientAttributeTypeMapper.js"></script>
-      <script src="../common/patient/header/controllers/patientHeaderController.js"></script>
-
-      <script src="../poc-common/clinical-services/init.js"></script>
-      <script src="../poc-common/clinical-services/directives/clinicalServices.js"></script>
+      <script src="../common/patient/directives/patientHeader.js"></script>
 
       <script src="../common/constants.js"></script>
       <script src="../common/util/init.js"></script>
       <script src="../common/util/dateUtil.js"></script>
       <script src="../common/util/stringFormat.js"></script>
       <script src="../common/util/validationUtil.js"></script>
-      <script src="../common/util/dynamicResourceLoader.js"></script>
       <script src="../common/util/arrayUtil.js"></script>
-      <script src="../common/util/httpErrorInterceptor.js"></script>
 
       <script src="../common/ui-helper/init.js"></script>
       <script src="../common/ui-helper/spinner.js"></script>
       <script src="../common/ui-helper/directives.js"></script>
-      <script src="../common/ui-helper/directives/toggle.js"></script>
-      <script src="../common/ui-helper/directives/popOver.js"></script>
-      <script src="../common/ui-helper/directives/splitButton.js"></script>
-      <script src="../common/ui-helper/directives/focusOn.js"></script>
-      <script src="../common/ui-helper/directives/conceptAutocomplete.js"></script>
-      <script src="../common/ui-helper/directives/focusMe.js"></script>
       <script src="../common/ui-helper/directives/bahmniAutocomplete.js"></script>
-      <script src="../common/ui-helper/services/contextChangeHandler.js"></script>
       <script src="../common/ui-helper/directives/ngConfirmClick.js"></script>
-      <script src="../common/ui-helper/services/messagingService.js"></script>
       <script src="../common/ui-helper/filters/identifierFilters.js"></script>
       <script src="../common/ui-helper/notifier.js"></script>
 
       <script src="../common/domain/init.js"></script>
       <script src="../common/domain/services/configurationService.js"></script>
-      <script src="../common/domain/observationFilter.js"></script>
-      <script src="../common/domain/mappers/conceptMapper.js"></script>
       <script src="../common/domain/services/visitService.js"></script>
       <script src="../common/domain/services/encounterService.js"></script>
       <script src="../common/domain/services/observationsService.js"></script>
       <script src="../common/domain/services/programService.js"></script>
-      <script src="../common/domain/mappers/observationValueMapper.js"></script>
       <script src="../common/domain/services/alertService.js"></script>
       <script src="../common/domain/services/localeService.js"></script>
       <script src="../common/domain/services/commonService.js"></script>
@@ -138,20 +125,19 @@
 
       <script src="../common/patient/controllers/visitController.js"></script>
 
-
       <script src="../common/config/init.js"></script>
       <script src="../common/config/services/configurations.js"></script>
       <script src="../common/domain/services/locationService.js"></script>
       <script src="../common/domain/services/prescriptionService.js"></script>
 
       <script src="../common/auth/init.js"></script>
+      <script src="../common/auth/config.js"></script>
+      <script src="../common/auth/run.js"></script>
       <script src="../common/auth/user.js"></script>
       <script src="../common/auth/userService.js"></script>
-      <script src="../common/auth/authentication.js"></script>
       <script src="../common/auth/authenticator.js"></script>
       <script src="../common/auth/sessionService.js"></script>
       <script src="../common/auth/authorizationService.js"></script>
-      <script src="../common/auth/directives/btnUserInfo.js"></script>
       <script src="../common/auth/directives/logout.js"></script>
       <script src="../common/auth/directives/pocAuthorize.js"></script>
 
@@ -161,11 +147,11 @@
       <script src="../common/app-framework/services/mergeService.js"></script>
 
       <script src="../common/application/init.js"></script>
-      <script src="../common/application/util-constants.js"></script>
+      <script src="../common/application/constants.js"></script>
+      <script src="../common/application/config.js"></script>
 
       <script src="../common/application/services/adminConfigService.js"></script>
       <script src="../common/application/services/applicationService.js"></script>
-      <script src="../common/application/services/formStateAutoGen.js"></script>
       <script src="../common/application/controllers/searchController.js"></script>
       <script src="../common/application/controllers/similarPatientsController.js"></script>
       <script src="../common/application/controllers/movePatientActionController.js"></script>
@@ -175,14 +161,6 @@
       <script src="../common/uicontrols/init.js"></script>
       <script src="../common/uicontrols/programmanagement/init.js"></script>
       <script src="../common/uicontrols/programmanagement/controllers/manageProgramController.js"></script>
-      <script src="../common/uicontrols/programmanagement/directive/managePrograms.js"></script>
-      <script src="../common/uicontrols/programmanagement/directive/timeline.js"></script>
-
-      <script src="../service-form/constants.js"></script>
-      <script src="../service-form/init.js"></script>
-      <script src="../service-form/controllers/formController.js"></script>
-      <script src="../service-form/controllers/formPrintController.js"></script>
-      <script src="../service-form/controllers/clinicalServiceController.js"></script>
 
       <script src="../common/i18n/init.js"></script>
       <script src="../common/i18n/services/bahmni-translate.js"></script>
@@ -192,24 +170,22 @@
       <script src="../patient-details/controllers/patientDetailController.js"></script>
       <script src="../patient-details/directives/addressFields.js"></script>
       <script src="../patient-details/directives/dynamicElementName.js"></script>
-      <script src="../patient-details/filters/valueOfAddress.js"></script>
       <script src="../patient-details/filters/valueOfOthers.js"></script>
 
       <script src="../pharmacy/services/dispensationService.js"></script>
 
       <script src="init.js"></script>
       <script src="initialization.js"></script>
-      <script src="run-before-app.js"></script>
       <script src="app.js"></script>
-      <script src="run-after-app.js"></script>
       <script src="constants.js"></script>
-      <script src="defaults.js"></script>
       <script src="controllers/dashboardController.js"></script>
+      <script src="controllers/clinicalServicesController.js"></script>
       <script src="controllers/createPatientController.js"></script>
       <script src="controllers/updatePatientController.js"></script>
       <script src="controllers/patientCommonController.js"></script>
       <script src="controllers/servicesListController.js"></script>
       <script src="controllers/scheduleListController.js"></script>
+      <script src="controllers/visitHistoryController.js"></script>
       <script src="mappers/createPatientRequestMapper.js"></script>
       <script src="mappers/updatePatientRequestMapper.js"></script>
       <script>

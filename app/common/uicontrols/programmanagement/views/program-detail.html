@@ -9,9 +9,9 @@
                 <tbody>
                     <tr ng-repeat="state in programSelected.states| orderBy:'auditInfo.dateCreated':true" ng-if="state.voided != true">
                         <td>{{state.state.concept.display}}</td>
-                        <td ng-if="state.endDate">{{state.startDate| date:"MM/dd/yyyy"}} to {{state.endDate| date:"MM/dd/yyyy"}}</td>
-                        <td ng-if="!state.endDate">Started on {{state.startDate| date:"MM/dd/yyyy"}}</td>
-                        <td>By {{state.auditInfo.creator.display}} on {{state.auditInfo.dateCreated| date:"MM/dd/yyyy"}}</td>
+                        <td ng-if="state.endDate">{{state.startDate| date}} to {{state.endDate| date}}</td>
+                        <td ng-if="!state.endDate">Started on {{state.startDate| date}}</td>
+                        <td>By {{state.auditInfo.creator.display}} on {{state.auditInfo.dateCreated| date}}</td>
                         <td class="go-to-right">
                             <button type="button" class="btn btn-danger btn-lg" ng-confirm-click="removePatientState(programSelected)" ng-if="canRemovePatientState(state)">
                                 <span class="glyphicon glyphicon-remove-sign"></span>

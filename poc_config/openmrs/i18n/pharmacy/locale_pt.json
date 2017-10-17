@@ -14,7 +14,7 @@
 	"PHARMACY_PRESCRIBED": "Medicamentos Prescrito",
 	"PHARMACY_DISPENSE": "Aviamento",
 	"PHARMACY_AVAILABLE": "Disponível",
-	"PHARMACY_LIST_NO_ITEMS": "Nemhum item para mostrar",
+	"PHARMACY_LIST_NO_ITEMS": "Nenhum item para mostrar",
   "PHARMACY_DISPENSATION_NO_ITEMS": "Nenhum item para mostrar, selecione das prescrições acima",
   "PHARMACY_LEVEL_OF_ADHERENCE": "Aderência",
 	"PHARMACY_PRESCRIBED_BY": "Prescrito por",
@@ -32,5 +32,6 @@
   "DISPENSATION_CONTROL_CALENDAR": "Calendário de Controlo das Receitas para MARVs",
   "FILA_REPORT_FIRST_FOOT_NOTE": "Registe um X no quadro que corresponda a data de expiração da receita médica. Não avia MARVs a partir desta data até o paciente apresenta uma nova receita",
   "FILA_REPORT_PERSONAL_DATA_NOTE": "Preencha o nº do Livro, Página, e Linha onde o doente foi registado no Registo de TARV depois do 1º levantamento registado",
-  "DISPENSATION_DATE": "Data de Levantamento de ARVs"
+  "DISPENSATION_DATE": "Data de Levantamento de ARVs",
+  "PHARMACY_STATUS": "Estado"
 }

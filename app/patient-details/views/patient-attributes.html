@@ -1,5 +1,5 @@
 <ul class="list-group content-border-margin-regular">
-    <li class="list-group-item" ng-repeat="patientAttribute in patientCommon.patientAttributes">
-        <b>{{patientAttribute.name}}: </b> {{patientAttribute | valueofothers:this}}
-    </li>
+  <li class="list-group-item" ng-repeat="patientAttribute in patientCommon.patientAttributes">
+    <b>{{patientAttribute.name}}: </b> {{patientAttribute | valueofothers:patientCommon.patient}}
+  </li>
 </ul>

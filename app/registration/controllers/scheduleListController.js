@@ -1,22 +1,20 @@
 'use strict';
 
 angular.module('registration')
-        .controller('ScheduleListController', ['$rootScope', '$scope', 'patientService', 
+        .controller('ScheduleListController', ['$rootScope', '$scope', 'patientService',
             'commonService', 'cohortService', 'openmrsPatientMapper', 'observationsService', 'visitService',
-                    function ($rootScope, $scope, patientService, 
+                    function ($rootScope, $scope, patientService,
                         commonService, cohortService, patientMapper, observationsService, visitService) {
-                      
-            //TODO: To be removed if unused          
-            var dateUtil = Bahmni.Common.Util.DateUtil;
+
             $scope.hasSchedules = false;
-    
+
             function init() {
                 cohortService.get(Bahmni.Common.Constants.cohortMarkedForConsultationUuid).success(function (data) {
                         $scope.cohortMembers = data.members;
                         $scope.hasSchedules = true;
 
                     });
-            };
+            }
 
             $scope.getLastConsultationAndVisit = function () {
                 _.forEach($scope.cohortMembers, function (member) {
@@ -27,10 +25,10 @@ angular.module('registration')
                             member.scheduledInfo = _.maxBy(nonRetired, 'encounter.encounterDatetime');
                         });
 
-                    visitService.search({patient: member.uuid, 
+                    visitService.search({patient: member.uuid,
                         v: 'custom:(visitType,startDatetime,stopDatetime,uuid,encounters)'})
-                    .success(function (data) {          
-                        member.lastVisit = _.maxBy(data.results, 'startDatetime');
+                    .then(function (visits) {
+                        member.lastVisit = _.maxBy(visits, 'startDatetime');
                     });
                 });
             };

@@ -2,22 +2,6 @@
   <div class="col-sm-5">
 
     <div>
-
-      <div class="panel panel-primary panel-marginless-sides">
-        <div class="list-group">
-          <div class="list-group-item list-group-item-success">
-            <checkbox largest
-                      name="drugType"
-                      ng-model="vm.prescriptionItem.isArv">
-            </checkbox>
-            Create ARV prescription item?
-          </div>
-        </div>
-      </div>
-
-
-      <div ng-include src="'../common/prescription/views/prescription-arv.html'"></div>
-
       <form name="prescriptionForm" class="form-horizontal" autocomplete="off">
 
         <div class="panel panel-primary panel-marginless-sides">
@@ -37,11 +21,14 @@
                   <div ng-messages for="prescriptionForm.prescriptionDate.$error"
                        ng-messages-include="../poc-common/form-display/views/error-messages.html"
                        ng-show="vm.showMessages"></div>
-                  <input name="prescriptionDate"
-                         type="text"
-                         date-time format="d MMM y" min-view="date" ng-model="vm.prescriptionDate"
-                         id="prescriptionDate"
-                         class="form-control keyboard-in" required/>
+                  <div class="input-group">
+                    <input class="form-control keyboard-in" id="prescriptionDate" type="text" name="prescriptionDate"
+                           uib-datepicker-popup ng-focus="focused=true" is-open="focused" ng-model="vm.prescriptionDate"
+                           required>
+                    <span class="input-group-addon">
+                      <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                  </div>
                 </div>
               </div>
 
@@ -64,7 +51,19 @@
             </div>
           </div>
         </div>
-
+        <div class="panel panel-primary panel-marginless-sides">
+          <div class="list-group">
+            <div class="list-group-item list-group-item-success">
+              <checkbox largest
+                        name="drugType"
+                        ng-model="vm.prescriptionItem.isArv"
+                        ng-change="vm.cleanDrugIfUnchecked()">
+              </checkbox>
+              {{'COMMON_MESSAGE_QUESTION_CREATE_ARV_PRESCRIPTION_ITEM' | translate}}
+            </div>
+          </div>
+        </div>
+        <div ng-include src="'../common/prescription/views/prescription-arv.html'"></div>
         <div class="panel panel-primary panel-marginless-sides">
           <div class="panel-heading">
             <h3 class="panel-title">{{'CLINIC_PRESCRIPTION_DRUG'| translate}}</h3>
@@ -112,12 +111,14 @@
                 class="asterick">*</span></label>
               <div class="col-sm-3">
                 <div ng-messages for="prescriptionForm.doseAmount.$error"
-                     ng-messages-include="../poc-common/form-display/views/error-messages.html"
-                     ng-show="vm.showMessages"></div>
+                     ng-show="vm.showMessages"
+                     ng-messages-include="../poc-common/form-display/views/error-messages.html">
+                  <div class="label label-danger" ng-message="min">{{ 'COMMON_MESSAGE_ERROR_DOSAGE_CANNOT_BE_ZERO' | translate }}</div>
+                </div>
                 <input name="doseAmount" type="number" class="form-control keyboard-in"
                        ng-model="vm.prescriptionItem.drugOrder.dose"
                        placeholder="{{'CLINIC_PRESCRIPTION_DOSE' | translate}}"
-                       min="0"
+                       min="0.1"
                        required>
               </div>
             </div>
@@ -174,11 +175,13 @@
               <div class="col-sm-3">
                 <div ng-messages for="prescriptionForm.duration.$error"
                      ng-messages-include="../poc-common/form-display/views/error-messages.html"
-                     ng-show="vm.showMessages"></div>
+                     ng-show="vm.showMessages">
+                  <div class="label label-danger" ng-message="min">{{ 'COMMON_MESSAGE_ERROR_DURATION_CANNOT_BE_ZERO' | translate }}</div>
+                </div>
                 <input name="duration" type="number" class="form-control keyboard-in"
                        ng-model="vm.prescriptionItem.drugOrder.duration"
                        placeholder="{{'CLINIC_PRESCRIPTION_DURATION' | translate}}"
-                       min="0"
+                       min="0.1"
                        required>
               </div>
               <div class="col-sm-6"
@@ -229,8 +232,6 @@
       </div>
 
     </div>
-
-
   </div>
 
   <div class="col-sm-7">
@@ -283,10 +284,14 @@
           <span class="glyphicon glyphicon-remove-sign"></span>
           <span class="button-label">{{'REMOVE_ALL' | translate}}</span>
         </button>
-        <button class="btn btn-primary btn-lg" type="button" ng-click="vm.save()">
+        <button class="btn btn-primary btn-lg" type="button" ng-click="vm.save(prescriptionForm)" ng-hide="!vm.selectedProvider.uuid" >
+          <span class="glyphicon glyphicon-floppy-disk"></span>
+        </button>
+        <button class="btn btn-primary btn-lg" type="button" ng-click="vm.save(prescriptionForm)"  data-toggle="modal" data-target="#addProviderAndPrescriptionDateModel" ng-hide="vm.selectedProvider.uuid" >
           <span class="glyphicon glyphicon-floppy-disk"></span>
           <span class="button-label">{{'SAVE' | translate}}</span>
         </button>
+
       </div>
     </div>
 
@@ -297,7 +302,7 @@
       <div class="list-group" ng-repeat="existingPrescription in vm.existingPrescriptions">
         <div class="bg-info content-border-padding-li">
           {{'CLINIC_PATIENT_PRESCRIBED' | translate}} {{'COMMON_ON' | translate}}
-          {{existingPrescription.prescriptionDate | date:"MMM d, y"}}
+          {{existingPrescription.prescriptionDate | date}}
         </div>
         <div class="list-group-item" ng-repeat="item in existingPrescription.prescriptionItems">
                    <span>
@@ -352,4 +357,6 @@
 
 <!-- modal dialogs -->
 <div ng-include src="'../common/prescription/views/cancel-prescription.html'"></div>
+<div ng-include src="'../pharmacy/views/modal-provider-and-prescription-date.html'"></div>
+
 

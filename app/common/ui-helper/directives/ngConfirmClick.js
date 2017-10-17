@@ -17,7 +17,7 @@ angular.module('bahmni.common.uiHelper')
                     scope.$apply(clickAction);
                 }
             });
-        }
+        };
         return {
             restrict: 'A',
             link:link

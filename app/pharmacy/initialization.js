@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('pharmacy').factory('initialization',
-    ['$cookies', '$rootScope', 'configurations', 'authenticator', 'appService', 'spinner', 'userService', 'formLoader', 'sessionService',
-    function ($cookies, $rootScope, configurations, authenticator, appService, spinner, userService, formLoader, sessionService) {
+    ['$cookies', '$rootScope', 'configurations', 'authenticator', 'appService', 'spinner', 'userService', 'sessionService',
+    function ($cookies, $rootScope, configurations, authenticator, appService, spinner, userService, sessionService) {
         var getConfigs = function () {
             var configNames = ['patientAttributesConfig', 'addressLevels'];
             return configurations.load(configNames).then(function () {
@@ -11,29 +11,13 @@ angular.module('pharmacy').factory('initialization',
                 $rootScope.patientConfiguration = new Poc.Patient.PatientConfig(patientAttributeTypes.personAttributeTypes, appService.getAppDescriptor().getConfigValue("additionalPatientInformation"));
                 $rootScope.encounterTypes = appService.getAppDescriptor().getConfigValue("encounterTypes");
                 $rootScope.landingPageAfterSearch = appService.getAppDescriptor().getConfigValue("landingPageAfterSearch");
-                $rootScope.landingPageAfterSave = appService.getAppDescriptor().getConfigValue("landingPageAfterSave");
                 $rootScope.defaultVisitTypes = appService.getAppDescriptor().getConfigValue("defaultVisitTypes");
-                $rootScope.addressLevels = configurations.addressLevels();
                 $rootScope.appId = appService.getAppDescriptor().getId();
             });
         };
 
-        var initForms = function () {
-           return formLoader.load(appService.getAppDescriptor().getClinicalServices()).then(function (data) {
-               $rootScope.serviceForms = data;
-           });
-        };
-
         var initDrugMapping = function () {
             $rootScope.drugMapping = appService.getAppDescriptor().getDrugMapping()[0];
-        };
-
-        var initClinicalServices = function () {
-            $rootScope.clinicalServices = appService.getAppDescriptor().getClinicalServices();
-        };
-
-        var initFormLayout = function () {
-            $rootScope.formLayout = appService.getAppDescriptor().getFormLayout();
         };
 
         var initApp = function() {
@@ -59,10 +43,7 @@ angular.module('pharmacy').factory('initialization',
                 .then(initApp)
                 .then(getConfigs)
                 .then(loadUser)
-                .then(initFormLayout)
-                .then(initForms)
                 .then(initDrugMapping)
-                .then(initClinicalServices)
                 .then(loadProvider));
     }]
 );

@@ -53,7 +53,6 @@ module.exports = function (config) {
       'bower_components/angular-translate-handler-log/angular-translate-handler-log.min.js',
       'bower_components/angular-mocks/angular-mocks.js',
       'bower_components/angular-smart-table/dist/smart-table.min.js',
-      'bower_components/angular-datepicker/dist/angular-datepicker.min.js',
       'bower_components/bootstrap-switch/dist/js/bootstrap-switch.min.js',
       'bower_components/angular-bootstrap-switch/dist/angular-bootstrap-switch.min.js',
       'bower_components/ng-clip/dest/ng-clip.min.js',
@@ -73,8 +72,6 @@ module.exports = function (config) {
       'bower_components/angular-breadcrumb/dist/angular-breadcrumb.js',
 
       // endbower
-      // bundled libraries
-      'lib/modernizr.custom.80690.js',
       // application files
       'app/**/*.js',
       'app/home/**/*.js',
@@ -124,7 +121,7 @@ module.exports = function (config) {
     // - PhantomJS
     // - IE (only Windows)
     browsers: [
-      'PhantomJS'
+      'ChromeHeadless'
     ],
 
     // Which plugins to enable

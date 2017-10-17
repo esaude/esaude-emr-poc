@@ -1,19 +1,19 @@
 'use strict';
 
 angular.module('clinic')
-        .controller('ScheduleListController', ['$rootScope', '$scope', 
+        .controller('ScheduleListController', ['$rootScope', '$scope',
             'commonService', 'cohortService', 'observationsService', 'visitService',
                     function ($rootScope, $scope, commonService, cohortService, observationsService, visitService) {
 
             $scope.hasSchedules = false;
-    
+
             function init() {
                 cohortService.getWithParams(Bahmni.Common.Constants.cohortMarkedForConsultationAndCheckedInUuid, {providerUuid: $rootScope.currentProvider.uuid}).success(function (data) {
                         $scope.cohortMembers = data.members;
                         $scope.hasSchedules = true;
 
                     });
-            };
+            }
 
             $scope.getLastConsultationAndVisit = function () {
                 _.forEach($scope.cohortMembers, function (member) {
@@ -24,10 +24,10 @@ angular.module('clinic')
                             member.scheduledInfo = _.maxBy(nonRetired, 'encounter.encounterDatetime');
                         });
 
-                    visitService.search({patient: member.uuid, 
+                    visitService.search({patient: member.uuid,
                         v: 'custom:(visitType,startDatetime,stopDatetime,uuid,encounters)'})
-                    .success(function (data) {          
-                        member.lastVisit = _.maxBy(data.results, 'startDatetime');
+                    .then(function (visits) {
+                        member.lastVisit = _.maxBy(visits, 'startDatetime');
                     });
                 });
             };

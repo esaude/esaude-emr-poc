@@ -32,7 +32,7 @@
       }).then(function (data) {
         return data.data.uuid;
       }).catch(function (error) {
-        $log.error('XHR Failed for createDispensation. ' + error.data);
+        $log.error('XHR Failed for createDispensation: ' + error.data.error.message);
         return $q.reject(error);
       });
     }

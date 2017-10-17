@@ -1,124 +1,204 @@
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('common.patient')
-        .controller('VisitController', ['$rootScope', '$scope', '$stateParams', '$location', 'visitService', 'encounterService',
-            'commonService', 'localStorageService','patientService',
-                    function ($rootScope, $scope, $stateParams, $location, visitService, encounterService,
-                        commonService, localStorageService, patientService) {
-            var patientUuid;
-            var dateUtil = Bahmni.Common.Util.DateUtil;
+  angular
+    .module('common.patient')
+    .controller('VisitController', VisitController);
 
-            function init() {
-                patientUuid = $stateParams.patientUuid;
-                $scope.todayVisit = null;
-                $scope.lastUnclosedVisit = null;
-                $scope.disableCheckin = false;
+  VisitController.$inject = ['$rootScope', '$stateParams', '$filter', 'visitService', 'encounterService',
+    'commonService', 'localStorageService', 'patientService', 'notifier'];
 
-                visitService.search({patient: patientUuid,
-                    v: 'custom:(visitType,startDatetime,stopDatetime,uuid,encounters)'})
-                .success(function (data) {
-                    $scope.lastVisit = _.maxBy(data.results, 'startDatetime');
-                });
-
-                patientService.getPatient(patientUuid).then(function (patient) {
-                  encounterService.getEncountersForEncounterType(patientUuid,
-                    (patient.age.years >= 15) ? $rootScope.encounterTypes.followUpAdult :
-                      $rootScope.encounterTypes.followUpChild)
-                    .success(function (data) {
-                        var last = _.maxBy(data.results, 'encounterDatetime');
-                        if (!last) return;
-                        $scope.lastConsultation = last;
-                        $scope.nextConsultation = _.find(last.obs, function (o) {
-                          return o.concept.uuid === "e1dae630-1d5f-11e0-b929-000c29ad1d07";
-                        });
-                      }
-                    );
-                });
+  /* @ngInject */
+  function VisitController($rootScope, $stateParams, $filter, visitService, encounterService, commonService,
+                           localStorageService, patientService, notifier) {
 
 
-                encounterService.getEncountersForEncounterType(patientUuid, $rootScope.encounterTypes.fila)
-                            .success(function (data) {
-                                var last = _.maxBy(data.results, 'encounterDatetime');
-                                if (!last) return;
-                                $scope.lastPharmacy = last;
-                                $scope.nextPharmacy = _.find(last.obs, function (o) {
-                                    return o.concept.uuid === "e1e2efd8-1d5f-11e0-b929-000c29ad1d07";
-                                });
-                            }
-                );
+    var dateFilter = $filter('date');
+    var translateFilter = $filter('translate');
 
-                visitService.search({patient: patientUuid, v: "full"}).success(searchVisitByPatientCallback);
-            };
+    var dateUtil = Bahmni.Common.Util.DateUtil;
+    var isFirstVisit = false;
+    var lastVisit = null;
+    var patientUuid = $stateParams.patientUuid;
 
-            var searchVisitByPatientCallback = function (data) {
-                var nonRetired = commonService.filterRetired(data.results);
-                $scope.isFirstVisit = _.isEmpty(nonRetired);
-                var unclosed = visitService.activeVisits(nonRetired);
-                //in case the patient has an active visit
-                if (!_.isEmpty(unclosed)) {
-                    $scope.lastUnclosedVisit = _.maxBy(unclosed, 'startDatetime');
-                    $scope.lastUnclosedVisit = fixVisitDatetime($scope.lastUnclosedVisit);
-                    $scope.disableCheckin = true;
-                } else {
-                    var lastVisit = _.maxBy(nonRetired, 'startDatetime');
-                    lastVisit = fixVisitDatetime(lastVisit);
-                    var now = dateUtil.now();
+    var vm = this;
+    vm.disableCheckin = false;
+    vm.lastConsultationMessage = translateFilter('COMMON_NONE');
+    vm.lastConsultation = null;
+    vm.lastPharmacyMessage = translateFilter('COMMON_NONE');
+    vm.lastPharmacy = null;
+    vm.lastUnclosedVisit = null;
+    vm.lastVisitMessage = translateFilter('COMMON_NONE');
+    vm.nextConsultationMessage = translateFilter('COMMON_NOT_SCHEDULED');
+    vm.nextConsultation = null;
+    vm.nextPharmacy = null;
+    vm.todayVisit = null;
 
-                    //is last visit todays
-                  if (lastVisit
-                        && dateUtil.parseDatetime(lastVisit.startDatetime) <= now
-                        && dateUtil.parseDatetime(lastVisit.stopDatetime) >= now) {
-                    $scope.todayVisit = lastVisit;
-                    $scope.disableCheckin = true;
-                  }
-                }
-            };
+    vm.checkIn = checkIn;
 
-            $scope.checkIn = function () {
-                var visitType = null;
-                if ($scope.isFirstVisit) {
-                    visitType = _.find($rootScope.defaultVisitTypes, function (o) {
-                        return o.occurOn === "first";
-                    });
-                } else {
-                    visitType = _.find($rootScope.defaultVisitTypes, function (o) {
-                        return o.occurOn === "following";
-                    });
-                }
-                var location = localStorageService.cookie.get("emr.location");
-                //create visit object
-                var visit = {
-                    patient: patientUuid,
-                    visitType: visitType.uuid,
-                    location: location.uuid,
-                    startDatetime: dateUtil.now(),
-                    stopDatetime: dateUtil.endOfToday()
-                };
-                visitService.create(visit).success(successCallback);
-            };
+    activate();
 
-            var successCallback = function (visitProfileData) {
-                $scope.todayVisit = visitProfileData;
-                $scope.todayVisit.startDatetime = dateUtil.removeOffset($scope.todayVisit.startDatetime);
-                $scope.todayVisit.stopDatetime = dateUtil.removeOffset($scope.todayVisit.stopDatetime);
-                $rootScope.hasVisitToday = true;
-                $scope.disableCheckin = true;
-            };
+    ////////////////
 
-            var fixVisitDatetime = function (visit) {
-              if(visit){
-                  visit.startDatetime = dateUtil.removeOffset(visit.startDatetime);
-                  visit.stopDatetime = dateUtil.removeOffset(visit.stopDatetime);
-                  return visit;
-              }
-            }
+    function activate() {
+      visitService.search({
+        patient: patientUuid,
+        v: 'custom:(visitType,startDatetime,stopDatetime,uuid,encounters)'
+      })
+        .then(function (visits) {
+          lastVisit = _.maxBy(visits, 'startDatetime');
+          updateLastVisitMessage();
+        });
 
-            $scope.visitHistory = function () {
-              encounterService.getEncountersOfPatient(patientUuid).success(function (data) {
-                $scope.visits = commonService.filterGroupReverse(data);
+      patientService.getPatient(patientUuid).then(function (patient) {
+        encounterService.getEncountersForEncounterType(patientUuid,
+          (patient.age.years >= 15) ? $rootScope.encounterTypes.followUpAdult :
+            $rootScope.encounterTypes.followUpChild)
+          .success(function (data) {
+              var last = _.maxBy(data.results, 'encounterDatetime');
+              if (!last) return;
+              vm.lastConsultation = last;
+              vm.nextConsultation = _.find(last.obs, function (o) {
+                return o.concept.uuid === "e1dae630-1d5f-11e0-b929-000c29ad1d07";
               });
+              updateConsultationMessages();
             }
+          );
+      });
 
-            init();
 
-        }]);
+      encounterService.getEncountersForEncounterType(patientUuid, $rootScope.encounterTypes.fila)
+        .success(function (data) {
+            var last = _.maxBy(data.results, 'encounterDatetime');
+            if (!last) return;
+            vm.lastPharmacy = last;
+            vm.nextPharmacy = _.find(last.obs, function (o) {
+              return o.concept.uuid === "e1e2efd8-1d5f-11e0-b929-000c29ad1d07";
+            });
+            updatePharmacyMessages();
+          }
+        );
+
+      visitService.search({patient: patientUuid, v: "full"}).then(searchVisitByPatientCallback);
+    }
+
+    function searchVisitByPatientCallback(visits) {
+      var nonRetired = commonService.filterRetired(visits);
+      isFirstVisit = _.isEmpty(nonRetired);
+      var unclosed = visitService.activeVisits(nonRetired);
+      //in case the patient has an active visit
+      if (!_.isEmpty(unclosed)) {
+        vm.lastUnclosedVisit = _.maxBy(unclosed, 'startDatetime');
+        vm.lastUnclosedVisit = fixVisitDatetime(vm.lastUnclosedVisit);
+        vm.disableCheckin = true;
+      } else {
+        var lastVisit = _.maxBy(nonRetired, 'startDatetime');
+        lastVisit = fixVisitDatetime(lastVisit);
+        var now = dateUtil.now();
+
+        //is last visit todays
+        if (lastVisit
+          && dateUtil.parseDatetime(lastVisit.startDatetime) <= now
+          && dateUtil.parseDatetime(lastVisit.stopDatetime) >= now) {
+          vm.todayVisit = lastVisit;
+          vm.disableCheckin = true;
+        }
+      }
+    }
+
+    function checkIn() {
+      var location = localStorageService.cookie.get("emr.location");
+      if (!location) {
+        notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
+        return;
+      }
+
+      var visitType = null;
+      if (isFirstVisit) {
+        visitType = _.find($rootScope.defaultVisitTypes, function (o) {
+          return o.occurOn === "first";
+        });
+      } else {
+        visitType = _.find($rootScope.defaultVisitTypes, function (o) {
+          return o.occurOn === "following";
+        });
+      }
+
+      //create visit object
+      var visit = {
+        patient: patientUuid,
+        visitType: visitType.uuid,
+        location: location.uuid,
+        startDatetime: dateUtil.now(),
+        stopDatetime: dateUtil.endOfToday()
+      };
+
+      visitService.create(visit)
+        .then(successCallback)
+        .catch(function () {
+          notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
+        });
+    }
+
+    function successCallback(visitProfileData) {
+      vm.todayVisit = visitProfileData;
+      vm.todayVisit.startDatetime = dateUtil.removeOffset(vm.todayVisit.startDatetime);
+      vm.todayVisit.stopDatetime = dateUtil.removeOffset(vm.todayVisit.stopDatetime);
+      $rootScope.hasVisitToday = true;
+      vm.disableCheckin = true;
+    }
+
+    function fixVisitDatetime(visit) {
+      if (visit) {
+        visit.startDatetime = dateUtil.removeOffset(visit.startDatetime);
+        visit.stopDatetime = dateUtil.removeOffset(visit.stopDatetime);
+        return visit;
+      }
+    }
+
+    function updateLastVisitMessage() {
+      if (lastVisit) {
+        vm.lastVisitMessage = lastVisit.visitType.name + ' ' + translateFilter('COMMON_FROM') + ' '
+          + dateFilter(lastVisit.startDatetime, 'short') + ' ' + translateFilter('COMMON_TO') + ' '
+          + dateFilter(lastVisit.stopDatetime, 'short')
+      } else {
+        vm.lastVisitMessage = translateFilter('COMMON_NONE');
+      }
+    }
+
+    function updateConsultationMessages() {
+      if (vm.lastConsultation) {
+        vm.lastConsultationMessage = translateFilter('COMMON_LAST') + ': '
+          + dateFilter(vm.lastConsultation.encounterDatetime, 'short')
+          + ' | ' + translateFilter('COMMON_BY') + ': ' + vm.lastConsultation.provider.display + ' | '
+          + translateFilter('COMMON_NEXT') + ': ';
+      } else {
+        vm.lastConsultationMessage = translateFilter('COMMON_NONE');
+      }
+
+      if (vm.nextConsultation) {
+        vm.nextConsultationMessage = dateFilter(vm.nextConsultation.value, 'short');
+      } else {
+        vm.nextConsultationMessage = translateFilter('COMMON_NOT_SCHEDULED');
+      }
+    }
+
+    function updatePharmacyMessages() {
+      if (vm.lastPharmacy) {
+        vm.lastPharmacyMessage = translateFilter('COMMON_LAST') + ': '
+          + dateFilter(vm.lastPharmacy.encounterDatetime, 'short')
+          + ' | ' + translateFilter('COMMON_BY') + ': ' + vm.lastPharmacy.provider.display + ' | '
+          + translateFilter('COMMON_NEXT') + ': ';
+      } else {
+        vm.lastPharmacyMessage = translateFilter('COMMON_NONE');
+      }
+
+      if (vm.nextPharmacy) {
+        vm.nextPharmacyMessage = dateFilter(vm.nextPharmacy.value, 'short');
+      } else {
+        vm.nextPharmacyMessage = translateFilter('COMMON_NOT_SCHEDULED');
+      }
+    }
+  }
+
+})();

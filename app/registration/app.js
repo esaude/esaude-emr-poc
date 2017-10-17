@@ -25,9 +25,6 @@
       }
     });
 
-    // used in formStateAutoGen
-    // TODO: check if formStateAutoGen can be run in angular configuration phase to eliminating this hack!!!
-    $stateProviderRef = $stateProvider;
     $bahmniTranslateProvider.init({app: 'registration', shouldMerge: true});
 
     $stateProvider
@@ -60,7 +57,9 @@
             templateUrl: 'views/dashboard.html'
           }
         },
-        resolve: {initialization: 'initialization'},
+        resolve: {
+          initialization: 'initialization'
+        },
         ncyBreadcrumb: {
           label: '{{ \'COMMON_DASHBOARD\' | translate}}',
           parent: 'search'
@@ -79,7 +78,8 @@
       .state('dashboard.visits', {
         url: '/visits',
         templateUrl: 'views/patient-visits.html',
-        controller: 'VisitController',
+        controller: 'VisitHistoryController',
+        controllerAs: 'vm',
         ncyBreadcrumb: {
           label: '{{\'COMMON_VISIT_HISTORY_TITLE\' | translate}}',
           parent: 'dashboard',
@@ -89,10 +89,17 @@
       .state('dashboard.services', {
         url: '/services',
         templateUrl: 'views/patient-services.html',
+        controller: 'ClinicalServicesController',
+        controllerAs: 'vm',
         ncyBreadcrumb: {
           label: '{{\'COMMON_CLINIC_SERVICES_TITLE\' | translate}}',
           parent: 'dashboard',
           skip: true
+        },
+        resolve: {
+          clinicalServicesService: function (clinicalServicesService) {
+            return clinicalServicesService.init('registration');
+          }
         }
       })
       .state('dashboard.alerts', {
@@ -197,6 +204,16 @@
         ncyBreadcrumb: {
           label: '{{\'EDIT_PATIENT\' | translate }}',
           parent: 'dashboard'
+        },
+        params: {
+          returnState: null
+        },
+        resolve: {
+          patient: function ($stateParams, initialization, patientService) {
+            return initialization.then(function () {
+              return patientService.getPatient($stateParams.patientUuid);
+            });
+          }
         }
       })
       .state('editpatient.name', {
@@ -279,6 +296,12 @@
         ncyBreadcrumb: {
           label: '{{\'PATIENT_DETAILS\' | translate }}',
           parent: 'dashboard'
+        },
+        params: {
+          returnState: null
+        },
+        resolve: {
+          initialization: 'initialization'
         }
       });
   }

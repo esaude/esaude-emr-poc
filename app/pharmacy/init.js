@@ -1,6 +1,5 @@
 angular
-  .module('pharmacy',
-    [
+  .module('pharmacy', [
       'application',
       'bahmni.common.appFramework',
       'bahmni.common.appFramework',
@@ -12,7 +11,6 @@ angular
       'barcodeListener',
       'common.patient',
       'common.prescription',
-      'datePicker',
       'frapontillo.bootstrap-switch',
       'LocalStorageModule',
       'ngCookies',
@@ -21,14 +19,8 @@ angular
       'ngRoute',
       'pascalprecht.translate',
       'patient.details',
-      'poc.common.clinicalservices',
-      'serviceform',
       'smart-table',
       'ui.bootstrap',
       'ui.checkbox',
       'ui.router'
-    ]
-  );
-//to be initialized by config inside app.js
-//needed in dynamic states
-var $stateProviderRef = null;
+    ]);

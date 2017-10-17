@@ -5,15 +5,16 @@
     .module('bahmni.common.domain')
     .factory('visitService', visitService);
 
-  visitService.$inject = ['$http', '$log', '$q', 'commonService'];
+  visitService.$inject = ['$http', '$log', '$q', 'commonService', 'encounterService'];
 
   /* @ngInject */
-  function visitService($http, $log, $q, commonService) {
+  function visitService($http, $log, $q, commonService, encounterService) {
     var service = {
       activeVisits: activeVisits,
       create: create,
       getTodaysVisit: getTodaysVisit,
       getVisit: getVisit,
+      getVisitHistoryForPatient: getVisitHistoryForPatient,
       search: search
     };
     return service;
@@ -30,15 +31,20 @@
       return $http.post(Bahmni.Common.Constants.visitUrl, visit, {
         withCredentials: true,
         headers: {"Accept": "application/json", "Content-Type": "application/json"}
+      }).then(function (response) {
+        return response.data;
+      }).catch(function (error) {
+        $log.error('XHR Failed for create: ' + error.data.error.message);
+        return $q.reject(error);
       });
     }
 
     function getTodaysVisit(patientUUID) {
       var dateUtil = Bahmni.Common.Util.DateUtil;
 
-      return search({patient: patientUUID, v: "full"}).then(function (response) {
+      return search({patient: patientUUID, v: "full"}).then(function (visits) {
 
-          var nonRetired = commonService.filterRetired(response.data.results);
+          var nonRetired = commonService.filterRetired(visits);
 
           if (!_.isEmpty(nonRetired)) {
 
@@ -56,7 +62,7 @@
           return null;
         })
         .catch(function (error) {
-          $log.error('XHR Failed for getTodaysVisit. ' + error.data);
+          $log.error('XHR Failed for getTodaysVisit: ' + error.data.error.message);
           return $q.reject(error);
         });
     }
@@ -76,6 +82,19 @@
       return $http.get(Bahmni.Common.Constants.visitUrl, {
         params: params,
         withCredentials: true
+      })
+        .then(function (response) {
+          return response.data.results;
+        })
+        .catch(function (error) {
+          $log.error('XHR Failed for search: ' + error.data.error.message);
+          return $q.reject(error);
+        });
+    }
+
+    function getVisitHistoryForPatient(patient) {
+      return encounterService.getEncountersOfPatient(patient.uuid).then(function (response) {
+        return commonService.filterGroupReverse(response.data);
       });
     }
   }

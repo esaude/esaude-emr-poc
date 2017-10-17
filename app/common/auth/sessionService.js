@@ -18,7 +18,8 @@
       getSession: getSession,
       loadCredentials: loadCredentials,
       loadProviders: loadProviders,
-      loginUser: loginUser
+      loginUser: loginUser,
+      setLocale: setLocale
     };
     return service;
 
@@ -33,8 +34,8 @@
 
     function hasAnyActiveProvider(providers) {
       return _.filter(providers, function (provider) {
-          return (angular.isUndefined(provider.retired) || provider.retired === "false")
-        }).length > 0;
+        return (angular.isUndefined(provider.retired) || provider.retired === "false")
+      }).length > 0;
     }
 
     function destroy() {
@@ -54,7 +55,8 @@
           return (response.data.results.length > 0) ? response.data.results[0] : undefined;
         })
         .catch(function (error) {
-          $log.error('Could not load current provider. ' + error.data);
+          $log.error('Could not load current provider: ' + error.data.error.message);
+          return $q.reject(error);
         });
     }
 
@@ -62,11 +64,12 @@
       var currentUser = $cookies.get(Bahmni.Common.Constants.currentUser);
 
       return userService.getUser(currentUser)
-        .then(function(response) {
+        .then(function (response) {
           return response.data.results[0];
         })
         .catch(function (error) {
-          $log.error('XHR Failed for getCurrentUser. ' + error.data);
+          $log.error('XHR Failed for getCurrentUser: ' + error.data.error.message);
+          return $q.reject(error);
         });
     }
 
@@ -91,7 +94,7 @@
           return response.data;
         })
         .catch(function (error) {
-          $log.error('XHR Failed for getSession. ' + error.data);
+          $log.error('XHR Failed for getSession: ' + error.data.error.message);
           return $q.reject(error);
         });
     }
@@ -135,6 +138,15 @@
         },
         cache: false
       });
+    }
+
+    function setLocale(locale) {
+      return $http.post(SESSION_RESOURCE_PATH, {locale: locale}).then(function (response) {
+        return null; // Endpoint Does not return anything
+      }).catch(function (error) {
+        $log.error('XHR Failed for setLocale: ' + error.data.error.message);
+        return $q.reject(error);
+      })
     }
   }
 

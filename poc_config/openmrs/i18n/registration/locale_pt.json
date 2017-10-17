@@ -75,7 +75,8 @@
     "PATIENT_INFO_DEATH_DATE": "Data de morte",
     "PATIENT_INFO_DEATH_REASON": "Motivo de morte",
     "PATIENT_INFO_DEAD": "Obitou",
-    "PATIENT_INFO_NEW": "Registrar novo paciente",
+    "PATIENT_INFO_NEW": "Registrar paciente",
+    "PATIENT_INFO_EDIT": "Alterar paciente",
     "LOGIN_LABEL_LOGGEDIN_KEY": "Entrou como",
     "PATIENT_DAILY_HOSPITAL_PROCESS" : "PROCESSO HOSPITAL DE DIA",
     "SIMILAR_PATIENTS": "Pacientes similares",
@@ -89,5 +90,9 @@
     "Bairro":"Bairro",
     "Celula":"Celula",
     "Av./Rua/Casa": "Av./Rua/Casa",
-    "NEW_PATIENT": "Novo Paciente"
+    "NEW_PATIENT": "Novo Paciente",
+    "DELETE_PATIENT": "Apagar Paciente",
+    "REASON_TO_DELETE": "Motivo para Anular",
+    "PATIENT_DELETED": "Paciente removido com sucesso"
+
 }

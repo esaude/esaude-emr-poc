@@ -14,6 +14,7 @@
 
     $scope.actions = {};
     $scope.addressHierarchyConfigs = appService.getAppDescriptor().getConfigValue("addressHierarchy");
+    $scope.headerText = "PATIENT_INFO_NEW";
     $scope.patient = patient.create();
     $scope.srefPrefix = "newpatient.";
 
