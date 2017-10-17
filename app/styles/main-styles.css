@@ -203,19 +203,19 @@ p.capitalize {
 
 /* Header */
 .navbar {
-  min-height: 62px;
+  min-height: 80px;
   padding: 0;
 }
 
 .navbar .navbar-brand {
   line-height: 34px;
-  height: 62px;       /* navbar min-height */
+  height: 80px;       /* navbar min-height */
   color: #ffffff;
 }
 
 .navbar .navbar-nav li a {
-  line-height: 62px;  /* navbar min-height */
-  height: 62px;       /* navbar min-height */
+  line-height: 80px;  /* navbar min-height */
+  height: 80px;       /* navbar min-height */
   padding-top: 0;
 }
 
@@ -257,6 +257,12 @@ p.capitalize {
   align-items: center;
   justify-content: center;
   height: 85vh;
+}
+
+.login .logo {
+  display: block;
+  margin: 0 auto 20px;
+  max-width: 100%;
 }
 
 .login form {
