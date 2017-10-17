@@ -5,9 +5,9 @@
     .module('common.patient')
     .factory('patientService', patientService);
 
-  patientService.$inject = ['$http', '$rootScope', 'openmrsPatientMapper', '$q', '$log', 'reportService', 'prescriptionService'];
+  patientService.$inject = ['$http', '$rootScope', 'openmrsPatientMapper', '$q', '$log', 'reportService', 'prescriptionService', 'dispensationService'];
 
-  function patientService($http, $rootScope, openmrsPatientMapper, $q, $log, reportService, prescriptionService) {
+  function patientService($http, $rootScope, openmrsPatientMapper, $q, $log, reportService, prescriptionService, dispensationService) {
 
     var OPENMRS_URL = Poc.Patient.Constants.openmrsUrl;
 
@@ -118,15 +118,12 @@
      * @param {Array} pickups
      */
     function printPatientARVPickupHistory(year, patientUuid, pickups) {
+      var getDispensation = dispensationService.getDispensation(patientUuid, '01-01-2017', '10-09-2017');
       var _getPatient = getPatient(patientUuid);
-      var getPrescriptions = prescriptionService.getPatientNonDispensedPrescriptions(patientUuid);
 
-      $q.all([_getPatient, getPrescriptions]).then(function (values) {
+      $q.all([_getPatient, getDispensation]).then(function (values) {
         var patient = values[0];
-        patient.pickups = pickups;
-        patient.prescriptions = _.filter(values[1], function (p) {
-          return p.prescriptionDate.getFullYear() === year;
-        });
+        patient.dispensations = values[1];
         reportService.printPatientARVPickupHistory(patient);
       });
     }

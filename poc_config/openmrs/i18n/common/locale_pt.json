@@ -282,8 +282,10 @@
     "LIST": "Listar",
     "CLEAR": "Limpar",
     "REMOVE_ALL": "Remover Todos",
-    "FIRST.ABRV": "1ª",
-    "SECOND.ABRV": "2ª",
-    "THIRD.ABRV": "3ª",
-    "FORTH.ABRV": "4ª"
+    "FIRST_ABRV": "1ª",
+    "SECOND_ABRV": "2ª",
+    "THIRD_ABRV": "3ª",
+    "FORTH_ABRV": "4ª",
+    "START_DATE": "Data Inicial",
+    "END_DATE": "Data Final"
 }

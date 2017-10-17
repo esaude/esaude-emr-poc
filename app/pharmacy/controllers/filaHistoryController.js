@@ -5,9 +5,9 @@
     .module('pharmacy')
     .controller('FilaHistoryController', FilaHistoryController);
 
-  FilaHistoryController.$inject = ['$stateParams', 'encounterService', 'patientService'];
+  FilaHistoryController.$inject = ['$stateParams', 'encounterService', 'patientService', 'dispensationService', '$q'];
 
-  function FilaHistoryController($stateParams, encounterService, patientService) {
+  function FilaHistoryController($stateParams, encounterService, patientService, dispensationService, $q) {
     var patientUUID = $stateParams.patientUuid;
     var pickups = [];
     var now = new Date();
@@ -19,13 +19,31 @@
     vm.years = [vm.year];
     vm.onDateChange = onDateChange;
     vm.onPrint = onPrint;
+    vm.onStartDateChange = onStartDateChange;
+
+    vm.endDate = moment().startOf('day').toDate();
+    vm.startDate = moment().add(-1, 'year').startOf('day').toDate();
 
     activate();
 
     ////////////////
 
     function activate() {
-      encounterService.getPatientFilaEncounters(patientUUID).then(function (encounters) {
+
+      var getDispensation = dispensationService.getDispensation(patientUUID, '01-01-2017', '10-09-2017');
+      $q.all([getDispensation]).then(function (values) {
+        var groupedDispensations = values[0];
+        var dispensations = [];
+        groupedDispensations.forEach(function (groupedDispensation) {
+          groupedDispensation.dispensationItems.forEach(function (dispensationItem) {
+            dispensations.push(dispensationItem)
+          });
+        });
+        vm.displayedPickups = dispensations;
+        vm.filteredPickups = dispensations;
+      });
+
+      /*encounterService.getPatientFilaEncounters(patientUUID).then(function (encounters) {
 
         if (encounters.length === 0)
           return;
@@ -39,7 +57,7 @@
         vm.displayedPickups = encounters;
         vm.filteredPickups = encounters;
         onDateChange();
-      });
+      });*/
     }
 
     /**
@@ -49,6 +67,12 @@
       vm.filteredPickups = _.filter(pickups, function (p) {
         return p.encounterDatetime.getFullYear() === vm.year;
       });
+    }
+
+    function onStartDateChange() {
+      if (vm.startDate) {
+        //vm.endDate = moment(vm.startDate).add(1, 'year').toDate();
+      }
     }
 
     function onPrint() {

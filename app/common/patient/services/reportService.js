@@ -13,7 +13,7 @@
 
     var PATIENT_DAILY_HOSPITAL_PROCESS_TEMPLATE = "../patient-details/views/patient-daily-hospital-process-report.html";
 
-    var NUMBER_OF_DISPLACEMENT_LINES = 8;
+    var NUMBER_OF_DISPLACEMENT_LINES = 12;
     var WEEKS_IN_MONTH = 4;
     var MONTHS_IN_YEAR = 12;
 
@@ -28,6 +28,7 @@
      * @param {Object} patient
      */
     function printPatientARVPickupHistory(patient) {
+      console.log(patient);
       var vm = {};
       vm.patient = patient;
       vm.months = moment.monthsShort();
@@ -36,16 +37,10 @@
       fillCalendar(vm);
 
       var emptyFilaDisplacement = getEmptyFilaDisplacement();
-      vm.filaDisplacements1 = Array(NUMBER_OF_DISPLACEMENT_LINES);
-      vm.filaDisplacements2 = Array(NUMBER_OF_DISPLACEMENT_LINES);
-      fill(vm.filaDisplacements1, emptyFilaDisplacement);
-      fill(vm.filaDisplacements2, emptyFilaDisplacement);
+      vm.filaDisplacements1 = [];
+      vm.filaDisplacements2 = [];
 
       fillDisplacements(vm);
-
-      vm.filaDisplacements1[0].dateRowSpanSize = 3;
-      vm.filaDisplacements1[1].dateRowSpanSize = 0;
-      vm.filaDisplacements1[2].dateRowSpanSize = 0;
 
       loadTemplate(PATIENT_ARV_PICKUP_HISTORY_TEMPLATE)
         .then(compileWith(vm))
@@ -58,42 +53,69 @@
       }
     }
 
-    function fillDisplacements(vm) {
-      var pickups = vm.patient.pickups;
-      var allFilaDisplacements = [];
-      pickups.forEach(function (pickup) {
-        var filaDisplacement = generateFilaDisplacement(pickup);
-        allFilaDisplacements.unshift(filaDisplacement);
-      });
-
-      allFilaDisplacements = allFilaDisplacements.reverse();
-      allFilaDisplacements.forEach(function (displacement) {
-        vm.filaDisplacements1.pop();
-        vm.filaDisplacements1.unshift(displacement);
-      });
+    function padRight(array, size, padValue) {
+      var entriesToAdd = size - array.length;
+      if (entriesToAdd > 0) {
+        for (var i = 1; i <= entriesToAdd; i++) {
+          array.push(padValue);
+        }
+      }
     }
 
-    function generateFilaDisplacement(pickup) {
-      var filaDisplacement = getEmptyFilaDisplacement();
-      filaDisplacement.date = pickup.encounterDatetime;
-      filaDisplacement.displacements[0].medicine = pickup.regimen;
-      filaDisplacement.displacements[0].quantity = pickup.quantity;
-      filaDisplacement.displacements[0].dosage = pickup.posology;
-      filaDisplacement.displacements[0].nextDisplacement = pickup.nextPickup;
-      return filaDisplacement;
+    function fillDisplacements(vm) {
+      var allFilaDisplacements = [];
+      vm.patient.dispensations.forEach(function (dispensation) {
+        var filaDispensations = generateFilaDispensations(dispensation);
+        filaDispensations.forEach(function (filaDispensation) {
+          allFilaDisplacements.push(filaDispensation);
+        });
+      });
+
+      if (allFilaDisplacements.length > NUMBER_OF_DISPLACEMENT_LINES) {
+        vm.filaDisplacements1 = allFilaDisplacements.slice(0, NUMBER_OF_DISPLACEMENT_LINES);
+        vm.filaDisplacements2 = allFilaDisplacements.slice(NUMBER_OF_DISPLACEMENT_LINES);
+        var firstDisplacementOfSecondList = vm.filaDisplacements2[0];
+        firstDisplacementOfSecondList.dateRowSpanSize = firstDisplacementOfSecondList.remainingRowSpanSize;
+      } else {
+        vm.filaDisplacements1 = allFilaDisplacements;
+      }
+      padRight(vm.filaDisplacements1, NUMBER_OF_DISPLACEMENT_LINES, getEmptyFilaDisplacement());
+      padRight(vm.filaDisplacements2, NUMBER_OF_DISPLACEMENT_LINES, getEmptyFilaDisplacement());
+    }
+
+    function generateFilaDispensations(dispensation) {
+      var filaDispensations = [];
+      var dispensationItems = dispensation.dispensationItems;
+      if (dispensationItems.length > 0) {
+        var rowSpanSize = dispensationItems.length;
+        var remainingRowSpanSize = rowSpanSize;
+        dispensationItems.forEach(function (dispensationItem) {
+          var displacement = {
+            dateRowSpanSize: rowSpanSize,
+            remainingRowSpanSize: remainingRowSpanSize,
+            date: dispensationItem.dispensationItemCreationDate,
+            medicine: dispensationItem.drugOrder.drug.display,
+            quantity: dispensationItem.quantityDispensed,
+            dosage: dispensationItem.drugOrder.dose + ' ' + dispensationItem.drugOrder.doseUnits.display + ' ' + dispensationItem.drugOrder.frequency.display,
+            nextDisplacement: dispensationItem.dateOfNextPickUp
+          };
+          filaDispensations.push(displacement);
+          rowSpanSize = 0;
+          remainingRowSpanSize--;
+        });
+      }
+      return filaDispensations;
     }
 
     function getEmptyFilaDisplacement() {
       return {
         dateRowSpanSize: 1,
-        numberOfDisplacements: 1,
+        remainingRowSpanSize: 1,
         date: "",
-        displacements: [{
-          medicine: "",
-          quantity: "",
-          dosage: "",
-          nextDisplacement: ""
-        }]
+        medicine: "",
+        quantity: "",
+        dosage: "",
+        nextDisplacement: ""
       };
     }
 
@@ -108,15 +130,20 @@
       fill(vm.calendar[2], "");
       fill(vm.calendar[3], "");
 
-      var firstPickup = vm.patient.pickups[0];
-      var monthOfFirstPickup = firstPickup.encounterDatetime.getMonth();
-      shiftLeft(vm.months, monthOfFirstPickup);
+      //var firstPickup = vm.patient.pickups[0];
+      //var monthOfFirstPickup = firstPickup.encounterDatetime.getMonth();
+      //shiftLeft(vm.months, monthOfFirstPickup);
 
-      var dates = _.map(vm.patient.prescriptions, 'prescriptionDate');
+      var dates = [];
+      vm.patient.dispensations.forEach(function (dispensation) {
+        dispensation.dispensationItems.forEach(function (dispensationItem) {
+          dates.unshift(new Date(dispensationItem.prescriptionExpirationDate));
+        });
+      });
 
       dates.forEach(function (date) {
-        var markIndexes = getMarkIndexesForDate(date, monthOfFirstPickup);
-        vm.calendar[markIndexes.week][markIndexes.month] = "X";
+        //var markIndexes = getMarkIndexesForDate(date, monthOfFirstPickup);
+        //vm.calendar[markIndexes.week][markIndexes.month] = "X";
       });
     }
 

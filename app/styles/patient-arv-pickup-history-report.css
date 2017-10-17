@@ -137,7 +137,7 @@ h2 {
 }
 
 tr.displacement-row {
-  height: 15mm;
+  height: 10mm;
 }
 
 #nid-label {
@@ -151,9 +151,17 @@ tr.displacement-row {
 
 div.personal-data {
   font-size: 10pt;
-  margin-top: 2mm;
+  margin-top: 5mm;
 }
 
 #first-line-personal-data {
   font-weight: bold;
+}
+
+th.medicine-column {
+  width: 70mm;
+}
+
+th.dosage-column {
+  width: 30mm;
 }

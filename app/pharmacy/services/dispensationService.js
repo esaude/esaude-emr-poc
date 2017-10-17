@@ -38,7 +38,6 @@
     }
 
     function cancelDispensationItem(orderuuid, reason) {
-
       return $http.delete(Bahmni.Common.Constants.dispensationUrl + "/" + orderuuid, {
         params: {reason: reason}
       });
