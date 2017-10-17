@@ -32,6 +32,5 @@
   "DISPENSATION_CONTROL_CALENDAR": "Dispensation Control Calendar",
   "FILA_REPORT_FIRST_FOOT_NOTE": "Mark the calendar with an X on the corresponding expiration date of the prescription. Do not dispense MARVs from this date until the patient presents a new prescription",
   "FILA_REPORT_PERSONAL_DATA_NOTE": "Fill in number of Book, Page and Line where the patient was registred on TARV registry after first dispensation is registred",
-  "DISPENSATION_DATE": "Dispensation Date",
-  "PHARMACY_STATUS": "Status"
+  "DISPENSATION_DATE": "Dispensation Date"
 }
