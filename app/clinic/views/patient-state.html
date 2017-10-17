@@ -3,7 +3,8 @@
     <div class="col-sm-4 well well-sm panel-marginless-bottom" ng-show="!nopatientState">
       <div ng-repeat="patientState in patientStates">
         <p ng-class="capitalize"><strong> {{patientState.exam}} :</strong>
-          <span class="label label-danger">{{patientState.result}}</span> desde: {{labDate}}</p>
+          <span class="label label-danger">{{patientState.result}}
+            </span> {{'COMMON_FROM' | translate }} {{labDate | date }}</p>
       </div>
     </div>
 
@@ -11,11 +12,13 @@
       <div ng-repeat="encounter in patientPrescription | limitTo: -1">
         <p ng-repeat="obs in encounter.obs ">
           <strong> {{obs.concept.name.display | translate }} : </strong>
-          <span class="label label-primary">{{obs.value.display | translate}}</span>
+          <span ng-show="{{obs.value.display}}" class="label label-primary">{{obs.value.display | translate}}</span>
+          <span ng-show="{{obs.value}}" class="label label-primary">{{obs.value | translate}}</span>
 
-          <span>desde: {{obs.obsDatetime | date }}</span>
+          <span> {{'COMMON_FROM' | translate}} {{obs.obsDatetime | date }}</span>
         </p>
       </div>
+    </div>
     </div>
   </div>
 

@@ -107,7 +107,7 @@
     function initICD10Diagnosis() {
       var concept = "e1eb7806-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
 
-      return observationsService.get(patientUuid, concept).success (function (data) {
+      return observationsService.getObs(patientUuid, concept).success (function (data) {
         var filtered = commonService.filterRetired(data.results);//TODO: filter must be dome in backend system
         vm.icdDiagnosis = dropSizeToLimit(filtered);
       });
@@ -242,6 +242,18 @@
     function getPatient() {
       return patientService.getPatient(patientUuid);
     }
+
+
+
+    observationsService
+      .getLastPatientObs(patientUuid, Bahmni.Common.Constants.BMI)
+      .then(function (data) {
+          vm.patientVitals = data;
+      }).catch(function (data) {
+
+    });
+
+
 
   }
 
