@@ -18,7 +18,6 @@
     vm.groupedDispensations = [];
     vm.year = now.getFullYear();
     vm.years = [vm.year];
-    vm.onDateChange = onDateChange;
     vm.onPrint = onPrint;
     vm.onStartDateChange = onStartDateChange;
     vm.updateResults = updateResults;
@@ -29,12 +28,6 @@
     updateResults();
 
     ////////////////
-
-    function onDateChange() {
-      vm.filteredPickups = _.filter(pickups, function (p) {
-        return p.encounterDatetime.getFullYear() === vm.year;
-      });
-    }
 
     function onStartDateChange() {
       if (vm.startDate) {
