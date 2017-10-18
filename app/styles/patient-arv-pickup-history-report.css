@@ -1,5 +1,5 @@
 @page {
-  margin: 0 10mm;
+  margin: 5mm;
 }
 
 .arv-pickup {
@@ -27,4 +27,141 @@
 .calendar .table .week-header {
   display: inline-block;
   transform: rotate(-90deg) translate(-100%, 50%);
+}
+
+div.title-area {
+  width: 120mm;
+  font-size: 14pt;
+  font-weight: bold;
+  text-align: center;
+  border: 1px red solid;
+}
+
+div.top-foot-note {
+  font-size: 6pt;
+  width: 30mm;
+}
+
+th, td {
+  font-size: 6pt;
+  font-weight: normal;
+  padding: 1mm;
+  border: 1px black solid;
+  text-align: center;
+}
+
+th{
+  font-weight: bold;
+}
+
+th.long-side-header {
+  transform: rotate(-90deg);
+}
+
+th.empty {
+  border: none;
+}
+
+#top-left-area {
+  width: 145mm;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#simbol {
+  width: 15mm;
+}
+
+#simbol-first-paragraph {
+  margin-top: 1mm;
+}
+
+div.simbol-area {
+  width: 25mm;
+  font-size: 4pt;
+}
+
+div.simbol-area p {
+  margin: 0mm;
+  padding: 0mm;
+  text-align: center;
+}
+
+div.title {
+  width: 110mm;
+  align-self: center;
+  text-align: center;
+  font-size: 16pt;
+  font-weight: bold;
+}
+
+#top-foot-note {
+  width: 30mm;
+  font-size: 6pt;
+  margin-top: 2mm;
+  text-align: justify;
+  align-self: center;
+}
+
+#calendar-conteiner {
+  width: 110mm;
+  margin-top: 2mm;
+  text-align: center;
+}
+
+h2 {
+  font-size: 8pt;
+  font-weight: bold;
+}
+
+#calendar {
+  display: inline;
+}
+
+#top-right-area {
+  border: 1px black solid;
+  width: 145mm;
+}
+
+#top-right-area-title {
+  text-align: center;
+  margin-top: 1mm;
+}
+
+#patient-data-container {
+  display: flex;
+}
+
+#main-container {
+  margin-top: 3mm; display: flex;
+}
+
+tr.displacement-row {
+  height: 10mm;
+}
+
+#nid-label {
+  font-size: 14pt;
+}
+
+#personal-data-conteiner {
+  margin-left: 3mm;
+  align-self: center;
+}
+
+div.personal-data {
+  font-size: 10pt;
+  margin-top: 5mm;
+}
+
+#first-line-personal-data {
+  font-weight: bold;
+}
+
+th.medicine-column {
+  width: 70mm;
+}
+
+th.dosage-column {
+  width: 30mm;
 }

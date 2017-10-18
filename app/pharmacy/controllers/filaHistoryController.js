@@ -5,9 +5,9 @@
     .module('pharmacy')
     .controller('FilaHistoryController', FilaHistoryController);
 
-  FilaHistoryController.$inject = ['$stateParams', 'encounterService', 'patientService'];
+  FilaHistoryController.$inject = ['$stateParams', 'encounterService', 'patientService', 'dispensationService', '$q', 'notifier', '$filter'];
 
-  function FilaHistoryController($stateParams, encounterService, patientService) {
+  function FilaHistoryController($stateParams, encounterService, patientService, dispensationService, $q, notifier, $filter) {
     var patientUUID = $stateParams.patientUuid;
     var pickups = [];
     var now = new Date();
@@ -15,44 +15,50 @@
     var vm = this;
     vm.displayedPickups = [];
     vm.filteredPickups = [];
+    vm.groupedDispensations = [];
     vm.year = now.getFullYear();
     vm.years = [vm.year];
-    vm.onDateChange = onDateChange;
     vm.onPrint = onPrint;
+    vm.onStartDateChange = onStartDateChange;
+    vm.updateResults = updateResults;
 
-    activate();
+    vm.endDate = moment().startOf('day').toDate();
+    vm.startDate = moment().add(-1, 'year').startOf('day').toDate();
+
+    updateResults();
 
     ////////////////
 
-    function activate() {
-      encounterService.getPatientFilaEncounters(patientUUID).then(function (encounters) {
-
-        if (encounters.length === 0)
-          return;
-
-        var groupByYear = _.curryRight(_.groupBy)(function (pickup) {
-          return pickup.encounterDatetime.getFullYear();
-        });
-        vm.year = _.head(encounters).encounterDatetime.getFullYear();
-        vm.years = _.flow([groupByYear, _.keys, _.reverse])(encounters);
-        pickups = encounters;
-        vm.displayedPickups = encounters;
-        vm.filteredPickups = encounters;
-        onDateChange();
-      });
-    }
-
-    /**
-     * Filters the prescription by date range.
-     */
-    function onDateChange() {
-      vm.filteredPickups = _.filter(pickups, function (p) {
-        return p.encounterDatetime.getFullYear() === vm.year;
-      });
+    function onStartDateChange() {
+      if (vm.startDate) {
+        vm.endDate = moment(vm.startDate).add(1, 'year').toDate();
+      }
     }
 
     function onPrint() {
-      patientService.printPatientARVPickupHistory(vm.year, patientUUID, vm.filteredPickups);
+      var daysBetween = moment(vm.endDate).diff(moment(vm.startDate), 'days');
+      if (daysBetween <= 366) { 
+        patientService.printPatientARVPickupHistory(patientUUID, vm.groupedDispensations, vm.startDate, vm.endDate);
+      } else {
+        notifier.error($filter('translate')('FILA_REPORT_INVALID_DATE_INTERVAL'));        
+      }
+    }
+
+    function updateResults() {
+      var getDispensation = dispensationService.getDispensation(patientUUID,
+        moment(vm.startDate).format('DD-MM-YYYY'),
+        moment(vm.endDate).format('DD-MM-YYYY'));
+      $q.all([getDispensation]).then(function (values) {
+        vm.groupedDispensations = values[0];
+        var dispensations = [];
+        vm.groupedDispensations.forEach(function (groupedDispensation) {
+          groupedDispensation.dispensationItems.forEach(function (dispensationItem) {
+            dispensations.push(dispensationItem)
+          });
+        });
+        vm.displayedPickups = dispensations;
+        vm.filteredPickups = dispensations;
+      });
     }
 
   }

@@ -27,5 +27,15 @@
   "PHARMACY_STATUS": "Status",
   "VITALS_LAST_VISIT": "Last Visit",
   "VITALS_LAST_HEIGHT": "Last Height",
-  "VITALS_LAST_BMI": "Last BMI"
+  "VITALS_LAST_BMI": "Last BMI",
+  "PHARMACY_ACTIVE": "Active",
+  "PHARMACY_FINALIZED": "Finalized",
+  "PHARMACY_CANCEL": "Cancel",
+  "FILA_REPORT_TITLE": "ARV Individual Dispensation FILE (FILA)",
+  "DISPENSATION_CONTROL_CALENDAR": "Dispensation Control Calendar",
+  "FILA_REPORT_FIRST_FOOT_NOTE": "Mark the calendar with an X on the corresponding expiration date of the prescription. Do not dispense MARVs from this date until the patient presents a new prescription",
+  "FILA_REPORT_PERSONAL_DATA_NOTE": "Fill in number of Book, Page and Line where the patient was registred on TARV registry after first dispensation is registred",
+	"DISPENSATION_DATE": "Dispensation Date",
+	"ARV_MEDICINES": "ARV Medicines",
+	"FILA_REPORT_INVALID_DATE_INTERVAL": "FILA cannot be printed for a date range of more than 1 year"	
 }
