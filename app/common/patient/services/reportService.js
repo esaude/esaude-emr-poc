@@ -153,8 +153,8 @@
       var week = Math.ceil(date.getDate() / 7.0);
 
       //dias posteriores ao dia 28 serão considerados quarta semana
-      if (week > 4) {
-        week = 4;
+      if (week > WEEKS_IN_MONTH) {
+        week = WEEKS_IN_MONTH;
       }
 
       //para compatibilizar com a nossa estrura de array onde os indices da semana são entre 0 e 3

@@ -8,6 +8,9 @@
   FilaHistoryController.$inject = ['$stateParams', 'encounterService', 'patientService', 'dispensationService', '$q', 'notifier', '$filter'];
 
   function FilaHistoryController($stateParams, encounterService, patientService, dispensationService, $q, notifier, $filter) {
+
+    var DAYS_IN_YEAR = 366;
+
     var patientUUID = $stateParams.patientUuid;
     var pickups = [];
     var now = new Date();
@@ -37,7 +40,7 @@
 
     function onPrint() {
       var daysBetween = moment(vm.endDate).diff(moment(vm.startDate), 'days');
-      if (daysBetween <= 366) { 
+      if (daysBetween <= DAYS_IN_YEAR) { 
         patientService.printPatientARVPickupHistory(patientUUID, vm.groupedDispensations, vm.startDate, vm.endDate);
       } else {
         notifier.error($filter('translate')('FILA_REPORT_INVALID_DATE_INTERVAL'));        
