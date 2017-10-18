@@ -209,9 +209,9 @@
 
       var htmlContent = "<!doctype html>" +
         "<html>" +
-          '<body onload="printAndRemove();">' +
-            html +
-          '</body>' +
+        '<body onload="printAndRemove();">' +
+        html +
+        '</body>' +
         "</html>";
 
       var doc = hiddenFrame.contentWindow.document.open("text/html", "replace");
@@ -229,7 +229,7 @@
           return response.data;
         })
         .catch(function (error) {
-          $log.error('XHR Failed for loadTemplate: ' + error.data.error.message);
+          $log.error('XHR Failed for loadTemplate: ' + error.data);
           return $q.reject(error);
         });
     }
