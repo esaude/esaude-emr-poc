@@ -1,0 +1,402 @@
+[
+  {
+    "id": "001",
+    "encounterType": "e278f820-1d5f-11e0-b929-000c29ad1d07",
+    "conceptMapping": "NONE",
+    "name": "INFO SOCIAL - ADULTO",
+    "concepts": [
+      	{
+          "name": "Nome",
+          "id": "e1db04f8-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "Apelido",
+          "id": "e1db05fc-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "Tel",
+          "id": "e1dcb3ca-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "Ocupação",
+          "id": "e1dc07c2-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "Nível de Escolaridade",
+          "id": "e1db0700-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "No de conviventes",
+          "id": "e1dd3426-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "Serologia HIV do(s) cônjuge(s)",
+          "id": "e1db0cf0-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "No de filhos",
+          "id": "e1e7495c-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "No de filhos testados",
+          "id": "e1dbf3e0-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "No de filhos HIV+",
+          "id": "e1dbf4ee-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "Geleira em casa",
+          "id": "e1dbfd86-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "Electricidade em casa",
+          "id": "e1e775c6-1d5f-11e0-b929-000c29ad1d07"
+        }
+    ]
+  },
+  {
+    "id": "002",
+    "encounterType": "e28b6b0e-1d5f-11e0-b929-000c29ad1d07",
+    "conceptMapping": "NONE",
+    "name": "INFO SOCIAL - PEDIATRIA",
+    "concepts": [
+        {
+          "name": "Nome",
+          "id": "e1db04f8-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "Apelido",
+          "id": "e1db05fc-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "Tel",
+          "id": "e1dcb3ca-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "Nome de Mae",
+          "id": "e1dc19a6-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "Idade de Mae",
+          "id": "e1dc1aa0-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "Mae Viva",
+          "id": "e1dc1bae-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "Mae Doente",
+          "id": "e1dc1d52-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "Doença",
+          "id": "e1dc1ee2-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "Mae Resultado HIV",
+          "id": "e1dc22b6-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "Mae Faz tratamento com Anti-retrovirais",
+          "id": "e1dc2450-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "Nome de Pai",
+          "id": "e1dc25f4-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "Idade de Pai",
+          "id": "e1dc2798-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+            "name": "Pai Vivo",
+            "id": "e1dc2932-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "Pai Doente",
+          "id": "e1dc2ad6-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "Doença de Pai",
+          "id": "e1dc2c70-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "Pai Resultado HIV",
+          "id": "e1dc2fae-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "Pai Faz tratamento com Anti-retrovirais",
+          "id": "e1dc3148-1d5f-11e0-b929-000c29ad1d07"
+        }
+    ]
+  },
+  {
+    "id": "003",
+    "encounterType": "e278f956-1d5f-11e0-b929-000c29ad1d07",
+    "name": "VITAIS - ADULTO",
+    "conceptMapping": "283e551d-a470-4280-84fd-8f409f3caf7a",
+    "concepts": [
+        {
+          "name": "Temperatura",
+          "id": "e1e2e70e-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "Peso",
+          "id": "e1e2e826-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "Altura",
+          "id": "e1e2e934-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "Pressão Arterial Sistolica",
+          "id": "e1e2e3d0-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "Pressão Arterial Diastolica",
+          "id": "e1e2e4e8-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "Frequencia Cardiaca",
+          "id": "e1e2e5f6-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "Frequencia Respiratória",
+          "id": "e1e4628c-1d5f-11e0-b929-000c29ad1d07"
+        }
+    ]
+  },
+  {
+    "id": "004",
+    "encounterType": "e278f956-1d5f-11e0-b929-000c29ad1d07",
+    "name": "VITAIS - PEDIATRIA",
+    "conceptMapping": "283e551d-a470-4280-84fd-8f409f3caf7a",
+    "concepts": [
+        {
+          "name": "Temperatura",
+          "id": "e1e2e70e-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "Peso",
+          "id": "e1e2e826-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "Altura",
+          "id": "e1e2e934-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "Frequencia Cardiaca",
+          "id": "e1e2e5f6-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "Frequencia Respiratória",
+          "id": "e1e4628c-1d5f-11e0-b929-000c29ad1d07"
+        }
+    ]
+  },
+  {
+    "id": "006",
+    "encounterType": "e278f956-1d5f-11e0-b929-000c29ad1d07",
+    "name": "OMS ESTADIO - ADULTO",
+    "conceptMapping": "2afd6fda-3003-4a68-bfa2-9a4e2ab2773d",
+    "concepts": [
+        {
+          "name": "ESTADIO I",
+          "id": "e1d9055e-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "ESTADIO II",
+          "id": "e1d9066c-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "ESTADIO III",
+          "id": "e1d9077a-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "ESTADIO IV",
+          "id": "e1d90888-1d5f-11e0-b929-000c29ad1d07"
+        }
+    ]
+  },
+  {
+    "id": "012",
+    "encounterType": "e278f956-1d5f-11e0-b929-000c29ad1d07",
+    "name": "OMS ESTADIO - PEDIATRIA",
+    "conceptMapping": "2afd6fda-3003-4a68-bfa2-9a4e2ab2773d",
+    "concepts": [
+        {
+          "name": "ESTADIO I",
+          "id": "e1d9055e-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "ESTADIO II",
+          "id": "e1d9066c-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "ESTADIO III",
+          "id": "e1d9077a-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "ESTADIO IV",
+          "id": "e1d90888-1d5f-11e0-b929-000c29ad1d07"
+        }
+    ]
+  },
+  {
+    "id": "007",
+    "encounterType": "e278f956-1d5f-11e0-b929-000c29ad1d07",
+    "name": "ASPECTOS RELEVANTES",
+    "conceptMapping": "3ae77ecc-865b-4354-abf9-901f36715c70",
+    "concepts": [
+        {
+          "name": "Notas",
+          "id": "694d4767-d8c4-40e2-a68b-a8f3bac8524a"
+        },
+        {
+          "name": "Tipo de Mensagem",
+          "id": "fbe61748-a080-4eef-bfff-c47954794f10"
+        }
+    ]
+  },
+  {
+    "id": "008",
+    "encounterType": "e278f956-1d5f-11e0-b929-000c29ad1d07",
+    "name": "ANAMNESE E EXAME FÍSICO - ADULTO",
+    "conceptMapping": "3ae77ecc-865b-4354-abf9-901f36715c70",
+    "concepts": [
+        {
+          "name": "HISTÓRICO ACTUAL",
+          "id": "304b0333-808b-4a02-b41a-da7fa82cec26"
+        },
+        {
+          "name": "Exames na cabeca e pescoco",
+          "id": "77742a72-dfd9-48fe-8166-ae9238a248e2"
+        },
+        {
+          "name": "Exames no torax",
+          "id": "648e170c-4322-4820-ae17-989a8b115371"
+        },
+        {
+          "name": "Exames no Abdomen",
+          "id": "659a4de5-10ea-4997-974c-e5ddeafa9ec6"
+        },
+        {
+          "name": "Exames nos membros superiores e inferiores",
+          "id": "17b9f774-3a6d-4364-9ad7-c50d99df9ba0"
+        },
+        {
+          "name": "Tem sintomas sugestivas para ITS",
+          "id": "794ef662-03bc-4e22-90ff-38742b82827a"
+        },
+        {
+          "name": "Tem sintomas sugestivas para TB",
+          "id": "ea1851dc-151b-4c1e-b763-5df48082159d"
+        },
+        {
+          "name": "Tem sintomas sugestivas para Cripto",
+          "id": "7f8f297b-6b71-45c2-8044-c3d89f0f8bf8"
+        }
+    ]
+  },
+  {
+    "id": "010",
+    "encounterType": "e278f956-1d5f-11e0-b929-000c29ad1d07",
+    "name": "ANAMNESE E EXAME FÍSICO - PEDIATRIA",
+    "conceptMapping": "3ae77ecc-865b-4354-abf9-901f36715c70",
+    "concepts": [
+        {
+          "name": "HISTÓRICO ACTUAL",
+          "id": "304b0333-808b-4a02-b41a-da7fa82cec26"
+        },
+        {
+          "name": "Exames na cabeca e pescoco",
+          "id": "77742a72-dfd9-48fe-8166-ae9238a248e2"
+        },
+        {
+          "name": "Exames no torax",
+          "id": "648e170c-4322-4820-ae17-989a8b115371"
+        },
+        {
+          "name": "Exames no Abdomen",
+          "id": "659a4de5-10ea-4997-974c-e5ddeafa9ec6"
+        },
+        {
+          "name": "Exames nos membros superiores e inferiores",
+          "id": "17b9f774-3a6d-4364-9ad7-c50d99df9ba0"
+        },
+        {
+          "name": "Tem sintomas sugestivas para TB",
+          "id": "ea1851dc-151b-4c1e-b763-5df48082159d"
+        },
+        {
+          "name": "Tem sintomas sugestivas para Cripto",
+          "id": "7f8f297b-6b71-45c2-8044-c3d89f0f8bf8"
+        }
+    ]
+  },
+  {
+    "id": "009",
+    "encounterType": "e278f956-1d5f-11e0-b929-000c29ad1d07",
+    "name": "DIAGNOSTICOS - ADULTO",
+    "conceptMapping": "4bea5235-1ef3-45a3-a7de-c33850c74422",
+    "concepts": [
+        {
+          "name": "Data de Inicio TB",
+          "id": "e1d85906-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "Data de Fim TB",
+          "id": "0ef94b67-b202-40ad-b542-7b2016524335"
+        },
+        {
+          "name": "Diagnostico 1",
+          "id": "e1eb7806-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "Diagnostico 2",
+          "id": "e1eb7806-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "Diagnostico 3",
+          "id": "e1dd2d50-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "Próxima visita",
+          "id": "e1dae630-1d5f-11e0-b929-000c29ad1d07"
+        }
+    ]
+  },
+  {
+    "id": "011",
+    "encounterType": "e278f956-1d5f-11e0-b929-000c29ad1d07",
+    "name": "DIAGNOSTICOS - PEDIATRIA",
+    "conceptMapping": "4bea5235-1ef3-45a3-a7de-c33850c74422",
+    "concepts": [
+        {
+          "name": "Data de Inicio TB",
+          "id": "e1d85906-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "Data de Fim TB",
+          "id": "0ef94b67-b202-40ad-b542-7b2016524335"
+        },
+        {
+          "name": "Diagnostico 1",
+          "id": "e1eb7806-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "Diagnostico 2",
+          "id": "e1eb7806-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "Diagnostico 3",
+          "id": "e1dd2d50-1d5f-11e0-b929-000c29ad1d07"
+        },
+        {
+          "name": "Próxima visita",
+          "id": "e1dae630-1d5f-11e0-b929-000c29ad1d07"
+        }
+    ]
+  }
+]

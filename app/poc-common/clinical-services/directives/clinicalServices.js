@@ -21,10 +21,10 @@
   }
 
   ClinicalServiceDirectiveController.$inject = ['$filter', '$q', '$state', 'clinicalServicesService', 'notifier',
-    'patientService', 'spinner', 'visitService'];
+    'patientService', 'spinner', 'visitService', 'clinicalServiceService'];
 
   function ClinicalServiceDirectiveController($filter, $q, $state, clinicalServicesService, notifier, patientService,
-                                              spinner, visitService) {
+                                              spinner, visitService, clinicalServiceService) {
 
     var vm = this;
 
@@ -37,8 +37,9 @@
     vm.linkServiceAdd = linkServiceAdd;
     vm.linkServiceDisplay = linkServiceDisplay;
     vm.linkServiceEdit = linkServiceEdit;
-    vm.removeEncounter = removeEncounter;
+    vm.removeClinicalService = removeClinicalService;
     vm.toggleListEncounters = toggleListEncounters;
+    vm.deleteClinicalService = deleteClinicalService;
 
     ////////////////
 
@@ -145,9 +146,26 @@
     }
 
 
-    function removeEncounter(encounter) {
+    function removeClinicalService(encounter) {
       (angular.isUndefined(encounter.delete) || encounter.delete === false) ?
         encounter.delete = true : encounter.delete = false;
+    }
+
+    function deleteClinicalService(service, encounterUuid) {
+      clinicalServiceService.deleteService(service.id, encounterUuid).success(function (data) {
+        var deletedEncounter = _.find(service.encountersForService, function (en) {
+          return en.uuid === encounterUuid;
+        });
+        if (!_.isUndefined(deletedEncounter)) {
+          _.pull(service.encountersForService, deletedEncounter);
+        }
+        notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION'));
+        if (_.isEmpty(service.encountersForService)) {
+          $state.reload();
+        }
+      }).error(function(data) {
+        notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ACTION'));
+      });
     }
 
 
