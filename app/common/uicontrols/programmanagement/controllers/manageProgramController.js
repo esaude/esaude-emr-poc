@@ -1,317 +1,357 @@
-angular.module('bahmni.common.uicontrols.programmanagment')
-    .controller('ManageProgramController', ['$scope', '$window', 'programService', 'spinner', '$stateParams', 'notifier', '$filter',
-        function ($scope, $window, programService, spinner, $stateParams, notifier, $filter) {
-            var DateUtil = Bahmni.Common.Util.DateUtil;
-            $scope.programSelected = {};
-            $scope.programEnrollmentDate = null;
-            $scope.workflowStateSelected = {};
-            $scope.allPrograms = [];
-            $scope.programWorkflowStates = [];
-            $scope.programEdited = {selectedState: "", startDate: null};
-            $scope.workflowStatesWithoutCurrentState = [];
-            $scope.outComesForProgram = [];
-            $scope.configName = $stateParams.configName;
+(function () {
+  'use strict';
 
-            var updateActiveProgramsList = function () {
-                spinner.forPromise(programService.getPatientPrograms($stateParams.patientUuid).then(function (programs) {
-                    $scope.patientAllPrograms = _.union(programs.activePrograms, programs.endedPrograms);
-                    $scope.activePrograms = programs.activePrograms;
-                    $scope.endedPrograms = programs.endedPrograms;
-                }));
-            };
+  angular
+    .module('bahmni.common.uicontrols.programmanagment')
+    .controller('ManageProgramController', ManageProgramController);
 
-            var init = function () {
-                spinner.forPromise(programService.getAllPrograms().then(function(programs) {
-                    $scope.allPrograms = programs;
-                }));
-                updateActiveProgramsList();
-            };
+  ManageProgramController.$inject = ['$scope', '$window', 'programService', 'spinner', '$stateParams', 'notifier', '$filter'];
 
-            var successCallback = function () {
-                $scope.programEdited.selectedState = null;
-                $scope.programEdited.startDate = null;
-                $scope.programSelected = null;
-                $scope.workflowStateSelected = null;
-                updateActiveProgramsList();
-                notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
-            };
+  /* @ngInject */
+  function ManageProgramController($scope, $window, programService, spinner, $stateParams, notifier, $filter) {
 
-            var failureCallback = function (error) {
-                var fieldErrorMsg = findFieldErrorIfAny(error);
-                $scope.errorMessage = _.isUndefined(fieldErrorMsg) ? "Failed to Save" : fieldErrorMsg;
-                notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ACTION'));
-                successCallback();
-            };
+    var DateUtil = Bahmni.Common.Util.DateUtil;
 
-            var findFieldErrorIfAny = function (error) {
-                var stateFieldError = objectDeepFind(error, "data.error.fieldErrors.states");
-                var errorField = stateFieldError && stateFieldError[0];
-                return errorField && errorField.message;
-            };
+    $scope.programSelected = {};
+    $scope.programEnrollmentDate = null;
+    $scope.workflowStateSelected = {};
+    $scope.allPrograms = [];
+    $scope.programWorkflowStates = [];
+    $scope.programEdited = {selectedState: "", startDate: null};
+    $scope.workflowStatesWithoutCurrentState = [];
+    $scope.outComesForProgram = [];
+    $scope.configName = $stateParams.configName;
 
-            var objectDeepFind = function(obj, path) {
-                if(_.isUndefined(obj)){
-                    return undefined;
-                }
-                var paths = path.split('.')
-                    , current = obj
-                    , i;
-                for (i = 0; i < paths.length; ++i) {
-                    if (current[paths[i]] == undefined) {
-                        return undefined;
-                    } else {
-                        current = current[paths[i]];
-                    }
-                }
-                return current;
-            };
-
-            var isThePatientAlreadyEnrolled = function () {
-                return _.map($scope.activePrograms, function (program) {
-                        return program.program.uuid
-                    }).indexOf($scope.programSelected.uuid) > -1;
-            };
-
-            var isProgramSelected = function () {
-                return $scope.programSelected && $scope.programSelected.uuid;
-            };
-
-            $scope.setProgramSelected = function (program) {
-                $scope.programSelected = program;
-                if ($scope.hasProgramWorkflowStates(program)) {
-                    $scope.workflowStatesWithoutCurrentState = $scope.getWorkflowStatesWithoutCurrent(program);
-                    $scope.currentState = $scope.initCurrentState(program);
-                }
-            };
-
-            $scope.hasPatientEnrolledToSomePrograms = function () {
-                return !_.isEmpty($scope.activePrograms);
-            };
-
-            $scope.hasPatientAnyPastPrograms = function () {
-                return !_.isEmpty($scope.endedPrograms);
-            };
-
-            $scope.enrollPatient = function (program, programEnrollmentDate, state) {
-                $scope.programSelected = null;
-                $scope.programSelected = program;
-                if (!isProgramSelected()) {
-                    showMessage("COMMON_PROGRAM_ENROLLMENT_ERROR_NO_PROGRAM");
-                    return;
-                }
-                if(!programEnrollmentDate) {
-                    showMessage("COMMON_PROGRAM_ENROLLMENT_ERROR_NO_ADMISSION_DATE");
-                    return;
-                }
-                if (isThePatientAlreadyEnrolled()) {
-                    showMessage("COMMON_PROGRAM_ENROLLMENT_ERROR_ALREADY_ENROLLED");
-                    return;
-                }
-                if (DateUtil.isAfterDate(programEnrollmentDate, new Date())) {
-                  showMessage("COMMON_PROGRAM_ENROLLMENT_DATE_NOT_IN_FUTURE");
-                  return;
-                }
-                $scope.workflowStateSelected = null;
-                $scope.workflowStateSelected = state;
-                $scope.programEnrollmentDate = null;
-                $scope.programEnrollmentDate = DateUtil.parse(programEnrollmentDate);
+    $scope.setProgramSelected = setProgramSelected;
+    $scope.hasPatientEnrolledToSomePrograms = hasPatientEnrolledToSomePrograms;
+    $scope.hasPatientAnyPastPrograms = hasPatientAnyPastPrograms;
+    $scope.enrollPatient = enrollPatient;
+    $scope.getOutcomes = getOutcomes;
+    $scope.hasOutcomes = hasOutcomes;
+    $scope.getCurrentProgramState = getCurrentProgramState;
+    $scope.hasValidProgramStateToShow = hasValidProgramStateToShow;
+    $scope.initCurrentState = initCurrentState;
+    $scope.getWorkflowStatesWithoutCurrent = getWorkflowStatesWithoutCurrent;
+    $scope.savePatientProgram = savePatientProgram;
+    $scope.editPatientProgram = editPatientProgram;
+    $scope.toggleEdit = toggleEdit;
+    $scope.toggleEnd = toggleEnd;
+    $scope.setWorkflowStates = setWorkflowStates;
+    $scope.canRemovePatientState = canRemovePatientState;
+    $scope.removePatientState = removePatientState;
+    $scope.getWorkflowStates = getWorkflowStates;
+    $scope.hasStates = hasStates;
+    $scope.hasProgramWorkflowStates = hasProgramWorkflowStates;
 
 
-                var stateUuid = $scope.workflowStateSelected && $scope.workflowStateSelected.uuid ? $scope.workflowStateSelected.uuid : null;
-                spinner.forPromise(
-                    programService.enrollPatientToAProgram($scope.patient.uuid, $scope.programSelected.uuid, $scope.programEnrollmentDate, stateUuid)
-                        .then(successCallback, failureCallback)
-                );
-                $(function () {
-                    $('#addProgramModal').modal('toggle');
-                });
-                $scope.errorMessage = null;
-            };
+    activate();
 
-            var isProgramStateSelected = function () {
-                return objectDeepFind($scope, "programEdited.selectedState.uuid");
-            };
+    ////////////////
 
-            $scope.getOutcomes = function (program) {
-                var currentProgram = _.find($scope.allPrograms, {uuid: program.uuid});
-                return currentProgram.outcomesConcept ? currentProgram.outcomesConcept.answers : [];
-            };
+    function activate() {
+      spinner.forPromise(programService.getAllPrograms().then(function (programs) {
+        $scope.allPrograms = programs;
+      }));
+      updateActiveProgramsList();
+    }
 
-            $scope.hasOutcomes = function (program) {
-                return program.outcomesConcept && !_.isEmpty(program.outcomesConcept.answers);
-            };
+    function setProgramSelected(program) {
+      $scope.programSelected = program;
+      if ($scope.hasProgramWorkflowStates(program)) {
+        $scope.workflowStatesWithoutCurrentState = $scope.getWorkflowStatesWithoutCurrent(program);
+        $scope.currentState = $scope.initCurrentState(program);
+      }
+    }
 
-            var isOutcomeSelected = function (patientProgram) {
-                return !_.isEmpty(objectDeepFind(patientProgram, 'outcomeData.uuid'));
-            };
+    function hasPatientEnrolledToSomePrograms() {
+      return !_.isEmpty($scope.activePrograms);
+    }
 
-            var getCurrentState = function(states){
-                return _.find(states, function(state){
-                    return state.endDate == null && !state.voided;
-                });
-            };
+    function hasPatientAnyPastPrograms() {
+      return !_.isEmpty($scope.endedPrograms);
+    }
 
-            $scope.getCurrentProgramState = function(states){
-                return getCurrentState(states);
-            };
+    function enrollPatient(program, programEnrollmentDate, state) {
+      $scope.programSelected = null;
+      $scope.programSelected = program;
+      if (!isProgramSelected()) {
+        showMessage("COMMON_PROGRAM_ENROLLMENT_ERROR_NO_PROGRAM");
+        return;
+      }
+      if (!programEnrollmentDate) {
+        showMessage("COMMON_PROGRAM_ENROLLMENT_ERROR_NO_ADMISSION_DATE");
+        return;
+      }
+      if (isThePatientAlreadyEnrolled()) {
+        showMessage("COMMON_PROGRAM_ENROLLMENT_ERROR_ALREADY_ENROLLED");
+        return;
+      }
+      if (DateUtil.isAfterDate(programEnrollmentDate, new Date())) {
+        showMessage("COMMON_PROGRAM_ENROLLMENT_DATE_NOT_IN_FUTURE");
+        return;
+      }
+      $scope.workflowStateSelected = null;
+      $scope.workflowStateSelected = state;
+      $scope.programEnrollmentDate = null;
+      $scope.programEnrollmentDate = DateUtil.parse(programEnrollmentDate);
 
-            //must have at least one state and non voided
-            $scope.hasValidProgramStateToShow = function (states) {
-                for(var i in states) {
-                    if(!states[i].voided) {
-                        return true;
-                    }
-                }
-                return false;
-            };
 
-            $scope.initCurrentState = function(patientProgram){
-                return getCurrentState(patientProgram.states);
-            };
+      var stateUuid = $scope.workflowStateSelected && $scope.workflowStateSelected.uuid ? $scope.workflowStateSelected.uuid : null;
+      spinner.forPromise(
+        programService.enrollPatientToAProgram($scope.patient.uuid, $scope.programSelected.uuid, $scope.programEnrollmentDate, stateUuid)
+          .then(successCallback, failureCallback)
+      );
+      $(function () {
+        $('#addProgramModal').modal('toggle');
+      });
+      $scope.errorMessage = null;
+    }
 
-            $scope.getWorkflowStatesWithoutCurrent = function (patientProgram) {
-                var currentState = getCurrentState(patientProgram.states);
-                var states = getStates(patientProgram.program);
-                if (currentState) {
-                    states = _.reject(states, function (state) {
-                        return state.uuid === currentState.state.uuid;
-                    });
-                }
-                return states;
-            };
+    function updateActiveProgramsList() {
+      spinner.forPromise(programService.getPatientPrograms($stateParams.patientUuid).then(function (programs) {
+        $scope.patientAllPrograms = _.union(programs.activePrograms, programs.endedPrograms);
+        $scope.activePrograms = programs.activePrograms;
+        $scope.endedPrograms = programs.endedPrograms;
+      }));
+    }
 
-            $scope.savePatientProgram = function (patientProgram) {
-                var startDate = DateUtil.parse($scope.programEdited.startDate);
-                var currentState = getCurrentState(patientProgram.states);
-                var currentStateDate = currentState ? DateUtil.parse(currentState.startDate) : null;
+    function successCallback() {
+      $scope.programEdited.selectedState = null;
+      $scope.programEdited.startDate = null;
+      $scope.programSelected = null;
+      $scope.workflowStateSelected = null;
+      updateActiveProgramsList();
+      notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
+    }
 
-                if (DateUtil.isBeforeDate(startDate, currentStateDate)) {
-                  //TODO: Confirm if is the variable format formattedCurrentStateDate is currently being used
-                    var formattedCurrentStateDate = DateUtil.formatDateWithoutTime(currentStateDate);
-                    showMessage("COMMON_PROGRAM_ENROLLMENT_ERROR_STATE_EARLIER_START");
-                    return;
-                }
-                if (!isProgramStateSelected()) {
-                    showMessage("COMMON_PROGRAM_ENROLLMENT_ERROR_NO_STATE_TO_CHANGE");
-                    return;
-                }
+    function failureCallback(error) {
+      var fieldErrorMsg = findFieldErrorIfAny(error);
+      $scope.errorMessage = _.isUndefined(fieldErrorMsg) ? "Failed to Save" : fieldErrorMsg;
+      notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ACTION'));
+      successCallback();
+    }
 
-                if(!startDate) {
-                    showMessage("COMMON_PROGRAM_ENROLLMENT_ERROR_NO_STATE_START_DATE");
-                    return;
-                }
-                spinner.forPromise(
-                    programService.savePatientProgram(patientProgram.uuid, $scope.programEdited.selectedState.uuid, startDate)
-                        .then(successCallback, failureCallback)
-                );
+    function findFieldErrorIfAny(error) {
+      var stateFieldError = objectDeepFind(error, "data.error.fieldErrors.states");
+      var errorField = stateFieldError && stateFieldError[0];
+      return errorField && errorField.message;
+    }
 
-                $(function () {
-                    $('#editProgramStateModal').modal('toggle');
-                });
-                $scope.errorMessage = null;
-            };
-
-            $scope.editPatientProgram = function (patientProgram) {
-                var dateCompleted = DateUtil.parse(patientProgram.dateCompleted);
-                var dateEnrolled = patientProgram.dateEnrolled ? DateUtil.parse(patientProgram.dateEnrolled) : null;
-                var currentState = getCurrentState(patientProgram.states);
-                var currentStateDate = currentState ? DateUtil.parse(currentState.startDate) : null;
-
-                if(!dateEnrolled) {
-                    showMessage("COMMON_PROGRAM_ENROLLMENT_ERROR_NO_ADMISSION_DATE");
-                    return;
-                }
-
-                if (currentState && DateUtil.isBeforeDate(dateCompleted, currentStateDate)) {
-                    var formattedCurrentStateDate = DateUtil.formatDateWithoutTime(currentStateDate);
-                    showMessage("COMMON_PROGRAM_ENROLLMENT_ERROR_EARLIER_END");
-                    return;
-                }
-
-                if(dateCompleted && DateUtil.isAfterDate(dateCompleted, new Date())) {
-                  showMessage("COMMON_PROGRAM_COMPLETION_DATE_NOT_IN_FUTURE");
-                  return;
-                }
- 
-                var outcomeConceptUuid = patientProgram.outcome ? patientProgram.outcome.uuid : null;
-                spinner.forPromise(programService.editPatientProgram(patientProgram.uuid, dateEnrolled,
-                                    dateCompleted, outcomeConceptUuid)
-                    .then(function () {
-                        updateActiveProgramsList();
-                    }));
-
-                $(function () {
-                    $('#editProgramModal').modal('toggle');
-                });
-                $scope.errorMessage = null;
-            };
-
-            $scope.toggleEdit = function (program) {
-                program.ending = false;
-                program.editing = !program.editing;
-            };
-
-            $scope.toggleEnd = function (program) {
-                program.editing = false;
-                program.ending = !program.ending;
-            };
-
-            $scope.setWorkflowStates = function (program) {
-                $scope.programWorkflowStates = getStates(program);
-            };
-
-            var getStates = function (program) {
-                var states = [];
-                if (program && program.allWorkflows && program.allWorkflows.length && program.allWorkflows[0].states.length) {
-                    states = program.allWorkflows[0].states;
-                }
-                return states;
-            };
-            var getActiveProgramStates = function(patientProgram){
-                return _.reject(patientProgram.states, function(st) {return st.voided});
-            };
-
-            $scope.canRemovePatientState = function(state){
-                return state.endDate == null;
-            };
-
-            $scope.removePatientState = function(patientProgram){
-                var currProgramState = _.find(getActiveProgramStates(patientProgram), {endDate: null});
-                var currProgramStateUuid = objectDeepFind(currProgramState, 'uuid');
-                spinner.forPromise(
-                    programService.deletePatientState(patientProgram.uuid, currProgramStateUuid)
-                        .then(successCallback, failureCallback)
-                );
-            };
-
-            $scope.getWorkflowStates = function(program){
-                $scope.programWorkflowStates = [];
-                if(program && program.allWorkflows.length ) {
-                    program.allWorkflows.forEach(function(workflow){
-                        if(!workflow.retired && workflow.states.length)
-                            workflow.states.forEach(function(state){
-                                if(!state.retired)
-                                    $scope.programWorkflowStates.push(state);
-                            });
-                    });
-                }
-                return states;
-            };
-            $scope.hasStates = function (program) {
-                return program && !_.isEmpty(program.allWorkflows) && !_.isEmpty($scope.programWorkflowStates);
-            };
-
-            $scope.hasProgramWorkflowStates = function (patientProgram) {
-                return !_.isEmpty(getStates(patientProgram.program));
-            };
-
-            var showMessage = function (msg) {
-                $scope.errorMessage = msg;
-                $(function () {
-                    $('.alert').show();
-                });
-            };
-
-            init();
+    function objectDeepFind(obj, path) {
+      if (_.isUndefined(obj)) {
+        return undefined;
+      }
+      var paths = path.split('.')
+        , current = obj
+        , i;
+      for (i = 0; i < paths.length; ++i) {
+        if (current[paths[i]] == undefined) {
+          return undefined;
+        } else {
+          current = current[paths[i]];
         }
-    ]);
+      }
+      return current;
+    }
+
+    function isThePatientAlreadyEnrolled() {
+      return _.map($scope.activePrograms, function (program) {
+        return program.program.uuid
+      }).indexOf($scope.programSelected.uuid) > -1;
+    }
+
+    function isProgramSelected() {
+      return $scope.programSelected && $scope.programSelected.uuid;
+    }
+
+    function isProgramStateSelected() {
+      return objectDeepFind($scope, "programEdited.selectedState.uuid");
+    }
+
+    function getOutcomes(program) {
+      var currentProgram = _.find($scope.allPrograms, {uuid: program.uuid});
+      return currentProgram.outcomesConcept ? currentProgram.outcomesConcept.answers : [];
+    }
+
+    function hasOutcomes(program) {
+      return program.outcomesConcept && !_.isEmpty(program.outcomesConcept.answers);
+    }
+
+    function isOutcomeSelected(patientProgram) {
+      return !_.isEmpty(objectDeepFind(patientProgram, 'outcomeData.uuid'));
+    }
+
+    function getCurrentState(states) {
+      return _.find(states, function (state) {
+        return state.endDate == null && !state.voided;
+      });
+    }
+
+    function getCurrentProgramState(states) {
+      return getCurrentState(states);
+    }
+
+    //must have at least one state and non voided
+    function hasValidProgramStateToShow(states) {
+      for (var i in states) {
+        if (!states[i].voided) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    function initCurrentState(patientProgram) {
+      return getCurrentState(patientProgram.states);
+    }
+
+    function getWorkflowStatesWithoutCurrent(patientProgram) {
+      var currentState = getCurrentState(patientProgram.states);
+      var states = getStates(patientProgram.program);
+      if (currentState) {
+        states = _.reject(states, function (state) {
+          return state.uuid === currentState.state.uuid;
+        });
+      }
+      return states;
+    }
+
+    function savePatientProgram(patientProgram) {
+      var startDate = DateUtil.parse($scope.programEdited.startDate);
+      var currentState = getCurrentState(patientProgram.states);
+      var currentStateDate = currentState ? DateUtil.parse(currentState.startDate) : null;
+
+      if (DateUtil.isBeforeDate(startDate, currentStateDate)) {
+        //TODO: Confirm if is the variable format formattedCurrentStateDate is currently being used
+        var formattedCurrentStateDate = DateUtil.formatDateWithoutTime(currentStateDate);
+        showMessage("COMMON_PROGRAM_ENROLLMENT_ERROR_STATE_EARLIER_START");
+        return;
+      }
+      if (!isProgramStateSelected()) {
+        showMessage("COMMON_PROGRAM_ENROLLMENT_ERROR_NO_STATE_TO_CHANGE");
+        return;
+      }
+
+      if (!startDate) {
+        showMessage("COMMON_PROGRAM_ENROLLMENT_ERROR_NO_STATE_START_DATE");
+        return;
+      }
+      spinner.forPromise(
+        programService.savePatientProgram(patientProgram.uuid, $scope.programEdited.selectedState.uuid, startDate)
+          .then(successCallback, failureCallback)
+      );
+
+      $(function () {
+        $('#editProgramStateModal').modal('toggle');
+      });
+      $scope.errorMessage = null;
+    }
+
+    function editPatientProgram(patientProgram) {
+      var dateCompleted = DateUtil.parse(patientProgram.dateCompleted);
+      var dateEnrolled = patientProgram.dateEnrolled ? DateUtil.parse(patientProgram.dateEnrolled) : null;
+      var currentState = getCurrentState(patientProgram.states);
+      var currentStateDate = currentState ? DateUtil.parse(currentState.startDate) : null;
+
+      if (!dateEnrolled) {
+        showMessage("COMMON_PROGRAM_ENROLLMENT_ERROR_NO_ADMISSION_DATE");
+        return;
+      }
+
+      if (currentState && DateUtil.isBeforeDate(dateCompleted, currentStateDate)) {
+        var formattedCurrentStateDate = DateUtil.formatDateWithoutTime(currentStateDate);
+        showMessage("COMMON_PROGRAM_ENROLLMENT_ERROR_EARLIER_END");
+        return;
+      }
+
+      if (dateCompleted && DateUtil.isAfterDate(dateCompleted, new Date())) {
+        showMessage("COMMON_PROGRAM_COMPLETION_DATE_NOT_IN_FUTURE");
+        return;
+      }
+
+      var outcomeConceptUuid = patientProgram.outcome ? patientProgram.outcome.uuid : null;
+      spinner.forPromise(programService.editPatientProgram(patientProgram.uuid, dateEnrolled,
+        dateCompleted, outcomeConceptUuid)
+        .then(function () {
+          updateActiveProgramsList();
+        }));
+
+      $(function () {
+        $('#editProgramModal').modal('toggle');
+      });
+      $scope.errorMessage = null;
+    }
+
+    function toggleEdit(program) {
+      program.ending = false;
+      program.editing = !program.editing;
+    }
+
+    function toggleEnd(program) {
+      program.editing = false;
+      program.ending = !program.ending;
+    }
+
+    function setWorkflowStates(program) {
+      $scope.programWorkflowStates = getStates(program);
+    }
+
+    function getStates(program) {
+      var states = [];
+      if (program && program.allWorkflows && program.allWorkflows.length && program.allWorkflows[0].states.length) {
+        states = program.allWorkflows[0].states;
+      }
+      return states;
+    }
+
+    function getActiveProgramStates(patientProgram) {
+      return _.reject(patientProgram.states, function (st) {
+        return st.voided
+      });
+    }
+
+    function canRemovePatientState(state) {
+      return state.endDate == null;
+    }
+
+    function removePatientState(patientProgram) {
+      var currProgramState = _.find(getActiveProgramStates(patientProgram), {endDate: null});
+      var currProgramStateUuid = objectDeepFind(currProgramState, 'uuid');
+      spinner.forPromise(
+        programService.deletePatientState(patientProgram.uuid, currProgramStateUuid)
+          .then(successCallback, failureCallback)
+      );
+    }
+
+    function getWorkflowStates(program) {
+      $scope.programWorkflowStates = [];
+      if (program && program.allWorkflows.length) {
+        program.allWorkflows.forEach(function (workflow) {
+          if (!workflow.retired && workflow.states.length)
+            workflow.states.forEach(function (state) {
+              if (!state.retired)
+                $scope.programWorkflowStates.push(state);
+            });
+        });
+      }
+      return states;
+    }
+
+    function hasStates(program) {
+      return program && !_.isEmpty(program.allWorkflows) && !_.isEmpty($scope.programWorkflowStates);
+    }
+
+    function hasProgramWorkflowStates(patientProgram) {
+      return !_.isEmpty(getStates(patientProgram.program));
+    }
+
+    function showMessage(msg) {
+      $scope.errorMessage = msg;
+      $(function () {
+        $('.alert').show();
+      });
+    }
+
+  }
+
+})();
