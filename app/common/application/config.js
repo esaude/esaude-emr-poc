@@ -21,7 +21,9 @@
     });
 
     // Datepicker config
+    uibDatepickerConfig.datepickerMode = 'month';
     uibDatepickerConfig.showWeeks = false;
+    uibDatepickerConfig.startingDay = 1;
     uibDatepickerPopupConfig.datepickerPopup = dateFormat.shortDate;
 
     $provide.decorator('dateFilter', dateFilterDecorator);
