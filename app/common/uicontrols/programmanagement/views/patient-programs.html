@@ -88,14 +88,12 @@
             <td ng-if="program.outcome">
                 {{program.outcome.display}}
             </td>
-            <td ng-if="!program.outcome">
-            </td>
         </tr>
     </tbody>
     <tfoot>
         <tr>
             <td colspan="5" class="go-to-right">
-                <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addProgramModal">
+                <button type="button" class="btn btn-primary btn-lg" ng-click="resetProgramFields()" data-toggle="modal" data-target="#addProgramModal">
                     <span class="glyphicon glyphicon-plus-sign"></span>
                     <span class="button-label">{{'NEW_PROGRAM' | translate}}</span>
                 </button>

@@ -42,7 +42,7 @@
     $scope.getWorkflowStates = getWorkflowStates;
     $scope.hasStates = hasStates;
     $scope.hasProgramWorkflowStates = hasProgramWorkflowStates;
-
+    $scope.resetProgramFields = resetProgramFields;
 
     activate();
 
@@ -72,7 +72,6 @@
     }
 
     function enrollPatient(program, programEnrollmentDate, state) {
-      $scope.programSelected = null;
       $scope.programSelected = program;
       if (!isProgramSelected()) {
         showMessage("COMMON_PROGRAM_ENROLLMENT_ERROR_NO_PROGRAM");
@@ -90,9 +89,7 @@
         showMessage("COMMON_PROGRAM_ENROLLMENT_DATE_NOT_IN_FUTURE");
         return;
       }
-      $scope.workflowStateSelected = null;
       $scope.workflowStateSelected = state;
-      $scope.programEnrollmentDate = null;
       $scope.programEnrollmentDate = DateUtil.parse(programEnrollmentDate);
 
 
@@ -101,9 +98,6 @@
         programService.enrollPatientToAProgram($scope.patient.uuid, $scope.programSelected.uuid, $scope.programEnrollmentDate, stateUuid)
           .then(successCallback, failureCallback)
       );
-      $(function () {
-        $('#addProgramModal').modal('toggle');
-      });
       $scope.errorMessage = null;
     }
 
@@ -115,20 +109,30 @@
       }));
     }
 
-    function successCallback() {
+    function resetProgramFields() {
       $scope.programEdited.selectedState = null;
       $scope.programEdited.startDate = null;
-      $scope.programSelected = null;
-      $scope.workflowStateSelected = null;
+      $scope.programSelected = {};
+      $scope.workflowStateSelected = {};
+    }
+
+    function successCallback() {
       updateActiveProgramsList();
+      getAddProgramModal().modal('toggle');
       notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
     }
 
     function failureCallback(error) {
       var fieldErrorMsg = findFieldErrorIfAny(error);
-      $scope.errorMessage = _.isUndefined(fieldErrorMsg) ? "Failed to Save" : fieldErrorMsg;
-      notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ACTION'));
-      successCallback();
+      var globalErrorMsg = error.data.error.globalErrors[0].message;
+
+      var msg = fieldErrorMsg || globalErrorMsg;
+
+      if (msg) {
+        showMessage(msg);
+      } else {
+        notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ACTION'));
+      }
     }
 
     function findFieldErrorIfAny(error) {
@@ -145,7 +149,7 @@
         , current = obj
         , i;
       for (i = 0; i < paths.length; ++i) {
-        if (current[paths[i]] == undefined) {
+        if (angular.isUndefined(current[paths[i]])) {
           return undefined;
         } else {
           current = current[paths[i]];
@@ -183,7 +187,7 @@
 
     function getCurrentState(states) {
       return _.find(states, function (state) {
-        return state.endDate == null && !state.voided;
+        return state.endDate === null && !state.voided;
       });
     }
 
@@ -193,12 +197,9 @@
 
     //must have at least one state and non voided
     function hasValidProgramStateToShow(states) {
-      for (var i in states) {
-        if (!states[i].voided) {
-          return true;
-        }
-      }
-      return false;
+      return states.some(function (s) {
+        return !s.voided;
+      });
     }
 
     function initCurrentState(patientProgram) {
@@ -241,9 +242,7 @@
           .then(successCallback, failureCallback)
       );
 
-      $(function () {
-        $('#editProgramStateModal').modal('toggle');
-      });
+      getEditProgramStateModal().modal('toggle');
       $scope.errorMessage = null;
     }
 
@@ -276,9 +275,7 @@
           updateActiveProgramsList();
         }));
 
-      $(function () {
-        $('#editProgramModal').modal('toggle');
-      });
+      getEditProgramModal().modal('toggle');
       $scope.errorMessage = null;
     }
 
@@ -311,7 +308,7 @@
     }
 
     function canRemovePatientState(state) {
-      return state.endDate == null;
+      return state.endDate === null;
     }
 
     function removePatientState(patientProgram) {
@@ -347,11 +344,21 @@
 
     function showMessage(msg) {
       $scope.errorMessage = msg;
-      $(function () {
-        $('.alert').show();
-      });
+      $scope.showMessage = true;
+      angular.element('.alert').show();
     }
 
+    function getAddProgramModal() {
+      return angular.element('#addProgramModal');
+    }
+
+    function getEditProgramModal() {
+      return angular.element('#editProgramModal');
+    }
+
+    function getEditProgramStateModal() {
+      return angular.element('#editProgramStateModal');
+    }
   }
 
 })();
