@@ -5,10 +5,10 @@
     .module('bahmni.common.domain')
     .factory('programService', programService);
 
-  programService.$inject = ['$http'];
+  programService.$inject = ['$http', '$log', '$q'];
 
   /* @ngInject */
-  function programService($http) {
+  function programService($http, $log, $q) {
     var service = {
       getAllPrograms: getAllPrograms,
       enrollPatientToAProgram: enrollPatientToAProgram,
@@ -41,8 +41,7 @@
           patient: patientUuid,
           program: programUuid,
           dateEnrolled: dateEnrolled
-        },
-        headers: {"Content-Type": "application/json"}
+        }
       };
       if(!_.isEmpty(stateUuid)){
         req.content.states = [
@@ -52,7 +51,12 @@
           }
         ]
       }
-      return $http.post(req.url, req.content, req.headers);
+      return $http.post(req.url, req.content).then(function (response) {
+        return response;
+      }).catch(function (error) {
+        $log.error('XHR Failed for enrollPatientToAProgram: ' + error.data.error.message);
+        return $q.reject(error);
+      });
     }
 
     function getPatientPrograms (patientUuid) {
