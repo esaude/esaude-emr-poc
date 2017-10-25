@@ -45,11 +45,11 @@
     </thead>
     <tbody>
       <tr ng-repeat="p in vm.displayedPickups">
-        <td>{{p.dispensationItemCreationDate | date:"dd/MM/yyyy"}}</td>
+        <td>{{p.dispensationItemCreationDate | date}}</td>
         <td>{{p.drugOrder.drug.display}}</td>
         <td>{{p.drugOrder.dose}} {{p.drugOrder.doseUnits.display}} {{p.drugOrder.frequency.display}}</td>
         <td>{{p.quantityDispensed}}</td>
-        <td>{{p.dateOfNextPickUp | date:"dd/MM/yyyy"}}</td>
+        <td>{{p.dateOfNextPickUp | date}}</td>
         <td>{{p.prescription.provider.display}}</td>
       </tr>
     </tbody>
