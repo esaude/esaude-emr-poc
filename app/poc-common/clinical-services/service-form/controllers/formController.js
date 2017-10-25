@@ -39,6 +39,9 @@
     $scope.stepInFormPart = stepInFormPart;
     $scope.updateCurrentFormPart = updateCurrentFormPart;
 
+    var vm = this;
+    vm.getPreviousEncounter = getPreviousEncounter;
+
     activate();
 
     ////////////////
