@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('vitals')
-        .controller('VitalsController', ['$rootScope', '$scope', '$stateParams', 'visitService', 'observationsService',
-                    function ($rootScope, $scope, $stateParams, visitService, observationsService) {
+        .controller('VitalsController', ['$rootScope', '$scope', '$stateParams', 'visitService', 'observationsService', 'notifier',
+                    function ($rootScope, $scope, $stateParams, visitService, observationsService, notifier) {
             var patientUuid;
 
             init();
@@ -16,14 +16,18 @@ angular.module('vitals')
                     $scope.lastVisit = _.maxBy(visits, 'startDatetime');
                 });
 
-                observationsService.get(patientUuid, 'e1e2e934-1d5f-11e0-b929-000c29ad1d07').success(function (data) {
-                    var nonRetired = observationsService.filterRetiredObs(data.results);
-                    $scope.lastHeight = _.maxBy(nonRetired, 'obsDatetime');
+                observationsService.getLastPatientObs(patientUuid, Bahmni.Common.Constants.BMI)
+                  .then(function (data) {
+                        $scope.lastBmi = data;
+                  }).catch(function (data) {
+                    notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ACTION'));
                 });
 
-                observationsService.get(patientUuid, 'e1da52ba-1d5f-11e0-b929-000c29ad1d07').success(function (data) {
-                    var nonRetired = observationsService.filterRetiredObs(data.results);
-                    $scope.lastBmi = _.maxBy(nonRetired, 'obsDatetime');
-                });
+                observationsService.getLastPatientObs(patientUuid, Bahmni.Common.Constants.HEIGHT_CM)
+                  .then(function (data) {
+                        $scope.lastHeight = data;
+                    }).catch(function (error) {
+                        notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ACTION'));
+                    });
             }
         }]);

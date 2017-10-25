@@ -115,7 +115,7 @@ angular.module('application')
 
             var findLastDateOfNextConsultation = function () {
                 _.forEach($scope.results, function (result) {
-                    observationsService.get(result.uuid, 'e1dae630-1d5f-11e0-b929-000c29ad1d07')
+                    observationsService.getObs(result.uuid, 'e1dae630-1d5f-11e0-b929-000c29ad1d07')
                     .success(function (data) {
                         //skip if doesn't have next consultation
                         if(_.isEmpty(data.results)) return;

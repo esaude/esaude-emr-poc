@@ -24,5 +24,8 @@
 	"PHARMACY_THE_SELECTED_DRUG_IS_NOT_PART_OF_PRESCRIBED" : "The selected drug is not part of Prescribed",
 	"CLINIC_PATIENT_PRESCRIPTIONS": "Prescriptions",
   "PRESCRIPTION_DATE": "Prescription date",
-  "PHARMACY_STATUS": "Status"
+  "PHARMACY_STATUS": "Status",
+  "VITALS_LAST_VISIT": "Last Visit",
+  "VITALS_LAST_HEIGHT": "Last Height",
+  "VITALS_LAST_BMI": "Last BMI"
 }

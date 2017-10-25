@@ -9,19 +9,22 @@
 
   /* @ngInject */
   function observationService($http, $log, $q) {
+    var OPENMRS_OBS_REST_URL = Poc.Patient.Constants.obsRestUrl ;
+
     var service = {
       findAll: findAll,
       filterByList: filterByList,
       filterRetiredObs: filterRetiredObs,
-      get: get,
-      getLastValueForConcept: getLastValueForConcept
+      getObs: getObs,
+      getLastValueForConcept: getLastValueForConcept,
+      getLastPatientObs: getLastPatientObs
     };
     return service;
 
     ////////////////
 
     function findAll(patientUuid) {
-      return $http.get('/openmrs/ws/rest/v1/obs', {
+      return $http.get(OPENMRS_OBS_REST_URL, {
         params: {
           patient: patientUuid,
           v: "custom:(uuid,display,concept:(uuid,name),obsDatetime,value,groupMembers:(uuid,concept:(uuid,name),obsDatetime,value))"
@@ -30,8 +33,8 @@
       });
     }
 
-    function get(patientUuid, concept) {
-      return $http.get('/openmrs/ws/rest/v1/obs', {
+    function getObs(patientUuid, concept) {
+      return $http.get(OPENMRS_OBS_REST_URL, {
         params: {
           patient: patientUuid,
           concept: concept,
@@ -42,7 +45,7 @@
     }
 
     function getLastValueForConcept(patientUUID, concept) {
-      return get(patientUUID, concept)
+      return getObs(patientUUID, concept)
         .then(function (response) {
 
           var nonRetired = filterRetiredObs(response.data.results);
@@ -88,6 +91,17 @@
       }
       return filtered;
     }
+
+    function getLastPatientObs(patientUuid, concepts) {
+        return getObs(patientUuid, concepts).then(function(response) {
+            var nonRetired = filterRetiredObs(response.data.results);
+                return _.maxBy(nonRetired, 'obsDatetime');
+          }).catch(function (error) {
+              $log.error('XHR Failed for getLastPatientObs: ' + error.data.error.message);
+              return $q.reject(error);
+          });
+      }
+
   }
 
 })();

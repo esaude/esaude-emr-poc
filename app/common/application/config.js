@@ -21,7 +21,9 @@
     });
 
     // Datepicker config
+    uibDatepickerConfig.datepickerMode = 'month';
     uibDatepickerConfig.showWeeks = false;
+    uibDatepickerConfig.startingDay = 1;
     uibDatepickerPopupConfig.datepickerPopup = dateFormat.shortDate;
 
     $provide.decorator('dateFilter', dateFilterDecorator);
@@ -53,7 +55,7 @@
     var originalFilter = $delegate;
 
     function decoratedDateFilter(date, format, timezone) {
-      if (!format) {
+      if (!format || format === 'shortDate') {
         format = dateFormat.shortDate;
       } else if (format === 'short') {
         format = dateFormat.short;

@@ -6,11 +6,11 @@
     .controller('VisitController', VisitController);
 
   VisitController.$inject = ['$rootScope', '$stateParams', '$filter', 'visitService', 'encounterService',
-    'commonService', 'localStorageService', 'patientService', 'notifier'];
+    'commonService', 'localStorageService', 'patientService', 'notifier', 'observationsService'];
 
   /* @ngInject */
   function VisitController($rootScope, $stateParams, $filter, visitService, encounterService, commonService,
-                           localStorageService, patientService, notifier) {
+                           localStorageService, patientService, notifier, observationsService) {
 
 
     var dateFilter = $filter('date');
@@ -80,6 +80,13 @@
         );
 
       visitService.search({patient: patientUuid, v: "full"}).then(searchVisitByPatientCallback);
+
+      observationsService.getLastPatientObs(patientUuid, Bahmni.Common.Constants.BMI)
+        .then(function (data) {
+          vm.lastBmi = data;
+        }).catch(function (data) {
+          notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
+      });
     }
 
     function searchVisitByPatientCallback(visits) {
