@@ -5,9 +5,9 @@
     .module('common.patient')
     .factory('reportService', reportService);
 
-  reportService.$inject = ['$rootScope', '$compile', '$timeout', '$http', '$log', '$q'];
+  reportService.$inject = ['$rootScope', '$compile', '$timeout', '$http', '$log', '$q', 'translateFilter'];
 
-  function reportService($rootScope, $compile, $timeout, $http, $log, $q) {
+  function reportService($rootScope, $compile, $timeout, $http, $log, $q, translateFilter) {
 
     var PATIENT_ARV_PICKUP_HISTORY_TEMPLATE = "../patient-details/views/patient-arv-pickup-history-report.html";
 
@@ -24,14 +24,31 @@
 
     ////////////////
 
+    function localizeAddress(address) {
+      return {
+        line1: translateFilter('ADDRESS_FORMAT_LINE1', {
+          street: address.address1,
+          cell: address.address3
+        }),
+        line2: translateFilter('ADDRESS_FORMAT_LINE2', {
+          neighborhood: address.address5,
+          locality: address.address6,
+          district: address.countyDistrict,
+          province: address.stateProvince,
+          country: address.country
+        })
+      };
+    }
+
     /**
      * @param {Object} patient
      */
     function printPatientARVPickupHistory(patient) {
       var vm = {};
       vm.patient = patient;
+      vm.patient.address.localized = localizeAddress(vm.patient.address);
       vm.months = moment.monthsShort();
-      vm.calendar = Array(WEEKS_IN_MONTH);
+      vm.calendar = new Array(WEEKS_IN_MONTH);
 
       fillCalendar(vm);
 
@@ -120,10 +137,10 @@
 
     function fillCalendar(vm) {
 
-      vm.calendar[0] = Array(MONTHS_IN_YEAR);
-      vm.calendar[1] = Array(MONTHS_IN_YEAR);
-      vm.calendar[2] = Array(MONTHS_IN_YEAR);
-      vm.calendar[3] = Array(MONTHS_IN_YEAR);
+      vm.calendar[0] = new Array(MONTHS_IN_YEAR);
+      vm.calendar[1] = new Array(MONTHS_IN_YEAR);
+      vm.calendar[2] = new Array(MONTHS_IN_YEAR);
+      vm.calendar[3] = new Array(MONTHS_IN_YEAR);
       fill(vm.calendar[0], "");
       fill(vm.calendar[1], "");
       fill(vm.calendar[2], "");

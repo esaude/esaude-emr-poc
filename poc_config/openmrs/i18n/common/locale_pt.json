@@ -306,5 +306,7 @@
     "FIELD_NEVER_VISITED": "Este campo não foi visitado, por favor visite este campo antes de salvar",
     "FIELD_NOT_VALID": "Este campo contem erro de validação. Favor de corrigir antes de salvar",
     "PRESCRIPTION_ACTIVE": "Ativo",
-    "PRESCRIPTION_FINALIZED": "Finalizado"
+    "PRESCRIPTION_FINALIZED": "Finalizado",
+    "ADDRESS_FORMAT_LINE1": "{{street}} {{cell}}",
+    "ADDRESS_FORMAT_LINE2": "{{country}} {{province}} {{district}} {{locality}} {{neighborhood}}"
 }
