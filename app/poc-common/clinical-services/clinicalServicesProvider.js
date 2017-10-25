@@ -27,7 +27,8 @@
         getFormData: getFormData,
         getFormLayouts: getFormLayouts,
         getClinicalServiceWithEncountersForPatient: getClinicalServicesWithEncountersForPatient,
-        loadClinicalServices: loadClinicalServices
+        loadClinicalServices: loadClinicalServices,
+        deleteService: deleteService
       };
 
       return service;
@@ -61,6 +62,16 @@
           });
           registerRoutes($state, _clinicalServices);
           return service;
+        });
+      }
+
+      function deleteService(service, encounter) {
+        return $http.get('/openmrs/ws/rest/v1/clinicalservice', {
+          params: {
+            clinicalservice: service,
+            encounter: encounter
+          },
+          withCredentials: true
         });
       }
 

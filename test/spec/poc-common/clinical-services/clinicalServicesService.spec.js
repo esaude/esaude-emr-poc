@@ -202,6 +202,29 @@ describe('clinicalServicesService', function () {
 
     });
 
+    describe('deleteService: rest call using GET method to POC module that performs the logic of voiding OBS', function () {
+
+      var openmrsUrl = "/openmrs/ws/rest/v1/clinicalservice";
+      var response = [];
+
+      var requestDetails = {clinicalservice: "clinicalServiceUuid", encounter: "encounterUuid"};
+
+      beforeEach(function () {
+        $http.expectGET(openmrsUrl + '?clinicalservice=' + requestDetails.clinicalservice + '&encounter=' + requestDetails.encounter)
+        .respond(response);
+      });
+
+      it('should call end service url in delete clinical service service', function () {
+        var resolve;
+        clinicalServicesService.deleteService(requestDetails.clinicalservice, requestDetails.encounter).then(function (response) {
+          resolve = response;
+        });
+
+        $http.flush();
+        expect(resolve.data).toEqual(response);
+      });
+    });
+
     afterEach(function () {
       $http.verifyNoOutstandingExpectation();
       $http.verifyNoOutstandingRequest();

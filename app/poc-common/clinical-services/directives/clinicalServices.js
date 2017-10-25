@@ -21,10 +21,10 @@
   }
 
   ClinicalServiceDirectiveController.$inject = ['$filter', '$q', '$state', 'clinicalServicesService', 'notifier',
-    'patientService', 'spinner', 'visitService', 'pocClinicalServiceService'];
+    'patientService', 'spinner', 'visitService'];
 
   function ClinicalServiceDirectiveController($filter, $q, $state, clinicalServicesService, notifier, patientService,
-                                              spinner, visitService, pocClinicalServiceService) {
+                                              spinner, visitService) {
 
     var vm = this;
 
@@ -152,12 +152,12 @@
     }
 
     function deleteClinicalService(service, encounterUuid) {
-      pocClinicalServiceService.deleteService(service.id, encounterUuid).success(function (data) {
+      clinicalServicesService.deleteService(service.id, encounterUuid).success(function (data) {
 
         _.remove(service.encountersForService, {
             uuid: encounterUuid
         });
-        
+
         notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
         if (_.isEmpty(service.encountersForService)) {
           $state.reload();
