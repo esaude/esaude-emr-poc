@@ -3,12 +3,12 @@
 
   angular
     .module('poc.common.clinicalservices')
-    .factory('clinicalServiceService', clinicalServiceService);
+    .factory('pocClinicalServiceService', pocClinicalServiceService);
 
-  clinicalServiceService.$inject = ['$http', '$log', '$q'];
+  pocClinicalServiceService.$inject = ['$http'];
 
   /* @ngInject */
-  function clinicalServiceService($http, $log, $q) {
+  function pocClinicalServiceService($http) {
     var service = {
       deleteService: deleteService
     };
