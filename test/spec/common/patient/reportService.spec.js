@@ -50,7 +50,19 @@ describe('reportService', function () {
     });
 
     it('should generate report', function () {
-      var patient = { fullName: "Malocy Landon", dispensations: [] };
+      var patient = {
+        fullName: "Malocy Landon",
+        dispensations: [],
+        address: {
+          address1: "Rua de Kongwa",
+          address3: "130",
+          address5: "Central",
+          address6: null,
+          countyDistrict: "Mutarara",
+          stateProvince: "Tete",
+          country: "Mocambique"
+        }
+      };
       patient.startDate = moment('2017-10-18').toDate();
       patient.endDate = moment('2018-10-18').toDate();
       var template = "<div>{{patient.fullName}}</div>";
@@ -66,10 +78,22 @@ describe('reportService', function () {
     });
 
     it('should cancel report generation if load fails', function () {
-      var patient = { fullName: "Malocy Landon", dispensations: [] };
+      var patient = {
+        fullName: "Malocy Landon",
+        dispensations: [],
+        address: {
+          address1: "Rua de Kongwa",
+          address3: "130",
+          address5: "Central",
+          address6: null,
+          countyDistrict: "Mutarara",
+          stateProvince: "Tete",
+          country: "Mocambique"
+        }
+      };
       patient.startDate = moment('2017-10-18').toDate();
       patient.endDate = moment('2018-10-18').toDate();
-      
+
       loadTemplate.respond(404, 'Not Found');
 
       spyOn($log, "error").and.callThrough();

@@ -2,33 +2,6 @@
   margin: 5mm;
 }
 
-.arv-pickup {
-  padding: 20pt;
-}
-
-.header {
-  text-align: center;
-  margin-bottom: 20pt;
-}
-
-.header .emblem {
-  height: 70pt;
-}
-
-.patient {
-  padding: 10px;
-  border: 1pt solid #ddd;
-}
-
-.calendar {
-  text-align: center;
-}
-
-.calendar .table .week-header {
-  display: inline-block;
-  transform: rotate(-90deg) translate(-100%, 50%);
-}
-
 div.title-area {
   width: 120mm;
   font-size: 14pt;
@@ -82,8 +55,8 @@ div.simbol-area {
 }
 
 div.simbol-area p {
-  margin: 0mm;
-  padding: 0mm;
+  margin: 0;
+  padding: 0;
   text-align: center;
 }
 

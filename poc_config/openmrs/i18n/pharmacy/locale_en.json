@@ -37,5 +37,11 @@
   "FILA_REPORT_PERSONAL_DATA_NOTE": "Fill in number of Book, Page and Line where the patient was registred on TARV registry after first dispensation is registred",
 	"DISPENSATION_DATE": "Dispensation Date",
 	"ARV_MEDICINES": "ARV Medicines",
-	"FILA_REPORT_INVALID_DATE_INTERVAL": "FILA cannot be printed for a date range of more than 1 year"	
+	"FILA_REPORT_INVALID_DATE_INTERVAL": "FILA cannot be printed for a date range of more than 1 year",
+  "FILA_REPORT_LEGEND_HEADER": "ART book number: ______, Page: _____, Line: _____",
+  "FILA_REPORT_PICKUP_DATE": "Pickup date",
+  "FILA_REPORT_ARV_MEDS": "Drug",
+  "FILA_REPORT_QTY": "Amount",
+  "FILA_REPORT_DOSAGE": "Dosage",
+  "FILA_REPORT_NEXT_PICKUP_DATE": "Next pickup date"
 }

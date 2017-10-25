@@ -50,10 +50,13 @@
         <span id="nid-label">{{'SEARCH_PATIENT_NID' | translate}}:</span> {{patient.identifier}}
       </div>
       <div id="personal-data-conteiner">
-        <div id="first-line-personal-data" class="personal-data">Nº do Livro TARV: ______, Pág: _____, Linha: _____</div>
+        <div id="first-line-personal-data" class="personal-data">{{'FILA_REPORT_LEGEND_HEADER' | translate}}</div>
         <div class="personal-data">{{'SEARCH_PATIENT_FIRSTNAME' | translate}}: {{patient.fullName}}</div>
         <div class="personal-data">{{'PATIENT_INFO_OTHERS' | translate}}: {{patient['Numero de Telefone 1']}} / {{patient['Numero de Telefone 2']}}</div>
-        <div class="personal-data">{{'PATIENT_INFO_ADDRESS' | translate}}: {{patient.address.display}}</div>
+        <div class="personal-data">
+          {{'PATIENT_INFO_ADDRESS' | translate}}: {{patient.address.localized.line1}} <br>
+          {{patient.address.localized.line2}}
+        </div>
       </div>
     </div>
   </div>
@@ -66,20 +69,20 @@
   <table style="width: 145mm;">
       <thead>
         <tr>
-          <th>{{'DISPENSATION_DATE' | translate}}</th>
-          <th class="medicine-column">Medicamentos ARVs</th>
-          <th>Quantidade Aviada</th>
-          <th class="dosage-column">Dosagem</th>
-          <th>Data do Próximo Levantamento</th>
+          <th>{{'FILA_REPORT_PICKUP_DATE' | translate}}</th>
+          <th class="medicine-column">{{'FILA_REPORT_ARV_MEDS' | translate}}</th>
+          <th>{{'FILA_REPORT_QTY' | translate}}</th>
+          <th class="dosage-column">{{'FILA_REPORT_DOSAGE' | translate}}</th>
+          <th>{{'FILA_REPORT_NEXT_PICKUP_DATE' | translate}}</th>
         </tr>
       </thead>
       <tbody >
         <tr ng-repeat="displacement in filaDisplacements1 track by $index" class="displacement-row">
-          <td ng-if="displacement.dateRowSpanSize > 0" rowspan="{{displacement.dateRowSpanSize}}">{{displacement.date | date:"dd/MM/yyyy"}}&nbsp;</td>
+          <td ng-if="displacement.dateRowSpanSize > 0" rowspan="{{displacement.dateRowSpanSize}}">{{displacement.date | date}}&nbsp;</td>
           <td>{{displacement.medicine}}&nbsp;</td>
           <td>{{displacement.quantity}}&nbsp;</td>
           <td>{{displacement.dosage}}&nbsp;</td>
-          <td>{{displacement.nextDisplacement | date:"dd/MM/yyyy"}}&nbsp;</td>
+          <td>{{displacement.nextDisplacement | date}}&nbsp;</td>
         </tr>
       </tbody>
       <tfoot>
@@ -92,20 +95,20 @@
     <table style="width: 144mm; margin-left: 1mm;">
       <thead>
       <tr>
-        <th>Data de Levantamento de ARVs</th>
-        <th class="medicine-column">Medicamentos ARVs</th>
-        <th>Quantidade Aviada</th>
-        <th class="dosage-column">Dosagem</th>
-        <th>Data do Próximo Levantamento</th>
+        <th>{{'FILA_REPORT_PICKUP_DATE' | translate}}</th>
+        <th class="medicine-column">{{'FILA_REPORT_ARV_MEDS' | translate}}</th>
+        <th>{{'FILA_REPORT_QTY' | translate}}</th>
+        <th class="dosage-column">{{'FILA_REPORT_DOSAGE' | translate}}</th>
+        <th>{{'FILA_REPORT_NEXT_PICKUP_DATE' | translate}}</th>
       </tr>
       </thead>
       <tbody >
       <tr ng-repeat="displacement in filaDisplacements2 track by $index" class="displacement-row">
-        <td ng-if="displacement.dateRowSpanSize > 0" rowspan="{{displacement.dateRowSpanSize}}">{{displacement.date | date:"dd/MM/yyyy"}}&nbsp;</td>
+        <td ng-if="displacement.dateRowSpanSize > 0" rowspan="{{displacement.dateRowSpanSize}}">{{displacement.date | date}}&nbsp;</td>
         <td>{{displacement.medicine}}&nbsp;</td>
         <td>{{displacement.quantity}}&nbsp;</td>
         <td>{{displacement.dosage}}&nbsp;</td>
-        <td>{{displacement.nextDisplacement | date:"dd/MM/yyyy"}}&nbsp;</td>
+        <td>{{displacement.nextDisplacement | date}}&nbsp;</td>
       </tr>
       </tbody>
     </table>
