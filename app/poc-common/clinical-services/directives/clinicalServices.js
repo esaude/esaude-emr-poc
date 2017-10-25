@@ -153,12 +153,11 @@
 
     function deleteClinicalService(service, encounterUuid) {
       pocClinicalServiceService.deleteService(service.id, encounterUuid).success(function (data) {
-        var deletedEncounter = _.find(service.encountersForService, function (en) {
-          return en.uuid === encounterUuid;
+
+        _.remove(service.encountersForService, {
+            uuid: encounterUuid
         });
-        if (!_.isUndefined(deletedEncounter)) {
-          _.pull(service.encountersForService, deletedEncounter);
-        }
+        
         notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
         if (_.isEmpty(service.encountersForService)) {
           $state.reload();
