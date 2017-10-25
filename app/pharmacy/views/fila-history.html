@@ -1,54 +1,69 @@
 <div class="row content-border-margin-regular">
 
-  <br/>
   <div class="form-inline">
-    <div class="form-group form-group-lg">
-      <label for="year">{{"COMMON_YEAR" | translate }}:</label>
-      <select ng-required="true" ng-model="vm.year" ng-options="+(y) as y for y in vm.years" ng-change="vm.onDateChange()" id="year"
-              class="form-control">
-      </select>
+
+    <div class="form-group">
+      <label for="startDate">{{"START_DATE" | translate }}:</label>
+      <div class="input-group">
+        <input class="form-control" id="startDate" name="startDate" type="text" uib-datepicker-popup ng-model="vm.startDate" ng-focus="focused1=true"
+          is-open="focused1" ng-change="vm.onStartDateChange(); vm.updateResults();" datepicker-options="patientCommon.birthDatepickerOptions" required/>
+        <span class="input-group-addon">
+          <span class="glyphicon glyphicon-calendar"></span>
+        </span>
+      </div>
     </div>
-    <div class="pull-right">
-      <button type="button" class="btn btn-primary btn-lg" ng-click="vm.onPrint()">
-        <span class="glyphicon glyphicon-print"></span>
-        <span class="button-label">{{'PRINT' | translate}}</span>
-      </button>
+
+    <div class="form-group" style="margin-left: 10px;">
+      <label for="endDate">{{"END_DATE" | translate }}:</label>
+      <div class="input-group">
+        <input class="form-control" id="endDate" name="endDate" type="text" uib-datepicker-popup ng-model="vm.endDate" ng-focus="focused2=true"
+          is-open="focused2" datepicker-options="patientCommon.birthDatepickerOptions" ng-change="vm.updateResults();" required/>
+        <span class="input-group-addon">
+          <span class="glyphicon glyphicon-calendar"></span>
+        </span>
+      </div>
     </div>
+
+    <button type="button" class="btn btn-primary btn-lg" ng-click="vm.onPrint()" style="margin-left: 10px;">
+      <span class="glyphicon glyphicon-print"></span>
+      <span class="button-label">{{'PRINT' | translate}}</span>
+    </button>
+
   </div>
-  <br/>
+
 
   <table st-table="vm.displayedPickups" st-safe-src="vm.filteredPickups" class="table table-striped">
     <thead>
-    <tr>
-      <th>{{'PHARMACY_PICKUP_DATE' | translate}}</th>
-      <th>{{'PHARMACY_REGIMEN' | translate}}</th>
-      <th>{{'PHARMACY_POSOLOGY' | translate}}</th>
-      <th>{{'PHARMACY_QUANTITY' | translate}}</th>
-      <th>{{'PHARMACY_NEXT_PICKUP' | translate}}</th>
-      <th>{{'COMMON_BY' | translate}}</th>
-    </tr>
+      <tr>
+        <th>{{'PHARMACY_PICKUP_DATE' | translate}}</th>
+        <th>{{'ARV_MEDICINES' | translate}}</th>
+        <th>{{'PHARMACY_POSOLOGY' | translate}}</th>
+        <th>{{'PHARMACY_QUANTITY' | translate}}</th>
+        <th>{{'PHARMACY_NEXT_PICKUP' | translate}}</th>
+        <th>{{'COMMON_BY' | translate}}</th>
+      </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="p in vm.displayedPickups">
-      <td>{{p.encounterDatetime | date}}</td>
-      <td>{{p.regimen}}</td>
-      <td>{{p.posology}}</td>
-      <td>{{p.quantity}}</td>
-      <td>{{p.nextPickup | date}}</td>
-      <td>{{p.provider}}</td>
-    </tr>
+      <tr ng-repeat="p in vm.displayedPickups">
+        <td>{{p.dispensationItemCreationDate | date}}</td>
+        <td>{{p.drugOrder.drug.display}}</td>
+        <td>{{p.drugOrder.dose}} {{p.drugOrder.doseUnits.display}} {{p.drugOrder.frequency.display}}</td>
+        <td>{{p.quantityDispensed}}</td>
+        <td>{{p.dateOfNextPickUp | date}}</td>
+        <td>{{p.prescription.provider.display}}</td>
+      </tr>
     </tbody>
     <tfoot>
-    <tr ng-show="vm.displayedPickups.length === 0">
-      <td colspan="6" class="text-center">
-        {{'PHARMACY_LIST_NO_ITEMS' | translate}}
-      </td>
-    </tr>
-    <tr>
-      <td colspan="6" class="text-center">
-        <div st-items-by-page="4" st-displayed-pages="7" st-pagination=""></div>
-      </td>
-    </tr>
+      <tr ng-show="vm.displayedPickups.length === 0">
+        <td colspan="6" class="text-center">
+          {{'PHARMACY_LIST_NO_ITEMS' | translate}}
+        </td>
+      </tr>
+      <tr>
+        <td colspan="6" class="text-center">
+          <div st-items-by-page="4" st-displayed-pages="7" st-pagination=""></div>
+        </td>
+      </tr>
     </tfoot>
   </table>
 </div>
