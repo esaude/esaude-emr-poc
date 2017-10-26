@@ -221,7 +221,7 @@ describe('clinicalServicesService', function () {
         });
 
         $http.flush();
-        expect(resolve.data).toEqual(response);
+        expect(resolve).toEqual(response);
       });
     });
 

@@ -66,12 +66,18 @@
       }
 
       function deleteService(service, encounter) {
-        return $http.get('/openmrs/ws/rest/v1/clinicalservice', {
+        var data = {
           params: {
             clinicalservice: service,
             encounter: encounter
           },
           withCredentials: true
+        };
+        return $http.get('/openmrs/ws/rest/v1/clinicalservice', data).then(function (response) {
+          return response.data;
+        }).catch(function (error) {
+          $log.error('XHR Failed for deleteService: ' + error.data.error.message);
+          return $q.reject(error);
         });
       }
 
