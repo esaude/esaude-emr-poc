@@ -152,7 +152,7 @@
     }
 
     function deleteClinicalService(service, encounterUuid) {
-      clinicalServicesService.deleteService(service.id, encounterUuid).success(function (data) {
+      clinicalServicesService.deleteService(service.id, encounterUuid).then(function () {
 
         _.remove(service.encountersForService, {
             uuid: encounterUuid
@@ -162,7 +162,7 @@
         if (_.isEmpty(service.encountersForService)) {
           $state.reload();
         }
-      }).error(function(data) {
+      }).catch(function() {
         notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ACTION'));
       });
     }
