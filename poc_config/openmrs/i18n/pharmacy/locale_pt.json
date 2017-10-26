@@ -27,5 +27,21 @@
   "PHARMACY_STATUS": "Estado",
   "VITALS_LAST_VISIT": "Última Visita",
   "VITALS_LAST_HEIGHT": "Última altura",
-  "VITALS_LAST_BMI": "Último IMC"
+  "VITALS_LAST_BMI": "Último IMC",
+  "PHARMACY_ACTIVE": "Ativo",
+  "PHARMACY_FINALIZED": "Finalizado",
+  "PHARMACY_CANCEL": "Cancelar",
+  "FILA_REPORT_TITLE": "Ficha Individual de Levantamento de ARVs (FILA)",
+  "DISPENSATION_CONTROL_CALENDAR": "Calendário de Controlo das Receitas para MARVs",
+  "FILA_REPORT_FIRST_FOOT_NOTE": "Registe um X no quadro que corresponda a data de expiração da receita médica. Não avia MARVs a partir desta data até o paciente apresenta uma nova receita",
+  "FILA_REPORT_PERSONAL_DATA_NOTE": "Preencha o nº do Livro, Página, e Linha onde o doente foi registado no Registo de TARV depois do 1º levantamento registado",
+	"DISPENSATION_DATE": "Data de Levantamento de ARVs",
+	"ARV_MEDICINES": "Medicamentos ARVs",
+	"FILA_REPORT_INVALID_DATE_INTERVAL": "FILA não pode ser impresso para um intervalo superior à 1 ano",
+  "FILA_REPORT_LEGEND_HEADER": "Nº do Livro TARV: ______, Pág: _____, Linha: _____",
+  "FILA_REPORT_PICKUP_DATE": "Data de Levantamento de ARVs",
+  "FILA_REPORT_ARV_MEDS": "Medicamentos ARVs",
+  "FILA_REPORT_QTY": "Quantidade Aviada",
+  "FILA_REPORT_DOSAGE": "Dosagem",
+  "FILA_REPORT_NEXT_PICKUP_DATE": "Data do Próximo Levantamento"
 }

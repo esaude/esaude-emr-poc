@@ -5,9 +5,9 @@
     .module('common.patient')
     .factory('patientService', patientService);
 
-  patientService.$inject = ['$http', '$rootScope', 'openmrsPatientMapper', '$q', '$log', 'reportService', 'prescriptionService', 'updatePatientMapper'];
+  patientService.$inject = ['$http', '$rootScope', 'openmrsPatientMapper', '$q', '$log', 'reportService', 'updatePatientMapper'];
 
-  function patientService($http, $rootScope, openmrsPatientMapper, $q, $log, reportService, prescriptionService, updatePatientMapper) {
+  function patientService($http, $rootScope, openmrsPatientMapper, $q, $log, reportService, updatePatientMapper) {
 
     var OPENMRS_URL = Poc.Patient.Constants.openmrsUrl;
 
@@ -44,15 +44,15 @@
     function getIdentifierTypes() {
       return $http.get(OPENMRS_URL + "/ws/rest/v1/patientidentifiertype", {
         method: "GET",
-        params: {v: "full"},
+        params: { v: "full" },
         withCredentials: true
       }).then(function (response) {
         return response.data.results;
       })
-      .catch(function (error) {
-        $log.error('XHR Failed for getIdentifierTypes: ' + error.data.error.message);
-        return $q.reject(error);
-      });
+        .catch(function (error) {
+          $log.error('XHR Failed for getIdentifierTypes: ' + error.data.error.message);
+          return $q.reject(error);
+        });
     }
 
     /**
@@ -109,7 +109,7 @@
       var patientJson = new Bahmni.Registration.CreatePatientRequestMapper(moment()).mapFromPatient($rootScope.patientConfiguration.personAttributeTypes, patient);
       return $http.post(BASE_OPENMRS_REST_URL + "/patientprofile", patientJson, {
         withCredentials: true,
-        headers: {"Accept": "application/json", "Content-Type": "application/json"}
+        headers: { "Accept": "application/json", "Content-Type": "application/json" }
       });
     }
 
@@ -182,22 +182,19 @@
      * @param {String} patientUuid
      * @param {Array} pickups
      */
-    function printPatientARVPickupHistory(year, patientUuid, pickups) {
+    function printPatientARVPickupHistory(patientUuid, groupedDispensations, startDate, endDate) {
       var _getPatient = getPatient(patientUuid);
-      var getPrescriptions = prescriptionService.getPatientNonDispensedPrescriptions(patientUuid);
-
-      $q.all([_getPatient, getPrescriptions]).then(function (values) {
+      $q.all([_getPatient]).then(function (values) {
         var patient = values[0];
-        patient.pickups = pickups;
-        patient.prescriptions = _.filter(values[1], function (p) {
-          return p.prescriptionDate.getFullYear() === year;
-        });
+        patient.dispensations = groupedDispensations;
+        patient.startDate = startDate;
+        patient.endDate = endDate;
         reportService.printPatientARVPickupHistory(patient);
       });
     }
 
     function updatePerson(personUuid, patientState) {
-      return $http.post(BASE_OPENMRS_REST_URL+"/person/"+personUuid , patientState)
+      return $http.post(BASE_OPENMRS_REST_URL + "/person/" + personUuid, patientState)
         .then(function (response) {
           $log.info('XHR Succed for updatePerson. ' + response);
         })
@@ -207,8 +204,8 @@
         });
     }
 
-    function voidPatient(patientUuid, reason){
-      return $http.delete(OPENMRS_PATIENT_URL+ patientUuid + "?reason="+ reason )
+    function voidPatient(patientUuid, reason) {
+      return $http.delete(OPENMRS_PATIENT_URL + patientUuid + "?reason=" + reason)
         .then(function (response) {
           $log.info('XHR Succed for voidPatient. ');
         })

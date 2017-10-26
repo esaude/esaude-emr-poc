@@ -41,14 +41,11 @@ describe('patientService', function () {
 
       spyOn(openmrsPatientMapper, 'map').and.returnValue({});
 
-      spyOn(reportService, 'printPatientARVPickupHistory').and.callFake(function () {
-      });
 
-      $httpBackend.expectGET('/openmrs/ws/rest/v1/patient/?v=full')
+      spyOn(reportService, 'printPatientARVPickupHistory').and.callFake(function () { });
+
+      $httpBackend.expectGET('/openmrs/ws/rest/v1/patient/2017?v=full')
         .respond({});
-
-      $httpBackend.expectGET('/openmrs/ws/rest/v1/prescription?findAllActive=true&patient=&v=full')
-        .respond([]);
 
       patientService.printPatientARVPickupHistory(year, patientUUID, pickups);
 

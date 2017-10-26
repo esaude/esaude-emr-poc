@@ -3,97 +3,114 @@
 <link href="../../styles/patient-arv-pickup-history-report.css" rel="stylesheet" media="print">
 <!-- endbuild -->
 
-<div class="arv-pickup container-fluid">
+<div class="header-container" style="display: flex;">
 
-  <div class="row">
-    <div class="col-xs-10 col-xs-offset-1">
-      <div class="header">
-        <img class="emblem" src="../../images/emblem-md.png" />
-        <h1> Ficha Individual de Levantamento de ARVs (FILA)</h1>
+  <div id="top-left-area">
+      <div class="simbol-area">
+        <p><img id="simbol" class="emblem" src="../../images/emblem-md.png" /></p>
+        <p id="simbol-first-paragraph">{{'COMMON_REPUBLIC_OF_MOZAMBIQUE' | translate}}</p>
+        <p>{{'COMMON_MINISTRY_OF_HEALTH' | translate}}</p>
+        <p>{{'COMMON_HEALTH_NATIONAL_SERVICE' | translate}}</p>
       </div>
-    </div>
+      <div class="title">{{'FILA_REPORT_TITLE' | translate}}</div>
+      <div id="top-foot-note">* {{'FILA_REPORT_FIRST_FOOT_NOTE' | translate}}</div>
+      <div id="calendar-conteiner">
+        <h2>{{'DISPENSATION_CONTROL_CALENDAR' | translate}}</h2>
+        <table id="calendar">
+          <tr>
+            <th class="empty"></th>
+            <th class="empty"></th>
+            <th ng-repeat="month in months track by $index">{{month}}</th>
+          </tr>
+          <tr>
+            <th class="long-side-header" rowspan="5">Semana</th>
+            <th>{{'FIRST_ABRV' | translate}}</th>
+            <td ng-repeat="x in calendar[0] track by $index">{{x}}</td>
+          </tr>
+          <tr>
+            <th>{{'SECOND_ABRV' | translate}}</th>
+            <td ng-repeat="x in calendar[1] track by $index">{{x}}</td>
+          </tr>
+          <tr>
+            <th>{{'THIRD_ABRV' | translate}}</th>
+            <td ng-repeat="x in calendar[2] track by $index">{{x}}</td>
+          </tr>
+          <tr>
+            <th>{{'FORTH_ABRV' | translate}}</th>
+            <td ng-repeat="x in calendar[3] track by $index">{{x}}</td>
+          </tr>
+        </table>
+      </div>
   </div>
 
-  <div class="row">
-    <div class="col-xs-10 col-xs-offset-1">
-      <div class="patient">
-        <div class="row">
-          <div class="col-xs-12">
-            <b>{{'PATIENT_INFO_IDENTIFIER_IDENTIFIER' | translate}}({{patient.identifierType}})</b>
-            <p>{{patient.identifier}}</p>
-            <b>{{'PATIENT_INFO_NAMES' | translate}}</b>
-            <p>{{patient.fullName}}</p>
-            <b>{{'PATIENT_INFO_OTHERS' | translate}}</b>
-            <p>{{patient['Numero de Telefone 1']}} / {{patient['Numero de Telefone 2']}}</p>
-            <b>{{'PATIENT_INFO_ADDRESS' | translate}}</b>
-            <p>
-              {{'COMMON_AVENUE' | translate}}/{{'COMMON_STREET' | translate}}/{{'COMMON_HOUSE' | translate}}:
-              {{patient.address.display}} <br />
-              {{'COMMON_NEIGHBORHOOD' | translate }} : {{patient.address.address5 }}
-              {{'COMMON_CELL' | translate}}/{{'COMMON_BLOCK' | translate}}: {{patient.address.address3}} <br />
-              {{'COMMON_DISTRICT' | translate}}: {{patient.address.countyDistrict}} <br />
-              {{'COMMON_PROVINCE' | translate}}: {{patient.address.stateProvince}}</p>
-          </div>
+  <div id="top-right-area">
+    <h2 id="top-right-area-title">{{'FILA_REPORT_PERSONAL_DATA_NOTE' | translate}}</h2>
+    <div id="patient-data-container">
+      <div style="font-size: 8pt; font-weight: bold; width: 40mm; margin-left: 3mm; align-self: center; font-size: 10pt; text-align: center;">
+        <span id="nid-label">{{'SEARCH_PATIENT_NID' | translate}}:</span> {{patient.identifier}}
+      </div>
+      <div id="personal-data-conteiner">
+        <div id="first-line-personal-data" class="personal-data">{{'FILA_REPORT_LEGEND_HEADER' | translate}}</div>
+        <div class="personal-data">{{'SEARCH_PATIENT_FIRSTNAME' | translate}}: {{patient.fullName}}</div>
+        <div class="personal-data">{{'PATIENT_INFO_OTHERS' | translate}}: {{patient['Numero de Telefone 1']}} / {{patient['Numero de Telefone 2']}}</div>
+        <div class="personal-data">
+          {{'PATIENT_INFO_ADDRESS' | translate}}: {{patient.address.localized.line1}} <br>
+          {{patient.address.localized.line2}}
         </div>
       </div>
     </div>
   </div>
 
-  <br>
+</div>
 
-  <div class="row">
-    <div class="col-xs-10 col-xs-offset-1">
-      <h2>Receitas</h2>
-      <div class="calendar">
-        <table class="table table-bordered">
-          <tbody>
-          <tr ng-repeat="row in calendar">
-            <!--Month names-->
-            <td ng-if="$index === 0" colspan="2"></td>
-            <!--Week header-->
-            <td ng-if="$index === 1" rowspan="4">
-              <span class="week-header">Semana</span>
-            </td>
-            <!--Week number-->
-            <td ng-if="$index >= 1">
-              {{$index}}
-            </td>
-            <!--Expiration dates-->
-            <td ng-repeat="x in row track by $index">
-              {{x}}
-            </td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
 
-  <div class="row">
-    <div class="col-xs-10 col-xs-offset-1">
-      <h2>Levantamentos</h2>
-      <div class="pickups">
-        <table class="table table-bordered table-striped">
-          <thead>
-            <tr>
-              <th>{{'PHARMACY_PICKUP_DATE' | translate}}</th>
-              <th>{{'PHARMACY_REGIMEN'     | translate}}</th>
-              <th>{{'PHARMACY_QUANTITY_SHORT' | translate}}</th>
-              <th>{{'PHARMACY_POSOLOGY'    | translate}}</th>
-              <th>{{'PHARMACY_NEXT_PICKUP' | translate}}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="p in patient.pickups">
-              <td>{{p.encounterDatetime | date}}</td>
-              <td>{{p.regimen}}</td>
-              <td>{{p.quantity}}</td>
-              <td>{{p.posology}}</td>
-              <td>{{p.nextPickup  | date}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
+<div id="main-container">
+
+  <table style="width: 145mm;">
+      <thead>
+        <tr>
+          <th>{{'FILA_REPORT_PICKUP_DATE' | translate}}</th>
+          <th class="medicine-column">{{'FILA_REPORT_ARV_MEDS' | translate}}</th>
+          <th>{{'FILA_REPORT_QTY' | translate}}</th>
+          <th class="dosage-column">{{'FILA_REPORT_DOSAGE' | translate}}</th>
+          <th>{{'FILA_REPORT_NEXT_PICKUP_DATE' | translate}}</th>
+        </tr>
+      </thead>
+      <tbody >
+        <tr ng-repeat="displacement in filaDisplacements1 track by $index" class="displacement-row">
+          <td ng-if="displacement.dateRowSpanSize > 0" rowspan="{{displacement.dateRowSpanSize}}">{{displacement.date | date}}&nbsp;</td>
+          <td>{{displacement.medicine}}&nbsp;</td>
+          <td>{{displacement.quantity}}&nbsp;</td>
+          <td>{{displacement.dosage}}&nbsp;</td>
+          <td>{{displacement.nextDisplacement | date}}&nbsp;</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="4" style="border: none; text-align: left;">* O farmacêutico não pode aviar mais MARVs depois da expiração da receita médica</td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <table style="width: 144mm; margin-left: 1mm;">
+      <thead>
+      <tr>
+        <th>{{'FILA_REPORT_PICKUP_DATE' | translate}}</th>
+        <th class="medicine-column">{{'FILA_REPORT_ARV_MEDS' | translate}}</th>
+        <th>{{'FILA_REPORT_QTY' | translate}}</th>
+        <th class="dosage-column">{{'FILA_REPORT_DOSAGE' | translate}}</th>
+        <th>{{'FILA_REPORT_NEXT_PICKUP_DATE' | translate}}</th>
+      </tr>
+      </thead>
+      <tbody >
+      <tr ng-repeat="displacement in filaDisplacements2 track by $index" class="displacement-row">
+        <td ng-if="displacement.dateRowSpanSize > 0" rowspan="{{displacement.dateRowSpanSize}}">{{displacement.date | date}}&nbsp;</td>
+        <td>{{displacement.medicine}}&nbsp;</td>
+        <td>{{displacement.quantity}}&nbsp;</td>
+        <td>{{displacement.dosage}}&nbsp;</td>
+        <td>{{displacement.nextDisplacement | date}}&nbsp;</td>
+      </tr>
+      </tbody>
+    </table>
+
 </div>

@@ -35,6 +35,7 @@
     "COMMON_STREET" : "Street",
     "COMMON_HOUSE" : "House",
     "COMMON_REPUBLIC_OF_MOZAMBIQUE" : "Republic of Mozambique",
+    "COMMON_MINISTRY_OF_HEALTH" : "Ministry of Health",
     "COMMON_HEALTH_NATIONAL_SERVICE" : "Health National Service",
     "COMMON_HEADER_MENU_HOME": "Home",
     "COMMON_HEADER_MENU_PROFILE": "My Profile",
@@ -298,6 +299,12 @@
     "LIST": "List",
     "CLEAR": "Clear",
     "REMOVE_ALL": "Remove All",
+    "FIRST_ABRV": "1ª",
+    "SECOND_ABRV": "2ª",
+    "THIRD_ABRV": "3ª",
+    "FORTH_ABRV": "4ª",
+    "START_DATE": "Start Date",
+    "END_DATE": "End Date",
     "CHECKIN_CHECKED_IN_TODAY": "Checked in today to {{visittype}} at {{startdatetime}}",
     "CHECKIN_NOT_CHECKED_IN_TODAY": "Not checked in yet today",
     "CHECKIN_UNTERMINATED_VISIT": "Has an unterminated visit of {{visittype}}, started on {{startdatetime}}",
@@ -306,5 +313,7 @@
     "FIELD_NEVER_VISITED": "This field was never visited, please visit this field before save",
     "FIELD_NOT_VALID": "This field didn't pass validation rules. Please fix it before save",
     "PRESCRIPTION_ACTIVE": "Active",
-    "PRESCRIPTION_FINALIZED": "Finalized"
+    "PRESCRIPTION_FINALIZED": "Finalized",
+    "ADDRESS_FORMAT_LINE1": "{{street}} {{cell}}",
+    "ADDRESS_FORMAT_LINE2": "{{neighborhood}} {{locality}} {{district}} {{province}} {{country}}"
 }

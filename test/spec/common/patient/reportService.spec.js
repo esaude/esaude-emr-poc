@@ -21,7 +21,7 @@ describe('reportService', function () {
     });
 
     module(function ($provide) {
-      $provide.value('$compile', jasmine.createSpy().and.callFake(function() {
+      $provide.value('$compile', jasmine.createSpy().and.callFake(function () {
         return linkFn;
       }));
       $provide.value('$timeout', jasmine.createSpy().and.callFake(function (fn) {
@@ -31,7 +31,7 @@ describe('reportService', function () {
   });
 
   beforeEach(inject(function (_reportService_, _$httpBackend_, _$rootScope_, _$compile_, _$log_,
-                              _$q_, _$timeout_) {
+    _$q_, _$timeout_) {
     reportService = _reportService_;
     $http = _$httpBackend_;
     $rootScope = _$rootScope_;
@@ -50,7 +50,21 @@ describe('reportService', function () {
     });
 
     it('should generate report', function () {
-      var patient = {fullName: "Malocy Landon"};
+      var patient = {
+        fullName: "Malocy Landon",
+        dispensations: [],
+        address: {
+          address1: "Rua de Kongwa",
+          address3: "130",
+          address5: "Central",
+          address6: null,
+          countyDistrict: "Mutarara",
+          stateProvince: "Tete",
+          country: "Mocambique"
+        }
+      };
+      patient.startDate = moment('2017-10-18').toDate();
+      patient.endDate = moment('2018-10-18').toDate();
       var template = "<div>{{patient.fullName}}</div>";
 
       loadTemplate.respond(200, template);
@@ -64,12 +78,28 @@ describe('reportService', function () {
     });
 
     it('should cancel report generation if load fails', function () {
-      loadTemplate.respond(404, {error: {data: {error: {message: ''}}}});
+      var patient = {
+        fullName: "Malocy Landon",
+        dispensations: [],
+        address: {
+          address1: "Rua de Kongwa",
+          address3: "130",
+          address5: "Central",
+          address6: null,
+          countyDistrict: "Mutarara",
+          stateProvince: "Tete",
+          country: "Mocambique"
+        }
+      };
+      patient.startDate = moment('2017-10-18').toDate();
+      patient.endDate = moment('2018-10-18').toDate();
+
+      loadTemplate.respond(404, 'Not Found');
 
       spyOn($log, "error").and.callThrough();
       spyOn($q, "reject").and.callThrough();
 
-      reportService.printPatientARVPickupHistory({});
+      reportService.printPatientARVPickupHistory(patient);
       $http.flush();
 
       expect($log.error).toHaveBeenCalled();
@@ -80,7 +110,7 @@ describe('reportService', function () {
     });
   });
 
-  afterEach(function() {
+  afterEach(function () {
     $http.verifyNoOutstandingExpectation();
     $http.verifyNoOutstandingRequest();
   });
