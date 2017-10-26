@@ -114,7 +114,7 @@
 
         return getClinicalServicesWithEncountersForPatient(patient, cs).then(function (service) {
           return getForm(service.formId, representation).then(function (form) {
-            if (service.hasEntryToday) {
+            if (service.hasEntryToday && !encounter) {
               encounter = service.lastEncounterForService;
             }
             service.form = form;
@@ -228,22 +228,20 @@
                 var foundObs = _.find(e.obs, function (o) {
                   return o.concept.uuid === service.markedOn;
                 });
-                return angular.isDefined(foundObs);
+                if (!_.isUndefined(foundObs)) {
+                  e.markedOnDate = foundObs.value;
+                  return true;
+                }
+                return false;
               });
+              service.lastEncounterForService = service.encountersForService[0];
+              if (service.encountersForService[0]) service.lastEncounterForServiceDate = 
+                service.encountersForService[0].markedOnDate;
             } else {
               service.encountersForService = encounters;
-            }
-            service.lastEncounterForService = encounters[0];
-            service.lastEncounterForServiceMarked = service.encountersForService[0];
-
-            if (service.lastEncounterForServiceMarked) {
-              if (service.markedOn) {
-                service.lastEncounterForServiceDate = _.find(service.lastEncounterForServiceMarked.obs, function (o) {
-                  return o.concept.uuid === service.markedOn;
-                }).value;
-              } else {
-                service.lastEncounterForServiceDate = service.lastEncounterForServiceMarked.encounterDatetime;
-              }
+              service.lastEncounterForService = encounters[0];
+              if (encounters[0]) service.lastEncounterForServiceDate = 
+                encounters[0].encounterDatetime;
             }
 
             service.hasEntryToday = false;
