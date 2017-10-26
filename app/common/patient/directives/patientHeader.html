@@ -24,7 +24,9 @@
       </ul>
     </div>
 
+  <div ng-show="vm.patient.dead">
     <p class="control-label"> {{'PATIENT_IS_DEAD' | translate}}
       </br>{{'PATIENT_INFO_DEATH_DATE' | translate}}: {{vm.patient.deathDate | date }}
       </br>{{'PATIENT_INFO_DEATH_REASON' | translate}}: {{vm.patient.causeOfDeath.display }}</p>
+  </div>
 </div><!--patient header -->
