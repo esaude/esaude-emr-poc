@@ -83,7 +83,7 @@
                   </poc-authorize>
 
                   <poc-authorize privilege="vm.getPrivilege('Delete', service)">
-                    <button type="button" class="btn btn-danger btn-lg" ng-click="vm.removeEncounter(encounter)">
+                    <button type="button" class="btn btn-danger btn-lg" ng-click="vm.removeClinicalService(encounter)">
                       <span class="glyphicon glyphicon-remove-sign"></span>
                       <span class="button-label">{{'REMOVE' | translate}}</span>
                     </button>
@@ -91,11 +91,11 @@
 
                 </div>
                 <div ng-show="encounter.delete">
-                  <button type="button" class="btn btn-danger btn-lg">
+                  <button type="button" class="btn btn-danger btn-lg" ng-click="vm.deleteClinicalService(service, encounter.uuid)">
                     <span class="glyphicon glyphicon-ok-sign"></span>
                     <span class="button-label">{{'SAVE' | translate}}</span>
                   </button>
-                  <button type="button" class="btn btn-warning btn-lg" ng-click="vm.removeEncounter(encounter)">
+                  <button type="button" class="btn btn-warning btn-lg" ng-click="vm.removeClinicalService(encounter)">
                     <span class="glyphicon glyphicon-minus-sign"></span>
                     <span class="button-label">{{'CANCEL' | translate}}</span>
                   </button>

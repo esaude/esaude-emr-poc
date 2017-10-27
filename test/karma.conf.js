@@ -60,7 +60,7 @@ module.exports = function (config) {
       'bower_components/angular-bootstrap-checkbox/angular-bootstrap-checkbox.js',
       'bower_components/angular-messages/angular-messages.min.js',
       'bower_components/d3/d3.min.js',
-      'bower_components/nvd3/build/nv.d3.min.js',
+      'bower_components/nvd3/nv.d3.min.js',
       'bower_components/angularjs-nvd3-directives/dist/angularjs-nvd3-directives.min.js',
       'bower_components/select2/select2.min.js',
       'bower_components/angular-ui-select2/src/select2.js',

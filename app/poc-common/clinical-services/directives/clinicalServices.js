@@ -37,8 +37,9 @@
     vm.linkServiceAdd = linkServiceAdd;
     vm.linkServiceDisplay = linkServiceDisplay;
     vm.linkServiceEdit = linkServiceEdit;
-    vm.removeEncounter = removeEncounter;
+    vm.removeClinicalService = removeClinicalService;
     vm.toggleListEncounters = toggleListEncounters;
+    vm.deleteClinicalService = deleteClinicalService;
 
     ////////////////
 
@@ -145,9 +146,25 @@
     }
 
 
-    function removeEncounter(encounter) {
+    function removeClinicalService(encounter) {
       (angular.isUndefined(encounter.delete) || encounter.delete === false) ?
         encounter.delete = true : encounter.delete = false;
+    }
+
+    function deleteClinicalService(service, encounterUuid) {
+      clinicalServicesService.deleteService(service.id, encounterUuid).then(function () {
+
+        _.remove(service.encountersForService, {
+            uuid: encounterUuid
+        });
+
+        notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
+        if (_.isEmpty(service.encountersForService)) {
+          $state.reload();
+        }
+      }).catch(function() {
+        notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ACTION'));
+      });
     }
 
 
