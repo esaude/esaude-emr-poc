@@ -27,7 +27,8 @@
         getFormData: getFormData,
         getFormLayouts: getFormLayouts,
         getClinicalServiceWithEncountersForPatient: getClinicalServicesWithEncountersForPatient,
-        loadClinicalServices: loadClinicalServices
+        loadClinicalServices: loadClinicalServices,
+        deleteService: deleteService
       };
 
       return service;
@@ -61,6 +62,22 @@
           });
           registerRoutes($state, _clinicalServices);
           return service;
+        });
+      }
+
+      function deleteService(service, encounter) {
+        var data = {
+          params: {
+            clinicalservice: service,
+            encounter: encounter
+          },
+          withCredentials: true
+        };
+        return $http.get('/openmrs/ws/rest/v1/clinicalservice', data).then(function (response) {
+          return response.data;
+        }).catch(function (error) {
+          $log.error('XHR Failed for deleteService: ' + error.data.error.message);
+          return $q.reject(error);
         });
       }
 
