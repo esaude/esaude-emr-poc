@@ -93,7 +93,7 @@
 
       var previousEncounter = null;
 
-      //se o encounter não vem preenchido então podemos concluir 
+      //se o encounter não vem preenchido então podemos concluir
       //que estamos a adicionar
       if (!serviceEncounter) {
         previousEncounter = formData.service.lastEncounterForService;
@@ -101,7 +101,7 @@
         var serviceEncounters = formData.service.encountersForService;
         for (var i = 0; i < serviceEncounters.length; i++) {
           var currentEncounter = serviceEncounters[i];
-          if (currentEncounter.uuid == serviceEncounter.uuid) {
+          if (currentEncounter.uuid === serviceEncounter.uuid) {
             if (i < serviceEncounters.length - 1) {
               previousEncounter = serviceEncounters[i + 1];
               break;
