@@ -1,6 +1,9 @@
 <div class="row content-border-margin-regular">
   <div class="col-sm-6">
-    <div class="panel panel-primary panel-marginless-sides">
+    <div class="alert alert-info" ng-show="vm.charts.labResults.data.length < 1" >
+        <b> {{ 'PATIENT_LAB_EXAMS_EMPTY' | translate }} </b>
+    </div>
+    <div class="panel panel-primary panel-marginless-sides" ng-show="vm.charts.labResults.data.length > 0">
       <div class="panel-heading">
         <h3 class="panel-title">{{'CLINIC_LAB_RESULTS' | translate}}</h3>
       </div>
@@ -15,7 +18,10 @@
   </div>
 
   <div class="col-sm-6">
-    <div class="panel panel-primary panel-marginless-sides">
+    <div class="alert alert-info" ng-show="vm.charts.CD4labResults.data.length < 1" >
+      <b> {{ 'PATIENT_LAB_EXAMS_EMPTY' | translate }} </b>
+    </div>
+    <div class="panel panel-primary panel-marginless-sides" ng-show="vm.charts.CD4labResults.data.length > 0">
       <div class="panel-heading">
         <h3 class="panel-title">{{'CLINIC_PATIENT_CHARTS_CD4_TREND' | translate}}</h3>
       </div>

@@ -185,5 +185,7 @@
   "ELIGIBLES": "Deve iniciar o TARV",
   "LOW HEMOGLOBIN LEVEL": "O nível de emoglobina está baixo",
   "VIRAL LOAD DROPPED": "Carga viral baixou. Em profilaxia",
-  "VIRALOGICAL FAILURE": "Está a ter falência terapeutica"
+  "VIRALOGICAL FAILURE": "Está a ter falência terapeutica",
+  "PATIENT_LAB_EXAMS_EMPTY": "O paciente não possui exames laboratoriais"
+
 }
