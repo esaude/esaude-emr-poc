@@ -4,7 +4,8 @@ describe('FormController', function () {
 
   beforeEach(module('poc.common.clinicalservices'));
 
-  beforeEach(inject(function (_$controller_, _$q_, _$rootScope_, _clinicalServicesService_, _patientService_, _visitService_) {
+  beforeEach(inject(function (_$controller_, _$q_, _$rootScope_, _clinicalServicesService_,
+                              _patientService_, _visitService_) {
     $controller = _$controller_;
     clinicalServicesService = _clinicalServicesService_;
     patientService = _patientService_;
@@ -21,7 +22,11 @@ describe('FormController', function () {
 
       spyOn(clinicalServicesService, 'getFormData').and.callFake(function () {
         return $q(function (resolve) {
-          return resolve({});
+          return resolve({
+            service: {
+              lastEncounterForService: {}
+            }
+          });
         });
       });
 
