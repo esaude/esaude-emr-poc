@@ -21,7 +21,8 @@
         fieldId: '=',
         formParts: '=',
         formLayout: '=',
-        patient: '='
+        patient: '=',
+        previousEncounter: '=',
       },
       templateUrl: ' ../poc-common/clinical-services/form-display/views/formField.html'
     };
@@ -35,6 +36,9 @@
   function FormFieldDirectiveController($scope, observationsService, conceptService) {
 
     var whoCurrentStageuuId = "e27ffd6e-1d5f-11e0-b929-000c29ad1d07";
+    var HEIGHT_FORM_FIELD_UUID_ADULT = "e292b558-1d5f-11e0-b929-000c29ad1d07";
+    var HEIGHT_FORM_FIELD_UUID_CHILD = "e2939036-1d5f-11e0-b929-000c29ad1d07";
+    var HEIGHT_CONCEPT_UUID = "e1e2e934-1d5f-11e0-b929-000c29ad1d07";
 
     var noOp = function () {
     };
@@ -48,6 +52,20 @@
     $scope.isTrueFalseQuestion = isTrueFalseQuestion;
     $scope.getConceptInAnswers = getConceptInAnswers;
     $scope.getConcepts = getConcepts;
+
+    //Modificando restrição de valor mínimo para o campo de altura para não permitir
+    // informar uma altura inferior à do lançamento anterior
+    if (isHeightFormField($scope.field.id) && $scope.previousEncounter) {
+      $scope.previousEncounter.then(function (previousEncounter) {
+        if (previousEncounter) {
+          previousEncounter.obs.forEach(function (obs) {
+            if (obs.concept.uuid == HEIGHT_CONCEPT_UUID) {
+              $scope.field.constraints.min = obs.value;
+            }
+          });
+        }
+      });
+    }
 
     activate();
 
@@ -105,6 +123,11 @@
           }
         }
       });
+    }
+
+    function isHeightFormField(fieldUuid) {
+      return fieldUuid == HEIGHT_FORM_FIELD_UUID_ADULT
+        || fieldUuid == HEIGHT_FORM_FIELD_UUID_CHILD;
     }
 
     function defaultValueIsLastEntry(concept) {
