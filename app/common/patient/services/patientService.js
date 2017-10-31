@@ -5,9 +5,9 @@
     .module('common.patient')
     .factory('patientService', patientService);
 
-  patientService.$inject = ['$http', '$rootScope', 'openmrsPatientMapper', '$q', '$log', 'reportService', 'prescriptionService', 'dispensationService'];
+  patientService.$inject = ['$http', '$rootScope', 'openmrsPatientMapper', '$q', '$log', 'reportService', 'updatePatientMapper'];
 
-  function patientService($http, $rootScope, openmrsPatientMapper, $q, $log, reportService, prescriptionService, dispensationService) {
+  function patientService($http, $rootScope, openmrsPatientMapper, $q, $log, reportService, updatePatientMapper) {
 
     var OPENMRS_URL = Poc.Patient.Constants.openmrsUrl;
 
@@ -19,12 +19,10 @@
       create: create,
       getIdentifierTypes: getIdentifierTypes,
       getPatient: getPatient,
-      getPatientIdentifiers: getPatientIdentifiers,
       getOpenMRSPatient: getOpenMRSPatient,
       printPatientARVPickupHistory: printPatientARVPickupHistory,
       search: search,
       update: update,
-      updatePatientIdentifier: updatePatientIdentifier,
       voidPatient: voidPatient,
       updatePerson: updatePerson
     };
@@ -57,10 +55,15 @@
         });
     }
 
-    function get(uuid) {
+    /**
+     * @param {String} uuid The patient UUID.
+     * @param {String} [representation] The resource representation.
+     * @returns {Promise}
+     */
+    function get(uuid, representation) {
       return $http.get(OPENMRS_PATIENT_URL + uuid, {
         method: "GET",
-        params: { v: "full" },
+        params: {v: representation || "full"},
         withCredentials: true
       });
     }
@@ -72,10 +75,33 @@
       });
     }
 
-    function updatePatientIdentifier(patientUuid, identifierUuid, identifier) {
-      return $http.post(OPENMRS_PATIENT_URL + patientUuid + "/identifier/" + identifierUuid, identifier, {
-        withCredentials: true,
-        headers: { "Accept": "application/json", "Content-Type": "application/json" }
+    function deletePatientIdentifier(patient, identifier) {
+      return $http.delete(OPENMRS_PATIENT_URL + patient.uuid + "/identifier/" + identifier.uuid).then(function (response) {
+        return response.data;
+      }).catch(function (error) {
+        $log.error('XHR Failed for deletePatientIdentifier: ' + error.data.error.message);
+        return $q.reject(error);
+      });
+    }
+
+    function updatePatientIdentifier(patientUuid, identifier) {
+      var data = {uuid: identifier.uuid, identifier: identifier.identifier, preferred: identifier.preferred};
+      return $http.post(OPENMRS_PATIENT_URL + patientUuid + "/identifier/" + identifier.uuid, data).then(function (response) {
+        return response.data;
+      }).catch(function (error) {
+        $log.error('XHR Failed for updatePatientIdentifier: ' + error.data.error.message);
+        return $q.reject(error);
+      });
+    }
+
+    function createPatientIdentifier(patient, identifier) {
+      delete identifier.selectedIdentifierType;
+      delete identifier.fieldName;
+      return $http.post(OPENMRS_PATIENT_URL + patient.uuid + "/identifier/", identifier).then(function (response) {
+        return response.data;
+      }).catch(function (error) {
+        $log.error('XHR Failed for createPatientIdentifier: ' + error.data.error.message);
+        return $q.reject(error);
       });
     }
 
@@ -88,11 +114,41 @@
     }
 
     function update(patient, openMRSPatient) {
-      var patientJson = new Bahmni.Registration.UpdatePatientRequestMapper(moment()).mapFromPatient($rootScope.patientConfiguration.personAttributeTypes, openMRSPatient, patient);
-      return $http.post(BASE_OPENMRS_REST_URL + "/patientprofile/" + openMRSPatient.uuid, patientJson, {
-        withCredentials: true,
-        headers: { "Accept": "application/json", "Content-Type": "application/json" }
-      });
+
+      var patientJson = updatePatientMapper.map($rootScope.patientConfiguration.personAttributeTypes, openMRSPatient, patient, moment());
+
+      var updatedPatientProfile = {};
+
+      return $http.post(BASE_OPENMRS_REST_URL + "/patientprofile/" + openMRSPatient.uuid, patientJson.patient)
+        .then(function (response) {
+          updatedPatientProfile = response.data;
+        }).then(function () {
+          return $q.all(patientJson.addedIdentifiers.map(function (i) {
+            return createPatientIdentifier(patient, i);
+          }))
+        }).then(function () {
+          return $q.all(patientJson.voidedIdentifiers.map(function (i) {
+            return deletePatientIdentifier(openMRSPatient, i);
+          }));
+        }).then(function () {
+          return $q.all(patientJson.changedIdentifiers.map(function (i) {
+            return updatePatientIdentifier(openMRSPatient.uuid, i);
+          }));
+        }).then(function (updatedIdentifiers) {
+          updatedPatientProfile.patient.identifiers.forEach(function (old) {
+            var novo = updatedIdentifiers.find(function (i) {
+              return old.uuid === i.uuid;
+            });
+            if (novo) {
+              old.identifier = novo.identifier;
+              old.preferred = novo.preferred;
+            }
+          });
+          return updatedPatientProfile;
+        }).catch(function (error) {
+          $log.error('XHR Failed for update: ' + error.data.error.message);
+          return $q.reject();
+        });
     }
 
     //This is needed because of updatePatientRequestMapper.
@@ -105,8 +161,13 @@
       });
     }
 
-    function getPatient(patientUuid) {
-      return get(patientUuid).then(function (response) {
+    /**
+     * @param {String} patientUuid The patient UUID.
+     * @param {String} [representation] The resource representation.
+     * @returns {Promise}
+     */
+    function getPatient(patientUuid, representation) {
+      return get(patientUuid, representation).then(function (response) {
         return openmrsPatientMapper.map(response.data);
       }).catch(function (error) {
         $log.error('XHR Failed for getPatient: ' + error.data.error.message);
