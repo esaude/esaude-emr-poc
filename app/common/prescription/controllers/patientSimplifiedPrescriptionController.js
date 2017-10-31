@@ -339,7 +339,7 @@
       vm.prescriptionItemToCancel = item;
     }
 
-     function removeAll() {
+    function removeAll() {
       vm.listedPrescriptions = [];
       isPrescriptionControl();
     }
