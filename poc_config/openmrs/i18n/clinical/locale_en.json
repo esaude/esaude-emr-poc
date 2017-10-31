@@ -179,5 +179,7 @@
   "ELIGIBLES": "Must start ART",
   "LOW HEMOGLOBIN LEVEL": "Hemoglobin level is low",
   "VIRAL LOAD DROPPED": "Viral Load Dropped! Doing the Prophylaxis",
-  "VIRALOGICAL FAILURE": "Having a therapeutic failure"
+  "VIRALOGICAL FAILURE": "Having a therapeutic failure",
+  "PATIENT_LAB_EXAMS_EMPTY": "Patient has no Laboratory Exams"
+
 }
