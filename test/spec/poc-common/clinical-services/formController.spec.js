@@ -21,7 +21,11 @@ describe('FormController', function () {
 
       spyOn(clinicalServicesService, 'getFormData').and.callFake(function () {
         return $q(function (resolve) {
-          return resolve({});
+          return resolve({
+            service: {
+              lastEncounterForService: {}
+            }
+          });
         });
       });
 
