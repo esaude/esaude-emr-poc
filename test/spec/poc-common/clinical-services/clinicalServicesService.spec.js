@@ -232,4 +232,62 @@ describe('clinicalServicesService', function () {
 
   });
 
+  describe('getCsWithEncountersForPatient', function () {
+
+      var deferred;
+
+      var patient = {uuid: '5dc89638-b0cd-4390-bf10-ad07ed97965b'};
+      var encounterType = {uuid: "adultFolowup"}
+
+      var representation = 'custom:(uuid,encounterDatetime,obs:(value,concept:(display,uuid,mappings:(' +
+              'conceptReferenceTerm:(conceptSource:(display,uuid))))),provider:(display))';
+
+      var encounters = [{encounterDatetime: "today", obs: [{concept:{uuid: "poc-mapping-vitals"}}]}, 
+                        {encounterDatetime: "yesterday", obs: [{concept:{uuid: "poc-mapping-vitals"}}]}];
+      
+      var service = {markedOn: "poc-mapping-vitals"};
+
+      beforeEach(function () {
+        deferred = $q.defer();
+
+        spyOn(visitService, 'getTodaysVisit').and.callFake(function () {
+          return $q(function (resolve) {
+            return resolve({});
+          });
+        });
+        spyOn(encounterService, 'getEncountersForPatientByEncounterType').and.callFake(function () {
+          return $q(function (resolve) {
+            return resolve(encounters);
+          });
+        });
+      });
+
+      it('should get a response from getCsWithEncountersForPatient, with existing service', function () {
+
+          var returnedValue = null;
+
+          returnedValue = clinicalServicesService.getClinicalServiceWithEncountersForPatient(patient, service);
+          deferred.resolve(returnedValue);
+          $rootScope.$apply();
+
+          expect(returnedValue).toBeDefined();
+      });
+
+      it('should get a response from getCsWithEncountersForPatient, without existing service', function () {
+
+          var returnedValue = null;
+
+          returnedValue = clinicalServicesService.getClinicalServiceWithEncountersForPatient(patient);
+          deferred.resolve(returnedValue);
+          $rootScope.$apply();
+
+          expect(returnedValue).toBeDefined();
+      });
+      afterEach(function () {
+        $http.verifyNoOutstandingExpectation();
+        $http.verifyNoOutstandingRequest();
+      });
+
+  });
+
 });
