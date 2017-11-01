@@ -238,7 +238,7 @@
 
         </div>
         <div class="panel-footer go-to-right" ng-show="vm.showNewPrescriptionsControlls">
-          <button class="btn btn-danger btn-lg" type="button" ng-click="vm.removeAll()">
+          <poc-confirm-button class="btn btn-danger btn-lg" on-confirm="vm.removeAll()">
             <span class="glyphicon glyphicon-remove-sign"></span>
             <span class="button-label">{{'REMOVE_ALL' | translate}}</span>
           </button>

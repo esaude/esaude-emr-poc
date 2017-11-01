@@ -37,7 +37,7 @@
     vm.linkServiceAdd = linkServiceAdd;
     vm.linkServiceDisplay = linkServiceDisplay;
     vm.linkServiceEdit = linkServiceEdit;
-    vm.removeClinicalService = removeClinicalService;
+    vm.toggleDelete = toggleDelete;
     vm.toggleListEncounters = toggleListEncounters;
     vm.deleteClinicalService = deleteClinicalService;
 
@@ -146,9 +146,8 @@
     }
 
 
-    function removeClinicalService(encounter) {
-      (angular.isUndefined(encounter.delete) || encounter.delete === false) ?
-        encounter.delete = true : encounter.delete = false;
+    function toggleDelete(encounter) {
+      encounter.delete = !encounter.delete;
     }
 
     function deleteClinicalService(service, encounterUuid) {
