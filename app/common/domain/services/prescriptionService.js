@@ -62,7 +62,7 @@
         return response.data;
       }).catch(function (error) {
         $log.error('XHR Failed for create: ' + error.data.error.message);
-        return $q.reject();
+        return $q.reject(error);
       });
     }
 
