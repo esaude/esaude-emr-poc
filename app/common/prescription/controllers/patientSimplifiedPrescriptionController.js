@@ -408,8 +408,8 @@
             getProviderAndPrescriptionDateModal().modal('hide');
             spinner.forPromise(loadSavedPrescriptions(patient));
           })
-          .catch(function () {
-            notifier.error($filter('translate')('COMMON_MESSAGE_COULD_NOT_CREATE_PRESCRIPTION'));
+          .catch(function (error) {
+            notifier.error(error.data.error.message.replace('[','').replace(']',''));
           });
       }
       else{

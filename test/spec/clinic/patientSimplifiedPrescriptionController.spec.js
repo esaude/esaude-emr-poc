@@ -423,7 +423,7 @@
 
         spyOn(prescriptionService, 'create').and.callFake(function () {
           return $q(function (resolve, reject) {
-            return reject([]);
+            return reject({data: {error: {message: '[]'}}});
           })
         });
 
