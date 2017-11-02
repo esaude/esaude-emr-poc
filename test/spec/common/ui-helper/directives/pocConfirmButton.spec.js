@@ -1,11 +1,10 @@
 describe('pocConfirmButton', function () {
 
-  var element, onConfirm, onCancel, $compile, $rootScope, templateCache;
+  var element, onConfirm, onCancel, $compile, $rootScope;
 
   beforeEach(module('bahmni.common.uiHelper', 'templates'));
 
-  beforeEach(inject(function (_$compile_, _$rootScope_, $templateCache) {
-    templateCache = $templateCache;
+  beforeEach(inject(function (_$compile_, _$rootScope_) {
     $compile = _$compile_;
     $rootScope = _$rootScope_;
   }));
