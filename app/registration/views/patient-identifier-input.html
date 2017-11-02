@@ -52,7 +52,7 @@
                     <label for="{{pi.fieldName}}_Rdo"></label>
                 </td>
                 <td>
-                    <button ng-show="!pi.identifierType.required && srefPrefix !== 'editpatient.'" type="button" class="btn btn-danger btn-lg" ng-click="patientCommon.removeIdentifier(pi)">
+                    <button ng-show="!pi.identifierType.required" type="button" class="btn btn-danger btn-lg" ng-click="patientCommon.removeIdentifier(pi)">
                         <span class="glyphicon glyphicon-remove-sign"></span>
                         <span class="button-label">{{'REMOVE' | translate}}</span>
                     </button>

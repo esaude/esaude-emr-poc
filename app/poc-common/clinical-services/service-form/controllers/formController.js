@@ -21,7 +21,6 @@
     var serviceId = $stateParams.serviceId;
     var returnState = $stateParams.returnState;
 
-    $scope.patient = {};
     $scope.currentFormPart = {};
     $scope.formInfo = {};
     $scope.formLayout = {};
@@ -49,7 +48,6 @@
     function activate() {
       var currentSref = $state.current.url.replace("/", ".");
       var service = { id: serviceId };
-      $scope.patient = { uuid: patientUUID };
 
       $scope.formInfo = clinicalServicesService.getFormLayouts({ id: serviceId });
 
@@ -57,11 +55,11 @@
         return formPart.sref === currentSref;
       });
 
-      var getPatient = patientService.getPatient($scope.patient.uuid);
+      var getPatient = patientService.getPatient(patientUUID);
 
-      var getFormData = clinicalServicesService.getFormData($scope.patient, service, serviceEncounter);
+      var getFormData = clinicalServicesService.getFormData({ uuid: patientUUID }, service, serviceEncounter);
       //initialize visit info in scope
-      var getTodaysVisit = visitService.getTodaysVisit($scope.patient.uuid);
+      var getTodaysVisit = visitService.getTodaysVisit(patientUUID);
 
       var deferred = $q.defer();
       $scope.previousEncounter = deferred.promise;

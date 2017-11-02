@@ -15,7 +15,7 @@
     var chartOptions = {
       legend: {display: true},
       elements: {
-        line: {tension: 0.01, spanGaps: true, bezierCurve: true, fill: false},
+        line: {tension: 0.1, spanGaps: true, bezierCurve: true, fill: false},
         point: {radius: 5}
       },
       scales: {
@@ -25,14 +25,7 @@
             type: 'linear',
             display: true,
             position: 'left',
-            ticks: {max: 80, min: 0, stepSize: 10}
-          },
-          {
-            id: 'serieA',
-            type: 'linear',
-            display: true,
-            position: 'right',
-            ticks: {stepSize: 10, min: 40, max: 110}
+            ticks: {max: 10000, min: 100, stepSize: 100}
           }]
       },
       pointDotRadius: 10

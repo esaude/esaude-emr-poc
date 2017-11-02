@@ -78,7 +78,7 @@
       $state.go(formLayout.sufix + formLayout.parts[0].sref, {
         patientUuid: vm.patientUuid,
         serviceId: service.id,
-        encounter: service.hasEntryToday ? service.lastEncounterForService : null,
+        encounter: null,
         returnState: $state.current
       });
     }
