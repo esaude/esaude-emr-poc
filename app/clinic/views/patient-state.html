@@ -14,9 +14,8 @@
       <div ng-repeat="encounter in patientPrescription | limitTo: -1">
         <p ng-repeat="obs in encounter.obs ">
           <strong> {{obs.concept.name.display | translate }} : </strong>
-          <span ng-show="{{obs.value.display}}" class="label label-primary">{{obs.value.display | translate}}</span>
-          <span ng-show="{{obs.value}}" class="label label-primary">{{obs.value | translate}}</span>
-
+          <span ng-show="obs.value.display" class="label label-primary">{{obs.value.display | translate}}</span>
+          <span ng-show="!obs.value.display" class="label label-primary">{{obs.value | translate}}</span>
           <span> {{'COMMON_FROM' | translate}} {{obs.obsDatetime | date }}</span>
         </p>
       </div>
