@@ -100,6 +100,16 @@ describe('pocConfirmButton', function () {
 
       });
 
+      it('should hide confirm and cancel buttons', function () {
+
+        expect(confirmation.hasClass('ng-hide')).toBe(false);
+
+        cancelBtn.click();
+
+        expect(confirmation.hasClass('ng-hide')).toBe(true);
+
+      });
+
     });
   });
 
