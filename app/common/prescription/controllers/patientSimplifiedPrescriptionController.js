@@ -101,7 +101,7 @@
         .then(loadAllRegimes())
         .then(getCurrentProvider)
         .then(function (currentProvider) {
-        //  vm.selectedProvider = currentProvider;
+           vm.selectedProvider = currentProvider;
         })
         .catch(function () {
           notifier.error($filter('translate')('COMMON_ERROR'));
@@ -339,7 +339,7 @@
       vm.prescriptionItemToCancel = item;
     }
 
-     function removeAll() {
+    function removeAll() {
       vm.listedPrescriptions = [];
       isPrescriptionControl();
     }
@@ -419,7 +419,7 @@
 
     function validateCreatePrescription(form, prescription){
 
-      if(form.selectedProvider.$invalid)
+      if(form.selectedProvider && form.selectedProvider.$invalid)
       {
         return false;
       }

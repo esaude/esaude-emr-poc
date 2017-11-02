@@ -238,11 +238,12 @@
 
         </div>
         <div class="panel-footer go-to-right" ng-show="vm.showNewPrescriptionsControlls">
-          <button class="btn btn-danger btn-lg" type="button" ng-click="vm.removeAll()">
+          <poc-confirm-button class="btn btn-danger btn-lg" on-confirm="vm.removeAll()" ng-click="vm.removingItems = !vm.removingItems">
             <span class="glyphicon glyphicon-remove-sign"></span>
             <span class="button-label">{{'REMOVE_ALL' | translate}}</span>
-          </button>
-          <button class="btn btn-primary btn-lg" type="button" ng-click="vm.save()">
+
+          </poc-confirm-button>
+          <button class="btn btn-primary btn-lg" type="button" ng-click="vm.save(prescriptionForm)" ng-if="!vm.removingItems">
             <span class="glyphicon glyphicon-floppy-disk"></span>
             <span class="button-label">{{'SAVE' | translate}}</span>
           </button>
