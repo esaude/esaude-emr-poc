@@ -100,7 +100,8 @@
         .then(function(deathConcepts) {
           vm.deathConcepts = deathConcepts;
         }).catch(function(error) {
-          notifier.error(($filter('translate')('COMMON_MESSAGE_ERROR_ACTION')));
+            //this line invokes a notification on registration loading...need to change the call from activate
+          // notifier.error(($filter('translate')('COMMON_MESSAGE_ERROR_ACTION')));
       });
     }
 
