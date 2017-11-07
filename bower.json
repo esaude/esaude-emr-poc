@@ -51,7 +51,8 @@
     "angular-barcode": "~0.0.4",
     "angular-barcode-listener": "^1.5.0",
     "ng-dialog": "^1.0.1",
-    "angular-breadcrumb": "^0.5.0"
+    "angular-breadcrumb": "^0.5.0",
+    "chart.js": "^2.7.1"
   },
   "resolutions": {
     "angular": "~1.5.0",

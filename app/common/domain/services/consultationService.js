@@ -24,13 +24,20 @@
       var today = moment().startOf('day');
       var oneMonthAgo = today.clone().subtract(1, 'months');
 
+      var consultationSummary = {
+        startDate: oneMonthAgo.toDate(),
+        endDate: today.toDate(),
+        summary: []
+      };
+
       return getPatientConsultationSummary(location, oneMonthAgo, today, CONSULTATION_SUMMARY_REPRESENTATION)
         .then(function (summary) {
-          return {
-            startDate: oneMonthAgo.toDate(),
-            endDate: today.toDate(),
-            summary: summary
-          };
+          consultationSummary.summary = summary;
+          return consultationSummary;
+        })
+        .catch(function (error) {
+          error.data.consultationSummary = consultationSummary;
+          return $q.reject(error.data);
         });
     }
 
@@ -39,13 +46,20 @@
       var today = moment().startOf('day');
       var oneWeekAgo = today.clone().subtract(7, 'days');
 
+      var consultationSummary = {
+        startDate: oneWeekAgo.toDate(),
+        endDate: today.toDate(),
+        summary: []
+      };
+
       return getPatientConsultationSummary(location, oneWeekAgo, today, CONSULTATION_SUMMARY_REPRESENTATION)
         .then(function (summary) {
-          return {
-            startDate: oneWeekAgo.toDate(),
-            endDate: today.toDate(),
-            summary: summary
-          };
+          consultationSummary.summary = summary;
+          return consultationSummary;
+        })
+        .catch(function (error) {
+          error.data.consultationSummary = consultationSummary;
+          return $q.reject(error.data);
         });
     }
 
@@ -65,7 +79,7 @@
         return response.data.results;
       })
         .catch(function (error) {
-          $log.error('XHR Failed for getPatientConsultationSummary. ' + error.data.message);
+          $log.error('XHR Failed for getPatientConsultationSummary. ' + error.data.error.message);
           return $q.reject(error);
         });
     }

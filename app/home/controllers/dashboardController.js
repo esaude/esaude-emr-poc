@@ -6,12 +6,12 @@
     .controller('DashboardController', DashboardController);
 
   DashboardController.$inject = ['$filter', '$rootScope', '$window', 'applicationService', 'configurations',
-    'consultationService', 'localStorageService', 'location', 'locationService', 'spinner'];
+    'consultationService', 'localStorageService', 'location', 'locationService', 'spinner', 'notifier'];
 
   /* @ngInject */
   function DashboardController($filter, $rootScope, $window, applicationService, configurations,
                                consultationService, localStorageService, locationConstant, locationService,
-                               spinner) {
+                               spinner, notifier) {
 
     var mLocation = {};
 
@@ -28,18 +28,14 @@
       data: [],
       datasetOverride: [
         {
-          backgroundColor: 'lightgrey',
-          borderColor: 'lightgrey',
-          borderWidth: 1,
-          pointBackgroundColor: 'lightgrey',
-          pointHoverBackgroundColor: 'lightgrey'
+          backgroundColor: 'rgba(211, 211, 211, 0.6)',
+          borderColor: 'rgba(211, 211, 211, 0.6)',
+          borderWidth: 1
         },
         {
           backgroundColor: '#337ab7',
           borderColor: 'lightgrey',
-          borderWidth: 1,
-          pointBackgroundColor: '#337ab7',
-          pointHoverBackgroundColor: '#337ab7'
+          borderWidth: 1
         }
       ],
       options: {
@@ -108,7 +104,7 @@
     }
 
     function loadConsultationCharts() {
-      return consultationService.getWeeklyConsultationSummary(mLocation).then(fillBarChart);
+      return consultationService.getWeeklyConsultationSummary(mLocation).then(fillBarChart).catch(handleError);
     }
 
     function getConsultationsAndCheckedInCount(date, summary) {
@@ -141,6 +137,16 @@
 
     }
 
+    function handleError(errorData) {
+      var dates = dateRange(errorData.consultationSummary.startDate, errorData.consultationSummary.endDate);
+
+      vm.consultationSummary.labels = dates.map(function (d) {
+        return $filter('date')(d, 'd MMM');
+      });
+
+      notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ACTION'));
+    }
+
     /**
      * @param {Date} startDate
      * @param {Date} endDate
@@ -157,11 +163,13 @@
     }
 
     function onMonthlySummaryClick() {
-      consultationService.getMonthlyConsultationSummary(mLocation).then(fillBarChart);
+      var promise = consultationService.getMonthlyConsultationSummary(mLocation).then(fillBarChart).catch(handleError);
+      spinner.forPromise(promise);
     }
 
     function onWeeklySummaryClick() {
-      consultationService.getWeeklyConsultationSummary(mLocation).then(fillBarChart);
+      var promise = consultationService.getWeeklyConsultationSummary(mLocation).then(fillBarChart).catch(handleError);
+      spinner.forPromise(promise);
     }
 
     function scheduledConsultations() {
