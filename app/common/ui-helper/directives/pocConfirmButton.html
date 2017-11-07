@@ -1,0 +1,13 @@
+<button id="button" type="button" ng-show="!vm.ask" ng-click="vm.ask=true">
+  <ng-transclude></ng-transclude>
+</button>
+<span class="confirmation" ng-show="vm.ask">
+  <button type="button" class="btn btn-danger btn-lg" ng-click="vm.confirm(); vm.ask = false;">
+    <span class="glyphicon glyphicon-ok-sign"></span>
+    <span class="button-label">{{'SAVE' | translate}}</span>
+  </button>
+  <button type="button" class="btn btn-warning btn-lg" ng-click="vm.cancel(); vm.ask = false;">
+    <span class="glyphicon glyphicon-minus-sign"></span>
+    <span class="button-label">{{'CANCEL' | translate}}</span>
+  </button>
+</span>

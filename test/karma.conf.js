@@ -59,9 +59,6 @@ module.exports = function (config) {
       'bower_components/zeroclipboard/dist/ZeroClipboard.min.js',
       'bower_components/angular-bootstrap-checkbox/angular-bootstrap-checkbox.js',
       'bower_components/angular-messages/angular-messages.min.js',
-      'bower_components/d3/d3.min.js',
-      'bower_components/nvd3/nv.d3.min.js',
-      'bower_components/angularjs-nvd3-directives/dist/angularjs-nvd3-directives.min.js',
       'bower_components/select2/select2.min.js',
       'bower_components/angular-ui-select2/src/select2.js',
       'bower_components/angular-ui-mask/dist/mask.js',
@@ -76,6 +73,7 @@ module.exports = function (config) {
       'app/**/*.js',
       'app/home/**/*.js',
       'app/common/**/*.js',
+      'app/**/*.html',
       // fixtures
       'test/fixtures/**/*.json',
       //test utils
@@ -95,11 +93,18 @@ module.exports = function (config) {
 
     preprocessors: {
       'app/**/*.js': ['coverage'],
-      'test/fixtures/**/*.json': ['json_fixtures']
+      'test/fixtures/**/*.json': ['json_fixtures'],
+      'app/**/*.html': ['ng-html2js']
     },
 
     jsonFixturesPreprocessor: {
       stripPrefix: 'test/fixtures/'
+    },
+
+    ngHtml2JsPreprocessor: {
+      stripPrefix: 'app/',
+      prependPrefix: '../',
+      moduleName: 'templates'
     },
 
     reporters: ['spec', 'coverage'],
@@ -133,7 +138,8 @@ module.exports = function (config) {
       'karma-json-fixtures-preprocessor',
       'karma-angular-filesort',
       'karma-chrome-launcher',
-      'karma-jasmine'
+      'karma-jasmine',
+      'karma-ng-html2js-preprocessor'
     ],
 
     // Continuous Integration mode

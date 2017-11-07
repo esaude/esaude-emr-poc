@@ -7,7 +7,8 @@
       'bahmni.common.domain',
       'poc.common.clinicalservices.formdisplay',
       'poc.common.clinicalservices.serviceform',
-      'ui.router'
+      'ui.router',
+      'bahmni.common.uiHelper'
     ]);
 
 })();
