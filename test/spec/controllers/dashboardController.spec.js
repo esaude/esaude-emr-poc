@@ -1,99 +1,164 @@
-describe('Controller: DashboardController', function() {
-  var scope, q, controller, location, applicationService, $window, $httpBackend, locationService;
+describe('Controller: DashboardController', function () {
+  var $controller, $q, controller, configurations, applicationService, locationService, localStorageService, $rootScope,
+    consultationService;
 
-  beforeEach(module('home'));
-
-  beforeEach(function() {
-    // mock $window
-    $window = {
-      location: {
-        replace: jasmine.createSpy()
-      }
-    };
-
-    module(function($provide) {
-      $provide.value('$window', $window);
-    });
-  });
-
-  beforeEach(inject(function($controller, $rootScope, _applicationService_, $q, $location, _$httpBackend_, _locationService_) {
-    q = $q;
-    scope = $rootScope.$new();
-    controller = $controller;
-    location = $location;
-    applicationService = _applicationService_;
-    locationService = _locationService_,
-    $httpBackend = _$httpBackend_;
-  }));
-
-  it('should correctly set the list of apps on init', function() {
-    var appJsonFixture = window.__fixtures__['app'];
-
-    // mock applicationService.getApps
-    spyOn(applicationService, 'getApps').and.returnValue(q.when(appJsonFixture));
-
-    // mock locationService.get
-    spyOn(locationService, 'get').and.callFake(function() {
-      return {
-        success: function(callback) {
-          var data = window.__fixtures__['defaultLocationSetting'].results[0];
-          callback(data);
-        }
+  beforeEach(module('home', function ($provide, $translateProvider) {
+    $provide.factory('mergeLocaleFilesService', function ($q) {
+      return function () {
+        var deferred = $q.defer();
+        deferred.resolve({});
+        return deferred.promise;
       };
     });
+    $translateProvider.useLoader('mergeLocaleFilesService');
+  }));
 
-    // construct controller
-    controller('DashboardController', {
-      $scope: scope,
-      applicationService: applicationService
-    });
+  beforeEach(inject(function (_$controller_, _$rootScope_, _applicationService_, _$httpBackend_,
+                              _locationService_, _$window_, _$q_, _configurations_, _localStorageService_,
+                              _consultationService_) {
+    $q = _$q_;
+    $controller = _$controller_;
+    applicationService = _applicationService_;
+    locationService = _locationService_;
+    $rootScope = _$rootScope_;
+    configurations = _configurations_;
+    localStorageService = _localStorageService_;
+    consultationService = _consultationService_;
+  }));
 
-    // mock backend & ensure it gets called
-    $httpBackend.expectGET("/poc_config/openmrs/i18n/common/locale_en.json")
-      .respond({
-        data: window.__fixtures__['local_en']
+  var apps = [1, 2, 3];
+
+  beforeEach(function () {
+
+    spyOn(applicationService, 'getApps').and.callFake(function () {
+      return $q(function (resolve) {
+        return resolve(apps);
       });
+    });
 
-    // mock backend & ensure it gets called
-    $httpBackend.expectGET("/openmrs/ws/rest/v1/systemsetting?q=default_location&v=full")
-      .respond({
-        data: 'CS Chitima'
+    spyOn(configurations, 'load').and.callFake(function () {
+      return $q(function (resolve) {
+        return resolve([]);
       });
-
-    scope.$apply();
-
-    expect(applicationService.getApps).toHaveBeenCalled();
-    expect(scope.apps).toEqual(appJsonFixture);
-  });
-
-  it('should correctly set the chart data', function() {
-    var chartDataFixture = window.__fixtures__['chartData'];
-
-    // construct controller
-    controller('DashboardController', {
-      $scope: scope,
-      applicationService: applicationService
     });
 
-    expect(scope.barLabels).toEqual(chartDataFixture.barLabels);
-    expect(scope.barSeries).toEqual(chartDataFixture.barSeries);
-    expect(scope.barData).toEqual(chartDataFixture.barData);
-    expect(scope.pieLabels).toEqual(chartDataFixture.pieLabels);
-    expect(scope.pieData).toEqual(chartDataFixture.pieData);
-    expect(scope.pieSeries).toEqual(chartDataFixture.pieSeries);
-  });
-
-  it('should correctly link to app', function() {
-    var appJsonFixture = window.__fixtures__['app'];
-
-    // construct controller
-    controller('DashboardController', {
-      $scope: scope,
-      applicationService: applicationService
+    spyOn(configurations, 'defaultLocation').and.callFake(function () {
+      return {value: 'Local Desconhecido'};
     });
 
-    scope.linkApp(appJsonFixture.applications[0].url); // navigate to the registration app
+    spyOn(locationService, 'get').and.callFake(function () {
+      return $q(function (resolve) {
+        return resolve({data: {results: [{display: 'Local Desconhecido', uuid: 'uuid'}]}});
+      });
+    });
 
-    expect($window.location.href).toEqual(appJsonFixture.applications[0].url);
+    spyOn(consultationService, 'getWeeklyConsultationSummary').and.callFake(function () {
+      return $q(function (resolve) {
+        return resolve({
+          startDate: new Date('2017-10-31 00:00:00'),
+          endDate: new Date('2017-11-07 00:00:00'),
+          summary: [
+            {
+              consultationDate: "2017-10-31T00:00:00.000+0200",
+              patientConsultations: [
+                {
+                  checkInOnConsultationDate: true
+                }
+              ]
+            },
+            {
+              consultationDate: "2017-11-01T00:00:00.000+0200",
+              patientConsultations: [
+                {
+                  checkInOnConsultationDate: true
+                },
+                {
+                  checkInOnConsultationDate: true
+                },
+                {
+                  checkInOnConsultationDate: false
+                },
+                {
+                  checkInOnConsultationDate: false
+                }
+              ]
+            },
+            {
+              consultationDate: "2017-11-02T00:00:00.000+0200",
+              patientConsultations: [
+                {
+                  checkInOnConsultationDate: true
+                },
+                {
+                  checkInOnConsultationDate: false
+                }
+              ]
+            }
+          ]
+        });
+      });
+    });
+
+    spyOn(consultationService, 'getMonthlyConsultationSummary').and.callFake(function () {
+      return $q(function (resolve) {
+        return resolve({});
+      })
+    });
+
+    localStorageService.cookie.remove = jasmine.createSpy('remove');
+    localStorageService.cookie.set = jasmine.createSpy('set');
+
+    controller = $controller('DashboardController');
+
   });
+
+  describe('activate', function () {
+
+    it('should correctly set the list of apps', function () {
+
+      $rootScope.$apply();
+
+      expect(applicationService.getApps).toHaveBeenCalled();
+      expect(controller.apps).toEqual(apps);
+
+    });
+
+    it('should load and set the location in a cookie', function () {
+
+      $rootScope.$apply();
+
+      expect(configurations.load).toHaveBeenCalled();
+      expect(configurations.defaultLocation).toHaveBeenCalled();
+      expect(localStorageService.cookie.remove).toHaveBeenCalled();
+      expect(localStorageService.cookie.set).toHaveBeenCalled();
+
+    });
+
+    it('should load the weekly consultation summary', function () {
+
+      $rootScope.$apply();
+
+      expect(consultationService.getWeeklyConsultationSummary).toHaveBeenCalled();
+      expect(controller.consultationSummary.data).toEqual([[4,2,0,0,0,0,0],
+                                                           [2,1,0,0,0,0,0]]);
+      expect(controller.consultationSummary.labels).toEqual(["1 Nov","2 Nov","3 Nov","4 Nov","5 Nov","6 Nov","7 Nov"]);
+
+    });
+
+  });
+
+  describe('onMonthlySummaryClick', function () {
+
+    it('should load the weekly consultation summary', function () {
+
+      controller.onMonthlySummaryClick();
+
+      $rootScope.$apply();
+
+      expect(consultationService.getMonthlyConsultationSummary).toHaveBeenCalled();
+
+    });
+
+  });
+
 });
