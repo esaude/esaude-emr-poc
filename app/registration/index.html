@@ -190,10 +190,10 @@
       <script src="../common/patient/mappers/updatePatientMapper.js"></script>
       <script>
           document.addEventListener('keydown', function(event) {
-              if( event.keyCode == 13 || event.keyCode == 17 || event.keyCode == 74 ){
+              if (event.keyCode == 74 && event.ctrlKey) {
                   event.preventDefault();
-          }
-      });
+              }
+          });
       </script>
       <!-- endbuild -->
   </body>

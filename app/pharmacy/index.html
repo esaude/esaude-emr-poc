@@ -172,11 +172,11 @@
       <script src="controllers/scheduledPatientsController.js"></script>
       <script src="services/dispensationService.js"></script>
       <script>
-        document.addEventListener('keydown', function(event) {
-            if( event.keyCode == 13 || event.keyCode == 17 || event.keyCode == 74 ){
-                event.preventDefault();
-            }
-        });
+          document.addEventListener('keydown', function(event) {
+              if (event.keyCode == 74 && event.ctrlKey) {
+                  event.preventDefault();
+              }
+          });
       </script>
       <!-- endbuild -->
   </body>
