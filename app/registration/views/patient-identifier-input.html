@@ -58,7 +58,7 @@
                     </button>
                 </td>
                 <td>
-                    <button popover-placement="Top" uib-popover="{{pi.identifierType.formatDescription}}" type="button" class="btn btn-info btn-lg">
+                    <button popover-placement="Top" uib-popover="{{pi.identifierType.formatDescription}}" type="button" class="btn btn-info btn-lg" ng-disabled="!pi.identifierType.formatDescription">
                         <span class="glyphicon glyphicon-question-sign"></span>
                         <span class="button-label">{{'HELP' | translate}}</span>
                     </button>
