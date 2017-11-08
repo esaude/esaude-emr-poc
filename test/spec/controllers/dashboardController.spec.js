@@ -139,8 +139,8 @@ describe('Controller: DashboardController', function () {
       $rootScope.$apply();
 
       expect(consultationService.getWeeklyConsultationSummary).toHaveBeenCalled();
-      expect(controller.consultationSummary.data).toEqual([[4,2,0,0,0,0,0],
-                                                           [2,1,0,0,0,0,0]]);
+      expect(controller.consultationSummary.data).toEqual([[2,1,0,0,0,0,0],
+                                                           [4,2,0,0,0,0,0]]);
       expect(controller.consultationSummary.labels).toEqual(["1 Nov","2 Nov","3 Nov","4 Nov","5 Nov","6 Nov","7 Nov"]);
 
     });

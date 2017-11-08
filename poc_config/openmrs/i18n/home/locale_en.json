@@ -28,5 +28,5 @@
     "USER_DASHBOARD_CHECKED_IN": "Checked in",
     "USER_DASHBOARD_MONTHLY": "Monthly",
     "USER_DASHBOARD_WEEKLY": "Weekly",
-    "USER_DASHBOARD_PERIOD": "From {{startDate}} to {{endDate}}"
+    "USER_DASHBOARD_PERIOD": "{{startDate}} - {{endDate}}"
 }

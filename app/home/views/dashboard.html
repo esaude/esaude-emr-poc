@@ -9,7 +9,7 @@
   </div>
 </div>
 
-<div class="panel panel-primary content-border-margin">
+<div class="panel panel-primary content-border-margin consultation-summary">
 
   <div class="panel-heading">
     <h3 class="panel-title">{{'USER_DASHBOARD_CONSULTATIONS' | translate}}</h3>
@@ -17,15 +17,16 @@
 
   <div class="panel-body">
 
-    <div class="row" style="margin-bottom:10px;">
+    <div class="row">
       <div class="col-sm-12">
-        <div style="line-height: 2;">
+        <div class="period">
           <span class="text-muted">{{vm.currentPeriod()}}</span>
           <div class="btn-group pull-right" role="group" aria-label="...">
             <button type="button" class="btn btn-default" ng-click="vm.onMonthlySummaryClick()">{{'USER_DASHBOARD_MONTHLY' | translate}}</button>
             <button type="button" class="btn btn-default" ng-click="vm.onWeeklySummaryClick()">{{'USER_DASHBOARD_WEEKLY' | translate}}</button>
           </div>
         </div>
+        <hr>
       </div>
     </div>
 
@@ -44,7 +45,7 @@
       </div>
     </div>
 
-    <div id="wrapper" style="position: relative; height: 49vh">
+    <div class="chart-wrapper">
       <canvas id="bar" class="chart chart-bar"
               chart-data="vm.consultationSummary.data"
               chart-labels="vm.consultationSummary.labels"

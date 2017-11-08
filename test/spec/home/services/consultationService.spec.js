@@ -10,18 +10,16 @@ describe('consultationService', function () {
   }));
 
   var location = {uuid: 'uuid'};
-  var endDate = moment('2017-11-07');
+  var endDate = new Date('2017-11-07');
   var representation = 'custom:(consultationDate,patientConsultations:(checkInOnConsultationDate))';
 
   describe('getMonthlyConsultationSummary', function () {
 
     beforeEach(function () {
-      jasmine.clock().install();
+      jasmine.clock().mockDate(endDate);
     });
 
     it('should load monthly patient consultation summary', function () {
-
-      jasmine.clock().mockDate(endDate);
 
       var startDateStr = '07-10-2017';
       var endDateStr = '07-11-2017';
@@ -47,12 +45,10 @@ describe('consultationService', function () {
   describe('getWeeklyConsultationSummary', function () {
 
     beforeEach(function () {
-      jasmine.clock().install();
+      jasmine.clock().mockDate(endDate);
     });
 
     it('should load weekly patient consultation summary', function () {
-
-      jasmine.clock().mockDate(endDate);
 
       var startDateStr = '31-10-2017';
       var endDateStr = '07-11-2017';

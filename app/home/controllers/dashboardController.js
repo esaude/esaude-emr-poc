@@ -21,19 +21,19 @@
     vm.consultationSummary = {
       labels: [],
       series: [
-        $filter('translate')('USER_DASHBOARD_MARKED_CONSULTATIONS'),
-        $filter('translate')('USER_DASHBOARD_CHECKED_IN')
+        $filter('translate')('USER_DASHBOARD_CHECKED_IN'),
+        $filter('translate')('USER_DASHBOARD_MARKED_CONSULTATIONS')
       ],
       borderWidth: 5,
       data: [],
       datasetOverride: [
         {
-          backgroundColor: 'rgba(211, 211, 211, 0.6)',
-          borderColor: 'rgba(211, 211, 211, 0.6)',
+          backgroundColor: '#337ab7',
+          borderColor: 'lightgrey',
           borderWidth: 1
         },
         {
-          backgroundColor: '#337ab7',
+          backgroundColor: 'lightgrey',
           borderColor: 'lightgrey',
           borderWidth: 1
         }
@@ -43,7 +43,8 @@
         maintainAspectRatio: false,
         legend: {
           display: true,
-          position: 'bottom'
+          position: 'bottom',
+          reverse: true
         },
         scales: {
           yAxes: [{
@@ -53,6 +54,12 @@
           xAxes: [{
             stacked: true
           }]
+        },
+        tooltips: {
+          // Show scheduled before checkins
+          itemSort: function compare(a, b) {
+            return a.datasetIndex > b.datasetIndex ? -1 : 1;
+          }
         }
       }
     };
@@ -114,8 +121,8 @@
       if (found) {
         var checkedIn = found.patientConsultations.filter(function (c) {
           return c.checkInOnConsultationDate;
-        }).length;
-        return [found.patientConsultations.length, checkedIn];
+        });
+        return [checkedIn.length, found.patientConsultations.length];
       } else {
         return [0, 0];
       }
