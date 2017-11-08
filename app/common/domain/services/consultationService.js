@@ -67,8 +67,8 @@
       var config = {
         params: {
           location: location.uuid,
-          startDate: moment(startDate).format('DD-MM-YYYY'),
-          endDate: moment(endDate).format('DD-MM-YYYY')
+          startDate: startDate.toDate(),
+          endDate: endDate.toDate()
         }
       };
       // Endpoint does not have full support for representations.

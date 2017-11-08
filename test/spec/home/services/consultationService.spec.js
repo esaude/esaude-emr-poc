@@ -21,8 +21,8 @@ describe('consultationService', function () {
 
     it('should load monthly patient consultation summary', function () {
 
-      var startDateStr = '07-10-2017';
-      var endDateStr = '07-11-2017';
+      var startDateStr = new Date('2017-10-07 00:00:00').toISOString();
+      var endDateStr = new Date('2017-11-07 00:00:00').toISOString();
 
       $httpBackend.expectGET('/openmrs/ws/rest/v1/patientconsultationsummary?endDate=' + endDateStr
           + '&location=' + location.uuid + '&startDate=' + startDateStr + '&v=' + representation)
@@ -50,8 +50,8 @@ describe('consultationService', function () {
 
     it('should load weekly patient consultation summary', function () {
 
-      var startDateStr = '31-10-2017';
-      var endDateStr = '07-11-2017';
+      var startDateStr = new Date('2017-10-31 00:00:00').toISOString();
+      var endDateStr = new Date('2017-11-07 00:00:00').toISOString();
 
       $httpBackend.expectGET('/openmrs/ws/rest/v1/patientconsultationsummary?endDate=' + endDateStr
         + '&location=' + location.uuid + '&startDate=' + startDateStr + '&v=' + representation)
