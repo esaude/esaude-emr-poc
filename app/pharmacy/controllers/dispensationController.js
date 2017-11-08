@@ -5,10 +5,10 @@
     .module('pharmacy')
     .controller('DispensationController', DispensationController);
 
-  DispensationController.$inject = ['$filter', '$stateParams', '$timeout', 'dispensationService', 'localStorageService',
+  DispensationController.$inject = ['$filter', '$stateParams', 'dispensationService', 'localStorageService',
     'notifier', 'prescriptionService', 'sessionService', 'spinner'];
 
-  function DispensationController($filter, $stateParams, $timeout, dispensationService, localStorageService, notifier,
+  function DispensationController($filter, $stateParams, dispensationService, localStorageService, notifier,
                                   prescriptionService, sessionService, spinner) {
 
     var dateUtil = Bahmni.Common.Util.DateUtil;
