@@ -224,6 +224,19 @@ describe('DispensationController', function () {
 
     });
 
+    it('should show warning when dispensing more than permitted', function () {
+
+      spyOn(notifier, 'info').and.callThrough();
+
+      var item = prescriptionItems[0];
+
+      controller.selectedPrescriptionItems = prescriptionItems;
+      item.quantity = 4;
+      controller.updatePickup(item);
+
+      expect(notifier.info).toHaveBeenCalled();
+    });
+
   });
 
 
