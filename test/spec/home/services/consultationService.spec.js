@@ -10,7 +10,7 @@ describe('consultationService', function () {
   }));
 
   var location = {uuid: 'uuid'};
-  var endDate = new Date('2017-11-07');
+  var endDate = new Date('2017-11-07 00:00:00');
   var representation = 'custom:(consultationDate,patientConsultations:(checkInOnConsultationDate))';
 
   describe('getMonthlyConsultationSummary', function () {

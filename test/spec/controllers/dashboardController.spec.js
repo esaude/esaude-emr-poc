@@ -59,7 +59,7 @@ describe('Controller: DashboardController', function () {
           endDate: new Date('2017-11-07 00:00:00'),
           summary: [
             {
-              consultationDate: "2017-10-31T00:00:00.000+0200",
+              consultationDate: "2017-10-31 00:00:00",
               patientConsultations: [
                 {
                   checkInOnConsultationDate: true
@@ -67,7 +67,7 @@ describe('Controller: DashboardController', function () {
               ]
             },
             {
-              consultationDate: "2017-11-01T00:00:00.000+0200",
+              consultationDate: "2017-11-01 00:00:00",
               patientConsultations: [
                 {
                   checkInOnConsultationDate: true
@@ -84,7 +84,7 @@ describe('Controller: DashboardController', function () {
               ]
             },
             {
-              consultationDate: "2017-11-02T00:00:00.000+0200",
+              consultationDate: "2017-11-02 00:00:00",
               patientConsultations: [
                 {
                   checkInOnConsultationDate: true
