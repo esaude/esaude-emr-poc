@@ -5,11 +5,11 @@
     .module('pharmacy')
     .controller('DispensationController', DispensationController);
 
-  DispensationController.$inject = ['$filter', '$stateParams', 'dispensationService', 'localStorageService', 'notifier',
-    'prescriptionService', 'sessionService', 'spinner'];
+  DispensationController.$inject = ['$filter', '$stateParams', '$timeout', 'dispensationService', 'localStorageService',
+    'notifier', 'prescriptionService', 'sessionService', 'spinner'];
 
-  function DispensationController($filter, $stateParams, dispensationService, localStorageService, notifier, prescriptionService,
-                                  sessionService, spinner) {
+  function DispensationController($filter, $stateParams, $timeout, dispensationService, localStorageService, notifier,
+                                  prescriptionService, sessionService, spinner) {
 
     var dateUtil = Bahmni.Common.Util.DateUtil;
 
@@ -17,6 +17,7 @@
     var patientUUID = $stateParams.patientUuid;
 
     var vm = this;
+    vm.invalidQty = false;
     vm.prescriptions = [];
     vm.selectedPrescriptionItems = [];
     vm.today = dateUtil.getDateWithoutTime(dateUtil.now());
@@ -108,7 +109,12 @@
         return min.drugToPickUp > i.drugToPickUp ? i : min;
       });
 
-      item.quantity = Math.min(item.quantity, minAvailable.drugToPickUp);
+      if (item.quantity > minAvailable.drugToPickUp) {
+        item.quantity = minAvailable.drugToPickUp;
+        notifier.info($filter('translate')('PHARMACY_CANNOT_DISPENSE_MORE_THAN_AVAILABLE', {
+          availableQty: minAvailable.drugToPickUp
+        }));
+      }
 
       sameRegimeItems.forEach(function (i) {
         i.quantity = item.quantity;

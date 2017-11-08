@@ -60,6 +60,7 @@ describe('DispensationController', function () {
     spinner = _spinner_;
     dispensationService = _dispensationService_;
     prescriptionService = _prescriptionService_;
+    notifier = _notifier_;
   }));
 
   describe('activate', function () {
@@ -183,24 +184,24 @@ describe('DispensationController', function () {
 
   describe('updatePickup', function () {
 
+    var prescriptionItems = [
+      {regime: {uuid: '1'}, drugToPickUp: 6},
+      {regime: {uuid: '1'}, drugToPickUp: 2},
+      {regime: {uuid: '1'}, drugToPickUp: 3}
+    ];
+
     beforeEach(function () {
       controller = $controller('DispensationController');
     });
 
     describe('ARV prescription item', function () {
 
-      var prescriptionItems = [
-        {regime: {uuid: '1'}, drugToPickUp: 6},
-        {regime: {uuid: '1'}, drugToPickUp: 2},
-        {regime: {uuid: '1'}, drugToPickUp: 3}
-      ];
-
       it('should set the maximum quantity to dispense to the prescription item with the least available items to pickup', function () {
 
         var item = prescriptionItems[0];
 
         controller.selectedPrescriptionItems = prescriptionItems;
-        item.quantity = 3;
+        item.quantity = 4;
         controller.updatePickup(item);
 
         expect(item.quantity).toEqual(prescriptionItems[1].drugToPickUp);
