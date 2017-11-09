@@ -43,5 +43,6 @@
   "FILA_REPORT_ARV_MEDS": "Drug",
   "FILA_REPORT_QTY": "Amount",
   "FILA_REPORT_DOSAGE": "Dosage",
-  "FILA_REPORT_NEXT_PICKUP_DATE": "Next pickup date"
+  "FILA_REPORT_NEXT_PICKUP_DATE": "Next pickup date",
+  "PHARMACY_CANNOT_DISPENSE_MORE_THAN_AVAILABLE": "Cannot dispense more than {{availableQty}} available"
 }
