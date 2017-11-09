@@ -161,4 +161,33 @@ describe('Controller: DashboardController', function () {
 
   });
 
+  describe('scheduledConsultations', function () {
+
+    it('should return the total number of scheduled consultations', function () {
+
+      $rootScope.$apply();
+
+      var total = controller.scheduledConsultations();
+
+      expect(total).toEqual(6);
+
+    });
+
+  });
+
+
+  describe('checkedIn', function () {
+
+    it('should return the total number of patients who checked in to scheduled consultations', function () {
+
+      $rootScope.$apply();
+
+      var total = controller.checkedIn();
+
+      expect(total).toEqual(3);
+
+    });
+
+  });
+
 });

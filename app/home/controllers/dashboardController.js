@@ -180,11 +180,11 @@
     }
 
     function scheduledConsultations() {
-      return vm.consultationSummary.data[0] ? sum(vm.consultationSummary.data[0]) : 0;
+      return vm.consultationSummary.data[1] ? sum(vm.consultationSummary.data[1]) : 0;
     }
 
     function checkedIn() {
-      return vm.consultationSummary.data[1] ? sum(vm.consultationSummary.data[1]) : 0;
+      return vm.consultationSummary.data[0] ? sum(vm.consultationSummary.data[0]) : 0;
     }
 
     function sum(array) {
