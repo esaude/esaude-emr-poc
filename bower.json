@@ -56,7 +56,7 @@
   "resolutions": {
     "angular": "~1.5.0",
     "lodash": "4.6.1",
-    "angular-translate": "~2.11.1"g
+    "angular-translate": "~2.11.1"
   },
   "devDependencies": {
     "q": "1.0.1"
