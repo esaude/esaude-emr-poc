@@ -62,7 +62,7 @@
                 });
               });
         }).catch(function (error) {
-            $log.error('XHR Failed for getDeahtConcepts. '+error.data.message);
+            $log.error('XHR Failed for getDeathConcepts. '+ error.data.error.message);
             return $q.reject(error);
         });
     }
@@ -87,7 +87,7 @@
           });
         })
         .catch(function (error) {
-          $log.error('XHR Failed for searchBySource: ' + error.data.message);
+          $log.error('XHR Failed for searchBySource: ' + error.data.error.message);
           return $q.reject(error);
         });
     }

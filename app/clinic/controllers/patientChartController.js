@@ -25,7 +25,7 @@
             type: 'linear',
             display: true,
             position: 'left',
-            ticks: {max: 10000, min: 100, stepSize: 100}
+            ticks: {max: 10000, min: 100, stepSize: 1000}
           }]
       },
       pointDotRadius: 10
