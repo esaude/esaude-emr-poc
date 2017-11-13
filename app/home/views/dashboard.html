@@ -1,18 +1,60 @@
-<!--div>Icons made by <a href="http://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a>             is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div-->
 <div class="bg-info-border content-border border-rouded go-to-center">
-    <div class="inline-align content-border-margin-regular" ng-repeat="app in apps">
-        <button type="button" ng-show="app.active" class="btn btn-default" ng-click="linkApp(app.url)">
+  <div class="inline-align content-border-margin-regular" ng-repeat="app in vm.apps">
+    <button type="button" ng-show="app.active" class="btn btn-default" ng-click="vm.linkApp(app.url)">
             <span>
                 <img ng-src="../../{{app.logo}}" width="120" height="82" alt="provider">
             </span>
-            <br/>{{app.name | translate}}
-        </button>
-    </div>
+      <br/>{{app.name | translate}}
+    </button>
+  </div>
 </div>
 
-<div class="content-border border-rouded go-to-center">
-    <span>
-        <img ng-src="../../images/care.png" alt="provider">
-    </span>
-    <br/>O nosso maior valor é a vida!
+<div class="panel panel-primary content-border-margin consultation-summary">
+
+  <div class="panel-heading">
+    <h3 class="panel-title">{{'USER_DASHBOARD_CONSULTATIONS' | translate}}</h3>
+  </div>
+
+  <div class="panel-body">
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="period">
+          <span class="text-muted">{{vm.currentPeriod()}}</span>
+          <div class="btn-group pull-right" role="group" aria-label="...">
+            <button type="button" class="btn btn-default" ng-click="vm.onMonthlySummaryClick()">{{'USER_DASHBOARD_MONTHLY' | translate}}</button>
+            <button type="button" class="btn btn-default" ng-click="vm.onWeeklySummaryClick()">{{'USER_DASHBOARD_WEEKLY' | translate}}</button>
+          </div>
+        </div>
+        <hr>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-3 col-sm-offset-3">
+        <h1 class="text-center">
+          {{vm.scheduledConsultations()}} <br>
+          <small>{{ 'USER_DASHBOARD_MARKED_CONSULTATIONS' | translate }}</small>
+        </h1>
+      </div>
+      <div class="col-sm-3">
+        <h1 class="text-center">
+          {{vm.checkedIn()}} <br>
+          <small>{{ 'USER_DASHBOARD_CHECKED_IN' | translate }}</small>
+        </h1>
+      </div>
+    </div>
+
+    <div class="chart-wrapper">
+      <canvas id="bar" class="chart chart-bar"
+              chart-data="vm.consultationSummary.data"
+              chart-labels="vm.consultationSummary.labels"
+              chart-series="vm.consultationSummary.series"
+              chart-options="vm.consultationSummary.options"
+              chart-dataset-override="vm.consultationSummary.datasetOverride"
+              height="100px">
+      </canvas>
+    </div>
+
+  </div>
 </div>

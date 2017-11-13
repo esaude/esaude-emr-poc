@@ -36,7 +36,7 @@ module.exports = function (config) {
       'bower_components/keyboard/dist/layouts/keyboard-layouts-greywyvern.min.js',
       'bower_components/angular-route/angular-route.min.js',
       'bower_components/angular-ui-router/release/angular-ui-router.min.js',
-      'bower_components/Chart.js/Chart.min.js',
+      'bower_components/chart.js/dist/Chart.min.js',
       'bower_components/angular-chart.js/dist/angular-chart.min.js',
       'bower_components/angular-smart-table/dist/smart-table.min.js',
       'bower_components/keyboard/dist/js/jquery.keyboard.extension-all.min.js',

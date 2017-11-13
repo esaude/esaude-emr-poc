@@ -315,3 +315,15 @@ p.capitalize {
   border-radius: 6px;
 }
 /**/
+
+
+/* Consultation summary*/
+.consultation-summary .period {
+  line-height: 2;
+}
+
+.consultation-summary .chart-wrapper {
+  position: relative;
+  height: 49vh;
+}
+/**/

@@ -43,7 +43,7 @@
     "angular-translate-handler-log": "2.7.2",
     "moment-timezone": "~0.5.4",
     "validator-js": "~5.4.0",
-    "angular-chart.js": "1.0.0-alpha1",
+    "angular-chart.js": "1.1.1",
     "angular-bootstrap": "~2.1.4",
     "angular-ui-select2": "~0.0.5",
     "angular-ui-mask": "~1.8.7",
@@ -51,7 +51,8 @@
     "angular-barcode": "~0.0.4",
     "angular-barcode-listener": "^1.5.0",
     "ng-dialog": "^1.0.1",
-    "angular-breadcrumb": "^0.5.0"
+    "angular-breadcrumb": "^0.5.0",
+    "chart.js": "^2.7.1"
   },
   "resolutions": {
     "angular": "~1.5.0",
