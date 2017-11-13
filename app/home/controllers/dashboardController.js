@@ -58,7 +58,7 @@
         tooltips: {
           // Show scheduled before checkins
           itemSort: function compare(a, b) {
-            return a.datasetIndex > b.datasetIndex ? -1 : 1;
+            return b.datasetIndex - a.datasetIndex;
           }
         }
       }
@@ -170,7 +170,11 @@
     }
 
     function onMonthlySummaryClick() {
-      var promise = consultationService.getMonthlyConsultationSummary(mLocation).then(fillBarChart).catch(handleError);
+      var promise = consultationService
+        .getMonthlyConsultationSummary(mLocation)
+        .then(fillBarChart)
+        .catch(handleError);
+
       spinner.forPromise(promise);
     }
 
@@ -180,17 +184,11 @@
     }
 
     function scheduledConsultations() {
-      return vm.consultationSummary.data[1] ? sum(vm.consultationSummary.data[1]) : 0;
+      return _.sum(vm.consultationSummary.data[1]);
     }
 
     function checkedIn() {
-      return vm.consultationSummary.data[0] ? sum(vm.consultationSummary.data[0]) : 0;
-    }
-
-    function sum(array) {
-      return array.reduce(function (acc, curr) {
-        return acc + curr;
-      });
+      return _.sum(vm.consultationSummary.data[0]);
     }
 
     function currentPeriod() {
