@@ -17,7 +17,7 @@ angular.module('clinic')
 
             $scope.getLastConsultationAndVisit = function () {
                 _.forEach($scope.cohortMembers, function (member) {
-                    observationsService.get(member.uuid, Bahmni.Common.Constants.nextConsultationDateUuid)
+                    observationsService.getObs(member.uuid, Bahmni.Common.Constants.nextConsultationDateUuid)
                         .success(function (data) {
                             //skip if doesn't have next consultation
                             var nonRetired = commonService.filterRetired(data.results);
