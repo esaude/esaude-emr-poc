@@ -309,5 +309,7 @@
     "PRESCRIPTION_FINALIZED": "Finalizado",
     "ADDRESS_FORMAT_LINE1": "{{street}} {{cell}}",
     "ADDRESS_FORMAT_LINE2": "{{country}} {{province}} {{district}} {{locality}} {{neighborhood}}",
-    "ARE_YOU_SURE": "Tem certeza?"
+    "ARE_YOU_SURE": "Tem certeza?",
+  "DELETE_PATIENT": "Apagar Paciente",
+  "REASON_TO_DELETE": "Motivo para Anular"
 }

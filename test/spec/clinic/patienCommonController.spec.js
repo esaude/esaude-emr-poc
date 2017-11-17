@@ -58,11 +58,6 @@ describe('PatientCommonController', function () {
       });
     });
 
-    it('should load deathConcepts ', function () {
-      $rootScope.$apply();
-      expect(controller.deathConcepts).toEqual([]);
-    });
-
   });
 
 });

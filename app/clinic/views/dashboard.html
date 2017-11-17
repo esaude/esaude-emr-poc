@@ -1,30 +1,8 @@
 <patient-header patient="patient"></patient-header>
-
-<div class="row bg-info-border content-border border-rouded-bottom go-to-right"><!-- patient header controls -->
-    <button id="add_patient" type="button" class="btn btn-warning btn-lg" ng-click="linkSearch()">
-        <span class="glyphicon glyphicon-step-backward"></span>
-        <span class="button-label">{{'PREVIOUS_STEP' | translate}}</span>
-    </button>
-    <button ng-controller="MovePatientActionController" id="transfer_patient" type="button" class="btn btn-warning btn-lg" ng-click="movePatientTo()">
-        <span class="glyphicon glyphicon-share"></span>
-        <span class="button-label">{{'GO_TO' | translate}}</span>
-    </button>
-    <button id="detail_patient" type="button"
-            class="btn btn-success btn-lg" ng-click="linkPatientDetail()">
-        <span class="glyphicon glyphicon-eye-open"></span>
-        <span class="button-label">{{'VIEW' | translate}}</span>
-    </button>
-    <button id="delete_patient" type="button" class="btn btn-danger btn-lg"
-            data-toggle="modal" data-target="#deletePatientModal">
-        <span class="glyphicon glyphicon-remove-sign"></span>
-        <span class="button-label">{{'REMOVE' | translate}}</span>
-    </button>
-</div><!-- patient header controls -->
+ <!-- patient header controls -->
 <div class="row bg-info-border content-border border-rouded" ng-init="getAlerts()" ng-show="{{flags.length !== 0}}">
     <span class="label label-warning content-border-margin-regular-sides" ng-repeat="flag in flags"> {{flag.name | translate}}</span>
 </div>
-
-<div ng-include src="'../common/uicontrols/programmanagement/views/patient-delete.html'"></div>
 
 <div ng-include src="'views/patient-state.html'" ng-controller="PatientHeaderController"></div><!--patient header -->
 
