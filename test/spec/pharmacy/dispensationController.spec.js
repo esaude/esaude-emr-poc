@@ -51,7 +51,7 @@ describe('DispensationController', function () {
     $translateProvider.useLoader('mergeLocaleFilesService');
   }));
 
-  beforeEach(inject(function (_$controller_, _$q_,  _$rootScope_, _dispensationService_, _localStorageService_, _notifier_,
+  beforeEach(inject(function (_$controller_, _$q_, _$rootScope_, _dispensationService_, _localStorageService_, _notifier_,
                               _prescriptionService_, _sessionService_, _spinner_) {
     $controller = _$controller_;
     $q = _$q_;
@@ -61,6 +61,7 @@ describe('DispensationController', function () {
     dispensationService = _dispensationService_;
     prescriptionService = _prescriptionService_;
     notifier = _notifier_;
+    localStorageService = _localStorageService_;
   }));
 
   describe('activate', function () {
@@ -69,13 +70,13 @@ describe('DispensationController', function () {
 
       spyOn(sessionService, 'getCurrentUser').and.callFake(function () {
         return $q(function (resolve) {
-          resolve({});
+          return resolve({});
         });
       });
 
       spyOn(prescriptionService, 'getPatientNonDispensedPrescriptions').and.callFake(function () {
         return $q(function (resolve) {
-          resolve(prescriptions);
+          return resolve(prescriptions);
         });
       });
 
@@ -240,7 +241,68 @@ describe('DispensationController', function () {
   });
 
 
-  xdescribe('dispense', function () {
+  describe('dispense', function () {
+
+    beforeEach(function () {
+      spyOn(sessionService, 'getCurrentUser').and.callFake(function () {
+        return $q(function (resolve) {
+          return resolve({person: {uuid: 'uuid'}});
+        })
+      });
+
+      spyOn(dispensationService, 'createDispensation').and.callFake(function () {
+        return $q(function (resolve) {
+          return resolve();
+        });
+      });
+
+      spyOn(prescriptionService, 'getPatientNonDispensedPrescriptions').and.callFake(function () {
+        return $q(function (resolve) {
+          return resolve([]);
+        });
+      });
+
+      spyOn(notifier, 'success').and.callThrough();
+
+
+      localStorageService = {
+        cookie: {
+          get: function () {
+            return { uuid: 'xpto'};
+          }
+        }
+      };
+
+      controller = $controller('DispensationController', {
+        localStorageService: localStorageService
+      });
+    });
+
+    it('should call dispensationService', function () {
+
+      $rootScope.$apply();
+
+      controller.dispense();
+
+      expect(dispensationService.createDispensation).toHaveBeenCalled();
+
+    });
+
+    xit('should empty selected prescription items list', function () {
+
+    });
+
+    it('should notify the user about the dispensation', function () {
+
+      $rootScope.$apply();
+
+      controller.dispense();
+
+      $rootScope.$apply();
+
+      expect(notifier.success).toHaveBeenCalled();
+
+    });
 
   });
 
