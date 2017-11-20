@@ -13,10 +13,12 @@
                         <td ng-if="!state.endDate">Started on {{state.startDate| date}}</td>
                         <td>By {{state.auditInfo.creator.display}} on {{state.auditInfo.dateCreated| date}}</td>
                         <td class="go-to-right">
+                          <poc-authorize privilege="'Edit Patient Program'">
                             <poc-confirm-button type="button" class="btn btn-danger btn-lg" on-confirm="removePatientState(programSelected)" ng-if="canRemovePatientState(state)">
-                                <span class="glyphicon glyphicon-remove-sign"></span>
-                                <span class="button-label">{{'REMOVE' | translate}}</span>
+                              <span class="glyphicon glyphicon-remove-sign"></span>
+                              <span class="button-label">{{'REMOVE' | translate}}</span>
                             </poc-confirm-button>
+                          </poc-authorize>
                         </td>
                     </tr>
                 </tbody>

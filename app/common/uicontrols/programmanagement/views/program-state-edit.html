@@ -43,15 +43,19 @@
                         <span class="glyphicon glyphicon-minus-sign"></span>
                         <span class="button-label">{{'CANCEL' | translate}}</span>
                     </button>
+                  <poc-authorize privilege="'Edit Patient Program'">
                     <button type="submit" class="btn btn-primary btn-lg" data-dismiss="modal">
                         <span class="glyphicon glyphicon-floppy-disk"
                               ng-click="savePatientProgram(programSelected)"></span>
-                        <span class="button-label">{{'SAVE' | translate}}</span>
+                      <span class="button-label">{{'SAVE' | translate}}</span>
                     </button>
+                  </poc-authorize>
+                  <poc-authorize privilege="'Edit Patient Program'">
                     <button type="button" class="btn btn-danger btn-lg">
-                        <span class="glyphicon glyphicon-remove-sign"></span>
-                        <span class="button-label">{{'REMOVE' | translate}}</span>
+                      <span class="glyphicon glyphicon-remove-sign"></span>
+                      <span class="button-label">{{'REMOVE' | translate}}</span>
                     </button>
+                  </poc-authorize>
                 </div>
             </form>
         </div>

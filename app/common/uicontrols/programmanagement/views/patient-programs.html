@@ -34,10 +34,12 @@
                 </button>
             </td>
             <td ng-if="!hasValidProgramStateToShow(program.states)">
+              <poc-authorize privilege="'Edit Patient Program'">
                 <button class="btn btn-primary btn-lg" type="button">
-                      <span class="glyphicon glyphicon-plus"></span>
-                      <span class="button-label">{{'ADD' | translate}}</span>
+                  <span class="glyphicon glyphicon-plus"></span>
+                  <span class="button-label">{{'ADD' | translate}}</span>
                 </button>
+              </poc-authorize>
             </td>
             <td>
                 <button ng-if="hasValidProgramStateToShow(program.states)" class="btn btn-success btn-lg" type="button"
@@ -93,10 +95,12 @@
     <tfoot>
         <tr>
             <td colspan="5" class="go-to-right">
+              <poc-authorize privilege="'Write Patient Program'">
                 <button type="button" class="btn btn-primary btn-lg" ng-click="resetProgramFields()" data-toggle="modal" data-target="#addProgramModal">
-                    <span class="glyphicon glyphicon-plus-sign"></span>
-                    <span class="button-label">{{'NEW_PROGRAM' | translate}}</span>
+                  <span class="glyphicon glyphicon-plus-sign"></span>
+                  <span class="button-label">{{'NEW_PROGRAM' | translate}}</span>
                 </button>
+              </poc-authorize>
             </td>
         </tr>
     </tfoot>
