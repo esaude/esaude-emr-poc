@@ -4,7 +4,19 @@ describe('ScheduleListController', function () {
 
   var visits = [];
 
-  beforeEach(module('clinic'));
+  beforeEach(module('clinic', function ($provide, $translateProvider) {
+
+    // Mock translate asynchronous loader
+    $provide.factory('mergeLocaleFilesService', function ($q) {
+      return function () {
+        var deferred = $q.defer();
+        deferred.resolve({});
+        return deferred.promise;
+      };
+    });
+    $translateProvider.useLoader('mergeLocaleFilesService');
+  }));
+
 
   //TODO: Finalize the test after observation Service
   describe('init', function() {
@@ -24,7 +36,7 @@ describe('ScheduleListController', function () {
           var currentProvider = {
             uuid: '8d4a4488-c2cc-11de-8d13-0010c6dffd0f'
 
-          }
+          };
           $rootScope.currentProvider = currentProvider;
 
           spyOn(observationService, 'getObs').and.callFake(function() {
@@ -39,14 +51,20 @@ describe('ScheduleListController', function () {
               });
           });
 
+          spyOn(cohortService, 'getWithParams').and.callFake(function () {
+              return {
+                success: function () {
+                return {members: [] };
+              }
+          };
+          });
+
           controller = $controller('ScheduleListController',  {
             $scope: scope,
             $rootScope: $rootScope,
             observationService: observationService,
             visitService: visitService
           });
-
-          // $scope.$digest();
 
         });
           it('should call the patient last consultations', function () {
@@ -59,15 +77,8 @@ describe('ScheduleListController', function () {
 
               }
               $rootScope.currentProvider = currentProvider;
-              $httpBackend.whenGET("/poc_config/openmrs/i18n/common/locale_en.json").respond({});
-              $httpBackend.whenGET("/openmrs/ws/rest/v1/reportingrest/cohort/"+uuid).respond({});
 
-              // $rootScope.$apply();
-
-
-              // spyOn(scope, getLastConsultationAndVisit).and.returnValue({});
               scope.getLastConsultationAndVisit();
-              // expect(observationService.getObs).toHaveBeenCalled();
 
               visitService.search();
               expect(visitService.search).toHaveBeenCalled();
