@@ -14,7 +14,7 @@ describe('FormController', function () {
   var spinner = { forPromise: function () { } };
   var PATIENT_EDRISSE = { name: "Edrisse", uuid: "P001" };
   var LAST_ENCOUNTER = { encounterDateTime: null };
-  var FORM_DATA = { service: { lastEncounterForService: LAST_ENCOUNTER } };
+  var FORM_DATA = { service: { lastEncounterForService: LAST_ENCOUNTER, hasEntryToday: false } };
 
   beforeEach(module('poc.common.clinicalservices.serviceform'));
 
@@ -88,7 +88,7 @@ describe('FormController', function () {
   });
 
   describe('getPreviousEncounter', function () {
-    it('previous encounter should be last encounter when no service encounter', function () {
+    it('previous encounter should be last encounter when no occurence of the service in the current visit', function () {
       $rootScope.$apply();
       var previousEncounter = $controller.getPreviousEncounter(FORM_DATA, null);
       expect(previousEncounter).toEqual(LAST_ENCOUNTER);
@@ -99,18 +99,20 @@ describe('FormController', function () {
       var previousEncounter =
         $controller.getPreviousEncounter({
           service: {
-            encountersForService: [{ uuid: "UUID1" }, { uuid: "UUID3" }]
+            encountersForService: [{ uuid: "UUID1" }, { uuid: "UUID3" }],
+            hasEntryToday: true
           }
         }, { uuid: "UUID2" });
       expect(previousEncounter).toBeNull();
     });
 
-    it('previous encounter should be the on next to service encounter', function () {
+    it('previous encounter should be the next to service encounter', function () {
       $rootScope.$apply();
       var previousEncounter =
         $controller.getPreviousEncounter({
           service: {
-            encountersForService: [{ uuid: "UUID1" }, { uuid: "UUID2" }, { uuid: "UUID3" }]
+            encountersForService: [{ uuid: "UUID1" }, { uuid: "UUID2" }, { uuid: "UUID3" }],
+            hasEntryToday: true
           }
         }, { uuid: "UUID2" });
       expect(previousEncounter.uuid).toEqual("UUID3");
@@ -121,7 +123,8 @@ describe('FormController', function () {
       var previousEncounter =
         $controller.getPreviousEncounter({
           service: {
-            encountersForService: [{ uuid: "UUID1" }, { uuid: "UUID2" }]
+            encountersForService: [{ uuid: "UUID1" }, { uuid: "UUID2" }],
+            hasEntryToday: true
           }
         }, { uuid: "UUID2" });
       expect(previousEncounter).toBeNull();

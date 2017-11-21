@@ -1,6 +1,6 @@
 'use strict';
 
-fdescribe('DispensationController', function () {
+describe('DispensationController', function () {
 
   var $controller, $q, $rootScope, controller, dispensationService, localStorageService, notifier, prescriptionService,
     sessionService, spinner;

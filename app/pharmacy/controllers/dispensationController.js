@@ -75,7 +75,7 @@
       }
 
       if(hasActivePreviousDispensed(item)){
-        notifier.warning($filter('translate')('PHARMACY_CANNOT_DISPENSE_FOR_NOT_EXPIRED_PREVIOUS_DISPENSATION', { drugName: item.display, expirationDate: item.nextPickupDate.toDateString()}));
+        notifier.error($filter('translate')('PHARMACY_CANNOT_DISPENSE_FOR_NOT_EXPIRED_PREVIOUS_DISPENSATION', { drugName: item.display, expirationDate: item.nextPickupDate.toDateString()}));
         return;
       }
       var sameRegimeItems = [item].concat(getSameRegimeItems(prescription.prescriptionItems, item));
@@ -176,6 +176,7 @@
       };
       //---
       dispensationService.createDispensation(dispensation).then(function (dispensationUUID) {
+        notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
         vm.selectedPrescriptionItems = [];
         initPrescriptions();
       }).catch(function (error) {
