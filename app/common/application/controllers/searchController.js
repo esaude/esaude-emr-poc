@@ -45,11 +45,13 @@ angular.module('application')
                 var cleanCode = code.replace(/[^\w\s]/gi, '/');
                 var nidRegex = new RegExp("[0-9]{8}/[0-9]{2}/[0-9]{5}");
                 if (!nidRegex.test(cleanCode)) {
+                    notifier.information($filter('translate')('SEARCH_PATIENT_NO_RESULT'));
                     return;
                 }
 
                 spinner.forPromise(patientService.search(cleanCode).success(function (data) {
                     if (data.results.length !== 1) {
+                        notifier.information($filter('translate')('SEARCH_PATIENT_NO_RESULT'));
                         return;
                     }
                     var patient = patientMapper.map(data.results[0]);

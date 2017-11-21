@@ -5,7 +5,7 @@
     "label": "COMMON_SOCIAL_INFO_FORM",
     "url": "/anamnesis/a/adult",
     "minOccur": "1",
-    "maxOccur": "-1",
+    "maxOccur": "1",
     "constraints": {
       "minAge": "15",
       "requireChekin": true

@@ -93,7 +93,7 @@
 
       //se o encounter não vem preenchido então podemos concluir
       //que estamos a adicionar
-      if (!serviceEncounter) {
+      if (!formData.service.hasEntryToday) {
         previousEncounter = formData.service.lastEncounterForService;
       } else {
         var serviceEncounters = formData.service.encountersForService;
@@ -165,7 +165,7 @@
 
       } else {
 
-        if (serviceEncounter.uuid === clinicalService.lastEncounterForService.uuid) {
+        if (!clinicalService.hasEntryToday) {
           openMRSEncounter = addMappedDateObs(clinicalService, openMRSEncounter);
         }
 
