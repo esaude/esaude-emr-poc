@@ -44,5 +44,6 @@
   "FILA_REPORT_QTY": "Quantidade Aviada",
   "FILA_REPORT_DOSAGE": "Dosagem",
   "FILA_REPORT_NEXT_PICKUP_DATE": "Data do Próximo Levantamento",
-  "PHARMACY_CANNOT_DISPENSE_MORE_THAN_AVAILABLE": "Não é possível dispensar mais que {{availableQty}} disponíveis"
+  "PHARMACY_CANNOT_DISPENSE_MORE_THAN_AVAILABLE": "Não é possível dispensar mais que {{availableQty}} disponíveis",
+  "PHARMACY_CANNOT_DISPENSE_FOR_NOT_EXPIRED_PREVIOUS_DISPENSATION": "Existe uma dispensa activa para o medicamento {{drugName}} que expira em {{expirationDate}}"
 }

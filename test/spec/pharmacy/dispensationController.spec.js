@@ -1,6 +1,6 @@
 'use strict';
 
-describe('DispensationController', function () {
+fdescribe('DispensationController', function () {
 
   var $controller, $q, $rootScope, controller, dispensationService, localStorageService, notifier, prescriptionService,
     sessionService, spinner;
@@ -178,9 +178,28 @@ describe('DispensationController', function () {
 
   });
 
-  xdescribe('remove', function () {
+  describe('remove', function () {
 
-  });
+    beforeEach(function () {
+      controller = $controller('DispensationController');
+      controller.selectedPrescriptionItems = [];
+    });
+      it('it should remove a selected item', function () {
+        var item = {"selected": true,
+          "regime" : "AZT+3TC+XYV"};
+
+        controller.selectedPrescriptionItems.push(item);
+        controller.remove(item);
+        expect(controller.selectedPrescriptionItems.length).toBe(0);
+      });
+
+
+    it('it should not remove a not selected item', function () {
+      var item = {};
+      controller.remove(item);
+    });
+
+    });
 
   describe('updatePickup', function () {
 
