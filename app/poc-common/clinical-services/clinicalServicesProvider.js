@@ -236,7 +236,7 @@
 
 
           var representation = 'custom:(uuid,encounterDatetime,obs:(value,concept:(display,uuid,mappings:(' +
-            'conceptReferenceTerm:(conceptSource:(display,uuid))))),provider:(display))';
+            'conceptReferenceTerm:(conceptSource:(display,uuid)))),groupMembers:(uuid,concept:(uuid,name),obsDatetime,value)),provider:(display))';
           return encounterService.getEncountersForPatientByEncounterType(patient.uuid, encounterType.uuid, representation)
             .then(function (encounters) {
 
