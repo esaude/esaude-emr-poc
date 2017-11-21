@@ -5,7 +5,7 @@ describe('DashboardController', function () {
   beforeEach(module('social', function ($provide, $translateProvider) {
     // Mock initialization
     $provide.factory('initialization', function () {
-    });
+    })-
     // Mock translate asynchronous loader
     $provide.factory('mergeLocaleFilesService', function ($q) {
       return function () {

@@ -31,7 +31,7 @@
   </div>
 </div><!--patient header -->
 
-<div class="row bg-info-border content-border border-rouded-bottom go-to-right"><!-- patient header controls -->
+<div class="row bg-info-border content-border border-rouded-bottom go-to-right" ng-if="vm.displayActions"><!-- patient header controls -->
   <button id="add_patient" type="button" class="btn btn-warning btn-lg" ng-click="vm.linkSearch()">
     <span class="glyphicon glyphicon-step-backward"></span>
     <span class="button-label">{{'PREVIOUS_STEP' | translate}}</span>
@@ -52,7 +52,7 @@
       <span class="button-label">{{'EDIT' | translate}}</span>
     </button>
   </poc-authorize>
-  <poc-authorize privileg="'Delete Patient'">
+  <poc-authorize privilege="'Delete Patient'">
     <button id="delete_patient" type="button" class="btn btn-danger btn-lg"
             data-toggle="modal" data-target="#deletePatientModal">
       <span class="glyphicon glyphicon-remove-sign"></span>

@@ -13,7 +13,8 @@
       controllerAs: 'vm',
       restrict: 'AE',
       scope: {
-        patient: '='
+        patient: '=',
+        displayActions: '='
       },
       templateUrl: '../common/patient/directives/patientHeader.html'
     };
@@ -23,6 +24,7 @@
   /* @ngInject */
   function PatientHeaderController($state, $filter, conceptService, notifier, patientService, spinner) {
     var vm = this;
+
     vm.linkPatientDetail = linkPatientDetail;
     vm.linkPatientEdit = linkPatientEdit;
     vm.linkSearch = linkSearch;

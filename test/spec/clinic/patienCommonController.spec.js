@@ -11,7 +11,7 @@ describe('PatientCommonController', function () {
     $provide.factory('initialization', function () {
     });
     // Mock appService
-    var appService = jasmine.createSpyObj('appService', ['initApp']);
+    // var appService = jasmine.createSpyObj('appService', ['initApp']);
     appService.initApp.and.returnValue({
       then: function (fn) {
       }
