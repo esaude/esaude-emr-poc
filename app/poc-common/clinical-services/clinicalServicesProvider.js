@@ -266,6 +266,16 @@
               service.hasEntryToday = (dateUtil.diffInDaysRegardlessOfTime(todayVisit.startDatetime,
                 service.lastEncounterForService.encounterDatetime) === 0);
             }
+            service.hasServiceToday = false;
+            var lastEncounterOfType = _.maxBy(encounters, 'encounterDatetime');
+            if (todayVisit && lastEncounterOfType) {
+              if (dateUtil.diffInDaysRegardlessOfTime(todayVisit.startDatetime,
+                lastEncounterOfType.encounterDatetime) === 0) {
+                service.hasServiceToday = true;
+                service.lastServiceToday = lastEncounterOfType;
+              }
+            }
+
 
             service.list = false;
 
