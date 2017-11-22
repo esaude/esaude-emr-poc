@@ -8,6 +8,7 @@ angular.module('registration')
 
             $scope.hasSchedules = false;
 
+            //TODO: Remove duplication on of controller on clinic module
             function init() {
                 cohortService.get(Bahmni.Common.Constants.cohortMarkedForConsultationUuid).success(function (data) {
                         $scope.cohortMembers = data.members;
@@ -18,7 +19,7 @@ angular.module('registration')
 
             $scope.getLastConsultationAndVisit = function () {
                 _.forEach($scope.cohortMembers, function (member) {
-                    observationsService.get(member.uuid, Bahmni.Common.Constants.nextConsultationDateUuid)
+                    observationsService.getObs(member.uuid, Bahmni.Common.Constants.nextConsultationDateUuid)
                         .success(function (data) {
                             //skip if doesn't have next consultation
                             var nonRetired = commonService.filterRetired(data.results);

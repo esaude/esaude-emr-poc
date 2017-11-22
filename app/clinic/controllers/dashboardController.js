@@ -16,10 +16,6 @@
     $scope.todayVisit = null;
 
     $scope.getAlerts = getAlerts;
-    $scope.linkSearch = linkSearch;
-    $scope.linkPatientDetail = linkPatientDetail;
-
-
     activate();
 
     ////////////////
@@ -36,17 +32,6 @@
         } else {
           $scope.hasVisitToday = false;
         }
-      });
-    }
-
-    function linkSearch() {
-      $state.go('search');
-    }
-
-    function linkPatientDetail() {
-      $state.go('detailpatient', {
-        patientUuid: $scope.patientUUID,
-        returnState: $state.current
       });
     }
 
