@@ -1,5 +1,6 @@
 'use strict';
 
+// TODO: refactor according to styleguide
 angular.module('bahmni.common.domain')
     .service('cohortService', ['$http',
         function ($http) {
