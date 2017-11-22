@@ -550,6 +550,11 @@
           "regime": {
             "uuid": "9d6b861d-10e8-11e5-9009-0242ac110012"
 
+          },
+          "drugOrder": {
+            "drug": {
+              "uuid": "9d6b861d-10e8-11e5-9009-0242ac110012"
+            }
           }
         }],
         "prescriptionStatus": "ACTIVE"
@@ -583,6 +588,8 @@
         },
         selectedProvider: {$invalid : false}
       };
+
+
 
       it('should not create a prescription', function () {
         controller.save(form);
@@ -683,7 +690,5 @@
         expect(controller.checkActiveAndNewItemStatus(item)).toBe(true);
       });
     });
-
-
 
   });
