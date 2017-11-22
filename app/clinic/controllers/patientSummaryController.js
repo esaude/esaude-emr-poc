@@ -107,8 +107,8 @@
     function initICD10Diagnosis() {
       var concept = "e1eb7806-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
 
-      return observationsService.getObs(patientUuid, concept).success (function (data) {
-        var filtered = commonService.filterRetired(data.results);//TODO: filter must be dome in backend system
+      return observationsService.getObs(patientUuid, concept).then (function (obs) {
+        var filtered = commonService.filterRetired(obs);//TODO: filter must be dome in backend system
         vm.icdDiagnosis = dropSizeToLimit(filtered);
       });
     }

@@ -295,14 +295,14 @@
 
       //get the last therapeutic line
       observationsService.getObs(patientUuid, Bahmni.Common.Constants.drugPrescriptionConvSet.therapeuticLine.uuid)
-        .success(function (data) {
-          if (_.isEmpty(data.results)) {
+        .then(function (obs) {
+          if (_.isEmpty(obs)) {
             vm.prescriptionItem.therapeuticLine = _.find(vm.fieldModels.therapeuticLine.model.answers,
               function (answer) {
                 return answer.uuid === Bahmni.Common.Constants.therapeuticLineQuestion.firstLine;
               });
           } else {
-            var nonRetired = commonService.filterRetired(data.results);
+            var nonRetired = commonService.filterRetired(obs);
             var maxObs = _.maxBy(nonRetired, 'obsDatetime');
 
             if (maxObs) {
@@ -563,8 +563,8 @@
       vm.regimes = filteredRegimes;
       //get the last regimen
       observationsService.getObs(patientUuid, Bahmni.Common.Constants.arvConceptUuid)
-        .success(function (data) {
-          var nonRetired = commonService.filterRetired(data.results);
+        .then(function (obs) {
+          var nonRetired = commonService.filterRetired(obs);
           var maxObs = _.maxBy(nonRetired, 'obsDatetime');
 
           if (maxObs) {
@@ -584,8 +584,8 @@
     function initArvPlans(){
 
       observationsService.getObs(patientUuid, Bahmni.Common.Constants.drugPrescriptionConvSet.artPlan.uuid)
-        .success(function (data) {
-          var nonRetired = commonService.filterRetired(data.results);
+        .then(function (obs) {
+          var nonRetired = commonService.filterRetired(obs);
           var maxObs = _.maxBy(nonRetired, 'obsDatetime');
 
           if (maxObs) {

@@ -1,29 +1,37 @@
-'use strict';
+(function () {
+  'use strict';
 
-// TODO: refactor according to styleguide
-angular.module('bahmni.common.domain')
-    .service('cohortService', ['$http',
-        function ($http) {
+  angular
+    .module('bahmni.common.domain')
+    .factory('cohortService', cohortService);
 
-        this.get = function (cohortUuid) {
-            return $http.get(Bahmni.Common.Constants.cohortUrl + "/" + cohortUuid, {
-                method: "GET",
-                withCredentials: true
-            });
-        };
+  cohortService.$inject = ['$http', '$log', '$q'];
 
-        this.getWithParams = function (cohortUuid, params) {
-            return $http.get(Bahmni.Common.Constants.cohortUrl + "/" + cohortUuid, {
-                method: "GET",
-                params: params,
-                withCredentials: true
-            });
-        };
+  /* @ngInject */
+  function cohortService($http, $log, $q) {
+    var service = {
+      getMarkedForConsultationToday: getMarkedForConsultationToday
+    };
+    return service;
 
-        this.getDefinition = function (cohortDefinitionUuid) {
-            return $http.get("/openmrs/ws/rest/v1/reportingrest/cohortDefinition" + "/" + cohortDefinitionUuid, {
-                withCredentials: true
-            });
-        };
-}]);
+    ////////////////
+
+    function evaluateCohort(cohortUuid) {
+      return $http.get(Bahmni.Common.Constants.cohortUrl + "/" + cohortUuid, {
+        method: "GET",
+        withCredentials: true
+      }).then(function (response) {
+        return response.data.members;
+      }).catch(function (error) {
+        $log.error('XHR Failed for evaluateCohort: ' + error.data.error.message);
+        return $q.reject(error);
+      });
+    }
+
+    function getMarkedForConsultationToday() {
+      return evaluateCohort(Bahmni.Common.Constants.cohortMarkedForConsultationUuid);
+    }
+  }
+
+})();
 
