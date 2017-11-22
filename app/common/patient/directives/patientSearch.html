@@ -14,10 +14,12 @@
         </div>
       </div>
       <div class="col-sm-2">
-        <button type="button" class="btn btn-primary btn-lg" ng-click="vm.linkPatientNew()">
-          <span class="glyphicon glyphicon-plus-sign" />
-          <span class="button-label">{{'NEW_PATIENT' | translate}}</span>
-        </button>
+        <poc-authorize privilege="'Write Patient'">
+          <button type="button" class="btn btn-primary btn-lg" ng-click="vm.linkPatientNew()">
+            <span class="glyphicon glyphicon-plus-sign" />
+            <span class="button-label">{{'NEW_PATIENT' | translate}}</span>
+          </button>
+        </poc-authorize>
       </div>
     </div>
     <table st-table="vm.results" st-safe-src="vm.displayed" class="table table-striped">

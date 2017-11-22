@@ -42,8 +42,7 @@
   }
 
   function decorator($provide) {
-    // Will be used when authorization is fully implemented
-    // $provide.decorator('pocAuthorizeDirective', pocAuthorizeDirectiveDecorator)
+    $provide.decorator('pocAuthorizeDirective', pocAuthorizeDirectiveDecorator)
   }
 
   pocAuthorizeDirectiveDecorator.$inject = ['$delegate', 'authorizationService', '$log'];
