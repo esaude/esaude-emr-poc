@@ -444,7 +444,7 @@
         if(newPrescriptionItem.regime){
           _.forEach(vm.existingPrescriptions, function (existingPrescription) {
             _.forEach(existingPrescription.prescriptionItems, function (prescriptionItem) {
-              if(existingPrescription.prescriptionStatus === 'ACTIVE' && prescriptionItem.regime){
+              if(isActiveARVItem(prescriptionItem)){
                 exists = true;
               }
             });
@@ -453,6 +453,11 @@
       });
       return exists;
     }
+
+    function isActiveARVItem(item) {
+      return  item.regime && (item.status ==='NEW' || item.status ==='ACTIVE' ||item.status ==='FINALIZED');
+    }
+
     function getDuplicatedExistingActivePrescriptionItems(prescription) {
       var hasDuplicated = [];
       _.forEach(prescription.prescriptionItems, function (newPrescriptionItem) {
