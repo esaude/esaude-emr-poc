@@ -9,7 +9,7 @@ describe('cohortService', function () {
     $httpBackend = _$httpBackend_;
   }));
 
-  fdescribe('getWithParams', function () {
+  describe('getWithParams', function () {
 
     var uuid = 'some-uuid';
 
