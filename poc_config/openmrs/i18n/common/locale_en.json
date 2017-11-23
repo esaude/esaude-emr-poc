@@ -317,5 +317,7 @@
     "ADDRESS_FORMAT_LINE1": "{{street}} {{cell}}",
     "ADDRESS_FORMAT_LINE2": "{{neighborhood}} {{locality}} {{district}} {{province}} {{country}}",
     "ARE_YOU_SURE": "Are you sure?",
-    "INSUFFICIENT_PRIVILEGES": "Not enough privileges to use this functionality."
+    "INSUFFICIENT_PRIVILEGES": "Not enough privileges to use this functionality.",
+    "DELETE_PATIENT": "Delete Patient",
+    "REASON_TO_DELETE": "Reason to Delete"
 }

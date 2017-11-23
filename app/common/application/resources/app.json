@@ -7,10 +7,10 @@
       "logo": "images/hospital.png",
       "active": true,
       "roles": [
-        "Laboratory technician",
-        "Pharmaceutical",
-        "Psychologist - social worker",
-        "Receptionist"
+        "POC: Pharmacist - Independent",
+        "POC: Pharmacist - Independent (Admin)",
+        "POC: Receptionist",
+        "POC: Receptionist (Admin)"
       ]
     },
     {
@@ -20,7 +20,8 @@
       "logo": "images/music-social-group.png",
       "active": true,
       "roles": [
-        "Psychologist - social worker"
+        "POC: Psychologist - social worker",
+        "POC: Receptionist"
       ]
     },
     {
@@ -30,7 +31,8 @@
       "logo": "images/vitals.png",
       "active": true,
       "roles": [
-        "Receptionist"
+        "POC: Receptionist",
+        "POC: Receptionist (Admin)"
       ]
     },
     {
@@ -40,7 +42,8 @@
       "logo": "images/clinic.png",
       "active": true,
       "roles": [
-        "Clinician"
+        "POC: Clinician",
+        "POC: Clinician (Admin)"
       ]
     },
     {
@@ -50,7 +53,10 @@
       "logo": "images/medical.png",
       "active": true,
       "roles": [
-        "Pharmaceutical"
+        "POC: Pharmacist",
+        "POC: Pharmacist (Admin)",
+        "POC: Pharmacist - Independent",
+        "POC: Pharmacist - Independent (Admin)"
       ]
     },
     {
@@ -59,9 +65,7 @@
       "url": "/lab",
       "logo": "images/microscope.png",
       "active": false,
-      "roles": [
-        "Laboratory technician"
-      ]
+      "roles": []
     },
     {
       "id": "counseling",

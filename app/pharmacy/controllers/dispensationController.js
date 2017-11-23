@@ -171,8 +171,10 @@
       };
       //---
       dispensationService.createDispensation(dispensation).then(function (dispensationUUID) {
+        notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
         vm.selectedPrescriptionItems = [];
         initPrescriptions();
+
       });
     }
 

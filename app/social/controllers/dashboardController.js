@@ -15,9 +15,6 @@
     vm.patientUuid = $stateParams.patientUuid;
     vm.todayVisit = null;
 
-    vm.linkPatientDetail = linkPatientDetail;
-    vm.linkSearch = linkSearch;
-
     activate();
 
     ////////////////
@@ -37,16 +34,6 @@
       });
     }
 
-    function linkSearch() {
-      $state.go('search');
-    }
-
-    function linkPatientDetail() {
-      $state.go('detailpatient', {
-        patientUuid: vm.patientUuid,
-        returnState: $state.current
-      });
-    }
   }
 
 })();

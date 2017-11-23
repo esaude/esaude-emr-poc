@@ -92,7 +92,7 @@
     "Celula":"Cell",
     "Av./Rua/Casa": "Av./Street/Home",
     "NEW_PATIENT": "New Patient",
-    "DELETE_PATIENT": "Delete",
+    "DELETE_PATIENT": "Delete Patient",
     "REASON_TO_DELETE": "Reason to Delete",
     "PATIENT_DELETED": "Patient Deleted",
     "VITALS_LAST_VISIT": "Last Visit",

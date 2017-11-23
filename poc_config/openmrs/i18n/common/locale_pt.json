@@ -310,5 +310,7 @@
     "ADDRESS_FORMAT_LINE1": "{{street}} {{cell}}",
     "ADDRESS_FORMAT_LINE2": "{{country}} {{province}} {{district}} {{locality}} {{neighborhood}}",
     "ARE_YOU_SURE": "Tem certeza?",
-    "INSUFFICIENT_PRIVILEGES": "Não tem privilégios suficientes para usar esta funcionalidade."
+    "INSUFFICIENT_PRIVILEGES": "Não tem privilégios suficientes para usar esta funcionalidade.",
+    "DELETE_PATIENT": "Apagar Paciente",
+    "REASON_TO_DELETE": "Motivo para Anular"
 }

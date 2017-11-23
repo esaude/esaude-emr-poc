@@ -13,3 +13,4 @@
 *.log
 *.patch
 /.vscode
+/package-lock.json
