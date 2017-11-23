@@ -9,12 +9,13 @@
 
   function pocAuthorize() {
     var directive = {
-      template: '<ng-transclude ng-if="authorized"></ng-transclude>',
+      templateUrl: '../common/auth/directives/pocAuthorize.html',
       link: link,
       restrict: 'E',
       transclude: true,
       scope: {
-        privilege: '='
+        privilege: '=',
+        displayInfo: '='
       }
     };
     return directive;

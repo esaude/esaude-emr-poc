@@ -1,0 +1,4 @@
+<ng-transclude ng-if="authorized"></ng-transclude>
+<div class="alert alert-info" role="alert" ng-if="!authorized && displayInfo">
+  {{'INSUFFICIENT_PRIVILEGES' | translate}}
+</div>
