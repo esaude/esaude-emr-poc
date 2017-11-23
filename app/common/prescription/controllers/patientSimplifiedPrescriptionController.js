@@ -62,6 +62,8 @@
     vm.save = save;
     vm.setPrescriptionItemToCancel = setPrescriptionItemToCancel;
     vm.setPrescritpionItemStatus = setPrescritpionItemStatus;
+    vm.checkActiveAndNewItemStatus = checkActiveAndNewItemStatus;
+    vm.checkItemIsRefillable = checkItemIsRefillable;
 
     activate();
 
@@ -442,7 +444,7 @@
         if(newPrescriptionItem.regime){
           _.forEach(vm.existingPrescriptions, function (existingPrescription) {
             _.forEach(existingPrescription.prescriptionItems, function (prescriptionItem) {
-              if(existingPrescription.prescriptionStatus === 'ACTIVE' && prescriptionItem.regime){
+              if(isActiveARVItem(prescriptionItem)){
                 exists = true;
               }
             });
@@ -451,12 +453,17 @@
       });
       return exists;
     }
+
+    function isActiveARVItem(item) {
+      return  item.regime && (item.status ==='NEW' || item.status ==='ACTIVE' ||item.status ==='FINALIZED');
+    }
+
     function getDuplicatedExistingActivePrescriptionItems(prescription) {
       var hasDuplicated = [];
       _.forEach(prescription.prescriptionItems, function (newPrescriptionItem) {
         _.forEach(vm.existingPrescriptions, function (existingPrescription) {
           _.forEach(existingPrescription.prescriptionItems, function (prescriptionItem) {
-              if( prescriptionItem.status != 'FINALIZED'){
+              if( prescriptionItem.status != 'FINALIZED' &&  prescriptionItem.status != 'EXPIRED' &&  prescriptionItem.status != 'INTERRUPTED' ){
                   if(newPrescriptionItem.drugOrder.drug.uuid === prescriptionItem.drugOrder.drug.uuid){
                     hasDuplicated.push(prescriptionItem);
                   }
@@ -528,17 +535,37 @@
     function hasActivePrescription(prescriptions){
 
         return _.find(prescriptions, function (prescription) {
-            return prescription.prescriptionStatus == true;
+            return prescription.prescriptionStatus === true;
         });
     }
 
     function setPrescritpionItemStatus(prescriptions){
       _.forEach(prescriptions, function (prescription) {
          _.forEach(prescription.prescriptionItems, function (item) {
-             item.statusStranslate = (item.status == 'FINALIZED') ? "PRESCRIPTION_FINALIZED" : "PRESCRIPTION_ACTIVE";
+             item.statusStranslate = getStatusStranslate(item);
+             item.interruptible = isItemInterruptible(item);
+             item.cancellable = (item.interruptible || item.status === 'NEW') && item.status != 'EXPIRED';
           });
        });
      }
+
+     function getStatusStranslate(item){
+
+      if(item.status === 'FINALIZED'){
+        return "PRESCRIPTION_FINALIZED";
+       }
+       if(item.status === 'EXPIRED'){
+        return "PRESCRIPTION_EXPIRED";
+       }
+       if(item.status === 'INTERRUPTED'){
+        return "PRESCRIPTION_INTERRUPTED";
+       }
+       return "PRESCRIPTION_ACTIVE";
+    }
+
+    function isItemInterruptible(item){
+      return (item.drugOrder.action === 'REVISE' || item.drugOrder.action === 'DISCONTINUE' || item.status === 'FINALIZED') && item.status != 'INTERRUPTED' && item.regime != null;
+    }
 
     function filterRegimes(allRegimes, therapeuticLine) {
       var age = (patient.age.years >= 15) ? "adult" : "child";
@@ -594,6 +621,14 @@
             vm.isArvPlanEdit = !swappedObsToConcept;
           }
         });
+    }
+
+    function checkActiveAndNewItemStatus(item){
+     return item.status === 'ACTIVE' || item.status === 'NEW';
+    }
+
+    function checkItemIsRefillable(prescription){
+      return prescription.prescriptionStatus === 'FINALIZED' || prescription.prescriptionStatus === 'EXPIRED';
     }
 
     function getDrugsOfRegimen(regime) {

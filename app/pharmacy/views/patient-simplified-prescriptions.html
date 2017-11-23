@@ -333,24 +333,26 @@
           <span ng-if="item.regime && item.changeReason">
                         <strong>{{'CLINIC_PRESCRIPTION_ARV_CHANGE_FOR'| translate}}:</strong> {{item.changeReason}}
                     </span>
-          <span style="color:green;" ng-hide ="item.status == 'FINALIZED'" >
+          <span style="color:green;" ng-hide ="!vm.checkActiveAndNewItemStatus(item)" >
                       <strong>
                         {{item.statusStranslate | translate}}
                       </strong>
                     </span>
-          <span style="color:orange;"  ng-hide ="item.status != 'FINALIZED'">
+          <span style="color:orange;"  ng-hide ="vm.checkActiveAndNewItemStatus(item)">
                       <strong>
                         {{item.statusStranslate | translate}}
                       </strong>
                     </span>
           <span>
-                      <button type="button" class="close btn-lg content-border-margin-regular-sides" ng-click ="vm.setPrescriptionItemToCancel(item)" data-toggle="modal" data-target="#cancelPrescriptionModal"  ng-hide="existingPrescription.prescriptionStatus == 'FINALIZED' ">
+                      <button type="button" class="close btn-lg content-border-margin-regular-sides" ng-click ="vm.setPrescriptionItemToCancel(item)" data-toggle="modal" data-target="#cancelPrescriptionModal"  ng-hide="!item.cancellable">
                           <span class="glyphicon glyphicon-trash"  ng-hide="item.status != 'NEW' " ></span>
-                          <span class="glyphicon glyphicon-floppy-remove"  ng-hide="item.status != 'ACTIVE' " ></span>
-                          <span class="button-label">{{'CANCEL' | translate}}</span>
+                          <span class="glyphicon glyphicon-floppy-remove" ng-hide="!item.interruptible" ></span>
+                          <span class="button-label" ng-hide="item.status != 'NEW' " >{{'CANCEL' | translate}}</span>
+                          <span class="button-label" ng-hide="!item.interruptible">{{'DISCONTINUE' | translate}}</span>
                       </button>
-                      <button type="button" class="close btn-lg content-border-margin-regular-sides" ng-click="vm.refill(item)" ng-hide="existingPrescription.prescriptionStatus != 'FINALIZED' ">
+                      <button type="button" class="close btn-lg content-border-margin-regular-sides" ng-click="vm.refill(item)" ng-hide="!vm.checkItemIsRefillable(existingPrescription)">
                         <span class="glyphicon glyphicon-repeat"></span>
+                        <span class="button-label">{{'REFILL' | translate}}</span>
                       </button>
           </span>
         </div>
