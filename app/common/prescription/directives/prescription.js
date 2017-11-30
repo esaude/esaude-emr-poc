@@ -427,7 +427,7 @@
           .then(function () {
             notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
             vm.listedPrescriptions = [];
-            vm.selectedProvider =  { display: '' };
+            resetSelectedProvider();
             isPrescriptionControl();
             getProviderAndPrescriptionDateModal().modal('hide');
             spinner.forPromise(loadSavedPrescriptions(patient));
@@ -437,6 +437,12 @@
           });
       }
       else{
+        resetSelectedProvider()
+      }
+    }
+
+    function resetSelectedProvider() {
+      if (vm.retrospectiveMode) {
         vm.selectedProvider = { display: '' };
       }
     }
