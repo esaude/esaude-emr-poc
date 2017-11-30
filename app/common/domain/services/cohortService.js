@@ -10,28 +10,23 @@
   /* @ngInject */
   function cohortService($http, $log, $q) {
     var service = {
-      getMarkedForConsultationToday: getMarkedForConsultationToday
+      evaluateCohort: evaluateCohort
     };
     return service;
 
     ////////////////
 
-    function evaluateCohort(cohortUuid) {
-      return $http.get(Bahmni.Common.Constants.cohortUrl + "/" + cohortUuid, {
-        method: "GET",
-        withCredentials: true
-      }).then(function (response) {
+    function evaluateCohort(cohortUuid, params) {
+      var config = {
+        params: params
+      };
+      return $http.get(Bahmni.Common.Constants.cohortUrl + "/" + cohortUuid, config).then(function (response) {
         return response.data.members;
       }).catch(function (error) {
         $log.error('XHR Failed for evaluateCohort: ' + error.data.error.message);
         return $q.reject(error);
       });
     }
-
-    function getMarkedForConsultationToday() {
-      return evaluateCohort(Bahmni.Common.Constants.cohortMarkedForConsultationUuid);
-    }
   }
 
 })();
-

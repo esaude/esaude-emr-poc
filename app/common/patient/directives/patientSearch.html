@@ -71,4 +71,5 @@
   </div>
 </div>
 
-<schedule-list ng-if="vm.showSchedule" on-patient-select="vm.linkDashboard(patient);"></schedule-list>
+<schedule-list ng-if="vm.showSchedule" on-patient-select="vm.linkDashboard(patient);" schedule-type="vm.scheduleType">
+</schedule-list>

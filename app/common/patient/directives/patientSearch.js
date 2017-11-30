@@ -16,7 +16,8 @@
       controllerAs: 'vm',
       restrict: 'E',
       scope: {
-        showSchedule: '='
+        showSchedule: '=',
+        scheduleType: '='
       },
       templateUrl: '../common/patient/directives/patientSearch.html'
     };

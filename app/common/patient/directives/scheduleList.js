@@ -15,17 +15,21 @@
       controllerAs: 'vm',
       restrict: 'E',
       scope: {
-        onPatientSelect: '&'
+        onPatientSelect: '&',
+        scheduleType: '='
       },
       templateUrl: '../common/patient/directives/scheduleList.html'
     };
     return directive;
   }
 
-  ScheduleListController.$inject = ['$q', 'commonService', 'cohortService', 'observationsService', 'visitService'];
+  ScheduleListController.$inject = ['scheduleService'];
 
   /* @ngInject */
-  function ScheduleListController($q, commonService, cohortService, observationsService, visitService) {
+  function ScheduleListController(scheduleService) {
+
+    var SCHEDULE_TYPE_CURRENT_PROVIDER = 'currentProvider';
+    var SCHEDULE_TYPE_DRUG_PICKUP = 'drugPickup';
 
     var vm = this;
 
@@ -36,32 +40,20 @@
     ////////////////
 
     function activate() {
-      cohortService.getMarkedForConsultationToday().then(function (members) {
-          vm.patients = members;
-        })
-        .then(function () {
-          return $q.all(vm.patients.map(function (m) {
-            return getLastConsultationAndVisit(m);
-          }));
-        });
-    }
+      var getSchedule;
 
-    function getLastConsultationAndVisit(member) {
-      return observationsService.getObs(member.uuid, Bahmni.Common.Constants.nextConsultationDateUuid).then(function (obs) {
-        var nonRetired = commonService.filterRetired(obs);
-        member.scheduledInfo = _.maxBy(nonRetired, 'encounter.encounterDatetime');
-      })
-      .then(function () {
-        return visitService.search({
-          patient: member.uuid,
-          v: 'custom:(visitType,startDatetime,stopDatetime,uuid,encounters)'
-        });
-      })
-      .then(function (visits) {
-        member.lastVisit = _.maxBy(visits, 'startDatetime');
+      if (vm.scheduleType === SCHEDULE_TYPE_CURRENT_PROVIDER) {
+        getSchedule = scheduleService.getCurrentProviderSchedule();
+      } else if (vm.scheduleType === SCHEDULE_TYPE_DRUG_PICKUP) {
+        getSchedule = scheduleService.getDrugPickupSchedule();
+      } else {
+        getSchedule = scheduleService.getPatientSchedule();
+      }
+
+      getSchedule.then(function (patients) {
+        vm.patients = patients;
       });
     }
   }
 
 })();
-
