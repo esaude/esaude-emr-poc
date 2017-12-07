@@ -1,6 +1,6 @@
 'use strict';
 
-  describe('PatientSimplifiedPrescriptionController', function () {
+  describe('PrescriptionController', function () {
 
   var $controller, controller, $http, $filter, $rootScope, $stateParams, observationsService, commonService,
     conceptService, localStorageService, notifier, spinner, drugService, prescriptionService, $q, providerService,
@@ -146,7 +146,7 @@
   describe('activate', function () {
 
     beforeEach(function () {
-      controller = $controller('PatientSimplifiedPrescriptionController', {
+      controller = $controller('PrescriptionController', {
         $scope: {},
         conceptService: conceptService,
         prescriptionService: prescriptionService
@@ -178,7 +178,7 @@
   describe('removeAll', function () {
 
     beforeEach(function () {
-      controller = $controller('PatientSimplifiedPrescriptionController', {
+      controller = $controller('PrescriptionController', {
         $scope: {}
       });
     });
@@ -206,7 +206,7 @@
   describe('refill', function () {
 
     beforeEach(function () {
-      controller = $controller('PatientSimplifiedPrescriptionController', {
+      controller = $controller('PrescriptionController', {
         $scope: {}
       });
     });
@@ -230,7 +230,7 @@
           })
         });
 
-        controller = $controller('PatientSimplifiedPrescriptionController', {
+        controller = $controller('PrescriptionController', {
           $scope: {}
         });
         controller.prescriptionItem = {};
@@ -254,7 +254,7 @@
           })
         });
 
-        controller = $controller('PatientSimplifiedPrescriptionController', {
+        controller = $controller('PrescriptionController', {
           $scope: {}
         });
         controller.prescriptionItem = {};
@@ -275,7 +275,7 @@
   describe('add', function () {
 
     beforeEach(function () {
-      controller = $controller('PatientSimplifiedPrescriptionController', {
+      controller = $controller('PrescriptionController', {
         $scope: {}
       });
 
@@ -295,7 +295,7 @@
     describe('form has validation errors', function () {
       beforeEach(function () {
 
-        controller = $controller('PatientSimplifiedPrescriptionController', {
+        controller = $controller('PrescriptionController', {
           $scope: {}
         });
 
@@ -347,7 +347,7 @@
         }
       };
 
-      controller = $controller('PatientSimplifiedPrescriptionController', {});
+      controller = $controller('PrescriptionController', {});
 
       controller.listedPrescriptions = [1];
       controller.cancelationReasonTyped = 'Mistake.';
@@ -382,7 +382,7 @@
         }
       };
 
-      controller = $controller('PatientSimplifiedPrescriptionController', {
+      controller = $controller('PrescriptionController', {
         $scope: {},
         localStorageService: localStorageService,
         prescriptionService: prescriptionService
@@ -415,7 +415,7 @@
           })
         });
 
-        controller = $controller('PatientSimplifiedPrescriptionController', {
+        controller = $controller('PrescriptionController', {
           $scope: {},
           localStorageService: localStorageService,
           prescriptionService: prescriptionService
@@ -469,7 +469,7 @@
           })
         });
 
-        controller = $controller('PatientSimplifiedPrescriptionController', {
+        controller = $controller('PrescriptionController', {
           $scope: {},
           localStorageService: localStorageService,
           prescriptionService: prescriptionService
@@ -600,7 +600,7 @@
     describe('at least one item in the new prescription exists in another active prescription', function () {
       beforeEach(function () {
 
-        controller = $controller('PatientSimplifiedPrescriptionController', {
+        controller = $controller('PrescriptionController', {
           $scope: {},
           localStorageService: localStorageService,
           prescriptionService: prescriptionService
@@ -655,7 +655,7 @@
   describe('cleanDrugIfUnchecked', function () {
 
     beforeEach(function () {
-      controller = $controller('PatientSimplifiedPrescriptionController', {
+      controller = $controller('PrescriptionController', {
         $scope: {}
       });
 

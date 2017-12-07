@@ -3,17 +3,39 @@
 
   angular
     .module('common.prescription')
-    .controller('PatientSimplifiedPrescriptionController', PatientSimplifiedPrescriptionController);
+    .directive('prescription', prescription)
+    .controller('PrescriptionController', PrescriptionController);
 
-  PatientSimplifiedPrescriptionController.$inject = ['$http', '$filter', '$rootScope', '$stateParams',
+  prescription.$inject = [];
+
+  /**
+   * A directive for handling drug prescriptions.
+   */
+  /* @ngInject */
+  function prescription() {
+    var directive = {
+      bindToController: true,
+      controller: PrescriptionController,
+      controllerAs: 'vm',
+      restrict: 'E',
+      scope: {
+        retrospectiveMode: '='
+      },
+      templateUrl: '../common/prescription/directives/prescription.html'
+    };
+    return directive;
+  }
+
+  PrescriptionController.$inject = ['$http', '$filter', '$stateParams',
     'observationsService', 'commonService', 'conceptService', 'localStorageService', 'notifier', 'spinner',
     'drugService', 'prescriptionService', 'providerService', 'sessionService', 'patientService'];
 
   /* @ngInject */
-  function PatientSimplifiedPrescriptionController($http, $filter, $rootScope, $stateParams, observationsService,
-                                                   commonService, conceptService, localStorageService, notifier, spinner,
-                                                   drugService, prescriptionService, providerService, sessionService,
-                                                   patientService) {
+  function PrescriptionController($http, $filter, $stateParams, observationsService,
+                                  commonService, conceptService, localStorageService, notifier, spinner,
+                                  drugService, prescriptionService, providerService, sessionService,
+                                  patientService) {
+
     var patientUuid;
     var patient = {};
 
@@ -103,7 +125,7 @@
         .then(loadAllRegimes())
         .then(getCurrentProvider)
         .then(function (currentProvider) {
-           vm.selectedProvider = currentProvider;
+          vm.selectedProvider = currentProvider;
         })
         .catch(function () {
           notifier.error($filter('translate')('COMMON_ERROR'));
@@ -163,7 +185,7 @@
         return;
       }
       if(!vm.prescriptionItem.drugOrder || vm.prescriptionItem.drugOrder.drug ){
-      //check if drug is ARV
+        //check if drug is ARV
 
         drugService.isArvDrug(drug).then(function (isArv) {
           if (isArv) {
@@ -189,11 +211,11 @@
       getCancellationModal().modal('hide');
     }
 
-     function closeProviderAndPrescriptionModal(form){
-       form.$setPristine();
-       form.$setUntouched();
-       getProviderAndPrescriptionDateModal().modal('hide');
-     }
+    function closeProviderAndPrescriptionModal(form){
+      form.$setPristine();
+      form.$setUntouched();
+      getProviderAndPrescriptionDateModal().modal('hide');
+    }
 
     function doPlanChanged(item) {
       if (vm.prescriptionItem.arvPlan.uuid === Bahmni.Common.Constants.artInterruptedPlanUuid) {
@@ -246,7 +268,7 @@
     function edit(item) {
       vm.prescriptionItem = item;
       if(item.regime){
-         vm.prescriptionItem.isArv  = true;
+        vm.prescriptionItem.isArv  = true;
       }
       _.pull(vm.listedPrescriptions, item);
       isPrescriptionControl();
@@ -324,12 +346,12 @@
 
     function refill(item) {
       item.drugOrder.dosingInstructions = {uuid: item.drugOrder.dosingInstructions};
-       if(item.regime){
-           item.isArv = true;
-        }
-        vm.listedPrescriptions.push(angular.copy(item));
-        vm.showNewPrescriptionsControlls = true;
-     }
+      if(item.regime){
+        item.isArv = true;
+      }
+      vm.listedPrescriptions.push(angular.copy(item));
+      vm.showNewPrescriptionsControlls = true;
+    }
 
 
     function remove(item) {
@@ -401,11 +423,11 @@
 
       if(validateCreatePrescription(form, prescription)){
 
-           prescriptionService.create(prescription)
+        prescriptionService.create(prescription)
           .then(function () {
             notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
             vm.listedPrescriptions = [];
-            vm.selectedProvider =  { display: '' };
+            resetSelectedProvider();
             isPrescriptionControl();
             getProviderAndPrescriptionDateModal().modal('hide');
             spinner.forPromise(loadSavedPrescriptions(patient));
@@ -415,9 +437,15 @@
           });
       }
       else{
+        resetSelectedProvider()
+      }
+    }
+
+    function resetSelectedProvider() {
+      if (vm.retrospectiveMode) {
         vm.selectedProvider = { display: '' };
       }
-     }
+    }
 
     function validateCreatePrescription(form, prescription){
 
@@ -463,11 +491,11 @@
       _.forEach(prescription.prescriptionItems, function (newPrescriptionItem) {
         _.forEach(vm.existingPrescriptions, function (existingPrescription) {
           _.forEach(existingPrescription.prescriptionItems, function (prescriptionItem) {
-              if( prescriptionItem.status != 'FINALIZED' &&  prescriptionItem.status != 'EXPIRED' &&  prescriptionItem.status != 'INTERRUPTED' ){
-                  if(newPrescriptionItem.drugOrder.drug.uuid === prescriptionItem.drugOrder.drug.uuid){
-                    hasDuplicated.push(prescriptionItem);
-                  }
+            if( prescriptionItem.status != 'FINALIZED' &&  prescriptionItem.status != 'EXPIRED' &&  prescriptionItem.status != 'INTERRUPTED' ){
+              if(newPrescriptionItem.drugOrder.drug.uuid === prescriptionItem.drugOrder.drug.uuid){
+                hasDuplicated.push(prescriptionItem);
               }
+            }
           });
         });
       });
@@ -534,33 +562,33 @@
 
     function hasActivePrescription(prescriptions){
 
-        return _.find(prescriptions, function (prescription) {
-            return prescription.prescriptionStatus === true;
-        });
+      return _.find(prescriptions, function (prescription) {
+        return prescription.prescriptionStatus === true;
+      });
     }
 
     function setPrescritpionItemStatus(prescriptions){
       _.forEach(prescriptions, function (prescription) {
-         _.forEach(prescription.prescriptionItems, function (item) {
-             item.statusStranslate = getStatusStranslate(item);
-             item.interruptible = isItemInterruptible(item);
-             item.cancellable = (item.interruptible || item.status === 'NEW') && item.status != 'EXPIRED';
-          });
-       });
-     }
+        _.forEach(prescription.prescriptionItems, function (item) {
+          item.statusStranslate = getStatusStranslate(item);
+          item.interruptible = isItemInterruptible(item);
+          item.cancellable = (item.interruptible || item.status === 'NEW') && item.status != 'EXPIRED';
+        });
+      });
+    }
 
-     function getStatusStranslate(item){
+    function getStatusStranslate(item){
 
       if(item.status === 'FINALIZED'){
         return "PRESCRIPTION_FINALIZED";
-       }
-       if(item.status === 'EXPIRED'){
+      }
+      if(item.status === 'EXPIRED'){
         return "PRESCRIPTION_EXPIRED";
-       }
-       if(item.status === 'INTERRUPTED'){
+      }
+      if(item.status === 'INTERRUPTED'){
         return "PRESCRIPTION_INTERRUPTED";
-       }
-       return "PRESCRIPTION_ACTIVE";
+      }
+      return "PRESCRIPTION_ACTIVE";
     }
 
     function isItemInterruptible(item){
@@ -624,7 +652,7 @@
     }
 
     function checkActiveAndNewItemStatus(item){
-     return item.status === 'ACTIVE' || item.status === 'NEW';
+      return item.status === 'ACTIVE' || item.status === 'NEW';
     }
 
     function checkItemIsRefillable(prescription){
