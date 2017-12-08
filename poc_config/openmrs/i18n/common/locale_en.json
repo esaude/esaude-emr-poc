@@ -295,6 +295,8 @@
     "SAVE": "Save",
     "PRINT": "Print",
     "CANCEL": "Cancel",
+    "REFILL": "Refill",
+    "DISCONTINUE": "interrupt",
     "ADD": "Add",
     "LIST": "List",
     "CLEAR": "Clear",
@@ -314,7 +316,11 @@
     "FIELD_NOT_VALID": "This field didn't pass validation rules. Please fix it before save",
     "PRESCRIPTION_ACTIVE": "Active",
     "PRESCRIPTION_FINALIZED": "Finalized",
+    "PRESCRIPTION_EXPIRED": "Expired",
+    "PRESCRIPTION_INTERRUPTED": "interrupted",
     "ADDRESS_FORMAT_LINE1": "{{street}} {{cell}}",
     "ADDRESS_FORMAT_LINE2": "{{neighborhood}} {{locality}} {{district}} {{province}} {{country}}",
-    "ARE_YOU_SURE": "Are you sure?"
+    "ARE_YOU_SURE": "Are you sure?",
+    "DELETE_PATIENT": "Delete Patient",
+    "REASON_TO_DELETE": "Reason to Delete"
 }

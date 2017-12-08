@@ -42,7 +42,7 @@
   }
 
   function decorator($provide) {
-    $provide.decorator('pocAuthorizeDirective', pocAuthorizeDirectiveDecorator)
+    $provide.decorator('pocAuthorizeDirective', pocAuthorizeDirectiveDecorator);
   }
 
   pocAuthorizeDirectiveDecorator.$inject = ['$delegate', 'authorizationService', '$log'];

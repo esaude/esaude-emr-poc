@@ -288,6 +288,8 @@
     "SAVE": "Confirmar",
     "PRINT": "Imprimir",
     "CANCEL": "Cancelar",
+    "REFILL": "Refill",
+    "DISCONTINUE": "interromper",
     "ADD": "Adicionar",
     "LIST": "Listar",
     "CLEAR": "Limpar",
@@ -307,7 +309,11 @@
     "FIELD_NOT_VALID": "Este campo contem erro de validação. Favor de corrigir antes de salvar",
     "PRESCRIPTION_ACTIVE": "Ativo",
     "PRESCRIPTION_FINALIZED": "Finalizado",
+    "PRESCRIPTION_EXPIRED": "Expirado",
+    "PRESCRIPTION_INTERRUPTED": "interrompido",
     "ADDRESS_FORMAT_LINE1": "{{street}} {{cell}}",
     "ADDRESS_FORMAT_LINE2": "{{country}} {{province}} {{district}} {{locality}} {{neighborhood}}",
-    "ARE_YOU_SURE": "Tem certeza?"
+    "ARE_YOU_SURE": "Tem certeza?",
+  "DELETE_PATIENT": "Apagar Paciente",
+  "REASON_TO_DELETE": "Motivo para Anular"
 }

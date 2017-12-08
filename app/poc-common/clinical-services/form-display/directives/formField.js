@@ -53,14 +53,15 @@
     $scope.getConceptInAnswers = getConceptInAnswers;
     $scope.getConcepts = getConcepts;
 
-    //Modificando restrição de valor mínimo para o campo de altura para não permitir
-    // informar uma altura inferior à do lançamento anterior
+    // Modifying minimum value constraint for height field to prevent reporting
+    // less height than previous height, and old OpenMRS meters values
     if (isHeightFormField($scope.field.id) && $scope.previousEncounter) {
       $scope.previousEncounter.then(function (previousEncounter) {
         if (previousEncounter) {
           previousEncounter.obs.forEach(function (obs) {
             if (obs.concept.uuid == HEIGHT_CONCEPT_UUID) {
-              $scope.field.constraints.min = obs.value;
+              if(obs.value > 2.5)
+              $scope.field.constraints.min = obs.value/100;
             }
           });
         }

@@ -236,7 +236,7 @@
 
 
           var representation = 'custom:(uuid,encounterDatetime,obs:(value,concept:(display,uuid,mappings:(' +
-            'conceptReferenceTerm:(conceptSource:(display,uuid))))),provider:(display))';
+            'conceptReferenceTerm:(conceptSource:(display,uuid)))),groupMembers:(uuid,concept:(uuid,name),obsDatetime,value)),provider:(display))';
           return encounterService.getEncountersForPatientByEncounterType(patient.uuid, encounterType.uuid, representation)
             .then(function (encounters) {
 
@@ -266,6 +266,16 @@
               service.hasEntryToday = (dateUtil.diffInDaysRegardlessOfTime(todayVisit.startDatetime,
                 service.lastEncounterForService.encounterDatetime) === 0);
             }
+            service.hasServiceToday = false;
+            var lastEncounterOfType = _.maxBy(encounters, 'encounterDatetime');
+            if (todayVisit && lastEncounterOfType) {
+              if (dateUtil.diffInDaysRegardlessOfTime(todayVisit.startDatetime,
+                lastEncounterOfType.encounterDatetime) === 0) {
+                service.hasServiceToday = true;
+                service.lastServiceToday = lastEncounterOfType;
+              }
+            }
+
 
             service.list = false;
 
