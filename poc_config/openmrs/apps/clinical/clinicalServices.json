@@ -62,7 +62,8 @@
     "maxOccur": "-1",
     "constraints": {
       "requireChekin": true
-    }
+    },
+    "privilege": "Relevant Aspects"
   },
   {
     "id": "008",
