@@ -39,7 +39,7 @@
     vm.disableIsDead = disableIsDead;
     vm.getDeathConcepts = getDeathConcepts;
 
-    vm.selectIsDead = selectIsDead;
+    vm.cancelDeceased = cancelDeceased;
 
     activate();
 
@@ -77,12 +77,6 @@
       return (vm.patient.causeOfDeath !== null || vm.patient.deathDate !== null) && vm.patient.dead;
     }
 
-    function selectIsDead() {
-      if (vm.patient.causeOfDeath !== null || vm.patient.deathDate !== null) {
-        vm.patient.dead = true;
-      }
-    }
-
     function getDeathConcepts() {
       return conceptService.getDeathConcepts()
         .then(function(deathConcepts) {
@@ -104,6 +98,10 @@
       $(function () {
         $('#deletePatientModal').modal('toggle');
       });
+    }
+
+    function cancelDeceased(deletePatientForm) {
+      vm.patient.patientState.dead = null;
     }
 
     function deletePatient() {
