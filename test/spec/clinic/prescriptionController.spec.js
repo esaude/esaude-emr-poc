@@ -1,6 +1,6 @@
 'use strict';
 
-  describe('PatientSimplifiedPrescriptionController', function () {
+  describe('PrescriptionController', function () {
 
   var $controller, controller, $http, $filter, $rootScope, $stateParams, observationsService, commonService,
     conceptService, localStorageService, notifier, spinner, drugService, prescriptionService, $q, providerService,
@@ -70,9 +70,51 @@
       })
     });
 
+    var prescriptions = [{
+      "prescriptionItems": [{
+        "drugOrder": {
+          "drug": {
+            "uuid": "9d6b861d-10e8-11e5-9009-0242ac110012"
+          }
+        },
+        "status": "ACTIVE"
+      },
+        {
+          "drugOrder": {
+            "drug": {
+              "uuid": "9d6b861d-10e8-11e5-9009-0242ac110013"
+            }
+          },
+          "status": "FINALIZED"
+        },
+        {
+          "drugOrder": {
+            "drug": {
+              "uuid": "9d6b861d-10e8-11e5-9009-0242ac110014"}
+          },
+          "status": "EXPIRED"
+        },
+        {
+          "drugOrder": {
+            "drug": {
+              "uuid": "9d6b861d-10e8-11e5-9009-0242ac110015"
+            }
+          },
+          "status": "INTERRUPTED"
+        },{
+          "drugOrder": {
+            "drug": {
+              "uuid": "9d6b861d-10e8-11e5-9009-0242ac110015"
+            }
+          },
+          "status": "NEW"
+        }],
+      "prescriptionDate": ""
+    }];
+
     spyOn(prescriptionService, 'getAllPrescriptions').and.callFake(function () {
       return $q(function (resolve) {
-        return resolve([]);
+        return resolve(prescriptions);
       })
     });
 
@@ -104,7 +146,7 @@
   describe('activate', function () {
 
     beforeEach(function () {
-      controller = $controller('PatientSimplifiedPrescriptionController', {
+      controller = $controller('PrescriptionController', {
         $scope: {},
         conceptService: conceptService,
         prescriptionService: prescriptionService
@@ -136,7 +178,7 @@
   describe('removeAll', function () {
 
     beforeEach(function () {
-      controller = $controller('PatientSimplifiedPrescriptionController', {
+      controller = $controller('PrescriptionController', {
         $scope: {}
       });
     });
@@ -164,7 +206,7 @@
   describe('refill', function () {
 
     beforeEach(function () {
-      controller = $controller('PatientSimplifiedPrescriptionController', {
+      controller = $controller('PrescriptionController', {
         $scope: {}
       });
     });
@@ -188,7 +230,7 @@
           })
         });
 
-        controller = $controller('PatientSimplifiedPrescriptionController', {
+        controller = $controller('PrescriptionController', {
           $scope: {}
         });
         controller.prescriptionItem = {};
@@ -212,7 +254,7 @@
           })
         });
 
-        controller = $controller('PatientSimplifiedPrescriptionController', {
+        controller = $controller('PrescriptionController', {
           $scope: {}
         });
         controller.prescriptionItem = {};
@@ -233,7 +275,7 @@
   describe('add', function () {
 
     beforeEach(function () {
-      controller = $controller('PatientSimplifiedPrescriptionController', {
+      controller = $controller('PrescriptionController', {
         $scope: {}
       });
 
@@ -253,7 +295,7 @@
     describe('form has validation errors', function () {
       beforeEach(function () {
 
-        controller = $controller('PatientSimplifiedPrescriptionController', {
+        controller = $controller('PrescriptionController', {
           $scope: {}
         });
 
@@ -305,7 +347,7 @@
         }
       };
 
-      controller = $controller('PatientSimplifiedPrescriptionController', {});
+      controller = $controller('PrescriptionController', {});
 
       controller.listedPrescriptions = [1];
       controller.cancelationReasonTyped = 'Mistake.';
@@ -340,7 +382,7 @@
         }
       };
 
-      controller = $controller('PatientSimplifiedPrescriptionController', {
+      controller = $controller('PrescriptionController', {
         $scope: {},
         localStorageService: localStorageService,
         prescriptionService: prescriptionService
@@ -373,7 +415,7 @@
           })
         });
 
-        controller = $controller('PatientSimplifiedPrescriptionController', {
+        controller = $controller('PrescriptionController', {
           $scope: {},
           localStorageService: localStorageService,
           prescriptionService: prescriptionService
@@ -427,7 +469,7 @@
           })
         });
 
-        controller = $controller('PatientSimplifiedPrescriptionController', {
+        controller = $controller('PrescriptionController', {
           $scope: {},
           localStorageService: localStorageService,
           prescriptionService: prescriptionService
@@ -508,6 +550,11 @@
           "regime": {
             "uuid": "9d6b861d-10e8-11e5-9009-0242ac110012"
 
+          },
+          "drugOrder": {
+            "drug": {
+              "uuid": "9d6b861d-10e8-11e5-9009-0242ac110012"
+            }
           }
         }],
         "prescriptionStatus": "ACTIVE"
@@ -542,6 +589,8 @@
         selectedProvider: {$invalid : false}
       };
 
+
+
       it('should not create a prescription', function () {
         controller.save(form);
         expect(notifier.error).toHaveBeenCalled();
@@ -551,7 +600,7 @@
     describe('at least one item in the new prescription exists in another active prescription', function () {
       beforeEach(function () {
 
-        controller = $controller('PatientSimplifiedPrescriptionController', {
+        controller = $controller('PrescriptionController', {
           $scope: {},
           localStorageService: localStorageService,
           prescriptionService: prescriptionService
@@ -606,7 +655,7 @@
   describe('cleanDrugIfUnchecked', function () {
 
     beforeEach(function () {
-      controller = $controller('PatientSimplifiedPrescriptionController', {
+      controller = $controller('PrescriptionController', {
         $scope: {}
       });
 
@@ -627,4 +676,19 @@
 
     });
 
-});
+    describe('checkItemIsRefillable', function () {
+        var prescription = { prescriptionStatus: "EXPIRED"};
+
+        it('should return True for expired prescription status', function () {
+          expect(controller.checkItemIsRefillable(prescription)).toBe(true);
+        });
+    });
+
+    describe('checkActiveAndNewItemStatus', function () {
+      var item = { status: "NEW"};
+      it('should return True for NEW Item status', function () {
+        expect(controller.checkActiveAndNewItemStatus(item)).toBe(true);
+      });
+    });
+
+  });

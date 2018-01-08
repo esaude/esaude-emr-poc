@@ -17,7 +17,7 @@
                 <label for="patientGenderF">{{'COMMON_FEMALE' | translate}}</label>
                 <input type="radio" name="patientGender" id="patientGenderM" class="radio-lx"
                        ng-model="patientCommon.patient.gender" ng-value="'M'">
-                <label for="patientGenderM">{{'COMMON_MALE' | translate}}</label>
+                <label id="male-label" for="patientGenderM">{{'COMMON_MALE' | translate}}</label>
                 <img src="../../images/man.png" width="48" height="48" alt="male">
                 <input type="hidden" name="genderHidden" ng-model="patientCommon.patient.gender" required>
             </div>
@@ -26,7 +26,7 @@
 </div><!-- demographics -->
 
 <div class="row bg-info-border content-border border-rouded go-to-right">
-    <button type="button" class="btn btn-success btn-lg"
+    <button id="next-step" type="button" class="btn btn-success btn-lg"
             ng-click="patientCommon.stepForward('age', aForm.$valid)">
         <span class="glyphicon glyphicon glyphicon-step-forward"></span>
         <span class="button-label">{{'NEXT_STEP' | translate}}</span>

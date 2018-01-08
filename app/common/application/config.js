@@ -11,8 +11,7 @@
   /* @ngInject */
   function applicationModuleConfig($provide, $breadcrumbProvider, uibDatepickerConfig, uibDatepickerPopupConfig,
                                    dateFormat) {
-    // Will be used when authorization is fully implemented
-    // $provide.decorator('applicationService', applicationServiceAuthorizationDecorator);
+    $provide.decorator('applicationService', applicationServiceAuthorizationDecorator);
 
 
     // Breadcrumb config

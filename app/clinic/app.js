@@ -104,9 +104,7 @@
       })
       .state('dashboard.prescriptions', {
         url: '/prescription',
-        templateUrl: '../common/prescription/views/patient-simplified-prescriptions.html',
-        controller: 'PatientSimplifiedPrescriptionController',
-        controllerAs: 'vm',
+        templateUrl: 'views/patient-prescriptions.html',
         ncyBreadcrumb: {
           label: '{{\'CLINIC_PATIENT_PRESCRIPTIONS\' | translate}}',
           parent: 'dashboard',

@@ -44,5 +44,6 @@
   "FILA_REPORT_QTY": "Amount",
   "FILA_REPORT_DOSAGE": "Dosage",
   "FILA_REPORT_NEXT_PICKUP_DATE": "Next pickup date",
-  "PHARMACY_CANNOT_DISPENSE_MORE_THAN_AVAILABLE": "Cannot dispense more than {{availableQty}} available"
+  "PHARMACY_CANNOT_DISPENSE_MORE_THAN_AVAILABLE": "Cannot dispense more than {{availableQty}} available",
+  "PHARMACY_CANNOT_DISPENSE_FOR_NOT_EXPIRED_PREVIOUS_DISPENSATION": "The previous dispensation for the drug {{drugName}} expires on {{expirationDate}}"
 }

@@ -1,30 +1,30 @@
-<div class="dispensation content-border-margin-regular">
+<poc-authorize privilege="'Read Drug Dispensation'" display-info="true">
+  <div class="dispensation content-border-margin-regular">
+    <div ng-repeat="p in vm.prescriptions" class="row prescription">
+      <div class="col-sm-12">
+        <div class="panel panel-primary">
 
-  <div ng-repeat="p in vm.prescriptions" class="row prescription">
-    <div class="col-sm-12">
-      <div class="panel panel-primary">
+          <div class="panel-heading" ng-click="vm.toggleVisibility(p)">
+            <strong>{{'PHARMACY_PRESCRIBED_BY' | translate}}:</strong>
+            {{p.provider.person.display}} {{'COMMON_ON' | translate}}: {{p.prescriptionDate | date}}
+            <span ng-class="{'glyphicon glyphicon-chevron-down': p.hidden, 'glyphicon glyphicon-chevron-up': !p.hidden}"
+                  class="pull-right"></span>
+          </div>
 
-        <div class="panel-heading" ng-click="vm.toggleVisibility(p)">
-          <strong>{{'PHARMACY_PRESCRIBED_BY' | translate}}:</strong>
-          {{p.provider.person.display}} {{'COMMON_ON' | translate}}: {{p.prescriptionDate | date}}
-          <span ng-class="{'glyphicon glyphicon-chevron-down': p.hidden, 'glyphicon glyphicon-chevron-up': !p.hidden}"
-                class="pull-right"></span>
-        </div>
-
-        <div ng-hide="p.hidden" class="table-responsive">
-          <table class="table table-striped">
-            <thead>
-            <tr>
-              <th>{{'COMMON_ITEM' | translate}}</th>
-              <th>{{'PHARMACY_VALIDITY' | translate}}</th>
-              <th>{{'PHARMACY_TO_PICKUP' | translate}}</th>
-              <th>{{'PHARMACY_PICKEDUP' | translate}}</th>
-              <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="item in p.prescriptionItems">
-              <td>
+          <div ng-hide="p.hidden" class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+              <tr>
+                <th>{{'COMMON_ITEM' | translate}}</th>
+                <th>{{'PHARMACY_VALIDITY' | translate}}</th>
+                <th>{{'PHARMACY_TO_PICKUP' | translate}}</th>
+                <th>{{'PHARMACY_PICKEDUP' | translate}}</th>
+                <th></th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="item in p.prescriptionItems">
+                <td>
                 <span class="text-lg">
                   <strong>{{item.drugOrder.drug.display}}</strong>
                   {{item.drugOrder.dose}}
@@ -32,54 +32,54 @@
                   {{item.drugOrder.route.display}} - {{item.drugOrder.duration}}
                   {{item.drugOrder.durationUnits.display}} ({{item.dosingInstructions}})
                 </span>
-              </td>
-              <td>{{item.drugOrder.autoExpireDate | date}}</td>
-              <td>{{item.drugToPickUp}}</td>
-              <td>{{item.drugPickedUp}}</td>
-              <td>
-                <button class="btn btn-primary btn-lg" type="button" ng-click="vm.select(p, item)"
-                        ng-disabled="item.selected">
-                  <span class="glyphicon glyphicon-plus"></span>
-                  <span class="button-label">{{'ADD' | translate}}</span>
-                </button>
-              </td>
-            </tr>
-            </tbody>
-            <tfoot>
-            <tr ng-show="!p.prescriptionItems.length">
-              <td colspan="5" class="text-center">
-                {{ 'PHARMACY_LIST_NO_ITEMS' | translate}}
-              </td>
-            </tr>
-            </tfoot>
-          </table>
-        </div>
+                </td>
+                <td>{{item.drugOrder.autoExpireDate | date}}</td>
+                <td>{{item.drugToPickUp}}</td>
+                <td>{{item.drugPickedUp}}</td>
+                <td>
+                  <button class="btn btn-primary btn-lg" type="button" ng-click="vm.select(p, item)"
+                          ng-disabled="item.selected">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span class="button-label">{{'ADD' | translate}}</span>
+                  </button>
+                </td>
+              </tr>
+              </tbody>
+              <tfoot>
+              <tr ng-show="!p.prescriptionItems.length">
+                <td colspan="5" class="text-center">
+                  {{ 'PHARMACY_LIST_NO_ITEMS' | translate}}
+                </td>
+              </tr>
+              </tfoot>
+            </table>
+          </div>
 
-        <!-- Table -->
+          <!-- Table -->
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="row">
-    <div class="col-sm-12">
-      <div class="panel panel-primary" ng-form>
-        <!-- Default panel contents -->
-        <div class="panel-heading">{{'PHARMACY_DISPENSE' | translate}}</div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="panel panel-primary" ng-form>
+          <!-- Default panel contents -->
+          <div class="panel-heading">{{'PHARMACY_DISPENSE' | translate}}</div>
 
-        <!-- Table -->
-        <table class="table table-striped" ng-form="dispenseForm">
-          <thead>
-          <tr>
-            <th>{{'COMMON_ITEM' | translate}}</th>
-            <th>{{'PHARMACY_NEXT_PICKUP' | translate}}<span class="asterick">*</span></th>
-            <th>{{'PHARMACY_QUANTITY' | translate}}</th>
-            <th>{{'PHARMACY_AVAILABLE' | translate}}</th>
-            <th></th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr ng-repeat="item in vm.selectedPrescriptionItems track by $index">
-            <td>
+          <!-- Table -->
+          <table class="table table-striped" ng-form="dispenseForm">
+            <thead>
+            <tr>
+              <th>{{'COMMON_ITEM' | translate}}</th>
+              <th>{{'PHARMACY_NEXT_PICKUP' | translate}}<span class="asterick">*</span></th>
+              <th>{{'PHARMACY_QUANTITY' | translate}}</th>
+              <th>{{'PHARMACY_AVAILABLE' | translate}}</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in vm.selectedPrescriptionItems track by $index">
+              <td>
             <span class="text-lg">
               <strong>{{item.drugOrder.drug.display}}</strong>
               {{item.drugOrder.dose}}
@@ -87,66 +87,70 @@
               {{item.drugOrder.route.display}} - {{item.drugOrder.duration}}
               {{item.drugOrder.durationUnits.display}} ({{item.dosingInstructions}})
             </span>
-            </td>
-            <td>
-              <div ng-if="item.showNextPickupDate" class="form-group form-group-lg"
-                   ng-class="{'has-error': dispenseForm.nextPickupDate.$invalid && showMessages}">
-                <div class="col-sm-8">
-                  <div ng-messages for="dispenseForm.nextPickupDate.$error"
-                       ng-messages-include="../poc-common/form-display/views/error-messages.html"
-                       ng-show="showMessages">
-                  </div>
-                  <span>{{item.nextPickupDate | date}} </span>
-                </div>
-              </div>
-            </td>
-            <td>
-              <div ng-if="item.showNextPickupDate" class="form-group form-group-lg"
-                   ng-class="{'has-error': dispenseForm.quantity.$invalid && showMessages}">
-                <div class="col-sm-8">
-                  <div ng-messages for="dispenseForm.quantity.$error"
-                       ng-messages-include="../poc-common/form-display/views/error-messages.html"
-                       ng-show="showMessages">
-
-                    <div ng-message="min">
-                      <span class="label label-danger" translate="ERROR_TOO_SMALL_VALUE" translate-value-min="1"></span>
+              </td>
+              <td>
+                <div ng-if="item.showNextPickupDate" class="form-group form-group-lg"
+                     ng-class="{'has-error': dispenseForm.nextPickupDate.$invalid && showMessages}">
+                  <div class="col-sm-8">
+                    <div ng-messages for="dispenseForm.nextPickupDate.$error"
+                         ng-messages-include="../poc-common/form-display/views/error-messages.html"
+                         ng-show="showMessages">
                     </div>
-
+                    <span>{{item.nextPickupDate | date}} </span>
                   </div>
-                  <input type="number" name="quantity" class="form-control" ng-model="item.quantity"
-                         ng-change="vm.updatePickup(item)" size="4" min="1" required>
                 </div>
-              </div>
-              <span>{{item.drugToPickUp}}</span>
-            </td>
-            <td>
-              <label class="label label-success"><span class="glyphicon glyphicon-thumbs-up"></span></label>
-            </td>
-            <td>
-              <button type="button" class="btn btn-danger btn-lg" ng-click="vm.remove(item)">
-                <span class="glyphicon glyphicon-remove-sign"></span>
-                <span class="button-label">{{'REMOVE' | translate}}</span>
+              </td>
+              <td>
+                <div ng-if="item.showNextPickupDate" class="form-group form-group-lg"
+                     ng-class="{'has-error': dispenseForm.quantity.$invalid && showMessages}">
+                  <div class="col-sm-8">
+                    <div ng-messages for="dispenseForm.quantity.$error"
+                         ng-messages-include="../poc-common/form-display/views/error-messages.html"
+                         ng-show="showMessages">
+
+                      <div ng-message="min">
+                        <span class="label label-danger" translate="ERROR_TOO_SMALL_VALUE"
+                              translate-value-min="1"></span>
+                      </div>
+
+                    </div>
+                    <input type="number" name="quantity" class="form-control" ng-model="item.quantity"
+                           ng-change="vm.updatePickup(item)" size="4" min="1" required>
+                  </div>
+                </div>
+                <span>{{item.drugToPickUp}}</span>
+              </td>
+              <td>
+                <label class="label label-success"><span class="glyphicon glyphicon-thumbs-up"></span></label>
+              </td>
+              <td>
+                <button type="button" class="btn btn-danger btn-lg" ng-click="vm.remove(item)">
+                  <span class="glyphicon glyphicon-remove-sign"></span>
+                  <span class="button-label">{{'REMOVE' | translate}}</span>
+                </button>
+              </td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr ng-show="!vm.selectedPrescriptionItems.length">
+              <td colspan="5" class="text-center">
+                {{ vm.prescriptions.length ? 'PHARMACY_DISPENSATION_NO_ITEMS' : 'PHARMACY_LIST_NO_ITEMS' | translate }}
+              </td>
+            </tr>
+            </tfoot>
+          </table>
+          <div class="panel-footer go-to-right" ng-show="!vm.dispenseListNoResultsMessage"
+               ng-if="vm.selectedPrescriptionItems.length">
+            <poc-authorize privilege="'Write Drug Dispensation'">
+              <button class="btn btn-primary btn-lg" type="button" ng-click="vm.dispense()"
+                      ng-disabled="!vm.selectedPrescriptionItems.length">
+                <span class="glyphicon glyphicon-floppy-disk"></span>
+                <span class="button-label">{{'SAVE' | translate}}</span>
               </button>
-            </td>
-          </tr>
-          </tbody>
-          <tfoot>
-          <tr ng-show="!vm.selectedPrescriptionItems.length">
-            <td colspan="5" class="text-center">
-              {{ vm.prescriptions.length ? 'PHARMACY_DISPENSATION_NO_ITEMS' : 'PHARMACY_LIST_NO_ITEMS' | translate }}
-            </td>
-          </tr>
-          </tfoot>
-        </table>
-        <div class="panel-footer go-to-right" ng-show="!vm.dispenseListNoResultsMessage" ng-if="vm.selectedPrescriptionItems.length">
-          <button class="btn btn-primary btn-lg" type="button" ng-click="vm.dispense()"
-                  ng-disabled="!vm.selectedPrescriptionItems.length">
-            <span class="glyphicon glyphicon-floppy-disk"></span>
-            <span class="button-label">{{'SAVE' | translate}}</span>
-          </button>
+            </poc-authorize>
+          </div>
         </div>
       </div>
     </div>
   </div>
-
-</div>
+</poc-authorize>

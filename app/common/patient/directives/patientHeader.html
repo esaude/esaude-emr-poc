@@ -7,7 +7,7 @@
       <div><!-- patient gender, age and phone number -->
         <span>
           <img src="../../images/{{vm.patient.gender === 'F' ? 'female.png' : 'male.png'}}"
-               class="img-responsive inline-align" width="24" height="24" alt="male">
+               id="gender" class="img-responsive inline-align" width="24" height="24" alt="male">
         </span>
         <span>{{vm.patient.age.years}}</span>
         <span>{{vm.patient.birthdateEstimated ? '~': ''}}({{vm.patient.birthdate | date }})</span>
