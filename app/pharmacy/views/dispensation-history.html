@@ -18,9 +18,11 @@
       <td>{{vm.valueOfField(vm.filaObsList.nextPickup, pickup.members).value | date}}</td>
       <td>{{pickup.provider}}</td>
       <td>
-        <button type="button" class="close btn-lg content-border-margin-regular-sides" ng-click ="vm.setDispensationItemToCancel(vm.valueOfField(vm.filaObsList.quantity, pickup.members).order)" data-toggle="modal" data-target="#cancellationDispensationItemModal" >
-          <span class="glyphicon glyphicon-trash"  ></span>
-        </button>
+        <poc-authorize privilege="'Delete Drug Dispensation'">
+          <button type="button" class="close btn-lg content-border-margin-regular-sides" ng-click ="vm.setDispensationItemToCancel(vm.valueOfField(vm.filaObsList.quantity, pickup.members).order)" data-toggle="modal" data-target="#cancellationDispensationItemModal" >
+            <span class="glyphicon glyphicon-trash"  ></span>
+          </button>
+        </poc-authorize>
       </td>
     </tr>
     </tbody>

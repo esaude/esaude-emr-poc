@@ -74,6 +74,10 @@
         return;
       }
 
+      if(hasActivePreviousDispensed(item)){
+        notifier.error($filter('translate')('PHARMACY_CANNOT_DISPENSE_FOR_NOT_EXPIRED_PREVIOUS_DISPENSATION', { drugName: item.display, expirationDate: item.nextPickupDate.toDateString()}));
+        return;
+      }
       var sameRegimeItems = [item].concat(getSameRegimeItems(prescription.prescriptionItems, item));
 
       sameRegimeItems.forEach(function (i) {
@@ -83,6 +87,7 @@
           i.nextPickupDate = new Date();
           i.showNextPickupDate = true;
           i.quantity = 1;
+          updatePickupDate(i);
         }
       });
 
@@ -129,7 +134,7 @@
       var sunday = 0;
       var saturday = 6;
 
-      var today = new Date();
+      var today =  (item.expectedNextPickUpDate) ? new Date(item.expectedNextPickUpDate) : new Date();
       var numberOfPillsMinusTwoDays = item.quantity;
       var oneDayInMilSec = 1000 * 60 * 60 * 24;
 
@@ -174,10 +179,29 @@
         notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
         vm.selectedPrescriptionItems = [];
         initPrescriptions();
-
+      }).catch(function (error) {
+        notifier.error(error.data.error.message.replace('[','').replace(']',''));
       });
     }
 
+    function hasActivePreviousDispensed(item){
+      if(!item.drugPickedUp || item.drugPickedUp <=0 ){
+        return false;
+      }
+      updatePickupDate(item);
+      var today = getPredfinedDateWithoutTime(new Date());
+      var nextPickupDate =  getPredfinedDateWithoutTime(item.nextPickupDate);
+      if(today >= nextPickupDate){
+        return false;
+      }
+      return true;
+    }
+
+    function getPredfinedDateWithoutTime(myDate) {
+      var resultDate = angular.copy(myDate);
+      resultDate.setHours(0,0,0,0)
+      return resultDate;
+  }
 
     function errorHandler() {
       notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ACTION'));

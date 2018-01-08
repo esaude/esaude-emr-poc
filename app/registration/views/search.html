@@ -18,7 +18,7 @@
                         <img src="../../images/fingerprint_zoom.png" class="img-responsive" width="24" height="24" alt="provider">
                     </span>
                 </button>-->
-                <button type="button" class="btn btn-primary btn-lg" ng-click="linkPatientNew()">
+                <button id="new-patient" type="button" class="btn btn-primary btn-lg" ng-click="linkPatientNew()">
                   <span class="glyphicon glyphicon-plus-sign" />
                   <span class="button-label">{{'NEW_PATIENT' | translate}}</span>
                 </button>
@@ -38,7 +38,7 @@
             </thead>
             <tbody>
                 <tr st-select-row="patient" st-select-mode="single" ng-repeat="patient in results" ng-click="linkDashboard(patient)">
-                    <td>{{patient.identifier}}</td>
+                    <td class="patient-identifier">{{patient.identifier}}</td>
                     <td>{{patient.givenName}}</td>
                     <td>{{patient.familyName}}</td>
                     <td>{{patient.gender}}</td>

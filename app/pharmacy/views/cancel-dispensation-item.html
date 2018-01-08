@@ -34,11 +34,13 @@
                         <span class="glyphicon glyphicon-minus-sign"></span>
                         <span class="button-label">{{'CANCEL' | translate}}</span>
                     </button>
+                  <poc-authorize privilege="'Delete Drug Dispensation'">
                     <button type="submit"  ng-click="vm.cancelDispensationItem(cancellationDispensationForm, vm.dispensationItemToCancel)"
-                            class="btn btn-primary btn-lg">
-                        <span class="glyphicon glyphicon-floppy-disk"></span>
-                        <span class="button-label">{{'SAVE' | translate}}</span>
-                    </button>
+                              class="btn btn-primary btn-lg">
+                          <span class="glyphicon glyphicon-floppy-disk"></span>
+                          <span class="button-label">{{'SAVE' | translate}}</span>
+                      </button>
+                  </poc-authorize>
                 </div>
             </form>
         </div>
