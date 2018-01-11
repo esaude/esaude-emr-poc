@@ -7,5 +7,6 @@ angular
     'bahmni.common.config',
     'LocalStorageModule',
     'ngCookies',
+    'pascalprecht.translate',
     'ui.router'
   ]);

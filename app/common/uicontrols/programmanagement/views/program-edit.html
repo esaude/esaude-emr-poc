@@ -33,7 +33,7 @@
                         <div class="input-group date col-sm-8">
                           <input class="form-control" type="text" uib-datepicker-popup ng-focus="completeFocused=true"
                                  is-open="completeFocused" ng-model="programSelected.dateCompleted"
-                                 placeholder="{{programSelected.dateCompleted | date}}"> 
+                                 placeholder="{{programSelected.dateCompleted | date}}">
                             <span class="input-group-addon">
                                 <span class="glyphicon glyphicon-calendar"></span>
                             </span>
@@ -54,15 +54,19 @@
                         <span class="glyphicon glyphicon-minus-sign"></span>
                         <span class="button-label">{{'CANCEL' | translate}}</span>
                     </button>
-                    <button type="submit" class="btn btn-primary btn-lg"  data-dismiss="modal"
-                            ng-click="editPatientProgram(programSelected)">
+                    <poc-authorize privilege="'Edit Patient Program'">
+                      <button type="submit" class="btn btn-primary btn-lg"  data-dismiss="modal"
+                              ng-click="editPatientProgram(programSelected)">
                         <span class="glyphicon glyphicon-floppy-disk"></span>
                         <span class="button-label">{{'SAVE' | translate}}</span>
-                    </button>
+                      </button>
+                    </poc-authorize>
+                  <poc-authorize privilege="'Delete Patient Program'">
                     <button type="button" class="btn btn-danger btn-lg">
-                        <span class="glyphicon  glyphicon-remove-sign"></span>
-                        <span class="button-label">{{'REMOVE' | translate}}</span>
+                      <span class="glyphicon  glyphicon-remove-sign"></span>
+                      <span class="button-label">{{'REMOVE' | translate}}</span>
                     </button>
+                  </poc-authorize>
                 </div>
             </form>
         </div>

@@ -4,7 +4,7 @@ describe('pocAuthorize', function () {
 
   var $compile, $rootScope, $q, authorizationService;
 
-  beforeEach(module('authentication', function ($provide) {
+  beforeEach(module('authentication', 'templates', function ($provide) {
     $provide.decorator('pocAuthorizeDirective', function pocAuthorizeDirectiveDecorator($delegate, authorizationService, $log) {
 
       $log.info('pocAuthorizeDirectiveDecorator: decorating pocAuthorizeDirective with authorization.');
@@ -71,6 +71,18 @@ describe('pocAuthorize', function () {
 
       $rootScope.$digest();
       expect(element.html()).not.toContain('Create Vitals Only!');
+    });
+
+    describe('display info', function () {
+
+      it('should display message indicating insufficient privileges', function () {
+
+        var element = $compile('<poc-authorize privilege="\'Create Vitals\'" display-info="true"><div>Create Vitals Only!</div></poc-authorize>')($rootScope);
+
+        $rootScope.$digest();
+        expect(element.html()).toContain('INSUFFICIENT_PRIVILEGES');
+
+      });
     });
 
   });
