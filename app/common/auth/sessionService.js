@@ -5,14 +5,18 @@
     .module('authentication')
     .factory('sessionService', sessionService);
 
-  sessionService.$inject = ['$rootScope', '$http', '$q', '$cookies', 'userService', 'localStorageService', '$log'];
+  sessionService.$inject = ['$cookies', '$http', '$log', '$q', '$rootScope', 'localStorageService', 'locationService',
+    'userService'];
 
-  function sessionService($rootScope, $http, $q, $cookies, userService, localStorageService, $log) {
+  function sessionService($cookies, $http, $log, $q, $rootScope, localStorageService, locationService, userService) {
 
     var SESSION_RESOURCE_PATH = '/openmrs/ws/rest/v1/session';
 
+    var CURRENT_LOCATION_KEY = 'emr.location';
+
     var service = {
       destroy: destroy,
+      getCurrentLocation: getCurrentLocation,
       getCurrentProvider: getCurrentProvider,
       getCurrentUser: getCurrentUser,
       getSession: getSession,
@@ -26,10 +30,18 @@
     ////////////////
 
     function createSession(username, password) {
-      return $http.get(SESSION_RESOURCE_PATH, {
+      var config = {
         headers: {'Authorization': 'Basic ' + window.btoa(username + ':' + password)},
         cache: false
-      });
+      };
+      return $http.get(SESSION_RESOURCE_PATH, config)
+        .then(function (response) {
+          return response.data.authenticated;
+        })
+        .catch(function (error) {
+          $log.error('XHR failed for createSession: ' + error.data.error.message);
+          return $q.reject(error);
+        });
     }
 
     function hasAnyActiveProvider(providers) {
@@ -74,18 +86,29 @@
     }
 
     function loginUser(username, password) {
-      var deferrable = $q.defer();
-      createSession(username, password).success(function (data) {
-        if (data.authenticated) {
-          $cookies.put(Bahmni.Common.Constants.currentUser, username, {path: '/'});
-          deferrable.resolve();
-        } else {
-          deferrable.reject('LOGIN_LABEL_LOGIN_ERROR_FAIL_KEY');
-        }
-      }).error(function () {
-        deferrable.reject('LOGIN_LABEL_LOGIN_ERROR_FAIL_KEY');
-      });
-      return deferrable.promise;
+      var authenticated = false;
+      return createSession(username, password)
+        .then(function (auth) {
+          authenticated = auth;
+          if (authenticated) {
+            $cookies.put(Bahmni.Common.Constants.currentUser, username, {path: '/'});
+          } else {
+            return $q.reject('LOGIN_LABEL_LOGIN_ERROR_FAIL_KEY');
+          }
+        })
+        .then(function () {
+          return loadCredentials();
+        })
+        .then(function () {
+          return loadDefaultLocation();
+        })
+        .then(function () {
+          return authenticated;
+        })
+        .catch(function (error) {
+          $log.error('XHR Failed for loginUser: ' + (error.data && error.data.error.message || error));
+          return $q.reject(error.data ? 'LOGIN_LABEL_LOGIN_ERROR_FAIL_KEY' : error);
+        });
     }
 
     function getSession() {
@@ -141,12 +164,28 @@
     }
 
     function setLocale(locale) {
-      return $http.post(SESSION_RESOURCE_PATH, {locale: locale}).then(function (response) {
+      return $http.post(SESSION_RESOURCE_PATH, {locale: locale}).then(function () {
         return null; // Endpoint Does not return anything
       }).catch(function (error) {
         $log.error('XHR Failed for setLocale: ' + error.data.error.message);
         return $q.reject(error);
       })
+    }
+
+    function getCurrentLocation() {
+      return localStorageService.cookie.get(CURRENT_LOCATION_KEY);
+    }
+
+    function loadDefaultLocation() {
+      return locationService.getDefaultLocation()
+        .then(function (location) {
+          localStorageService.cookie.remove(CURRENT_LOCATION_KEY);
+          location = {name: location.display, uuid: location.uuid};
+          localStorageService.cookie.set(CURRENT_LOCATION_KEY, location, 7);
+        }).catch(function (error) {
+          $rootScope.$broadcast('event:auth-loginRequired', error.data ? error.data.error.message : error);
+          return $q.reject(error);
+        });
     }
   }
 

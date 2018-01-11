@@ -7,12 +7,12 @@
 
   FormController.$inject = ['$filter', '$q', '$rootScope', '$scope', '$state', '$stateParams',
     'clinicalServicesService', 'createEncounterMapper', 'encounterService', 'localStorageService', 'notifier',
-    'patientAttributeService', 'patientService', 'spinner', 'updateEncounterMapper', 'visitService'];
+    'patientAttributeService', 'patientService', 'sessionService', 'spinner', 'updateEncounterMapper', 'visitService'];
 
   /* @ngInject */
   function FormController($filter, $q, $rootScope, $scope, $state, $stateParams, clinicalServicesService,
     createEncounterMapper, encounterService, localStorageService, notifier,
-    patientAttributeService, patientService, spinner, updateEncounterMapper, visitService) {
+    patientAttributeService, patientService, sessionService, spinner, updateEncounterMapper, visitService) {
 
     var dateUtil = Bahmni.Common.Util.DateUtil;
 
@@ -142,7 +142,7 @@
     // TODO: move this to clinicalServicesService
     function save() {
       var currDate = Bahmni.Common.Util.DateUtil.now();
-      var location = localStorageService.cookie.get("emr.location");
+      var location = sessionService.getCurrentLocation();
 
       var openMRSEncounter = createEncounterMapper.mapFromFormPayload($scope.formPayload,
         $scope.formInfo.parts,
@@ -198,7 +198,7 @@
       var visitType = _.find($rootScope.defaultVisitTypes, function (o) {
         return o.occurOn === "following";
       });
-      var location = localStorageService.cookie.get("emr.location");
+      var location = sessionService.getCurrentLocation();
       //create visit object
       var visit = {
         patient: $scope.patient.uuid,
