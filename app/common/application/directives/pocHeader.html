@@ -9,7 +9,10 @@
 
     <ul class="nav navbar-nav navbar-right">
       <li>
-        <a href="#">{{'LOGIN_LABEL_LOGGEDIN_KEY' | translate}} {{ currentUser.person.preferredName.display }}</a>
+        <a href="#"><span class="glyphicon glyphicon-user"></span> {{ vm.currentUser.person.preferredName.display }}</a>
+      </li>
+      <li>
+        <a href="#"><span class="glyphicon glyphicon-map-marker"></span> {{ vm.currentLocation.name }}</a>
       </li>
       <li>
         <a id="home-link" href="/home"><span class="glyphicon glyphicon-home"></span></a>
