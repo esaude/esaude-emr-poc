@@ -1,58 +1,59 @@
 'use strict';
 
 describe('LocationService', function () {
-  var locationUuids = ["location1", "location2"];
 
-  var getReturnValue = function(params, args){
-    if(_.includes(params,"bahmnicore/visitLocation")){
-      return {uuid: "visitLocationUuid"}
-    }
-    else{
-      return locationUuids;
-    }
-  };
+  var locationService, $httpBackend;
 
-  var $http, mockBahmniCookieStore,
-    mockHttp = {
-      defaults: {
-        headers: {
-          common: {
-            'X-Requested-With': 'present'
-          }
-        }
-      },
-      get: jasmine.createSpy('Http get').and.callFake(getReturnValue)
-    };
+  var locationUuids = ['location1', 'location2'];
 
   beforeEach(module('bahmni.common.domain'));
-  beforeEach(module(function ($provide) {
-    $provide.value('$http', mockHttp);
-    $provide.value('$bahmniCookieStore', mockBahmniCookieStore);
+  beforeEach(inject(function (_$httpBackend_, _locationService_) {
+    $httpBackend = _$httpBackend_;
+    locationService = _locationService_;
   }));
 
-  it('should get locations by tag', inject(['locationService', function(locationService){
-    var tag = "tag1";
-    var params = { params : { s : 'byTags', q: 'tag1' }, cache : true };
 
-    var results = locationService.getAllByTag(tag);
+  describe('getAllByTag', function () {
 
-    expect(mockHttp.get).toHaveBeenCalled();
-    expect(mockHttp.get.calls.mostRecent().args[0]).toBe(Bahmni.Common.Constants.locationUrl);
-    expect(mockHttp.get.calls.mostRecent().args[1]).toEqual(params);
-    expect(results).toBe(locationUuids);
-  }]));
+    it('should get locations by tag', function() {
 
-  it('should get locations by name', inject(['locationService', function(locationService){
-    var name = "name";
-    var params = { params : { q: 'name' }, cache : true, withCredentials: false };
+      $httpBackend.expectGET('/openmrs/ws/rest/v1/location?q=foo&s=byTags').respond({results: [1,2,3,4]});
 
-    var results = locationService.get(name);
+      var results;
+      locationService.getAllByTag('foo').then(function (locations) {
+        results = locations;
+      });
 
-    expect(mockHttp.get).toHaveBeenCalled();
-    expect(mockHttp.get.calls.mostRecent().args[0]).toBe(Bahmni.Common.Constants.locationUrl);
-    expect(mockHttp.get.calls.mostRecent().args[1]).toEqual(params);
-    expect(results).toBe(locationUuids);
-  }]));
+      $httpBackend.flush();
+      expect(results).toEqual([1,2,3,4]);
+    });
 
+    afterEach(function() {
+      $httpBackend.verifyNoOutstandingExpectation();
+      $httpBackend.verifyNoOutstandingRequest();
+    });
+
+  });
+
+  describe('getLocationsByName', function () {
+
+    it('should get locations by name', function(){
+      $httpBackend.expectGET('/openmrs/ws/rest/v1/location?q=foo').respond({results: [1,2,3,4]});
+
+      var results;
+      locationService.getLocationsByName('foo').then(function (locations) {
+        results = locations;
+      });
+
+      $httpBackend.flush();
+      expect(results).toEqual([1,2,3,4]);
+    });
+
+    afterEach(function() {
+      $httpBackend.verifyNoOutstandingExpectation();
+      $httpBackend.verifyNoOutstandingRequest();
+    });
+
+  });
 
 });

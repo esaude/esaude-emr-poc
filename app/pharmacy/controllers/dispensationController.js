@@ -171,7 +171,7 @@
       var dispensation = {
         providerUuid: currentUser.person.uuid,
         patientUuid: patientUUID,
-        locationUuid: localStorageService.cookie.get("emr.location").uuid,
+        locationUuid: sessionService.getCurrentLocation().uuid,
         dispensationItems: items
       };
       //---

@@ -6,12 +6,14 @@
     .controller('PatientCommonController', PatientCommonController);
 
   PatientCommonController.$inject = ['$filter', '$scope', '$state', 'conceptService', 'configurations',
-    'localStorageService', 'notifier', 'patientAttributeService', 'patientService', 'spinner', 'TabManager'];
+    'localStorageService', 'notifier', 'patientAttributeService', 'patientService', 'sessionService', 'spinner',
+    'TabManager'];
 
 
   /* @ngInject */
   function PatientCommonController($filter, $scope, $state, conceptService, configurations, localStorageService,
-                                   notifier, patientAttributeService, patientService, spinner, TabManager) {
+                                   notifier, patientAttributeService, patientService, sessionService, spinner,
+                                   TabManager) {
 
     var patientConfiguration = $scope.patientConfiguration;
     var now = new Date();
@@ -144,7 +146,7 @@
             vm.patient.identifiers.push({
               identifierType: value,
               identifier: null, preferred: false,
-              location: localStorageService.cookie.get("emr.location").uuid,
+              location: sessionService.getCurrentLocation().uuid,
               fieldName: fieldName
             });
           }
@@ -194,7 +196,7 @@
     function addNewIdentifier() {
       vm.patient.identifiers.push({
         identifier: null, preferred: false,
-        location: localStorageService.cookie.get("emr.location").uuid,
+        location: sessionService.getCurrentLocation().uuid,
         fieldName: randomStr()
       });
     }

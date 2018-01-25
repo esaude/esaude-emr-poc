@@ -20,6 +20,7 @@
       {label: 'English', key: 'en'},
       {label: 'Português', key: 'pt'}
     ];
+    vm.loginUser = {};
     vm.selectedLocale = getSelectedLocale();
     vm.showMenu = true;
 
@@ -31,7 +32,6 @@
     ////////////////
 
     function activate() {
-      $rootScope.loginUser = {};
 
       if ($stateParams.showLoginMessage) {
         vm.errorMessageTranslateKey = $stateParams.showLoginMessage;
@@ -46,29 +46,17 @@
 
     function login() {
       vm.errorMessageTranslateKey = null;
-      var deferrable = $q.defer();
-      sessionService.loginUser($scope.loginUser.username, $scope.loginUser.password).then(
-        function () {
-          sessionService.loadCredentials().then(
-            function () {
-              deferrable.resolve();
-            },
-            function (error) {
-              vm.errorMessageTranslateKey = error;
-              deferrable.reject(error);
-            }
-          )
-        },
-        function (error) {
-          vm.errorMessageTranslateKey = error;
-          deferrable.reject(error);
-        }
-      );
-      spinner.forPromise(deferrable.promise).then(
-        function () {
-          $location.path(landingPagePath).search({});
-        }
-      );
+
+      var promise = sessionService
+        .loginUser(vm.loginUser.username, vm.loginUser.password)
+        .catch(function (error) {
+            vm.errorMessageTranslateKey = error;
+            return $q.reject(error);
+        });
+
+      spinner.forPromise(promise).then(function () {
+        $location.path(landingPagePath).search({});
+      });
     }
 
     function redirectToLandingPageIfAlreadyAuthenticated() {

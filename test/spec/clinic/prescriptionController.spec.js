@@ -374,14 +374,6 @@
 
     beforeEach(function () {
 
-     localStorageService = {
-        cookie: {
-          get: function () {
-            return { uuid: 'xpto'};
-          }
-        }
-      };
-
       controller = $controller('PrescriptionController', {
         $scope: {},
         localStorageService: localStorageService,
@@ -394,7 +386,12 @@
       spyOn(notifier, 'success').and.callFake(function () {
       });
 
+      spyOn(sessionService, 'getCurrentLocation').and.returnValue({
+        uuid: "8d6c993e-c2cc-11de-8d13-0010c6dffd0f",
+        display: "Local Desconhecido"
       });
+
+    });
 
     var form = {
       $valid: true,
@@ -402,7 +399,7 @@
       },
       $setUntouched: function () {
       },
-      selectedProvider: {$invalid : false}
+      selectedProvider: {$invalid: false}
     };
 
     describe('valid prescription', function () {

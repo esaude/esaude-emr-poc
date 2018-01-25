@@ -2,7 +2,8 @@
 
 describe('PatientCommonController', function () {
 
-  var controller, $controller, $http,conceptService, patientAttributeService, patientService, localStorageService, $q, $rootScope;
+  var controller, $controller, $http,conceptService, patientAttributeService, patientService, localStorageService, $q,
+    $rootScope, sessionService;
 
   var identifierTypes = [1, 2, 3];
 
@@ -30,17 +31,18 @@ describe('PatientCommonController', function () {
     $translateProvider.useLoader('mergeLocaleFilesService');
   }));
 
-  beforeEach(inject(function (_$controller_, _$httpBackend_, _patientAttributeService_, _patientService_, _localStorageService_, _$q_, _$rootScope_,_conceptService_) {
-      $q = _$q_;
-      $rootScope = _$rootScope_;
-      $controller = _$controller_;
-      $http = _$httpBackend_;
-      patientAttributeService = _patientAttributeService_;
-      patientService = _patientService_;
-      localStorageService = _localStorageService_;
-      conceptService = _conceptService_;
-    })
-  );
+  beforeEach(inject(function (_$controller_, _$httpBackend_, _patientAttributeService_, _patientService_,
+                              _localStorageService_, _$q_, _$rootScope_, _conceptService_, _sessionService_) {
+    $q = _$q_;
+    $rootScope = _$rootScope_;
+    $controller = _$controller_;
+    $http = _$httpBackend_;
+    patientAttributeService = _patientAttributeService_;
+    patientService = _patientService_;
+    localStorageService = _localStorageService_;
+    conceptService = _conceptService_;
+    sessionService = _sessionService_;
+  }));
 
   describe('activate', function () {
 
@@ -105,6 +107,11 @@ describe('PatientCommonController', function () {
           }
         }
       };
+
+      spyOn(sessionService, 'getCurrentLocation').and.returnValue({
+        uuid: "8d6c993e-c2cc-11de-8d13-0010c6dffd0f",
+        display: "Local Desconhecido"
+      });
 
       controller = $controller('PatientCommonController', {
         $scope: {

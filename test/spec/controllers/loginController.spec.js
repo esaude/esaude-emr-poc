@@ -1,25 +1,21 @@
 describe('Controller: LoginController', function () {
-    var scope, $q, controller, location, sessionService, stateParams, mockLocaleService, $httpBackend, $window;
+    var $rootScope, $q, controller, $location, sessionService, stateParams, mockLocaleService, $httpBackend, $window;
 
-    beforeEach(module('home'));
-
-    beforeEach(function () {
-        // mock $window
-        $window = {
-            location: {
-                reload: jasmine.createSpy()
-            }
+    beforeEach(module('home',function ($provide, $translateProvider) {
+      $provide.factory('mergeLocaleFilesService', function ($q) {
+        return function () {
+          var deferred = $q.defer();
+          deferred.resolve({});
+          return deferred.promise;
         };
+      });
+      $translateProvider.useLoader('mergeLocaleFilesService');
+    }));
 
-        module(function ($provide) {
-            $provide.value('$window', $window);
-        });
-    });
-
-    beforeEach(inject(function ($controller, $rootScope, _$location_, _sessionService_, _$q_, $stateParams, localeService, _$httpBackend_) {
-        scope = $rootScope.$new();
+    beforeEach(inject(function ($controller, _$rootScope_, _$location_, _sessionService_, _$q_, $stateParams, localeService, _$httpBackend_) {
+        $rootScope = _$rootScope_;
         $q = _$q_;
-        location = _$location_;
+        $location = _$location_;
         controller = $controller;
         stateParams = $stateParams;
         sessionService = _sessionService_;
@@ -69,8 +65,8 @@ describe('Controller: LoginController', function () {
         });
       });
 
-      location.path('/login');
-      spyOn(location, 'path').and.callThrough();
+      $location.path('/login');
+      spyOn($location, 'path').and.callThrough();
     });
 
 
@@ -88,93 +84,45 @@ describe('Controller: LoginController', function () {
       it('should redirect the user to the landing page on successful login', function () {
         // construct controller
         var ctrl = controller('LoginController', {
-          $scope: scope,
-          $location: location,
+          $scope: $rootScope,
+          $location: $location,
           sessionService: sessionService
         });
 
         // mock sessionService.loadCredentials (success)
         spyOn(sessionService, 'loadCredentials').and.returnValue($q.when({}));
 
-        scope.loginUser = {
+        ctrl.loginUser = {
           username: 'testSuccessUser',
           password: 'testSuccessPass'
         };
 
-        // mock backend & ensure it gets called
-        $httpBackend.expectGET("/poc_config/openmrs/i18n/common/locale_en.json")
-          .respond({
-            data: window.__fixtures__['local_en']
-          });
 
         ctrl.login();
-        scope.$apply();
+        $rootScope.$apply();
 
         expect(sessionService.getSession).toHaveBeenCalled();
-        expect(location.path).toHaveBeenCalledWith('/dashboard');
+        expect($location.path).toHaveBeenCalledWith('/dashboard');
       });
 
       it('should stay on page and set $scope.errorMessage on invalid user/pass', function () {
-        spyOn(sessionService, 'loadCredentials').and.callThrough();
 
-        // construct controller
         var ctrl = controller('LoginController', {
-          $scope: scope,
-          $location: location,
+          $scope: {},
+          $location: $location,
           sessionService: sessionService
         });
 
-        scope.loginUser = {
+        ctrl.loginUser = {
           username: 'testFailureUser',
           password: 'testFailurePass'
         };
 
-        // mock backend & ensure it gets called
-        $httpBackend.expectGET("/poc_config/openmrs/i18n/common/locale_en.json")
-          .respond({
-            data: window.__fixtures__['local_en']
-          });
-
-        // perform login
         ctrl.login();
-        scope.$apply();
 
-        expect(sessionService.getSession).toHaveBeenCalled();
-        expect(sessionService.loadCredentials).not.toHaveBeenCalled();
-        expect(location.path).not.toHaveBeenCalledWith('/dashboard');
+        $rootScope.$apply();
+        expect($location.path).not.toHaveBeenCalledWith('/dashboard');
         expect(ctrl.errorMessageTranslateKey).toEqual('invalid username or password');
-      });
-
-      it('should stay on page and set $scope.errorMessage on failure to load credentiala', function () {
-        // construct controller
-        var ctrl = controller('LoginController', {
-          $scope: scope,
-          $location: location,
-          sessionService: sessionService
-        });
-
-        // mock sessionService.loadCredentials (failure)
-        spyOn(sessionService, 'loadCredentials').and.callFake(function () {
-          return $q.reject('failure to load credentials');
-        });
-
-        scope.loginUser = {
-          username: 'testSuccessUser',
-          password: 'testSuccessPass'
-        };
-
-        $httpBackend.expectGET("/poc_config/openmrs/i18n/common/locale_en.json")
-          .respond({
-            data: window.__fixtures__['local_en']
-          });
-
-        // perform login
-        ctrl.login();
-        scope.$apply();
-
-        expect(sessionService.getSession).toHaveBeenCalled();
-        expect(location.path).not.toHaveBeenCalledWith('/dashboard');
-        expect(ctrl.errorMessageTranslateKey).toEqual('failure to load credentials');
       });
 
       it('should redirect to the landing page if we are already logged in', function () {
@@ -189,8 +137,8 @@ describe('Controller: LoginController', function () {
 
         // construct controller
         controller('LoginController', {
-          $scope: scope,
-          $location: location,
+          $scope: $rootScope,
+          $location: $location,
           sessionService: sessionService
         });
 
@@ -198,7 +146,7 @@ describe('Controller: LoginController', function () {
         spyOn(sessionService, 'loadCredentials').and.returnValue($q.when({}));
 
         expect(sessionService.getSession).toHaveBeenCalled();
-        expect(location.path).toHaveBeenCalledWith('/dashboard');
+        expect($location.path).toHaveBeenCalledWith('/dashboard');
       });
     });
 
@@ -207,8 +155,8 @@ describe('Controller: LoginController', function () {
 
         // construct controller
         var ctrl = controller('LoginController', {
-            $scope: scope,
-            $location: location,
+            $scope: $rootScope,
+            $location: $location,
             sessionService: sessionService
         });
 

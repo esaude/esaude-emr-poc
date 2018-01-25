@@ -76,10 +76,10 @@
     ////////////////
 
     function activate() {
-      var load = applicationService.getApps().then(function (apps) {
-        vm.apps = apps;
-      })
-        .then(loadDefaultLocation)
+      var load = applicationService.getApps()
+        .then(function (apps) {
+          vm.apps = apps;
+        })
         .then(loadConsultationCharts);
 
       spinner.forPromise(load);
@@ -87,27 +87,6 @@
 
     function linkApp(url) {
       $window.location.href = url;
-    }
-
-    function loadDefaultLocation() {
-      var configNames = ['defaultLocation'];
-      return configurations.load(configNames).then(function () {
-        var defaultLocation = configurations.defaultLocation().value;
-        if (defaultLocation !== null) {
-          return locationService.get(defaultLocation).then(function (data) {
-            var location = data.data.results[0];
-            if (location) {
-              localStorageService.cookie.remove(locationConstant);
-              mLocation = {name: location.display, uuid: location.uuid};
-              localStorageService.cookie.set(locationConstant, mLocation, 7);
-            } else {
-              $rootScope.$broadcast('event:auth-loginRequired', 'LOGIN_LABEL_LOGIN_ERROR_INVALID_DEFAULT_LOCATION');
-            }
-          });
-        } else {
-          $rootScope.$broadcast('event:auth-loginRequired', 'LOGIN_LABEL_LOGIN_ERROR_NO_DEFAULT_LOCATION');
-        }
-      });
     }
 
     function loadConsultationCharts() {

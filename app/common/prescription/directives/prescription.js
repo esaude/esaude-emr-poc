@@ -389,7 +389,7 @@
         prescriptionDate: vm.prescriptionDate,
         patient: {uuid: patientUuid},
         provider: {uuid: vm.selectedProvider.uuid},
-        location: {uuid: localStorageService.cookie.get("emr.location").uuid},
+        location: {uuid: sessionService.getCurrentLocation().uuid},
         prescriptionItems: []
       };
 

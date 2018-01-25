@@ -46,9 +46,9 @@ describe('Controller: DashboardController', function () {
       return {value: 'Local Desconhecido'};
     });
 
-    spyOn(locationService, 'get').and.callFake(function () {
+    spyOn(locationService, 'getLocationsByName').and.callFake(function () {
       return $q(function (resolve) {
-        return resolve({data: {results: [{display: 'Local Desconhecido', uuid: 'uuid'}]}});
+        return resolve([{display: 'Local Desconhecido', uuid: 'uuid'}]);
       });
     });
 
@@ -120,17 +120,6 @@ describe('Controller: DashboardController', function () {
 
       expect(applicationService.getApps).toHaveBeenCalled();
       expect(controller.apps).toEqual(apps);
-
-    });
-
-    it('should load and set the location in a cookie', function () {
-
-      $rootScope.$apply();
-
-      expect(configurations.load).toHaveBeenCalled();
-      expect(configurations.defaultLocation).toHaveBeenCalled();
-      expect(localStorageService.cookie.remove).toHaveBeenCalled();
-      expect(localStorageService.cookie.set).toHaveBeenCalled();
 
     });
 

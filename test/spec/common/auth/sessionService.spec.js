@@ -6,12 +6,12 @@ describe('sessionService', function () {
 
   var CURRENT_USER_COOKIE_KEY = 'user';
 
-  var sessionService, $rootScope, $httpBackend, $cookies, localStorageService, userService, $q, $log;
+  var sessionService, $rootScope, $httpBackend, $cookies, localStorageService, userService, $q, $log, locationService;
 
   beforeEach(module('authentication'));
 
   beforeEach(inject(function (_sessionService_, _$httpBackend_, _$cookies_, _$rootScope_, _localStorageService_,
-                              _userService_, _$q_, _$log_) {
+                              _userService_, _$q_, _$log_, _locationService_) {
     sessionService = _sessionService_;
     $httpBackend = _$httpBackend_;
     $cookies = _$cookies_;
@@ -20,12 +20,13 @@ describe('sessionService', function () {
     userService = _userService_;
     $q = _$q_;
     $log = _$log_;
+    locationService = _locationService_;
   }));
 
   describe('loginUser', function () {
 
     var loginRequest;
-    var username = 'username';
+    var user = {username: 'username', uuid: '85a05c5e-1e3d-11e0-acca-000c29d83bf2'};
 
     beforeEach(function () {
       loginRequest = $httpBackend.expectGET(SESSION_RESOURCE_PATH);
@@ -34,17 +35,76 @@ describe('sessionService', function () {
 
     describe('user authenticated', function () {
 
+      var location = {uuid: "8d6c993e-c2cc-11de-8d13-0010c6dffd0f", display: "Local Desconhecido"};
+
       beforeEach(function () {
         loginRequest.respond({authenticated: true});
+        // TODO: use mock instead of expectGET after refactoring userService.
+        $httpBackend.expectGET('/openmrs/ws/rest/v1/user?username='
+          + user.username
+          + '&v=custom:(username,uuid,person:(uuid,preferredName),privileges:(name,retired),userProperties)')
+          .respond({results: [user]});
+        // TODO: use mock instead of expectGET after refactoring userService.
+        $httpBackend.expectGET('/openmrs/ws/rest/v1/provider?user=' + user.uuid)
+          .respond({results: [{uuid: '7c59c517-bfd1-487d-a76f-0b90cd975fd1', display: ''}]});
       });
 
       it('should save authenticated user in cookie', function () {
 
-        sessionService.loginUser(username, '');
+        spyOn(locationService, 'getDefaultLocation').and.callFake(function () {
+          return $q(function (resolve) {
+            return resolve(location);
+          });
+        });
+
+        sessionService.loginUser(user.username, '');
 
         $httpBackend.flush();
-        expect($cookies.get(CURRENT_USER_COOKIE_KEY)).toEqual(username);
+        expect($cookies.get(CURRENT_USER_COOKIE_KEY)).toEqual(user.username);
       });
+
+      it('should save current location in cookie', function () {
+        spyOn(locationService, 'getDefaultLocation').and.callFake(function () {
+          return $q(function (resolve) {
+            return resolve(location);
+          });
+        });
+
+        spyOn(localStorageService.cookie, 'set');
+
+        sessionService.loginUser(user.username, '');
+
+        $httpBackend.flush();
+        var params = {name: location.display, uuid: location.uuid};
+        expect(localStorageService.cookie.set).toHaveBeenCalledWith('emr.location', params, 7);
+      });
+
+      describe('cannot load default location', function () {
+
+        beforeEach(function () {
+          spyOn(locationService, 'getDefaultLocation').and.callFake(function () {
+            return $q(function (resolve, reject) {
+              return reject('LOGIN_LABEL_LOGIN_ERROR_NO_DEFAULT_LOCATION');
+            });
+          });
+
+          spyOn($rootScope, '$broadcast');
+        });
+
+
+        it('should broadcast login required', function () {
+          var err;
+          sessionService.loginUser(user.username, '').catch(function (error) {
+            err = error;
+          });
+          $httpBackend.flush();
+          expect(err).toEqual('LOGIN_LABEL_LOGIN_ERROR_NO_DEFAULT_LOCATION');
+          expect($rootScope.$broadcast).toHaveBeenCalled();
+        });
+
+      });
+
+
 
     });
 
@@ -56,7 +116,7 @@ describe('sessionService', function () {
 
       it('should not save unauthenticated user in cookie', function () {
 
-        sessionService.loginUser(username, '');
+        sessionService.loginUser(user.username, '');
 
         $httpBackend.flush();
         expect($cookies.get(CURRENT_USER_COOKIE_KEY)).toBeUndefined();

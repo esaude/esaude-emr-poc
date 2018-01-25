@@ -6,11 +6,11 @@
     .controller('VisitController', VisitController);
 
   VisitController.$inject = ['$rootScope', '$stateParams', '$filter', 'visitService', 'encounterService',
-    'commonService', 'localStorageService', 'patientService', 'notifier', 'observationsService'];
+    'commonService', 'localStorageService', 'patientService', 'notifier', 'observationsService', 'sessionService'];
 
   /* @ngInject */
   function VisitController($rootScope, $stateParams, $filter, visitService, encounterService, commonService,
-                           localStorageService, patientService, notifier, observationsService) {
+                           localStorageService, patientService, notifier, observationsService, sessionService) {
 
 
     var dateFilter = $filter('date');
@@ -114,7 +114,7 @@
     }
 
     function checkIn() {
-      var location = localStorageService.cookie.get("emr.location");
+      var location = sessionService.getCurrentLocation();
       if (!location) {
         notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
         return;
