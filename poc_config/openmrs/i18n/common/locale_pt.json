@@ -316,5 +316,6 @@
     "ARE_YOU_SURE": "Tem certeza?",
     "INSUFFICIENT_PRIVILEGES": "Não tem privilégios suficientes para usar esta funcionalidade.",
     "DELETE_PATIENT": "Apagar Paciente",
-    "REASON_TO_DELETE": "Motivo para Anular"
+    "REASON_TO_DELETE": "Motivo para Anular",
+    "CONFIRM_HOME": "Pretende voltar ao inicio?"
 }

@@ -3,7 +3,8 @@
 
   angular
     .module('application')
-    .directive('pocHeader', pocHeader);
+    .directive('pocHeader', pocHeader)
+    .controller('PocHeaderController', PocHeaderController);
 
   pocHeader.$inject = [];
 
@@ -20,14 +21,17 @@
     return directive;
   }
 
-  PocHeaderController.$inject = ['sessionService'];
+  PocHeaderController.$inject = ['$window', 'ngDialog', 'sessionService', 'translateFilter'];
 
   /* @ngInject */
-  function PocHeaderController(sessionService) {
+  function PocHeaderController($window, ngDialog, sessionService, translateFilter) {
 
     var vm = this;
     vm.currentUser = {};
     vm.currentLocation = sessionService.getCurrentLocation();
+
+    vm.goHome = goHome;
+    vm.isHome = isHome;
 
     activate();
 
@@ -39,8 +43,14 @@
       });
     }
 
+    function goHome () {
+      $window.location.href = '/home';
+    }
+
+    function isHome() {
+      return $window.location.pathname.startsWith('/home/');
+    }
 
   }
 
 })();
-
