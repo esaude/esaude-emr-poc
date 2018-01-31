@@ -9,6 +9,15 @@
 
   /* @ngInject */
   function createEncounterMapper() {
+
+    var CODED_DATATYPE = 'Coded';
+
+    var DATE_DATATYPE = 'Date';
+
+    var DATETIME_DATATYPE = 'Datetime';
+
+    var DATETIME_FORMAT = 'YYYY-MM-DD HH:mm';
+
     var mapper = {
       mapFromFormPayload: mapFromFormPayload
     };
@@ -118,6 +127,19 @@
     }
 
 
+    function getNonSelectMultipleObsValue(formField) {
+      var value = formField.value;
+      var dataType = formField.field.concept.datatype.display;
+      if (isAnyObject(value)) {
+        if (dataType === CODED_DATATYPE) {
+          value = ensureObject(formField.value).uuid;
+        } else if (dataType === DATE_DATATYPE || dataType === DATETIME_DATATYPE) {
+          value = moment(value).format(DATETIME_FORMAT);
+        }
+      }
+      return value;
+    }
+
     function createNonObsGroups(fields, flattenFields, person) {
       var obs = [];
       _.forEach(flattenFields, function (field) {
@@ -139,8 +161,7 @@
           } else {
             obs.push({
               concept: formField.field.concept.uuid,
-              value: (isAnyObject(formField.value) &&
-                formField.field.concept.datatype.display === 'Coded') ? ensureObject(formField.value).uuid : formField.value,
+              value: getNonSelectMultipleObsValue(formField),
               obsDatetime: Bahmni.Common.Util.DateUtil.now(),
               person: person
             });
