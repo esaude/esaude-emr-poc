@@ -36,8 +36,7 @@
     <span class="glyphicon glyphicon-step-backward"></span>
     <span class="button-label">{{'PREVIOUS_STEP' | translate}}</span>
   </button>
-  <button ng-controller="MovePatientActionController" id="transfer_patient" type="button" class="btn btn-warning btn-lg"
-          ng-click="movePatientTo()">
+  <button move-patient patient-uuid="vm.patient.uuid" id="transfer_patient" type="button" class="btn btn-warning btn-lg">
     <span class="glyphicon glyphicon-share"></span>
     <span class="button-label">{{'GO_TO' | translate}}</span>
   </button>

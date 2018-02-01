@@ -1,6 +1,10 @@
 (function () {
   //TODO: this will be unnecessary once we remove pollution on $rootScope.
   // Just use the route param for patient UUID!
+  // Well as it is, because of the way this application is structured (modules are different angular apps) it is not
+  // possible to simply point to another route. The only way to move patients is to store the patient data somewhere
+  // outside the angular runtime and load it once the other app starts. :S
+  // We really need to change this to the recommended architecture. {@link https://docs.angularjs.org/guide/module#recommended-setup}
   'use strict';
 
   angular
