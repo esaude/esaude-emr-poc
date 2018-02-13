@@ -2,7 +2,7 @@ describe('VitalsController', function () {
 
   var controller, $controller,  observationsService, visitService, $rootScope;
 
-  beforeEach(module('vitals', function ($provide, $translateProvider) {
+  beforeEach(module('vitals', function ($provide, $translateProvider, $urlRouterProvider) {
     // Mock initialization
     $provide.factory('initialization', function () {
     });
@@ -15,6 +15,7 @@ describe('VitalsController', function () {
       };
     });
     $translateProvider.useLoader('mergeLocaleFilesService');
+    $urlRouterProvider.deferIntercept();
   }));
 
   beforeEach(inject(function (_$controller_, _$q_, _$rootScope_, _observationsService_,

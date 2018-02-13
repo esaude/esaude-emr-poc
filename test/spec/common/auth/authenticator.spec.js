@@ -16,7 +16,7 @@ describe('authenticator', function () {
   describe('authenticateUser', function () {
 
     beforeEach(function () {
-      spyOn($rootScope, '$broadcast');
+      spyOn($rootScope, '$broadcast').and.callThrough();
     });
 
     describe('user not authenticated', function () {

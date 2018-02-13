@@ -21,7 +21,7 @@
     "keyboard": "~1.23.5",
     "jquery-ui": "1.9.2",
     "angular-route": "~1.4.3",
-    "angular-ui-router": "~0.2.15",
+    "angular-ui-router": "~1.0.14",
     "angular-smart-table": "~2.1.1",
     "angular-cookies": "~1.4.3",
     "lodash": "4.6.1",

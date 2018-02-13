@@ -1,47 +1,54 @@
 'use strict';
 
-xdescribe('DashboardController', function() {
-  var patientUuid, scope, $rootScope, controller, location, patientService, patientMapper,
-    httpBackend, stateParams;
+describe('DashboardController', function () {
+  var patientUuid, scope, $rootScope, $q, $controller, controller, location, patientService, patientMapper,
+    httpBackend, stateParams, visitService;
 
-  beforeEach(module('clinic'));
-  beforeEach(inject(function ($location) {
-      location = $location;
+  beforeEach(module('clinic', function ($provide, $translateProvider, $urlRouterProvider) {
+    // Mock translate asynchronous loader
+    $provide.factory('mergeLocaleFilesService', function ($q) {
+      return function () {
+        var deferred = $q.defer();
+        deferred.resolve({});
+        return deferred.promise;
+      };
+    });
+    $translateProvider.useLoader('mergeLocaleFilesService');
+    $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function (_$controller_, _$rootScope_, _$location_, _patientService_,
-                              _$httpBackend_, $stateParams, openmrsPatientMapper)  {
+  beforeEach(inject(function (_$controller_, _$rootScope_, _patientService_, _$q_, _visitService_) {
     scope = _$rootScope_.$new();
     $rootScope = _$rootScope_;
-    controller = _$controller_;
-    location = _$location_;
+    $controller = _$controller_;
     patientService = _patientService_;
-    httpBackend = _$httpBackend_;
-    stateParams = $stateParams;
-    patientMapper = openmrsPatientMapper;
+    $q = _$q_;
+    visitService = _visitService_;
 
-    patientService = jasmine.createSpyObj('patientService',['get']);
-
-    controller('DashboardController', {
-      $scope : scope,
-      $stateparams: stateParams
+    spyOn(patientService, 'getPatient').and.callFake(function () {
+      return $q(function (resolve) {
+        return resolve({});
+      });
     });
 
-    spyOn(location, 'url').and.callThrough();
+    spyOn(visitService, 'getTodaysVisit').and.callFake(function () {
+      return $q(function (resolve) {
+        return resolve({});
+      });
+    });
+
+    controller = $controller('DashboardController', {
+      $scope: scope,
+      $stateParams: {patientUuid: '3951a5f8-cdce-4421-bfe3-cfdd701168d0'}
+    });
 
   }));
 
-    describe('getPatientUuid', function () {
+  describe('activate', function () {
 
-      it('should make http call to get patient uuid', function() {
-      
-        stateParams = { patientUuid: 'patientUuid'};
-        expect(stateParams.patientUuid).toBeDefined();
-      
-      });
-
-
+    it('should get patient uuid', function () {
+      $rootScope.$apply();
+      expect(patientService.getPatient).toHaveBeenCalled();
     });
-
-
+  });
 });

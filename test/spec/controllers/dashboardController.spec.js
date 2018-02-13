@@ -2,7 +2,7 @@ describe('Controller: DashboardController', function () {
   var $controller, $q, controller, configurations, applicationService, locationService, localStorageService, $rootScope,
     consultationService;
 
-  beforeEach(module('home', function ($provide, $translateProvider) {
+  beforeEach(module('home', function ($provide, $translateProvider, $urlRouterProvider) {
     $provide.factory('mergeLocaleFilesService', function ($q) {
       return function () {
         var deferred = $q.defer();
@@ -11,6 +11,7 @@ describe('Controller: DashboardController', function () {
       };
     });
     $translateProvider.useLoader('mergeLocaleFilesService');
+    $urlRouterProvider.deferIntercept();
   }));
 
   beforeEach(inject(function (_$controller_, _$rootScope_, _applicationService_, _$httpBackend_,
