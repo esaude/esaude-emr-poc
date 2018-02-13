@@ -13,6 +13,7 @@ angular
       'common.prescription',
       'frapontillo.bootstrap-switch',
       'LocalStorageModule',
+      'movepatient',
       'ngCookies',
       'ngDialog',
       'ngMessages',

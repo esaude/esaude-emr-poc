@@ -2,8 +2,9 @@
   'use strict';
 
   angular
-    .module('common.patient')
-    .directive('movePatient', movePatient);
+    .module('movepatient')
+    .directive('movePatient', movePatient)
+    .controller('MovePatientController', MovePatientController);
 
   movePatient.$inject = [];
 
@@ -11,7 +12,7 @@
   function movePatient() {
     var directive = {
       bindToController: true,
-      controller: MovePatientDirectiveController,
+      controller: MovePatientController,
       controllerAs: 'vm',
       link: link,
       restrict: 'A',
@@ -23,17 +24,15 @@
 
     function link(scope, element) {
       element.click(function () {
-        scope.vm.movePatientTo();
+        scope.vm.showDialog();
       });
     }
   }
 
-  MovePatientDirectiveController.$inject = ['$scope', '$window', 'appService', 'applicationService',
-    'localStorageService', 'ngDialog'];
+  MovePatientController.$inject = ['$scope', '$window', 'appService', 'applicationService', 'ngDialog'];
 
   /* @ngInject */
-  function MovePatientDirectiveController($scope, $window, appService, applicationService, localStorageService,
-                                          ngDialog) {
+  function MovePatientController($scope, $window, appService, applicationService, ngDialog) {
     var vm = this;
 
     vm.apps = [];
@@ -41,7 +40,7 @@
 
     vm.$onInit = activate;
     vm.linkApp = linkApp;
-    vm.movePatientTo = movePatientTo;
+    vm.showDialog = showDialog;
 
     function activate() {
       applicationService.getApps().then(function (apps) {
@@ -50,15 +49,14 @@
     }
 
     function linkApp(url) {
-      localStorageService.set('movingPatient', vm.patientUuid);
-      $window.location.href = url;
+      $window.location.href = url + '#/mvp/' + vm.patientUuid;
     }
 
-    function movePatientTo() {
+    function showDialog() {
       var scope = $scope.$new(true);
       scope.vm = vm;
       ngDialog.open({
-        template: '../common/patient/directives/movePatient.html',
+        template: '../move-patient/directives/movePatient.html',
         scope: scope,
         width: '60%',
         showClose: false
@@ -67,4 +65,3 @@
   }
 
 })();
-
