@@ -24,7 +24,9 @@
 
     function link(scope, element) {
       element.click(function () {
-        scope.vm.showDialog();
+        if (scope.vm.patientUuid) {
+          scope.vm.showDialog();
+        }
       });
     }
   }

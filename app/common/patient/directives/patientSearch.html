@@ -36,7 +36,7 @@
       </thead>
       <tbody>
       <tr st-select-row="patient" st-select-mode="single" ng-repeat="patient in vm.results"
-          ng-click="vm.linkDashboard(patient)">
+          ng-click="vm.onPatientSelect(patient)">
         <div ng-hide="patient.dead">
           <td class="patient-identifier">{{patient.identifier}}</td>
           <td>{{patient.givenName}}</td>

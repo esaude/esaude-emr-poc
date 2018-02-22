@@ -24,12 +24,12 @@
     return directive;
   }
 
-  PatientSearchController.$inject = ['$location', '$rootScope', 'commonService', 'observationsService',
+  PatientSearchController.$inject = ['$location', '$rootScope', '$state', 'commonService', 'observationsService',
     'openmrsPatientMapper', 'patientService', 'spinner', 'visitService'];
 
   /* @ngInject */
-  function PatientSearchController($location, $rootScope, commonService, observationsService,
-                                   openmrsPatientMapper, patientService, spinner, visitService) {
+  function PatientSearchController($location, $rootScope, $state, commonService, observationsService,
+                                   openmrsPatientMapper, patientService, spinner) {
 
     var dateUtil = Bahmni.Common.Util.DateUtil;
 
@@ -41,8 +41,8 @@
 
     vm.barcodeHandler = barcodeHandler;
     vm.change = change;
-    vm.linkDashboard = linkDashboard;
     vm.linkPatientNew = linkPatientNew;
+    vm.onPatientSelect = onPatientSelect;
 
     activate();
 
@@ -82,51 +82,19 @@
           return;
         }
         var patient = openmrsPatientMapper.map(patients[0]);
-        $rootScope.patient = patient;
-        redirectToPage(patient);
+        vm.onPatientSelect(patient);
       }).error(function (data) {
         vm.noResultsMessage = "SEARCH_PATIENT_NO_RESULT";
       }));
 
     }
 
-    function linkDashboard(patient) {
-      if (patient.age) {
-        $rootScope.patient = patient;
-        redirectToPage(patient);
-      } else {
-        patientService.getPatient(patient.uuid).then(function (patient) {
-          $rootScope.patient = patient;
-          redirectToPage(patient);
-        });
-      }
-    }
-
-    function redirectToPage(patient) {
-      //initialize visit info in scope
-      visitService.search({patient: patient.uuid, v: "full"})
-        .then(function (visits) {
-          var nonRetired = commonService.filterRetired(visits);
-          //in case the patient has an active visit
-          if (!_.isEmpty(nonRetired)) {
-            var lastVisit = _.maxBy(nonRetired, 'startDatetime');
-            var now = dateUtil.now();
-            //is last visit todays
-            if (dateUtil.parseDatetime(lastVisit.startDatetime) <= now &&
-              dateUtil.parseDatetime(lastVisit.stopDatetime) >= now) {
-              $rootScope.hasVisitToday = true;
-              $rootScope.todayVisit = lastVisit;
-            } else {
-              $rootScope.hasVisitToday = false;
-            }
-          }
-
-          $location.url(eval($rootScope.landingPageAfterSearch)); // path not hash
-        });
-    }
-
     function linkPatientNew() {
       $location.url("/patient/new/identifier"); // path not hash
+    }
+
+    function onPatientSelect(patient) {
+      $state.go('dashboard', {patientUuid: patient.uuid});
     }
 
     function mapPatient(results) {

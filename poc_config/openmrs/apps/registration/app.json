@@ -8,7 +8,6 @@
             ],
             "autoCompleteFields":["familyName", "caste"],
             "showMiddleName": false,
-            "landingPageAfterSearch": "'/dashboard/' + patient.uuid + '/program'",
             "encounterTypes" : {
                 "followUpAdult": "e278f956-1d5f-11e0-b929-000c29ad1d07",
                 "followUpChild": "e278fce4-1d5f-11e0-b929-000c29ad1d07",
