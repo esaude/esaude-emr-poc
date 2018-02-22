@@ -21,10 +21,10 @@
     return directive;
   }
 
-  PocHeaderController.$inject = ['$window', 'ngDialog', 'sessionService', 'translateFilter'];
+  PocHeaderController.$inject = ['$window', 'ngDialog', 'sessionService'];
 
   /* @ngInject */
-  function PocHeaderController($window, ngDialog, sessionService, translateFilter) {
+  function PocHeaderController($window, ngDialog, sessionService) {
 
     var vm = this;
     vm.currentUser = {};
@@ -48,7 +48,8 @@
     }
 
     function isHome() {
-      return $window.location.pathname.startsWith('/home/');
+      // We should be using $state#includes but application structure does not allow that.
+      return $window.location.pathname.match('/home/') !== null;
     }
 
   }
