@@ -41,6 +41,11 @@
           v: "custom:(uuid,display,encounter:(encounterDatetime,encounterType,provider:(display,uuid)),voided,concept:(uuid,name),obsDatetime,value,groupMembers:(uuid,concept:(uuid,name),obsDatetime,value))"
         },
         withCredentials: true
+      }).then(function (response) {
+        return response.data.results;
+      }).catch(function (error) {
+        $log.error('XHR Failed for getObs: ' + error.data.error.message);
+        return $q.reject(error);
       });
     }
 
@@ -93,8 +98,8 @@
     }
 
     function getLastPatientObs(patientUuid, concepts) {
-        return getObs(patientUuid, concepts).then(function(response) {
-            var nonRetired = filterRetiredObs(response.data.results);
+        return getObs(patientUuid, concepts).then(function(obs) {
+            var nonRetired = filterRetiredObs(obs);
                 return _.maxBy(nonRetired, 'obsDatetime');
           }).catch(function (error) {
               $log.error('XHR Failed for getLastPatientObs: ' + error.data.error.message);

@@ -42,8 +42,7 @@
           url: '/search',
           views: {
             'layout': {
-              templateUrl: '../common/application/views/layout.html',
-              controller: 'SearchController'
+              templateUrl: '../common/application/views/layout.html'
             },
             'content@search': {
               templateUrl: 'views/search.html'

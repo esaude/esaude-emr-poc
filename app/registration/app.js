@@ -37,10 +37,16 @@
       .state('search', {
         url: '/search',
         views: {
-          'layout': {templateUrl: '../common/application/views/layout.html', controller: 'SearchController'},
-          'content@search': {templateUrl: 'views/search.html'}
+          'layout': {
+            templateUrl: '../common/application/views/layout.html'
+          },
+          'content@search': {
+            templateUrl: 'views/search.html'
+          }
         },
-        resolve: {initialization: 'initialization'},
+        resolve: {
+          initialization: 'initialization'
+        },
         ncyBreadcrumb: {
           label: '{{\'APP_REGISTRATION\' | translate}} /  {{\'SEARCH_PATIENT\' | translate}}'
         }
