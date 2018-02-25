@@ -19,8 +19,9 @@
                   </label>
                   <div class="col-sm-9">
                     <div ng-messages for="prescriptionForm.prescriptionDate.$error"
-                         ng-messages-include="../poc-common/form-display/views/error-messages.html"
-                         ng-show="vm.showMessages"></div>
+                         ng-show="vm.showMessages">
+                      <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
+                    </div>
                     <div class="input-group">
                       <input class="form-control keyboard-in" id="prescriptionDate" type="text" name="prescriptionDate"
                              uib-datepicker-popup ng-focus="focused=true" is-open="focused"
@@ -40,8 +41,9 @@
                   </label>
                   <div class="col-sm-9">
                     <div ng-messages for="prescriptionForm.selectedProvider.$error"
-                         ng-messages-include="../poc-common/form-display/views/error-messages.html"
-                         ng-show="vm.showMessages"></div>
+                         ng-show="vm.showMessages">
+                      <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
+                    </div>
                     <input name="selectedProvider"
                            uib-typeahead="p as p.display for p in vm.providers | filter:vm.selectedProvider"
                            type="text"
@@ -79,8 +81,9 @@
                 </label>
                 <div class="col-sm-9">
                   <div ng-messages for="prescriptionForm.drug.$error"
-                       ng-messages-include="../poc-common/form-display/views/error-messages.html"
-                       ng-show="vm.showMessages"></div>
+                       ng-show="vm.showMessages">
+                    <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
+                  </div>
                   <input type="text"
                          name="drug"
                          ng-model="vm.prescriptionItem.drugOrder.drug"
@@ -98,8 +101,9 @@
                   class="asterick">*</span></label>
                 <div class="col-sm-9">
                   <div ng-messages for="prescriptionForm.arvDrug.$error"
-                       ng-messages-include="../poc-common/form-display/views/error-messages.html"
-                       ng-show="vm.showMessages"></div>
+                       ng-show="vm.showMessages">
+                    <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
+                  </div>
                   <select name="arvDrug" class="form-control" ng-model="vm.prescriptionItem.drugOrder.drug"
                           ng-options="arvDrug.display for arvDrug in vm.arvDrugs track by arvDrug.uuid" required>
                     <option></option>
@@ -112,8 +116,8 @@
                   class="asterick">*</span></label>
                 <div class="col-sm-3">
                   <div ng-messages for="prescriptionForm.doseAmount.$error"
-                       ng-show="vm.showMessages"
-                       ng-messages-include="../poc-common/form-display/views/error-messages.html">
+                       ng-show="vm.showMessages">
+                    <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
                     <div class="label label-danger" ng-message="min">
                       {{ 'COMMON_MESSAGE_ERROR_DOSAGE_CANNOT_BE_ZERO' | translate }}
                     </div>
@@ -131,8 +135,9 @@
                   class="asterick">*</span></label>
                 <div class="col-sm-9">
                   <div ng-messages for="prescriptionForm.dosingUnits.$error"
-                       ng-messages-include="../poc-common/form-display/views/error-messages.html"
-                       ng-show="vm.showMessages"></div>
+                       ng-show="vm.showMessages">
+                    <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
+                  </div>
                   <select name="dosingUnits" class="form-control" ng-model="vm.prescriptionItem.drugOrder.doseUnits"
                           ng-options="unit.display for unit in vm.fieldModels.dosingUnits.model.answers track by unit.uuid"
                           required>
@@ -146,8 +151,9 @@
                   class="asterick">*</span></label>
                 <div class="col-sm-9">
                   <div ng-messages for="prescriptionForm.dosgeFrequency.$error"
-                       ng-messages-include="../poc-common/form-display/views/error-messages.html"
-                       ng-show="vm.showMessages"></div>
+                       ng-show="vm.showMessages">
+                    <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
+                  </div>
                   <select name="dosgeFrequency" class="form-control"
                           ng-model="vm.prescriptionItem.drugOrder.frequency"
                           ng-options="frequency.display for frequency in vm.fieldModels.dosgeFrequency.model.answers track by frequency.uuid"
@@ -162,8 +168,9 @@
                   class="asterick">*</span></label>
                 <div class="col-sm-9">
                   <div ng-messages for="prescriptionForm.drugRoute.$error"
-                       ng-messages-include="../poc-common/form-display/views/error-messages.html"
-                       ng-show="vm.showMessages"></div>
+                       ng-show="vm.showMessages">
+                    <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
+                  </div>
                   <select name="drugRoute" class="form-control" ng-model="vm.prescriptionItem.drugOrder.route"
                           ng-options="route.display for route in vm.fieldModels.drugRoute.model.answers track by route.uuid"
                           required>
@@ -177,8 +184,8 @@
                   class="asterick">*</span></label>
                 <div class="col-sm-3">
                   <div ng-messages for="prescriptionForm.duration.$error"
-                       ng-messages-include="../poc-common/form-display/views/error-messages.html"
                        ng-show="vm.showMessages">
+                    <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
                     <div class="label label-danger" ng-message="min">{{ 'COMMON_MESSAGE_ERROR_DURATION_CANNOT_BE_ZERO' |
                       translate }}
                     </div>
@@ -192,8 +199,9 @@
                 <div class="col-sm-6"
                      ng-class="{'has-error': prescriptionForm.durationUnits.$invalid && vm.showMessages}">
                   <div ng-messages for="prescriptionForm.durationUnits.$error"
-                       ng-messages-include="../poc-common/form-display/views/error-messages.html"
-                       ng-show="vm.showMessages"></div>
+                       ng-show="vm.showMessages">
+                    <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
+                  </div>
                   <select name="durationUnits" class="form-control"
                           ng-model="vm.prescriptionItem.drugOrder.durationUnits"
                           ng-options="durationUnit.display for durationUnit in vm.fieldModels.durationUnits.model.answers track by durationUnit.uuid"
@@ -208,8 +216,9 @@
                   class="asterick">*</span></label>
                 <div class="col-sm-9">
                   <div ng-messages for="prescriptionForm.dosingInstructions.$error"
-                       ng-messages-include="../poc-common/form-display/views/error-messages.html"
-                       ng-show="vm.showMessages"></div>
+                       ng-show="vm.showMessages">
+                    <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
+                  </div>
                   <select name="dosingInstructions" class="form-control"
                           ng-model="vm.prescriptionItem.drugOrder.dosingInstructions"
                           ng-options="instruction.display for instruction in vm.fieldModels.dosingInstructions.model.answers track by instruction.uuid"
