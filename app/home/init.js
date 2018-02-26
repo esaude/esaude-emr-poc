@@ -10,7 +10,6 @@ angular
     'bahmni.common.uiHelper',
     'chart.js',
     'ngCookies',
-    'ngRoute',
     'pascalprecht.translate',
     'ui.router'
   ]);

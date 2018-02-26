@@ -26,9 +26,9 @@
 
                 </td>
                 <td>
-                    <div class="pull-left" ng-messages for="aForm.{{pi.fieldName}}.$error"
-                         ng-messages-include="../poc-common/form-display/views/error-messages.html"
+                    <div class="pull-left" ng-messages for="aForm[pi.fieldName].$error"
                          ng-show="patientCommon.showMessages" >
+                      <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
                       <div ng-message="pattern">
                         <span class="label label-danger"
                               translate="ERROR_INVALID_FORMAT_PATTERN"

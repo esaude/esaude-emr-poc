@@ -16,7 +16,6 @@ angular
       'ngCookies',
       'ngDialog',
       'ngMessages',
-      'ngRoute',
       'pascalprecht.translate',
       'patient.details',
       'smart-table',
