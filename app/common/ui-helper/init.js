@@ -3,7 +3,6 @@
 
   angular
     .module('bahmni.common.uiHelper', [
-      'ngClipboard',
       'ngDialog',
       'pascalprecht.translate'
     ]);

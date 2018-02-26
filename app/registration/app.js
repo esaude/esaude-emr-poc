@@ -168,6 +168,7 @@
           skip: true
         }
       })
+      // TODO: looks like its not used
       .state('newpatient.death', {
         url: '/death',
         templateUrl: 'views/patient-death-input.html',
@@ -251,6 +252,7 @@
           skip: true
         }
       })
+      // TODO: looks like its not used
       .state('editpatient.death', {
         url: '/death',
         templateUrl: 'views/patient-death-input.html',

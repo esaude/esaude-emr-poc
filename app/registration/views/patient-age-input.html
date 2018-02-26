@@ -8,8 +8,8 @@
             <label class="col-sm-2 control-label"><b>{{'PATIENT_INFO_BIRTHDATE' | translate}}:<span class="asterick">*</span></b></label>
             <div class="col-sm-6">
                 <div ng-messages for="aForm.patientBirthdate.$error"
-                     ng-messages-include="../poc-common/form-display/views/error-messages.html"
                      ng-show="patientCommon.showMessages">
+                  <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
                 </div>
               <div class="input-group">
                 <input class="form-control" id="createdDate1" name="patientBirthdate" type="text" uib-datepicker-popup
@@ -29,8 +29,8 @@
             <label class="col-sm-2 control-label"><b>{{'PATIENT_INFO_AGE' | translate}}:<span class="asterick">*</span></b></label>
             <div class="col-sm-2">
                 <div ng-messages for="aForm.patientAge.$error"
-                     ng-messages-include="../poc-common/form-display/views/error-messages.html"
                      ng-show="patientCommon.showMessages">
+                  <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
                 </div>
                 <div class="input-group">
                   <span class="input-group-addon" id="age-addon">{{'PATIENT_INFO_YEARS' | translate}}</span>
