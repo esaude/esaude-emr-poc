@@ -22,7 +22,7 @@
                 <div ng-show="vm.isTheraupeuticLineEdit">
                     <div class="col-sm-7">
                         <div ng-messages for="prescriptionForm.therapeuticLine.$error"
-                                ng-messages-include="../poc-common/form-display/views/error-messages.html"
+                                >
                                 ng-show="vm.showMessages"></div>
                         <select name="therapeuticLine" class="form-control" ng-model="vm.prescriptionItem.therapeuticLine"
                                 ng-options="line.display for line in vm.fieldModels.therapeuticLine.model.answers"
@@ -57,8 +57,9 @@
                 <div ng-show="vm.isRegimenEdit">
                     <div class="col-sm-7">
                         <div ng-messages for="prescriptionForm.regime.$error"
-                                ng-messages-include="../poc-common/form-display/views/error-messages.html"
-                                ng-show="vm.showMessages"></div>
+                                ng-show="vm.showMessages">
+                          <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
+                        </div>
                         <select name="regime" class="form-control" ng-model="vm.prescriptionItem.regime"
                                 ng-options="regime.display for regime in vm.regimes.answers"
                                 ng-required="vm.prescriptionItem.isArv"
@@ -92,8 +93,9 @@
                 <div ng-show="vm.isArvPlanEdit">
                     <div class="col-sm-7">
                         <div ng-messages for="prescriptionForm.artPlan.$error"
-                                ng-messages-include="../poc-common/form-display/views/error-messages.html"
-                                ng-show="vm.showMessages"></div>
+                                ng-show="vm.showMessages">
+                          <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
+                        </div>
                         <select name="artPlan" class="form-control" ng-model="vm.prescriptionItem.arvPlan"
                                 ng-options="plan.display for plan in vm.fieldModels.artPlan.model.answers"
                                 ng-change="vm.doPlanChanged(vm.prescriptionItem); vm.isArvPlanEdit = false">
@@ -126,8 +128,9 @@
                 <div ng-show="vm.isArvPlanInterruptedEdit">
                     <div class="col-sm-7">
                         <div ng-messages for="prescriptionForm.interruptedReason.$error"
-                                ng-messages-include="../poc-common/form-display/views/error-messages.html"
-                                ng-show="vm.showMessages"></div>
+                                ng-show="vm.showMessages">
+                          <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
+                        </div>
                         <select name="interruptedReason" class="form-control" ng-model="vm.prescriptionItem.interruptedReason"
                                 ng-options="reason.display for reason in vm.fieldModels.interruptedReason.model.answers" ng-required="vm.isPlanInterrupted"
                                 ng-change="vm.isArvPlanInterruptedEdit = false">
@@ -160,8 +163,9 @@
                 <div ng-show="vm.isRegimenChangeEdit">
                     <div class="col-sm-7">
                         <div ng-messages for="prescriptionForm.changeReason.$error"
-                                ng-messages-include="../poc-common/form-display/views/error-messages.html"
-                                ng-show="vm.showMessages"></div>
+                                ng-show="vm.showMessages">
+                          <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
+                        </div>
                         <select name="changeReason" class="form-control" ng-model="vm.prescriptionItem.changeReason"
                                 ng-options="reason.display for reason in vm.fieldModels.changeReason.model.answers" ng-required="vm.prescriptionItem.isPlanChanged"
                                 ng-change="vm.isRegimenChangeEdit = false">

@@ -1,0 +1,82 @@
+<div class="panel panel-primary content-border-margin"><!-- demographics -->
+  <div class="panel-heading">
+    <h3 class="panel-title">{{'SEARCH_PATIENT' | translate}}</h3>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-sm-10">
+        <div class="input-group input-group-lg">
+                    <span class="input-group-addon">
+                        <span class=" glyphicon glyphicon glyphicon-search"></span>
+                    </span>
+          <input type="text" class="form-control input input-lg keyboard-in" ng-model="vm.searchText"
+                 ng-change="vm.change()" placeholder="{{'SEARCH_PATIENT_PLACEHOLDER' | translate}}">
+        </div>
+      </div>
+      <div class="col-sm-2">
+        <poc-authorize privilege="'Write Patient'">
+          <button id="new-patient" type="button" class="btn btn-primary btn-lg" ng-click="vm.linkPatientNew()">
+            <span class="glyphicon glyphicon-plus-sign" />
+            <span class="button-label">{{'NEW_PATIENT' | translate}}</span>
+          </button>
+        </poc-authorize>
+      </div>
+    </div>
+    <table st-table="vm.results" st-safe-src="vm.displayed" class="table table-striped">
+      <thead>
+      <tr>
+        <th>{{'SEARCH_PATIENT_NID' | translate}}</th>
+        <th st-sort="givenName">{{'SEARCH_PATIENT_FIRSTNAME' | translate}}</th>
+        <th st-sort="familyName">{{'SEARCH_PATIENT_LASTNAME' | translate}}</th>
+        <th st-sort="gender">{{'SEARCH_PATIENT_GENDER' | translate}}</th>
+        <th st-sort="age.years">{{'SEARCH_PATIENT_AGE' | translate}}</th>
+        <th st-sort="birthdate">{{'SEARCH_PATIENT_BIRTHDATE' | translate}}</th>
+        <th ng-if="vm.showSchedule">{{'SEARCH_SCHEDULE_STATUS' | translate}}</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr st-select-row="patient" st-select-mode="single" ng-repeat="patient in vm.results"
+          ng-click="vm.onPatientSelect(patient)">
+        <div ng-hide="patient.dead">
+          <td class="patient-identifier">{{patient.identifier}}</td>
+          <td>{{patient.givenName}}</td>
+          <td>{{patient.familyName}}</td>
+          <td>{{patient.gender}}</td>
+          <td>{{patient.age.years}}</td>
+          <td>{{patient.birthdate | date}}</td>
+          <td ng-if="vm.showSchedule">
+            <span ng-if="patient.scheduledTo" class="label label-default"
+                  ng-class="{'label label-default': patient.scheduledTo === 'P',
+                             'label label-success': patient.scheduledTo === 'A',
+                             'label label-primary': patient.scheduledTo === 'F'}">
+                {{patient.scheduledTo}} - {{patient.nextConsultation | date}}
+            </span>
+          </td>
+        </div>
+      </tr>
+      </tbody>
+      <tfoot>
+      <tr ng-show="vm.noResultsMessage">
+        <td colspan="7" class="text-center">
+          {{vm.noResultsMessage | translate}}
+        </td>
+      </tr>
+      <tr>
+        <td colspan="7" class="text-center">
+          <div st-items-by-page="12" st-displayed-pages="7" st-pagination=""></div>
+        </td>
+      </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+
+<barcode-listener
+  on-scan='vm.barcodeHandler'
+  prefix=''
+  length='17'
+  scan-duration='500'
+></barcode-listener>
+
+<schedule-list ng-if="vm.showSchedule" on-patient-select="vm.linkDashboard(patient);" schedule-type="vm.scheduleType">
+</schedule-list>

@@ -17,7 +17,9 @@ describe('FilaHistoryController', function () {
     { dispensationItems: [3] }
   ];
 
-  beforeEach(module('pharmacy'));
+  beforeEach(module('pharmacy', function ($urlRouterProvider) {
+    $urlRouterProvider.deferIntercept();
+  }));
 
   beforeEach(inject(function (_$controller_, _dispensationService_, _$q_, _$rootScope_, $httpBackend) {
     $controller = _$controller_;

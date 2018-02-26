@@ -88,7 +88,7 @@ describe('sessionService', function () {
             });
           });
 
-          spyOn($rootScope, '$broadcast');
+          spyOn($rootScope, '$broadcast').and.callThrough();
         });
 
 

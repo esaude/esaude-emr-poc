@@ -29,7 +29,7 @@ describe('DispensationController', function () {
     }
   ];
 
-  beforeEach(module('pharmacy', function ($provide, $translateProvider) {
+  beforeEach(module('pharmacy', function ($provide, $translateProvider, $urlRouterProvider) {
     // Mock initialization
     $provide.factory('initialization', function () {
     });
@@ -49,6 +49,7 @@ describe('DispensationController', function () {
       };
     });
     $translateProvider.useLoader('mergeLocaleFilesService');
+    $urlRouterProvider.deferIntercept();
   }));
 
   beforeEach(inject(function (_$controller_, _$q_,  _$rootScope_, _dispensationService_, _localStorageService_, _notifier_,

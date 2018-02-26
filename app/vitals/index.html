@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width">
     <!-- build:css styles/vendor.vitals.min.css -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="../../bower_components/jquery-ui/themes/ui-lightness/jquery-ui.css">
     <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="../../bower_components/keyboard/dist/css/keyboard.min.css" />
     <link rel="stylesheet" href="../../bower_components/keyboard/dist/css/keyboard-previewkeyset.min.css" />
@@ -34,22 +33,17 @@
       <script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
       <script src="../../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
       <script src="../../bower_components/moment/min/moment.min.js"></script>
-      <script src="../../bower_components/jquery-ui/ui/minified/jquery-ui.min.js"></script>
       <script src="../../bower_components/keyboard/dist/js/jquery.keyboard.min.js"></script>
       <script src="../../bower_components/keyboard/dist/layouts/keyboard-layouts-combined.min.js"></script>
       <script src="../../bower_components/keyboard/dist/layouts/keyboard-layouts-greywyvern.min.js"></script>
-      <script src="../../bower_components/angular-route/angular-route.min.js"></script>
       <script src="../../bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
       <script src="../../bower_components/angular-smart-table/dist/smart-table.min.js"></script>
       <script src="../../bower_components/keyboard/dist/js/jquery.keyboard.extension-all.min.js"></script>
-      <script src="../../bower_components/jquery-cookie/jquery.cookie.js"></script>
       <script src="../../bower_components/angular-cookies/angular-cookies.min.js"></script>
       <script src="../../bower_components/lodash/dist/lodash.min.js"></script>
       <script src="../../bower_components/angular-local-storage/dist/angular-local-storage.min.js"></script>
       <script src="../../bower_components/bootstrap-switch/dist/js/bootstrap-switch.min.js"></script>
       <script src="../../bower_components/angular-bootstrap-switch/dist/angular-bootstrap-switch.min.js"></script>
-      <script src="../../bower_components/ng-clip/dest/ng-clip.min.js"></script>
-      <script src="../../bower_components/zeroclipboard/dist/ZeroClipboard.min.js"></script>
       <script src="../../bower_components/angular-bootstrap-checkbox/angular-bootstrap-checkbox.js"></script>
       <script src="../../bower_components/angular-messages/angular-messages.min.js"></script>
       <script src="../../bower_components/angular-translate/angular-translate.min.js"></script>
@@ -57,7 +51,6 @@
       <script src="../../bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.min.js"></script>
       <script src="../../bower_components/angular-translate-storage-local/angular-translate-storage-local.js"></script>
       <script src="../../bower_components/angular-translate-handler-log/angular-translate-handler-log.min.js"></script>
-      <script src="../../bower_components/validator-js/validator.min.js"></script>
       <script src="../../bower_components/ng-dialog/js/ngDialog.min.js"></script>
       <script src="../../bower_components/toastr/toastr.js"></script>
       <script src="../../bower_components/angular-breadcrumb/dist/angular-breadcrumb.min.js"></script>
@@ -95,6 +88,12 @@
       <script src="../common/patient/mappers/patientAttributeTypeMapper.js"></script>
       <script src="../common/patient/mappers/updatePatientMapper.js"></script>
       <script src="../common/patient/directives/patientHeader.js"></script>
+      <script src="../common/patient/directives/patientSearch.js"></script>
+
+      <script src="../move-patient/move-patient.module.js"></script>
+      <script src="../move-patient/config.js"></script>
+      <script src="../move-patient/run.js"></script>
+      <script src="../move-patient/directives/movePatient.js"></script>
 
       <script src="../common/constants.js"></script>
       <script src="../common/constants.js"></script>
@@ -106,6 +105,7 @@
       <script src="../common/ui-helper/spinner.js"></script>
       <script src="../common/ui-helper/directives.js"></script>
       <script src="../common/ui-helper/directives/bahmniAutocomplete.js"></script>
+      <script src="../common/ui-helper/directives/pocConfirmDialog.js"></script>
       <script src="../common/ui-helper/notifier.js"></script>
 
       <script src="../common/domain/init.js"></script>
@@ -145,13 +145,8 @@
       <script src="../common/application/config.js"></script>
       <script src="../common/application/run.js"></script>
       <script src="../common/application/services/adminConfigService.js"></script>
-      <script src="../common/application/services/applicationService.js"></script>
-      <script src="../common/application/controllers/searchController.js"></script>
-      <script src="../common/application/controllers/movePatientActionController.js"></script>
-      <script src="../common/application/controllers/movePatientDialogController.js"></script>
-      <script src="../common/application/controllers/movePatientController.js"></script>
+      <script src="../common/app-framework/services/applicationService.js"></script>
       <script src="../common/application/directives/pocHeader.js"></script>
-
       <script src="../common/uicontrols/init.js"></script>
       <script src="../common/uicontrols/programmanagement/init.js"></script>
       <script src="../common/uicontrols/programmanagement/controllers/manageProgramController.js"></script>

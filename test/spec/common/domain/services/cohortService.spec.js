@@ -9,33 +9,8 @@ describe('cohortService', function () {
     $httpBackend = _$httpBackend_;
   }));
 
-  describe('getWithParams', function () {
+  xdescribe('getMarkedForConsultationToday', function () {
 
-    var uuid = 'some-uuid';
-
-    var params = {foo: 'bar'};
-
-    it('should get cohort by uuid with parameters', function () {
-
-      var result;
-
-      $httpBackend.expectGET("/openmrs/ws/rest/v1/reportingrest/cohort/" + uuid+ "?foo=" + params.foo).respond({});
-
-      cohortService.getWithParams(uuid, params).success(function (ret) {
-        result = ret;
-      });
-
-
-      $httpBackend.flush();
-      expect(result).toBeDefined();
-
-    });
-
-  });
-
-  afterEach(function () {
-    $httpBackend.verifyNoOutstandingExpectation();
-    $httpBackend.verifyNoOutstandingRequest();
   });
 
 });
