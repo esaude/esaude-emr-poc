@@ -9,6 +9,9 @@
     "constraints": {
       "minAge": "15"
     },
+    "actionConstraints": {
+      "requireCheckIn": true
+    },
     "privilege": "Anamnesis"
   },
   {
@@ -20,6 +23,9 @@
     "maxOccur": "1",
     "constraints": {
       "maxAge": "14"
+    },
+    "actionConstraints": {
+      "requireCheckIn": true
     },
     "privilege": "Anamnesis"
   },
@@ -33,6 +39,9 @@
     "constraints": {
       "minAge": "15"
     },
+    "actionConstraints": {
+      "requireCheckIn": false
+    },
     "markedOn": "283e551d-a470-4280-84fd-8f409f3caf7a",
     "privilege": "Vitals"
   },
@@ -45,6 +54,9 @@
     "maxOccur": "-1",
     "constraints": {
       "maxAge": "14"
+    },
+    "actionConstraints": {
+      "requireCheckIn": false
     },
     "markedOn": "283e551d-a470-4280-84fd-8f409f3caf7a",
     "privilege": "Vitals"

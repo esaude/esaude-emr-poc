@@ -30,10 +30,11 @@
 
     var vm = this;
 
-    vm.patientCheckedIn = false;
+    var patientCheckedIn = false;
 
     vm.$onInit = onInit;
     vm.canAdd = canAdd;
+    vm.checkActionConstraints = checkActionConstraints;
     vm.getPrivilege = getPrivilege;
     vm.getVisibleServices = getVisibleServices;
     vm.linkServiceAdd = linkServiceAdd;
@@ -51,7 +52,7 @@
         patientService.getPatient(vm.patientUuid)
       ])
         .then(function (result) {
-          vm.patientCheckedIn = !!result[0];
+          patientCheckedIn = result[0] !== null;
           var patient = result[1];
           return initServices(patient);
         });
@@ -176,6 +177,13 @@
         });
       }
       return null;
+    }
+
+    function checkActionConstraints(service) {
+      if (service.actionConstraints.requireCheckIn) {
+        return patientCheckedIn;
+      }
+      return true;
     }
 
   }

@@ -9,6 +9,9 @@
     "constraints": {
       "minAge": "15"
     },
+    "actionConstraints": {
+      "requireCheckIn": false
+    },
     "markedOn": "283e551d-a470-4280-84fd-8f409f3caf7a",
     "privilege": "Vitals"
   },
@@ -21,6 +24,9 @@
     "maxOccur": "-1",
     "constraints": {
       "maxAge": "14"
+    },
+    "actionConstraints": {
+      "requireCheckIn": false
     },
     "markedOn": "283e551d-a470-4280-84fd-8f409f3caf7a",
     "privilege": "Vitals"
@@ -35,6 +41,9 @@
     "constraints": {
       "minAge": "15"
     },
+    "actionConstraints": {
+      "requireCheckIn": true
+    },
     "markedOn": "2afd6fda-3003-4a68-bfa2-9a4e2ab2773d",
     "privilege": "OMS Stadium"
   },
@@ -48,6 +57,9 @@
     "constraints": {
       "maxAge": "14"
     },
+    "actionConstraints": {
+      "requireCheckIn": true
+    },
     "markedOn": "2afd6fda-3003-4a68-bfa2-9a4e2ab2773d",
     "privilege": "OMS Stadium"
   },
@@ -59,6 +71,9 @@
     "minOccur": "0",
     "maxOccur": "-1",
     "constraints": {
+    },
+    "actionConstraints": {
+      "requireCheckIn": true
     }
   },
   {
@@ -70,6 +85,9 @@
     "maxOccur": "-1",
     "constraints": {
       "minAge": "15"
+    },
+    "actionConstraints": {
+      "requireCheckIn": true
     },
     "markedOn": "3ae77ecc-865b-4354-abf9-901f36715c70",
     "privilege": "Anamnesis"
@@ -84,6 +102,9 @@
     "constraints": {
       "maxAge": "14"
     },
+    "actionConstraints": {
+      "requireCheckIn": true
+    },
     "markedOn": "3ae77ecc-865b-4354-abf9-901f36715c70",
     "privilege": "Anamnesis"
   },
@@ -97,6 +118,9 @@
     "constraints": {
       "minAge": "15"
     },
+    "actionConstraints": {
+      "requireCheckIn": true
+    },
     "markedOn": "4bea5235-1ef3-45a3-a7de-c33850c74422",
     "privilege": "Diagnosis"
   },
@@ -109,6 +133,9 @@
     "maxOccur": "-1",
     "constraints": {
       "maxAge": "14"
+    },
+    "actionConstraints": {
+      "requireCheckIn": true
     },
     "markedOn": "4bea5235-1ef3-45a3-a7de-c33850c74422",
     "privilege": "Diagnosis"

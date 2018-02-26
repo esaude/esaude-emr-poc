@@ -9,6 +9,9 @@
     "constraints": {
       "minAge": "15"
     },
+    "actionConstraints": {
+      "requireCheckIn": true
+    },
     "privilege": "Anamnesis"
   },
   {
@@ -20,6 +23,9 @@
     "maxOccur": "1",
     "constraints": {
       "maxAge": "14"
+    },
+    "actionConstraints": {
+      "requireCheckIn": true
     },
     "privilege": "Anamnesis"
   }
