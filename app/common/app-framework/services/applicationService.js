@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('application')
+    .module('bahmni.common.appFramework')
     .factory('applicationService', applicationService);
 
   applicationService.$inject = ['$http', '$log'];

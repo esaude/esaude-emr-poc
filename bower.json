@@ -32,7 +32,7 @@
     "angular-translate-handler-log": "2.7.2",
     "angular-translate-loader-static-files": "2.7.2",
     "angular-translate-storage-local": "2.7.2",
-    "angular-ui-router": "~0.2.15",
+    "angular-ui-router": "~1.0.14",
     "bootstrap": "3.3.5",
     "bootstrap-switch": "~3.3.2",
     "chart.js": "^2.7.1",

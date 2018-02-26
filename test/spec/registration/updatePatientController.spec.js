@@ -2,7 +2,7 @@ describe('UpdatePatientController', function () {
 
   var $controller, $filter, $scope, $location, $state, $stateParams, patient, patientService, notifier, $q, $rootScope;
 
-  beforeEach(module('registration', function ($provide, $translateProvider) {
+  beforeEach(module('registration', function ($provide, $translateProvider, $urlRouterProvider) {
     // Mock initialization
     $provide.factory('initialization', function () {
     });
@@ -15,6 +15,7 @@ describe('UpdatePatientController', function () {
       };
     });
     $translateProvider.useLoader('mergeLocaleFilesService');
+    $urlRouterProvider.deferIntercept();
   }));
 
   beforeEach(inject(function (_$controller_, _$q_, _$rootScope_, _patientService_) {

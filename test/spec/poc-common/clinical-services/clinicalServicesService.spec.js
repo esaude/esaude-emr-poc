@@ -56,10 +56,11 @@ describe('clinicalServicesService', function () {
   }];
 
   beforeEach(function () {
-    module('poc.common.clinicalservices', function ($stateProvider) {
+    module('poc.common.clinicalservices', function ($stateProvider, $urlRouterProvider) {
       stateProviderMock = $stateProvider;
       spyOn(stateProviderMock, 'state').and.callFake(function () {
       });
+      $urlRouterProvider.deferIntercept();
     });
   });
 
@@ -242,9 +243,9 @@ describe('clinicalServicesService', function () {
       var representation = 'custom:(uuid,encounterDatetime,obs:(value,concept:(display,uuid,mappings:(' +
               'conceptReferenceTerm:(conceptSource:(display,uuid))))),provider:(display))';
 
-      var encounters = [{encounterDatetime: "today", obs: [{concept:{uuid: "poc-mapping-vitals"}}]}, 
+      var encounters = [{encounterDatetime: "today", obs: [{concept:{uuid: "poc-mapping-vitals"}}]},
                         {encounterDatetime: "yesterday", obs: [{concept:{uuid: "poc-mapping-vitals"}}]}];
-      
+
       var service = {markedOn: "poc-mapping-vitals"};
 
       beforeEach(function () {

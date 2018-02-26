@@ -2,10 +2,7 @@ describe('DashboardController', function () {
 
   var $controller, $state, $stateParams, patientService, visitService, $rootScope;
 
-  beforeEach(module('vitals', function ($provide, $translateProvider) {
-    // Mock initialization
-    $provide.factory('initialization', function () {
-    });
+  beforeEach(module('vitals', function ($provide, $translateProvider, $urlRouterProvider) {
     // Mock translate asynchronous loader
     $provide.factory('mergeLocaleFilesService', function ($q) {
       return function () {
@@ -15,6 +12,7 @@ describe('DashboardController', function () {
       };
     });
     $translateProvider.useLoader('mergeLocaleFilesService');
+    $urlRouterProvider.deferIntercept();
   }));
 
   beforeEach(inject(function (_$controller_, _$q_, _$rootScope_, _patientService_, _visitService_) {

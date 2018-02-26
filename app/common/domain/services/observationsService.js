@@ -51,9 +51,9 @@
 
     function getLastValueForConcept(patientUUID, concept) {
       return getObs(patientUUID, concept)
-        .then(function (response) {
+        .then(function (obs) {
 
-          var nonRetired = filterRetiredObs(response.data.results);
+          var nonRetired = filterRetiredObs(obs);
 
           if (!_.isEmpty(nonRetired)) {
             var last = _.maxBy(nonRetired, 'obsDatetime');

@@ -17,7 +17,7 @@
     }
   ];
 
-  beforeEach(module('clinic', function ($provide, $translateProvider) {
+  beforeEach(module('clinic', function ($provide, $translateProvider, $urlRouterProvider) {
     // Mock initialization
     $provide.factory('initialization', function () {
     });
@@ -25,6 +25,7 @@
     var appService = jasmine.createSpyObj('appService', ['initApp']);
     appService.initApp.and.returnValue({
       then: function (fn) {
+        fn({});
       }
     });
     $provide.value('appService', appService);
@@ -37,6 +38,7 @@
       };
     });
     $translateProvider.useLoader('mergeLocaleFilesService');
+    $urlRouterProvider.deferIntercept();
   }));
 
   beforeEach(inject(function (_$controller_, _$httpBackend_, _$filter_, _$rootScope_, _$stateParams_,

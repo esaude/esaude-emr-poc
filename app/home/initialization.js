@@ -1,12 +1,22 @@
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('home')
-    .factory('initialization', ['spinner', 'appService',
-        function (spinner, appService) {
+  angular
+    .module('home')
+    .factory('initialization', initialization);
 
-            var initApp = function() {
-                return appService.initApp('home', {'app': true, 'extension' : true, 'service': false })
-            };
-            return spinner.forPromise(initApp());
-        }
-    ]);
+  initialization.$inject = ['spinner', 'appService'];
+
+  /* @ngInject */
+  function initialization(spinner, appService) {
+
+    return spinner.forPromise(initApp());
+
+    ////////////////
+
+    function initApp() {
+      return appService.initApp('home', {'app': true, 'extension': true, 'service': false})
+    }
+  }
+
+})();
