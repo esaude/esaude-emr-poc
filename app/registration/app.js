@@ -14,33 +14,25 @@
     $httpProvider.defaults.headers.common['Disable-WWW-Authenticate'] = 'true';
 
     $urlRouterProvider.otherwise(function ($injector) {
-      var localStorageService = $injector.get('localStorageService');
-      var movingPatient = localStorageService.get('movingPatient');
-      var $state = $injector.get('$state');
-
-      if (movingPatient !== null) {
-        $state.go('mvp');
-      } else {
-        $state.go('search');
-      }
+      $injector.get('$state').go('search');
     });
 
     $bahmniTranslateProvider.init({app: 'registration', shouldMerge: true});
 
     $stateProvider
-      .state('mvp', {
-        views: {
-          'layout': {template: '<div id="overlay"><div></div></div>', controller: 'MovePatientController'}
-        },
-        resolve: {initialization: 'initialization'}
-      })
       .state('search', {
         url: '/search',
         views: {
-          'layout': {templateUrl: '../common/application/views/layout.html', controller: 'SearchController'},
-          'content@search': {templateUrl: 'views/search.html'}
+          'layout': {
+            templateUrl: '../common/application/views/layout.html'
+          },
+          'content@search': {
+            templateUrl: 'views/search.html'
+          }
         },
-        resolve: {initialization: 'initialization'},
+        resolve: {
+          initialization: 'initialization'
+        },
         ncyBreadcrumb: {
           label: '{{\'APP_REGISTRATION\' | translate}} /  {{\'SEARCH_PATIENT\' | translate}}'
         }
@@ -176,6 +168,7 @@
           skip: true
         }
       })
+      // TODO: looks like its not used
       .state('newpatient.death', {
         url: '/death',
         templateUrl: 'views/patient-death-input.html',
@@ -259,6 +252,7 @@
           skip: true
         }
       })
+      // TODO: looks like its not used
       .state('editpatient.death', {
         url: '/death',
         templateUrl: 'views/patient-death-input.html',

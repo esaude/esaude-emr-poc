@@ -9,7 +9,7 @@ describe('PatientCommonController', function () {
 
   var patientAttributes = [[1,2], [3,4]];
 
-  beforeEach(module('registration', function ($provide, $translateProvider) {
+  beforeEach(module('registration', function ($provide, $translateProvider, $urlRouterProvider) {
     // Mock initialization
     $provide.factory('initialization', function () {
     });
@@ -29,6 +29,7 @@ describe('PatientCommonController', function () {
       };
     });
     $translateProvider.useLoader('mergeLocaleFilesService');
+    $urlRouterProvider.deferIntercept();
   }));
 
   beforeEach(inject(function (_$controller_, _$httpBackend_, _patientAttributeService_, _patientService_,

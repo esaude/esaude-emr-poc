@@ -13,17 +13,16 @@ angular
       'common.prescription',
       'frapontillo.bootstrap-switch',
       'LocalStorageModule',
+      'movepatient',
       'ngCookies',
       'ngDialog',
       'ngMessages',
-      'ngRoute',
       'pascalprecht.translate',
       'patient.details',
       'poc.common.clinicalservices',
       'smart-table',
       'ui.bootstrap',
       'ui.checkbox',
-      'ui.router',
-      'ui.select2'
+      'ui.router'
     ]
   );

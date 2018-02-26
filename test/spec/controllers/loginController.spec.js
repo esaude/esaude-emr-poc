@@ -1,7 +1,7 @@
 describe('Controller: LoginController', function () {
     var $rootScope, $q, controller, $location, sessionService, stateParams, mockLocaleService, $httpBackend, $window;
 
-    beforeEach(module('home',function ($provide, $translateProvider) {
+    beforeEach(module('home',function ($provide, $translateProvider, $urlRouterProvider) {
       $provide.factory('mergeLocaleFilesService', function ($q) {
         return function () {
           var deferred = $q.defer();
@@ -10,6 +10,7 @@ describe('Controller: LoginController', function () {
         };
       });
       $translateProvider.useLoader('mergeLocaleFilesService');
+      $urlRouterProvider.deferIntercept();
     }));
 
     beforeEach(inject(function ($controller, _$rootScope_, _$location_, _sessionService_, _$q_, $stateParams, localeService, _$httpBackend_) {

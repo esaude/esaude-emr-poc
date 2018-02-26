@@ -15,8 +15,9 @@
                       </label>
                       <div class="col-sm-9">
                         <div ng-messages for="providerAndPrescriptionDateForm.prescriptionDate.$error"
-                             ng-messages-include="../poc-common/form-display/views/error-messages.html"
-                             ng-show="vm.showMessagesInModal"></div>
+                             ng-show="vm.showMessagesInModal">
+                          <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
+                        </div>
                         <div class="input-group">
                           <input class="form-control keyboard-in" id="prescriptionDate" type="text" name="prescriptionDate"
                                  uib-datepicker-popup ng-focus="focused=true" is-open="focused" ng-model="vm.prescriptionDate"
@@ -34,8 +35,9 @@
                       </label>
                       <div class="col-sm-9">
                         <div ng-messages for="providerAndPrescriptionDateForm.selectedProvider.$error"
-                             ng-messages-include="../poc-common/form-display/views/error-messages.html"
-                             ng-show="vm.showMessagesInModal"></div>
+                             ng-show="vm.showMessagesInModal">
+                          <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
+                        </div>
                         <input name="selectedProvider"
                                uib-typeahead="p as p.display for p in vm.providers | filter:vm.selectedProvider"
                                type="text"

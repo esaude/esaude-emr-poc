@@ -9,6 +9,7 @@
   angular
     .module('application', [
       'authentication',
+      'bahmni.common.uiHelper',
       'ncy-angular-breadcrumb',
       'ui.bootstrap'
     ]);

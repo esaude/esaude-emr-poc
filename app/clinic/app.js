@@ -13,37 +13,17 @@
     // to prevent the browser from displaying a password pop-up in case of an authentication error
     $httpProvider.defaults.headers.common['Disable-WWW-Authenticate'] = 'true';
     $urlRouterProvider.otherwise(function ($injector) {
-      var localStorageService = $injector.get('localStorageService');
-      var movingPatient = localStorageService.get('movingPatient');
-      var $state = $injector.get('$state');
-
-      if (movingPatient !== null) {
-        $state.go('mvp');
-      } else {
-        $state.go('search');
-      }
+      $injector.get('$state').go('search');
     });
 
     $bahmniTranslateProvider.init({app: 'clinical', shouldMerge: true});
 
     $stateProvider
-      .state('mvp', {
-        views: {
-          'layout': {
-            template: '<div id="overlay"><div></div></div>',
-            controller: 'MovePatientController'
-          }
-        },
-        resolve: {
-          initialization: 'initialization'
-        }
-      })
       .state('search', {
         url: '/search',
         views: {
           'layout': {
-            templateUrl: '../common/application/views/layout.html',
-            controller: 'SearchController'
+            templateUrl: '../common/application/views/layout.html'
           },
           'content@search': {
             templateUrl: 'views/search.html'

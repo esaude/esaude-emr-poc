@@ -1,8 +1,7 @@
-describe('Controller: DashboardController', function () {
-  var $controller, $q, controller, configurations, applicationService, locationService, localStorageService, $rootScope,
-    consultationService;
+describe('DashboardController', function () {
+  var $controller, $q, controller, applicationService, $rootScope, consultationService, sessionService;
 
-  beforeEach(module('home', function ($provide, $translateProvider) {
+  beforeEach(module('home', function ($provide, $translateProvider, $urlRouterProvider) {
     $provide.factory('mergeLocaleFilesService', function ($q) {
       return function () {
         var deferred = $q.defer();
@@ -11,19 +10,17 @@ describe('Controller: DashboardController', function () {
       };
     });
     $translateProvider.useLoader('mergeLocaleFilesService');
+    $urlRouterProvider.deferIntercept();
   }));
 
   beforeEach(inject(function (_$controller_, _$rootScope_, _applicationService_, _$httpBackend_,
-                              _locationService_, _$window_, _$q_, _configurations_, _localStorageService_,
-                              _consultationService_) {
+                              _locationService_, _$window_, _$q_, _consultationService_, _sessionService_) {
     $q = _$q_;
     $controller = _$controller_;
     applicationService = _applicationService_;
-    locationService = _locationService_;
     $rootScope = _$rootScope_;
-    configurations = _configurations_;
-    localStorageService = _localStorageService_;
     consultationService = _consultationService_;
+    sessionService = _sessionService_;
   }));
 
   var apps = [1, 2, 3];
@@ -36,20 +33,9 @@ describe('Controller: DashboardController', function () {
       });
     });
 
-    spyOn(configurations, 'load').and.callFake(function () {
-      return $q(function (resolve) {
-        return resolve([]);
-      });
-    });
-
-    spyOn(configurations, 'defaultLocation').and.callFake(function () {
-      return {value: 'Local Desconhecido'};
-    });
-
-    spyOn(locationService, 'getLocationsByName').and.callFake(function () {
-      return $q(function (resolve) {
-        return resolve([{display: 'Local Desconhecido', uuid: 'uuid'}]);
-      });
+    spyOn(sessionService, 'getCurrentLocation').and.returnValue({
+      name: 'Cahora Bassa',
+      uuid: '7fc3f286-15b1-465e-9013-b72916f58b2d'
     });
 
     spyOn(consultationService, 'getWeeklyConsultationSummary').and.callFake(function () {
@@ -105,11 +91,12 @@ describe('Controller: DashboardController', function () {
       })
     });
 
-    localStorageService.cookie.remove = jasmine.createSpy('remove');
-    localStorageService.cookie.set = jasmine.createSpy('set');
-
     controller = $controller('DashboardController');
 
+  });
+
+  it('should get the current location', function () {
+    expect(sessionService.getCurrentLocation).toHaveBeenCalled();
   });
 
   describe('activate', function () {

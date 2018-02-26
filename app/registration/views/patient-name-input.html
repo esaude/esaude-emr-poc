@@ -8,8 +8,8 @@
             <label for="givenName" class="col-sm-2 control-label">{{'PATIENT_INFO_NAME' | translate}}:<span class="asterick">*</span></label>
             <div class="col-sm-10">
                 <div ng-messages for="aForm.givenName.$error"
-                     ng-messages-include="../poc-common/form-display/views/error-messages.html"
                      ng-show="patientCommon.showMessages">
+                  <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
                 </div>
                 <input type="text" class="form-control keyboard-in" id="givenName" name="givenName"
                        ng-model="patientCommon.patient.givenName"
@@ -24,8 +24,8 @@
           <label for="patientSurname" class="col-sm-2 control-label">{{'PATIENT_INFO_SURNAME' | translate}}:<span class="asterick">*</span></label>
           <div class="col-sm-10">
             <div ng-messages for="aForm.patientSurname.$error"
-                 ng-messages-include="../poc-common/form-display/views/error-messages.html"
                  ng-show="patientCommon.showMessages">
+              <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
             </div>
             <input type="text" class="form-control keyboard-in" id="patientSurname" name="patientSurname"
                    ng-model="patientCommon.patient.familyName"
@@ -38,8 +38,8 @@
             <label for="patientMiddleName" class="col-sm-2 control-label">{{'PATIENT_INFO_OTHER_NAMES' | translate}}:</label>
             <div class="col-sm-10">
             	<div ng-messages for="aForm.patientMiddleName.$error"
-	                 ng-messages-include="../poc-common/form-display/views/error-messages.html"
 	                 ng-show="patientCommon.showMessages">
+                <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
 	            </div>
                 <input type="text" class="form-control keyboard-in" id="patientMiddleName" name="patientMiddleName" ng-model="patientCommon.patient.middleName"
                        placeholder="{{'PATIENT_INFO_OTHER_NAMES_PLACEHOLDER' | translate}}" title="Enter patient's middle name."

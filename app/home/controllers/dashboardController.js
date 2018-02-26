@@ -5,15 +5,14 @@
     .module('home')
     .controller('DashboardController', DashboardController);
 
-  DashboardController.$inject = ['$filter', '$rootScope', '$window', 'applicationService', 'configurations',
-    'consultationService', 'localStorageService', 'location', 'locationService', 'spinner', 'notifier'];
+  DashboardController.$inject = ['$filter', '$window', 'applicationService', 'consultationService', 'sessionService',
+    'spinner', 'notifier'];
 
   /* @ngInject */
-  function DashboardController($filter, $rootScope, $window, applicationService, configurations,
-                               consultationService, localStorageService, locationConstant, locationService,
-                               spinner, notifier) {
+  function DashboardController($filter, $window, applicationService, consultationService, sessionService, spinner,
+                               notifier) {
 
-    var mLocation = {};
+    var mLocation = sessionService.getCurrentLocation();
 
     var vm = this;
     vm.apps = [];

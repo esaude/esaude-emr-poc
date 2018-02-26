@@ -30,15 +30,21 @@
     ////////////////
 
     function search(query) {
-      return $http.get(OPENMRS_PATIENT_URL, {
-        method: "GET",
+      var config = {
         params: {
           q: query,
           identifier: query,
           v: "full"
-        },
-        withCredentials: true
-      });
+        }
+      };
+      return $http.get(OPENMRS_PATIENT_URL, config)
+        .then(function (response) {
+          return response.data.results;
+        })
+        .catch(function (error) {
+          $log.error('XHR Failed for search: ' + error.data.error.message);
+          return $q.reject(error);
+        });
     }
 
     function getIdentifierTypes() {
