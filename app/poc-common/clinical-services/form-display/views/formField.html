@@ -17,7 +17,7 @@
 
     <div ng-switch="fieldModel.field.concept.datatype.display">
 
-      <div ng-messages for="aForm.{{fieldId}}.$error"
+      <div ng-messages for="aForm[fieldId].$error"
            ng-show="showMessages">
         <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
         <div ng-message="min" ng-if="field.constraints">
