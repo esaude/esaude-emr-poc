@@ -3,7 +3,8 @@
 
   angular
     .module('poc.common.clinicalservices')
-    .directive('clinicalServices', clinicalService);
+    .directive('clinicalServices', clinicalService)
+    .controller('ClinicalServiceDirectiveController', ClinicalServiceDirectiveController);
 
 
   function clinicalService() {
@@ -180,7 +181,7 @@
     }
 
     function checkActionConstraints(service) {
-      if (service.actionConstraints.requireCheckIn) {
+      if (service.actionConstraints && service.actionConstraints.requireCheckIn) {
         return patientCheckedIn;
       }
       return true;
