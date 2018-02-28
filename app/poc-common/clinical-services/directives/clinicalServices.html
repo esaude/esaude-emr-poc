@@ -18,7 +18,7 @@
     <div class="list-group-item">
       <div class="row">
         <div class="col-sm-4">
-          <p>{{service.label | translate | uppercase}}</p>
+          <p>{{service.label | translate }}</p>
         </div>
         <div class="col-sm-4">
           <p ng-if="service.lastEncounterForService">
@@ -39,7 +39,7 @@
         <div class="col-sm-2 go-to-right">
 
           <poc-authorize privilege="vm.getPrivilege('Write', service)">
-            <button ng-if="vm.canAdd(service)" class="btn btn-primary btn-lg" type="button"
+            <button ng-if="vm.checkActionConstraints(service) && vm.canAdd(service)" class="btn btn-primary btn-lg" type="button"
                     ng-click="vm.linkServiceAdd(service)">
               <span class="glyphicon glyphicon-plus"></span>
               <span class="button-label">{{'ADD' | translate}}</span>
@@ -47,10 +47,10 @@
           </poc-authorize>
 
           <poc-authorize privilege="vm.getPrivilege('Read', service)">
-            <button ng-if="service.encountersForService.length > 0" class="btn btn-default btn-lg" type="button"
+            <button ng-disabled="service.encountersForService.length === 0" class="btn btn-default btn-lg" type="button"
                     ng-click="vm.toggleListEncounters(service)">
               <span class="glyphicon glyphicon-list-alt"></span>
-              <span class="button-label">{{'LIST' | translate}}</span>
+              <span class="button-label">{{'LIST' | translate}} ({{service.encountersForService.length}})</span>
             </button>
           </poc-authorize>
 
@@ -75,7 +75,7 @@
               </td>
               <td class="go-to-right">
 
-                <span ng-show="!encounter.delete">
+                <span ng-if="vm.checkActionConstraints(service)" ng-show="!encounter.delete">
                   <poc-authorize privilege="vm.getPrivilege('Edit', service)">
                     <button type="button" class="btn btn-default btn-lg" ng-click="vm.linkServiceEdit(service, encounter)">
                       <span class="glyphicon glyphicon-pencil"></span>
@@ -84,7 +84,7 @@
                   </poc-authorize>
                 </span>
 
-                <poc-authorize privilege="vm.getPrivilege('Delete', service)">
+                <poc-authorize ng-if="vm.checkActionConstraints(service)" privilege="vm.getPrivilege('Delete', service)">
                   <poc-confirm-button class="btn btn-danger btn-lg" ng-click="vm.toggleDelete(encounter)"
                                       on-confirm="vm.deleteClinicalService(service, encounter.uuid);">
                     <span class="glyphicon glyphicon-remove-sign"></span>

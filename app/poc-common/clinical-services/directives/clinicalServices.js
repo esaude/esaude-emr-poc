@@ -3,7 +3,8 @@
 
   angular
     .module('poc.common.clinicalservices')
-    .directive('clinicalServices', clinicalService);
+    .directive('clinicalServices', clinicalService)
+    .controller('ClinicalServiceDirectiveController', ClinicalServiceDirectiveController);
 
 
   function clinicalService() {
@@ -12,7 +13,7 @@
       controller: ClinicalServiceDirectiveController,
       controllerAs: 'vm',
       restrict: 'AE',
-      templateUrl: ' ../poc-common/clinical-services/views/clinicalServices.html',
+      templateUrl: ' ../poc-common/clinical-services/directives/clinicalServices.html',
       scope: {
         patientUuid: '='
       }
@@ -26,12 +27,15 @@
   function ClinicalServiceDirectiveController($filter, $q, $state, clinicalServicesService, notifier, patientService,
                                               spinner, visitService) {
 
+    var services = null;
+
     var vm = this;
 
-    vm.services = null;
+    var patientCheckedIn = false;
 
     vm.$onInit = onInit;
     vm.canAdd = canAdd;
+    vm.checkActionConstraints = checkActionConstraints;
     vm.getPrivilege = getPrivilege;
     vm.getVisibleServices = getVisibleServices;
     vm.linkServiceAdd = linkServiceAdd;
@@ -49,23 +53,23 @@
         patientService.getPatient(vm.patientUuid)
       ])
         .then(function (result) {
-          var todaysVisit = result[0];
+          patientCheckedIn = result[0] !== null;
           var patient = result[1];
-          return initServices(patient, todaysVisit);
+          return initServices(patient);
         });
 
       spinner.forPromise(load);
     }
 
 
-    function initServices(patient, todayVisit) {
+    function initServices(patient) {
 
       return clinicalServicesService
         .getClinicalServiceWithEncountersForPatient(patient)
         .then(function (clinicalServices) {
-          vm.services = clinicalServices;
-          vm.services.forEach(function (s) {
-            checkConstraints(s, patient, todayVisit);
+          services = clinicalServices;
+          services.forEach(function (s) {
+            checkConstraints(s, patient);
           });
         })
         .catch(function () {
@@ -103,12 +107,8 @@
       });
     }
 
-    function checkConstraints(service, patient, todayVisit) {
+    function checkConstraints(service, patient) {
       service.showService = true;
-
-      if (service.constraints.requireChekin) {
-        service.showService = todayVisit !== null;
-      }
 
       if (service.constraints.minAge &&
         patient.age.years < service.constraints.minAge) {
@@ -172,12 +172,19 @@
     }
 
     function getVisibleServices() {
-      if (vm.services) {
-        return vm.services.filter(function (s) {
+      if (services) {
+        return services.filter(function (s) {
           return s.showService;
         });
       }
       return null;
+    }
+
+    function checkActionConstraints(service) {
+      if (service.actionConstraints && service.actionConstraints.requireCheckIn) {
+        return patientCheckedIn;
+      }
+      return true;
     }
 
   }

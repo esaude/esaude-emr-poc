@@ -9,6 +9,9 @@
     "constraints": {
       "minAge": "15"
     },
+    "actionConstraints": {
+      "requireCheckIn": false
+    },
     "markedOn": "283e551d-a470-4280-84fd-8f409f3caf7a",
     "privilege": "Vitals"
   },
@@ -22,6 +25,9 @@
     "constraints": {
       "maxAge": "14"
     },
+    "actionConstraints": {
+      "requireCheckIn": false
+    },
     "markedOn": "283e551d-a470-4280-84fd-8f409f3caf7a",
     "privilege": "Vitals"
   },
@@ -33,8 +39,10 @@
     "minOccur": "0",
     "maxOccur": "-1",
     "constraints": {
-      "minAge": "15",
-      "requireChekin": true
+      "minAge": "15"
+    },
+    "actionConstraints": {
+      "requireCheckIn": true
     },
     "markedOn": "2afd6fda-3003-4a68-bfa2-9a4e2ab2773d",
     "privilege": "OMS Stadium"
@@ -47,8 +55,10 @@
     "minOccur": "0",
     "maxOccur": "-1",
     "constraints": {
-      "maxAge": "14",
-      "requireChekin": true
+      "maxAge": "14"
+    },
+    "actionConstraints": {
+      "requireCheckIn": true
     },
     "markedOn": "2afd6fda-3003-4a68-bfa2-9a4e2ab2773d",
     "privilege": "OMS Stadium"
@@ -61,7 +71,9 @@
     "minOccur": "0",
     "maxOccur": "-1",
     "constraints": {
-      "requireChekin": true
+    },
+    "actionConstraints": {
+      "requireCheckIn": true
     },
     "privilege": "Relevant Aspects"
   },
@@ -73,8 +85,10 @@
     "minOccur": "0",
     "maxOccur": "-1",
     "constraints": {
-      "minAge": "15",
-      "requireChekin": true
+      "minAge": "15"
+    },
+    "actionConstraints": {
+      "requireCheckIn": true
     },
     "markedOn": "3ae77ecc-865b-4354-abf9-901f36715c70",
     "privilege": "Anamnesis"
@@ -87,8 +101,10 @@
     "minOccur": "0",
     "maxOccur": "-1",
     "constraints": {
-      "maxAge": "14",
-      "requireChekin": true
+      "maxAge": "14"
+    },
+    "actionConstraints": {
+      "requireCheckIn": true
     },
     "markedOn": "3ae77ecc-865b-4354-abf9-901f36715c70",
     "privilege": "Anamnesis"
@@ -101,8 +117,10 @@
     "minOccur": "0",
     "maxOccur": "-1",
     "constraints": {
-      "minAge": "15",
-      "requireChekin": true
+      "minAge": "15"
+    },
+    "actionConstraints": {
+      "requireCheckIn": true
     },
     "markedOn": "4bea5235-1ef3-45a3-a7de-c33850c74422",
     "privilege": "Diagnosis"
@@ -115,8 +133,10 @@
     "minOccur": "0",
     "maxOccur": "-1",
     "constraints": {
-      "maxAge": "14",
-      "requireChekin": true
+      "maxAge": "14"
+    },
+    "actionConstraints": {
+      "requireCheckIn": true
     },
     "markedOn": "4bea5235-1ef3-45a3-a7de-c33850c74422",
     "privilege": "Diagnosis"
