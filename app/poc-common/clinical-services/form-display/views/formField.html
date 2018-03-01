@@ -81,14 +81,15 @@
           <input type="text" name="{{fieldId}}"
                  ng-model="fieldModel.value"
                  uib-typeahead="concept as concept.display for concept in getConcepts($viewValue)"
-                 typeahead-loading="loadingLocations"
+                 typeahead-loading="loading"
                  typeahead-no-results="noResults"
                  class="form-control keyboard-in"
                  ng-required="{{fieldModel.field.required}}"
                  autocomplete="off"
                  ng-blur="noResults = false">
-          <div class="no-results">
-            <small ng-if="noResults">{{ 'NO_RESULTS' | translate }}</small>
+          <div class="info">
+            <small class="text-muted" ng-if="noResults">{{ 'NO_RESULTS' | translate }}</small>
+            <img  width="20px" ng-if="loading" src="../../images/loader.gif">
           </div>
         </div>
         <div ng-if="!field.searchBySource">
