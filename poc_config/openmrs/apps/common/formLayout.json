@@ -686,25 +686,25 @@
             "name": "Exames na cabeca e pescoco",
             "label": "COMMON_HEAD_AND_NECK",
             "id": "6d2fb060-e530-45ca-82ce-7b9cf2afda69",
-            "textSize": "8"
+            "searchBySource": "3f65bd34-26fe-102b-80cb-0017a47871b2"
           },
           {
             "name": "Exames no torax",
             "label": "COMMON_CHEST",
             "id": "d6b742a0-e8a5-493f-8b7b-4f7e32464574",
-            "textSize": "8"
+            "searchBySource": "3f65bd34-26fe-102b-80cb-0017a47871b2"
           },
           {
             "name": "Exames no Abdomen",
             "label": "COMMON_ABDOMEN",
             "id": "f63aff74-c5b6-49a5-b883-094100a137bb",
-            "textSize": "8"
+            "searchBySource": "3f65bd34-26fe-102b-80cb-0017a47871b2"
           },
           {
             "name": "Exames nos membros superiores e inferiores",
             "label": "COMMON_UPPER_AND_LOWER_LIMBS",
             "id": "3634395b-4802-4e42-aa48-8335baecf76e",
-            "textSize": "8"
+            "searchBySource": "3f65bd34-26fe-102b-80cb-0017a47871b2"
           }
         ]
       },
@@ -839,25 +839,25 @@
             "name": "Exames na cabeca e pescoco",
             "label": "COMMON_HEAD_AND_NECK",
             "id": "3be36552-5a5f-4f89-9488-df8e3890e9b9",
-            "textSize": "8"
+            "searchBySource": "3f65bd34-26fe-102b-80cb-0017a47871b2"
           },
           {
             "name": "Exames no torax",
             "label": "COMMON_CHEST",
             "id": "c803c131-b56a-4876-8511-0bffb1c1162c",
-            "textSize": "8"
+            "searchBySource": "3f65bd34-26fe-102b-80cb-0017a47871b2"
           },
           {
             "name": "Exames no Abdomen",
             "label": "COMMON_ABDOMEN",
             "id": "39ce7671-574e-4448-90c8-d3e251d4af56",
-            "textSize": "8"
+            "searchBySource": "3f65bd34-26fe-102b-80cb-0017a47871b2"
           },
           {
             "name": "Exames nos membros superiores e inferiores",
             "label": "COMMON_UPPER_AND_LOWER_LIMBS",
             "id": "8cfe4be4-f4a4-42aa-ab19-725d330138cf",
-            "textSize": "8"
+            "searchBySource": "3f65bd34-26fe-102b-80cb-0017a47871b2"
           }
         ]
       },
