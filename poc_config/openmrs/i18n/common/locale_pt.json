@@ -317,5 +317,6 @@
     "INSUFFICIENT_PRIVILEGES": "Não tem privilégios suficientes para usar esta funcionalidade.",
     "DELETE_PATIENT": "Apagar Paciente",
     "REASON_TO_DELETE": "Motivo para Anular",
-    "CONFIRM_HOME": "Pretende voltar ao inicio?"
+    "CONFIRM_HOME": "Pretende voltar ao inicio?",
+    "NO_RESULTS": "Nenhum resultado encontrado."
 }

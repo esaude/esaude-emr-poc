@@ -1,4 +1,4 @@
-<div ng-form="aForm" class="form-group form-group-lg"
+<div ng-form="aForm" class="form-group form-group-lg form-field"
      ng-class="{'has-error': aForm.{{fieldId}}.$invalid && $parent.submitted}" ng-hide="field.hidden">
 
   <label class="col-sm-4 control-label">
@@ -85,9 +85,11 @@
                  typeahead-no-results="noResults"
                  class="form-control keyboard-in"
                  ng-required="{{fieldModel.field.required}}"
-                 autocomplete="off">
-
-
+                 autocomplete="off"
+                 ng-blur="noResults = false">
+          <div class="no-results">
+            <small ng-if="noResults">{{ 'NO_RESULTS' | translate }}</small>
+          </div>
         </div>
         <div ng-if="!field.searchBySource">
           <div class="bg-info-border border-rouded" ng-if="fieldModel.field.selectMultiple">

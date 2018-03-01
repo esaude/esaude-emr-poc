@@ -327,3 +327,9 @@ p.capitalize {
   height: 49vh;
 }
 /**/
+
+/* FormField*/
+.form-field .no-results {
+  min-height: 25px;
+}
+/**/
