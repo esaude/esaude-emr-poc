@@ -10,12 +10,12 @@
 
     this.$get = ClinicalServiceForms;
 
-    ClinicalServiceForms.$inject = ['$http', '$log', '$q', '$state', 'clinicalServicesFormMapper', 'encounterService',
-      'visitService'];
+    ClinicalServiceForms.$inject = ['$http', '$log', '$q', '$state', '$stateParams', 'clinicalServicesFormMapper', 'encounterService',
+      'visitService', 'patientService'];
 
     // TODO: force this service to be initialized before calling other methods.
     /* @ngInject */
-    function ClinicalServiceForms($http, $log, $q, $state, clinicalServicesFormMapper, encounterService, visitService) {
+    function ClinicalServiceForms($http, $log, $q, $state, $stateParams, clinicalServicesFormMapper, encounterService, visitService, patientService) {
 
       var dateUtil = Bahmni.Common.Util.DateUtil;
 
@@ -52,10 +52,34 @@
 
         _currentModule = moduleName;
 
-        return $q.all([service.loadClinicalServices(), loadFormLayouts()]).then(function (result) {
-          _clinicalServices = result[0];
-          var formLayouts = result[1];
+        var patient;
+        var patientUuid = $stateParams.patientUuid;
+
+        var getPatient = patientService.getPatient(patientUuid);
+
+        return $q.all([service.loadClinicalServices(), loadFormLayouts(), getPatient])
+        .then(function (result) {
+            _clinicalServices = result[0];
+            var formLayouts = result[1];
+            patient = result[2];
+
+            _clinicalServices = _.filter(_clinicalServices, function (cs) {
+
+
+            if (cs.constraints.minAge &&
+              patient.age.years < cs.constraints.minAge) {
+              return false;
+            }
+            if (cs.constraints.maxAge &&
+              patient.age.years > cs.constraints.maxAge) {
+              return false;
+            }
+
+            return true;
+          })
+
           _clinicalServices.forEach(function (cs) {
+
             cs.formLayout = formLayouts.filter(function (f) {
               return cs.id === f.id;
             })[0];

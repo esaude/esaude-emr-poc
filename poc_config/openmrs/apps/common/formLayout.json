@@ -713,7 +713,7 @@
         "name": "Rastreios",
         "label": "COMMON_SCREENING",
         "sref": ".rastreios",
-        "nextSref": ".confirm",
+        "nextSref": ".pregnancy",
         "fields": [
           {
             "name": "Tem sintomas sugestivas para ITS",
@@ -729,6 +729,32 @@
             "name": "Tem sintomas sugestivas para Cripto",
             "label": "COMMON_CRYPTOCOCCUS_SYMPTOMS",
             "id": "73d19562-3c80-451f-b673-88b3ef5c2dff"
+          }
+        ]
+      },
+      {
+        "id": "4",
+        "name": "Gravidez",
+        "label": "COMMON_PREGNANCY",
+        "sref": ".pregnancy",
+        "nextSref": ".confirm",
+        "fields": [
+          {
+            "name": "Data da última minstruação",
+            "label": "COMMON_LAST_MENSTRUATION DATE",
+            "id": "ab76b422-c6fa-4e51-b7b7-104611ead4da",
+            "logics": {
+              "defaultValueIsLastEntry": "e1dc0dd0-1d5f-11e0-b929-000c29ad1d07"
+            }
+          },
+          {
+            "name": "Data prevista para o parto",
+            "label": "COMMON_PREGNANCY_DUE_DATE",
+            "id": "e91bbcba-089e-4368-902e-b0bfe84948fb",
+            "logics": {
+              "defaultValueIsLastEntry": "e1dca8ee-1d5f-11e0-b929-000c29ad1d07"
+            },
+            "dateController": "ab76b422-c6fa-4e51-b7b7-104611ead4da"
           }
         ]
       }
