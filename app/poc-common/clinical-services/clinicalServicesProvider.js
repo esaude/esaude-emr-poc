@@ -10,12 +10,12 @@
 
     this.$get = ClinicalServiceForms;
 
-    ClinicalServiceForms.$inject = ['$http', '$log', '$q', '$state', '$stateParams', 'clinicalServicesFormMapper', 'encounterService',
+    ClinicalServiceForms.$inject = ['$http', '$log', '$q', '$state', 'clinicalServicesFormMapper', 'encounterService',
       'visitService', 'patientService'];
 
     // TODO: force this service to be initialized before calling other methods.
     /* @ngInject */
-    function ClinicalServiceForms($http, $log, $q, $state, $stateParams, clinicalServicesFormMapper, encounterService, visitService, patientService) {
+    function ClinicalServiceForms($http, $log, $q, $state, clinicalServicesFormMapper, encounterService, visitService, patientService) {
 
       var dateUtil = Bahmni.Common.Util.DateUtil;
 
@@ -44,7 +44,7 @@
        *
        * @param moduleName Name of the module for which clinical services should be loaded.
        */
-      function init(moduleName) {
+      function init(moduleName, patientUuid) {
 
         if (moduleName === '') {
           return $q.reject('No current module set.');
@@ -53,7 +53,6 @@
         _currentModule = moduleName;
 
         var patient;
-        var patientUuid = $stateParams.patientUuid;
 
         var getPatient = patientService.getPatient(patientUuid);
 
@@ -84,7 +83,7 @@
               return cs.id === f.id;
             })[0];
           });
-          registerRoutes($state, _clinicalServices);
+          registerRoutes($state, _clinicalServices, patient);
           return service;
         });
       }
@@ -309,7 +308,7 @@
       }
     }
 
-    function registerRoutes($state, clinicalServices) {
+    function registerRoutes($state, clinicalServices, patient) {
       clinicalServices.forEach(function (service) {
 
         var formLayout = service.formLayout;
@@ -339,9 +338,26 @@
           };
           $stateProvider.state(formLayout.sufix, state);
         }
+        //filter form parts by gender
+        formLayout.parts = _.filter(formLayout.parts, function (part) {
+          if (!part.constraints) {
+            return true;
+          } else if (part.constraints.gender === patient.gender) {
+            return true;
+          } else {
+            return false;
+          }
+        }) 
 
         //create inner states
         formLayout.parts.forEach(function (part) {
+          //filter part by age constrait
+          if (part.flexNextSref) {
+            if (part.flexNextSref.gender) {
+              part.nextSref = part.flexNextSref.gender[patient.gender];
+            }
+          }
+
           if (!$state.get(formLayout.sufix + part.sref)) {
             var innerState = {
               url: part.sref.replace('.', '/'),

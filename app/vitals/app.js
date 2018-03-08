@@ -50,8 +50,8 @@
         },
         resolve: {
           initialization: 'initialization',
-          clinicalServicesService: function (clinicalServicesService) {
-            clinicalServicesService.init('vitals');
+          clinicalServicesService: function (clinicalServicesService, $stateParams) {
+            return clinicalServicesService.init('vitals', $stateParams.patientUuid);
           }
         },
         ncyBreadcrumb: {

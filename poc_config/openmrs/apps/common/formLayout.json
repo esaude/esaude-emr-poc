@@ -713,7 +713,13 @@
         "name": "Rastreios",
         "label": "COMMON_SCREENING",
         "sref": ".rastreios",
-        "nextSref": ".pregnancy",
+        "nextSref": ".confirm",
+        "flexNextSref": {
+        	"gender": {
+        		"M": ".confirm", 
+        		"F": ".pregnancy"
+    		}
+        },
         "fields": [
           {
             "name": "Tem sintomas sugestivas para ITS",
@@ -738,6 +744,7 @@
         "label": "COMMON_PREGNANCY",
         "sref": ".pregnancy",
         "nextSref": ".confirm",
+        "constraints": {"gender": "F"},
         "fields": [
           {
             "name": "Data da última minstruação",
