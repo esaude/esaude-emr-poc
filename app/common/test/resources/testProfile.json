@@ -1,0 +1,19 @@
+{
+  "testProfiles": [
+    {
+      "name": "Profile Um",
+      "tests": [
+        "e1dc4cfa-1d5f-11e0-b929-000c29ad1d07",
+        "e1d48222-1d5f-11e0-b929-000c29ad1d07",
+        "e1d48fba-1d5f-11e0-b929-000c29ad1d07"
+      ]
+    },
+    {
+      "name": "Profile Dois",
+      "tests": [
+        "e1dc4cfa-1d5f-11e0-b929-000c29ad1d07",
+        "e1d881e2-1d5f-11e0-b929-000c29ad1d07"
+      ]
+    }
+  ]
+}
