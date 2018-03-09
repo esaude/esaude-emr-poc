@@ -12,7 +12,7 @@
         <a href="#" ng-click="$event.preventDefault()"><span class="glyphicon glyphicon-user"></span> {{ vm.currentUser.person.preferredName.display }}</a>
       </li>
       <li>
-        <a href="#" ng-click="$event.preventDefault()"><span class="glyphicon glyphicon-map-marker"></span> {{ vm.currentLocation.name }}</a>
+        <a href="#" ng-click="$event.preventDefault()"><span class="glyphicon glyphicon-map-marker"></span> {{vm.currentLocation.code}} {{ vm.currentLocation.name }}</a>
       </li>
       <li ng-if="!vm.isHome()">
         <a id="home-link" href="#" poc-confirm-dialog="'{{ 'CONFIRM_HOME' | translate}}'" on-confirm="vm.goHome()"><span class="glyphicon glyphicon-home"></span></a>

@@ -180,7 +180,7 @@
       return locationService.getDefaultLocation()
         .then(function (location) {
           localStorageService.cookie.remove(CURRENT_LOCATION_KEY);
-          location = {name: location.display, uuid: location.uuid};
+          location = {name: location.display, uuid: location.uuid, code: location.code};
           localStorageService.cookie.set(CURRENT_LOCATION_KEY, location, 7);
         }).catch(function (error) {
           $rootScope.$broadcast('event:auth-loginRequired', error.data ? error.data.error.message : error);

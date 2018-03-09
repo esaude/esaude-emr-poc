@@ -9,6 +9,9 @@
 
   /* @ngInject */
   function locationService($http, $q, $log, configurationService) {
+
+    var HEALTH_FACILITY_CODE_ATTR_TYPE = '132895aa-1c88-11e8-b6fd-7395830b63f3';
+
     var service = {
       getAllByTag: getAllByTag,
       getLocationsByName: getLocationsByName,
@@ -35,12 +38,18 @@
 
     function getLocationsByName(name) {
       var config = {
-        params: {q: name},
+        params: {q: name, v: 'custom:uuid,display,attributes:(value,attributeType:(uuid,display))'},
         cache: true,
         withCredentials: false
       };
       return $http.get(Bahmni.Common.Constants.locationUrl, config)
         .then(function (response) {
+          response.data.results.forEach(function (l) {
+            var healthFacilityCode = l.attributes.find(function (attr) {
+              return attr.attributeType.uuid === HEALTH_FACILITY_CODE_ATTR_TYPE;
+            });
+            l.code = healthFacilityCode ? healthFacilityCode.value : "";
+          });
           return response.data.results;
         })
         .catch(function (error) {

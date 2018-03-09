@@ -21,10 +21,10 @@
     return directive;
   }
 
-  PocHeaderController.$inject = ['$window', 'ngDialog', 'sessionService', 'translateFilter'];
+  PocHeaderController.$inject = ['$window', 'ngDialog', 'sessionService'];
 
   /* @ngInject */
-  function PocHeaderController($window, ngDialog, sessionService, translateFilter) {
+  function PocHeaderController($window, ngDialog, sessionService) {
 
     var vm = this;
     vm.currentUser = {};
