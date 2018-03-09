@@ -119,6 +119,9 @@ describe('clinicalServicesService', function () {
     });
 
     it('should register form inner states', function () {
+       beforeEach(function () {
+        $http.expectGET('/poc_config/openmrs/apps/common/formLayout.json').respond(formLayouts);
+      });
       clinicalServicesService.init(module);
       $http.flush();
 
@@ -255,6 +258,112 @@ describe('clinicalServicesService', function () {
     });
 
   });
+
+
+
+
+
+
+  describe('init with contraints', function () {
+
+    var module = 'foo';
+    var patient = {
+      "uuid": "0000-0000",
+      "gender": "F",
+      age: {years: 24}
+    };
+
+    beforeEach(function () {
+
+      var formLayout = [{
+        "id": "001",
+        "formId": "e28b6096-1d5f-11e0-b929-000c29ad1d07",
+        "name": "INFO SOCIAL - ADULTO",
+        "label": "COMMON_SOCIAL_INFO_FORM",
+        "sufix": "anamnesis_a_adult",
+        "parts": [
+          {
+            "id": "1",
+            "name": "Pessoa de Referência",
+            "label": "COMMON_CONTACT_PERSON",
+            "sref": ".reference",
+            "nextSref": ".extra",
+            "flexNextSref": {
+                "gender": {
+                  "M": ".confirm", 
+                  "F": ".pregnancy"
+              }
+            },
+            "constraints": {"gender": "F"},
+            "fields": [
+              {
+                "name": "Nome",
+                "label": "COMMON_NAME",
+                "id": "e29f8ac6-1d5f-11e0-b929-000c29ad1d07"
+              },
+              {
+                "name": "Apelido",
+                "label": "COMMON_SURNAME",
+                "id": "e2a0bb8a-1d5f-11e0-b929-000c29ad1d07"
+              },
+              {
+                "name": "Tel",
+                "label": "COMMON_CONTACT",
+                "id": "e29f7a72-1d5f-11e0-b929-000c29ad1d07"
+              }
+            ]
+          }
+        ]
+      }];
+
+      var clinicalService = [
+        {
+          "id": "001",
+          "formId": "e28b6096-1d5f-11e0-b929-000c29ad1d07",
+          "label": "COMMON_SOCIAL_INFO_FORM",
+          "url": "/anamnesis/a/adult",
+          "minOccur": "1",
+          "maxOccur": "-1",
+          "constraints": {
+            "minAge": "15",
+            "requireChekin": true
+          },
+          "privilege": "Anamnesis"
+        }
+      ];
+
+      $http.expectGET('/poc_config/openmrs/apps/' + module + '/clinicalServices.json').respond(clinicalService);
+      $http.expectGET('/poc_config/openmrs/apps/common/formLayout.json').respond(formLayout);
+
+      spyOn(patientService, 'getPatient').and.callFake(function () {
+        return $q(function (resolve) {
+          return resolve(patient);
+        });
+      });
+    });
+
+    it('should register form inner states with gender constraint', function () {
+      clinicalServicesService.init(module);
+      $http.flush();
+
+      expect(stateProviderMock.state).toHaveBeenCalledWith('anamnesis_a_adult.reference', jasmine.objectContaining({
+        url: '/reference'
+      }));
+      
+    });
+
+    afterEach(function () {
+      $http.verifyNoOutstandingExpectation();
+      $http.verifyNoOutstandingRequest();
+    });
+
+  });
+
+
+
+
+
+
 
   describe('getCsWithEncountersForPatient', function () {
 
