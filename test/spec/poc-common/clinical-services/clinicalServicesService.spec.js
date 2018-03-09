@@ -3,7 +3,9 @@
 describe('clinicalServicesService', function () {
 
   var $http, $q, stateProviderMock, clinicalServicesService, clinicalServicesFormMapper, visitService, encounterService,
-    $rootScope;
+    $rootScope, patientService;
+
+  var patientUuid = "0000-0000";
 
   var clinicalServices = [
     {
@@ -65,7 +67,7 @@ describe('clinicalServicesService', function () {
   });
 
   beforeEach(inject(function (_$httpBackend_, _$q_, _clinicalServicesService_, _clinicalServicesFormMapper_,
-                              _visitService_, _encounterService_, _$rootScope_) {
+                              _visitService_, _encounterService_, _$rootScope_, _patientService_) {
     $http = _$httpBackend_;
     $rootScope = _$rootScope_;
     clinicalServicesService = _clinicalServicesService_;
@@ -73,15 +75,27 @@ describe('clinicalServicesService', function () {
     clinicalServicesFormMapper = _clinicalServicesFormMapper_;
     visitService = _visitService_;
     encounterService = _encounterService_;
+    patientService = _patientService_;
   }));
 
   describe('init', function () {
 
     var module = 'foo';
+    var patient = {
+      "uuid": "0000-0000",
+      "gender": "F",
+      age: {years: 24}
+    };
 
     beforeEach(function () {
       $http.expectGET('/poc_config/openmrs/apps/' + module + '/clinicalServices.json').respond(clinicalServices);
       $http.expectGET('/poc_config/openmrs/apps/common/formLayout.json').respond(formLayouts);
+
+      spyOn(patientService, 'getPatient').and.callFake(function () {
+        return $q(function (resolve) {
+          return resolve(patient);
+        });
+      });
     });
 
     it('should load clinical services for specified module', function () {
@@ -142,7 +156,11 @@ describe('clinicalServicesService', function () {
 
     var module = 'foo';
 
-    var patient = {uuid: '5dc89638-b0cd-4390-bf10-ad07ed97965b'};
+    var patient = {
+      uuid: '5dc89638-b0cd-4390-bf10-ad07ed97965b',
+      age: {years: 54},
+      gender: 'F'
+    };
 
     var clinicalService = clinicalServices[0];
 
@@ -162,7 +180,12 @@ describe('clinicalServicesService', function () {
     beforeEach(function () {
       $http.expectGET('/poc_config/openmrs/apps/' + module + '/clinicalServices.json').respond(clinicalServices);
       $http.expectGET('/poc_config/openmrs/apps/common/formLayout.json').respond(formLayouts);
-      clinicalServicesService.init(module);
+      spyOn(patientService, 'getPatient').and.callFake(function () {
+        return $q(function (resolve) {
+          return resolve(patient);
+        });
+      });
+      clinicalServicesService.init(module, patientUuid);
       $http.flush();
     });
 
