@@ -70,7 +70,8 @@
     }
 
     function whereAttributeTypeExists(attribute) {
-      return $rootScope.patientConfiguration.get(attribute.attributeType.uuid);
+      return (!$rootScope.patientConfiguration) ? $rootScope.patientConfiguration : 
+          $rootScope.patientConfiguration.get(attribute.attributeType.uuid);
     }
 
     function mapAttributes(patient, attributes) {

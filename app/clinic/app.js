@@ -101,8 +101,8 @@
           skip: true
         },
         resolve: {
-          clinicalServicesService: function (clinicalServicesService) {
-            clinicalServicesService.init('clinical');
+          clinicalServicesService: function (clinicalServicesService, $stateParams) {
+            return clinicalServicesService.init('clinical', $stateParams.patientUuid);
           }
         }
       })
