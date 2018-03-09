@@ -324,5 +324,10 @@
     "INSUFFICIENT_PRIVILEGES": "Not enough privileges to use this functionality.",
     "DELETE_PATIENT": "Delete Patient",
     "REASON_TO_DELETE": "Reason to Delete",
-    "CONFIRM_HOME": "Return to home?"
+    "CONFIRM_HOME": "Return to home?",
+    "NO_RESULTS": "No results found.",
+    "COMMON_SYMPTOM1": "Symptom 1",
+    "COMMON_SYMPTOM2": "Symptom 2",
+    "COMMON_SYMPTOM3": "Symptom 3",
+    "COMMON_SYMPTOM4": "Symptom 4"
 }
