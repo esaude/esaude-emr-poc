@@ -119,9 +119,6 @@ describe('clinicalServicesService', function () {
     });
 
     it('should register form inner states', function () {
-       beforeEach(function () {
-        $http.expectGET('/poc_config/openmrs/apps/common/formLayout.json').respond(formLayouts);
-      });
       clinicalServicesService.init(module);
       $http.flush();
 
