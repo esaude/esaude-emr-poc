@@ -318,5 +318,9 @@
     "DELETE_PATIENT": "Apagar Paciente",
     "REASON_TO_DELETE": "Motivo para Anular",
     "CONFIRM_HOME": "Pretende voltar ao inicio?",
-    "NO_RESULTS": "Nenhum resultado encontrado."
+    "NO_RESULTS": "Nenhum resultado encontrado.",
+    "COMMON_SYMPTOM1": "Sintoma 1",
+    "COMMON_SYMPTOM2": "Sintoma 2",
+    "COMMON_SYMPTOM3": "Sintoma 3",
+    "COMMON_SYMPTOM4": "Sintoma 4"
 }
