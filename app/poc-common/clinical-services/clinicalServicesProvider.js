@@ -63,18 +63,15 @@
             patient = result[2];
 
             _clinicalServices = _.filter(_clinicalServices, function (cs) {
-
-
-            if (cs.constraints.minAge &&
-              patient.age.years < cs.constraints.minAge) {
-              return false;
-            }
-            if (cs.constraints.maxAge &&
-              patient.age.years > cs.constraints.maxAge) {
-              return false;
-            }
-
-            return true;
+              if (cs.constraints.minAge &&
+                patient.age.years < cs.constraints.minAge) {
+                return false;
+              }
+              if (cs.constraints.maxAge &&
+                patient.age.years > cs.constraints.maxAge) {
+                return false;
+              }
+              return true;
           })
 
           _clinicalServices.forEach(function (cs) {
@@ -351,7 +348,6 @@
 
         //create inner states
         formLayout.parts.forEach(function (part) {
-          //filter part by age constrait
           if (part.flexNextSref) {
             if (part.flexNextSref.gender) {
               part.nextSref = part.flexNextSref.gender[patient.gender];
