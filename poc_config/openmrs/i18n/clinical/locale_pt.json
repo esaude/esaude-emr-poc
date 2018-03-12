@@ -185,5 +185,10 @@
   "CATEGORY": "Categoria",
   "TEST_ALREADY_ADDED": "Teste já foi adicionado",
   "SELECT_TEST_FROM_LIST": "Seleccione um teste da lista",
-  "SELECT_PROFILE_FROM_LIST": "Seleccione um painel da lista"  
+  "SELECT_PROFILE_FROM_LIST": "Seleccione um painel da lista",
+  "SELECT_PROVIDER_FROM_LIST": "Seleccione um provedor da lista",
+  "ADD_AT_LEAST_ONE_TEST_TO_TEST_ORDER": "Adicione pelo menos um teste a requisiçao",
+  "EXISTING_TEST_ORDERS": "Requisições de teste existentes",
+  "TESTS_LIST": "Lista de testes",
+  "CONFIRM_TEST_REMOVAL": "Remover o teste seleccionado?"
 }
