@@ -114,6 +114,7 @@
   "CLINICAL_OBSERVATIONS_WRRONG": "Erro",
   "CLINICAL_OBSERVATIONS_SUCCESS": "Sucesso",
   "CLINIC_PATIENT_CURRENT_STATUS": "Estado clínico atual",
+  "CLINIC_PATIENT_LABORATORY": "Laboratório",
   "HISTORICAL_DRUG_START_DATE_TARV": "Inicio de tratamento TARV",
   "CLINIC_LAB_RESULTS": "Resultados do Laboratório",
   "CLINIC_PATIENT_HGB_COUNT": "HGB Absoluto",
@@ -162,7 +163,7 @@
   "YES": "SIM",
   "NO": "NÃO",
   "CLINICAL_OBSERVATIONS_INFO_EMPTY": "Informação Laboratorial de Paciente Vazia",
-  "CLINICAL_WHO_STAGE_EMPTY":"Paciente nao possui ESTADIO OMS",
+  "CLINICAL_WHO_STAGE_EMPTY": "Paciente nao possui ESTADIO OMS",
   "DRUG_TYPE_ARV": "ARV",
   "DRUG_TYPE_NON_ARV": "Outros",
   "DRUG_TYPE_PROPHILAXYS": "Profilaxia",
@@ -177,6 +178,17 @@
   "VIRAL LOAD DROPPED": "Carga viral baixou. Em profilaxia",
   "VIRALOGICAL FAILURE": "Está a ter falência terapeutica",
   "PATIENT_LAB_EXAMS_EMPTY": "O paciente não possui exames laboratoriais",
-  "PRESCRIPTION_EXPIRED": "Expirado"
-
+  "PRESCRIPTION_EXPIRED": "Expirado",
+  "NEW_TEST_ORDER": "Nova Requisição de Testes",
+  "PROFILE": "Painel",
+  "TEST": "Teste",
+  "CATEGORY": "Categoria",
+  "TEST_ALREADY_ADDED": "Teste já foi adicionado",
+  "SELECT_TEST_FROM_LIST": "Seleccione um teste da lista",
+  "SELECT_PROFILE_FROM_LIST": "Seleccione um painel da lista",
+  "SELECT_PROVIDER_FROM_LIST": "Seleccione um provedor da lista",
+  "ADD_AT_LEAST_ONE_TEST_TO_TEST_ORDER": "Adicione pelo menos um teste a requisiçao",
+  "EXISTING_TEST_ORDERS": "Requisições de teste existentes",
+  "TESTS_LIST": "Lista de testes",
+  "CONFIRM_TEST_REMOVAL": "Remover o teste seleccionado?"
 }

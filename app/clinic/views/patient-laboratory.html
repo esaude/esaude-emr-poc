@@ -1,0 +1,240 @@
+<div class="row content-border-margin-regular">
+    <div class="col-sm-6">
+        <div>
+            <form name="laborderForm" class="form-horizontal" autocomplete="off">
+                <poc-authorize privilege="'Write Drug Prescription'">
+                    <div class="panel panel-primary panel-marginless-sides">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">{{'NEW_TEST_ORDER'| translate}}</h3>
+                        </div>
+                        <div class="panel-body">
+
+                            <div class="form-group form-group-lg" ng-class="{'has-error': laborderForm.date.$invalid && vm.showMessages}" ng-show="vm.externalRequest">
+                                <label class="col-sm-3 control-label">
+                                    {{'COMMON_DATE'| translate}}:
+                                    <span class="asterick">*</span>
+                                </label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
+                                        <input class="form-control keyboard-in" id="date" type="text" name="date" uib-datepicker-popup ng-focus="focused=true" is-open="focused"
+                                            ng-model="vm.date" required>
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group form-group-lg" ng-class="{'has-error': laborderForm.selectedProvider.$invalid && vm.showMessages}"
+                                ng-show="vm.externalRequest">
+                                <label for="provider" class="col-sm-3 control-label">
+                                    {{'COMMON_PROVIDER' | translate}}:
+                                    <span class="asterick">*</span>
+                                </label>
+                                <div class="col-sm-9">
+                                    <div ng-messages for="laborderForm.selectedProvider.$error" ng-show="vm.showMessages">
+                                        <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
+                                    </div>
+                                    <input name="selectedProvider" uib-typeahead="p as p.display for p in vm.providers" type="text" ng-model="vm.selectedProvider"
+                                        id="provider" class="form-control keyboard-in" required/>
+                                </div>
+                            </div>
+
+                            <div class="form-group form-group-lg" ng-class="{'has-error': laborderForm.selectedProfile.$invalid && vm.showMessages}">
+                                <label for="profile" class="col-sm-3 control-label">
+                                    {{'PROFILE' | translate}}:
+                                </label>
+                                <div class="col-sm-7">
+                                    <div ng-messages for="laborderForm.selectedProfile.$error" ng-show="vm.showMessages">
+                                        <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
+                                    </div>
+                                    <input name="selectedProfile" uib-typeahead="p as p.name for p in vm.profiles" type="text" ng-model="vm.selectedProfile"
+                                        id="profile" class="form-control keyboard-in" />
+                                </div>
+                                <div class="col-sm-2">
+                                    <button class="btn btn-primary btn-lg" type="button" ng-click="vm.addTestProfile()">
+                                        <span class="glyphicon glyphicon-plus"></span>
+                                        <span class="button-label">{{'ADD' | translate}}</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="form-group form-group-lg" ng-class="{'has-error': laborderForm.selectedTest.$invalid && vm.showMessages}">
+                                <label for="profile" class="col-sm-3 control-label">
+                                    {{'TEST' | translate}}:
+                                </label>
+                                <div class="col-sm-7">
+                                    <div ng-messages for="laborderForm.selectedTest.$error" ng-show="vm.showMessages">
+                                        <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
+                                    </div>
+                                    <input name="selectedTest" uib-typeahead="t as t.display for t in vm.tests" type="text" ng-model="vm.selectedTest" id="test"
+                                        class="form-control keyboard-in" />
+                                </div>
+                                <div class="col-sm-2">
+                                    <button class="btn btn-primary btn-lg" type="button" ng-click="vm.addTest()">
+                                        <span class="glyphicon glyphicon-plus"></span>
+                                        <span class="button-label">{{'ADD' | translate}}</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12">
+
+                                <table st-table="vm.selectedTests" st-safe-src="" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th st-sort="test">{{'TEST' | translate}}</th>
+                                            <th st-sort="test">{{'CATEGORY' | translate}}</th>
+                                            <th st-sort="test">{{'PROFILE' | translate}}</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr st-select-row="patient" st-select-mode="single" ng-repeat="test in vm.selectedTests">
+                                            <td>{{test.display}}</td>
+                                            <td>{{test.category.display}}</td>
+                                            <td>{{test.profileName}}</td>
+                                            <td>
+                                                <button id="delete_patient" type="button" class="btn btn-danger btn-lg" ng-click="vm.removeTest(test)">
+                                                    <span class="glyphicon glyphicon-remove-sign"></span>
+                                                    <span class="button-label">{{'REMOVE' | translate}}</span>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr ng-show="vm.noResultsMessage">
+                                            <td colspan="7" class="text-center">
+                                                {{vm.noResultsMessage | translate}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="7" class="text-center">
+                                                <div st-items-by-page="12" st-displayed-pages="7" st-pagination=""></div>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="panel panel-primary panel-marginless-sides">
+                        <div class="panel-footer go-to-right">
+                            <button class="btn btn-default btn-lg" type="button" ng-click="vm.resetForm()">
+                                <span class="glyphicon glyphicon-erase"></span>
+                                <span class="button-label">{{'CLEAR' | translate}}</span>
+                            </button>
+                            <button type="submit" ng-click="vm.saveTestOrderRequest()" class="btn btn-primary btn-lg">
+                                <span class="glyphicon glyphicon-floppy-disk"></span>
+                                <span class="button-label">{{'SAVE' | translate}}</span>
+                            </button>
+                        </div>
+                    </div>
+                </poc-authorize>
+            </form>
+        </div>
+    </div>
+
+    <div class="col-sm-6">
+
+        <poc-authorize privilege="'Read Drug Prescription'">
+            <div class="panel panel-primary panel-marginless-sides">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{'EXISTING_TEST_ORDERS'| translate}}</h3>
+                </div>
+                <div class="col-sm-12">
+
+                    <table st-table="vm.existingTestOrders" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th st-sort="test">{{'COMMON_DATE' | translate}}</th>
+                                <th st-sort="test">{{'COMMON_PROVIDER' | translate}}</th>
+                                <th st-sort="test">{{'COMMON_STATE' | translate}}</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr st-select-mode="single" ng-repeat="testOrder in vm.existingTestOrders">
+                                <td>{{testOrder.dateCreation | date}}</td>
+                                <td>{{testOrder.provider.display}}</td>
+                                <td>Pending Results</td>
+                                <td>
+                                    <button class="btn btn-primary btn-lg" type="button" ng-click="vm.showTestOrderDetails(testOrder)">
+                                        <span class="glyphicon glyphicon-eye-open"></span>
+                                        <span class="button-label">{{'COMMON_DETAILS'| translate}}</span>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr ng-show="vm.noResultsMessage">
+                                <td colspan="7" class="text-center">
+                                    {{vm.noResultsMessage | translate}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="7" class="text-center">
+                                    <div st-items-by-page="12" st-displayed-pages="7" st-pagination=""></div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </poc-authorize>
+
+
+    </div>
+
+    <div class="col-sm-6">
+
+        <poc-authorize privilege="'Read Drug Prescription'">
+            <div class="panel panel-primary panel-marginless-sides">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{'TESTS_LIST'| translate}}</h3>
+                </div>
+                <div class="col-sm-12">
+
+                    <table st-table="vm.testsOfSelectedRequest" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th st-sort="test">{{'TEST' | translate}}</th>
+                                <th st-sort="test">{{'CATEGORY' | translate}}</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr st-select-mode="single" ng-repeat="test in vm.testsOfSelectedRequest">
+                                <td>{{test.display}}</td>
+                                <td>{{test.category.display}}</td>
+                                <td>
+                                    <button id="delete_test" type="button" class="btn btn-danger btn-lg" poc-confirm-dialog="'{{ 'CONFIRM_TEST_REMOVAL' | translate}}'"
+                                        on-confirm="vm.deleteTest(test)">
+                                        <span class="glyphicon glyphicon-remove-sign"></span>
+                                        <span class="button-label">{{'REMOVE' | translate}}</span>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr ng-show="vm.noResultsMessage">
+                                <td colspan="7" class="text-center">
+                                    {{vm.noResultsMessage | translate}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="7" class="text-center">
+                                    <div st-items-by-page="12" st-displayed-pages="7" st-pagination=""></div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </poc-authorize>
+
+
+    </div>
+</div>
