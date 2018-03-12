@@ -37,7 +37,7 @@ describe('PocHeaderController', function () {
 
     it('should return true if current page is home', function () {
 
-      $window.location.pathname = '/home/#/dashboard';
+      $window.location.pathname = '/poc/home/#/dashboard';
 
       expect(ctrl.isHome()).toEqual(true);
 
