@@ -1,15 +1,20 @@
 describe('LabRequestController', function () {
 
-  var controller, $controller, providerService, testProfileService, testService, $q, $rootScope, $http, notifier;
+  var controller, $controller, providerService, testProfileService, testService, $q, $rootScope, $http, notifier, testOrderService, sessionService;
   var PROVIDERS = [{ display: "Alberto" }, { display: "Zacarias" }, { display: "Cossa" }];
   var TEST_PROFILES = [{ name: "Profile Um", tests: ["UUID1", "UUID2"] }, { name: "Profile Dois", tests: ["UUID2"] }];
   var TESTS = [{ display: "Teste 1", testOrder: { uuid: "UUID1" } }, { display: "Teste 2", testOrder: { uuid: "UUID2" } }];
+  var TEST_ORDERS = {};
+  var TEST_ORDER_ITEMS = ["TEST1", "TEST2"];
+  var TEST_ORDER = {
+    testOrderItems: TEST_ORDER_ITEMS
+  }
 
   beforeEach(module('clinic', function ($urlRouterProvider) {
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function (_$controller_, _$q_, _$rootScope_, $httpBackend, _providerService_, _testProfileService_, _testService_, _notifier_) {
+  beforeEach(inject(function (_$controller_, _$q_, _$rootScope_, $httpBackend, _providerService_, _testProfileService_, _testService_, _notifier_, _testOrderService_, _sessionService_) {
     $controller = _$controller_;
     $q = _$q_;
     $rootScope = _$rootScope_;
@@ -18,11 +23,13 @@ describe('LabRequestController', function () {
     testProfileService = _testProfileService_;
     testService = _testService_;
     notifier = _notifier_;
+    testOrderService = _testOrderService_;
+    sessionService = _sessionService_;
   }));
 
   beforeEach(function () {
     $http.expectGET("/poc_config/openmrs/i18n/common/locale_en.json").respond({});
-    $http.expectGET("/openmrs/ws/rest/v1/testorderrequest?v=full").respond({});
+
     spyOn(providerService, 'getProviders').and.callFake(function () {
       return $q(function (resolve) {
         return resolve(PROVIDERS);
@@ -36,6 +43,21 @@ describe('LabRequestController', function () {
     spyOn(testService, 'getTests').and.callFake(function () {
       return $q(function (resolve) {
         return resolve(TESTS);
+      });
+    });
+    spyOn(testOrderService, 'getTestOrdersByPatientUuid').and.callFake(function () {
+      return $q(function (resolve) {
+        return resolve(TEST_ORDERS);
+      });
+    });
+    spyOn(testOrderService, 'create').and.callFake(function () {
+      return $q(function (resolve) {
+        return resolve({});
+      });
+    });
+    spyOn(sessionService, 'getCurrentLocation').and.callFake(function () {
+      return $q(function (resolve) {
+        return resolve({ uuid: "UUIDLocation1" });
       });
     });
     spyOn(notifier, 'error');
@@ -123,6 +145,55 @@ describe('LabRequestController', function () {
       controller.addTestProfile();
       expect(notifier.error).toHaveBeenCalled();
       expect(controller.selectedTests.length).toEqual(0);
+    });
+  });
+
+  describe('removeTest', function () {
+    it('should remove the selected test', function () {
+      expect(controller.selectedTests.length).toEqual(0);
+      var newTest = { display: "Teste Rápido HIV" };
+      controller.selectedTest = newTest;
+      controller.addTest();
+      expect(controller.selectedTests.length).toEqual(1);
+      controller.removeTest(newTest);
+      expect(controller.selectedTests.length).toEqual(0);
+    });
+  });
+
+  describe('saveTestOrderRequest', function () {
+    it('should save', function () {
+      controller.selectedProvider = { display: "Alberto" };
+      controller.selectedTests = [{
+        display: "Teste Rápido HIV",
+        testOrder: { uuid: "UUID999" },
+        category: { uuid: "UUIDCAT999" }
+      }];
+      controller.saveTestOrderRequest();
+    });
+
+    it('should not save if no tests', function () {
+      controller.selectedProvider = { display: "Alberto" };
+      controller.saveTestOrderRequest();
+      expect(notifier.error).toHaveBeenCalled();
+    });
+
+    it('should save if provider is not from the list', function () {
+      controller.selectedProvider = "Alberto";
+      controller.selectedTests = [{
+        display: "Teste Rápido HIV",
+        testOrder: { uuid: "UUID999" },
+        category: { uuid: "UUIDCAT999" }
+      }];
+      controller.saveTestOrderRequest();
+      expect(notifier.error).toHaveBeenCalled();
+    });
+  });
+
+  describe('showTestOrderDetails', function () {
+    it('should show details', function () {
+      controller.showTestOrderDetails(TEST_ORDER);
+      expect(controller.testsOfSelectedRequest).toEqual(TEST_ORDER_ITEMS);
+      expect(controller.testOrderInDetail).toEqual(TEST_ORDER);
     });
   });
 

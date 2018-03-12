@@ -131,7 +131,7 @@
           });
           testOrderService.create(testOrder).then(function (data) {
             notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
-            loadExistingTestOrders();            
+            loadExistingTestOrders();
             resetForm();
           });
         } else {
