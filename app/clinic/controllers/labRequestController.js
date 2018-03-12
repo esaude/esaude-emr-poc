@@ -156,6 +156,12 @@
     function deleteTest(test) {
       testOrderService.deleteTestOrder(vm.testOrderInDetail.encounter.uuid, test.testOrder.uuid).success(function (data) {
         vm.testsOfSelectedRequest.splice(vm.testsOfSelectedRequest.indexOf(test), 1);
+
+        //se for removido o ultimo teste da requisicao entao a requisicao sera removida na totalidade, precisaremos actualizar
+        //a lista de requisições
+        if (vm.testsOfSelectedRequest.length == 0) {
+          loadExistingTestOrders();
+        }
       });
     }
 
