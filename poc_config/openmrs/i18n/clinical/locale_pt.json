@@ -190,5 +190,6 @@
   "ADD_AT_LEAST_ONE_TEST_TO_TEST_ORDER": "Adicione pelo menos um teste a requisiçao",
   "EXISTING_TEST_ORDERS": "Requisições de teste existentes",
   "TESTS_LIST": "Lista de testes",
-  "CONFIRM_TEST_REMOVAL": "Remover o teste seleccionado?"
+  "CONFIRM_TEST_REMOVAL": "Remover o teste seleccionado?",
+  "TEST_ALEADY_REQUESTED_ON_SAME_DATE": "Test already requested on same date"
 }

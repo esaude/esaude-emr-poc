@@ -29,6 +29,7 @@
     vm.selectedProfile = null;
     vm.selectedTest = null;
     vm.testOrderInDetail = null;
+    vm.dateOptions = { maxDate: new Date() };
 
     vm.addTest = addTest;
     vm.addTestProfile = addTestProfile;
@@ -133,6 +134,11 @@
             notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
             loadExistingTestOrders();
             resetForm();
+          }).catch(function (error) {
+            var testAlreadyRequestedMessage = error.data.error.message.indexOf("was(were) already be requested") != -1;
+            if (testAlreadyRequestedMessage) {
+              notifier.error($filter('translate')('TEST_ALEADY_REQUESTED_ON_SAME_DATE'));
+            }
           });
         } else {
           notifier.error($filter('translate')('ADD_AT_LEAST_ONE_TEST_TO_TEST_ORDER'));
