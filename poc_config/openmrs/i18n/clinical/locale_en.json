@@ -184,5 +184,6 @@
   "ADD_AT_LEAST_ONE_TEST_TO_TEST_ORDER": "Add at least one test to the test order",
   "EXISTING_TEST_ORDERS": "Existing test orders",
   "TESTS_LIST": "Tests list",
-  "CONFIRM_TEST_REMOVAL": "Remove selected test?"  
+  "CONFIRM_TEST_REMOVAL": "Remove selected test?",
+  "TEST_ALEADY_REQUESTED_ON_SAME_DATE": "Test already requested on same date"
 }
