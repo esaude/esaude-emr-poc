@@ -35,7 +35,7 @@ describe('sessionService', function () {
 
     describe('user authenticated', function () {
 
-      var location = {uuid: "8d6c993e-c2cc-11de-8d13-0010c6dffd0f", display: "Local Desconhecido"};
+      var location = {uuid: "8d6c993e-c2cc-11de-8d13-0010c6dffd0f", display: "Local Desconhecido", code: "1020612"};
 
       beforeEach(function () {
         loginRequest.respond({authenticated: true});
@@ -75,7 +75,7 @@ describe('sessionService', function () {
         sessionService.loginUser(user.username, '');
 
         $httpBackend.flush();
-        var params = {name: location.display, uuid: location.uuid};
+        var params = {name: location.display, uuid: location.uuid, code: '1020612'};
         expect(localStorageService.cookie.set).toHaveBeenCalledWith('emr.location', params, 7);
       });
 
