@@ -50,8 +50,8 @@
       var promise = sessionService
         .loginUser(vm.loginUser.username, vm.loginUser.password)
         .catch(function (error) {
-            vm.errorMessageTranslateKey = error;
-            return $q.reject(error);
+          vm.errorMessageTranslateKey = error;
+          return $q.reject(error);
         });
 
       spinner.forPromise(promise).then(function () {
