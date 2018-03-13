@@ -8,36 +8,91 @@
   prescriptionService.$inject = ['$http', '$q', '$log'];
 
   function prescriptionService($http, $q, $log) {
+
+    var sortByEncounterDateTime = _.curryRight(_.sortBy, 2)(function (encounter) {
+      return encounter.encounterDatetime;
+    });
+
     return {
-      getPatientNonDispensedPrescriptions: getPatientNonDispensedPrescriptions
+       create: create,
+       stopPrescriptionItem: stopPrescriptionItem,
+       getAllPrescriptions: getAllPrescriptions,
+       getPatientNonDispensedPrescriptions: getPatientNonDispensedPrescriptions
     };
 
     ////////////////
+
 
     /**
      * Returns prescriptions not fully dispensed for patient.
      *
      * @param {String} patientUuid
-     * @returns {Array} Prescriptions for patient.
+     * @returns {Promise}
      */
     function getPatientNonDispensedPrescriptions(patientUuid) {
       return $http.get(Bahmni.Common.Constants.prescriptionUrl, {
 
         params: {
-          patient: patientUuid
+          patient: patientUuid,
+          findAllActive: true,
+          v: "full"
         },
 
         withCredentials: true
       }).then(function (response) {
-        return _.map(response.data.results, prescriptionMapper);
+        var mapPrescription = _.curryRight(_.map)(prescriptionMapper);
+        return _.flow([mapPrescription, sortByEncounterDateTime])(response.data.results);
       }).catch(function (error) {
-        $log.error('XHR Failed for getPatientNonDispensedPrescriptions. ' + error.data);
+        $log.error('XHR Failed for getPatientNonDispensedPrescriptions: ' + error.data.error.message);
         return $q.reject(error);
       });
     }
 
     /**
-     * Maps OpenMRS Prescription.
+     * Creates a prescription.
+     *
+     * @param {Object} prescription Prescription to create.
+     * @returns {Promise}
+     */
+    function create(prescription) {
+      return $http.post(Bahmni.Common.Constants.prescriptionUrl, prescription, {
+        withCredentials: true,
+        headers: {"Accept": "application/json", "Content-Type": "application/json"}
+      }).then(function (response) {
+        return response.data;
+      }).catch(function (error) {
+        $log.error('XHR Failed for create: ' + error.data.error.message);
+        return $q.reject(error);
+      });
+    }
+
+     function getAllPrescriptions(patient) {
+
+        return $http.get(Bahmni.Common.Constants.prescriptionUrl, {
+          params: {
+            patient: patient.uuid,
+            findAllPrescribed: true,
+            v: "full"
+          },
+          withCredentials: true
+          }).then(function (response) {
+            return _.map(response.data.results, prescriptionMapper);
+          }).catch(function (error) {
+            $log.error('XHR Failed for getAllPrescription: ' + error.data.error.message);
+            return $q.reject(error);
+          });
+     }
+
+     function stopPrescriptionItem(drugorder, reason) {
+
+        return $http.delete(Bahmni.Common.Constants.drugOrderResourceUrl + "/" + drugorder.uuid, {
+            params: {reason: reason}
+        });
+     }
+
+
+    /**
+     * Maps pharmacy-api Prescription.
      *
      * @param prescription
      */
@@ -45,6 +100,7 @@
       prescription.prescriptionDate = new Date(prescription.prescriptionDate);
       return prescription;
     }
+
   }
 
 })();

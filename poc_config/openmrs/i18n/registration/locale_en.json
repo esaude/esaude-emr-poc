@@ -9,7 +9,6 @@
     "COMMON_FROM": "from",
     "COMMON_STATE": "State",
     "COMMON_DETAILS": "Details",
-    "COMMON_NONE": "NONE",
     "COMMON_CONSULTATION": "Consultation",
     "COMMON_LAST": "last",
     "COMMON_BY": "by",
@@ -49,6 +48,7 @@
     "COMMON_CLINICAL_SERVICE_HEADER_CREATOR": "Created by",
     "COMMON_CLINICAL_SERVICE_HEADER_ACTIONS": "Actions",
     "REGISTRATION_LAST_VISIT": "Last Visit",
+    "REGISTRATION_ADD_IDENTIFIER": "Add Identifier",
     "PATIENT_INFO_DEMOGRAPHICS": "Demographics",
     "PATIENT_INFO_ADDRESSES": "Addresses",
     "PATIENT_INFO_ADDRESS": "Address",
@@ -74,7 +74,9 @@
     "PATIENT_INFO_DEATH_DATE": "Date of death",
     "PATIENT_INFO_DEATH_REASON": "Reason of death",
     "PATIENT_INFO_DEAD": "Is Dead",
+    "PATIENT_IS_DEAD": "This patient is deceased",
     "PATIENT_INFO_NEW": "New Patient",
+    "PATIENT_INFO_EDIT": "Edit Patient",
     "LOGIN_LABEL_LOGGEDIN_KEY": "Logged in as",
     "PATIENT_DAILY_HOSPITAL_PROCESS" : "DAILY HOSPITAL PROCESS",
     "SIMILAR_PATIENTS": "Similar patients",
@@ -86,7 +88,15 @@
     "Posto Administrativo": "Division",
     "Localidade": "Locality",
     "Bairro":"Neighborhood",
-    "Celula":"Celll",
-    "Av./Rua/Casa": "Av./Street/Home"
+    "Celula":"Cell",
+    "Av./Rua/Casa": "Av./Street/Home",
+    "NEW_PATIENT": "New Patient",
+    "DELETE_PATIENT": "Delete Patient",
+    "REASON_TO_DELETE": "Reason to Delete",
+    "PATIENT_DELETED": "Patient Deleted",
+    "VITALS_LAST_VISIT": "Last Visit",
+    "VITALS_LAST_HEIGHT": "Last Height",
+    "VITALS_LAST_BMI": "Last BMI"
+
 
 }

@@ -1,1 +1,0 @@
-angular.module('serviceform', ['poc.common.formdisplay']);

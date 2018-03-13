@@ -1,0 +1,68 @@
+<div ng-class="{patientdeceased: vm.patient.dead}" class="row bg-info-border bg-info content-border border-rouded-top">
+  <!--patient header -->
+    <div class="col-md-6">
+      <div class="header-text-lg">
+        <b>{{vm.patient.fullName}}</b>
+      </div>
+      <div><!-- patient gender, age and phone number -->
+        <span>
+          <img src="../../images/{{vm.patient.gender === 'F' ? 'female.png' : 'male.png'}}"
+               id="gender" class="img-responsive inline-align" width="24" height="24" alt="male">
+        </span>
+        <span>{{vm.patient.age.years}}</span>
+        <span>{{vm.patient.birthdateEstimated ? '~': ''}}({{vm.patient.birthdate | date }})</span>
+        <!-- TODO: must check "Header Attribute Types" from openmrs configurations -->
+        <span ng-if="patient['Numero de Telefone']">Phone number: {{patient['Numero de Telefone']}}</span>
+      </div>
+    </div>
+    <div class="col-md-6 pull-right go-to-right">
+      <ul class="list-unstyled">
+        <li ng-repeat="identifier in vm.patient.identifiers"
+            ng-class="{'header-text-lg' : identifier.preferred}">
+          {{identifier.identifierType.display}}: <b>{{identifier.identifier}}</b>
+        </li>
+      </ul>
+    </div>
+
+  <div ng-show="vm.patient.dead">
+    <p class="control-label"> {{'PATIENT_IS_DEAD' | translate}}
+      </br>{{'PATIENT_INFO_DEATH_DATE' | translate}}: {{vm.patient.deathDate | date }}
+      </br>{{'PATIENT_INFO_DEATH_REASON' | translate}}: {{vm.patient.causeOfDeath.display }}</p>
+  </div>
+</div><!--patient header -->
+
+<div class="row bg-info-border content-border border-rouded-bottom go-to-right" ng-if="vm.displayActions"><!-- patient header controls -->
+  <button id="add_patient" type="button" class="btn btn-warning btn-lg" ng-click="vm.linkSearch()">
+    <span class="glyphicon glyphicon-step-backward"></span>
+    <span class="button-label">{{'PREVIOUS_STEP' | translate}}</span>
+  </button>
+  <button move-patient patient-uuid="vm.patient.uuid" id="transfer_patient" type="button" class="btn btn-warning btn-lg">
+    <span class="glyphicon glyphicon-share"></span>
+    <span class="button-label">{{'GO_TO' | translate}}</span>
+  </button>
+
+  <poc-authorize privilege="'Read Patient'">
+    <button id="detail_patient" type="button"
+            class="btn btn-success btn-lg" ng-click="vm.linkPatientDetail()">
+      <span class="glyphicon glyphicon-eye-open"></span>
+      <span class="button-label">{{'VIEW' | translate}}</span>
+    </button>
+  </poc-authorize>
+
+  <poc-authorize privilege="'Edit Patient'">
+    <button id="edit_patient" type="button" class="btn btn-default btn-lg" ng-click="vm.linkPatientEdit()">
+      <span class="glyphicon glyphicon-pencil"></span>
+      <span class="button-label">{{'EDIT' | translate}}</span>
+    </button>
+  </poc-authorize>
+
+  <poc-authorize privilege="'Delete Patient'">
+    <button id="delete_patient" type="button" class="btn btn-danger btn-lg"
+            data-toggle="modal" data-target="#deletePatientModal">
+      <span class="glyphicon glyphicon-remove-sign"></span>
+      <span class="button-label">{{'REMOVE' | translate}}</span>
+    </button>
+  </poc-authorize>
+</div><!-- patient header controls -->
+
+<div ng-include src="'../common/patient/directives/patient-delete.html'"></div>

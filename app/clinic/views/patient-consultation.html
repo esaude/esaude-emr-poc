@@ -1,7 +1,7 @@
 <div class="content-border-margin-regular">
     <div ng-controller="NotesController">
         <div ng-if="showNotes" class="alert-dismissible" role="alert"
-             ng-class="{'alert alert-warning': messageTypeMapping === 'warning', 
+             ng-class="{'alert alert-warning': messageTypeMapping === 'warning',
                         'alert alert-info': messageTypeMapping === 'info',
                         'alert alert-danger': messageTypeMapping === 'error',
                         'alert alert-success': messageTypeMapping === 'success'}">
@@ -15,21 +15,10 @@
                 <span class="glyphicon glyphicon-plus"></span>
             </button>
             <strong>{{lastNotesMessageType.value.display}}!</strong> {{lastNotesStory.value}}
-            <br/><strong>{{'COMMON_BY'| translate}}</strong> {{lastNotes.provider.display}} <strong>{{'COMMON_ON'| translate}}</strong> {{lastNotes.encounterDatetime | date:"MM/dd/yyyy"}}
+            <br/><strong>{{'COMMON_BY'| translate}}</strong> {{lastNotes.provider.display}} <strong>{{'COMMON_ON'| translate}}</strong> {{lastNotes.encounterDatetime | date}}
         </div>
-        <div ng-include src="'../clinic/views/notes-add.html'" ng-show="notes.show"></div>
     </div>
-    
-    <!--div class="panel panel-primary" ng-controller="ManageProgramController" >
-        <div class="panel-heading">
-            <h3 class="panel-title">{{'COMMON_PROGRAM_ENROLLMENT_TITLE'| translate}}</h3>
-        </div>
-        <div ng-include src="'../common/uicontrols/programmanagement/views/patient-programs.html'"></div>
-    </div-->
-    <div class="panel panel-primary" ng-controller="ClinicalServiceController" >
-        <div class="panel-heading">
-            <h3 class="panel-title">{{'COMMON_CLINIC_SERVICES_TITLE'| translate}}</h3>
-        </div>
-        <clinical-service patient-uuid="patient.uuid" encounter-datetime="" services="clinicalServices"></clinical-service>
-    </div>
+
+
+    <clinical-services patient-uuid="patientUUID"></clinical-services>
 </div>

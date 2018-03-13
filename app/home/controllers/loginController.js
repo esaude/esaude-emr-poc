@@ -1,65 +1,83 @@
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('home')
-    .controller('LoginController', ['$rootScope', '$scope', '$location', 'sessionService', 'spinner', '$q',
-                '$stateParams', '$translate', 'localeService', '$window',
-        function ($rootScope, $scope, $location, sessionService, spinner, $q, $stateParams, $translate, localeService, $window) {
-        var landingPagePath = "/dashboard";
-        var loginPagePath = "/login";
+  angular
+    .module('home')
+    .controller('LoginController', LoginController);
 
-        (function () {
-            $scope.showMenu = true;
-            $rootScope.loginUser = {};
+  LoginController.$inject = ['$location', '$q', '$rootScope', '$scope', '$stateParams', '$translate', 'sessionService',
+    'spinner'];
 
-            $scope.locales = ['en', 'pt'];
-            $scope.selectedLocale = $translate.use()? $translate.use() : $scope.locales[0];
+  /* @ngInject */
+  function LoginController($location, $q, $rootScope, $scope, $stateParams, $translate, sessionService, spinner) {
 
-        })();
+    var landingPagePath = "/dashboard";
+    var loginPagePath = "/login";
 
-        $scope.updateLocale = function (selectedLocale) {
-            $translate.use(selectedLocale);
-        };
+    var vm = this;
+    vm.errorMessageTranslateKey = null;
+    vm.locales = [
+      {label: 'English', key: 'en'},
+      {label: 'Português', key: 'pt'}
+    ];
+    vm.loginUser = {};
+    vm.selectedLocale = getSelectedLocale();
+    vm.showMenu = true;
 
-        if ($stateParams.showLoginMessage) {
-            $scope.errorMessageTranslateKey = $stateParams.showLoginMessage;
+    vm.login = login;
+    vm.updateLocale = updateLocale;
+
+    activate();
+
+    ////////////////
+
+    function activate() {
+
+      if ($stateParams.showLoginMessage) {
+        vm.errorMessageTranslateKey = $stateParams.showLoginMessage;
+      }
+
+      if ($location.path() === loginPagePath) {
+        redirectToLandingPageIfAlreadyAuthenticated();
+      }
+
+      spinner.forPromise(setLocale(vm.selectedLocale));
+    }
+
+    function login() {
+      vm.errorMessageTranslateKey = null;
+
+      var promise = sessionService
+        .loginUser(vm.loginUser.username, vm.loginUser.password)
+        .catch(function (error) {
+            vm.errorMessageTranslateKey = error;
+            return $q.reject(error);
+        });
+
+      spinner.forPromise(promise).then(function () {
+        $location.path(landingPagePath).search({});
+      });
+    }
+
+    function redirectToLandingPageIfAlreadyAuthenticated() {
+      sessionService.getSession().then(function (session) {
+        if (session.authenticated) {
+          $location.path(landingPagePath);
         }
+      });
+    }
 
-        var redirectToLandingPageIfAlreadyAuthenticated = function () {
-            sessionService.getSession().then(function (session) {
-                if (session.authenticated) {
-                    $location.path(landingPagePath);
-                }
-            });
-        };
+    function setLocale(locale) {
+      return $translate.use(locale.key).then(sessionService.setLocale(locale.key));
+    }
 
-        if ($location.path() === loginPagePath) {
-            redirectToLandingPageIfAlreadyAuthenticated();
-        }
+    function updateLocale(locale) {
+      spinner.forPromise(setLocale(locale));
+    }
 
-        $scope.login = function () {
-            $scope.errorMessageTranslateKey = null;
-            var deferrable = $q.defer();
-            sessionService.loginUser($scope.loginUser.username, $scope.loginUser.password).then(
-                function () {
-                    sessionService.loadCredentials().then(
-                        function () {
-                            deferrable.resolve();
-                        },
-                        function (error) {
-                            $scope.errorMessageTranslateKey = error;
-                            deferrable.reject(error);
-                        }
-                    )
-                },
-                function (error) {
-                    $scope.errorMessageTranslateKey = error;
-                    deferrable.reject(error);
-                }
-            );
-            spinner.forPromise(deferrable.promise).then(
-                function () {
-                    $location.path(landingPagePath).search({});
-                }
-            );
-        };
-    }]);
+    function getSelectedLocale() {
+      return $translate.use() ? _.find(vm.locales, {key: $translate.use()}) : vm.locales[0];
+    }
+  }
+
+})();

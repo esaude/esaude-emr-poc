@@ -23,12 +23,12 @@
       "hideEasing": "linear",
       "showMethod": "fadeIn",
       "hideMethod": "fadeOut"
-    }
+    };
 
     return  {
       success: success,
       error: error,
-      information: information,
+      info: info,
       warning: warning
     };
 
@@ -40,7 +40,7 @@
       toastr.error(message);
     }
 
-    function information(message) {
+    function info(message) {
       toastr.info(message);
     }
 

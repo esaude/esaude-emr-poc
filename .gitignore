@@ -10,3 +10,7 @@
 .brackets.json
 /esaude-emr-poc*
 /.idea
+*.log
+*.patch
+/.vscode
+/package-lock.json

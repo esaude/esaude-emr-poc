@@ -67,7 +67,9 @@ Bahmni.Common = Bahmni.Common || {};
         orderUrl: RESTWS_V1 + "/order",
         drugUrl: RESTWS_V1 + "/drug",
         drugResourceUrl: RESTWS_V1 + "/drugresource",
+        drugOrderResourceUrl :RESTWS_V1 + "/drugorderresource",
         drugRegimenUrl: RESTWS_V1 + "/drugregime",
+        arvDrugUrl: RESTWS_V1 + "/arvdrug",
         conceptUrl: RESTWS_V1 + "/concept",
         conceptSearchByFullNameUrl: RESTWS_V1 + "/concept?s=byFullySpecifiedName",
         visitUrl: RESTWS_V1 + "/visit",
@@ -190,6 +192,7 @@ Bahmni.Common = Bahmni.Common || {};
         TEMPERATURE: "e1e2e70e-1d5f-11e0-b929-000c29ad1d07",
         FREQUENCIA_CARDIACA: "e1e2e5f6-1d5f-11e0-b929-000c29ad1d07",
         RESPIRATORY_RATE: "e1e4628c-1d5f-11e0-b929-000c29ad1d07",
+        BMI: 'e1da52ba-1d5f-11e0-b929-000c29ad1d07',
         prescriptionUrl :RESTWS_V1 + "/prescription",
         dispensationUrl :RESTWS_V1 + "/dispensation",
         markedForPickupDrugsToday : "c23d5b4e-45c9-47ee-a506-e8f9662a5533",
@@ -198,7 +201,8 @@ Bahmni.Common = Bahmni.Common || {};
         otherDrugsConceptUuid: "e1de3092-1d5f-11e0-b929-000c29ad1d07",
         arvRegimensConvSet: "7d5728ac-730f-495e-8368-73fc3d7e3c45",
         regimenGroups: regimenGroups,
-        otherDrugsConceptUuid: "e1de3092-1d5f-11e0-b929-000c29ad1d07"
+        systemSetting: '/openmrs/ws/rest/v1/systemsetting',
+        labEncounterUuid : 'e2790f68-1d5f-11e0-b929-000c29ad1d07'
 
     };
 })();

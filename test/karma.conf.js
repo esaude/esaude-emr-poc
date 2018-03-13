@@ -26,7 +26,7 @@ module.exports = function (config) {
       // bower:js
       'bower_components/q/q.js',
       'bower_components/jquery/dist/jquery.min.js',
-      'bower_components/angular/angular.min.js',
+      'bower_components/angular/angular.js',
       'bower_components/bootstrap/dist/js/bootstrap.min.js',
       'bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
       'bower_components/moment/min/moment.min.js',
@@ -34,9 +34,8 @@ module.exports = function (config) {
       'bower_components/keyboard/dist/js/jquery.keyboard.min.js',
       'bower_components/keyboard/dist/layouts/keyboard-layouts-combined.min.js',
       'bower_components/keyboard/dist/layouts/keyboard-layouts-greywyvern.min.js',
-      'bower_components/angular-route/angular-route.min.js',
       'bower_components/angular-ui-router/release/angular-ui-router.min.js',
-      'bower_components/Chart.js/Chart.min.js',
+      'bower_components/chart.js/dist/Chart.min.js',
       'bower_components/angular-chart.js/dist/angular-chart.min.js',
       'bower_components/angular-smart-table/dist/smart-table.min.js',
       'bower_components/keyboard/dist/js/jquery.keyboard.extension-all.min.js',
@@ -52,18 +51,13 @@ module.exports = function (config) {
       'bower_components/angular-translate-storage-local/angular-translate-storage-local.js',
       'bower_components/angular-translate-handler-log/angular-translate-handler-log.min.js',
       'bower_components/angular-mocks/angular-mocks.js',
-
       'bower_components/angular-smart-table/dist/smart-table.min.js',
-      'bower_components/angular-datepicker/dist/angular-datepicker.min.js',
       'bower_components/bootstrap-switch/dist/js/bootstrap-switch.min.js',
       'bower_components/angular-bootstrap-switch/dist/angular-bootstrap-switch.min.js',
       'bower_components/ng-clip/dest/ng-clip.min.js',
       'bower_components/zeroclipboard/dist/ZeroClipboard.min.js',
       'bower_components/angular-bootstrap-checkbox/angular-bootstrap-checkbox.js',
       'bower_components/angular-messages/angular-messages.min.js',
-      'bower_components/d3/d3.min.js',
-      'bower_components/nvd3/build/nv.d3.min.js',
-      'bower_components/angularjs-nvd3-directives/dist/angularjs-nvd3-directives.min.js',
       'bower_components/select2/select2.min.js',
       'bower_components/angular-ui-select2/src/select2.js',
       'bower_components/angular-ui-mask/dist/mask.js',
@@ -71,14 +65,14 @@ module.exports = function (config) {
       'bower_components/angular-barcode-listener/angular-barcode-listener.min.js',
       'bower_components/ng-dialog/js/ngDialog.min.js',
       'bower_components/toastr/toastr.js',
+      'bower_components/angular-breadcrumb/dist/angular-breadcrumb.js',
 
       // endbower
-      // bundled libraries
-      'lib/modernizr.custom.80690.js',
       // application files
       'app/**/*.js',
       'app/home/**/*.js',
       'app/common/**/*.js',
+      'app/**/*.html',
       // fixtures
       'test/fixtures/**/*.json',
       //test utils
@@ -98,11 +92,18 @@ module.exports = function (config) {
 
     preprocessors: {
       'app/**/*.js': ['coverage'],
-      'test/fixtures/**/*.json': ['json_fixtures']
+      'test/fixtures/**/*.json': ['json_fixtures'],
+      'app/**/*.html': ['ng-html2js']
     },
 
     jsonFixturesPreprocessor: {
       stripPrefix: 'test/fixtures/'
+    },
+
+    ngHtml2JsPreprocessor: {
+      stripPrefix: 'app/',
+      prependPrefix: '../',
+      moduleName: 'templates'
     },
 
     reporters: ['spec', 'coverage'],
@@ -124,7 +125,7 @@ module.exports = function (config) {
     // - PhantomJS
     // - IE (only Windows)
     browsers: [
-      'PhantomJS'
+      'ChromeHeadless'
     ],
 
     // Which plugins to enable
@@ -136,7 +137,8 @@ module.exports = function (config) {
       'karma-json-fixtures-preprocessor',
       'karma-angular-filesort',
       'karma-chrome-launcher',
-      'karma-jasmine'
+      'karma-jasmine',
+      'karma-ng-html2js-preprocessor'
     ],
 
     // Continuous Integration mode

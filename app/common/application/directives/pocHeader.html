@@ -1,0 +1,49 @@
+<nav class="navbar navbar-primary content-border">
+  <div class="container-fluid">
+
+    <div class="navbar-header">
+      <a class="navbar-brand">
+        <img src="../../images/esaude_poc_logo_white.png" height="50" alt="eSaúde EMR Point of Care">
+      </a>
+    </div>
+
+    <ul class="nav navbar-nav navbar-right">
+      <li>
+        <a href="#" ng-click="$event.preventDefault()"><span class="glyphicon glyphicon-user"></span> {{ vm.currentUser.person.preferredName.display }}</a>
+      </li>
+      <li>
+        <a href="#" ng-click="$event.preventDefault()"><span class="glyphicon glyphicon-map-marker"></span> {{vm.currentLocation.code}} {{ vm.currentLocation.name }}</a>
+      </li>
+      <li ng-if="!vm.isHome()">
+        <a id="home-link" href="#" poc-confirm-dialog="'{{ 'CONFIRM_HOME' | translate}}'" on-confirm="vm.goHome()"><span class="glyphicon glyphicon-home"></span></a>
+      </li>
+      <li ng-if="vm.isHome()">
+        <a id="home-link" href="#" ng-click="$event.preventDefault()"><span class="glyphicon glyphicon-home"></span></a>
+      </li>
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+           aria-expanded="false">
+          <span class="glyphicon glyphicon-menu-hamburger"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li>
+            <a href="#" ng-click="$event.preventDefault()">
+              <span class="glyphicon glyphicon-user"></span> {{'COMMON_HEADER_MENU_PROFILE' | translate}}
+            </a>
+          </li>
+          <li>
+            <a href="#" ng-click="$event.preventDefault()">
+              <span class="glyphicon glyphicon-question-sign"></span> {{'COMMON_HEADER_MENU_SUPPORT' | translate}}
+            </a>
+          </li>
+          <li role="separator" class="divider"></li>
+          <li>
+            <a log-out>
+              <span class="glyphicon glyphicon-off"></span> {{'COMMON_HEADER_MENU_LOGOUT' | translate}}
+            </a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</nav>

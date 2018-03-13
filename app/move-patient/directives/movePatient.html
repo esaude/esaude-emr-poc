@@ -1,0 +1,13 @@
+<div>
+  <p><b>{{'COMMON_MOVE_PATIENT' | translate}}:</b></p>
+</div>
+<div class="go-to-center">
+  <div class="inline-align content-border-margin-regular" ng-repeat="app in vm.apps">
+    <button type="button" ng-if="app.active && app.id != vm.appId" class="btn btn-default" ng-click="vm.linkApp(app.url)">
+            <span>
+                <img ng-src="../../{{app.logo}}" width="100" height="72" alt="provider">
+            </span>
+      <br/>{{app.name | translate}}
+    </button>
+  </div>
+</div>

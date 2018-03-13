@@ -1,59 +1,70 @@
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('common.patient')
-    .factory('patient', ['age', function (age) {
-        var create = function () {
-            var calculateAge = function () {
-                if (this.birthdate) {
-                    this.age = age.fromBirthDate(this.birthdate);
-                }
-                else {
-                    this.age = age.create(null, null, null);
-                }
-            };
+  angular
+    .module('common.patient')
+    .factory('patient', patient);
 
-            var calculateBirthDate = function () {
-                this.birthdate = age.calculateBirthDate(this.age);
-            };
+  patient.$inject = ['age'];
 
-            var calculateBirthdateEstimated = function (value) {
-                if (value === 'age') {
-                    this.birthdateEstimated = true;
-                } else {
-                    this.birthdateEstimated = false;
-                }
-                
-            };
+  /* @ngInject */
+  function patient(age) {
+    var patient = {
+      create: create
+    };
+    return patient;
 
-            var fullNameLocal = function () {
-                var givenNameLocal = this.givenNameLocal || this.givenName || "";
-                var middleNameLocal = this.middleNameLocal || this.middleName|| "";
-                var familyNameLocal = this.familyNameLocal || this.familyName || "";
-                return (givenNameLocal.trim() + " " + (middleNameLocal ? middleNameLocal + " " : "" ) + familyNameLocal.trim()).trim();
-            };
+    ////////////////
 
-            var getImageData = function () {
-                return this.image && this.image.indexOf('data') === 0 ? this.image.replace("data:image/jpeg;base64,", "") : null;
-            };
+    function create() {
 
-            return {
-                address: {}
-                ,age: age.create()
-                ,birthdate: null
-                ,birthdateEstimated: false
-                ,calculateAge: calculateAge
-                ,image: '../images/blank-user.gif'
-                ,fullNameLocal: fullNameLocal
-                ,getImageData: getImageData
-                ,relationships: []
-                ,newlyAddedRelationships: [{}]
-                ,calculateBirthDate: calculateBirthDate
-                ,calculateBirthdateEstimated: calculateBirthdateEstimated
-                ,identifiers: []
-            };
-        };
+      return {
+        address: {}
+        , age: age.create()
+        , birthdate: null
+        , birthdateEstimated: false
+        , calculateAge: calculateAge
+        , image: '../images/blank-user.gif'
+        , fullNameLocal: fullNameLocal
+        , getImageData: getImageData
+        , relationships: []
+        , newlyAddedRelationships: [{}]
+        , calculateBirthDate: calculateBirthDate
+        , identifiers: []
+      };
 
-        return {
-            create: create
+      function updateAge(birthdate) {
+        if (birthdate) {
+          return age.fromBirthDate(birthdate);
         }
-    }]);
+        else {
+          return age.create(null, null, null);
+        }
+      }
+
+      function calculateAge() {
+        this.age = updateAge(this.birthdate);
+        this.birthdateEstimated = false;
+      }
+
+      function calculateBirthDate() {
+        this.birthdate = age.calculateBirthDate(this.age);
+        this.age = updateAge(this.birthdate);
+        this.birthdateEstimated = true;
+      }
+
+      function fullNameLocal() {
+        var givenNameLocal = this.givenNameLocal || this.givenName || "";
+        var middleNameLocal = this.middleNameLocal || this.middleName || "";
+        var familyNameLocal = this.familyNameLocal || this.familyName || "";
+        return (givenNameLocal.trim() + " " + (middleNameLocal ? middleNameLocal + " " : "" ) + familyNameLocal.trim()).trim();
+      }
+
+      function getImageData() {
+        return this.image && this.image.indexOf('data') === 0 ? this.image.replace("data:image/jpeg;base64,", "") : null;
+      }
+
+    }
+  }
+
+})();

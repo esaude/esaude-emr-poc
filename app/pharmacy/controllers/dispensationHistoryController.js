@@ -1,55 +1,130 @@
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('pharmacy').controller('DispensationHistoryController', DispensationHistoryController);
+  angular.module('pharmacy').controller('DispensationHistoryController', DispensationHistoryController);
 
-DispensationHistoryController.$inject = ["$scope", "$rootScope", "$stateParams", "encounterService", "commonService"];
+  DispensationHistoryController.$inject = ["$filter", "$stateParams", "encounterService", "dispensationService", "commonService", "notifier", "spinner"];
 
-function DispensationHistoryController($scope, $rootScope, $stateParams, encounterService, commonService) {
-    
-    (function () {
-        $scope.filaObsList = {
-            nextPickup: "e1e2efd8-1d5f-11e0-b929-000c29ad1d07",
-            quantity: "e1de2ca0-1d5f-11e0-b929-000c29ad1d07"
-        };
+  function DispensationHistoryController($filter, $stateParams, encounterService, dispensationService, commonService,  notifier, spinner) {
 
-        var patientUuid = $stateParams.patientUuid;
-        var pharmacyEncounterTypeUuid = "18fd49b7-6c2b-4604-88db-b3eb5b3a6d5f";
+    var patientUuid = null;
+    var pharmacyEncounterTypeUuid = null;
 
-        encounterService.getEncountersForEncounterType(patientUuid, pharmacyEncounterTypeUuid).success(function (data) {
-            $scope.pickups = prepareObservations(commonService.filterReverse(data));
+    var vm = this;
+    vm.cancelationReasonTyped = null;
+    vm.dispensationItemToCancel = null;
+    vm.filaObsList = null;
+    vm.pickups =[];
+    vm.dispensationItemToCancel = null;
+    vm.errorMessage = null;
+
+    vm.initPickUpHistory = initPickUpHistory;
+    vm.prepareObservations = prepareObservations;
+    vm.filterActiveOrders = filterActiveOrders;
+    vm.cancelDispensationItem = cancelDispensationItem;
+    vm.valueOfField = valueOfField;
+    vm.setDispensationItemToCancel = setDispensationItemToCancel;
+    vm.closeCancellationModal = closeCancellationModal;
+
+    activate();
+
+    function activate() {
+
+      vm.filaObsList = {
+        nextPickup: "e1e2efd8-1d5f-11e0-b929-000c29ad1d07",
+        quantity: "e1de2ca0-1d5f-11e0-b929-000c29ad1d07"
+      };
+
+      patientUuid = $stateParams.patientUuid;
+      pharmacyEncounterTypeUuid = "18fd49b7-6c2b-4604-88db-b3eb5b3a6d5f";
+
+      initPickUpHistory();
+     //spinner.forPromise(initPickUpHistory());
+    }
+
+    function prepareObservations (encounters) {
+
+      var observations = [];
+
+      _.forEach(encounters, function (encounter) {
+
+        _.forEach(encounter.obs, function (observation) {
+
+          if(observation.groupMembers){
+            var filteredGroupMembers = filterActiveOrders(observation.groupMembers) ;
+            if(!_.isEmpty(filteredGroupMembers)){
+              var obs = {
+                encounterDatetime : encounter.encounterDatetime,
+                provider : encounter.provider.display,
+                members : filteredGroupMembers,
+                encounterPrecription : encounter
+              };
+              observations.push(obs);
+            }
+          }
         });
-            
-    })();
+      });
+      return observations;
+    }
 
+    function filterActiveOrders(groupMembers) {
 
-    var prepareObservations = function (encounters) {
+      var activeMembers = [];
+      _.forEach(groupMembers, function (member) {
+        if(member.order.voided === false){
+          activeMembers.push(member);
+        }
+      });
+      return activeMembers;
+    }
 
-        var observations = [];
+    function initPickUpHistory(){
 
-        _.forEach(encounters, function (encounter) {
-                
-            _.forEach(encounter.obs, function (observation) {
-                
-                var obs = {
+      encounterService.getEncountersForEncounterType(patientUuid, pharmacyEncounterTypeUuid).success(function (data) {
+        vm.pickups = prepareObservations(commonService.filterReverse(data));
+      });
+    }
 
-                    encounterDatetime : encounter.encounterDatetime,
-                    provider : encounter.provider.display,
-                    members : observation.groupMembers
-                }
+    function cancelDispensationItem(form, dispensationItemToCancel){
 
-                observations.push(obs);
-            });
+      if (!form.$valid) {
+        return;
+      }
+
+      dispensationService.cancelDispensationItem(dispensationItemToCancel.uuid, vm.cancelationReasonTyped )
+        .then(function () {
+          notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
+          closeCancellationModal(form);
+          initPickUpHistory();
+        })
+        .catch(function () {
+          notifier.error($filter('translate')('COMMON_MESSAGE_COULD_NOT_CANCEL_DISPENSATION_ITEM'));
         });
+    }
 
-        return observations;
-    };
+    function valueOfField(conceptUuid, members) {
 
-    $scope.valueOfField = function(conceptUuid, members) {
+      return _.find(members, function (member) {
+        return member.concept.uuid === conceptUuid;
+      });
+    }
 
-        var field = _.find(members, function (member) {
-            return member.concept.uuid === conceptUuid;
-        });
-      
-        return field;;
-    };
-}
+    function closeCancellationModal(form) {
+      // TODO: handle close via esc key
+      form.$setPristine();
+      form.$setUntouched();
+      vm.cancelationReasonTyped = null;
+      vm.dispensationItemToCancel = null;
+      getCancellationModal().modal('hide');
+    }
+
+    function setDispensationItemToCancel(order){
+      vm.dispensationItemToCancel =  order;
+    }
+
+    function getCancellationModal() {
+      return angular.element('#cancellationDispensationItemModal');
+    }
+
+  }
+})();

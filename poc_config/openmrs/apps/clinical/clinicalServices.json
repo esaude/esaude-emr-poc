@@ -1,118 +1,144 @@
 [
-    {
-        "id": "003",
-        "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
-        "label": "COMMON_VITALS_FORM",
-        "url": "/vitals/adult",
-        "minOccur": "0",
-        "maxOccur": "-1",
-        "constraints": {
-            "minAge": "15"
-        },
-        "markedOn": "283e551d-a470-4280-84fd-8f409f3caf7a"
+  {
+    "id": "003",
+    "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
+    "label": "COMMON_VITALS_FORM",
+    "url": "/vitals/adult",
+    "minOccur": "0",
+    "maxOccur": "-1",
+    "constraints": {
+      "minAge": "15"
     },
-    {
-        "id": "004",
-        "formId": "e28ac028-1d5f-11e0-b929-000c29ad1d07",
-        "label": "COMMON_VITALS_FORM",
-        "url": "/vitals/child",
-        "minOccur": "0",
-        "maxOccur": "-1",
-        "constraints": {
-            "maxAge": "14"
-        },
-        "markedOn": "283e551d-a470-4280-84fd-8f409f3caf7a"
+    "actionConstraints": {
+      "requireCheckIn": false
     },
-    {
-        "id": "006",
-        "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
-        "label": "COMMON_WHO_FORM",
-        "url": "/oms/adult",
-        "minOccur": "0",
-        "maxOccur": "-1",
-        "constraints": {
-            "minAge": "15",
-            "requireChekin": true
-        },
-        "markedOn": "2afd6fda-3003-4a68-bfa2-9a4e2ab2773d"
+    "markedOn": "283e551d-a470-4280-84fd-8f409f3caf7a",
+    "privilege": "Vitals"
+  },
+  {
+    "id": "004",
+    "formId": "e28ac028-1d5f-11e0-b929-000c29ad1d07",
+    "label": "COMMON_VITALS_FORM",
+    "url": "/vitals/child",
+    "minOccur": "0",
+    "maxOccur": "-1",
+    "constraints": {
+      "maxAge": "14"
     },
-    {
-        "id": "012",
-        "formId": "e28ac028-1d5f-11e0-b929-000c29ad1d07",
-        "label": "COMMON_WHO_FORM",
-        "url": "/oms/child",
-        "minOccur": "0",
-        "maxOccur": "-1",
-        "constraints": {
-            "maxAge": "14",
-            "requireChekin": true
-        },
-        "markedOn": "2afd6fda-3003-4a68-bfa2-9a4e2ab2773d"
+    "actionConstraints": {
+      "requireCheckIn": false
     },
-    {
-
-        "id": "007",
-        "formId": "65896366-17b2-4c3e-9cce-440edcfe7b4e",
-        "label": "COMMON_RELEVANT_NOTES_FORM",
-        "url": "/story",
-        "minOccur": "0",
-        "maxOccur": "-1",
-        "constraints": {
-            "requireChekin": true
-        },
-      "markedOn": "3ae77ecc-865b-4354-abf9-901f36715c70"
+    "markedOn": "283e551d-a470-4280-84fd-8f409f3caf7a",
+    "privilege": "Vitals"
+  },
+  {
+    "id": "006",
+    "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
+    "label": "COMMON_WHO_FORM",
+    "url": "/oms/adult",
+    "minOccur": "0",
+    "maxOccur": "-1",
+    "constraints": {
+      "minAge": "15"
     },
-    {
-        "id": "008",
-        "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
-        "label": "COMMON_ANAMNESE_BODY_EXAM_FORM",
-        "url": "/anamnese/adult",
-        "minOccur": "0",
-        "maxOccur": "-1",
-        "constraints": {
-            "minAge": "15",
-            "requireChekin": true
-        },
-        "markedOn": "3ae77ecc-865b-4354-abf9-901f36715c70"
+    "actionConstraints": {
+      "requireCheckIn": true
     },
-     {
-        "id": "010",
-        "formId": "e28ac028-1d5f-11e0-b929-000c29ad1d07",
-        "label": "COMMON_ANAMNESE_BODY_EXAM_FORM",
-        "url": "/anamnese/child",
-        "minOccur": "0",
-        "maxOccur": "-1",
-        "constraints": {
-            "maxAge": "14",
-            "requireChekin": true
-        },
-        "markedOn": "3ae77ecc-865b-4354-abf9-901f36715c70"
+    "markedOn": "2afd6fda-3003-4a68-bfa2-9a4e2ab2773d",
+    "privilege": "OMS Stadium"
+  },
+  {
+    "id": "012",
+    "formId": "e28ac028-1d5f-11e0-b929-000c29ad1d07",
+    "label": "COMMON_WHO_FORM",
+    "url": "/oms/child",
+    "minOccur": "0",
+    "maxOccur": "-1",
+    "constraints": {
+      "maxAge": "14"
     },
-    {
-        "id": "009",
-        "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
-        "label": "COMMON_DIAGNOSIS_FORM",
-        "url": "/diagnostics/adult",
-        "minOccur": "0",
-        "maxOccur": "-1",
-        "constraints": {
-            "minAge": "15",
-            "requireChekin": true
-        },
-        "markedOn": "4bea5235-1ef3-45a3-a7de-c33850c74422"
+    "actionConstraints": {
+      "requireCheckIn": true
     },
-    {
-        "id": "011",
-        "formId": "e28ac028-1d5f-11e0-b929-000c29ad1d07",
-        "label": "COMMON_DIAGNOSIS_FORM",
-        "url": "/diagnostics/child",
-        "minOccur": "0",
-        "maxOccur": "-1",
-        "constraints": {
-            "maxAge": "14",
-            "requireChekin": true
-        },
-        "markedOn": "4bea5235-1ef3-45a3-a7de-c33850c74422"
-    }
-
+    "markedOn": "2afd6fda-3003-4a68-bfa2-9a4e2ab2773d",
+    "privilege": "OMS Stadium"
+  },
+  {
+    "id": "007",
+    "formId": "65896366-17b2-4c3e-9cce-440edcfe7b4e",
+    "label": "COMMON_RELEVANT_NOTES_FORM",
+    "url": "/story",
+    "minOccur": "0",
+    "maxOccur": "-1",
+    "constraints": {
+    },
+    "actionConstraints": {
+      "requireCheckIn": true
+    },
+    "privilege": "Relevant Aspects"
+  },
+  {
+    "id": "008",
+    "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
+    "label": "COMMON_ANAMNESE_BODY_EXAM_FORM",
+    "url": "/anamnese/adult",
+    "minOccur": "0",
+    "maxOccur": "-1",
+    "constraints": {
+      "minAge": "15"
+    },
+    "actionConstraints": {
+      "requireCheckIn": true
+    },
+    "markedOn": "3ae77ecc-865b-4354-abf9-901f36715c70",
+    "privilege": "Anamnesis"
+  },
+  {
+    "id": "010",
+    "formId": "e28ac028-1d5f-11e0-b929-000c29ad1d07",
+    "label": "COMMON_ANAMNESE_BODY_EXAM_FORM",
+    "url": "/anamnese/child",
+    "minOccur": "0",
+    "maxOccur": "-1",
+    "constraints": {
+      "maxAge": "14"
+    },
+    "actionConstraints": {
+      "requireCheckIn": true
+    },
+    "markedOn": "3ae77ecc-865b-4354-abf9-901f36715c70",
+    "privilege": "Anamnesis"
+  },
+  {
+    "id": "009",
+    "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
+    "label": "COMMON_DIAGNOSIS_FORM",
+    "url": "/diagnostics/adult",
+    "minOccur": "0",
+    "maxOccur": "-1",
+    "constraints": {
+      "minAge": "15"
+    },
+    "actionConstraints": {
+      "requireCheckIn": true
+    },
+    "markedOn": "4bea5235-1ef3-45a3-a7de-c33850c74422",
+    "privilege": "Diagnosis"
+  },
+  {
+    "id": "011",
+    "formId": "e28ac028-1d5f-11e0-b929-000c29ad1d07",
+    "label": "COMMON_DIAGNOSIS_FORM",
+    "url": "/diagnostics/child",
+    "minOccur": "0",
+    "maxOccur": "-1",
+    "constraints": {
+      "maxAge": "14"
+    },
+    "actionConstraints": {
+      "requireCheckIn": true
+    },
+    "markedOn": "4bea5235-1ef3-45a3-a7de-c33850c74422",
+    "privilege": "Diagnosis"
+  }
 ]

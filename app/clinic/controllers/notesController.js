@@ -2,9 +2,8 @@
 
 angular.module('clinic')
         .controller('NotesController', ["$scope", "$filter", "$stateParams", 
-                        "encounterService", "observationsService",
-                    function ($scope, $filter, $stateParams, encounterService, 
-                    observationsService) {
+                        "encounterService", 
+                    function ($scope, $filter, $stateParams, encounterService) {
         
         var patientUuid;
         $scope.showNotes = true;

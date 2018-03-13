@@ -1,67 +1,58 @@
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('clinic').factory('initialization',
-    ['$cookies', '$rootScope', 'configurations', 'authenticator', 'appService', 'spinner', 'userService', 'formLoader', 'sessionService',
-    function ($cookies, $rootScope, configurations, authenticator, appService, spinner, userService, formLoader, sessionService) {
-        var getConfigs = function () {
-            var configNames = ['patientAttributesConfig', 'addressLevels'];
-            return configurations.load(configNames).then(function () {
-                var mandatoryPersonAttributes = appService.getAppDescriptor().getConfigValue("mandatoryPersonAttributes");
-                var patientAttributeTypes = new Poc.Patient.PatientAttributeTypeMapper().mapFromOpenmrsPatientAttributeTypes(configurations.patientAttributesConfig(), mandatoryPersonAttributes);
-                $rootScope.patientConfiguration = new Poc.Patient.PatientConfig(patientAttributeTypes.personAttributeTypes, appService.getAppDescriptor().getConfigValue("additionalPatientInformation"));
-                $rootScope.landingPageAfterSearch = appService.getAppDescriptor().getConfigValue("landingPageAfterSearch");
-                $rootScope.landingPageAfterSave = appService.getAppDescriptor().getConfigValue("landingPageAfterSave");
-                $rootScope.defaultVisitTypes = appService.getAppDescriptor().getConfigValue("defaultVisitTypes");
-                $rootScope.addressLevels = configurations.addressLevels();
-                $rootScope.appId = appService.getAppDescriptor().getId();
-            });
-        };
+  angular
+    .module('clinic')
+    .factory('initialization', initialization);
 
-        var initForms = function () {
-           formLoader.load(appService.getAppDescriptor().getClinicalServices()).then(function (data) {
-               $rootScope.serviceForms = data;
-           });
-        };
+  initialization.$inject = ['$cookies', '$rootScope', 'configurations', 'authenticator', 'appService', 'spinner', 'userService', 'sessionService'];
 
-        var initClinicalServices = function () {
-            $rootScope.clinicalServices = appService.getAppDescriptor().getClinicalServices();
-        };
+  /* @ngInject */
+  function initialization($cookies, $rootScope, configurations, authenticator, appService, spinner, userService, sessionService) {
 
-        var initFormLayout = function () {
-            $rootScope.formLayout = appService.getAppDescriptor().getFormLayout();
-        };
+    return spinner.forPromise(authenticator.authenticateUser()
+      .then(initApp)
+      .then(getConfigs)
+      .then(loadUser)
+      .then(initDrugMapping)
+      .then(loadProvider));
 
-        var initDrugMapping = function () {
-            $rootScope.drugMapping = appService.getAppDescriptor().getDrugMapping()[0];
-        };
+    ////////////////
 
-        var initApp = function() {
-            return appService.initApp('clinical', {'app': true, 'extension' : true, 'service': true });
-        };
+    function getConfigs() {
+      var configNames = ['patientAttributesConfig', 'addressLevels'];
+      return configurations.load(configNames).then(function () {
+        var mandatoryPersonAttributes = appService.getAppDescriptor().getConfigValue("mandatoryPersonAttributes");
+        var patientAttributeTypes = new Poc.Patient.PatientAttributeTypeMapper().mapFromOpenmrsPatientAttributeTypes(configurations.patientAttributesConfig(), mandatoryPersonAttributes);
+        $rootScope.patientConfiguration = new Poc.Patient.PatientConfig(patientAttributeTypes.personAttributeTypes, appService.getAppDescriptor().getConfigValue("additionalPatientInformation"));
+        $rootScope.defaultVisitTypes = appService.getAppDescriptor().getConfigValue("defaultVisitTypes");
+        $rootScope.defaultDisplayLimit = appService.getAppDescriptor().getConfigValue("defaultDisplayLimit");
+        $rootScope.appId = appService.getAppDescriptor().getId();
+      });
+    }
 
-        var loadUser = function () {
-            var currentUser = $cookies.get(Bahmni.Common.Constants.currentUser);
+    function initDrugMapping() {
+      $rootScope.drugMapping = appService.getAppDescriptor().getDrugMapping()[0];
+    }
 
-            return userService.getUser(currentUser).success(function(data) {
-                $rootScope.currentUser = data.results[0];
-            });
-        };
+    function initApp() {
+      return appService.initApp('clinical', {'app': true, 'extension' : true, 'service': true });
+    }
 
-        var loadProvider = function () {
-            return sessionService.loadProviders($rootScope.currentUser).success(function (data) {
-                var providerUuid = (data.results.length > 0) ? data.results[0].uuid : undefined;
-                $rootScope.currentProvider = {uuid: providerUuid};
-            });
-        }
+    function loadUser () {
+      var currentUser = $cookies.get(Bahmni.Common.Constants.currentUser);
 
-        return spinner.forPromise(authenticator.authenticateUser()
-                .then(initApp)
-                .then(getConfigs)
-                .then(loadUser)
-                .then(initFormLayout)
-                .then(initForms)
-                .then(initClinicalServices)
-                .then(initDrugMapping)
-                .then(loadProvider));
-    }]
-);
+      return userService.getUser(currentUser).success(function(data) {
+        $rootScope.currentUser = data.results[0];
+      });
+    }
+
+    function loadProvider () {
+      return sessionService.loadProviders($rootScope.currentUser).success(function (data) {
+        var providerUuid = (data.results.length > 0) ? data.results[0].uuid : undefined;
+        $rootScope.currentProvider = {uuid: providerUuid};
+      });
+    }
+  }
+
+})();

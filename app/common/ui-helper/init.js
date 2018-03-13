@@ -1,1 +1,10 @@
-angular.module('bahmni.common.uiHelper', ['ngClipboard']);
+(function () {
+  'use strict';
+
+  angular
+    .module('bahmni.common.uiHelper', [
+      'ngDialog',
+      'pascalprecht.translate'
+    ]);
+
+})();

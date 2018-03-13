@@ -1,105 +1,115 @@
-<table class="table table-responsive">
+<poc-authorize privilege="'Read Patient Program'" display-info="true">
+  <table class="table table-responsive">
     <thead>
-        <tr>
-            <th>{{'COMMON_PROGRAM_NAME' | translate}}</th>
-            <th>{{'COMMON_DATE' | translate}}</th>
-            <th>{{'COMMON_STATE' | translate}}</th>
-            <th>{{'COMMON_DETAILS' | translate}}</th>
-            <th>{{'COMMON_OUTCOME' | translate}}</th>
-        </tr>
+    <tr>
+      <th>{{'COMMON_PROGRAM_NAME' | translate}}</th>
+      <th>{{'COMMON_DATE' | translate}}</th>
+      <th>{{'COMMON_STATE' | translate}}</th>
+      <th>{{'COMMON_DETAILS' | translate}}</th>
+      <th>{{'COMMON_OUTCOME' | translate}}</th>
+    </tr>
     </thead>
     <tbody>
-        <tr ng-if="hasPatientEnrolledToSomePrograms()" ng-repeat="program in activePrograms">
-            <td>
-                <button class="btn btn-primary btn-lg" type="button" data-toggle="modal" data-target="#editProgramModal" 
-                        ng-click="setProgramSelected(program)">
-                    {{program.display}}
-                    <span class="glyphicon glyphicon-pencil"></span>
-                </button>
-            </td>
-            <td>
-                {{'COMMON_PROGRAM_ENROLLMENT_ENROLLED_ON' | translate}}: ({{program.dateEnrolled | date:"MM/dd/yyyy"}})
-            </td>
-            <td ng-if="hasValidProgramStateToShow(program.states)" ng-init="currentState = getCurrentProgramState(program.states)">
-                <button class="btn btn-primary btn-lg" type="button"  
-                        data-toggle="modal" data-target="#editProgramStateModal" ng-click="setProgramSelected(program)">
-                    {{currentState.state.concept.display}}
-                    <span ng-if="currentState.endDate !== null">
-                        {{'COMMON_TO' | translate}} {{currentState.endDate | date:"MM/dd/yyyy"}}
+    <tr ng-if="hasPatientEnrolledToSomePrograms()" ng-repeat="program in activePrograms">
+      <td>
+        <button class="btn btn-primary btn-lg" type="button" data-toggle="modal" data-target="#editProgramModal"
+                ng-click="setProgramSelected(program)">
+          <span class="glyphicon glyphicon-pencil"></span>
+          <span class="button-label">{{program.display}}</span>
+        </button>
+      </td>
+      <td>
+        {{'COMMON_PROGRAM_ENROLLMENT_ENROLLED_ON' | translate}}: ({{program.dateEnrolled | date}})
+      </td>
+      <td ng-if="hasValidProgramStateToShow(program.states)"
+          ng-init="currentState = getCurrentProgramState(program.states)">
+        <button class="btn btn-primary btn-lg" type="button"
+                data-toggle="modal" data-target="#editProgramStateModal" ng-click="setProgramSelected(program)">
+          <span class="glyphicon glyphicon-pencil"></span>
+          <span class="button-label">{{currentState.state.concept.display}}</span>
+          <span ng-if class="button-label=" currentState.endDate !== null">
+          {{'COMMON_TO' | translate}} {{currentState.endDate | date}}
+          </span>
+          <span class="button-label ng-if=" currentState.endDate=== null">
+          {{'COMMON_FROM' | translate}} ({{currentState.startDate | date}})
+          </span>
+        </button>
+      </td>
+      <td ng-if="!hasValidProgramStateToShow(program.states)">
+        <poc-authorize privilege="'Edit Patient Program'">
+          <button class="btn btn-primary btn-lg" type="button">
+            <span class="glyphicon glyphicon-plus"></span>
+            <span class="button-label">{{'ADD' | translate}}</span>
+          </button>
+        </poc-authorize>
+      </td>
+      <td>
+        <button ng-if="hasValidProgramStateToShow(program.states)" class="btn btn-success btn-lg" type="button"
+                data-toggle="modal" data-target="#detailProgramModal" ng-click="setProgramSelected(program)">
+          <span class="glyphicon glyphicon-eye-open"></span>
+          <span class="button-label">{{'VIEW' | translate}}</span>
+        </button>
+      </td>
+      <td ng-if="program.outcome">
+        {{program.outcome.display}}
+      </td>
+      <td ng-if="!program.outcome">
+      </td>
+    </tr>
+
+    <tr ng-if="hasPatientAnyPastPrograms()" ng-repeat="program in endedPrograms">
+      <td>
+        <button class="btn btn-default btn-lg" type="button"
+                data-toggle="modal" data-target="#editProgramModal" ng-click="setProgramSelected(program)">
+          <span class="glyphicon glyphicon-pencil"></span>
+          <span class="button-label">{{program.display}}</span>
+        </button>
+      </td>
+      <td>
+        {{'COMMON_PROGRAM_ENROLLMENT_COMPLETED_ON' | translate}}: ({{program.dateCompleted | date}})
+      </td>
+      <td ng-if="hasValidProgramStateToShow(program.states)"
+          ng-init="currentState = getCurrentProgramState(program.states)">
+        <button class="btn btn-default btn-lg" type="button" disabled="disabled">
+          <span class="button-label">{{currentState.state.concept.display}}</span>
+          <span class="button-label" ng-if="currentState.endDate !== null">
+                        {{'COMMON_TO' | translate}} {{currentState.endDate | date}}
                     </span>
-                    <span ng-if="currentState.endDate === null">
-                        {{'COMMON_FROM' | translate}} ({{currentState.startDate | date:"MM/dd/yyyy"}})
+          <span class="button-label" ng-if="currentState.endDate === null">
+                        {{'COMMON_FROM' | translate}} ({{currentState.startDate | date}})
                     </span>
-                    <span class="glyphicon glyphicon-pencil"></span>
-                </button>
-            </td>
-            <td ng-if="!hasValidProgramStateToShow(program.states)">
-                <button class="btn btn-primary btn-lg" type="button">
-                      <span class="glyphicon glyphicon-plus"></span>      
-                </button>
-            </td>
-            <td>
-                <button ng-if="hasValidProgramStateToShow(program.states)" class="btn btn-success btn-lg" type="button"
-                        data-toggle="modal" data-target="#detailProgramModal" ng-click="setProgramSelected(program)">
-                    <span class="glyphicon glyphicon-eye-open"></span>
-                </button>
-            </td>
-            <td ng-if="program.outcome">
-                {{program.outcome.display}}
-            </td>
-            <td ng-if="!program.outcome">
-            </td>
-        </tr>
-        
-        <tr ng-if="hasPatientAnyPastPrograms()" ng-repeat="program in endedPrograms">
-            <td>
-                <button class="btn btn-default btn-lg" type="button" 
-                         data-toggle="modal" data-target="#editProgramModal" ng-click="setProgramSelected(program)">
-                    {{program.display}}
-                    <span class="glyphicon glyphicon-pencil"></span>
-                </button>
-            </td>
-            <td>
-                {{'COMMON_PROGRAM_ENROLLMENT_COMPLETED_ON' | translate}}: ({{program.dateCompleted | date:"MM/dd/yyyy"}})
-            </td>
-            <td ng-if="hasValidProgramStateToShow(program.states)" ng-init="currentState = getCurrentProgramState(program.states)">
-                <button class="btn btn-default btn-lg" type="button" disabled="disabled">
-                    {{currentState.state.concept.display}}
-                    <span ng-if="currentState.endDate !== null">
-                        {{'COMMON_TO' | translate}} {{currentState.endDate | date:"MM/dd/yyyy"}}
-                    </span>
-                    <span ng-if="currentState.endDate === null">
-                        {{'COMMON_FROM' | translate}} ({{currentState.startDate | date:"MM/dd/yyyy"}})
-                    </span>
-                </button>
-            </td>
-            <td ng-if="!hasValidProgramStateToShow(program.states)">
-                <p>{{'COMMON_PROGRAM_ENROLLMENT_NO_STATE' | translate}}</p>
-            </td>
-            <td>
-                <button ng-if="hasValidProgramStateToShow(program.states)" class="btn btn-success btn-lg" type="button"
-                        data-toggle="modal" data-target="#detailProgramModal" ng-click="setProgramSelected(program)">
-                    <span class="glyphicon glyphicon-eye-open"></span>
-                </button>
-            </td>
-            <td ng-if="program.outcome">
-                {{program.outcome.display}}
-            </td>
-            <td ng-if="!program.outcome">
-            </td>
-        </tr>
+        </button>
+      </td>
+      <td ng-if="!hasValidProgramStateToShow(program.states)">
+        <p>{{'COMMON_PROGRAM_ENROLLMENT_NO_STATE' | translate}}</p>
+      </td>
+      <td>
+        <button ng-if="hasValidProgramStateToShow(program.states)" class="btn btn-success btn-lg" type="button"
+                data-toggle="modal" data-target="#detailProgramModal" ng-click="setProgramSelected(program)">
+          <span class="glyphicon glyphicon-eye-open"></span>
+          <span class="button-label">{{'VIEW' | translate}}</span>
+        </button>
+      </td>
+      <td ng-if="program.outcome">
+        {{program.outcome.display}}
+      </td>
+    </tr>
     </tbody>
     <tfoot>
-        <tr>
-            <td colspan="5" class="go-to-right">
-                <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addProgramModal">
-                    <span class="glyphicon glyphicon-plus"></span>
-                </button>
-            </td>
-        </tr>
+    <tr>
+      <td colspan="5" class="go-to-right">
+        <poc-authorize privilege="'Write Patient Program'">
+          <button type="button" class="btn btn-primary btn-lg" ng-click="resetProgramFields()" data-toggle="modal"
+                  data-target="#addProgramModal">
+            <span class="glyphicon glyphicon-plus-sign"></span>
+            <span class="button-label">{{'NEW_PROGRAM' | translate}}</span>
+          </button>
+        </poc-authorize>
+      </td>
+    </tr>
     </tfoot>
-</table>
-
+  </table>
+</poc-authorize>
 <!-- modal dialogs -->
 <div ng-include src="'../common/uicontrols/programmanagement/views/program-add.html'"></div>
 <div ng-include src="'../common/uicontrols/programmanagement/views/program-edit.html'"></div>

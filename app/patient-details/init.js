@@ -1,1 +1,1 @@
-angular.module('patient.details', ['common.patient']);
+angular.module('patient.details', ['common.patient', 'ui.bootstrap']);

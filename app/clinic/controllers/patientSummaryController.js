@@ -1,195 +1,260 @@
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('clinic')
-        .controller('PatientSummaryController', ["$scope", "$rootScope", "$stateParams",
-                        "encounterService", "observationsService", "commonService", "orderService",
-                    function ($scope, $rootScope, $stateParams, encounterService,
-                    observationsService, commonService, orderService) {
-        var patientUuid;
+  angular.module('clinic')
+    .controller('PatientSummaryController', PatientSummaryController);
 
-        (function () {
-            patientUuid = $stateParams.patientUuid;
-        })();
+  PatientSummaryController.$inject = ['$rootScope', '$stateParams', 'encounterService', 'observationsService',
+    'commonService', '$filter', 'spinner', 'prescriptionService', 'patientService'];
 
-        $scope.initVisitHistory = function () {
-            encounterService.getEncountersOfPatient(patientUuid).success(function (data) {
-                $scope.visits = commonService.filterGroupReverse(data);
-            });
-        };
+  /* @ngInject */
+  function PatientSummaryController($rootScope, $stateParams, encounterService, observationsService, commonService,
+                                    $filter, spinner, prescriptionService, patientService) {
+    var patientUuid = $stateParams.patientUuid;
+    var patient = {};
+    var vm = this;
 
-        $scope.initLabResults = function () {
-            var labEncounterUuid = "e2790f68-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
+    vm.displayLimits = [
+      {id: 1, display: "All", value: -1},
+      {id: 2, display: "2", value: 2},
+      {id: 3, display: "4", value: 4},
+      {id: 4, display: "6", value: 6},
+      {id: 5, display: "12", value: 12},
+      {id: 6, display: "24", value: 24}
+    ];
 
-            encounterService.getEncountersForEncounterType(patientUuid, labEncounterUuid).success(function (data) {
-                $scope.labs = commonService.filterGroupReverse(data);
-            });
-        };
+    vm.displayLimit = _.find(vm.displayLimits, function (item) {
+      return item.value === +$rootScope.defaultDisplayLimit;
+    });
 
-        $scope.initDiagnosis = function () {
-            var concepts = ["e1cdd38c-1d5f-11e0-b929-000c29ad1d07",
-                "e1e2b07c-1d5f-11e0-b929-000c29ad1d07",
-                "e1d608cc-1d5f-11e0-b929-000c29ad1d07",
-                "e1e5232a-1d5f-11e0-b929-000c29ad1d07",
-                "e1e529a6-1d5f-11e0-b929-000c29ad1d07",
-                "e1d2984a-1d5f-11e0-b929-000c29ad1d07",
-                "e1dac2ae-1d5f-11e0-b929-000c29ad1d07",
-                "e1dac3da-1d5f-11e0-b929-000c29ad1d07",
-                "e1dac574-1d5f-11e0-b929-000c29ad1d07",
-                "e1e2530c-1d5f-11e0-b929-000c29ad1d07",
-                "e1e52898-1d5f-11e0-b929-000c29ad1d07",
-                "e1e29fa6-1d5f-11e0-b929-000c29ad1d07",
-                "e1daf922-1d5f-11e0-b929-000c29ad1d07",
-                "e1dce93a-1d5f-11e0-b929-000c29ad1d07"
-            ];//TODO: create in configuration file
+    vm.filterDate = filterDate;
+    vm.isObject = isObject;
+    vm.updateDisplayLimit = updateDisplayLimit;
 
-            observationsService.findAll(patientUuid).success (function (data) {
-                var filtered = observationsService.filterByList(data.results, concepts);//TODO: filter must be dome in backend system
-                var ordered = _.sortBy(filtered, function (obs) {
-                    return obs.obsDatetime;
-                });
-                $scope.diagnosis = ordered;
-            });
-        };
+    activate();
 
-        $scope.initICD10Diagnosis = function () {
-            var concept = "e1eb7806-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
+    ////////////////
 
-            observationsService.get(patientUuid, concept).success (function (data) {
-                var filtered = commonService.filterRetired(data.results);//TODO: filter must be dome in backend system
-                $scope.icdDiagnosis = filtered;
-            });
-        };
+    function activate() {
+      updateDisplayLimit(vm.displayLimit);
+    }
 
-        $scope.initPharmacyPickups = function () {
-            var pharmacyEncounterUuid = "e279133c-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
+    function dropSizeToLimit(list) {
+      if (_.isUndefined(list)) return;
+      var size = _.size(list);
 
-            encounterService.getEncountersForEncounterType(patientUuid, pharmacyEncounterUuid).success(function (data) {
-                $scope.pickups = commonService.filterGroupReverse(data);
-            });
-        };
+      if (vm.displayLimit.value === -1) return list;
 
-        $scope.initPharmacyPickupsNew = function () {
-            var patientUuid = $stateParams.patientUuid;
-            var pharmacyEncounterTypeUuid = "18fd49b7-6c2b-4604-88db-b3eb5b3a6d5f";
+      if (vm.displayLimit.value > size) return list;
 
-            encounterService.getEncountersForEncounterType(patientUuid, pharmacyEncounterTypeUuid).success(function (data) {
-                var nonRetired = prepareDispenses(commonService.filterReverse(data));
-                $scope.newPickups = nonRetired;
+      return _.slice(list, 0, vm.displayLimit.value);
+    }
 
-            });
-        };
+    function updateDisplayLimit() {
+      spinner.forPromise(getPatient()
+        .then(function (p) { patient = p; })
+        .then(initVisitHistory)
+        .then(initLabResults)
+        .then(initDiagnosis)
+        .then(initICD10Diagnosis)
+        .then(initPharmacyPickups)
+        .then(initPharmacyPickupsNew)
+        .then(initPrescriptions)
+        .then(initAllergies)
+        .then(initVitals));
+    }
 
-        var prepareDispenses = function (encounters) {
+    function initVisitHistory() {
+      return encounterService.getEncountersOfPatient(patientUuid).success(function (data) {
+        vm.visits = dropSizeToLimit(commonService.filterGroupReverse(data));
+      });
+    }
 
-            var dispenses = [];
+    function initLabResults() {
+      var labEncounterUuid = "e2790f68-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
 
-            _.forEach(encounters, function (encounter) {
-                var dispense = {};
-                dispense.detetime = encounter.encounterDatetime;
-                dispense.provider = encounter.provider;
-                dispense.items = [];
-                _.forEach(encounter.obs, function (obs) {
-                    var item = {};
-                    item.order = obs.groupMembers[0].order;
-                    item.quantity = commonService.findByMemberConcept(obs.groupMembers, "e1de2ca0-1d5f-11e0-b929-000c29ad1d07");
-                    item.returnDate = commonService.findByMemberConcept(obs.groupMembers, "e1e2efd8-1d5f-11e0-b929-000c29ad1d07");
+      return encounterService.getEncountersForEncounterType(patientUuid, labEncounterUuid).success(function (data) {
+        vm.labs = commonService.filterGroupReverse(data);
+      });
+    }
 
-                    dispense.items.push(item);
-                });
-                dispenses.push(dispense);
-            });
+    function initDiagnosis() {
+      var concepts = ["e1cdd38c-1d5f-11e0-b929-000c29ad1d07",
+        "e1e2b07c-1d5f-11e0-b929-000c29ad1d07",
+        "e1d608cc-1d5f-11e0-b929-000c29ad1d07",
+        "e1e5232a-1d5f-11e0-b929-000c29ad1d07",
+        "e1e529a6-1d5f-11e0-b929-000c29ad1d07",
+        "e1d2984a-1d5f-11e0-b929-000c29ad1d07",
+        "e1dac2ae-1d5f-11e0-b929-000c29ad1d07",
+        "e1dac3da-1d5f-11e0-b929-000c29ad1d07",
+        "e1dac574-1d5f-11e0-b929-000c29ad1d07",
+        "e1e2530c-1d5f-11e0-b929-000c29ad1d07",
+        "e1e52898-1d5f-11e0-b929-000c29ad1d07",
+        "e1e29fa6-1d5f-11e0-b929-000c29ad1d07",
+        "e1daf922-1d5f-11e0-b929-000c29ad1d07",
+        "e1dce93a-1d5f-11e0-b929-000c29ad1d07"
+      ];//TODO: create in configuration file
 
-            return dispenses;
-        };
+      return observationsService.findAll(patientUuid).success (function (data) {
+        var filtered = observationsService.filterByList(data.results, concepts);//TODO: filter must be dome in backend system
+        var ordered = _.sortBy(filtered, function (obs) {
+          return obs.obsDatetime;
+        });
+        vm.diagnosis = dropSizeToLimit(ordered);
+      });
+    }
 
-        $scope.initPrescriptions = function () {
-            var concepts = [Bahmni.Common.Constants.prescriptionConvSetConcept];
+    function initICD10Diagnosis() {
+      var concept = "e1eb7806-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
 
-            var patient = $rootScope.patient;
-            var adultFollowupEncounterUuid = Bahmni.Common.Constants.adultFollowupEncounterUuid;
-            var childFollowupEncounterUuid = Bahmni.Common.Constants.childFollowupEncounterUuid;
+      return observationsService.getObs(patientUuid, concept).then (function (obs) {
+        var filtered = commonService.filterRetired(obs);//TODO: filter must be dome in backend system
+        vm.icdDiagnosis = dropSizeToLimit(filtered);
+      });
+    }
 
-            encounterService.getEncountersForEncounterType(patient.uuid,
-            (patient.age.years >= 15) ? adultFollowupEncounterUuid : childFollowupEncounterUuid)
-                    .success(function (data) {
-                        var filteredResults = commonService.filterGroupReverseFollowupObs(concepts, data.results);
-                        $scope.prescriptions = [];
+    function initPharmacyPickups() {
+      var pharmacyEncounterUuid = "e279133c-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
 
-                        _.forEach(filteredResults, function (filteredResult) {
-                            var existingModels = {
-                                prescriptionDate: filteredResult.encounterDatetime,
-                                models: []
-                            };
+      return encounterService.getEncountersForEncounterType(patientUuid, pharmacyEncounterUuid).success(function (data) {
+        vm.pickups = dropSizeToLimit(commonService.filterGroupReverse(data));
+      });
+    }
 
-                            _.forEach(filteredResult.obs, function (pSet) {
-                                var existingModel = angular.copy(Bahmni.Common.Constants.drugPrescriptionConvSet);
-                                for (var key in existingModel) {
-                                    var m = existingModel[key];
-                                    var foundModel = _.find(pSet.groupMembers, function (element) {
-                                        return element.concept.uuid === m.uuid;
-                                    });
-                                    if (_.isUndefined(foundModel)) continue;
+    function initPharmacyPickupsNew() {
+      var patientUuid = $stateParams.patientUuid;
+      var pharmacyEncounterTypeUuid = "18fd49b7-6c2b-4604-88db-b3eb5b3a6d5f";
 
-                                    if (key === "otherDrugs") {
-                                        if (_.includes(Bahmni.Common.Constants.prophilaxyDrugConcepts, foundModel.value.uuid)) {
-                                            continue;
-                                        }
-                                    }
-                                    if (key === "prophilaxyDrugs") {
-                                        if (!_.includes(Bahmni.Common.Constants.prophilaxyDrugConcepts, foundModel.value.uuid)) {
-                                            continue;
-                                        }
-                                    }
+      return encounterService.getEncountersForEncounterType(patientUuid, pharmacyEncounterTypeUuid).success(function (data) {
+        var nonRetired = prepareDispenses(commonService.filterReverse(data));
+        vm.newPickups = dropSizeToLimit(nonRetired);
 
-                                    m.model = foundModel.concept;
-                                    m.value = foundModel.value;
-                                }
-                                existingModels.models.push(existingModel);
-                            });
-                            $scope.prescriptions.push(existingModels);
-                        });
-                    });
-        };
+      });
+    }
 
-        $scope.initAllergies = function () {
-            var concepts = ["e1e07ece-1d5f-11e0-b929-000c29ad1d07", "e1da757e-1d5f-11e0-b929-000c29ad1d07"];
+    function prepareDispenses(encounters) {
 
-            var adultFollowupEncounterUuid = "e278f956-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
-            var childFollowupEncounterUuid = "e278fce4-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
+      var dispenses = [];
 
-            var patient = commonService.deferPatient($rootScope.patient);
+      _.forEach(encounters, function (encounter) {
+        var dispense = {};
+        dispense.detetime = encounter.encounterDatetime;
+        dispense.provider = encounter.provider;
+        dispense.items = [];
+        _.forEach(encounter.obs, function (obs) {
 
-            encounterService.getEncountersForEncounterType(patient.uuid,
-            (patient.age.years >= 15) ? adultFollowupEncounterUuid : childFollowupEncounterUuid)
-                    .success(function (data) {
-                        $scope.allergies = commonService.filterGroupReverseFollowupObs(concepts, data.results);
+          if(obs.groupMembers){
+            var item = {};
+            item.order = obs.groupMembers[0].order;
+            item.quantity = commonService.findByMemberConcept(obs.groupMembers, "e1de2ca0-1d5f-11e0-b929-000c29ad1d07");
+            item.returnDate = commonService.findByMemberConcept(obs.groupMembers, "e1e2efd8-1d5f-11e0-b929-000c29ad1d07");
 
-            });
-        };
+            dispense.items.push(item);
+          }
+        });
+        dispenses.push(dispense);
+      });
 
-        $scope.initVitals = function () {
-            var concepts = ["e1e2e934-1d5f-11e0-b929-000c29ad1d07",
-                "e1e2e826-1d5f-11e0-b929-000c29ad1d07",
-                "e1da52ba-1d5f-11e0-b929-000c29ad1d07",
-                "e1e2e70e-1d5f-11e0-b929-000c29ad1d07",
-                "e1e2e3d0-1d5f-11e0-b929-000c29ad1d07"
-            ];//TODO: create in configuration file
+      return dispenses;
+    }
 
-            var adultFollowupEncounterUuid = "e278f956-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
-            var childFollowupEncounterUuid = "e278fce4-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
+    //TODO: Remove this duplicated function
+    function initPrescriptions() {
+      return prescriptionService.getAllPrescriptions(patient).then(function (patientPrescriptions) {
+        vm.hasServiceToday = (hasActivePrescription(patientPrescriptions)) ? true : null;
+        vm.prescriptions = patientPrescriptions.reverse();
+        setPrescritpionItemStatus(vm.existingPrescriptions);
+      });
+    }
 
-            var patient = commonService.deferPatient($rootScope.patient);
+    //TODO: Remove this duplicated function
+    function hasActivePrescription(prescriptions){
+      return _.find(prescriptions, function (prescription) {
+        return prescription.prescriptionStatus === true;
+      });
+    }
 
-            encounterService.getEncountersForEncounterType(patient.uuid,
-            (patient.age.years >= 15) ? adultFollowupEncounterUuid : childFollowupEncounterUuid)
-                    .success(function (data) {
-                        $scope.vitals = commonService.filterGroupReverseFollowupObs(concepts, data.results);
+    //TODO: Remove this duplicated function
+    function setPrescritpionItemStatus(prescriptions){
+      _.forEach(prescriptions, function (prescription) {
+        _.forEach(prescription.prescriptionItems, function (item) {
+          if(prescription.prescriptionStatus === true){
+            if((item.drugOrder.action === 'NEW') ||(item.drugOrder.action === 'REVISE') ){
+              item.status = "PHARMACY_ACTIVE";
+            }
+            else{
+              item.status = "PHARMACY_FINALIZED";
+            }
+          }
+          else{
+            item.status = "PHARMACY_FINALIZED";
+          }
+        });
+      });
+    }
 
-            });
-        };
+    function initAllergies() {
+      var concepts = ["e1e07ece-1d5f-11e0-b929-000c29ad1d07", "e1da757e-1d5f-11e0-b929-000c29ad1d07"];
 
-        $scope.isObject = function (value) {
-            return _.isObject(value);
-        };
+      var adultFollowupEncounterUuid = "e278f956-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
+      var childFollowupEncounterUuid = "e278fce4-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
 
-    }]);
+      return encounterService.getEncountersForEncounterType(patient.uuid,
+        (patient.age.years >= 15) ? adultFollowupEncounterUuid : childFollowupEncounterUuid)
+        .success(function (data) {
+          vm.allergies = dropSizeToLimit(commonService.filterGroupReverseFollowupObs(concepts, data.results));
+
+        });
+    }
+
+    function initVitals() {
+      var concepts = ["e1e2e934-1d5f-11e0-b929-000c29ad1d07",
+        "e1e2e826-1d5f-11e0-b929-000c29ad1d07",
+        "e1da52ba-1d5f-11e0-b929-000c29ad1d07",
+        "e1e2e70e-1d5f-11e0-b929-000c29ad1d07",
+        "e1e2e3d0-1d5f-11e0-b929-000c29ad1d07"
+      ];//TODO: create in configuration file
+
+      var adultFollowupEncounterUuid = "e278f956-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
+      var childFollowupEncounterUuid = "e278fce4-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
+
+      return encounterService.getEncountersForEncounterType(patient.uuid,
+        (patient.age.years >= 15) ? adultFollowupEncounterUuid : childFollowupEncounterUuid)
+        .success(function (data) {
+          vm.vitals = dropSizeToLimit(commonService.filterGroupReverseFollowupObs(concepts, data.results));
+
+        });
+    }
+
+    function isObject(value) {
+      return _.isObject(value);
+    }
+
+    function filterDate(obs) {
+      if (obs.concept.uuid === "892a98b2-9c98-4813-b4e5-0b434d14404d"
+        || obs.concept.uuid === "e1e2efd8-1d5f-11e0-b929-000c29ad1d07") {
+        return $filter('date')(obs.value, "MMM d, y");
+      }
+
+      return obs.value;
+    }
+
+    function getPatient() {
+      return patientService.getPatient(patientUuid);
+    }
+
+
+
+    observationsService
+      .getLastPatientObs(patientUuid, Bahmni.Common.Constants.BMI)
+      .then(function (data) {
+          vm.patientVitals = data;
+      }).catch(function (data) {
+
+    });
+
+
+
+  }
+
+})();

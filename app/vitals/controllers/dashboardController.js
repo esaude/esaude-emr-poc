@@ -1,24 +1,41 @@
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('vitals')
-        .controller('DashboardController', ["$rootScope", "$scope", "$location", "$stateParams", "patientService", function ($rootScope, $scope, $location, $stateParams, patientService) {
-            var patientUuid;
+  angular
+    .module('vitals')
+    .controller('DashboardController', DashboardController);
 
-            init();
+  DashboardController.$inject = ['$state', '$stateParams', 'patientService', 'visitService'];
 
-            function init() {
-                patientUuid = $stateParams.patientUuid;
+  /* @ngInject */
+  function DashboardController($state, $stateParams, patientService, visitService) {
 
-                patientService.getPatient(patientUuid).then(function (patient) {
-                    $rootScope.patient = patient;
-                });
-            }
+    var vm = this;
 
-            $scope.linkSearch = function() {
-                $location.url("/search"); // path not hash
-            };
+    vm.patientUUID = $stateParams.patientUuid;
+    vm.todayVisit = null;
 
-            $scope.linkPatientDetail = function() {
-                $location.url("/patient/detail/" + patientUuid + "/demographic"); // path not hash
-            };
-        }]);
+
+    activate();
+
+    ////////////////
+
+    function activate() {
+      patientService.getPatient(vm.patientUUID).then(function (patient) {
+        vm.patient = patient;
+      });
+
+      visitService.getTodaysVisit(vm.patientUUID).then(function (visitToday) {
+        if (visitToday) {
+          vm.hasVisitToday = true;
+          vm.todayVisit = visitToday;
+        } else {
+          vm.hasVisitToday = false;
+        }
+      });
+    }
+
+
+  }
+
+})();

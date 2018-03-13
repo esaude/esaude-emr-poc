@@ -1,22 +1,36 @@
 <div class="row content-border-margin-regular">
   <div class="col-sm-6">
-    <div class="panel panel-primary panel-marginless-sides" ng-init="initLabChart()">
+    <div class="alert alert-info" ng-show="vm.charts.labResults.data.length < 1" >
+        <b> {{ 'PATIENT_LAB_EXAMS_EMPTY' | translate }} </b>
+    </div>
+    <div class="panel panel-primary panel-marginless-sides" ng-show="vm.charts.labResults.data.length > 0">
       <div class="panel-heading">
         <h3 class="panel-title">{{'CLINIC_LAB_RESULTS' | translate}}</h3>
       </div>
-      <canvas id="line" class="chart chart-line" chart-data="labResultsdata" chart-labels="labResultslabels"
-              chart-series="labResultsseries" chart-options="options" legend="true">
+      <canvas id="line" class="chart chart-line"
+              chart-data="vm.charts.labResults.data"
+              chart-labels="vm.charts.labResults.labels"
+              chart-options="vm.charts.labResults.options"
+              chart-series="vm.charts.labResults.series"
+              legend="true">
       </canvas>
     </div>
   </div>
 
   <div class="col-sm-6">
-    <div class="panel panel-primary panel-marginless-sides" ng-init="initCD4LabChart()">
+    <div class="alert alert-info" ng-show="vm.charts.CD4labResults.data.length < 1" >
+      <b> {{ 'PATIENT_LAB_EXAMS_EMPTY' | translate }} </b>
+    </div>
+    <div class="panel panel-primary panel-marginless-sides" ng-show="vm.charts.CD4labResults.data.length > 0">
       <div class="panel-heading">
         <h3 class="panel-title">{{'CLINIC_PATIENT_CHARTS_CD4_TREND' | translate}}</h3>
       </div>
-      <canvas id="lineCD4" class="chart chart-line" chart-data="CD4labResultsdata"
-              chart-labels="CD4labResultslabels" legend="true" chart-options="optionsCD4" chart-series="CD4labResultsseries">
+      <canvas id="lineCD4" class="chart chart-line"
+              chart-data="vm.charts.CD4labResults.data"
+              chart-labels="vm.charts.CD4labResults.labels"
+              chart-options="vm.charts.CD4labResults.options"
+              chart-series="vm.charts.CD4labResults.series"
+              legend="true">
       </canvas>
     </div>
   </div>

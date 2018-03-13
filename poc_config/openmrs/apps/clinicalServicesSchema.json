@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "description": "Clinical service",
+  "type": "object",
+  "required": [
+    "id",
+    "formId",
+    "label",
+    "url"
+  ],
+  "properties": {
+    "id": {
+      "description": "The clinical service unique identifier.",
+      "type": "string"
+    },
+    "formId": {
+      "description": "The form uuid for the clinical service.",
+      "type": "string"
+    },
+    "label": {
+      "description": "The translation key for the clinical service label.",
+      "type": "string"
+    },
+    "url": {
+      "description": "The URL path where the form will be displayed.",
+      "type": "string"
+    },
+    "minOccur": {
+      "description": "Minimum number of times this form can be filled.",
+      "type": "string"
+    },
+    "maxOccur": {
+      "description": "Maximum number of times this form can be filled.",
+      "type": "string"
+    },
+    "constraints": {
+      "description": "Constraints that determine whether the form will be displayed in the clinical services list.",
+      "type": "object",
+      "properties": {
+        "minAge": {
+          "description": "The minimum required age for the patient.",
+          "type": "string"
+        },
+        "maxAge": {
+          "description": "The maximum required age for the patient.",
+          "type": "string"
+        }
+      }
+    },
+    "actionConstraints": {
+      "description": "Constraints that determine whether the add, edit and delete buttons are displayed.",
+      "type": "object",
+      "properties": {
+        "requireCheckIn": {
+          "description": "If the patient needs to be checked-in.",
+          "type": "boolean"
+        }
+      }
+    },
+    "privilege": {
+      "description": "Privilege required for the user to be able to fill the form.",
+      "type": "string"
+    },
+    "markedOn": {
+      "description": "TODO: don't know what this is for.",
+      "type": "string"
+    }
+  }
+}

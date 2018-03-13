@@ -1,0 +1,48 @@
+<div class="modal fade" id="cancellationDispensationItemModal" tabindex="-1" role="dialog" aria-labelledby="cancellationDispensationModalLabel">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="cancellationDispensationModalLabel">{{'COMMON_CANCELATION_ITEM' | translate}} :</h4>
+              <span>
+                <strong>{{vm.dispensationItemToCancel.drug.display}}</strong>
+             </span>
+            </div>
+            <form class="form-horizontal" name="cancellationDispensationForm" novalidate>
+              <div class="alert alert-danger alert-dismissible content-border-margin"
+                   role="alert"
+                   ng-show="cancellationDispensationForm.$submitted && cancellationDispensationForm.$invalid">
+                <strong>{{ 'COMMON_CANCELLATION_PRESCRIPTION_ERROR_NO_REASON' | translate}}</strong>
+              </div>
+              <div class="modal-body content-border-margin">
+                <div class="form-group form-group-lg"
+                     ng-class="{'has-error': cancellationDispensationForm.$submitted && cancellationDispensationForm.$invalid}">
+                  <label class="control-label col-sm-3">{{'COMMON_CANCEL_PRESCRIPTIONS_REASON' | translate}}:</label>
+                      <div class="col-sm-9" >
+                         <input type="text"
+                           name="cancelationReasonTyped"
+                           ng-model="$parent.cancelationReasonTyped"
+                           class="form-control keyboard-in"
+                           ng-required="true"
+                           ng-minlength="5"
+                           ng-focus="true">
+                       </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning btn-lg" ng-click="vm.closeCancellationModal(cancellationDispensationForm)">
+                        <span class="glyphicon glyphicon-minus-sign"></span>
+                        <span class="button-label">{{'CANCEL' | translate}}</span>
+                    </button>
+                  <poc-authorize privilege="'Delete Drug Dispensation'">
+                    <button type="submit"  ng-click="vm.cancelDispensationItem(cancellationDispensationForm, vm.dispensationItemToCancel)"
+                              class="btn btn-primary btn-lg">
+                          <span class="glyphicon glyphicon-floppy-disk"></span>
+                          <span class="button-label">{{'SAVE' | translate}}</span>
+                      </button>
+                  </poc-authorize>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

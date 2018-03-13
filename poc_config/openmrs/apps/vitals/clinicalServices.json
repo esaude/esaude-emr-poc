@@ -1,26 +1,34 @@
 [
-    {
-        "id": "003",
-        "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
-        "label": "COMMON_VITALS_FORM",
-        "url": "/vitals/adult",
-        "minOccur": "0",
-        "maxOccur": "-1",
-        "constraints": {
-            "minAge": "15"
-        },
-        "markedOn": "283e551d-a470-4280-84fd-8f409f3caf7a"
+  {
+    "id": "003",
+    "formId": "e28aa7aa-1d5f-11e0-b929-000c29ad1d07",
+    "label": "COMMON_VITALS_FORM",
+    "url": "/vitals/adult",
+    "minOccur": "0",
+    "maxOccur": "-1",
+    "constraints": {
+      "minAge": "15"
     },
-    {
-        "id": "004",
-        "formId": "e28ac028-1d5f-11e0-b929-000c29ad1d07",
-        "label": "COMMON_VITALS_FORM",
-        "url": "/vitals/child",
-        "minOccur": "0",
-        "maxOccur": "-1",
-        "constraints": {
-            "maxAge": "14"
-        },
-        "markedOn": "283e551d-a470-4280-84fd-8f409f3caf7a"
-    }
+    "actionConstraints": {
+      "requireCheckIn": false
+    },
+    "markedOn": "283e551d-a470-4280-84fd-8f409f3caf7a",
+    "privilege": "Vitals"
+  },
+  {
+    "id": "004",
+    "formId": "e28ac028-1d5f-11e0-b929-000c29ad1d07",
+    "label": "COMMON_VITALS_FORM",
+    "url": "/vitals/child",
+    "minOccur": "0",
+    "maxOccur": "-1",
+    "constraints": {
+      "maxAge": "14"
+    },
+    "actionConstraints": {
+      "requireCheckIn": false
+    },
+    "markedOn": "283e551d-a470-4280-84fd-8f409f3caf7a",
+    "privilege": "Vitals"
+  }
 ]

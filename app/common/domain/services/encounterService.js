@@ -4,11 +4,21 @@
   angular.module('bahmni.common.domain')
     .factory('encounterService', encounterService);
 
-  encounterService.$inject = ['$http', '$q', '$rootScope', 'configurations', '$cookieStore', '$log', 'appService'];
+  encounterService.$inject = ['$http', '$q', 'configurations', '$log'];
 
-  function encounterService($http, $q, $rootScope, configurations, $cookieStore, $log, appService) {
+  function encounterService($http, $q, configurations, $log) {
 
-    var FILA_ENCOUNTER_TYPE_UUID = appService.getAppDescriptor().getConfigValue("encounterTypes").fila;
+    var FILA_ENCOUNTER_TYPE_UUID = "e279133c-1d5f-11e0-b929-000c29ad1d07";
+
+    var CHILD_FOLLOWUP_ENCOUNTER_TYPE_UUID = Bahmni.Common.Constants.childFollowupEncounterUuid;
+
+    var ADULT_FOLLOWUP_ENCOUNTER_TYPE_UUID = Bahmni.Common.Constants.adultFollowupEncounterUuid;
+
+    var PATIENT_CHILD_AGE = 14;
+
+    var sortByEncounterDateTime = _.curryRight(_.sortBy, 2)(function (encounter) {
+      return new Date(encounter.encounterDatetime);
+    });
 
     return {
       create: create,
@@ -16,8 +26,10 @@
       filterRetiredEncoounters: filterRetiredEncoounters,
       find: find,
       getEncountersForEncounterType: getEncountersForEncounterType,
+      getPatientFollowupEncounters: getPatientFollowupEncounters,
       getPatientFilaEncounters: getPatientFilaEncounters,
       getEncountersOfPatient: getEncountersOfPatient,
+      getEncountersForPatientByEncounterType: getEncountersForPatientByEncounterType,
       search: search,
       update: update
     };
@@ -28,27 +40,6 @@
         return response.data;
       });
     }
-
-    //TODO: Unused definition, to be removed after testing phase
-    // this.getEncounterType = function (programUuid) {
-    //     if(programUuid == null) {
-    //         return getDefaultEncounterType();
-    //     }
-    //     return $http.get(Bahmni.Common.Constants.entityMappingUrl, {
-    //         params: {
-    //             entityUuid: programUuid,
-    //             mappingType: 'program_encountertype',
-    //             s: 'byEntityAndMappingType'
-    //         },
-    //         withCredentials: true
-    //     }).then(function (response) {
-    //         var encounterType=response.data.results[0].mappings[0];
-    //         if(!encounterType) {
-    //             encounterType = getDefaultEncounterType();
-    //         }
-    //         return encounterType;
-    //     });
-    // };
 
     function create(encounter) {
       //encounter = this.buildEncounter(encounter);
@@ -134,49 +125,21 @@
       return deferredEncounters.promise;
     }
 
-    //TODO: Unused definition, to be removed after testing phase
-    // this.identifyEncounterForType = function(patientUuid, encounterTypeUuid) {
-    //     var searchable = $q.defer();
-    //     getEncountersOfCurrentVisit(patientUuid).then(function(encounters) {
-    //         if (encounters.length == 0) {
-    //             searchable.resolve(null);
-    //             return;
-    //         }
-    //         var selectedEnc = null;
-    //         encounters.sort(function(e1, e2) {
-    //             return e2.encounterDatetime - e1.encounterDatetime;
-    //         });
-    //         for (var i = 0, count =  encounters.length; i < count; i++) {
-    //             if (encounters[i].encounterTypeUuid == encounterTypeUuid) {
-    //                 selectedEnc = encounters[i];
-    //                 break;
-    //             }
-    //         }
-    //         searchable.resolve(selectedEnc);
-    //     },
-    //     function(responseError) {
-    //         searchable.reject("Couldn't identify prerequisite encounter for this operation.");
-    //     });
-    //     return searchable.promise;
-    // };
-
     function find(params) {
       return $http.post(Bahmni.Common.Constants.bahmniEncounterUrl + '/find', params, {
         withCredentials: true
       });
     }
 
-    //TODO: Unused definition, to be removed after testing phase
-    // this.findByEncounterUuid = function (encounterUuid) {
-    //     return $http.get(Bahmni.Common.Constants.bahmniEncounterUrl + '/' + encounterUuid, {
-    //         params: {includeAll : true},
-    //         withCredentials: true
-    //     });
-    // };
-
+    /**
+     * @deprecated {@see getEncountersForPatientByEncounterType}
+     * @param patientUuid
+     * @param encounterTypeUuid
+     * @param v
+     */
     function getEncountersForEncounterType(patientUuid, encounterTypeUuid, v) {
-      if (typeof v === "undefined") {
-        v = "custom:(uuid,encounterDatetime,provider,voided,visit:(uuid,startDatetime,stopDatetime),obs:(uuid,concept:(uuid,name),obsDatetime,value,groupMembers:(uuid,concept:(uuid,name),order,obsDatetime,value)))";
+      if (!v) {
+        v = "custom:(uuid,encounterDatetime,provider,voided,visit:(uuid,startDatetime,stopDatetime),obs:(uuid,concept:(uuid,name),obsDatetime,value,groupMembers:(uuid,concept:(uuid,name),order:(uuid,voided,drug,quantity,dose,doseUnits,frequency,quantityUnits,dosingInstructions,duration,durationUnits,route),obsDatetime,value)))";
       }
       return $http.get(Bahmni.Common.Constants.encounterUrl, {
         params: {
@@ -189,9 +152,85 @@
     }
 
     /**
-     * @param {String} patientUuid Patient UUID
-     * @param {String} v
-     * @returns {Array} Non retired pharmacy encounters for patient ordered by most recent.
+     * @param patientUUID
+     * @param encounterTypeUUID
+     * @param representation
+     * @returns {Promise} Non retired encounters for patient by encounterType ordered by most recent.
+     */
+    function getEncountersForPatientByEncounterType(patientUUID, encounterTypeUUID, representation) {
+
+      var config = {
+        params: {
+          patient: patientUUID,
+          encounterType: encounterTypeUUID
+        },
+        withCredentials: true
+      };
+
+      if (representation) {
+        config.params.v = representation
+      }
+
+      return $http.get(Bahmni.Common.Constants.encounterUrl, config)
+        .then(function (response) {
+          return _.flow([filterRetiredEncoounters, sortByEncounterDateTime, _.reverse])(response.data.results);
+        }).catch(function (error) {
+          $log.error('XHR Failed for getEncountersForPatientByEncounterType: ' + error.data.error.message);
+          return $q.reject();
+      });
+    }
+
+    /**
+     * @param {Object} patient Patient.
+     * @param {String} [representation=full] Resource representation.
+     * @returns {Promise} Non retired followup encounters for patient ordered by most recent.
+     */
+    function getPatientFollowupEncounters(patient, representation) {
+      if (patient.age.years > PATIENT_CHILD_AGE) {
+        return getPatientAdultFollowupEncounters(patient.uuid, representation);
+      }
+      return getPatientChildFollowupEncounters(patient.uuid, representation);
+    }
+
+
+    /**
+     * @param {String} patientUUID Patient UUID.
+     * @param {String} [representation=full] Resouce reprentation.
+     * @returns {Promise} Non retired adult followup encounters for patient ordered by most recent.
+     */
+    function getPatientChildFollowupEncounters(patientUUID, representation) {
+      return getEncountersForEncounterType(patientUUID, CHILD_FOLLOWUP_ENCOUNTER_TYPE_UUID, representation || "full")
+        .then(function (response) {
+          return _.flow([filterRetiredEncoounters, sortByEncounterDateTime, _.reverse])(response.data.results);
+        })
+        .catch(function (error) {
+          $log.error('XHR Failed for getPatientChildFollowupEncounters: ' + error.data.error.message);
+          return $q.reject(error);
+        })
+    }
+
+
+    /**
+     * @param {String} patientUUID Patient UUID.
+     * @param {String} [representation=full] Resouce reprentation.
+     * @returns {Promise} Non retired adult followup encounters for patient ordered by most recent.
+     */
+    function getPatientAdultFollowupEncounters(patientUUID, representation) {
+      return getEncountersForEncounterType(patientUUID, ADULT_FOLLOWUP_ENCOUNTER_TYPE_UUID, representation || "full")
+        .then(function (response) {
+          return _.flow([filterRetiredEncoounters, sortByEncounterDateTime, _.reverse])(response.data.results);
+        })
+        .catch(function (error) {
+          $log.error('XHR Failed for getPatientAdultFollowupEncounters: ' + error.data.error.message);
+          return $q.reject(error);
+        })
+    }
+
+
+    /**
+     * @param {String} patientUuid Patient UUID.
+     * @param {String} [v] Resouce reprentation.
+     * @returns {Promise} Non retired pharmacy encounters for patient ordered by most recent.
      */
     function getPatientFilaEncounters(patientUuid, v) {
 
@@ -213,7 +252,7 @@
       }
 
       function getEncountersFailed(error) {
-        $log.error('XHR Failed for getPatientFilaEncounters. ' + error.data);
+        $log.error('XHR Failed for getPatientFilaEncounters: ' + error.data.error.message);
         return $q.reject(error);
       }
 
@@ -222,7 +261,7 @@
         .catch(getEncountersFailed);
     }
 
-    function valueOfField (conceptUuid, obs) {
+    function valueOfField(conceptUuid, obs) {
 
       var field = _.find(obs, function (o) {
         return o.concept.uuid === conceptUuid;
@@ -238,17 +277,6 @@
       }
     }
 
-    //TODO: Unused definition, to be removed after testing phase
-    // this.getEncountersForEncounterTypeAllPatients = function(encounterTypeUuid) {
-    //     return $http.get(Bahmni.Common.Constants.encounterUrl, {
-    //         params:{
-    //             encounterType: encounterTypeUuid,
-    //             v: "custom:(uuid,patient,encounterDatetime,provider,voided,visit:(uuid,startDatetime,stopDatetime),obs:(uuid,concept:(uuid,name),obsDatetime,value,groupMembers:(uuid,concept:(uuid,name),obsDatetime,value)))"
-    //         },
-    //         withCredentials : true
-    //     });
-    // };
-
     function getEncountersOfPatient(patientUuid) {
       return $http.get(Bahmni.Common.Constants.encounterUrl, {
         params: {
@@ -258,19 +286,6 @@
         withCredentials: true
       });
     }
-
-    //TODO: Unused definition, to be removed after testing phase
-    // this.getDigitized = function(patientUuid) {
-    // var patientDocumentEncounterTypeUuid = configurations.encounterConfig().getPatientDocumentEncounterTypeUuid();
-    //     return $http.get(Bahmni.Common.Constants.encounterUrl, {
-    //         params:{
-    //             patient: patientUuid,
-    //             encounterType: patientDocumentEncounterTypeUuid,
-    //             v: "custom:(uuid,obs:(uuid))"
-    //         },
-    //         withCredentials : true
-    //     });
-    // };
 
     function filterRetiredEncoounters(encounters) {
       return _.filter(encounters, function (encounter) {

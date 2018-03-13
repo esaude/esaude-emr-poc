@@ -1,40 +1,32 @@
 describe('FilaHistoryController', function () {
 
-  var $q, $controller, controller, encounterService, patientService;
+  var $controller, controller, encounterService, patientService, dispensationService, $q, $rootScope, $http;
 
-  var stateParams = {'patientUuid': '0810aecc-6642-4c1c-ac1e-537a0cfed81'};
+  var stateParams = { 'patientUuid': '0810aecc-6642-4c1c-ac1e-537a0cfed81' };
 
   var encounters = [
-    {"encounterDatetime": new Date("2018-08-28")},
-    {"encounterDatetime": new Date("2017-07-05")},
-    {"encounterDatetime": new Date("2016-06-04")},
-    {"encounterDatetime": new Date("2016-05-03")},
-    {"encounterDatetime": new Date("2015-05-02")}
+    { "encounterDatetime": new Date("2018-08-28") },
+    { "encounterDatetime": new Date("2017-07-05") },
+    { "encounterDatetime": new Date("2016-06-04") },
+    { "encounterDatetime": new Date("2016-05-03") },
+    { "encounterDatetime": new Date("2015-05-02") }
   ];
 
-  beforeEach(module('pharmacy', function ($provide, $translateProvider) {
-    // Mock initialization
-    $provide.factory('initialization', function () {});
-    // Mock appService
-    var appService = jasmine.createSpyObj('appService', ['initApp']);
-    appService.initApp.and.returnValue({
-      then: function (fn) {}
-    });
-    $provide.value('appService', appService);
-    // Mock translate asynchronous loader
-    $provide.factory('mergeLocaleFilesService', function ($q) {
-      return function () {
-        var deferred = $q.defer();
-        deferred.resolve({});
-        return deferred.promise;
-      };
-    });
-    $translateProvider.useLoader('mergeLocaleFilesService');
+  var groupedDispensations = [
+    { dispensationItems: [1, 2] },
+    { dispensationItems: [3] }
+  ];
+
+  beforeEach(module('pharmacy', function ($urlRouterProvider) {
+    $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function (_$controller_, _$q_) {
+  beforeEach(inject(function (_$controller_, _dispensationService_, _$q_, _$rootScope_, $httpBackend) {
     $controller = _$controller_;
+    dispensationService = _dispensationService_;
     $q = _$q_;
+    $rootScope = _$rootScope_;
+    $http = $httpBackend
   }));
 
   beforeEach(function () {
@@ -46,61 +38,63 @@ describe('FilaHistoryController', function () {
     });
 
     patientService = jasmine.createSpyObj('patientService', ['printPatientARVPickupHistory']);
-    patientService.printPatientARVPickupHistory.and.callFake(function () {});
+    patientService.printPatientARVPickupHistory.and.callFake(function () { });
+
+    spyOn(dispensationService, 'getDispensation').and.callFake(function () {
+      return $q(function (resolve) {
+        return resolve(groupedDispensations);
+      });
+    });
+
   });
 
   beforeEach(function () {
+
+    $http.expectGET("/poc_config/openmrs/i18n/common/locale_en.json").respond({});
+
     controller = $controller('FilaHistoryController', {
       $statePrams: stateParams,
       encounterService: encounterService,
-      patientService: patientService
+      patientService: patientService,
+      dispensationService: dispensationService
     });
+
+    $rootScope.$apply();
   });
 
-  describe('activate', function () {
+  describe('updateResults', function () {
 
-    it('should load patient pharmacy encounters', function () {
-      expect(encounterService.getPatientFilaEncounters).toHaveBeenCalled();
-    });
-
-    it('should display the most recent pickups', function () {
-      expect(controller.displayedPickups).toEqual(encounters);
-      expect(controller.filteredPickups).toEqual([encounters[0]]);
-      expect(controller.year).toBe(encounters[0].encounterDatetime.getFullYear());
+    it('should load dispensations', function () {
+      expect(dispensationService.getDispensation).toHaveBeenCalled();
+      expect(controller.groupedDispensations).toBe(groupedDispensations);
+      expect(controller.displayedPickups).toEqual([1, 2, 3]);
     });
 
   });
 
-  describe('onDateChange', function () {
+  describe('onStartDateChange', function () {
 
-    it('should filter pickups by date range', function () {
-      expect(controller.filteredPickups).toEqual([encounters[0]]);
-
-      controller.year = 2016;
-      controller.onDateChange();
-
-      expect(controller.filteredPickups.length).toBe(2);
-      expect(controller.filteredPickups[0]).toBe(encounters[2]);
-      expect(controller.filteredPickups[1]).toBe(encounters[3]);
+    it('should change end date to be one year from start date', function () {
+      controller.startDate = moment('2017-10-18').toDate();
+      controller.onStartDateChange();
+      expect(controller.endDate).toEqual(moment('2018-10-18').toDate());
     });
 
-    it('should set pickups to empty when year is too low', function () {
-      expect(controller.filteredPickups).toEqual([encounters[0]]);
-
-      controller.year = 2014;
-      controller.onDateChange();
-
-      expect(controller.filteredPickups.length).toBe(0);
-    });
   });
 
   describe('onPrint', function () {
 
     it('should print patient ARV pickup history report', function () {
-
       controller.onPrint();
-
       expect(patientService.printPatientARVPickupHistory).toHaveBeenCalled();
     });
+
+    it('should not print when date range is more than one year', function () {
+      controller.startDate = moment('2017-10-18').toDate();
+      controller.endDate = moment('2018-11-18').toDate();
+      controller.onPrint();
+      expect(patientService.printPatientARVPickupHistory).not.toHaveBeenCalled();
+    });
+
   });
 });

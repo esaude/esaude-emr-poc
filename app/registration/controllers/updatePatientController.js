@@ -1,61 +1,57 @@
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('registration')
-    .controller('UpdatePatientController', ['$scope', '$location', '$stateParams', 'patientService',
-        function ($scope, $location, $stateParams, patientService) {
+  angular
+    .module('registration')
+    .controller('UpdatePatientController', UpdatePatientController);
 
-                (function () {
-                    $scope.srefPrefix = "editpatient.";
-                    var uuid = $stateParams.patientUuid;
+  UpdatePatientController.$inject = ['$filter', '$scope', '$state', '$stateParams', 'patient', 'patientService', 'notifier'];
 
-                    patientService.getPatient(uuid).then(function (patient) {
-                        $scope.openMRSPatient = patient;
-                    });
-                })();
+  /* @ngInject */
+  function UpdatePatientController($filter, $scope, $state, $stateParams, patient, patientService, notifier) {
 
-                $scope.initAttributes = function() {
-                    $scope.patientAttributes = [];
-                    angular.forEach($scope.patientConfiguration.customAttributeRows(), function (value) {
-                        angular.forEach(value, function (value) {
-                            $scope.patientAttributes.push(value);
-                        });
-                    });
-                };
+    var returnState = $stateParams.returnState;
+    var uuid = $stateParams.patientUuid;
 
-                $scope.save = function () {
-                    patientService.update($scope.patient, $scope.openMRSPatient).success(successCallback);
-                };
 
-            var successCallback = function (patientProfileData) {
-                //update patient identifier
-                _.forEach (patientProfileData.patient.identifiers, function (oldIdentifier) {
-                    var found = _.find ($scope.patient.identifiers, function (identifier) {
-                        return identifier.identifierType.uuid === oldIdentifier.identifierType.uuid;
-                    });
+    $scope.headerText = "PATIENT_INFO_EDIT";
+    $scope.patient = patient;
+    $scope.openMRSPatient = {};
+    $scope.srefPrefix = "editpatient.";
 
-                    if (_.isUndefined(found)) {
+    $scope.linkCancel = linkCancel;
+    $scope.save = save;
 
-                    } else {
-                        //check if value was changed
-                        if (found.identifier !== oldIdentifier.identifier) {
-                            patientService.updatePatientIdentifier(patientProfileData.patient.uuid, oldIdentifier.uuid,
-                                {identifier: found.identifier, uuid: oldIdentifier.uuid, preferred: found.preferred}).success(successIdentifierCallback);
-                        }
-                    }
-                });
-                $scope.patient.uuid = patientProfileData.patient.uuid;
-                $scope.patient.name = patientProfileData.patient.person.names[0].display;
-                $scope.patient.isNew = false;
-                $location.url("/dashboard/" + $scope.patient.uuid);
-            };
+    activate();
 
-            var successIdentifierCallback = function (identifierProfileData) {
-                var foundIdentifier = _.find($scope.patient.identifiers, function (identifier) {
-                    return identifier.uuid === identifierProfileData.uuid;
-                });
+    ////////////////
 
-                foundIdentifier.identifier = identifierProfileData.identifier;
-                foundIdentifier.preferred = identifierProfileData.preferred;
+    function activate() {
+      patientService.getOpenMRSPatient(uuid).then(function (patient) {
+        $scope.openMRSPatient = patient;
+      });
+    }
 
-            }
-        }]);
+    function linkCancel() {
+      $state.go(returnState, {patientUuid: uuid});
+    }
+
+    function save() {
+      patientService.update($scope.patient, $scope.openMRSPatient).then(successCallback).catch(errorCallback);
+    }
+
+    function successCallback(patientProfileData) {
+      $scope.patient.uuid = patientProfileData.patient.uuid;
+      $scope.patient.name = patientProfileData.patient.person.names[0].display;
+      $scope.patient.isNew = false;
+      notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
+      $state.go(returnState, {patientUuid: uuid});
+    }
+
+    function errorCallback() {
+      notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ACTION'));
+    }
+
+  }
+
+})();

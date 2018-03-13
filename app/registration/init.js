@@ -1,9 +1,28 @@
-angular.module('registration', ['ngRoute', 'ngCookies', 'ui.router', 'smart-table', 'bahmni.common.uiHelper', 'bahmni.common.config',
-                        'bahmni.common.domain', 'bahmni.common.appFramework', 'LocalStorageModule', 'datePicker',
-                        'frapontillo.bootstrap-switch', 'bahmni.common.uicontrols.programmanagment', 'serviceform',
-                        'ui.checkbox', 'application', 'ngMessages', 'poc.common.clinicalservices', 'common.patient',
-                        'pascalprecht.translate', 'bahmni.common.i18n', 'patient.details', 'ui.bootstrap', 'barcode', 'barcodeListener',
-                         'ngDialog']);
-//to be initialized by config inside app.js
-//needed in dynamic states
-var $stateProviderRef = null;
+angular
+  .module('registration',
+    [
+      'application',
+      'bahmni.common.appFramework',
+      'bahmni.common.config',
+      'bahmni.common.domain',
+      'bahmni.common.i18n',
+      'bahmni.common.uicontrols.programmanagment',
+      'bahmni.common.uiHelper',
+      'barcode',
+      'barcodeListener',
+      'common.patient',
+      'frapontillo.bootstrap-switch',
+      'LocalStorageModule',
+      'movepatient',
+      'ngCookies',
+      'ngDialog',
+      'ngMessages',
+      'pascalprecht.translate',
+      'patient.details',
+      'poc.common.clinicalservices',
+      'smart-table',
+      'ui.bootstrap',
+      'ui.checkbox',
+      'ui.router'
+    ]
+  );
