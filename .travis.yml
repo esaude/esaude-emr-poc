@@ -21,6 +21,8 @@ before_deploy:
   - sed -i "s/__RELEASE_VERSION__/$TRAVIS_TAG/g" bintray-release.json
 deploy:
   - provider: bintray
+    edge:
+      branch: v1.8.47
     file: "bintray.json"
     user: "psbrandt"
     key: $BINTRAY_API_KEY
@@ -28,6 +30,8 @@ deploy:
     on:
       branch: master
   - provider: bintray
+    edge:
+      branch: v1.8.47
     file: "bintray-release.json"
     user: "psbrandt"
     key: $BINTRAY_API_KEY
