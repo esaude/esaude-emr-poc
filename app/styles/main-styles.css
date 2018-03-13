@@ -327,3 +327,18 @@ p.capitalize {
   height: 49vh;
 }
 /**/
+
+
+/* Lab tests */
+.lab-tests .test-order-list {
+  padding-right: 0;
+}
+
+.lab-tests .test-order-details {
+  padding-left: 0;
+}
+
+.lab-tests .test-order-details tbody {
+  background-color: #f5f5f5;
+}
+/**/

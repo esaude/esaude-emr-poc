@@ -1,0 +1,24 @@
+<table class="table">
+  <thead>
+  <tr>
+    <th>{{ 'ORDER_ID' | translate}}</th>
+    <th>{{ 'DATE' | translate }}</th>
+    <th>{{ 'PROVIDER' | translate }}</th>
+    <th>{{ 'STATE' | translate }}</th>
+    <th width="18%"></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-repeat="t in vm.testOrderResults" ng-class="{'active': t.selected}">
+    <td>{{t.id}}</td>
+    <td>{{t.dateCreation | date}}</td>
+    <td>{{t.provider.display}}</td>
+    <td>{{t.status}}</td>
+    <td>
+      <button class="btn btn-lg btn-default" type="button" ng-click="vm.onSelectTestOrderResult({testOrderResult: t})">
+        <i class="glyphicon glyphicon-eye-open"></i> {{ 'VIEW' | translate}}
+      </button>
+    </td>
+  </tr>
+  </tbody>
+</table>

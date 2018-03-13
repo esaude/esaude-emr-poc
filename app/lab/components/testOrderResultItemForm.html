@@ -1,0 +1,30 @@
+<form name="form">
+
+  <div class="row">
+    <div class="col-sm-4">
+      <label for="value">{{vm.$item.testOrder.concept.display}}</label>
+    </div>
+    <div class="col-sm-4">
+      <input class="form-control input-lg" id="value" name="value" type="number" ng-model="vm.$item.value"
+             ng-if="vm.$item.testOrder.concept.datatype.display === 'Numeric'" required>
+
+      <select class="form-control input-lg" id="value" name="value" ng-model="vm.$item.value"
+              ng-options="a.uuid as a.display for a in vm.$item.testOrder.concept.answers"
+              ng-if="vm.$item.testOrder.concept.datatype.display === 'Coded'" required>
+
+      </select>
+    </div>
+
+    <div class="col-sm-4">
+      <button class="btn btn-lg btn-default" type="button" ng-click="vm.onSubmit({item: vm.item, result: vm.$item.value});"
+              ng-disabled="!form.$dirty || !form.$valid">
+        <i class="glyphicon glyphicon-floppy-disk"></i> {{ 'SAVE' | translate }}
+      </button>
+
+      <button class="btn btn-lg btn-danger" type="button" ng-click="vm.onRemove({item: vm.item});" ng-disabled="vm.item.value === ''">
+        <i class="glyphicon glyphicon-remove"></i> {{ 'REMOVE' | translate }}
+      </button>
+    </div>
+
+  </div>
+</form>
