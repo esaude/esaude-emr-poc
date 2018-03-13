@@ -17,7 +17,7 @@
     var vm = this;
     vm.errorMessageTranslateKey = null;
     vm.locales = [
-      {label: 'English', key: 'en'},
+      /*{label: 'English', key: 'en'},*/
       {label: 'Português', key: 'pt'}
     ];
     vm.loginUser = {};
