@@ -22,14 +22,14 @@ before_deploy:
 deploy:
   - provider: bintray
     file: "bintray.json"
-    user: "esaude-ops"
+    user: "psbrandt"
     key: $BINTRAY_API_KEY
     dry-run: false
     on:
       branch: master
   - provider: bintray
     file: "bintray-release.json"
-    user: "esaude-ops"
+    user: "psbrandt"
     key: $BINTRAY_API_KEY
     dry-run: false
     on:
