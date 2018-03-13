@@ -328,7 +328,6 @@ p.capitalize {
 }
 /**/
 
-
 /* Lab tests */
 .lab-tests .test-order-list {
   padding-right: 0;
@@ -340,5 +339,10 @@ p.capitalize {
 
 .lab-tests .test-order-details tbody {
   background-color: #f5f5f5;
+}
+
+/* FormField*/
+.form-field .info {
+  min-height: 25px;
 }
 /**/

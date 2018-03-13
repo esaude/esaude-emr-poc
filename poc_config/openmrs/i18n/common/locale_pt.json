@@ -246,6 +246,9 @@
     "COMMON_CANCEL_PRESCRIPTION": "Cancelar Item de Prescrição",
     "COMMON_PROVIDER": "Provedor",
     "COMMON_PRESCRIPTION": "Prescrição",
+    "COMMON_PREGNANCY": "Gravidez",
+    "COMMON_LAST_MENSTRUATION DATE": "Data da última menstruação (DUM)",
+    "COMMON_PREGNANCY_DUE_DATE": "Data prevista do parto (DPP)",
     "CLINIC_PRESCRIPTION_DRUG": "Medicamento",
     "CLINIC_PRESCRIPTION_DRUG_TYPE": "Tipo Medicamento",
     "CLINIC_PRESCRIPTION_NEW": "Nova Prescrição",
@@ -317,5 +320,10 @@
     "INSUFFICIENT_PRIVILEGES": "Não tem privilégios suficientes para usar esta funcionalidade.",
     "DELETE_PATIENT": "Apagar Paciente",
     "REASON_TO_DELETE": "Motivo para Anular",
-    "CONFIRM_HOME": "Pretende voltar ao inicio?"
+    "CONFIRM_HOME": "Pretende voltar ao inicio?",
+    "NO_RESULTS": "Nenhum resultado encontrado.",
+    "COMMON_SYMPTOM1": "Sintoma 1",
+    "COMMON_SYMPTOM2": "Sintoma 2",
+    "COMMON_SYMPTOM3": "Sintoma 3",
+    "COMMON_SYMPTOM4": "Sintoma 4"
 }

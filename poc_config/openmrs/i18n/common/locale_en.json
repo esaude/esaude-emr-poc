@@ -231,6 +231,9 @@
     "COMMON_RETURN": "Return on",
     "COMMON_ERROR": "Error",
     "COMMON_MOVE_PATIENT": "Go to module",
+    "COMMON_PREGNANCY": "Pregnancy",
+    "COMMON_LAST_MENSTRUATION DATE": "Last menstruation date",
+    "COMMON_PREGNANCY_DUE_DATE": "Pregnancy due date",
     "APP_REGISTRATION": "Registration",
     "APP_SOCIAL": "Social",
     "APP_CLINIC": "Clinic",
@@ -324,5 +327,10 @@
     "INSUFFICIENT_PRIVILEGES": "Not enough privileges to use this functionality.",
     "DELETE_PATIENT": "Delete Patient",
     "REASON_TO_DELETE": "Reason to Delete",
-    "CONFIRM_HOME": "Return to home?"
+    "CONFIRM_HOME": "Return to home?",
+    "NO_RESULTS": "No results found.",
+    "COMMON_SYMPTOM1": "Symptom 1",
+    "COMMON_SYMPTOM2": "Symptom 2",
+    "COMMON_SYMPTOM3": "Symptom 3",
+    "COMMON_SYMPTOM4": "Symptom 4"
 }

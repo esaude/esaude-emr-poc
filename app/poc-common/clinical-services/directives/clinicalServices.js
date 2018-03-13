@@ -37,7 +37,7 @@
     vm.canAdd = canAdd;
     vm.checkActionConstraints = checkActionConstraints;
     vm.getPrivilege = getPrivilege;
-    vm.getVisibleServices = getVisibleServices;
+    vm.getServices = getServices;
     vm.linkServiceAdd = linkServiceAdd;
     vm.linkServiceDisplay = linkServiceDisplay;
     vm.linkServiceEdit = linkServiceEdit;
@@ -68,9 +68,6 @@
         .getClinicalServiceWithEncountersForPatient(patient)
         .then(function (clinicalServices) {
           services = clinicalServices;
-          services.forEach(function (s) {
-            checkConstraints(s, patient);
-          });
         })
         .catch(function () {
           notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ACTION'));
@@ -106,21 +103,6 @@
         returnState: $state.current
       });
     }
-
-    function checkConstraints(service, patient) {
-      service.showService = true;
-
-      if (service.constraints.minAge &&
-        patient.age.years < service.constraints.minAge) {
-        service.showService = false;
-      }
-
-      if (service.constraints.maxAge &&
-        patient.age.years > service.constraints.maxAge) {
-        service.showService = false;
-      }
-    }
-
 
     function canAdd(service) {
       var canAdd;
@@ -171,13 +153,8 @@
       return prefix + ' ' + service.privilege;
     }
 
-    function getVisibleServices() {
-      if (services) {
-        return services.filter(function (s) {
-          return s.showService;
-        });
-      }
-      return null;
+    function getServices() {
+      return services;
     }
 
     function checkActionConstraints(service) {
