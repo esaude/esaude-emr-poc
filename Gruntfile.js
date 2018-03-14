@@ -35,7 +35,7 @@ module.exports = function (grunt) {
   };
 
   var generateReplacement = function () {
-      var modules = ['home', 'registration', 'social', 'clinic', 'vitals', 'pharmacy'];
+      var modules = ['home', 'registration', 'social', 'clinic', 'vitals', 'pharmacy', 'lab'];
       var replacements = [];
 
       for (var i in modules) {
@@ -314,6 +314,7 @@ module.exports = function (grunt) {
         '<%= yeoman.app %>/vitals/index.html',
         '<%= yeoman.app %>/clinic/index.html',
         '<%= yeoman.app %>/pharmacy/index.html',
+        '<%= yeoman.app %>/lab/index.html',
         '<%= yeoman.app %>/patient-details/views/patient-arv-pickup-history-report.html',
         '<%= yeoman.app %>/patient-details/views/patient-daily-hospital-process-report.html'
       ],
@@ -342,6 +343,7 @@ module.exports = function (grunt) {
         '<%= yeoman.dist %>/vitals/index.html',
         '<%= yeoman.dist %>/clinic/index.html',
         '<%= yeoman.dist %>/pharmacy/index.html',
+        '<%= yeoman.dist %>/lab/index.html',
         '<%= yeoman.dist %>/patient-details/views/patient-arv-pickup-history-report.html',
         '<%= yeoman.dist %>/patient-details/views/patient-daily-hospital-process-report.html'
       ],
@@ -417,6 +419,7 @@ module.exports = function (grunt) {
                         'vitals/**/*.html',
                         'clinic/**/*.html',
                         'pharmacy/**/*.html',
+                        'lab/**/*.html',
                         'move-patient/**/*.html'
                     ],
                     //src: ['*.html'],
