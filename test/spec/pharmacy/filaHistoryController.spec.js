@@ -50,7 +50,7 @@ describe('FilaHistoryController', function () {
 
   beforeEach(function () {
 
-    $http.expectGET("/poc_config/openmrs/i18n/common/locale_en.json").respond({});
+    $http.expectGET("/poc_config/openmrs/i18n/common/locale_pt.json").respond({});
 
     controller = $controller('FilaHistoryController', {
       $statePrams: stateParams,
