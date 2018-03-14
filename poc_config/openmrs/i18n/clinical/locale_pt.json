@@ -179,7 +179,7 @@
   "VIRALOGICAL FAILURE": "Está a ter falência terapeutica",
   "PATIENT_LAB_EXAMS_EMPTY": "O paciente não possui exames laboratoriais",
   "PRESCRIPTION_EXPIRED": "Expirado",
-  "NEW_TEST_ORDER": "Nova Requisição de Testes",
+  "NEW_TEST_ORDER": "Nova requisição de testes",
   "PROFILE": "Painel",
   "TEST": "Teste",
   "CATEGORY": "Categoria",
@@ -191,5 +191,6 @@
   "EXISTING_TEST_ORDERS": "Requisições de teste existentes",
   "TESTS_LIST": "Lista de testes",
   "CONFIRM_TEST_REMOVAL": "Remover o teste seleccionado?",
-  "TEST_ALEADY_REQUESTED_ON_SAME_DATE": "Test already requested on same date"
+  "TEST_ALEADY_REQUESTED_ON_SAME_DATE": "Test already requested on same date",
+  "LAB_ORDER": "Requisição de Laboratório"
 }

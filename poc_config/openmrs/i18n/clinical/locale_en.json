@@ -173,7 +173,7 @@
   "VIRALOGICAL FAILURE": "Having a therapeutic failure",
   "PATIENT_LAB_EXAMS_EMPTY": "Patient has no Laboratory Exams",
   "PRESCRIPTION_EXPIRED": "Expired",
-  "NEW_TEST_ORDER": "New Test Order",
+  "NEW_TEST_ORDER": "New test order",
   "PROFILE": "Profile",
   "TEST": "Test",
   "CATEGORY": "Category",
@@ -185,5 +185,6 @@
   "EXISTING_TEST_ORDERS": "Existing test orders",
   "TESTS_LIST": "Tests list",
   "CONFIRM_TEST_REMOVAL": "Remove selected test?",
-  "TEST_ALEADY_REQUESTED_ON_SAME_DATE": "Test already requested on same date"
+  "TEST_ALEADY_REQUESTED_ON_SAME_DATE": "Test already requested on same date",
+  "LAB_ORDER": "Lab Order"
 }

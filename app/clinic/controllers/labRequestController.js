@@ -12,11 +12,16 @@
 
     var patientUuid = $stateParams.patientUuid;
     var patient = {};
+    var providerUuid = null;
     var vm = this;
-    vm.showMessages = false;
+
+    var SELECT_PROVIDER_FROM_LIST = 'SELECT_PROVIDER_FROM_LIST';
+    var ADD_AT_LEAST_ONE_TEST_TO_TEST_ORDER = 'ADD_AT_LEAST_ONE_TEST_TO_TEST_ORDER';
 
     //requisições externas possuem alguns campos adicionais
-    vm.externalRequest = true;
+    vm.externalRequest = false;
+
+    vm.showMessages = false;
 
     vm.providers = [];
     vm.profiles = [];
@@ -50,6 +55,9 @@
       });
       testService.getTests().then(function (tests) {
         vm.tests = tests;
+      });
+      sessionService.getCurrentProvider().then(function (provider) {
+        providerUuid = provider.uuid;
       });
       loadExistingTestOrders();
     }
@@ -111,40 +119,57 @@
       vm.selectedTests.splice(vm.selectedTests.indexOf(test), 1);
     }
 
+    function validateSelectedProvider() {
+      if (vm.externalRequest && !(vm.selectedProvider && vm.selectedProvider.display)) {
+        throw SELECT_PROVIDER_FROM_LIST;
+      }
+    }
+
+    function validateTestsSelected() {
+      if (vm.selectedTests.length == 0) {
+        throw ADD_AT_LEAST_ONE_TEST_TO_TEST_ORDER;
+      }
+    }
+
     function saveTestOrderRequest() {
-      if (vm.selectedProvider && vm.selectedProvider.display) {
-        if (vm.selectedTests.length > 0) {
-          var testOrder = {
-            patient: { uuid: patientUuid },
-            provider: { uuid: vm.selectedProvider.uuid },
-            location: { uuid: sessionService.getCurrentLocation().uuid },
-            dateCreation: vm.date,
-            testOrderItems: []
-          }
-          vm.selectedTests.forEach(function (test) {
-            testOrder.testOrderItems.push({
-              testOrder: {
-                type: "testorder",
-                concept: { uuid: test.testOrder.uuid }
-              },
-              category: { uuid: test.category.uuid }
-            });
-          });
-          testOrderService.create(testOrder).then(function (data) {
-            notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
-            loadExistingTestOrders();
-            resetForm();
-          }).catch(function (error) {
-            var testAlreadyRequestedMessage = error.data.error.message.indexOf("was(were) already be requested") != -1;
-            if (testAlreadyRequestedMessage) {
-              notifier.error($filter('translate')('TEST_ALEADY_REQUESTED_ON_SAME_DATE'));
-            }
-          });
+      try {
+        validateSelectedProvider();
+        validateTestsSelected();
+
+        var date;
+        if (vm.externalRequest) {
+          providerUuid = vm.selectedProvider.uuid;
+          date = vm.date;
         } else {
-          notifier.error($filter('translate')('ADD_AT_LEAST_ONE_TEST_TO_TEST_ORDER'));
+          date = new Date();
         }
-      } else {
-        notifier.error($filter('translate')('SELECT_PROVIDER_FROM_LIST'));
+
+        var testOrder = {
+          patient: { uuid: patientUuid },
+          provider: { uuid: providerUuid },
+          location: { uuid: sessionService.getCurrentLocation().uuid },
+          dateCreation: date,
+          testOrderItems: []
+        }
+        vm.selectedTests.forEach(function (test) {
+          testOrder.testOrderItems.push({
+            testOrder: {
+              type: "testorder",
+              concept: { uuid: test.testOrder.uuid }
+            },
+            category: { uuid: test.category.uuid }
+          });
+        });
+        testOrderService.create(testOrder).then(function (data) {
+          notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
+          loadExistingTestOrders();
+          resetForm();
+        }).catch(function (error) {
+          notifier.error(error.data.error.message.replace('[','').replace(']',''));
+        });
+
+      } catch (err) {
+        notifier.error($filter('translate')(err));
       }
     }
 
@@ -170,7 +195,7 @@
       vm.selectedProvider = null;
       vm.selectedTest = null;
       vm.selectedProfile = null;
-      vm.selectedTests = null;
+      vm.selectedTests = [];
     }
   }
 

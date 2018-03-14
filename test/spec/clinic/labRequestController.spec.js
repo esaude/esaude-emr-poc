@@ -29,6 +29,7 @@ describe('LabRequestController', function () {
 
   beforeEach(function () {
     $http.expectGET("/poc_config/openmrs/i18n/common/locale_en.json").respond({});
+    $http.expectGET("/openmrs/ws/rest/v1/user?v=custom:(username,uuid,person:(uuid,preferredName),privileges:(name,retired),userProperties)").respond({});
 
     spyOn(providerService, 'getProviders').and.callFake(function () {
       return $q(function (resolve) {
@@ -64,6 +65,7 @@ describe('LabRequestController', function () {
 
     controller = $controller('LabRequestController', {
     });
+    controller.externalRequest = true;
     $rootScope.$apply();
   });
 
