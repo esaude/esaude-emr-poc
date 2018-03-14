@@ -329,12 +329,36 @@ p.capitalize {
 /**/
 
 /* Lab tests */
+.lab-tests .table > tbody > tr > td {
+  border-top: none;
+}
+
 .lab-tests .test-order-list {
   padding-right: 0;
 }
 
+.lab-tests .test-order-list .table td {
+  vertical-align: middle;
+}
+
+.lab-tests .test-order-list tbody tr {
+  height: 112px;
+}
+
 .lab-tests .test-order-details {
   padding-left: 0;
+}
+
+.lab-tests .test-order-details .item-form label {
+  font-weight: normal;
+}
+
+.lab-tests .test-order-details .item-form .form-group {
+  min-height: 95px;
+  display: flex;
+  margin-bottom: 0;
+  align-items: center;
+  justify-content: center;
 }
 
 .lab-tests .test-order-details tbody {
