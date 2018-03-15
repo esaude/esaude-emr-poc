@@ -5,10 +5,10 @@
     .controller('LabRequestController', LabRequestController);
 
   LabRequestController.$inject = ['$rootScope', '$stateParams', 'providerService', 'testProfileService', 'testService',
-    'notifier', '$filter', 'testOrderService', 'sessionService'];
+    'notifier', '$filter', 'testOrderService', 'sessionService', 'visitService'];
 
   function LabRequestController($rootScope, $stateParams, providerService, testProfileService, testService, notifier,
-    $filter, testOrderService, sessionService) {
+    $filter, testOrderService, sessionService, visitService) {
 
     var patientUuid = $stateParams.patientUuid;
     var patient = {};
@@ -43,6 +43,7 @@
     vm.showTestOrderDetails = showTestOrderDetails;
     vm.deleteTest = deleteTest;
     vm.resetForm = resetForm;
+    vm.patientCheckedIn = false;
 
     activate();
 
@@ -60,6 +61,11 @@
         providerUuid = provider.uuid;
       });
       loadExistingTestOrders();
+      visitService.getTodaysVisit(patientUuid).then(function (visit) {
+        if (visit != null) {
+          vm.patientCheckedIn = true;
+        }
+      });
     }
 
     function loadExistingTestOrders() {
@@ -165,7 +171,7 @@
           loadExistingTestOrders();
           resetForm();
         }).catch(function (error) {
-          notifier.error(error.data.error.message.replace('[','').replace(']',''));
+          notifier.error(error.data.error.message.replace('[', '').replace(']', ''));
         });
 
       } catch (err) {

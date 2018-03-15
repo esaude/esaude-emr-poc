@@ -126,7 +126,7 @@
                                 <span class="glyphicon glyphicon-erase"></span>
                                 <span class="button-label">{{'CLEAR' | translate}}</span>
                             </button>
-                            <button type="submit" ng-click="vm.saveTestOrderRequest()" class="btn btn-primary btn-lg">
+                            <button type="submit" ng-disabled="!vm.patientCheckedIn" ng-click="vm.saveTestOrderRequest()" class="btn btn-primary btn-lg">
                                 <span class="glyphicon glyphicon-floppy-disk"></span>
                                 <span class="button-label">{{'SAVE' | translate}}</span>
                             </button>
