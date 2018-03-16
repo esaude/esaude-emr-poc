@@ -192,5 +192,8 @@
   "TESTS_LIST": "Lista de testes",
   "CONFIRM_TEST_REMOVAL": "Remover o teste seleccionado?",
   "TEST_ALEADY_REQUESTED_ON_SAME_DATE": "Test already requested on same date",
-  "LAB_ORDER": "Requisição de Laboratório"
+  "LAB_ORDER": "Requisição de Laboratório",
+  "NEW": "Novo(a)",
+  "PENDING": "Pendente",
+  "COMPLETE": "Completo"
 }
