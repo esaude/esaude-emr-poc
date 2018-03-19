@@ -5,43 +5,44 @@
     .module('registration')
     .controller('DashboardController', DashboardController);
 
-  DashboardController.$inject = ['$state', '$stateParams', 'notifier', 'patientService', 'translateFilter'];
+  DashboardController.$inject = ['$state', '$stateParams', 'notifier', 'patientService', 'translateFilter', 'spinner'];
 
   /* @ngInject */
-  function DashboardController($state, $stateParams, notifier, patientService, translateFilter) {
+  function DashboardController($state, $stateParams, notifier, patientService, translateFilter, spinner) {
 
     var patientUUID = $stateParams.patientUuid;
 
     var vm = this;
+
+    vm.patient = {};
+
     vm.linkSearch = linkSearch;
-    vm.linkVisit = linkVisit;
-    vm.linkServicesList = linkServicesList;
+    vm.loadPatient = loadPatient;
 
     activate();
 
     ////////////////
 
     function activate() {
-      getPatient(patientUUID)
-        .then(function (patient) {
-          vm.patient = patient;
-        })
-        .catch(function () {
-          notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
-        });
+      loadPatient();
     }
 
     function linkSearch() {
       $state.go('search');
     }
 
-    function linkVisit() {
-      $state.go('visit', {patientUuid: patientUUID});
-    }
+    function loadPatient() {
+      var promise = getPatient(patientUUID)
+        .then(function (patient) {
+          vm.patient = patient;
+        })
+        .catch(function () {
+          notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
+        });
 
+      spinner.forPromise(promise);
 
-    function linkServicesList() {
-      $state.go('services', {patientUuid: patientUUID});
+      return promise;
     }
 
 

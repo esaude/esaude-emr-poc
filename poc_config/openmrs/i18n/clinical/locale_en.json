@@ -171,6 +171,6 @@
   "VIRAL LOAD DROPPED": "Viral Load Dropped! Doing the Prophylaxis",
   "VIRALOGICAL FAILURE": "Having a therapeutic failure",
   "PATIENT_LAB_EXAMS_EMPTY": "Patient has no Laboratory Exams",
-  "PRESCRIPTION_EXPIRED": "Expired"
-
+  "PRESCRIPTION_EXPIRED": "Expired",
+  "VITALS_LAST_BMI": "Last BMI"
 }

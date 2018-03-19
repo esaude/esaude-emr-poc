@@ -1,0 +1,63 @@
+<div class="row bg-info-border bg-info content-border border-rouded-top visit-header"
+     ng-class="{'load-failed': vm.loadFailed}">
+
+  <div class="col-sm-12">
+    <div class="row header-text-lg" ng-show="vm.lastVisitMessage">
+      <div class="col-sm-3 col-md-2">
+        <img src="../../images/visit.png" class="img-responsive inline-align" width="24" height="24" alt="visit">
+        <b>{{'REGISTRATION_LAST_VISIT' | translate}}:</b>
+      </div>
+      <div class="col-sm-9 col-md-10">
+        {{vm.lastVisitMessage}}
+      </div>
+    </div>
+    <div class="row header-text-lg" ng-show="vm.lastConsultationMessage">
+      <div class="col-sm-3 col-md-2">
+        <img src="../../images/stsp.png" class="img-responsive inline-align" width="24" height="24" alt="visit">
+        <b>{{'COMMON_CONSULTATION' | translate}}:</b>
+      </div>
+      <div class="col-sm-9 col-md-10">
+        {{vm.lastConsultationMessage}}
+        <span ng-if="vm.lastConsultation" class="label label-default"
+              ng-class="{'label-warning': !vm.nextConsultation,
+                           'label-primary': !vm.isInThePast(vm.nextConsultation.value)}">
+            {{vm.nextConsultationMessage}}
+          </span>
+      </div>
+    </div>
+
+    <div class="row header-text-lg" ng-show="vm.lastPharmacyMessage">
+      <div class="col-sm-3 col-md-2">
+        <img src="../../images/pills.png" class="img-responsive inline-align" width="24" height="24" alt="visit">
+        <b>{{'COMMON_PHARMACY' | translate}}:</b>
+      </div>
+      <div class="col-sm-9 col-md-10">
+        {{vm.lastPharmacyMessage}}
+        <span ng-if="vm.lastPharmacy" class="label label-default"
+              ng-class="{'label-warning': !vm.nextPharmacy,
+                         'label-primary': !vm.isInThePast(vm.nextConsultation.value)}">{{vm.nextPharmacyMessage}}</span>
+      </div>
+    </div>
+
+    <div class="row header-text-lg">
+      <div class="col-sm-3 col-md-2">
+        <img src="../../images/bmi.png" class="img-responsive inline-align" width="24" height="24" alt="bmi">
+        <b>{{'VITALS_LAST_BMI'| translate}}: </b>
+      </div>
+      <div class="col-sm-9 col-md-10" ng-if="vm.lastBmi.value">
+        <span class="label label-default">{{vm.lastBmi.value}}</span>
+        <span>
+            {{'COMMON_ON'| translate}} {{vm.lastBmi.obsDatetime | date:'short'}}
+          </span>
+      </div>
+      <div class="col-sm-9 col-md-10" ng-if="!vm.lastBmi.value">
+        {{'COMMON_NONE' | translate}}
+      </div>
+    </div>
+  </div>
+
+  <button class="btn btn-lg btn-default reload" ng-if="vm.loadFailed" ng-click="vm.loadVisitHeader(vm.patient);">
+    <i class="glyphicon glyphicon-refresh"></i>
+    {{'COMMON_RELOAD' | translate}}
+  </button>
+</div>

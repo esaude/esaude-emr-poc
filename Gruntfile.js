@@ -419,7 +419,8 @@ module.exports = function (grunt) {
                         'vitals/**/*.html',
                         'clinic/**/*.html',
                         'pharmacy/**/*.html',
-                        'move-patient/**/*.html'
+                        'move-patient/**/*.html',
+                        'visit/**/*.html'
                     ],
                     //src: ['*.html'],
                     dest: '<%= yeoman.dist %>'
