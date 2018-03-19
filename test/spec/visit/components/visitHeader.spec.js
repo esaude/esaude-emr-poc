@@ -16,30 +16,30 @@ describe('VisitHeaderController', function () {
       visitType: {
         name: "SEGUIMENTO SEGUINTE S. TARV"
       },
-      startDatetime: "2018-03-19T09:47:18.000+0200",
-      stopDatetime: "2018-03-20T00:00:00.000+0200"
+      startDatetime: "2018-03-19T09:47:18.000",
+      stopDatetime: "2018-03-20T00:00:00.000"
     },
     lastPharmacy: {
-      encounterDatetime: "2018-03-15T14:37:09.000+0200",
+      encounterDatetime: "2018-03-15T14:37:09.000",
       provider: {
         display: "Super User"
       }
     },
     nextPharmacy: {
-      value: "2018-04-12T14:37:06.000+0200"
+      value: "2018-04-12T14:37:06.000"
     },
     lastBmi: {
-      obsDatetime: "2017-11-13T00:00:00.000+0200",
+      obsDatetime: "2017-11-13T00:00:00.000",
       value: 25.39
     },
     lastConsultation: {
-      encounterDatetime: "2018-03-16T11:59:58.000+0200",
+      encounterDatetime: "2018-03-16T11:59:58.000",
       provider: {
         display: "Super User"
       }
     },
     nextConsultation: {
-      value: "2018-03-19T00:00:00.000+0200"
+      value: "2018-03-19T00:00:00.000"
     }
   };
 
