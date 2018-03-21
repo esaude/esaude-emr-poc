@@ -1,4 +1,9 @@
 {
-  "TESTS": "Tests",
-  "ADD_RESULT": "Add"
+  "TEST_RESULTS": "Results",
+  "ADD_RESULT": "Add",
+  "ORDER_ID": "Order ID",
+  "DATE": "Date",
+  "PROVIDER": "Provider",
+  "STATE": "State",
+  "RESULTS": "Results"
 }

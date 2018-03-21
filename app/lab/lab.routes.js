@@ -44,7 +44,7 @@
         url: '/testorders',
         component: 'labTests',
         ncyBreadcrumb: {
-          label: '{{\'TESTS\' | translate }}',
+          label: '{{\'RESULTS\' | translate }}',
           parent: 'dashboard'
         }
       })

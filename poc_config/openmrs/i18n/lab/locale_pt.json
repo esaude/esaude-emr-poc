@@ -1,4 +1,9 @@
 {
-  "TESTS": "Testes",
-  "ADD_RESULT": "Adicionar"
+  "TEST_RESULTS": "Resultados",
+  "ADD_RESULT": "Adicionar",
+  "ORDER_ID": "Order ID",
+  "DATE": "Data",
+  "PROVIDER": "Provedor",
+  "STATE": "Estado",
+  "RESULTS": "Resultados"
 }
