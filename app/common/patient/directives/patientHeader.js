@@ -3,23 +3,15 @@
 
   angular
     .module('common.patient')
-    .directive('patientHeader', patientHeader);
-
-  /* @ngInject */
-  function patientHeader() {
-    var directive = {
-      bindToController: true,
+    .component('patientHeader', {
       controller: PatientHeaderController,
       controllerAs: 'vm',
-      restrict: 'AE',
-      scope: {
-        patient: '=',
-        displayActions: '='
+      bindings: {
+        patient: '<',
+        displayActions: '<'
       },
       templateUrl: '../common/patient/directives/patientHeader.html'
-    };
-    return directive;
-  }
+    });
 
   /* @ngInject */
   function PatientHeaderController($state, $filter, conceptService, notifier, patientService, spinner) {
@@ -69,6 +61,7 @@
     function successCallback() {
       notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
     }
+
     function failureCallback() {
       notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ACTION'));
     }
@@ -85,9 +78,9 @@
 
     function getDeathConcepts() {
       return conceptService.getDeathConcepts()
-        .then(function(deathConcepts) {
+        .then(function (deathConcepts) {
           vm.deathConcepts = deathConcepts;
-        }).catch(function(error) {
+        }).catch(function (error) {
           notifier.error(($filter('translate')('COMMON_MESSAGE_ERROR_ACTION')));
         });
     }
@@ -96,7 +89,7 @@
       var patientState = {
         dead: true,
         causeOfDeath: vm.patient.causeOfDeath.uuid,
-        deathDate:vm.patient.deathDate
+        deathDate: vm.patient.deathDate
       };
       patientService.updatePerson(vm.patient.uuid, patientState)
         .then(successCallback)
