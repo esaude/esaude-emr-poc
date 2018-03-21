@@ -36,6 +36,10 @@
     }
 
     function selectTestOrderResult(testOrder) {
+      if (testOrder.selected) {
+        return;
+      }
+
       var loadConcepts = loadOrderItemConcepts(testOrder)
         .then(function () {
           vm.selectedTestOrder = testOrder;

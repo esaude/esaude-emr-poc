@@ -337,6 +337,10 @@ p.capitalize {
   padding-right: 0;
 }
 
+.lab-tests .test-order-list .table tr {
+  cursor: pointer;
+}
+
 .lab-tests .test-order-list .table td {
   vertical-align: middle;
 }

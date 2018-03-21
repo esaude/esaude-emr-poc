@@ -1,4 +1,4 @@
-<table class="table">
+<table class="table table-hover">
   <thead>
   <tr>
     <th>{{ 'ORDER_ID' | translate}}</th>
@@ -9,13 +9,13 @@
   </tr>
   </thead>
   <tbody>
-  <tr ng-repeat="t in vm.testOrderResults" ng-class="{'active': t.selected}">
+  <tr ng-repeat="t in vm.testOrderResults" ng-class="{'active': t.selected}" ng-click="vm.onSelectTestOrderResult({testOrderResult: t})">
     <td>{{t.id}}</td>
     <td>{{t.dateCreation | date}}</td>
     <td>{{t.provider.display}}</td>
     <td>{{t.status}}</td>
     <td>
-      <button class="btn btn-lg btn-default" type="button" ng-click="vm.onSelectTestOrderResult({testOrderResult: t})">
+      <button class="btn btn-lg btn-default" type="button">
         <i class="glyphicon glyphicon-eye-open"></i> {{ 'VIEW' | translate}}
       </button>
     </td>
