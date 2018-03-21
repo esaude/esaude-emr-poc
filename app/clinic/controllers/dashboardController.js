@@ -6,14 +6,16 @@
     .controller('DashboardController', DashboardController);
 
   DashboardController.$inject = ['$rootScope', '$scope', '$state', '$stateParams', 'patientService', 'alertService',
-    'visitService'];
+    'visitService', 'authorizationService'];
 
   /* @ngInject */
-  function DashboardController($rootScope, $scope, $state, $stateParams, patientService, alertService, visitService) {
+  function DashboardController($rootScope, $scope, $state, $stateParams, patientService, alertService, visitService,
+    authorizationService) {
 
     $scope.flags = [];
     $scope.patientUUID = $stateParams.patientUuid;
     $scope.todayVisit = null;
+    $scope.hasLabOrderPrivilege = false;
 
     $scope.getAlerts = getAlerts;
     activate();
@@ -33,11 +35,24 @@
           $scope.hasVisitToday = false;
         }
       });
+
+      checkLabOrderPrivilege();
     }
 
     function getAlerts() {
       alertService.get($scope.patientUUID).success(function (data) {
         $scope.flags = data.flags;
+      });
+    }
+
+    function checkLabOrderPrivilege() {
+      var privilegesToCheck = ['Write Test Order', 'Read Test Order', 'Update Test Order'];
+      privilegesToCheck.forEach(function (privilege) {
+        authorizationService.hasPrivilege(privilege).then(function (hasPrivilege) {
+          if (hasPrivilege) {
+            $scope.hasLabOrderPrivilege = true;
+          }
+        });
       });
     }
   }
