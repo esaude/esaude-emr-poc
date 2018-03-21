@@ -9,10 +9,10 @@
       templateUrl: '../lab/components/labTests.html'
     });
 
-  LabTestsController.$inject = ['$q', '$scope', '$stateParams', 'notifier', 'testService', 'translateFilter',
+  LabTestsController.$inject = ['$q', '$scope', '$stateParams', 'notifier', 'testOrderResultService', 'translateFilter',
     'conceptService', 'orderService', 'spinner'];
 
-  function LabTestsController($q, $scope, $stateParams, notifier, testService, translateFilter, conceptService,
+  function LabTestsController($q, $scope, $stateParams, notifier, testOrderResultService, translateFilter, conceptService,
                               orderService, spinner) {
 
     var vm = this;
@@ -25,7 +25,7 @@
     vm.reloadTestOrderResult = reloadTestOrderResult;
 
     function $onInit() {
-      testService.getTestOrderResultsForPatient({uuid: $stateParams.patientUuid})
+      testOrderResultService.getTestOrderResultsForPatient({uuid: $stateParams.patientUuid})
         .then(function (testOrders) {
           vm.testOrderResults = testOrders;
           selectTestOrderResult(testOrders[0]);
@@ -58,7 +58,7 @@
 
       var i = vm.testOrderResults.indexOf(testOrderResult);
 
-      testService.getTestOrderResult(testOrderResult.uuid)
+      testOrderResultService.getTestOrderResult(testOrderResult.uuid)
         .then(function (reloadedTestOrderResult) {
           vm.testOrderResults[i] = reloadedTestOrderResult;
           selectTestOrderResult(vm.testOrderResults[i]);

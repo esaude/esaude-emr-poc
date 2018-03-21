@@ -1,6 +1,6 @@
 describe('LabTestsController', function () {
 
-  var $componentController, $q, testService, $rootScope, conceptService, orderService;
+  var $componentController, $q, testOrderResultService, $rootScope, conceptService, orderService;
 
   beforeEach(module('lab', function ($provide, $translateProvider, $urlRouterProvider) {
     // Mock translate asynchronous loader
@@ -15,12 +15,12 @@ describe('LabTestsController', function () {
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function (_$componentController_, _patientService_, _$q_, _testService_, _$rootScope_,
+  beforeEach(inject(function (_$componentController_, _patientService_, _$q_, _testOrderResultService_, _$rootScope_,
                               _orderService_, _conceptService_) {
 
     $componentController = _$componentController_;
     $q = _$q_;
-    testService = _testService_;
+    testOrderResultService = _testOrderResultService_;
     $rootScope = _$rootScope_;
     orderService = _orderService_;
     conceptService = _conceptService_
@@ -31,7 +31,7 @@ describe('LabTestsController', function () {
 
     it('should load test orders for the patient', function () {
 
-      spyOn(testService, 'getTestOrderResultsForPatient').and.callFake(function () {
+      spyOn(testOrderResultService, 'getTestOrderResultsForPatient').and.callFake(function () {
         return $q(function (resolve) {
           return resolve([]);
         });
@@ -41,7 +41,7 @@ describe('LabTestsController', function () {
 
       ctrl.$onInit();
 
-      expect(testService.getTestOrderResultsForPatient).toHaveBeenCalled();
+      expect(testOrderResultService.getTestOrderResultsForPatient).toHaveBeenCalled();
 
     });
 
@@ -49,7 +49,7 @@ describe('LabTestsController', function () {
 
       var testOrders = [{items: []}];
 
-      spyOn(testService, 'getTestOrderResultsForPatient').and.callFake(function () {
+      spyOn(testOrderResultService, 'getTestOrderResultsForPatient').and.callFake(function () {
         return $q(function (resolve) {
           return resolve(testOrders);
         });
@@ -191,7 +191,7 @@ describe('LabTestsController', function () {
 
     it('should load test result', function () {
 
-      spyOn(testService, 'getTestOrderResult').and.callFake(function () {
+      spyOn(testOrderResultService, 'getTestOrderResult').and.callFake(function () {
         return $q(function (resolve) {
           return resolve({uuid: '6a19b385-223f-45eb-8a8f-bf7b142ecde9', items: [{value: 1}]});
         });
@@ -201,7 +201,7 @@ describe('LabTestsController', function () {
 
       ctrl.reloadTestOrderResult({uuid: '6a19b385-223f-45eb-8a8f-bf7b142ecde9'});
 
-      expect(testService.getTestOrderResult).toHaveBeenCalled();
+      expect(testOrderResultService.getTestOrderResult).toHaveBeenCalled();
 
     });
 
@@ -222,7 +222,7 @@ describe('LabTestsController', function () {
         });
       });
 
-      spyOn(testService, 'getTestOrderResult').and.callFake(function () {
+      spyOn(testOrderResultService, 'getTestOrderResult').and.callFake(function () {
         return $q(function (resolve) {
           return resolve(loaded);
         });
@@ -256,7 +256,7 @@ describe('LabTestsController', function () {
         });
       });
 
-      spyOn(testService, 'getTestOrderResult').and.callFake(function () {
+      spyOn(testOrderResultService, 'getTestOrderResult').and.callFake(function () {
         return $q(function (resolve) {
           return resolve(loaded);
         });

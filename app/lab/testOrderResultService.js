@@ -3,12 +3,12 @@
 
   angular
     .module('lab')
-    .factory('testService', testService);
+    .factory('testOrderResultService', testOrderResultService);
 
-  testService.$inject = ['$http', '$q', '$log', 'sessionService'];
+  testOrderResultService.$inject = ['$http', '$q', '$log', 'sessionService'];
 
   /* @ngInject */
-  function testService($http, $q, $log, sessionService) {
+  function testOrderResultService($http, $q, $log, sessionService) {
     var service = {
       getTestOrderResultsForPatient: getTestOrderResultsForPatient,
       getTestOrderResult: getTestOrderResult,

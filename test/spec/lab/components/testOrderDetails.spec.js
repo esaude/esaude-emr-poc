@@ -1,6 +1,6 @@
 describe('TestOrderDetailsController', function () {
 
-  var $componentController, $q, $rootScope, testService;
+  var $componentController, $q, $rootScope, testOrderResultService;
 
   beforeEach(module('lab', function ($provide, $translateProvider, $urlRouterProvider) {
     // Mock translate asynchronous loader
@@ -15,10 +15,10 @@ describe('TestOrderDetailsController', function () {
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function (_$componentController_, _patientService_, _$q_, _$rootScope_, _testService_) {
+  beforeEach(inject(function (_$componentController_, _patientService_, _$q_, _$rootScope_, _testOrderResultService_) {
     $componentController = _$componentController_;
     $q = _$q_;
-    testService = _testService_;
+    testOrderResultService = _testOrderResultService_;
     $rootScope = _$rootScope_;
   }));
 
@@ -26,7 +26,7 @@ describe('TestOrderDetailsController', function () {
   describe('saveTestResultItem', function () {
 
     beforeEach(function () {
-      spyOn(testService, 'saveTestResultItem').and.callFake(function () {
+      spyOn(testOrderResultService, 'saveTestResultItem').and.callFake(function () {
         return $q(function (resolve) {
           return resolve({uuid: 'new', value: 0.1});
         });
@@ -39,7 +39,7 @@ describe('TestOrderDetailsController', function () {
 
       ctrl.saveTestResultItem({}, 0.1);
 
-      expect(testService.saveTestResultItem).toHaveBeenCalled();
+      expect(testOrderResultService.saveTestResultItem).toHaveBeenCalled();
 
     });
 
@@ -130,7 +130,7 @@ describe('TestOrderDetailsController', function () {
   describe('removeTestResultItem', function () {
 
     beforeEach(function () {
-      spyOn(testService, 'removeTestResultItem').and.callFake(function () {
+      spyOn(testOrderResultService, 'removeTestResultItem').and.callFake(function () {
         return $q(function (resolve) {
           return resolve({});
         });
@@ -146,7 +146,7 @@ describe('TestOrderDetailsController', function () {
 
       ctrl.removeTestResultItem(item);
 
-      expect(testService.removeTestResultItem).toHaveBeenCalled();
+      expect(testOrderResultService.removeTestResultItem).toHaveBeenCalled();
 
     });
 

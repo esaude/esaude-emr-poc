@@ -14,10 +14,10 @@
     });
 
 
-  TestOrderDetailsController.$inject = ['$timeout', 'notifier', 'translateFilter', '$q', 'spinner', 'testService'];
+  TestOrderDetailsController.$inject = ['$timeout', 'notifier', 'translateFilter', '$q', 'spinner', 'testOrderResultService'];
 
   /* @ngInject */
-  function TestOrderDetailsController($timeout, notifier, translateFilter, $q, spinner, testService) {
+  function TestOrderDetailsController($timeout, notifier, translateFilter, $q, spinner, testOrderResultService) {
 
     var vm = this;
 
@@ -29,7 +29,7 @@
       var index = findItem(item);
       var changedItem = angular.copy(vm.testOrderResult.items[index]);
       var save =
-        testService.saveTestResultItem(vm.testOrderResult, _.merge({}, changedItem, {value: result}))
+        testOrderResultService.saveTestResultItem(vm.testOrderResult, _.merge({}, changedItem, {value: result}))
           .then(function (testResultItem) {
             changedItem.uuid = testResultItem.uuid;
             changedItem.value = testResultItem.value;
@@ -61,7 +61,7 @@
 
     function removeTestResultItem(item) {
       var remove =
-        testService.removeTestResultItem(vm.testOrderResult, item)
+        testOrderResultService.removeTestResultItem(vm.testOrderResult, item)
           .then(function () {
             vm.reloadTestOrderResult();
             notifier.success(translateFilter('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));

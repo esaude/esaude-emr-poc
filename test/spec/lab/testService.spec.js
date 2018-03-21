@@ -1,6 +1,6 @@
-describe('testService', function () {
+describe('testOrderResultService', function () {
 
-  var $q, testService, $httpBackend;
+  var $q, testOrderResultService, $httpBackend;
 
   beforeEach(module('lab', function ($provide, $translateProvider, $urlRouterProvider) {
     // Mock translate asynchronous loader
@@ -15,9 +15,9 @@ describe('testService', function () {
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function(_testService_, _$q_, _$httpBackend_) {
+  beforeEach(inject(function(_testOrderResultService_, _$q_, _$httpBackend_) {
     $q = _$q_;
-    testService = _testService_;
+    testOrderResultService = _testOrderResultService_;
     $httpBackend = _$httpBackend_;
   }));
 
@@ -33,7 +33,7 @@ describe('testService', function () {
       $httpBackend.expectGET('/openmrs/ws/rest/v1/testorderresult?patient=' + patient.uuid).respond({results: testOrderResults});
 
       var results;
-      testService.getTestOrderResultsForPatient(patient).then(function (r) {
+      testOrderResultService.getTestOrderResultsForPatient(patient).then(function (r) {
         results = r;
       });
 
@@ -59,7 +59,7 @@ describe('testService', function () {
       $httpBackend.expectGET('/openmrs/ws/rest/v1/testorderresult/' + uuid).respond({uuid: uuid});
 
       var testOrderResult;
-      testService.getTestOrderResult(uuid).then(function (r) {
+      testOrderResultService.getTestOrderResult(uuid).then(function (r) {
         testOrderResult = r;
       });
 
