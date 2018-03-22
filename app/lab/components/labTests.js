@@ -27,8 +27,10 @@
     function $onInit() {
       testOrderResultService.getTestOrderResultsForPatient({uuid: $stateParams.patientUuid})
         .then(function (testOrders) {
-          vm.testOrderResults = testOrders;
-          selectTestOrderResult(testOrders[0]);
+          if (testOrders.length > 0) {
+            vm.testOrderResults = testOrders;
+            selectTestOrderResult(testOrders[0]);
+          }
         })
         .catch(function () {
           notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
