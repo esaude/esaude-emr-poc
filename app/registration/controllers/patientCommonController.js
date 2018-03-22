@@ -43,6 +43,8 @@
     vm.selectIsDead = selectIsDead;
     vm.setPreferredId = setPreferredId;
     vm.stepForward = stepForward;
+    vm.filterPersonAttributesForCurrStep = filterPersonAttributesForCurrStep;
+    vm.filterPersonAttributesForDetails = filterPersonAttributesForDetails;
 
 
     var tabManager = new TabManager();
@@ -244,6 +246,31 @@
       } else {
         vm.showMessages = true;
       }
+    }
+
+    function filterPersonAttributesForCurrStep (attributes, stepConfigAttrs) {
+      var filteredAttrs = [];
+      _.forEach(attributes, function (attributeRow) {
+        filteredAttrs = _.concat(filteredAttrs, filterPersonAttributes(attributeRow, stepConfigAttrs));
+      })
+      debugger
+      return filteredAttrs;
+    }
+
+    function filterPersonAttributesForDetails (attributes, stepConfigAttrs) {
+      return filterPersonAttributes(attributes, stepConfigAttrs);
+    }
+
+    function filterPersonAttributes (attributes, stepConfigAttrs) {
+      var filteredAttrs = [];
+      _.forEach(attributes, function (attr) {
+        var foundAttr = _.find(stepConfigAttrs, function (configAttr) {
+          return configAttr.name === attr.name;
+        })
+
+        if (foundAttr) filteredAttrs.push(attr);
+      })
+      return filteredAttrs;
     }
 
   }
