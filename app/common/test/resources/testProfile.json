@@ -1,0 +1,82 @@
+{
+  "testProfiles": [
+    {
+      "name": "HEMOGRAMA KX21N",
+      "tests": [
+        "e1cdbe88-1d5f-11e0-b929-000c29ad1d07",
+        "e1d14ce2-1d5f-11e0-b929-000c29ad1d07",
+        "e1d14e9a-1d5f-11e0-b929-000c29ad1d07",
+        "e1d4595a-1d5f-11e0-b929-000c29ad1d07",
+        "e1d45a68-1d5f-11e0-b929-000c29ad1d07",
+        "e1d48eac-1d5f-11e0-b929-000c29ad1d07",
+        "e1d61f2e-1d5f-11e0-b929-000c29ad1d07",
+        "e1d62370-1d5f-11e0-b929-000c29ad1d07",
+        "e1d6dce8-1d5f-11e0-b929-000c29ad1d07",
+        "e1d7e5f2-1d5f-11e0-b929-000c29ad1d07",
+        "e1d7e70a-1d5f-11e0-b929-000c29ad1d07",
+        "e1d7e822-1d5f-11e0-b929-000c29ad1d07",
+        "e1d7e930-1d5f-11e0-b929-000c29ad1d07",
+        "e1d7ec6e-1d5f-11e0-b929-000c29ad1d07",
+        "e1d7ed86-1d5f-11e0-b929-000c29ad1d07",
+        "e1d7ee94-1d5f-11e0-b929-000c29ad1d07",
+        "e1d7efac-1d5f-11e0-b929-000c29ad1d07",
+        "e1d7f0c4-1d5f-11e0-b929-000c29ad1d07",
+        "e1da2916-1d5f-11e0-b929-000c29ad1d07",
+        "e1da4694-1d5f-11e0-b929-000c29ad1d07",
+        "e1da4798-1d5f-11e0-b929-000c29ad1d07",
+        "e1da4892-1d5f-11e0-b929-000c29ad1d07",
+        "e1da4996-1d5f-11e0-b929-000c29ad1d07"
+      ]
+    },
+    {
+      "name": "IMMUNOLOGIA",
+      "tests": [
+        "e1d48fba-1d5f-11e0-b929-000c29ad1d07",
+        "e1dd332c-1d5f-11e0-b929-000c29ad1d07",
+        "e1e68f26-1d5f-11e0-b929-000c29ad1d07"
+      ]
+    },
+    {
+      "name": "TESTAGEM VIROLOGIA",
+      "tests": [
+        "e1d1564c-1d5f-11e0-b929-000c29ad1d07",
+        "e1d6247e-1d5f-11e0-b929-000c29ad1d07"
+      ]
+    },
+    {
+      "name": "BIOQUIMICA LABORATORIO ",
+      "tests": [
+        "e1d43a74-1d5f-11e0-b929-000c29ad1d07",
+        "e1d43c36-1d5f-11e0-b929-000c29ad1d07",
+        "e1d43d44-1d5f-11e0-b929-000c29ad1d07",
+        "e1d48222-1d5f-11e0-b929-000c29ad1d07",
+        "e1d5cccc-1d5f-11e0-b929-000c29ad1d07",
+        "e1d5d21c-1d5f-11e0-b929-000c29ad1d07",
+        "e1d61bfa-1d5f-11e0-b929-000c29ad1d07",
+        "e1d6258c-1d5f-11e0-b929-000c29ad1d07",
+        "e1d64968-1d5f-11e0-b929-000c29ad1d07",
+        "e1d7db98-1d5f-11e0-b929-000c29ad1d07",
+        "e1d7dd3c-1d5f-11e0-b929-000c29ad1d07",
+        "e1d7de5e-1d5f-11e0-b929-000c29ad1d07",
+        "e1d7df6c-1d5f-11e0-b929-000c29ad1d07",
+        "e1d7e19c-1d5f-11e0-b929-000c29ad1d07",
+        "e1d7e2b4-1d5f-11e0-b929-000c29ad1d07",
+        "e1d7e3c2-1d5f-11e0-b929-000c29ad1d07",
+        "e1d7e4e4-1d5f-11e0-b929-000c29ad1d07",
+        "e1d8805c-1d5f-11e0-b929-000c29ad1d07",
+        "e1d881e2-1d5f-11e0-b929-000c29ad1d07",
+        "e1d8835e-1d5f-11e0-b929-000c29ad1d07",
+        "e1da1eda-1d5f-11e0-b929-000c29ad1d07",
+        "e1da20e2-1d5f-11e0-b929-000c29ad1d07",
+        "e1dc4dfe-1d5f-11e0-b929-000c29ad1d07",
+        "e1e0cc08-1d5f-11e0-b929-000c29ad1d07"
+      ]
+    },
+    {
+      "name": "PCR",
+      "tests": [
+        "e1d7f61e-1d5f-11e0-b929-000c29ad1d07"
+      ]
+    }
+  ]
+}

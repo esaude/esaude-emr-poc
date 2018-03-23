@@ -13,6 +13,7 @@
         <li role="presentation" ui-sref-active="active"><a ui-sref="dashboard.chart">{{'CLINIC_PATIENT_CHARTS' | translate}}</a></li>
         <li role="presentation" ui-sref-active="active"><a ui-sref="dashboard.consultation">{{'CLINIC_PATIENT_CONSULTATION' | translate}}</a></li>
         <li ng-if="hasVisitToday" role="presentation" ui-sref-active="active"><a ui-sref="dashboard.prescriptions">{{'CLINIC_PATIENT_PRESCRIPTIONS' | translate}}</a></li>
+        <li ng-if="hasLabOrderPrivilege" role="presentation" ui-sref-active="active"><a ui-sref="dashboard.laboratory">{{'LAB_ORDER' | translate}}</a></li>
         <li role="presentation" ui-sref-active="active"><a ui-sref="dashboard.current">{{'CLINIC_PATIENT_CURRENT_STATUS' | translate}}</a></li>
     </ul>
     <div ui-view=""></div>
