@@ -4,7 +4,7 @@ describe('LabRequestController', function () {
   var PROVIDERS = [{ display: "Alberto" }, { display: "Zacarias" }, { display: "Cossa" }];
   var TEST_PROFILES = [{ name: "Profile Um", tests: ["UUID1", "UUID2"] }, { name: "Profile Dois", tests: ["UUID2"] }];
   var TESTS = [{ display: "Teste 1", testOrder: { uuid: "UUID1" } }, { display: "Teste 2", testOrder: { uuid: "UUID2" } }];
-  var TEST_ORDERS = {};
+  var TEST_ORDERS = [];
   var TEST_ORDER_ITEMS = ["TEST1", "TEST2"];
   var TEST_ORDER = {
     testOrderItems: TEST_ORDER_ITEMS

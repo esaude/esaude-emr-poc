@@ -56,6 +56,7 @@
       });
       testService.getTests().then(function (tests) {
         vm.tests = tests;
+        translateTests(vm.tests);
       });
       sessionService.getCurrentProvider().then(function (provider) {
         providerUuid = provider.uuid;
@@ -68,9 +69,19 @@
       });
     }
 
+    function translateTests(tests) {
+      tests.forEach(function (test) {
+        test.translatedDisplay = $filter('translate')(test.display);
+      });
+
+    }
+
     function loadExistingTestOrders() {
       testOrderService.getTestOrdersByPatientUuid(patientUuid).then(function (testOrders) {
         vm.existingTestOrders = testOrders;
+        vm.existingTestOrders.forEach(function (testOrder) {
+          translateTests(testOrder.testOrderItems);
+        });
       });
     }
 

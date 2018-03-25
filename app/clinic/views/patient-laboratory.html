@@ -67,7 +67,7 @@
                                     <div ng-messages for="laborderForm.selectedTest.$error" ng-show="vm.showMessages">
                                         <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
                                     </div>
-                                    <input name="selectedTest" uib-typeahead="t as t.display for t in vm.tests | filter:{ display: $viewValue }" type="text"
+                                    <input name="selectedTest" uib-typeahead="t as t.translatedDisplay for t in vm.tests | filter:{ translatedDisplay: $viewValue }" type="text"
                                         ng-model="vm.selectedTest" id="test" class="form-control keyboard-in" />
                                 </div>
                                 <div class="col-sm-2">
@@ -91,7 +91,7 @@
                                     </thead>
                                     <tbody>
                                         <tr st-select-row="patient" st-select-mode="single" ng-repeat="test in vm.selectedTests">
-                                            <td>{{test.display}}</td>
+                                            <td>{{test.translatedDisplay}}</td>
                                             <td>{{test.category.display}}</td>
                                             <td>{{test.profileName}}</td>
                                             <td>
@@ -207,7 +207,7 @@
                         </thead>
                         <tbody>
                             <tr st-select-mode="single" ng-repeat="test in vm.testsOfSelectedRequest">
-                                <td>{{test.display}}</td>
+                                <td>{{test.translatedDisplay}}</td>
                                 <td>{{test.category.display}}</td>
                                 <td>
                                     <button id="delete_test" type="button" class="btn btn-danger btn-lg" poc-confirm-dialog="'{{ 'CONFIRM_TEST_REMOVAL' | translate}}'"
