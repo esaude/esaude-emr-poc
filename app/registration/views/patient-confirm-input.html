@@ -28,6 +28,13 @@
 
     <div ng-include src="'../patient-details/views/patient-attributes.html'"></div>
 </div>
+<div class="panel panel-primary content-border-margin">
+    <div class="panel-heading">
+        <h3 class="panel-title">{{'PATIENT_INFO_HIV_TEST' | translate}}</h3>
+    </div>
+
+    <div ng-include src="'../patient-details/views/patient-hiv-test.html'"></div>
+</div>
 
 <div class="row bg-info-border content-border border-rouded go-to-right">
     <button id="confirm" type="button" class="btn btn-primary btn-lg" ng-click="save()">

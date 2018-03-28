@@ -54,6 +54,7 @@
     tabManager.addStepDefinition(vm.srefPrefix + "age", 4);
     tabManager.addStepDefinition(vm.srefPrefix + "address", 5);
     tabManager.addStepDefinition(vm.srefPrefix + "other", 6);
+    tabManager.addStepDefinition(vm.srefPrefix + "testing", 7);
 
     activate();
 
@@ -249,28 +250,11 @@
     }
 
     function filterPersonAttributesForCurrStep (attributes, stepConfigAttrs) {
-      var filteredAttrs = [];
-      _.forEach(attributes, function (attributeRow) {
-        filteredAttrs = _.concat(filteredAttrs, filterPersonAttributes(attributeRow, stepConfigAttrs));
-      })
-      debugger
-      return filteredAttrs;
+      return patientService.filterPersonAttributesForCurrStep (attributes, stepConfigAttrs);
     }
 
     function filterPersonAttributesForDetails (attributes, stepConfigAttrs) {
-      return filterPersonAttributes(attributes, stepConfigAttrs);
-    }
-
-    function filterPersonAttributes (attributes, stepConfigAttrs) {
-      var filteredAttrs = [];
-      _.forEach(attributes, function (attr) {
-        var foundAttr = _.find(stepConfigAttrs, function (configAttr) {
-          return configAttr.name === attr.name;
-        })
-
-        if (foundAttr) filteredAttrs.push(attr);
-      })
-      return filteredAttrs;
+      return patientService.filterPersonAttributesForDetails (attributes, stepConfigAttrs);
     }
 
   }

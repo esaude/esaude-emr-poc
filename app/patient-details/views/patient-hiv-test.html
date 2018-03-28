@@ -1,0 +1,5 @@
+<ul class="list-group content-border-margin-regular">
+  <li class="list-group-item" ng-repeat="patientAttribute in patientCommon.filterPersonAttributesForDetails(patientCommon.patientAttributes, additionalPatientAttributes.testing)">
+    <b>{{patientAttribute.name}}: </b> {{patientAttribute | valueofothers:patientCommon.patient}}
+  </li>
+</ul>

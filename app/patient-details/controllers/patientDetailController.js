@@ -21,6 +21,7 @@
     vm.patientAttributes = [];
     vm.linkDashboard = linkDashboard;
     vm.print = print;
+    vm.filterPersonAttributesForDetails = filterPersonAttributesForDetails
 
     activate();
 
@@ -49,6 +50,10 @@
 
     function getPatient(uuid) {
       return patientService.getPatient(uuid);
+    }
+
+    function filterPersonAttributesForDetails (attributes, stepConfigAttrs) {
+      return patientService.filterPersonAttributesForDetails (attributes, stepConfigAttrs);
     }
   }
 })();
