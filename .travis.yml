@@ -1,7 +1,7 @@
 sudo: required
 language: node_js
 node_js:
-  - "7.4.0"
+  - "6.9.4"
 addons:
   apt:
     packages:
