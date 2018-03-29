@@ -90,7 +90,7 @@
         },
         resolve: {
           clinicalServicesService: function (clinicalServicesService, $stateParams) {
-            return clinicalServicesService.init('registration', $stateParams.patientUuid);
+            return clinicalServicesService.init('registration', $stateParams.patientUuid, true);
           }
         }
       })

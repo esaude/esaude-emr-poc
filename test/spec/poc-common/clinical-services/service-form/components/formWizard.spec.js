@@ -1,6 +1,6 @@
-describe('FormController', function () {
+describe('FormWizardController', function () {
 
-  var $controller;
+  var ctrl;
   var clinicalServicesService = {
     getFormLayouts: function () { },
     getFormData: function () { }
@@ -18,7 +18,7 @@ describe('FormController', function () {
 
   beforeEach(module('poc.common.clinicalservices.serviceform'));
 
-  beforeEach(inject(function (_$controller_, _$q_, _$rootScope_, _$httpBackend_, _patientService_, _visitService_) {
+  beforeEach(inject(function (_$componentController_, _$q_, _$rootScope_, _$httpBackend_, _patientService_, _visitService_) {
     $q = _$q_;
     $rootScope = _$rootScope_;
     $scope = $rootScope.$new();
@@ -51,7 +51,7 @@ describe('FormController', function () {
     spyOn(spinner, 'forPromise').and.callFake(function () {
     });
 
-    $controller = _$controller_('FormController', {
+    ctrl = _$componentController_('formWizard', {
       $scope: $scope,
       clinicalServicesService: clinicalServicesService,
       createEncounterMapper: {},
@@ -64,23 +64,27 @@ describe('FormController', function () {
 
   }));
 
-  describe('activate', function () {
+  describe('$onInit', function () {
     it('should load form data', function () {
+      ctrl.$onInit();
       $rootScope.$apply();
-      expect($scope.formPayload).toEqual(FORM_DATA);
+      expect(ctrl.formPayload).toEqual(FORM_DATA);
     });
 
     it('should load the patient', function () {
+      ctrl.$onInit();
       $rootScope.$apply();
-      expect($scope.patient).toEqual(PATIENT_EDRISSE);
+      expect(ctrl.patient).toEqual(PATIENT_EDRISSE);
     });
 
     it('should get todays visit', function () {
+      ctrl.$onInit();
       $rootScope.$apply();
       expect($scope.hasVisitToday).toBeFalsy();
     });
 
     it('should load previous encounter', function () {
+      ctrl.$onInit();
       $rootScope.$apply();
       expect($scope.previousEncounter).not.toBeNull();
     });
@@ -90,14 +94,14 @@ describe('FormController', function () {
   describe('getPreviousEncounter', function () {
     it('previous encounter should be last encounter when no occurence of the service in the current visit', function () {
       $rootScope.$apply();
-      var previousEncounter = $controller.getPreviousEncounter(FORM_DATA, null);
+      var previousEncounter = ctrl.getPreviousEncounter(FORM_DATA, null);
       expect(previousEncounter).toEqual(LAST_ENCOUNTER);
     });
 
     it('previous encounter should be null when no service encounter is found with same UUID', function () {
       $rootScope.$apply();
       var previousEncounter =
-        $controller.getPreviousEncounter({
+        ctrl.getPreviousEncounter({
           service: {
             encountersForService: [{ uuid: "UUID1" }, { uuid: "UUID3" }],
             hasEntryToday: true
@@ -109,7 +113,7 @@ describe('FormController', function () {
     it('previous encounter should be the next to service encounter', function () {
       $rootScope.$apply();
       var previousEncounter =
-        $controller.getPreviousEncounter({
+        ctrl.getPreviousEncounter({
           service: {
             encountersForService: [{ uuid: "UUID1" }, { uuid: "UUID2" }, { uuid: "UUID3" }],
             hasEntryToday: true
@@ -121,7 +125,7 @@ describe('FormController', function () {
     it('previous encounter should be null when there is no next encounter to service encounter', function () {
       $rootScope.$apply();
       var previousEncounter =
-        $controller.getPreviousEncounter({
+        ctrl.getPreviousEncounter({
           service: {
             encountersForService: [{ uuid: "UUID1" }, { uuid: "UUID2" }],
             hasEntryToday: true

@@ -1,0 +1,27 @@
+<patient-header patient="vm.patient"></patient-header>
+
+<div class="row bg-info-border bg-info content-border border-rouded-top">
+  <div class="header-text-lg">
+    <b>{{vm.formInfo.label | translate}}</b>
+  </div>
+</div>
+
+<div class="row bg-info-border content-border border-rouded">
+  <!-- the links to our nested states using relative paths -->
+  <!-- add the active class if the state matches our ui-sref -->
+  <div id="status-buttons" class="text-center">
+    <a ng-repeat="formPart in vm.formInfo.parts" ui-sref-active="active" ui-sref="{{formPart.sref}}"
+       ng-click="stepInFormPart(formPart)">
+      <span class="label label-primary">{{formPart.id}}</span> {{formPart.label | translate}}
+    </a>
+  </div>
+</div>
+
+<ui-view></ui-view>
+
+<div class="row bg-info-border content-border border-rouded-bottom go-to-left">
+    <button type="button" class="btn btn-warning btn-lg" ng-click="vm.linkDashboard()">
+        <span class="glyphicon glyphicon-minus-sign"></span>
+        <span class="button-label">{{'CANCEL' | translate}}</span>
+    </button>
+</div>

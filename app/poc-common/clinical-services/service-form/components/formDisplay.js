@@ -3,13 +3,17 @@
 
   angular
     .module('poc.common.clinicalservices.serviceform')
-    .controller('FormPrintController', FormPrintController);
+    .component('formDisplay', {
+      controller: FormDisplayController,
+      controllerAs: 'vm',
+      templateUrl: '../poc-common/clinical-services/service-form/components/formDisplay.html'
+    });
 
-  FormPrintController.$inject = ['$state', '$stateParams', 'clinicalServicesService', 'notifier', 'patientService',
+  FormDisplayController.$inject = ['$state', '$stateParams', 'clinicalServicesService', 'notifier', 'patientService',
     'spinner', 'translateFilter'];
 
   /* @ngInject */
-  function FormPrintController($state, $stateParams, clinicalServicesService, notifier, patientService, spinner,
+  function FormDisplayController($state, $stateParams, clinicalServicesService, notifier, patientService, spinner,
                                translateFilter) {
 
     var encounter = $stateParams.encounter;
@@ -23,13 +27,12 @@
     vm.formInfo = null;
     vm.patientUUID = $stateParams.patientUuid;
 
+    vm.$onInit = $onInit;
     vm.linkDashboard = linkDashboard;
-
-    activate();
 
     ////////////////
 
-    function activate() {
+    function $onInit() {
       var service = {id: serviceId};
 
       vm.formInfo = clinicalServicesService.getFormLayouts({id: serviceId});
