@@ -130,7 +130,6 @@ module.exports = function (config) {
 
     // Which plugins to enable
     plugins: [
-      'karma-phantomjs-launcher',
       'karma-jasmine',
       'karma-coverage',
       'karma-spec-reporter',
@@ -149,7 +148,7 @@ module.exports = function (config) {
 
     // level of logging
     // possible values: LOG_DISABLE || LOG_ERROR || LOG_WARN || LOG_INFO || LOG_DEBUG
-    logLevel: config.LOG_INFO
+    logLevel: config.LOG_INFO,
 
     // Uncomment the following lines if you are using grunt's server to run the tests
     // proxies: {
@@ -157,5 +156,18 @@ module.exports = function (config) {
     // },
     // URL root prevent conflicts with the site root
     // urlRoot: '_karma_'
+    customLaunchers: {
+      ChromeHeadless: {
+        base: 'Chrome',
+        flags: [
+          '--no-sandbox',
+          '--headless',
+          '--disable-gpu',
+          '--disable-translate',
+          '--disable-extensions',
+          '--remote-debugging-port=9222' // Without a remote debugging port, Google Chrome exits immediately.
+        ]
+      }
+    }
   });
 };
