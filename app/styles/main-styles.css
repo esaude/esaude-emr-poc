@@ -388,4 +388,17 @@ p.capitalize {
   position: absolute;
   right: 10px;
 }
+
+/* Marital Partners */
+.marital-partners {
+  padding: 10px;
+}
+
+/*.marital-partners > .row {*/
+  /*margin-bottom: 10px;*/
+/*}*/
+
+.marital-partners > div > .row:first-child {
+  font-weight: bold;
+}
 /**/

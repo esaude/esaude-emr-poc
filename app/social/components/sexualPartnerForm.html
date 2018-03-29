@@ -1,0 +1,44 @@
+<form class="row" name="form" ng-submit="vm.submit(form);" novalidate>
+
+  <div class="col-sm-4">
+    <div class="form-group form-group-lg" ng-class="{'has-error': form.$submitted && !form.name.$valid}">
+      <input class="form-control" name="name" type="text" ng-model="vm.partner.name" title="Name" autofocus required>
+      <div ng-messages for="form.name.$error" ng-if="form.$submitted && !form.name.$valid">
+        <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-3">
+    <div class="form-group form-group-lg" ng-class="{'has-error': form.$submitted && !form.relationship.$valid}">
+      <select class="form-control" name="relationship" ng-model="vm.partner.relationship" title="Relationship"
+              ng-options="a as a.display for a in vm.relationshipToPatient.answers"
+              required>
+        <option value=""></option>
+      </select>
+      <div ng-messages for="form.relationship.$error" ng-if="form.$submitted && !form.relationship.$valid">
+        <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-3">
+    <div class="form-group form-group-lg" ng-class="{'has-error': form.$submitted && !form.hivStatus.$valid}">
+      <select class="form-control" name="hivStatus" ng-model="vm.partner.hivStatus" title="HIV Status"
+              ng-options="a as a.display for a in vm.hivStatus.answers" required>
+        <option value=""></option>
+      </select>
+      <div ng-messages for="form.hivStatus.$error" ng-if="form.$submitted && !form.hivStatus.$valid">
+        <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-2">
+    <button class="btn btn-primary btn-lg" type="submit">
+      <i class="glyphicon glyphicon-floppy-disk"></i>
+      {{'SAVE'|translate}}
+    </button>
+  </div>
+
+</form>

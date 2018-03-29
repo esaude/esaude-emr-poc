@@ -14,6 +14,10 @@
 
     var ADULT_FOLLOWUP_ENCOUNTER_TYPE_UUID = Bahmni.Common.Constants.adultFollowupEncounterUuid;
 
+    var ADULT_STARV_INITAL_A_ENCOUNTER_TYPE_UUID = 'e278f820-1d5f-11e0-b929-000c29ad1d07';
+
+    var CHILD_STARV_INITAL_A_ENCOUNTER_TYPE_UUID = 'e278fa8c-1d5f-11e0-b929-000c29ad1d07';
+
     var PATIENT_CHILD_AGE = 14;
 
     var RETURN_VISIT_DATE_CONCEPT_UUID = 'e1dae630-1d5f-11e0-b929-000c29ad1d07';
@@ -26,14 +30,17 @@
 
     return {
       create: create,
+      createStarvInitialA: createStarvInitialA,
       delete: _delete,
       filterRetiredEncoounters: filterRetiredEncounters,
       find: find,
+      findStarvInitialAEncounter: findStarvInitialAEncounter,
       getEncountersForEncounterType: getEncountersForEncounterType,
       getNextConsultationDate: getNextConsultationDate,
       getNextPickupDate: getNextPickupDate,
       getPatientFollowupEncounters: getPatientFollowupEncounters,
       getPatientPharmacyEncounters: getPatientPharmacyEncounters,
+      getPatientStarvInitialAEncounters: getPatientStarvInitialAEncounters,
       getEncountersOfPatient: getEncountersOfPatient,
       getEncountersForPatientByEncounterType: getEncountersForPatientByEncounterType,
       search: search,
@@ -67,11 +74,20 @@
       return $http.post(Bahmni.Common.Constants.encounterUrl, encounter)
         .then(function (response) {
           return response.data;
-        }).
-        catch(function (error) {
+        }).catch(function (error) {
           $log.error('XHR Failed for create: ' + error.data.error.message);
           return $q.reject();
         });
+    }
+
+    function createStarvInitialA(encounter) {
+      if (encounter.patient.age.years > PATIENT_CHILD_AGE) {
+        encounter.encounterType = {uuid: ADULT_STARV_INITAL_A_ENCOUNTER_TYPE_UUID};
+      } else {
+        encounter.encounterType = {uuid: CHILD_STARV_INITAL_A_ENCOUNTER_TYPE_UUID};
+      }
+      encounter.patient = {uuid: encounter.patient.uuid};
+      return create(encounter);
     }
 
     function update(encounter) {
@@ -81,7 +97,7 @@
         })
         .catch(function (error) {
           $log.error('XHR Failed for update: ' + error.data.error.message);
-          return $q.reject();
+          return $q.reject(error);
         });
     }
 
@@ -154,6 +170,14 @@
     function find(params) {
       return $http.post(Bahmni.Common.Constants.bahmniEncounterUrl + '/find', params, {
         withCredentials: true
+      });
+    }
+
+    function findStarvInitialAEncounter(encounters) {
+      return encounters.find(function (e) {
+        return !e.voided
+          && (e.encounterType.uuid === ADULT_STARV_INITAL_A_ENCOUNTER_TYPE_UUID
+            || e.encounterType.uuid === CHILD_STARV_INITAL_A_ENCOUNTER_TYPE_UUID);
       });
     }
 
@@ -258,6 +282,13 @@
           $log.error('XHR Failed for getPatientPharmacyEncounters: ' + error.data.error.message);
           return $q.reject(error);
         });
+    }
+
+    function getPatientStarvInitialAEncounters(patient, representation) {
+      if (patient.age.years > PATIENT_CHILD_AGE) {
+        return getEncountersForPatientByEncounterType(patient.uuid, ADULT_STARV_INITAL_A_ENCOUNTER_TYPE_UUID, representation);
+      }
+      return getEncountersForPatientByEncounterType(patient.uuid, CHILD_STARV_INITAL_A_ENCOUNTER_TYPE_UUID, representation);
     }
 
     function getEncountersOfPatient(patientUuid) {

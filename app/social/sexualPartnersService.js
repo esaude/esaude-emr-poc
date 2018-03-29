@@ -1,0 +1,153 @@
+(function () {
+  'use strict';
+
+  angular
+    .module('social')
+    .factory('sexualPartnersService', sexualPartnersService);
+
+  sexualPartnersService.$inject = ['$q', '$log', 'conceptService', 'encounterService', 'observationsService', 'visitService'];
+
+  /* @ngInject */
+  function sexualPartnersService($q, $log, conceptService, encounterService, observationsService, visitService) {
+
+    var SEXUAL_PARTNER_INFORMATION_CONCEPT_UUID = '4cd975c4-56b8-478b-a528-d8ffb9ecd200';
+
+    var PARTNERS_NAME_CONCEPT_UUID = 'bc39b981-bde2-4486-b1b8-8cef5a3233e3';
+
+    var RELATIONSHIP_TO_PATIENT_CONCEPT_UUID = 'e13e172c-9f49-4bd0-a976-b0c167f47918';
+
+    var HIV_STATUS_CONCEPT_UUID = 'e1db0cf0-1d5f-11e0-b929-000c29ad1d07';
+
+    var service = {
+      getFormData: getFormData,
+      getSexualPartners: getSexualPartners,
+      removeSexualPartner: removeSexualPartner,
+      saveSexualPartner: saveSexualPartner
+    };
+    return service;
+
+    ////////////////
+
+    function getFormData() {
+      return $q.all([getRelationshipToPatient(), getHivStatus()])
+        .then(function (result) {
+          return {
+            relationshipToPatient: result[0],
+            hivStatus: result[1]
+          };
+        })
+        .catch(function (error) {
+          $log.error('XHR Failed for getFormData: ' + error.data.error.message);
+          return $q.reject(error);
+        });
+    }
+
+    function getSexualPartners(patient) {
+      return encounterService.getPatientStarvInitialAEncounters(patient, 'custom:(uuid,display,obs:(uuid,display,concept,groupMembers:(uuid,display,value,concept:(uuid,display,answers)))')
+        .then(function (encounters) {
+          var allObs = _.flatMap(encounters, 'obs');
+          var partnerObs = _.filter(allObs, {concept: {uuid: SEXUAL_PARTNER_INFORMATION_CONCEPT_UUID}});
+          return partnerObs.map(mapSexualPartner);
+        })
+        .catch(function (error) {
+          $log.error('XHR Failed for getSexualPartners: ' + error.data.error.message);
+          return $q.reject(error);
+        });
+    }
+
+    function removeSexualPartner(sexualPartner) {
+      return observationsService.deleteObs(sexualPartner);
+    }
+
+    function saveSexualPartner(patient, sexualPartner) {
+
+      return visitService.getTodaysVisit(patient.uuid).then(function (visit) {
+
+          if (!visit) {
+            return $q.reject({data: {error: {message: 'patient has not checked-in.'}}});
+          }
+
+          var encounter = mapEncounter(visit, patient, sexualPartner);
+          var existing = encounterService.findStarvInitialAEncounter(visit.encounters);
+          if (!existing) {
+            return createStarvInitialAEncounterWithObs(encounter);
+          } else {
+            var obs = encounter.obs[0];
+            obs.encounter = existing.uuid;
+            return observationsService.createObs(obs);
+          }
+        })
+        .then(function (obs) {
+          sexualPartner.uuid = obs.uuid;
+          return sexualPartner;
+        })
+        .catch(function (error) {
+          $log.error('XHR Failed for saveSexualPartner: ' + error.data.error.message);
+          return $q.reject(error);
+        });
+    }
+
+    function createStarvInitialAEncounterWithObs(encounter) {
+      return encounterService.createStarvInitialA(encounter)
+        .then(function (encounter) {
+          return encounter.obs[0];
+        });
+    }
+
+    function mapEncounter(visit, patient, sexualPartner) {
+      var now = new Date();
+      return {
+        visit: visit.uuid,
+        patient: patient,
+        obs: [
+          {
+            person: patient.uuid,
+            obsDatetime: now,
+            concept: SEXUAL_PARTNER_INFORMATION_CONCEPT_UUID,
+            groupMembers: [
+              {
+                concept: PARTNERS_NAME_CONCEPT_UUID,
+                person: patient.uuid,
+                obsDatetime: now,
+                value: sexualPartner.name
+              },
+              {
+                concept: RELATIONSHIP_TO_PATIENT_CONCEPT_UUID,
+                person: patient.uuid,
+                obsDatetime: now,
+                value: sexualPartner.relationship.uuid
+              },
+              {
+                concept: HIV_STATUS_CONCEPT_UUID,
+                person: patient.uuid,
+                obsDatetime: now,
+                value: sexualPartner.hivStatus.uuid
+              }
+            ]
+          }
+        ]
+      };
+    }
+
+    function mapSexualPartner(o) {
+      var name = _.find(o.groupMembers, {concept: {uuid: PARTNERS_NAME_CONCEPT_UUID}}).value;
+      var hivStatus = _.find(o.groupMembers, {concept: {uuid: HIV_STATUS_CONCEPT_UUID}}).value;
+      var relationship = _.find(o.groupMembers, {concept: {uuid: RELATIONSHIP_TO_PATIENT_CONCEPT_UUID}}).value;
+      return {
+        uuid: o.uuid,
+        name: name,
+        hivStatus: hivStatus,
+        relationship: relationship
+      }
+    }
+
+    function getRelationshipToPatient() {
+      return conceptService.getConcept(RELATIONSHIP_TO_PATIENT_CONCEPT_UUID);
+    }
+
+    function getHivStatus() {
+      return conceptService.getConcept(HIV_STATUS_CONCEPT_UUID);
+    }
+  }
+
+})();
