@@ -27,6 +27,7 @@
         $rootScope.patientConfiguration = new Poc.Patient.PatientConfig(patientAttributeTypes.personAttributeTypes, appService.getAppDescriptor().getConfigValue("additionalPatientInformation"));
         $rootScope.defaultVisitTypes = appService.getAppDescriptor().getConfigValue("defaultVisitTypes");
         $rootScope.defaultDisplayLimit = appService.getAppDescriptor().getConfigValue("defaultDisplayLimit");
+        $rootScope.additionalPatientAttributes = appService.getAppDescriptor().getConfigValue("additionalPatientAttributes");
         $rootScope.appId = appService.getAppDescriptor().getId();
       });
     }

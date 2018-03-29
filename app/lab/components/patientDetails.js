@@ -28,6 +28,7 @@
 
     vm.linkDashboard = linkDashboard;
     vm.print = print;
+    vm.filterPersonAttributesForDetails = filterPersonAttributesForDetails;
     vm.$onInit = $onInit;
 
     ////////////////
@@ -55,6 +56,10 @@
 
     function getPatient(uuid) {
       return patientService.getPatient(uuid);
+    }
+
+    function filterPersonAttributesForDetails (attributes) {
+      return patientService.filterPersonAttributesForDetails (attributes, $rootScope.additionalPatientAttributes.other);
     }
   }
 
