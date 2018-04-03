@@ -190,8 +190,8 @@
 
         var editEncounter = updateEncounterMapper.mapFromFormPayload(openMRSEncounter, vm.formPayload.encounter);
 
-        encounterService.update(editEncounter).success(encounterSuccessCallback)
-          .error(encounterErrorCallback);
+        encounterService.update(editEncounter).then(encounterSuccessCallback)
+          .catch(encounterErrorCallback);
       }
     }
 
@@ -229,13 +229,13 @@
       return visitService.create(visit);
     }
 
-    function encounterSuccessCallback(encounterProfileData) {
+    function encounterSuccessCallback() {
       $rootScope.hasVisitToday = true;
       $state.go(returnState, { patientUuid: patientUUID });
       notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
     }
 
-    function encounterErrorCallback(encounterProfileData, status) {
+    function encounterErrorCallback() {
       notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ACTION'));
     }
 
