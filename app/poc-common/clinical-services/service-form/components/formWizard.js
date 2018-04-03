@@ -177,9 +177,13 @@
         openMRSEncounter = addMappedDateObs(clinicalService, openMRSEncounter);
 
         if (vm.hasVisitToday) {
-          encounterService.create(openMRSEncounter).success(encounterSuccessCallback);
+          encounterService.create(openMRSEncounter)
+            .then(encounterSuccessCallback);
         } else {
-          checkIn().then(encounterService.create(openMRSEncounter).success(encounterSuccessCallback).error(encounterErrorCallback));
+          checkIn()
+            .then(encounterService.create(openMRSEncounter))
+            .then(encounterSuccessCallback)
+            .catch(encounterErrorCallback);
         }
 
       } else {

@@ -42,10 +42,14 @@
     }
 
     function create(encounter) {
-      return $http.post(Bahmni.Common.Constants.encounterUrl, encounter, {
-        withCredentials: true,
-        headers: {"Accept": "application/json", "Content-Type": "application/json"}
-      });
+      return $http.post(Bahmni.Common.Constants.encounterUrl, encounter)
+        .then(function (response) {
+          return response.data;
+        }).
+        catch(function (error) {
+          $log.error('XHR Failed for create: ' + error.data.error.message);
+          return $q.reject();
+        });
     }
 
     function update(encounter) {
@@ -54,7 +58,7 @@
           return response.data;
         })
         .catch(function (error) {
-          $log.error('XHR Failed for getEncountersForPatientByEncounterType: ' + error.data.error.message);
+          $log.error('XHR Failed for update: ' + error.data.error.message);
           return $q.reject();
         });
     }
