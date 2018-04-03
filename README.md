@@ -57,6 +57,10 @@ bower install
 
 The POC systems runs on top of eSaude EMR Platform. The install instructions can be found [here](https://sites.google.com/site/openmrsmozambique/technical-resources/esaude-emr-install-guide).
 
+#### Chromium
+
+You should have Google Chrome or Chromium browser installed in order to run unit tests.
+
 ### Configuration
 
 In order for Grunt to forward the REST calls made to the OpenMRS platform to the correct location, you will need to configure the `proxies` section of `Gruntfile.js` as follows:
