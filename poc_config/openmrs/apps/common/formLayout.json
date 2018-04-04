@@ -40,7 +40,8 @@
           {
             "name": "Ocupação",
             "label": "COMMOM_OCUPATION",
-            "id": "e2a030ca-1d5f-11e0-b929-000c29ad1d07"
+            "id": "d15c24c0-d5b8-45f9-a0b4-0f38c96ce09d",
+            "searchBySource": "f74b9ed8-a24d-483b-aee1-b0c5da40bcd5"
           },
           {
             "name": "Nível de Escolaridade",
