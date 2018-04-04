@@ -14,6 +14,10 @@
 
     var FOLLOW_UP_CONSULTATION_VISIT_TYPE_UUID = "3866891d-09c5-4d98-98de-6ae7916110fa";
 
+    var WEIGHT_KG = "e1e2e826-1d5f-11e0-b929-000c29ad1d07";
+
+    var HEIGHT_CM = "e1e2e934-1d5f-11e0-b929-000c29ad1d07";
+
     var sortByVisitStartDateTime = _.curryRight(_.sortBy, 2)(function (visit) {
       return new Date(visit.startDatetime);
     });
@@ -109,6 +113,22 @@
         });
     }
 
+
+    function getPatientLastBMI(patient) {
+      var getHeightCM = observationsService.getLastPatientObs(patient, {uuid: HEIGHT_CM}, 'custom:(uuid,display,value,obsDatetime)');
+      var getWeightKg = observationsService.getLastPatientObs(patient, {uuid: WEIGHT_KG}, 'custom:(uuid,display,value)');
+      return $q.all([getHeightCM, getWeightKg])
+        .then(function (result) {
+          var heightCMObs = result[0];
+          var weightKgObs = result[1];
+          var heightM = heightCMObs.value / 100;
+          return {
+            value: weightKgObs.value / (heightM * heightM),
+            obsDatetime: heightCMObs.obsDatetime
+          };
+        });
+    }
+
     function getVisitHeader(patient) {
 
       var visitHeader = {};
@@ -133,10 +153,9 @@
             }
           });
 
-      var getLastBmi =
-        observationsService.getLastPatientObs(patient.uuid, Bahmni.Common.Constants.BMI)
-          .then(function (data) {
-            visitHeader.lastBmi = data;
+      var getLastBmi = getPatientLastBMI(patient)
+          .then(function (lastBmi) {
+            visitHeader.lastBmi = lastBmi;
           });
 
       var getLastVisit =

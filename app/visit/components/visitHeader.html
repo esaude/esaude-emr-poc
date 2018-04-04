@@ -45,7 +45,7 @@
         <b>{{'VITALS_LAST_BMI'| translate}}: </b>
       </div>
       <div class="col-sm-9 col-md-10" ng-if="vm.lastBmi.value">
-        <span class="label label-default">{{vm.lastBmi.value}}</span>
+        <span class="label label-default">{{vm.lastBmi.value | number:2}}</span>
         <span>
             {{'COMMON_ON'| translate}} {{vm.lastBmi.obsDatetime | date:'short'}}
           </span>
