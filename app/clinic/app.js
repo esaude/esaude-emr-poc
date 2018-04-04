@@ -92,6 +92,17 @@
           skip: true
         }
       })
+      .state('dashboard.laboratory', {
+        url: '/laboratory',
+        templateUrl: 'views/patient-laboratory.html',
+        controller: 'LabRequestController',
+        controllerAs: 'vm',
+        ncyBreadcrumb: {
+          label: '{{\'CLINIC_PATIENT_LABORATORY\' | translate}}',
+          parent: 'dashboard',
+          skip: true
+        }
+      })
       .state('dashboard.consultation', {
         url: '/consultation',
         templateUrl: 'views/patient-consultation.html',
