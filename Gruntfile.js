@@ -152,7 +152,7 @@ module.exports = function (grunt) {
             {
                 context: '/openmrs',
                 host: 'localhost',
-                port: 8080,
+                port: 8084,
                 https: true,
                 xforward: true
             }
