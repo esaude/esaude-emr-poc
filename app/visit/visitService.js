@@ -115,15 +115,16 @@
 
 
     function getPatientLastBMI(patient) {
-      var getHeightM = observationsService.getLastPatientObs(patient, {uuid: HEIGHT_CM}, 'custom:(uuid,display,value,obsDatetime)');
+      var getHeightCM = observationsService.getLastPatientObs(patient, {uuid: HEIGHT_CM}, 'custom:(uuid,display,value,obsDatetime)');
       var getWeightKg = observationsService.getLastPatientObs(patient, {uuid: WEIGHT_KG}, 'custom:(uuid,display,value)');
-      return $q.all([getHeightM, getWeightKg])
+      return $q.all([getHeightCM, getWeightKg])
         .then(function (result) {
-          var heightMObs = result[0];
+          var heightCMObs = result[0];
           var weightKgObs = result[1];
+          var heightM = heightCMObs.value / 100;
           return {
-            value: weightKgObs.value / (heightMObs.value * heightMObs.value),
-            obsDatetime: heightMObs.obsDatetime
+            value: weightKgObs.value / (heightM * heightM),
+            obsDatetime: heightCMObs.obsDatetime
           };
         });
     }
