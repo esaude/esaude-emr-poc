@@ -46,9 +46,6 @@
         ncyBreadcrumb: {
           label: '{{\'RESULTS\' | translate }}',
           parent: 'dashboard'
-        },
-        params: {
-          externalRequest: true
         }
       })
       .state('dashboard.testrequest', {
@@ -59,6 +56,9 @@
         ncyBreadcrumb: {
           label: '{{\'LAB_ORDER\' | translate}}',
           parent: 'dashboard',
+        },
+        params: {
+          externalRequest: true
         }
       })
       .state('detailpatient', {
