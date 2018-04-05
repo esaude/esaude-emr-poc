@@ -94,7 +94,7 @@
       })
       .state('dashboard.laboratory', {
         url: '/laboratory',
-        templateUrl: 'views/patient-laboratory.html',
+        templateUrl: '../common/test/views/lab-request.html',
         controller: 'LabRequestController',
         controllerAs: 'vm',
         ncyBreadcrumb: {

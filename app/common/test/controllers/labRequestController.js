@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  angular.module('clinic')
+  angular.module('common.test')
     .controller('LabRequestController', LabRequestController);
 
   LabRequestController.$inject = ['$rootScope', '$stateParams', 'providerService', 'testProfileService', 'testService',
