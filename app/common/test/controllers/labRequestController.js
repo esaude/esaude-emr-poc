@@ -20,9 +20,6 @@
 
     //requisições externas possuem alguns campos adicionais
     vm.externalRequest = $stateParams.externalRequest;
-    if (vm.externalRequest != false) { //se for undefined torna-se true
-      vm.externalRequest = true;
-    }
 
     vm.showMessages = false;
 
