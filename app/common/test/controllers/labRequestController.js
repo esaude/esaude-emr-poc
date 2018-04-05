@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  angular.module('clinic')
+  angular.module('common.test')
     .controller('LabRequestController', LabRequestController);
 
   LabRequestController.$inject = ['$rootScope', '$stateParams', 'providerService', 'testProfileService', 'testService',
@@ -19,7 +19,10 @@
     var ADD_AT_LEAST_ONE_TEST_TO_TEST_ORDER = 'ADD_AT_LEAST_ONE_TEST_TO_TEST_ORDER';
 
     //requisições externas possuem alguns campos adicionais
-    vm.externalRequest = false;
+    vm.externalRequest = $stateParams.externalRequest;
+    if (vm.externalRequest != false) { //se for undefined torna-se true
+      vm.externalRequest = true;
+    }
 
     vm.showMessages = false;
 
