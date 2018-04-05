@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="../../bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css"/>
     <link rel="stylesheet" href="../../bower_components/ng-dialog/css/ngDialog.min.css" />
     <link rel="stylesheet" href="../../bower_components/ng-dialog/css/ngDialog-theme-default.min.css" />
-    <link rel="stylesheet" href="../../bower_components/toastr/toastr.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../../bower_components/toastr/toastr.css"/>
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css styles/main.min.css -->
@@ -111,7 +111,6 @@
       <script src="../common/domain/init.js"></script>
       <script src="../common/domain/services/configurationService.js"></script>
       <script src="../common/domain/services/conceptService.js"></script>
-      <script src="../common/domain/services/visitService.js"></script>
       <script src="../common/domain/services/encounterService.js"></script>
       <script src="../common/domain/services/observationsService.js"></script>
       <script src="../common/domain/services/programService.js"></script>
@@ -163,10 +162,13 @@
 
       <script src="../pharmacy/services/dispensationService.js"></script>
 
+      <script src="../visit/visit.module.js"></script>
+      <script src="../visit/visitService.js"></script>
+      <script src="../visit/components/visitHeader.js"></script>
+
       <script src="init.js"></script>
       <script src="initialization.js"></script>
       <script src="app.js"></script>
-      <script src="controllers/vitalsController.js"></script>
       <script src="controllers/dashboardController.js"></script>
       <!-- endbuild -->
   </body>

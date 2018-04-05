@@ -2,5 +2,6 @@ angular
   .module('common.patient', [
     'bahmni.common.domain',
     'bahmni.common.uiHelper',
-    'pascalprecht.translate'
+    'pascalprecht.translate',
+    'visit'
   ]);

@@ -94,24 +94,6 @@
           }
         }
       })
-      .state('dashboard.alerts', {
-        url: '/alerts',
-        templateUrl: 'views/patient-alerts.html',
-        ncyBreadcrumb: {
-          label: '{{\'COMMON_ALERT_TITLE\' | translate}}',
-          parent: 'dashboard',
-          skip: true
-        }
-      })
-      // TODO: Is it in use?
-      .state('serviceslist', {
-        url: '/services/:patientUuid',
-        views: {
-          'layout': {templateUrl: '../common/application/views/layout.html', controller: 'ServicesListController'},
-          'content@serviceslist': {templateUrl: 'views/services-list.html'}
-        },
-        resolve: {initialization: 'initialization'}
-      })
       .state('newpatient', {
         url: '/patient/new',
         views: {
@@ -264,15 +246,6 @@
         ncyBreadcrumb: {
           skip: true
         }
-      })
-      // TODO: Is it in use?
-      .state('visit', {
-        url: '/visit/:patientUuid',
-        views: {
-          'layout': {templateUrl: '../common/application/views/layout.html', controller: 'VisitController'},
-          'content@visit': {templateUrl: 'views/visit.html'}
-        },
-        resolve: {initialization: 'initialization'}
       })
       .state('detailpatient', {
         url: '/patient/detail/:patientUuid',

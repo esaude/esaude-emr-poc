@@ -23,6 +23,7 @@ angular
       'smart-table',
       'ui.bootstrap',
       'ui.checkbox',
-      'ui.router'
+      'ui.router',
+      'visit'
     ]
   );

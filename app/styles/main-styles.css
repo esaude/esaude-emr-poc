@@ -374,3 +374,18 @@ p.capitalize {
   min-height: 25px;
 }
 /**/
+
+/* Visit Header */
+.visit-header {
+  position: relative;
+}
+
+.visit-header.load-failed > div {
+  opacity: 0.5;
+}
+
+.visit-header .reload {
+  position: absolute;
+  right: 10px;
+}
+/**/

@@ -1,6 +1,14 @@
 <patient-header patient="vm.patient" display-actions="true"></patient-header>
 
+<visit-header patient="vm.patient"></visit-header>
 
-<div ng-include src="'views/visit.html'"></div>
-<div ng-include src="'views/patient-summary.html'"></div>
+<check-in patient="vm.patient" on-check-in="vm.loadPatient();"></check-in>
 
+<div class="row bg-info-border content-border border-rouded">
+  <ul id="dashTabs" class="nav nav-tabs">
+    <li role="presentation" ui-sref-active="active"><a ui-sref="dashboard.program">{{'COMMON_PROGRAM_ENROLLMENT_TITLE' | translate}}</a></li>
+    <li role="presentation" ui-sref-active="active"><a ui-sref="dashboard.visits">{{'COMMON_VISIT_HISTORY_TITLE' | translate}}</a></li>
+    <li role="presentation" ui-sref-active="active"><a ui-sref="dashboard.services">{{'COMMON_CLINIC_SERVICES_TITLE' | translate}}</a></li>
+  </ul>
+  <div ui-view=""></div>
+</div>
