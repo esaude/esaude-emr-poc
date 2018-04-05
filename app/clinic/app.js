@@ -16,7 +16,7 @@
       $injector.get('$state').go('search');
     });
 
-    $bahmniTranslateProvider.init({app: 'clinical', shouldMerge: true});
+    $bahmniTranslateProvider.init({ app: 'clinical', shouldMerge: true });
 
     $stateProvider
       .state('search', {
@@ -101,6 +101,9 @@
           label: '{{\'CLINIC_PATIENT_LABORATORY\' | translate}}',
           parent: 'dashboard',
           skip: true
+        },
+        params: {
+          externalRequest: false
         }
       })
       .state('dashboard.consultation', {

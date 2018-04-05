@@ -6,6 +6,8 @@ angular
     'common.patient',
     'movepatient',
     'patient.details',
+    'common.prescription',
+    'common.test',
     'smart-table',
     'ui.bootstrap',
     'ui.checkbox',

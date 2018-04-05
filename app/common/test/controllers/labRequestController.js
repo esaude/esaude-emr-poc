@@ -19,7 +19,10 @@
     var ADD_AT_LEAST_ONE_TEST_TO_TEST_ORDER = 'ADD_AT_LEAST_ONE_TEST_TO_TEST_ORDER';
 
     //requisições externas possuem alguns campos adicionais
-    vm.externalRequest = false;
+    vm.externalRequest = $stateParams.externalRequest;
+    if (vm.externalRequest != false) { //se for undefined torna-se true
+      vm.externalRequest = true;
+    }
 
     vm.showMessages = false;
 
