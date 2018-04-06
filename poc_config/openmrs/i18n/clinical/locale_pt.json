@@ -179,6 +179,7 @@
   "VIRALOGICAL FAILURE": "Está a ter falência terapeutica",
   "PATIENT_LAB_EXAMS_EMPTY": "O paciente não possui exames laboratoriais",
   "PRESCRIPTION_EXPIRED": "Expirado",
+  "VITALS_LAST_BMI": "Último IMC"
   "NEW_TEST_ORDER": "Nova requisição de testes",
   "PROFILE": "Painel",
   "TEST": "Teste",

@@ -243,18 +243,6 @@
       return patientService.getPatient(patientUuid);
     }
 
-
-
-    observationsService
-      .getLastPatientObs(patientUuid, Bahmni.Common.Constants.BMI)
-      .then(function (data) {
-          vm.patientVitals = data;
-      }).catch(function (data) {
-
-    });
-
-
-
   }
 
 })();
