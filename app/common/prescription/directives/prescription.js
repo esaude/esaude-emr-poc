@@ -198,6 +198,7 @@
             vm.prescriptionItem.arvPlan = {};
           }
         });
+        verifyDrugAvailability(drug);
       }
     }
 

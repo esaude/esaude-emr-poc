@@ -10,7 +10,8 @@
   function drugService($http, $q, $log ) {
     return {
       isArvDrug: isArvDrug,
-      getDrugsOfRegimen: getDrugsOfRegimen
+      getDrugsOfRegimen: getDrugsOfRegimen,
+      getDrugStock: getDrugStock
     };
 
   function getDrugsOfRegimen(regime) {
@@ -36,6 +37,21 @@
           return $q.reject();
       });
   }
+
+
+  function getDrugStock(drug, location) {
+    return $http.get(Bahmni.Common.Constants.batchUrl, {
+      params: {
+        drug : drug.uuid,
+        location : location.uuid
+      }
+    }).then(function (response){
+      return response.data;
+    }).catch(function (error) {
+      $log.error('XHR Failed for getDrugStock: ' + error.data.error.message);
+      return $q.reject(error);
+  });
+}
 
   }
 })();
