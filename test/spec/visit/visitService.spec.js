@@ -6,15 +6,17 @@ describe('visitService', function () {
 
   var FOLLOW_UP_CONSULTATION_VISIT_TYPE_UUID = "3866891d-09c5-4d98-98de-6ae7916110fa";
 
-  var visitService, $http, $log, $q, commonService, sessionService, encounterService, observationsService;
+  var visitService, $http, $log, $q, $rootScope, commonService, sessionService, encounterService, observationsService;
 
   beforeEach(module('visit'));
 
-  beforeEach(inject(function (_visitService_, $httpBackend, _$log_, _$q_, _commonService_, _sessionService_, _encounterService_, _observationsService_) {
+  beforeEach(inject(function (_visitService_, $httpBackend, _$log_, _$q_, _$rootScope_, _commonService_,
+                              _sessionService_, _encounterService_, _observationsService_) {
     visitService = _visitService_;
     $http = $httpBackend;
     $log = _$log_;
     $q = _$q_;
+    $rootScope = _$rootScope_;
     commonService = _commonService_;
     sessionService = _sessionService_;
     encounterService = _encounterService_;
@@ -255,8 +257,8 @@ describe('visitService', function () {
 
       spyOn(observationsService, 'getLastPatientObs').and.callFake(function () {
         return $q(function (resolve) {
-          return resolve([]);
-        })
+          return resolve();
+        });
       });
 
       $http.expectGET("/openmrs/ws/rest/v1/visit?patient=" + patient.uuid + '&v=custom:(visitType:(name),startDatetime,stopDatetime,uuid)')
@@ -284,13 +286,35 @@ describe('visitService', function () {
 
     });
 
-    it('should load patient last registered BMI', function () {
+    describe('patient\'s BMI', function () {
 
-      visitService.getVisitHeader(patient);
+      it('should load patient last registered BMI', function () {
 
-      $http.flush();
+        visitService.getVisitHeader(patient);
 
-      expect(observationsService.getLastPatientObs).toHaveBeenCalled();
+        $http.flush();
+
+        expect(observationsService.getLastPatientObs).toHaveBeenCalledTimes(2);
+
+      });
+
+      describe('no vitals', function () {
+
+        it('should return null', function () {
+
+          var header;
+          visitService.getVisitHeader(patient).then(function (visitHeader) {
+            header = visitHeader;
+          });
+
+          $http.flush();
+          $rootScope.$apply();
+
+          expect(header.lastBmi).toEqual(null);
+
+        });
+
+      });
 
     });
 
