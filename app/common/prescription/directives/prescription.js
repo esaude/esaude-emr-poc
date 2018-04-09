@@ -21,7 +21,7 @@
       scope: {
         retrospectiveMode: '='
       },
-      templateUrl: '../common/prescription/views/directives/prescription.html'
+      templateUrl: '../common/prescription/directives/prescription.html'
     };
     return directive;
   }
