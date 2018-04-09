@@ -21,7 +21,7 @@
       scope: {
         retrospectiveMode: '='
       },
-      templateUrl: '../common/prescription/views/directives/prescription.html'
+      templateUrl: '../common/prescription/directives/prescription.html'
     };
     return directive;
   }
@@ -86,7 +86,6 @@
     vm.setPrescritpionItemStatus = setPrescritpionItemStatus;
     vm.checkActiveAndNewItemStatus = checkActiveAndNewItemStatus;
     vm.checkItemIsRefillable = checkItemIsRefillable;
-    vm.verifyDrugAvailability = verifyDrugAvailability;
 
     activate();
 
@@ -199,7 +198,7 @@
             vm.prescriptionItem.arvPlan = {};
           }
         });
-        verifyDrugAvailability(drug);
+       // verifyDrugAvailability(drug);
       }
     }
 
@@ -681,13 +680,8 @@
       return angular.element('#addProviderAndPrescriptionDateModel');
     }
 
-    function verifyDrugAvailability(drug){
-      drugService.getDrugStock(drug,sessionService.getCurrentLocation()).then(function(data){
-        if(_.isEmpty(data.results)){
-         notifier.warning($filter('translate')('COMMON_MESSAGE_DRUG_WITHOUT_STOCK_AVAILABILITY'));;
-        }
-      });
-    }
+  
+
   }
 
 })();

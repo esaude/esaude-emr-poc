@@ -334,5 +334,6 @@
     "COMMON_SYMPTOM3": "Symptom 3",
     "COMMON_SYMPTOM4": "Symptom 4",
     "COMMON_VISIT_HEADER_ERROR": "There was an error loading last visit information.",
-    "COMMON_RELOAD": "Reload"
+    "COMMON_RELOAD": "Reload",
+    "COMMON_MESSAGE_DRUG_WITHOUT_STOCK_AVAILABILITY":"There's no Stock availability for the selected medicine"
 }

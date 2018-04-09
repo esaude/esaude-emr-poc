@@ -327,5 +327,6 @@
     "COMMON_SYMPTOM3": "Sintoma 3",
     "COMMON_SYMPTOM4": "Sintoma 4",
     "COMMON_VISIT_HEADER_ERROR": "Ocorreu um erro ao carregar a informação das útltimas visitas.",
-    "COMMON_RELOAD": "Carregar"
+    "COMMON_RELOAD": "Carregar",
+    "COMMON_MESSAGE_DRUG_WITHOUT_STOCK_AVAILABILITY":"Não há disponibilidade de estoque para o medicamento selecionado"
 }
