@@ -255,18 +255,18 @@ describe('visitService', function () {
         })
       });
 
-      spyOn(observationsService, 'getLastPatientObs').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve();
-        });
-      });
-
       $http.expectGET("/openmrs/ws/rest/v1/visit?patient=" + patient.uuid + '&v=custom:(visitType:(name),startDatetime,stopDatetime,uuid)')
         .respond([]);
 
     });
 
     it('should load patient followup encounters', function () {
+
+      spyOn(observationsService, 'getLastPatientObs').and.callFake(function () {
+        return $q(function (resolve) {
+          return resolve();
+        });
+      });
 
       visitService.getVisitHeader(patient);
 
@@ -277,6 +277,12 @@ describe('visitService', function () {
     });
 
     it('should load patient pharmacy encounters', function () {
+
+      spyOn(observationsService, 'getLastPatientObs').and.callFake(function () {
+        return $q(function (resolve) {
+          return resolve();
+        });
+      });
 
       visitService.getVisitHeader(patient);
 
@@ -290,17 +296,39 @@ describe('visitService', function () {
 
       it('should load patient last registered BMI', function () {
 
-        visitService.getVisitHeader(patient);
+        var getHeight = $q(function (resolve) {
+          return resolve({value: 181});
+        });
+
+        var getWeight = $q(function (resolve) {
+          return resolve({value: 71});
+        });
+
+        spyOn(observationsService, 'getLastPatientObs').and.returnValues(getHeight, getWeight);
+
+        var header;
+
+        visitService.getVisitHeader(patient).then(function (visitHeader) {
+          header = visitHeader;
+        });
 
         $http.flush();
+        $rootScope.$apply();
 
         expect(observationsService.getLastPatientObs).toHaveBeenCalledTimes(2);
+        expect(header.lastBmi.value).toEqual(21.672110130948383);
 
       });
 
       describe('no vitals', function () {
 
         it('should return null', function () {
+
+          spyOn(observationsService, 'getLastPatientObs').and.callFake(function () {
+            return $q(function (resolve) {
+              return resolve();
+            });
+          });
 
           var header;
           visitService.getVisitHeader(patient).then(function (visitHeader) {
@@ -319,6 +347,12 @@ describe('visitService', function () {
     });
 
     it('should load the patient\'s last visit', function () {
+
+      spyOn(observationsService, 'getLastPatientObs').and.callFake(function () {
+        return $q(function (resolve) {
+          return resolve();
+        });
+      });
 
       visitService.getVisitHeader(patient);
 
