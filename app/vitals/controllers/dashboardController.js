@@ -14,6 +14,7 @@
 
     vm.patientUUID = $stateParams.patientUuid;
     vm.todayVisit = null;
+    vm.patient = {};
 
 
     activate();
