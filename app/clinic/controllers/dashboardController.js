@@ -16,6 +16,7 @@
     $scope.patientUUID = $stateParams.patientUuid;
     $scope.todayVisit = null;
     $scope.hasLabOrderPrivilege = false;
+    $scope.patient = {};
 
     $scope.getAlerts = getAlerts;
     activate();
