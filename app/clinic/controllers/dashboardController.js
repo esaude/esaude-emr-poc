@@ -25,7 +25,7 @@
 
     function activate() {
       patientService.getPatient($scope.patientUUID).then(function (patient) {
-        $rootScope.patient = patient;
+        $scope.patient = patient;
       });
 
       visitService.getTodaysVisit($scope.patientUUID).then(function (visitToday) {
