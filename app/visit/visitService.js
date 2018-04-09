@@ -121,6 +121,9 @@
         .then(function (result) {
           var heightCMObs = result[0];
           var weightKgObs = result[1];
+          if (!heightCMObs || !weightKgObs) {
+            return null;
+          }
           var heightM = heightCMObs.value / 100;
           return {
             value: weightKgObs.value / (heightM * heightM),
