@@ -18,7 +18,7 @@
     var SELECT_PROVIDER_FROM_LIST = 'SELECT_PROVIDER_FROM_LIST';
     var ADD_AT_LEAST_ONE_TEST_TO_TEST_ORDER = 'ADD_AT_LEAST_ONE_TEST_TO_TEST_ORDER';
 
-    //requisições externas possuem alguns campos adicionais
+    //external requests have additional fields
     vm.externalRequest = $stateParams.externalRequest;
 
     vm.showMessages = false;
@@ -196,7 +196,7 @@
     }
 
     function deleteTest(test) {
-      testOrderService.deleteTestOrder(vm.testOrderInDetail.encounter.uuid, test.testOrder.uuid).success(function (data) {
+      testOrderService.deleteTestOrder(vm.testOrderInDetail.encounter.uuid, test.testOrder.uuid).then(function (data) {
         vm.testsOfSelectedRequest.splice(vm.testsOfSelectedRequest.indexOf(test), 1);
 
         //se for removido o ultimo teste da requisicao entao a requisicao sera removida na totalidade, precisaremos actualizar
