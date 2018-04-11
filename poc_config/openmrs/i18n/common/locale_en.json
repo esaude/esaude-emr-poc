@@ -112,6 +112,7 @@
     "PATIENT_INFO_DEAD": "Is Dead",
     "PATIENT_IS_DEAD": "This patient is deceased",
     "PATIENT_INFO_NEW": "New Patient",
+    "PATIENT_INFO_HIV_TEST": "HIV Test",
     "CLINIC_PATIENT_SUMMARY": "Summary",
     "CLINIC_PATIENT_VISIT_HISTORY": "Visit History",
     "CLINIC_PATIENT_VISIT": "Visit",

@@ -112,6 +112,7 @@
     "PATIENT_INFO_DEAD": "Obitou",
     "PATIENT_IS_DEAD": "Este paciente obitou",
     "PATIENT_INFO_NEW": "Registrar novo paciente",
+    "PATIENT_INFO_HIV_TEST": "Testagem HIV",
     "CLINIC_PATIENT_SUMMARY": "Resumo",
     "CLINIC_PATIENT_VISIT_HISTORY": "Histórico de Visitas",
     "CLINIC_PATIENT_VISIT": "Visita",
