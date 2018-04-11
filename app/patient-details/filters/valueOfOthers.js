@@ -5,7 +5,7 @@
     .module('patient.details')
     .filter('valueofothers', valueofothers);
 
-  function valueofothers() {
+  function valueofothers(dateFilter) {
     return valueofothersFilter;
 
     ////////////////
@@ -22,6 +22,10 @@
             break;
           }
         }
+      }
+
+      if (input.format === "org.openmrs.util.AttributableDate") {
+        value = dateFilter(value);
       }
       return value;
     }

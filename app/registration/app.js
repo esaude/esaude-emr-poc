@@ -94,24 +94,6 @@
           }
         }
       })
-      .state('dashboard.alerts', {
-        url: '/alerts',
-        templateUrl: 'views/patient-alerts.html',
-        ncyBreadcrumb: {
-          label: '{{\'COMMON_ALERT_TITLE\' | translate}}',
-          parent: 'dashboard',
-          skip: true
-        }
-      })
-      // TODO: Is it in use?
-      .state('serviceslist', {
-        url: '/services/:patientUuid',
-        views: {
-          'layout': {templateUrl: '../common/application/views/layout.html', controller: 'ServicesListController'},
-          'content@serviceslist': {templateUrl: 'views/services-list.html'}
-        },
-        resolve: {initialization: 'initialization'}
-      })
       .state('newpatient', {
         url: '/patient/new',
         views: {
@@ -168,10 +150,9 @@
           skip: true
         }
       })
-      // TODO: looks like its not used
-      .state('newpatient.death', {
+      .state('newpatient.testing', {
         url: '/death',
-        templateUrl: 'views/patient-death-input.html',
+        templateUrl: 'views/patient-hiv-test-input.html',
         ncyBreadcrumb: {
           skip: true
         }
@@ -250,10 +231,9 @@
           skip: true
         }
       })
-      // TODO: looks like its not used
-      .state('editpatient.death', {
+      .state('editpatient.testing', {
         url: '/death',
-        templateUrl: 'views/patient-death-input.html',
+        templateUrl: 'views/patient-hiv-test-input.html',
         ncyBreadcrumb: {
           skip: true
         }
@@ -264,15 +244,6 @@
         ncyBreadcrumb: {
           skip: true
         }
-      })
-      // TODO: Is it in use?
-      .state('visit', {
-        url: '/visit/:patientUuid',
-        views: {
-          'layout': {templateUrl: '../common/application/views/layout.html', controller: 'VisitController'},
-          'content@visit': {templateUrl: 'views/visit.html'}
-        },
-        resolve: {initialization: 'initialization'}
       })
       .state('detailpatient', {
         url: '/patient/detail/:patientUuid',

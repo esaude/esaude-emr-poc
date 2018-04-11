@@ -7,13 +7,13 @@
 
   PatientCommonController.$inject = ['$filter', '$scope', '$state', 'conceptService', 'configurations',
     'localStorageService', 'notifier', 'patientAttributeService', 'patientService', 'sessionService', 'spinner',
-    'TabManager'];
+    'TabManager', 'appService'];
 
 
   /* @ngInject */
   function PatientCommonController($filter, $scope, $state, conceptService, configurations, localStorageService,
                                    notifier, patientAttributeService, patientService, sessionService, spinner,
-                                   TabManager) {
+                                   TabManager, appService) {
 
     var patientConfiguration = $scope.patientConfiguration;
     var now = new Date();
@@ -43,6 +43,9 @@
     vm.selectIsDead = selectIsDead;
     vm.setPreferredId = setPreferredId;
     vm.stepForward = stepForward;
+    vm.filterPersonAttributesForCurrStep = filterPersonAttributesForCurrStep;
+    vm.filterPersonAttributesForDetails = filterPersonAttributesForDetails;
+    vm.additionalPatientAttributes = appService.getAppDescriptor().getConfigValue("additionalPatientAttributes");
 
 
     var tabManager = new TabManager();
@@ -52,6 +55,7 @@
     tabManager.addStepDefinition(vm.srefPrefix + "age", 4);
     tabManager.addStepDefinition(vm.srefPrefix + "address", 5);
     tabManager.addStepDefinition(vm.srefPrefix + "other", 6);
+    tabManager.addStepDefinition(vm.srefPrefix + "testing", 7);
 
     activate();
 
@@ -244,6 +248,14 @@
       } else {
         vm.showMessages = true;
       }
+    }
+
+    function filterPersonAttributesForCurrStep (attributes, stepConfigAttrs) {
+      return patientService.filterPersonAttributesForCurrStep (attributes, stepConfigAttrs);
+    }
+
+    function filterPersonAttributesForDetails (attributes, stepConfigAttrs) {
+      return patientService.filterPersonAttributesForDetails (attributes, stepConfigAttrs);
     }
 
   }

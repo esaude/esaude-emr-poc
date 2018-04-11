@@ -421,6 +421,8 @@ module.exports = function (grunt) {
                         'vitals/**/*.html',
                         'clinic/**/*.html',
                         'pharmacy/**/*.html',
+                        'move-patient/**/*.html',
+                        'visit/**/*.html',
                         'lab/**/*.html',
                         'move-patient/**/*.html'
                     ],

@@ -9,7 +9,7 @@
 
   /* @ngInject */
   function observationService($http, $log, $q) {
-    var OPENMRS_OBS_REST_URL = Poc.Patient.Constants.obsRestUrl ;
+    var OPENMRS_OBS_REST_URL = Poc.Patient.Constants.obsRestUrl;
 
     var service = {
       findAll: findAll,
@@ -33,11 +33,11 @@
       });
     }
 
-    function getObs(patientUuid, concept) {
+    function getObs(patientUuid, conceptUuid) {
       return $http.get(OPENMRS_OBS_REST_URL, {
         params: {
           patient: patientUuid,
-          concept: concept,
+          concept: conceptUuid,
           v: "custom:(uuid,display,encounter:(encounterDatetime,encounterType,provider:(display,uuid)),voided,concept:(uuid,name),obsDatetime,value,groupMembers:(uuid,concept:(uuid,name),obsDatetime,value))"
         },
         withCredentials: true
@@ -97,15 +97,29 @@
       return filtered;
     }
 
-    function getLastPatientObs(patientUuid, concepts) {
-        return getObs(patientUuid, concepts).then(function(obs) {
-            var nonRetired = filterRetiredObs(obs);
-                return _.maxBy(nonRetired, 'obsDatetime');
-          }).catch(function (error) {
-              $log.error('XHR Failed for getLastPatientObs: ' + error.data.error.message);
-              return $q.reject(error);
-          });
-      }
+    /**
+     * @param {Object} patient
+     * @param {Object} concept
+     * @param {String} [representation=default]
+     * @return {Promise<Object>} The last obs with given concept for the patient.
+     */
+    function getLastPatientObs(patient, concept, representation) {
+      var params = {
+        patient: patient.uuid,
+        concept: concept.uuid,
+        limit: 1,
+        startIndex: 0,
+        v: representation
+      };
+      return $http.get(OPENMRS_OBS_REST_URL, {params: params})
+        .then(function (response) {
+          return response.data.results[0];
+        })
+        .catch(function (error) {
+          $log.error('XHR Failed for getLastPatientObs: ' + error.data.error.message);
+          return $q.reject(error);
+        });
+    }
 
   }
 

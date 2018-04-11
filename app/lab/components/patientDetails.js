@@ -11,10 +11,10 @@
     });
 
   PatientDetailsController.$inject = ["$stateParams", "$state", "$rootScope", "reportService", "patientService",
-    "notifier", "translateFilter", "configurations"];
+    "notifier", "translateFilter", "configurations", "appService"];
 
   function PatientDetailsController($stateParams, $state, $rootScope, reportService, patientService, notifier,
-                                    translateFilter, configurations) {
+                                    translateFilter, configurations, appService) {
 
     var patientUUID = $stateParams.patientUuid;
     var patientConfiguration = $rootScope.patientConfiguration;
@@ -28,7 +28,9 @@
 
     vm.linkDashboard = linkDashboard;
     vm.print = print;
+    vm.filterPersonAttributesForDetails = filterPersonAttributesForDetails;
     vm.$onInit = $onInit;
+    vm.additionalPatientAttributes = appService.getAppDescriptor().getConfigValue("additionalPatientAttributes");
 
     ////////////////
 
@@ -55,6 +57,10 @@
 
     function getPatient(uuid) {
       return patientService.getPatient(uuid);
+    }
+
+    function filterPersonAttributesForDetails (attributes) {
+      return patientService.filterPersonAttributesForDetails (attributes, vm.additionalPatientAttributes.other);
     }
   }
 

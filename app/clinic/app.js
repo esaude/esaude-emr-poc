@@ -16,7 +16,7 @@
       $injector.get('$state').go('search');
     });
 
-    $bahmniTranslateProvider.init({app: 'clinical', shouldMerge: true});
+    $bahmniTranslateProvider.init({ app: 'clinical', shouldMerge: true });
 
     $stateProvider
       .state('search', {
@@ -94,13 +94,16 @@
       })
       .state('dashboard.laboratory', {
         url: '/laboratory',
-        templateUrl: 'views/patient-laboratory.html',
+        templateUrl: '../common/test/views/lab-request.html',
         controller: 'LabRequestController',
         controllerAs: 'vm',
         ncyBreadcrumb: {
           label: '{{\'CLINIC_PATIENT_LABORATORY\' | translate}}',
           parent: 'dashboard',
           skip: true
+        },
+        params: {
+          externalRequest: false
         }
       })
       .state('dashboard.consultation', {

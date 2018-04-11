@@ -5,10 +5,10 @@
     .controller('DetailPatientController', DetailPatientController);
 
   DetailPatientController.$inject = ["$stateParams", "$state", "$scope", "reportService", "patientService",
-    "notifier", "translateFilter", "configurations"];
+    "notifier", "translateFilter", "configurations", "appService"];
 
   function DetailPatientController($stateParams, $state, $scope, reportService, patientService, notifier,
-                                   translateFilter, configurations) {
+                                   translateFilter, configurations, appService) {
 
     var patientUUID = $stateParams.patientUuid;
     var patientConfiguration = $scope.patientConfiguration;
@@ -21,6 +21,8 @@
     vm.patientAttributes = [];
     vm.linkDashboard = linkDashboard;
     vm.print = print;
+    vm.filterPersonAttributesForDetails = filterPersonAttributesForDetails;
+    vm.additionalPatientAttributes = appService.getAppDescriptor().getConfigValue("additionalPatientAttributes");
 
     activate();
 
@@ -49,6 +51,10 @@
 
     function getPatient(uuid) {
       return patientService.getPatient(uuid);
+    }
+
+    function filterPersonAttributesForDetails (attributes, stepConfigAttrs) {
+      return patientService.filterPersonAttributesForDetails (attributes, stepConfigAttrs);
     }
   }
 })();

@@ -16,6 +16,7 @@
     $scope.patientUUID = $stateParams.patientUuid;
     $scope.todayVisit = null;
     $scope.hasLabOrderPrivilege = false;
+    $scope.patient = {};
 
     $scope.getAlerts = getAlerts;
     activate();
@@ -24,7 +25,7 @@
 
     function activate() {
       patientService.getPatient($scope.patientUUID).then(function (patient) {
-        $rootScope.patient = patient;
+        $scope.patient = patient;
       });
 
       visitService.getTodaysVisit($scope.patientUUID).then(function (visitToday) {

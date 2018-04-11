@@ -63,6 +63,8 @@
       if (attributeType) {
         if (attributeType.format === "org.openmrs.Concept" && attribute.value) {
           patient[attributeType.name] = attribute.value.uuid;
+        }else if (attributeType.format === "org.openmrs.util.AttributableDate") {
+            patient[attributeType.name] = parseDate(attribute.value);
         } else {
           patient[attributeType.name] = attribute.value;
         }
