@@ -25,7 +25,6 @@
 
         $rootScope.patientConfiguration = new Poc.Patient.PatientConfig(patientAttributeTypes.personAttributeTypes,
         appService.getAppDescriptor().getConfigValue("additionalPatientInformation"));
-        $rootScope.additionalPatientAttributes = appService.getAppDescriptor().getConfigValue("additionalPatientAttributes");
       });
     }
 

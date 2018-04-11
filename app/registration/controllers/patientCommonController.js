@@ -7,13 +7,13 @@
 
   PatientCommonController.$inject = ['$filter', '$scope', '$state', 'conceptService', 'configurations',
     'localStorageService', 'notifier', 'patientAttributeService', 'patientService', 'sessionService', 'spinner',
-    'TabManager'];
+    'TabManager', 'appService'];
 
 
   /* @ngInject */
   function PatientCommonController($filter, $scope, $state, conceptService, configurations, localStorageService,
                                    notifier, patientAttributeService, patientService, sessionService, spinner,
-                                   TabManager) {
+                                   TabManager, appService) {
 
     var patientConfiguration = $scope.patientConfiguration;
     var now = new Date();
@@ -45,6 +45,7 @@
     vm.stepForward = stepForward;
     vm.filterPersonAttributesForCurrStep = filterPersonAttributesForCurrStep;
     vm.filterPersonAttributesForDetails = filterPersonAttributesForDetails;
+    vm.additionalPatientAttributes = appService.getAppDescriptor().getConfigValue("additionalPatientAttributes");
 
 
     var tabManager = new TabManager();

@@ -22,11 +22,12 @@ describe('DetailPatientController', function () {
     $provide.factory('initialization', function () {
     });
     // Mock appService
-    var appService = jasmine.createSpyObj('appService', ['initApp']);
-    appService.initApp.and.returnValue({
-      then: function (fn) {
-      }
-    });
+    var appDescriptor = jasmine.createSpyObj('appDescriptor',['getConfigValue']);
+    var appService = jasmine.createSpyObj('appService', ['getAppDescriptor']);
+
+    appDescriptor.getConfigValue.and.returnValue({});
+    appService.getAppDescriptor.and.returnValue(appDescriptor);
+
     $provide.value('appService', appService);
     // Mock translate asynchronous loader
     $provide.factory('mergeLocaleFilesService', function ($q) {
@@ -36,6 +37,7 @@ describe('DetailPatientController', function () {
         return deferred.promise;
       };
     });
+
     $translateProvider.useLoader('mergeLocaleFilesService');
     $urlRouterProvider.deferIntercept();
   }));

@@ -14,11 +14,14 @@ describe('PatientCommonController', function () {
     $provide.factory('initialization', function () {
     });
     // Mock appService
-    var appService = jasmine.createSpyObj('appService', ['initApp']);
+    var appService = jasmine.createSpyObj('appService', ['getAppDescriptor', 'initApp']);
     appService.initApp.and.returnValue({
       then: function (fn) {
       }
     });
+
+    appService.getAppDescriptor.and.returnValue({getConfigValue: function (param) { return {}}});
+
     $provide.value('appService', appService);
     // Mock translate asynchronous loader
     $provide.factory('mergeLocaleFilesService', function ($q) {
@@ -43,6 +46,7 @@ describe('PatientCommonController', function () {
     localStorageService = _localStorageService_;
     conceptService = _conceptService_;
     sessionService = _sessionService_;
+
   }));
 
   describe('activate', function () {
