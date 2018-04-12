@@ -34,8 +34,8 @@
       });
     }
 
-    function getConcept(uuid) {
-      return $http.get('/openmrs/ws/rest/v1/concept/' + uuid)
+    function getConcept(uuid, representation) {
+      return $http.get('/openmrs/ws/rest/v1/concept/' + uuid, {params: {v: representation}})
         .then(function (response) {
           return response.data;
         })
