@@ -686,6 +686,8 @@
         if(_.isEmpty(data.results)){
          notifier.warning($filter('translate')('COMMON_MESSAGE_DRUG_WITHOUT_STOCK_AVAILABILITY'));;
         }
+      }).catch(function () {
+        notifier.error($filter('translate')('COMMON_MESSAGE_EXCEPTION_REQUESTING_DRUG_STOCK_AVAILABILITY'));
       });
     }
   }
