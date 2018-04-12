@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('poc.common.clinicalservices')
+    .module('common.test')
     .factory('testService', testService);
 
   testService.$inject = ['$http', '$log'];

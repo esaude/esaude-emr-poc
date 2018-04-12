@@ -1,36 +1,63 @@
 <form class="item-form" name="form" ng-submit="vm.onSubmit({item: vm.item, result: vm.$item.value});">
 
-  <div class="form-group" ng-class="{'has-error': vm.hasFocus && form.$dirty && !form.$valid}">
+  <div class="form-group" ng-class="{'has-error': vm.hasError(form), 'has-success': vm.hasSuccess(form)}">
     <label class="col-sm-4" for="value">{{vm.$item.testOrder.concept.display | translate }}</label>
 
     <div class="col-sm-3 text-right">
-      <input class="form-control input-lg" id="value" name="value" type="number"
-             ng-model="vm.$item.value"
-             ng-if="vm.$item.testOrder.concept.datatype.display === 'Numeric'"
-             ng-focus="vm.hasFocus = true;"
-             ng-blur="vm.hasFocus = false;"
-             required>
+
+      <div class="input-group">
+
+        <input class="form-control input-lg" id="value" name="value" type="number"
+               ng-model="vm.$item.value"
+               ng-if="vm.isNumeric();"
+               ng-focus="vm.onFocus()"
+               ng-blur="vm.onBlur(form)"
+               ng-min="vm.$item.testOrder.concept.lowAbsolute"
+               ng-max="vm.$item.testOrder.concept.hiAbsolute"
+               required>
+
+        <div class="input-group-addon" ng-if="vm.isNumeric();">
+          {{vm.$item.testOrder.concept.units}}
+        </div>
+
+      </div>
+
 
       <select class="form-control input-lg" id="value" name="value" ng-model="vm.$item.value"
               ng-options="a.uuid as a.display for a in vm.$item.testOrder.concept.answers"
-              ng-if="vm.$item.testOrder.concept.datatype.display === 'Coded'"
-              ng-focus="vm.hasFocus = true;"
-              ng-blur="vm.hasFocus = false;"
+              ng-if="!vm.isNumeric();"
+              ng-focus="vm.onFocus()"
+              ng-blur="vm.onBlur(form)"
               required>
 
       </select>
+
     </div>
 
     <div class="col-sm-5" style="border-left: 1px #ccc solid;">
-      <button class="btn btn-lg btn-primary" type="submit"
-              ng-disabled="!form.$dirty || !form.$valid">
-        <i class="glyphicon glyphicon-floppy-disk"></i> {{ 'SAVE' | translate }}
-      </button>
+      <div class="btn-group" role="group" aria-label="..." ng-if="!vm.isInvalid(form)">
+        <button class="btn btn-lg btn-primary" type="submit"
+                ng-disabled="!form.$dirty || !form.$valid">
+          <i class="glyphicon glyphicon-floppy-disk"></i> {{ 'SAVE' | translate }}
+        </button>
 
-      <button class="btn btn-lg btn-danger" type="button" ng-click="vm.onRemove({item: vm.item});"
-              ng-disabled="vm.item.value === ''">
-        <i class="glyphicon glyphicon-remove"></i> {{ 'REMOVE' | translate }}
-      </button>
+        <button class="btn btn-lg btn-danger" type="button" ng-click="vm.onRemove({item: vm.item});"
+                ng-disabled="vm.item.value === ''">
+          <i class="glyphicon glyphicon-remove"></i> {{ 'REMOVE' | translate }}
+        </button>
+      </div>
+
+      <div ng-messages for="form.value.$error" ng-if="vm.isInvalid(form)">
+        <div ng-message="min">
+          <small class="help-block" translate="ERROR_TOO_SMALL_VALUE"
+                 translate-value-min="{{vm.$item.testOrder.concept.lowAbsolute}} {{vm.$item.testOrder.concept.units}}"></small>
+        </div>
+        <div ng-message="max">
+          <small class="help-block" translate="ERROR_TOO_BIG_VALUE"
+                 translate-value-max="{{vm.$item.testOrder.concept.hiAbsolute}} {{vm.$item.testOrder.concept.units}}"></small>
+        </div>
+        <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
+      </div>
     </div>
 
   </div>

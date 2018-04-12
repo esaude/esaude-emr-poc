@@ -223,6 +223,19 @@
 
   describe('checkDrugType', function () {
 
+    beforeEach(function () {
+
+      spyOn(sessionService, 'getCurrentLocation').and.returnValue({
+        uuid: "8d6c993e-c2cc-11de-8d13-0010c6dffd0f",
+        display: "Local Desconhecido"
+      });
+
+      spyOn(drugService, 'getDrugStock').and.callFake(function () {
+        return $q(function (resolve) {
+          return resolve([]);
+        })
+      });
+    });
     describe('drug is an ARV', function () {
       beforeEach(function () {
 

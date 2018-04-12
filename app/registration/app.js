@@ -150,10 +150,9 @@
           skip: true
         }
       })
-      // TODO: looks like its not used
-      .state('newpatient.death', {
+      .state('newpatient.testing', {
         url: '/death',
-        templateUrl: 'views/patient-death-input.html',
+        templateUrl: 'views/patient-hiv-test-input.html',
         ncyBreadcrumb: {
           skip: true
         }
@@ -232,10 +231,9 @@
           skip: true
         }
       })
-      // TODO: looks like its not used
-      .state('editpatient.death', {
+      .state('editpatient.testing', {
         url: '/death',
-        templateUrl: 'views/patient-death-input.html',
+        templateUrl: 'views/patient-hiv-test-input.html',
         ncyBreadcrumb: {
           skip: true
         }

@@ -20,6 +20,7 @@ angular
       'pascalprecht.translate',
       'patient.details',
       'poc.common.clinicalservices',
+      'common.test',
       'smart-table',
       'ui.bootstrap',
       'ui.checkbox',

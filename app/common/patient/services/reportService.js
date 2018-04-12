@@ -204,7 +204,7 @@
       };
 
       loadTemplate(PATIENT_DAILY_HOSPITAL_PROCESS_TEMPLATE)
-        .then(compileWith(patient))
+        .then(compileWith({patient: patient}))
         .then(printHTML);
     }
 

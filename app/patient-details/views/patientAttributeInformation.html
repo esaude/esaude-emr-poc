@@ -29,6 +29,10 @@
                ng-model="patient[attribute.name]" data-item-type="personAttribute" ng-disabled="isReadOnly(attribute.name)" ng-required="{{attribute.required}}"/>
     </div>
     <div data-ng-switch-when="java.lang.Boolean">
-        <input class="form-control" id="isUrban" type="checkbox" ng-model="patient[attribute.name]" ng-disabled="isReadOnly(attribute.name)" ng-required="{{attribute.required}}"/>
+        <input class="form-control" id="{{attribute.name}}" type="checkbox" ng-model="patient[attribute.name]" ng-disabled="isReadOnly(attribute.name)" ng-required="{{attribute.required}}"/>
+    </div>
+    <div data-ng-switch-when="org.openmrs.util.AttributableDate">
+        <input class="form-control" id="{{attribute.name}}" type="text" uib-datepicker-popup ng-model="patient[attribute.name]" ng-focus="focused=true" is-open="focused"
+                       datepicker-options="patientCommon.birthDatepickerOptions" ng-disabled="isReadOnly(attribute.name)" ng-required="{{attribute.required}}"/>
     </div>
 </div>

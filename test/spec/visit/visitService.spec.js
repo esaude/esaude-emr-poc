@@ -6,15 +6,17 @@ describe('visitService', function () {
 
   var FOLLOW_UP_CONSULTATION_VISIT_TYPE_UUID = "3866891d-09c5-4d98-98de-6ae7916110fa";
 
-  var visitService, $http, $log, $q, commonService, sessionService, encounterService, observationsService;
+  var visitService, $http, $log, $q, $rootScope, commonService, sessionService, encounterService, observationsService;
 
   beforeEach(module('visit'));
 
-  beforeEach(inject(function (_visitService_, $httpBackend, _$log_, _$q_, _commonService_, _sessionService_, _encounterService_, _observationsService_) {
+  beforeEach(inject(function (_visitService_, $httpBackend, _$log_, _$q_, _$rootScope_, _commonService_,
+                              _sessionService_, _encounterService_, _observationsService_) {
     visitService = _visitService_;
     $http = $httpBackend;
     $log = _$log_;
     $q = _$q_;
+    $rootScope = _$rootScope_;
     commonService = _commonService_;
     sessionService = _sessionService_;
     encounterService = _encounterService_;
@@ -253,18 +255,18 @@ describe('visitService', function () {
         })
       });
 
-      spyOn(observationsService, 'getLastPatientObs').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve([]);
-        })
-      });
-
       $http.expectGET("/openmrs/ws/rest/v1/visit?patient=" + patient.uuid + '&v=custom:(visitType:(name),startDatetime,stopDatetime,uuid)')
         .respond([]);
 
     });
 
     it('should load patient followup encounters', function () {
+
+      spyOn(observationsService, 'getLastPatientObs').and.callFake(function () {
+        return $q(function (resolve) {
+          return resolve();
+        });
+      });
 
       visitService.getVisitHeader(patient);
 
@@ -276,6 +278,12 @@ describe('visitService', function () {
 
     it('should load patient pharmacy encounters', function () {
 
+      spyOn(observationsService, 'getLastPatientObs').and.callFake(function () {
+        return $q(function (resolve) {
+          return resolve();
+        });
+      });
+
       visitService.getVisitHeader(patient);
 
       $http.flush();
@@ -284,17 +292,67 @@ describe('visitService', function () {
 
     });
 
-    it('should load patient last registered BMI', function () {
+    describe('patient\'s BMI', function () {
 
-      visitService.getVisitHeader(patient);
+      it('should load patient last registered BMI', function () {
 
-      $http.flush();
+        var getHeight = $q(function (resolve) {
+          return resolve({value: 181});
+        });
 
-      expect(observationsService.getLastPatientObs).toHaveBeenCalled();
+        var getWeight = $q(function (resolve) {
+          return resolve({value: 71});
+        });
+
+        spyOn(observationsService, 'getLastPatientObs').and.returnValues(getHeight, getWeight);
+
+        var header;
+
+        visitService.getVisitHeader(patient).then(function (visitHeader) {
+          header = visitHeader;
+        });
+
+        $http.flush();
+        $rootScope.$apply();
+
+        expect(observationsService.getLastPatientObs).toHaveBeenCalledTimes(2);
+        expect(header.lastBmi.value).toEqual(21.672110130948383);
+
+      });
+
+      describe('no vitals', function () {
+
+        it('should return null', function () {
+
+          spyOn(observationsService, 'getLastPatientObs').and.callFake(function () {
+            return $q(function (resolve) {
+              return resolve();
+            });
+          });
+
+          var header;
+          visitService.getVisitHeader(patient).then(function (visitHeader) {
+            header = visitHeader;
+          });
+
+          $http.flush();
+          $rootScope.$apply();
+
+          expect(header.lastBmi).toEqual(null);
+
+        });
+
+      });
 
     });
 
     it('should load the patient\'s last visit', function () {
+
+      spyOn(observationsService, 'getLastPatientObs').and.callFake(function () {
+        return $q(function (resolve) {
+          return resolve();
+        });
+      });
 
       visitService.getVisitHeader(patient);
 

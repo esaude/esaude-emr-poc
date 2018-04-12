@@ -24,7 +24,7 @@
           .mapFromOpenmrsPatientAttributeTypes(configurations.patientAttributesConfig(), mandatoryPersonAttributes);
 
         $rootScope.patientConfiguration = new Poc.Patient.PatientConfig(patientAttributeTypes.personAttributeTypes,
-          appService.getAppDescriptor().getConfigValue("additionalPatientInformation"));
+        appService.getAppDescriptor().getConfigValue("additionalPatientInformation"));
       });
     }
 

@@ -17,6 +17,16 @@ describe('PatientDetailsController', function () {
         return deferred.promise;
       };
     });
+
+    // Mock appService
+    var appDescriptor = jasmine.createSpyObj('appDescriptor',['getConfigValue']);
+    var appService = jasmine.createSpyObj('appService', ['getAppDescriptor']);
+
+    appDescriptor.getConfigValue.and.returnValue({});
+    appService.getAppDescriptor.and.returnValue(appDescriptor);
+
+    $provide.value('appService', appService);
+    
     $translateProvider.useLoader('mergeLocaleFilesService');
     $urlRouterProvider.deferIntercept();
   }));
