@@ -59,8 +59,8 @@
       return patientService.getPatient(uuid);
     }
 
-    function filterPersonAttributesForDetails (attributes) {
-      return patientService.filterPersonAttributesForDetails (attributes, vm.additionalPatientAttributes.other);
+    function filterPersonAttributesForDetails (attributes, configAttr) {
+      return patientService.filterPersonAttributesForDetails (attributes, configAttr);
     }
   }
 
