@@ -117,11 +117,7 @@ describe('DispensationController', function () {
 
       controller.select(prescription, item);
 
-      expect(controller.selectedPrescriptionItems[0]).toEqual({
-        selected: true,
-        drugToPickUp: 7,
-        prescription: prescription
-      });
+      expect(controller.selectedPrescriptionItems[0].selected).toEqual(true);
     });
 
     it('should set reference to prescription on item', function () {
