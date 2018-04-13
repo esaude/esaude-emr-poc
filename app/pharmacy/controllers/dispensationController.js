@@ -83,12 +83,10 @@
       sameRegimeItems.forEach(function (i) {
         i.selected = true;
         i.prescription = prescription;
-        if (i.regime) {
-          i.nextPickupDate = new Date();
-          i.showNextPickupDate = true;
-          i.quantity = 1;
-          updatePickupDate(i);
-        }
+        i.nextPickupDate = new Date();
+        i.showNextPickupDate = true;
+        i.quantity = 1;
+        updatePickupDate(i);
       });
 
       vm.selectedPrescriptionItems = vm.selectedPrescriptionItems.concat(sameRegimeItems);
