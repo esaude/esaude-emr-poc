@@ -72,7 +72,7 @@
     }
 
     function getConcept(uuid) {
-      return conceptService.getConcept(uuid);
+      return conceptService.getConcept(uuid, 'custom:(uuid,display,answers,datatype,units,lowAbsolute,hiAbsolute)');
     }
 
     /**

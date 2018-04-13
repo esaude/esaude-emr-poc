@@ -5,6 +5,7 @@ angular
     'bahmni.common.i18n',
     'common.patient',
     'movepatient',
+    'ngMessages',
     'patient.details',
     'common.prescription',
     'common.test',
