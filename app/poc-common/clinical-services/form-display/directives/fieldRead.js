@@ -58,7 +58,7 @@
         };
       }
 
-      return $scope.$parent.visitedFields[fieldUuid];
+      return $scope.$parent.$parent.vm.formWizard.visitedFields[fieldUuid];
     }
 
     function isTrueFalseQuestion(question) {
@@ -72,4 +72,3 @@
   }
 
 })();
-

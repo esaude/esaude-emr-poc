@@ -1,12 +1,12 @@
 'use strict';
 describe('ClinicalServiceDirectiveController', function () {
 
-  var $controller, $q, $rootScope, controller, visitService, patientService, visit;
+  var $componentController, $q, $rootScope, controller, visitService, patientService, visit;
 
   beforeEach(module('poc.common.clinicalservices'));
 
-  beforeEach(inject(function (_$controller_, _$q_, _$rootScope_, _visitService_, _patientService_) {
-    $controller = _$controller_;
+  beforeEach(inject(function (_$componentController_, _$q_, _$rootScope_, _visitService_, _patientService_) {
+    $componentController = _$componentController_;
     $q = _$q_;
     $rootScope = _$rootScope_;
     visitService = _visitService_;
@@ -14,7 +14,7 @@ describe('ClinicalServiceDirectiveController', function () {
   }));
 
   beforeEach(function () {
-    controller = $controller('ClinicalServiceDirectiveController');
+    controller = $componentController('clinicalServices');
   });
 
   beforeEach(function () {

@@ -8,6 +8,8 @@
 
   function clinicalServicesProvider($stateProvider) {
 
+    var _legacyMode = false;
+
     this.$get = ClinicalServiceForms;
 
     ClinicalServiceForms.$inject = ['$http', '$log', '$q', '$state', 'clinicalServicesFormMapper', 'encounterService',
@@ -20,6 +22,7 @@
       var dateUtil = Bahmni.Common.Util.DateUtil;
 
       var _currentModule = '';
+      var _currentPatient = {};
       var _clinicalServices = [];
 
       var service = {
@@ -27,6 +30,7 @@
         getFormData: getFormData,
         getFormLayouts: getFormLayouts,
         getClinicalServiceWithEncountersForPatient: getClinicalServicesWithEncountersForPatient,
+        getCurrentPatient: getCurrentPatient,
         loadClinicalServices: loadClinicalServices,
         deleteService: deleteService
       };
@@ -37,52 +41,52 @@
 
       /**
        * Loads clinical services and related form layout then registers the required routes for each form and form parts.
+       * If using legacy mode form routes are registered using named views, otherwise routes to components are used.
        *
        * NOTE: Don't forget to handle returned promise failure if not using in route resolve.
        *
        * SEE: clinicalServices.json and formLayout.json
        *
-       * @param moduleName Name of the module for which clinical services should be loaded.
+       * @param {String} moduleName Name of the module for which clinical services should be loaded.
+       * @param {String} patientUuid The uuid of the patient for whom the forms will be filled
+       * @param {boolean} legacyMode If should work in legacy mode.
        */
-      function init(moduleName, patientUuid) {
+      function init(moduleName, patientUuid, legacyMode) {
 
         if (moduleName === '') {
           return $q.reject('No current module set.');
         }
 
         _currentModule = moduleName;
-
-        var patient;
+        _legacyMode = legacyMode;
 
         var getPatient = patientService.getPatient(patientUuid);
 
         return $q.all([service.loadClinicalServices(), loadFormLayouts(), getPatient])
-        .then(function (result) {
+          .then(function (result) {
             _clinicalServices = result[0];
             var formLayouts = result[1];
-            patient = result[2];
+            _currentPatient = result[2];
 
             _clinicalServices = _.filter(_clinicalServices, function (cs) {
               if (cs.constraints.minAge &&
-                patient.age.years < cs.constraints.minAge) {
+                _currentPatient.age.years < cs.constraints.minAge) {
                 return false;
               }
-              if (cs.constraints.maxAge &&
-                patient.age.years > cs.constraints.maxAge) {
-                return false;
-              }
-              return true;
-          })
+              return !(cs.constraints.maxAge &&
+                _currentPatient.age.years > cs.constraints.maxAge);
 
-          _clinicalServices.forEach(function (cs) {
+            });
 
-            cs.formLayout = formLayouts.filter(function (f) {
-              return cs.id === f.id;
-            })[0];
+            _clinicalServices.forEach(function (cs) {
+
+              cs.formLayout = formLayouts.filter(function (f) {
+                return cs.id === f.id;
+              })[0];
+            });
+            registerRoutes($state, _clinicalServices, _currentPatient);
+            return service;
           });
-          registerRoutes($state, _clinicalServices, patient);
-          return service;
-        });
       }
 
       function deleteService(service, encounter) {
@@ -243,6 +247,10 @@
           });
       }
 
+      function getCurrentPatient() {
+        return _currentPatient;
+      }
+
       function getCsWithEncountersForPatient(patient, service) {
 
         var service = angular.copy(service);
@@ -272,12 +280,12 @@
                 return false;
               });
               service.lastEncounterForService = service.encountersForService[0];
-              if (service.encountersForService[0]) service.lastEncounterForServiceDate = 
+              if (service.encountersForService[0]) service.lastEncounterForServiceDate =
                 service.encountersForService[0].markedOnDate;
             } else {
               service.encountersForService = encounters;
               service.lastEncounterForService = encounters[0];
-              if (encounters[0]) service.lastEncounterForServiceDate = 
+              if (encounters[0]) service.lastEncounterForServiceDate =
                 encounters[0].encounterDatetime;
             }
 
@@ -314,7 +322,6 @@
         if (!$state.get(formLayout.sufix)) {
           var state = {
             url: service.url + "/:serviceId/:patientUuid",
-            views: {},
             resolve: {
               initialization: 'initialization'
             },
@@ -326,13 +333,20 @@
               returnState: null
             }
           };
-          state.views["layout"] = {
-            templateUrl: '../common/application/views/layout.html',
-            controller: 'FormController'
-          };
-          state.views["content@" + formLayout.sufix] = {
-            templateUrl: '../poc-common/clinical-services/service-form/views/form-add.html'
-          };
+
+          if (_legacyMode) {
+            state.views = {
+              layout: {
+                templateUrl: '../common/application/views/layout.html'
+              }
+            };
+            state.views["content@" + formLayout.sufix] = {
+              component: 'formWizard'
+            };
+          } else {
+            state.component = 'formWizard';
+          }
+
           $stateProvider.state(formLayout.sufix, state);
         }
         //filter form parts by gender
@@ -344,7 +358,7 @@
           } else {
             return false;
           }
-        }) 
+        });
 
         //create inner states
         formLayout.parts.forEach(function (part) {
@@ -357,7 +371,7 @@
           if (!$state.get(formLayout.sufix + part.sref)) {
             var innerState = {
               url: part.sref.replace('.', '/'),
-              templateUrl: '../poc-common/clinical-services/form-display/views/form-part-input-template.html',
+              component: 'formWizardPart',
               resolve: {
                 initialization: 'initialization'
               },
@@ -373,7 +387,7 @@
         if (!$state.get(formLayout.sufix + ".confirm")) {
           var confirmState = {
             url: '/confirm',
-            templateUrl: '../poc-common/clinical-services/form-display/views/form-confirm-template.html',
+            component: 'formWizardConfirmPart',
             resolve: {
               initialization: 'initialization'
             },
@@ -388,7 +402,6 @@
         if (!$state.get(formLayout.sufix + "_display")) {
           var displayState = {
             url: service.url + "/:serviceId/:patientUuid/display",
-            views: {},
             resolve: {
               initialization: 'initialization'
             },
@@ -400,14 +413,18 @@
               returnState: null
             }
           };
-          displayState.views["layout"] = {
-            templateUrl: '../common/application/views/layout.html',
-            controller: 'FormPrintController',
-            controllerAs: 'vm'
-          };
-          displayState.views["content@" + formLayout.sufix + "_display"] = {
-            templateUrl: '../poc-common/clinical-services/service-form/views/form-display.html'
-          };
+          if (_legacyMode) {
+            displayState.views = {
+              layout: {
+                templateUrl: '../common/application/views/layout.html'
+              }
+            };
+            displayState.views["content@" + formLayout.sufix + "_display"] = {
+              component: 'formDisplay'
+            };
+          } else  {
+            displayState.component = 'formDisplay';
+          }
           $stateProvider.state(formLayout.sufix + "_display", displayState);
         }
 

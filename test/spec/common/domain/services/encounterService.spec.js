@@ -1,37 +1,31 @@
-xdescribe('EncounterService', function () {
-  //TODO: Discuss with valerios API design
-  var $cookieStore;
-  var encounterService;
-  var $q= Q;
-  var rootScope = {currentProvider: {uuid: 'provider-uuid'}};
+describe('encounterService', function () {
+
+  var $httpBackend, encounterService;
 
   beforeEach(module('bahmni.common.domain'));
 
-  beforeEach(module(function ($provide) {
-    $cookieStore = jasmine.createSpyObj('$cookieStore', ['get']);
-    $provide.value('$q', $q);
-    $provide.value('$cookieStore', $cookieStore);
-    $provide.value('$rootScope', rootScope);
+  beforeEach(inject(function (_$httpBackend_, _encounterService_) {
+    $httpBackend = _$httpBackend_;
+    encounterService = _encounterService_;
   }));
 
-  beforeEach(inject(['encounterService',function (encounterServiceInjected) {
-    encounterService = encounterServiceInjected;
-  }]));
+  describe('create', function () {
 
-  it('should get encounter type based on login location when login location uuid is present',function (done) {
-    var programUuid = null;
-    //var locationUuid = "locationUuid";
-    var loginLocationToEncounterTypeMapping = {
-      "data" :{
-        "results": [
-          {   "entityUuid": {"uuid": "locationUuid"},
-            "mappings": [{"uuid": "encounterUuid"}]}
-        ]}};
+    it('should create an encounter', function () {
 
-    encounterService.getDefaultEncounterType().then(function (response) {
-      expect(response[0].uuid).toBe("encounterUuid");
-      done();
+      $httpBackend.expectPOST('/openmrs/ws/rest/v1/encounter', {}).respond({});
+
+      var encounter;
+      encounterService.create({}).then(function (created) {
+        encounter = created;
+      });
+
+      $httpBackend.flush();
+
+      expect(encounter).toEqual({});
+
     });
-  });
 
+  });
+  
 });
