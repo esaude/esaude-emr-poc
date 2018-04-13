@@ -3,16 +3,25 @@
 
   angular
     .module('poc.common.clinicalservices.serviceform')
-    .controller('FormController', FormController);
+    .component('formWizard', {
+      bindings: {
+        formInfo: '<',
+        patient: '<'
+      },
+      controller: FormWizardController,
+      controllerAs: 'vm',
+      templateUrl: '../poc-common/clinical-services/service-form/components/formWizard.html'
+    });
 
-  FormController.$inject = ['$filter', '$q', '$rootScope', '$scope', '$state', '$stateParams',
+  FormWizardController.$inject = ['$filter', '$q', '$rootScope', '$scope', '$state', '$stateParams', '$transitions',
     'clinicalServicesService', 'createEncounterMapper', 'encounterService', 'localStorageService', 'notifier',
     'patientAttributeService', 'patientService', 'sessionService', 'spinner', 'updateEncounterMapper', 'visitService'];
 
   /* @ngInject */
-  function FormController($filter, $q, $rootScope, $scope, $state, $stateParams, clinicalServicesService,
-    createEncounterMapper, encounterService, localStorageService, notifier,
-    patientAttributeService, patientService, sessionService, spinner, updateEncounterMapper, visitService) {
+  function FormWizardController($filter, $q, $rootScope, $scope, $state, $stateParams, $transitions,
+                                clinicalServicesService, createEncounterMapper, encounterService, localStorageService,
+                                notifier, patientAttributeService, patientService, sessionService, spinner,
+                                updateEncounterMapper, visitService) {
 
     var dateUtil = Bahmni.Common.Util.DateUtil;
 
@@ -21,39 +30,42 @@
     var serviceId = $stateParams.serviceId;
     var returnState = $stateParams.returnState;
 
-    $scope.currentFormPart = {};
-    $scope.formInfo = {};
-    $scope.formLayout = {};
-    $scope.hasVisitToday = false;
-    $scope.submitted = false;
-    $scope.todayVisit = null;
-    $scope.visitedFields = [];
-    $scope.previousEncounter = null;
-
-    $scope.compactName = compactName;
-    $scope.getAutoCompleteList = getAutoCompleteList;
-    $scope.getDataResults = getDataResults;
-    $scope.linkDashboard = linkDashboard;
-    $scope.save = save;
-    $scope.stepInFormPart = stepInFormPart;
-    $scope.updateCurrentFormPart = updateCurrentFormPart;
-
     var vm = this;
+
+    vm.currentFormPart = {};
+    vm.formInfo = {};
+    vm.formLayout = {};
+    vm.hasVisitToday = false;
+    vm.submitted = false;
+    vm.todayVisit = null;
+    vm.visitedFields = [];
+    vm.previousEncounter = null;
+
+    vm.$onInit = onInit;
+    vm.compactName = compactName;
+    vm.getAutoCompleteList = getAutoCompleteList;
+    vm.getDataResults = getDataResults;
+    vm.linkDashboard = linkDashboard;
+    vm.save = save;
+    vm.stepInFormPart = stepInFormPart;
+    vm.updateCurrentFormPart = updateCurrentFormPart;
     vm.getPreviousEncounter = getPreviousEncounter;
 
-    activate();
+    $transitions.onSuccess({}, function (trasition) {
+      if (trasition.to().name.split('.')[0] === $state.current.name.split('.')[0]) {
+        setCurrentFormPart();
+      }
+    });
 
     ////////////////
 
-    function activate() {
-      var currentSref = $state.current.url.replace("/", ".");
+    function onInit() {
+
       var service = { id: serviceId };
 
-      $scope.formInfo = clinicalServicesService.getFormLayouts({ id: serviceId });
+      vm.formInfo = clinicalServicesService.getFormLayouts({ id: serviceId });
 
-      $scope.currentFormPart = _.find($scope.formInfo.parts, function (formPart) {
-        return formPart.sref === currentSref;
-      });
+      setCurrentFormPart();
 
       var getPatient = patientService.getPatient(patientUUID);
 
@@ -62,29 +74,36 @@
       var getTodaysVisit = visitService.getTodaysVisit(patientUUID);
 
       var deferred = $q.defer();
-      $scope.previousEncounter = deferred.promise;
+      vm.previousEncounter = deferred.promise;
 
       var load = $q.all([getPatient, getFormData, getTodaysVisit]).then(function (results) {
         var patient = results[0];
         var formData = results[1];
         var visitToday = results[2];
 
-        $scope.patient = patient;
+        vm.patient = patient;
 
         var previousEncounter = getPreviousEncounter(formData, serviceEncounter);
         deferred.resolve(previousEncounter);
 
-        $scope.formPayload = formData;
+        vm.formPayload = formData;
 
         if (visitToday) {
-          $scope.hasVisitToday = true;
-          $scope.todayVisit = visitToday;
+          vm.hasVisitToday = true;
+          vm.todayVisit = visitToday;
         } else {
-          $scope.hasVisitToday = false;
+          vm.hasVisitToday = false;
         }
       });
 
       spinner.forPromise(load);
+    }
+
+    function setCurrentFormPart() {
+      var currentSref = $state.current.url.replace("/", ".");
+      vm.currentFormPart = _.find(vm.formInfo.parts, function (formPart) {
+        return formPart.sref === currentSref;
+      });
     }
 
     function getPreviousEncounter(formData, serviceEncounter) {
@@ -112,18 +131,18 @@
     }
 
     function stepInFormPart(formPart) {
-      $scope.currentFormPart = formPart;
+      vm.currentFormPart = formPart;
     }
 
     function updateCurrentFormPart(nextSref, validity) {
       if (validity) {
-        $scope.currentFormPart = _.find($scope.formInfo.parts, function (formPart) {
+        vm.currentFormPart = _.find(vm.formInfo.parts, function (formPart) {
           return formPart.sref === nextSref;
         });
-        $scope.submitted = false;
-        $state.go($scope.formInfo.sufix + nextSref);
+        vm.submitted = false;
+        $state.go(vm.formInfo.sufix + nextSref);
       } else {
-        $scope.submitted = true;
+        vm.submitted = true;
       }
     }
 
@@ -144,23 +163,27 @@
       var currDate = Bahmni.Common.Util.DateUtil.now();
       var location = sessionService.getCurrentLocation();
 
-      var openMRSEncounter = createEncounterMapper.mapFromFormPayload($scope.formPayload,
-        $scope.formInfo.parts,
-        $scope.patient.uuid,
+      var openMRSEncounter = createEncounterMapper.mapFromFormPayload(vm.formPayload,
+        vm.formInfo.parts,
+        vm.patient.uuid,
         location.uuid,
         $rootScope.currentUser.person.uuid,
         currDate);//set date
 
-      var clinicalService = $scope.formPayload.service;
+      var clinicalService = vm.formPayload.service;
 
       if (!serviceEncounter) {
         //in case the service has a date mark
         openMRSEncounter = addMappedDateObs(clinicalService, openMRSEncounter);
 
-        if ($scope.hasVisitToday) {
-          encounterService.create(openMRSEncounter).success(encounterSuccessCallback);
+        if (vm.hasVisitToday) {
+          encounterService.create(openMRSEncounter)
+            .then(encounterSuccessCallback);
         } else {
-          checkIn().then(encounterService.create(openMRSEncounter).success(encounterSuccessCallback).error(encounterErrorCallback));
+          checkIn()
+            .then(encounterService.create(openMRSEncounter))
+            .then(encounterSuccessCallback)
+            .catch(encounterErrorCallback);
         }
 
       } else {
@@ -169,10 +192,10 @@
           openMRSEncounter = addMappedDateObs(clinicalService, openMRSEncounter);
         }
 
-        var editEncounter = updateEncounterMapper.mapFromFormPayload(openMRSEncounter, $scope.formPayload.encounter);
+        var editEncounter = updateEncounterMapper.mapFromFormPayload(openMRSEncounter, vm.formPayload.encounter);
 
-        encounterService.update(editEncounter).success(encounterSuccessCallback)
-          .error(encounterErrorCallback);
+        encounterService.update(editEncounter).then(encounterSuccessCallback)
+          .catch(encounterErrorCallback);
       }
     }
 
@@ -201,7 +224,7 @@
       var location = sessionService.getCurrentLocation();
       //create visit object
       var visit = {
-        patient: $scope.patient.uuid,
+        patient: vm.patient.uuid,
         visitType: visitType.uuid,
         location: location.uuid,
         startDatetime: dateUtil.now(),
@@ -210,14 +233,16 @@
       return visitService.create(visit);
     }
 
-    function encounterSuccessCallback(encounterProfileData) {
+    function encounterSuccessCallback() {
       $rootScope.hasVisitToday = true;
       $state.go(returnState, { patientUuid: patientUUID });
       notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
     }
 
-    function encounterErrorCallback(encounterProfileData, status) {
+    function encounterErrorCallback() {
       notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ACTION'));
     }
+
   }
+
 })();

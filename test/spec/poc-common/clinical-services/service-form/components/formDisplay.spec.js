@@ -1,19 +1,18 @@
-describe('FormPrintController', function () {
+describe('formDisplay', function () {
 
-  var $controller, $q, $state, $stateParams, clinicalServicesService, notifier, patientService, spinner,
-    translateFilter, $rootScope;
+  var $componentController, $q, clinicalServicesService, patientService, $rootScope;
 
   beforeEach(module('poc.common.clinicalservices'));
 
-  beforeEach(inject(function (_$controller_, _clinicalServicesService_, _patientService_, _$q_, _$rootScope_) {
-    $controller = _$controller_;
+  beforeEach(inject(function (_$componentController_, _clinicalServicesService_, _patientService_, _$q_, _$rootScope_) {
+    $componentController = _$componentController_;
     clinicalServicesService = _clinicalServicesService_;
     patientService = _patientService_;
     $q = _$q_;
     $rootScope = _$rootScope_;
   }));
 
-  describe('activate', function () {
+  describe('$onInit', function () {
 
     beforeEach(function () {
       spyOn(clinicalServicesService, 'getFormLayouts').and.returnValue({});
@@ -33,7 +32,9 @@ describe('FormPrintController', function () {
 
     it('should get form layouts', function () {
 
-      var ctrl = $controller('FormPrintController');
+      var ctrl = $componentController('formDisplay');
+
+      ctrl.$onInit();
 
       $rootScope.$apply();
       expect(clinicalServicesService.getFormLayouts).toHaveBeenCalled();
@@ -41,7 +42,9 @@ describe('FormPrintController', function () {
 
     it('should get the patient', function () {
 
-      var ctrl = $controller('FormPrintController');
+      var ctrl = $componentController('formDisplay');
+
+      ctrl.$onInit();
 
       $rootScope.$apply();
       expect(patientService.getPatient).toHaveBeenCalled();
@@ -50,7 +53,9 @@ describe('FormPrintController', function () {
 
     it('should get form data', function () {
 
-      var ctrl = $controller('FormPrintController');
+      var ctrl = $componentController('formDisplay');
+
+      ctrl.$onInit();
 
       $rootScope.$apply();
       expect(clinicalServicesService.getFormData).toHaveBeenCalled();

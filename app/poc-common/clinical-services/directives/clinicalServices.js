@@ -3,23 +3,11 @@
 
   angular
     .module('poc.common.clinicalservices')
-    .directive('clinicalServices', clinicalService)
-    .controller('ClinicalServiceDirectiveController', ClinicalServiceDirectiveController);
-
-
-  function clinicalService() {
-    var directive = {
-      bindToController: true,
+    .component('clinicalServices', {
       controller: ClinicalServiceDirectiveController,
       controllerAs: 'vm',
-      restrict: 'AE',
-      templateUrl: ' ../poc-common/clinical-services/directives/clinicalServices.html',
-      scope: {
-        patientUuid: '='
-      }
-    };
-    return directive;
-  }
+      templateUrl: '../poc-common/clinical-services/directives/clinicalServices.html'
+    });
 
   ClinicalServiceDirectiveController.$inject = ['$filter', '$q', '$state', 'clinicalServicesService', 'notifier',
     'patientService', 'spinner', 'visitService'];
@@ -28,6 +16,8 @@
                                               spinner, visitService) {
 
     var services = null;
+
+    var currentPatient = {};
 
     var vm = this;
 
@@ -48,15 +38,14 @@
     ////////////////
 
     function onInit() {
-      var load = $q.all([
-        visitService.getTodaysVisit(vm.patientUuid),
-        patientService.getPatient(vm.patientUuid)
-      ])
-        .then(function (result) {
-          patientCheckedIn = result[0] !== null;
-          var patient = result[1];
-          return initServices(patient);
-        });
+      currentPatient = clinicalServicesService.getCurrentPatient();
+
+      var load =
+        visitService.getTodaysVisit(currentPatient.uuid)
+          .then(function (todaysVisit) {
+            patientCheckedIn = todaysVisit !== null;
+            return initServices(currentPatient);
+          });
 
       spinner.forPromise(load);
     }
@@ -77,7 +66,7 @@
     function linkServiceAdd(service) {
       var formLayout = clinicalServicesService.getFormLayouts(service);
       $state.go(formLayout.sufix + formLayout.parts[0].sref, {
-        patientUuid: vm.patientUuid,
+        patientUuid: currentPatient.uuid,
         serviceId: service.id,
         encounter: (service.hasServiceToday) ? service.lastServiceToday : null,
         returnState: $state.current
@@ -87,7 +76,7 @@
     function linkServiceEdit(service, encounter) {
       var formLayout = clinicalServicesService.getFormLayouts(service);
       $state.go(formLayout.sufix + formLayout.parts[0].sref, {
-        patientUuid: vm.patientUuid,
+        patientUuid: currentPatient.uuid,
         serviceId: service.id,
         encounter: encounter,
         returnState: $state.current
@@ -97,7 +86,7 @@
     function linkServiceDisplay(service, encounter) {
       var formLayout = clinicalServicesService.getFormLayouts(service);
       $state.go(formLayout.sufix + '_display', {
-        patientUuid: vm.patientUuid,
+        patientUuid: currentPatient.uuid,
         serviceId: service.id,
         encounter: encounter,
         returnState: $state.current
