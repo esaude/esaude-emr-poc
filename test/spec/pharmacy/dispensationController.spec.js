@@ -120,6 +120,13 @@ describe('DispensationController', function () {
       expect(controller.selectedPrescriptionItems[0].selected).toEqual(true);
     });
 
+    it('should mark item as selected when already selected', function () {
+      controller.select(prescription, item);
+      expect(controller.selectedPrescriptionItems[0].selected).toEqual(true);
+      controller.select(prescription, item);
+      expect(controller.selectedPrescriptionItems[0].selected).toEqual(true);
+    });
+
     it('should set reference to prescription on item', function () {
 
       expect(item.prescription).toBeUndefined();
