@@ -52,11 +52,6 @@
             "name": "No de conviventes",
             "label": "COMMON_NO_OF_HOUSE_HOLDERS",
             "id": "e2a0b5fe-1d5f-11e0-b929-000c29ad1d07"
-          },
-          {
-            "name": "Serologia HIV do(s) cônjuge(s)",
-            "label": "COMMON_HIV_STATUS_OF_PARTNERS",
-            "id": "e2a040ec-1d5f-11e0-b929-000c29ad1d07"
           }
         ]
       },
