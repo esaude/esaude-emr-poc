@@ -12,6 +12,8 @@
     var OPENMRS_OBS_REST_URL = Poc.Patient.Constants.obsRestUrl;
 
     var service = {
+      createObs: createObs,
+      deleteObs: deleteObs,
       findAll: findAll,
       filterByList: filterByList,
       filterRetiredObs: filterRetiredObs,
@@ -22,6 +24,28 @@
     return service;
 
     ////////////////
+
+    function createObs(obs) {
+      return $http.post(OPENMRS_OBS_REST_URL, obs)
+        .then(function (response) {
+          return response.data;
+        })
+        .catch(function (error) {
+          $log.error('XHR Failed for createObs: ' + error.data.error.message);
+          return $q.reject(error);
+        });
+    }
+
+    function deleteObs(obs) {
+      return $http.delete(OPENMRS_OBS_REST_URL + '/' + obs.uuid)
+        .then(function () {
+          return null;
+        })
+        .catch(function (error) {
+          $log.error('XHR Failed for deleteObs: ' + error.data.error.message);
+          return $q.reject(error);
+        });
+    }
 
     function findAll(patientUuid) {
       return $http.get(OPENMRS_OBS_REST_URL, {

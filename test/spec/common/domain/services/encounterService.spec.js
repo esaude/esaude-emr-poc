@@ -25,7 +25,6 @@ describe('encounterService', function () {
       expect(encounter).toEqual({});
 
     });
-
   });
-  
+
 });

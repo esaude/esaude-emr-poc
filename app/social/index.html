@@ -23,7 +23,9 @@
   <body>
 
     <div ng-app="social">
-      <div ui-view="layout"></div>
+      <social>
+        <div id="overlay"></div>
+      </social>
     </div>
 
       <!-- build:js scripts/vendor.social.min.js -->
@@ -168,11 +170,17 @@
 
       <script src="../visit/visit.module.js"></script>
       <script src="../visit/visitService.js"></script>
+      <script src="../visit/components/checkIn.js"></script>
 
-      <script src="init.js"></script>
+      <script src="social.module.js"></script>
       <script src="initialization.js"></script>
-      <script src="app.js"></script>
-      <script src="controllers/dashboardController.js"></script>
-      <!-- endbuild -->
+      <script src="social.routes.js"></script>
+      <script src="social.run.js"></script>
+      <script src="components/social.js"></script>
+      <script src="components/dashboard.js"></script>
+      <script src="components/sexualPartners.js"></script>
+      <script src="components/sexualPartnerForm.js"></script>
+      <script src="sexualPartnersService.js"></script>
+    <!-- endbuild -->
   </body>
 </html>

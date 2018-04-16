@@ -67,8 +67,7 @@
       return $http.post(Bahmni.Common.Constants.encounterUrl, encounter)
         .then(function (response) {
           return response.data;
-        }).
-        catch(function (error) {
+        }).catch(function (error) {
           $log.error('XHR Failed for create: ' + error.data.error.message);
           return $q.reject();
         });
@@ -81,7 +80,7 @@
         })
         .catch(function (error) {
           $log.error('XHR Failed for update: ' + error.data.error.message);
-          return $q.reject();
+          return $q.reject(error);
         });
     }
 

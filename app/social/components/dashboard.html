@@ -1,0 +1,14 @@
+<patient-header patient="vm.patient" display-actions="true"></patient-header>
+
+<check-in patient="vm.patient"></check-in>
+
+<div class="bg-info-border content-border border-rouded">
+
+  <ul class="nav nav-tabs">
+    <li role="presentation" ui-sref-active="active"><a ui-sref="dashboard.services">{{'COMMON_CLINIC_SERVICES_TITLE' | translate}}</a></li>
+    <li role="presentation" ui-sref-active="active"><a ui-sref="dashboard.partners">{{'SEXUAL_PARTNERS' | translate}}</a></li>
+  </ul>
+
+  <ui-view></ui-view>
+
+</div>
