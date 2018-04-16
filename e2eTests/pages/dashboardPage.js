@@ -10,7 +10,7 @@ module.exports = {
 
   dropdown: {
     hamburgerButton: {css: '.dropdown-toggle'},
-    logoutButton: {css: '#logout'},
+    logoutButton: {css: 'a[log-out]'},
   },
 
   homeLink: '#home-link',
