@@ -1,12 +1,12 @@
 <div class="marital-partners">
 
   <div class="alert alert-info" ng-if="!vm.checkedIn">
-    {{'CHECKIN_NOT_CHECKED_IN_TODAY'|translate}}
+    {{'PLEASE_CHECK_IN_PATIENT'|translate}}
   </div>
 
   <div ng-if="vm.checkedIn">
 
-    <div class="row" ng-if="vm.partners.length">
+    <div class="row" ng-if="vm.partners.length || vm.add">
       <div class="col-sm-4">{{'PARTNER_NAME'|translate}}</div>
       <div class="col-sm-3">{{'RELATIONSHIP_TO_PATIENT'|translate}}</div>
       <div class="col-sm-3">{{'HIV_STATUS'|translate}}</div>

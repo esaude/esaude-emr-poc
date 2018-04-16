@@ -10,15 +10,15 @@
   /* @ngInject */
   function sexualPartnersService($q, $log, conceptService, encounterService, observationsService, visitService) {
 
-    var SEXUAL_PARTNER_INFORMATION_CONCEPT_UUID = '4cd975c4-56b8-478b-a528-d8ffb9ecd200';
+    var SEXUAL_PARTNER_INFORMATION_CONCEPT_UUID = Bahmni.Common.Constants.sexualPartnerInformationConceptUuid;
 
-    var PARTNERS_NAME_CONCEPT_UUID = 'bc39b981-bde2-4486-b1b8-8cef5a3233e3';
+    var PARTNERS_NAME_CONCEPT_UUID = Bahmni.Common.Constants.partnersNameConceptUuid;
 
-    var RELATIONSHIP_TO_PATIENT_CONCEPT_UUID = 'e13e172c-9f49-4bd0-a976-b0c167f47918';
+    var RELATIONSHIP_TO_PATIENT_CONCEPT_UUID = Bahmni.Common.Constants.relationshipToPatientConceptUuid;
 
-    var HIV_STATUS_CONCEPT_UUID = 'e1db0cf0-1d5f-11e0-b929-000c29ad1d07';
+    var HIV_STATUS_CONCEPT_UUID = Bahmni.Common.Constants.hivStatusConceptUuid;
 
-    var SEXUAL_PARTNER_ENCOUNTER_TYPE_UUID = 'fc72477b-90a5-4222-a43d-efe10f0ad342';
+    var SEXUAL_PARTNER_ENCOUNTER_TYPE_UUID = Bahmni.Common.Constants.sexualPartnerEncounterTypeUuid;
 
     var service = {
       getFormData: getFormData,
