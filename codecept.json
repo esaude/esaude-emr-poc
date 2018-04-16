@@ -13,7 +13,9 @@
   },
   "include": {
     "I": "./e2eTests/steps_file.js",
-    "Data": "./e2eTests/data.js"
+
+    "Data": "./e2eTests/data.js",
+    "LoginPage": "./e2eTests/pages/loginPage.js"
   },
   "bootstrap": false,
   "mocha": {},

@@ -1,3 +1,4 @@
+// Data useful for tests
 module.exports = {
 	users: {
 		admin: {

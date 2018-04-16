@@ -1,15 +1,18 @@
 
 'use strict';
-// in this file you can append custom step methods to 'I' object
 
 module.exports = function() {
   return actor({
 
+    // Log the user in
     login: function(userInfo) {
-      this.amOnPage('/index.html#/login')
-      this.fillField('#username', userInfo.username)
-      this.fillField('#password', userInfo.password)
-      this.click('.btn')
+      // Create the login page object
+      const loginPage = require('./pages/loginPage')
+      loginPage._init()
+
+      // Login and return an object that helps callers
+      // check login status
+      return loginPage.login(userInfo.username, userInfo.password)
     },
 
   });
