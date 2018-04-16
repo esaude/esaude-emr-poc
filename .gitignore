@@ -15,3 +15,4 @@
 /.vscode
 /package-lock.json
 /e2eTests/output
+/e2eTests/reports

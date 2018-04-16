@@ -20,6 +20,13 @@
     "LoginPage": "./e2eTests/pages/loginPage.js"
   },
   "bootstrap": false,
-  "mocha": {},
+  "mocha": {
+    "reporterOptions": {
+      "reportDir": "e2eTest/reports",
+      "inlineAssets": true,
+      "reportPageTitle": "E2E Test Reports",
+      "reportTitle": "E2E Test Reports"
+    }
+  },
   "name": "esaude-emr-poc"
 }
