@@ -6,6 +6,5 @@
     .component('reports', {
       templateUrl: '../reports/components/reports.html'
     });
-  }
 
 })();
