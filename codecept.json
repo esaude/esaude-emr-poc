@@ -22,7 +22,8 @@
   "bootstrap": false,
   "mocha": {
     "reporterOptions": {
-      "reportDir": "e2eTest/reports",
+      "reportDir": "e2eTests/reports",
+      "reportFilename": "pocE2E",
       "inlineAssets": true,
       "reportPageTitle": "E2E Test Reports",
       "reportTitle": "E2E Test Reports"
