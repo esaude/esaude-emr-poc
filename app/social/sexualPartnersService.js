@@ -18,6 +18,8 @@
 
     var HIV_STATUS_CONCEPT_UUID = 'e1db0cf0-1d5f-11e0-b929-000c29ad1d07';
 
+    var SEXUAL_PARTNER_ENCOUNTER_TYPE_UUID = 'fc72477b-90a5-4222-a43d-efe10f0ad342';
+
     var service = {
       getFormData: getFormData,
       getSexualPartners: getSexualPartners,
@@ -43,7 +45,7 @@
     }
 
     function getSexualPartners(patient) {
-      return encounterService.getPatientStarvInitialAEncounters(patient, 'custom:(uuid,display,obs:(uuid,display,concept,groupMembers:(uuid,display,value,concept:(uuid,display,answers)))')
+      return getPatientSexualPartnerEncounters(patient, 'custom:(uuid,display,obs:(uuid,display,concept,groupMembers:(uuid,display,value,concept:(uuid,display,answers)))')
         .then(function (encounters) {
           var allObs = _.flatMap(encounters, 'obs');
           var partnerObs = _.filter(allObs, {concept: {uuid: SEXUAL_PARTNER_INFORMATION_CONCEPT_UUID}});
@@ -68,9 +70,9 @@
           }
 
           var encounter = mapEncounter(visit, patient, sexualPartner);
-          var existing = encounterService.findStarvInitialAEncounter(visit.encounters);
+          var existing = findSexualPartnerEncounter(visit.encounters);
           if (!existing) {
-            return createStarvInitialAEncounterWithObs(encounter);
+            return createSexualPartnerEncounterWithObs(encounter);
           } else {
             var obs = encounter.obs[0];
             obs.encounter = existing.uuid;
@@ -87,8 +89,20 @@
         });
     }
 
-    function createStarvInitialAEncounterWithObs(encounter) {
-      return encounterService.createStarvInitialA(encounter)
+    function getPatientSexualPartnerEncounters(patient, representation) {
+      return encounterService.getEncountersForPatientByEncounterType(patient.uuid, SEXUAL_PARTNER_ENCOUNTER_TYPE_UUID, representation);
+    }
+
+    function findSexualPartnerEncounter(encounters) {
+      return encounters.find(function (e) {
+        return !e.voided && (e.encounterType.uuid === SEXUAL_PARTNER_ENCOUNTER_TYPE_UUID);
+      });
+    }
+
+    function createSexualPartnerEncounterWithObs(encounter) {
+      encounter.encounterType = {uuid: SEXUAL_PARTNER_ENCOUNTER_TYPE_UUID};
+      encounter.patient = {uuid: encounter.patient.uuid};
+      return encounterService.create(encounter)
         .then(function (encounter) {
           return encounter.obs[0];
         });

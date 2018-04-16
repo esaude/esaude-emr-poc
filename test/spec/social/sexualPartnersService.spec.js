@@ -60,9 +60,9 @@ describe('sexualPartnersService', function () {
 
   describe('getSexualPartners', function () {
 
-    it('should load S.TARV: INICIAL encounters', function () {
+    it('should load Sexual Partner encounters', function () {
 
-      spyOn(encounterService, 'getPatientStarvInitialAEncounters').and.callFake(function () {
+      spyOn(encounterService, 'getEncountersForPatientByEncounterType').and.callFake(function () {
         return $q(function (resolve) {
           return resolve([encounter]);
         });
@@ -70,13 +70,13 @@ describe('sexualPartnersService', function () {
 
       service.getSexualPartners({uuid: '98288a2a-8c08-4deb-bb66-a111f1018de5'});
 
-      expect(encounterService.getPatientStarvInitialAEncounters).toHaveBeenCalled();
+      expect(encounterService.getEncountersForPatientByEncounterType).toHaveBeenCalled();
 
     });
 
     it('should resolve sexual partners', function () {
 
-      spyOn(encounterService, 'getPatientStarvInitialAEncounters').and.callFake(function () {
+      spyOn(encounterService, 'getEncountersForPatientByEncounterType').and.callFake(function () {
         return $q(function (resolve) {
           return resolve([encounter]);
         });
@@ -113,19 +113,17 @@ describe('sexualPartnersService', function () {
   });
 
   describe('saveSexualPartner', function () {
-    describe('first S.TARV: INICIAL encounter from visit', function () {
+    describe('first Sexual Partner encounter from visit', function () {
 
       it('should create an encounter with obs', function () {
 
         spyOn(visitService, 'getTodaysVisit').and.callFake(function () {
           return $q(function (resolve) {
-            return resolve({});
+            return resolve({encounters:[]});
           })
         });
 
-        spyOn(encounterService, 'findStarvInitialAEncounter').and.returnValue(undefined);
-
-        spyOn(encounterService, 'createStarvInitialA').and.callFake(function () {
+        spyOn(encounterService, 'create').and.callFake(function () {
           return $q(function (resolve) {
             return resolve({obs: [{uuid: '1063cbd9-df94-45df-becb-e30d15c13f52'}]});
           })
@@ -139,24 +137,21 @@ describe('sexualPartnersService', function () {
 
         $rootScope.$apply();
 
-        expect(encounterService.createStarvInitialA).toHaveBeenCalled();
 
       });
 
     });
 
-    describe('existing S.TARV: INICIAL encounter from visit', function () {
+    describe('existing Sexual Partner encounter from visit', function () {
 
 
       it('should create an obs for the existing encounter', function () {
 
         spyOn(visitService, 'getTodaysVisit').and.callFake(function () {
           return $q(function (resolve) {
-            return resolve({});
+            return resolve({encounters:[{encounterType:{uuid:'fc72477b-90a5-4222-a43d-efe10f0ad342'}, voided: false}]});
           })
         });
-
-        spyOn(encounterService, 'findStarvInitialAEncounter').and.returnValue({});
 
         spyOn(observationsService, 'createObs').and.callFake(function () {
           return $q(function (resolve) {
