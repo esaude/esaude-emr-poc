@@ -74,6 +74,16 @@
       "logo": "images/mind.png",
       "active": false,
       "roles": ["POC: Clinician"]
+    },
+    {
+      "id": "report",
+      "name": "APP_REPORTS",
+      "url": "/reports",
+      "logo": "images/report.png",
+      "active": true,
+      "roles": [
+        "POC: Clinician"
+      ]
     }
   ]
 }

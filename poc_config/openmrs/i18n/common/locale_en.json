@@ -242,6 +242,7 @@
     "APP_LAB": "Laboratory",
     "APP_COUNSELING": "Counseling",
     "APP_VITALS": "Vitals",
+    "APP_REPORTS": "Reports",
     "COMMON_MESSAGE_ERROR_ITEM_ALREADY_IN_LIST": "The selected item is already in the list",
     "COMMON_MESSAGE_ERROR_ARV_ITEM_ALREADY_IN_LIST": "There can be only one ARV item listed",
     "COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED": "Action completed successfully",
