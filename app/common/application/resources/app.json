@@ -73,7 +73,7 @@
       "url": "/counseling",
       "logo": "images/mind.png",
       "active": false,
-      "roles": []
+      "roles": ["POC: Clinician"]
     }, 
     {
       "id": "report",
