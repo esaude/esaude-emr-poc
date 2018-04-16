@@ -1,0 +1,19 @@
+{
+  "tests": "./e2eTests/**/*_test.js",
+  "timeout": 10000,
+  "output": "./e2eTests/output",
+  "helpers": {
+    "Protractor": {
+      "url": "http://localhost:9000/home",
+      "driver": "hosted",
+      "browser": "chrome",
+      "rootElement": "body"
+    }
+  },
+  "include": {
+    "I": "./e2eTests/steps_file.js"
+  },
+  "bootstrap": false,
+  "mocha": {},
+  "name": "esaude-emr-poc"
+}
