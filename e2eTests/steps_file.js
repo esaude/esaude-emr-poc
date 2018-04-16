@@ -5,8 +5,12 @@
 module.exports = function() {
   return actor({
 
-    // Define custom steps here, use 'this' to access default methods of I.
-    // It is recommended to place a general 'login' function here.
+    login: function(userInfo) {
+      this.amOnPage('/index.html#/login')
+      this.fillField('#username', userInfo.username)
+      this.fillField('#password', userInfo.password)
+      this.click('.btn')
+    },
 
   });
 }

@@ -65,6 +65,7 @@
   "dependencies": {},
   "scripts": {
     "test": "grunt test",
+    "e2e": "codeceptjs run",
     "create-version": "npm --no-git-tag-version version",
     "publish-version": "git tag $(node -e \"console.log(require('./package.json').version);\") && git push --tags"
   },

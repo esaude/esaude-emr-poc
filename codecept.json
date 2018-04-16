@@ -3,15 +3,17 @@
   "timeout": 10000,
   "output": "./e2eTests/output",
   "helpers": {
-    "Protractor": {
+    "Puppeteer": {
       "url": "http://localhost:9000/home",
       "driver": "hosted",
       "browser": "chrome",
-      "rootElement": "body"
+      "rootElement": "body",
+      "show": true
     }
   },
   "include": {
-    "I": "./e2eTests/steps_file.js"
+    "I": "./e2eTests/steps_file.js",
+    "Data": "./e2eTests/data.js"
   },
   "bootstrap": false,
   "mocha": {},
