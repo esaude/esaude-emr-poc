@@ -11,6 +11,7 @@
 
     var service = {
       get: get,
+      getConcept: getConcept,
       getPrescriptionConvSetConcept: getPrescriptionConvSetConcept,
       getDeathConcepts: getDeathConcepts,
       searchBySource: searchBySource
@@ -20,6 +21,10 @@
 
     ////////////////
 
+    /**
+     * @deprecated {@see getConcept}
+     * @param concept
+     */
     function get(concept) {
       return $http.get('/openmrs/ws/rest/v1/concept/' + concept, {
         params: {
@@ -27,6 +32,17 @@
         },
         withCredentials: true
       });
+    }
+
+    function getConcept(uuid, representation) {
+      return $http.get('/openmrs/ws/rest/v1/concept/' + uuid, {params: {v: representation}})
+        .then(function (response) {
+          return response.data;
+        })
+        .catch(function (error) {
+          $log.error('XHR Failed for getConcept: ' + error.data.error.message);
+          return $q.reject(error);
+        })
     }
 
     function getPrescriptionConvSetConcept() {

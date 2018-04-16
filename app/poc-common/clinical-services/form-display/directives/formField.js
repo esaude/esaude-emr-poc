@@ -73,13 +73,13 @@
     ////////////////
 
     function activate() {
-      $scope.$watch('$parent.submitted', function (value) {
+      $scope.$watch('$parent.$parent.vm.formWizard.submitted', function (value) {
         $scope.showMessages = value;
       });
 
       $scope.$watch('aForm.' + $scope.fieldId + '.$valid', function (value) {
         if (angular.isDefined(value)) {
-          $scope.$parent.visitedFields[$scope.fieldUuid] = {
+          $scope.$parent.$parent.vm.formWizard.visitedFields[$scope.fieldUuid] = {
             uuid: $scope.fieldUuid,
             valid: value
           };

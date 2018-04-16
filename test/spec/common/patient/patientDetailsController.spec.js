@@ -1,5 +1,6 @@
 describe('DetailPatientController', function () {
-   var controller, $controller, patientService;
+
+  var controller, $controller, patientService;
 
    beforeEach(module('patient.details'));
 
@@ -8,6 +9,24 @@ describe('DetailPatientController', function () {
      patientService = _patientService_;
    }));
 
+  describe('activate', function () {
 
+    xit('should load the patient');
+
+    xit('should define the patient attributes');
+
+  });
+
+  describe('linkDashboard', function () {
+
+    xit('should navigate to dashboard');
+
+  });
+
+  describe('print', function () {
+
+    xit('should print the patient\'s daily hospital process');
+
+  });
 
 });

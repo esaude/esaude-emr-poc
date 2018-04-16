@@ -16,7 +16,7 @@
       $injector.get('$state').go('search');
     });
 
-    $bahmniTranslateProvider.init({app: 'clinical', shouldMerge: true});
+    $bahmniTranslateProvider.init({ app: 'clinical', shouldMerge: true });
 
     $stateProvider
       .state('search', {
@@ -92,6 +92,20 @@
           skip: true
         }
       })
+      .state('dashboard.laboratory', {
+        url: '/laboratory',
+        templateUrl: '../common/test/views/lab-request.html',
+        controller: 'LabRequestController',
+        controllerAs: 'vm',
+        ncyBreadcrumb: {
+          label: '{{\'CLINIC_PATIENT_LABORATORY\' | translate}}',
+          parent: 'dashboard',
+          skip: true
+        },
+        params: {
+          externalRequest: false
+        }
+      })
       .state('dashboard.consultation', {
         url: '/consultation',
         templateUrl: 'views/patient-consultation.html',
@@ -102,7 +116,7 @@
         },
         resolve: {
           clinicalServicesService: function (clinicalServicesService, $stateParams) {
-            return clinicalServicesService.init('clinical', $stateParams.patientUuid);
+            return clinicalServicesService.init('clinical', $stateParams.patientUuid, true);
           }
         }
       })

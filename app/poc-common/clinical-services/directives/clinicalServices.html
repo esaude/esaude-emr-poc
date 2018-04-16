@@ -6,7 +6,7 @@
     <p class="col-sm-2"><b>{{'COMMON_CLINICAL_SERVICE_HEADER_ACTIONS'| translate}}</b></p>
   </div>
 
-  <div>
+  <div ng-if="!vm.getServices();">
     <p class="text-center">{{'LOADING' | translate}}</p>
   </div>
 

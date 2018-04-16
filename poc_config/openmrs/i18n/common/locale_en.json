@@ -112,6 +112,7 @@
     "PATIENT_INFO_DEAD": "Is Dead",
     "PATIENT_IS_DEAD": "This patient is deceased",
     "PATIENT_INFO_NEW": "New Patient",
+    "PATIENT_INFO_HIV_TEST": "HIV Test",
     "CLINIC_PATIENT_SUMMARY": "Summary",
     "CLINIC_PATIENT_VISIT_HISTORY": "Visit History",
     "CLINIC_PATIENT_VISIT": "Visit",
@@ -333,5 +334,9 @@
     "COMMON_SYMPTOM1": "Symptom 1",
     "COMMON_SYMPTOM2": "Symptom 2",
     "COMMON_SYMPTOM3": "Symptom 3",
-    "COMMON_SYMPTOM4": "Symptom 4"
+    "COMMON_SYMPTOM4": "Symptom 4",
+    "COMMON_VISIT_HEADER_ERROR": "There was an error loading last visit information.",
+    "COMMON_RELOAD": "Reload",
+    "COMMON_MESSAGE_DRUG_WITHOUT_STOCK_AVAILABILITY":"There's no Stock availability for the selected medicine",
+    "COMMON_MESSAGE_EXCEPTION_REQUESTING_DRUG_STOCK_AVAILABILITY":"Unable to obtain inventory information for the selected medicine"
 }

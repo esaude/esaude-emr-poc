@@ -30,8 +30,8 @@ describe('FilaHistoryController', function () {
   }));
 
   beforeEach(function () {
-    encounterService = jasmine.createSpyObj('encounterService', ['getPatientFilaEncounters']);
-    encounterService.getPatientFilaEncounters.and.returnValue({
+    encounterService = jasmine.createSpyObj('encounterService', ['getPatientPharmacyEncounters']);
+    encounterService.getPatientPharmacyEncounters.and.returnValue({
       then: function (fn) {
         fn(encounters);
       }

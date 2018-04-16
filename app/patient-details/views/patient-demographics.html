@@ -1,6 +1,6 @@
 <ul class="list-group content-border-margin-regular">
     <li class="list-group-item">
-        <b>{{'PATIENT_INFO_NAMES' | translate}}: </b> {{patientCommon.patient.givenName}} {{patientCommon.patient.middleName}} {{patientCommon.patient.familyName}}
+        <b>{{'PATIENT_INFO_NAMES' | translate}}: </b> {{patientCommon.patient.givenName}} {{patientCommon.patient.middleName}} {{patientCommon.patient.familyName}} <span ng-repeat="patientAttribute in patientCommon.filterPersonAttributesForDetails(patientCommon.patientAttributes, patientCommon.additionalPatientAttributes.name)"> ({{patientAttribute | valueofothers:patientCommon.patient}})</span>
     </li>
     <li class="list-group-item">
         <b>{{'PATIENT_INFO_GENDER' | translate}}: </b> {{patientCommon.patient.gender}}

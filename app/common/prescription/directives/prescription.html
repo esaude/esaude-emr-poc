@@ -105,7 +105,8 @@
                     <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
                   </div>
                   <select name="arvDrug" class="form-control" ng-model="vm.prescriptionItem.drugOrder.drug"
-                          ng-options="arvDrug.display for arvDrug in vm.arvDrugs track by arvDrug.uuid" required>
+                          ng-options="arvDrug.display for arvDrug in vm.arvDrugs track by arvDrug.uuid"
+                          ng-change="vm.verifyDrugAvailability(vm.prescriptionItem.drugOrder.drug)" required>
                     <option></option>
                   </select>
                 </div>

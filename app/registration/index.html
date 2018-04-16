@@ -71,11 +71,13 @@
       <script src="../poc-common/clinical-services/form-display/directives/formField.js"></script>
       <script src="../poc-common/clinical-services/form-display/directives/fieldRead.js"></script>
       <script src="../poc-common/clinical-services/form-display/directives/recordAvailabilityValidator.js"></script>
-      <script src="../poc-common/clinical-services/service-form/init.js"></script>
-      <script src="../poc-common/clinical-services/service-form/controllers/formController.js"></script>
-      <script src="../poc-common/clinical-services/service-form/controllers/formPrintController.js"></script>
+      <script src="../poc-common/clinical-services/service-form/serviceForm.module.js"></script>
+      <script src="../poc-common/clinical-services/service-form/components/formWizard.js"></script>
+      <script src="../poc-common/clinical-services/service-form/components/formWizardPart.js"></script>
+      <script src="../poc-common/clinical-services/service-form/components/formWizardConfirmPart.js"></script>
+      <script src="../poc-common/clinical-services/service-form/components/formDisplay.js"></script>
       <script src="../poc-common/clinical-services/clinicalServicesProvider.js"></script>
-      <script src="../poc-common/clinical-services/init.js"></script>
+      <script src="../poc-common/clinical-services/clinicalServices.module.js"></script>
       <script src="../poc-common/clinical-services/directives/clinicalServices.js"></script>
       <script src="../poc-common/clinical-services/clinicalServicesFormMapper.js"></script>
       <script src="../poc-common/clinical-services/config.js"></script>
@@ -98,7 +100,6 @@
       <script src="../common/patient/directives/patientHeader.js"></script>
       <script src="../common/patient/directives/patientSearch.js"></script>
       <script src="../common/patient/directives/scheduleList.js"></script>
-      <script src="../common/patient/controllers/visitController.js"></script>
       <script src="../common/patient/mappers/updatePatientMapper.js"></script>
 
       <script src="../move-patient/move-patient.module.js"></script>
@@ -124,7 +125,6 @@
 
       <script src="../common/domain/init.js"></script>
       <script src="../common/domain/services/configurationService.js"></script>
-      <script src="../common/domain/services/visitService.js"></script>
       <script src="../common/domain/services/encounterService.js"></script>
       <script src="../common/domain/services/observationsService.js"></script>
       <script src="../common/domain/services/programService.js"></script>
@@ -182,6 +182,11 @@
 
       <script src="../pharmacy/services/dispensationService.js"></script>
 
+      <script src="../visit/visit.module.js"></script>
+      <script src="../visit/visitService.js"></script>
+      <script src="../visit/components/visitHeader.js"></script>
+      <script src="../visit/components/checkIn.js"></script>
+
       <script src="init.js"></script>
       <script src="initialization.js"></script>
       <script src="app.js"></script>
@@ -192,7 +197,6 @@
       <script src="controllers/createPatientController.js"></script>
       <script src="controllers/updatePatientController.js"></script>
       <script src="controllers/patientCommonController.js"></script>
-      <script src="controllers/servicesListController.js"></script>
       <script src="controllers/visitHistoryController.js"></script>
       <script src="mappers/createPatientRequestMapper.js"></script>
     <!-- endbuild -->

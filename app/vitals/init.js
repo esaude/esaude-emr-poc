@@ -20,6 +20,7 @@ angular
       'poc.common.clinicalservices',
       'smart-table',
       'ui.checkbox',
-      'ui.router'
+      'ui.router',
+      'visit'
     ]
   );

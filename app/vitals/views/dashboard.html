@@ -1,13 +1,12 @@
 <patient-header patient="vm.patient" display-actions="true"></patient-header>
 
-<div ng-include src="'views/vitals.html'"></div>
+<visit-header patient="vm.patient"></visit-header>
 
 <div class="content-border-margin">
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title">{{'COMMON_CLINIC_SERVICES_TITLE'| translate}}</h3>
         </div>
-        <clinical-services patient-uuid="vm.patientUUID"></clinical-services>
+        <clinical-services></clinical-services>
     </div>
 </div>
-<!---->

@@ -51,7 +51,7 @@
         resolve: {
           initialization: 'initialization',
           clinicalServicesService: function (clinicalServicesService, $stateParams) {
-            return clinicalServicesService.init('vitals', $stateParams.patientUuid);
+            return clinicalServicesService.init('vitals', $stateParams.patientUuid, true);
           }
         },
         ncyBreadcrumb: {

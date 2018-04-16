@@ -24,7 +24,9 @@
       search: search,
       update: update,
       voidPatient: voidPatient,
-      updatePerson: updatePerson
+      updatePerson: updatePerson,
+      filterPersonAttributesForCurrStep: filterPersonAttributesForCurrStep,
+      filterPersonAttributesForDetails: filterPersonAttributesForDetails
     };
 
     ////////////////
@@ -219,6 +221,30 @@
           $log.error('XHR Failed for voidPatient. ' + error.data.error.message);
           return $q.reject(error);
         });
+    }
+
+    function filterPersonAttributesForCurrStep (attributes, stepConfigAttrs) {
+      var filteredAttrs = [];
+      _.forEach(attributes, function (attributeRow) {
+        filteredAttrs = _.concat(filteredAttrs, filterPersonAttributes(attributeRow, stepConfigAttrs));
+      })
+      return filteredAttrs;
+    }
+
+    function filterPersonAttributesForDetails (attributes, stepConfigAttrs) {
+      return filterPersonAttributes(attributes, stepConfigAttrs);
+    }
+
+    function filterPersonAttributes (attributes, stepConfigAttrs) {
+      var filteredAttrs = [];
+      _.forEach(attributes, function (attr) {
+        var foundAttr = _.find(stepConfigAttrs, function (configAttr) {
+          return configAttr.name === attr.name;
+        })
+
+        if (foundAttr) filteredAttrs.push(attr);
+      })
+      return filteredAttrs;
     }
   }
 

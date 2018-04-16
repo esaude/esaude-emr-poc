@@ -1,0 +1,28 @@
+<form name="aForm" class="form-horizontal">
+    <div class="panel panel-primary content-border-margin">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{vm.formWizard.currentFormPart.label | translate}}</h3>
+        </div>
+        <div class="panel-body">
+
+            <form-field ng-repeat="field in vm.formWizard.currentFormPart.fields"
+                        field="field"
+                        form-layout="vm.formWizard.formInfo"
+                        form-parts="vm.formWizard.formPayload"
+                        field-uuid="field.id"
+                        field-id="vm.formWizard.compactName(field.name)"
+                        patient="vm.formWizard.patient"
+                        previous-encounter="vm.formWizard.previousEncounter">
+            </form-field>
+
+        </div>
+    </div>
+
+    <div class="row bg-info-border content-border border-rouded go-to-right">
+        <button type="button" class="btn btn-success btn-lg"
+                ng-click="vm.formWizard.updateCurrentFormPart(vm.formWizard.currentFormPart.nextSref, aForm.$valid)">
+            <span class="glyphicon glyphicon glyphicon-step-forward"></span>
+            <span class="button-label">{{'NEXT_STEP' | translate}}</span>
+        </button>
+    </div>
+</form>

@@ -1,8 +1,6 @@
 <patient-header patient="vm.patient" display-actions="true"></patient-header>
 
-
-<!-- TODO: pharmacy should not depend on registration. Make visit a component on its own standalone module. -->
-<div ng-include src="'../registration/views/visit.html'"></div>
+<visit-header patient="vm.patient"></visit-header>
 
 <div class="bg-info-border content-border border-rouded">
     <ul class="nav nav-tabs">

@@ -64,8 +64,8 @@
       "name": "APP_LAB",
       "url": "/lab",
       "logo": "images/microscope.png",
-      "active": false,
-      "roles": []
+      "active": true,
+      "roles": ["POC: Clinician"]
     },
     {
       "id": "counseling",
