@@ -15,6 +15,11 @@ module.exports = {
 
   loginButton: {css: '.btn'},
 
+  isLoaded() {
+    I.waitForElement(this.fields.username, 5)
+    I.seeInCurrentUrl('/login')
+  },
+
   // Logs the user in
   login(username, password) {
     I.amOnPage('/index.html#/login')
@@ -27,7 +32,9 @@ module.exports = {
     return {
       // If login was successful we should be taken to the dashboard
       successful() {
-        I.waitForElement('#home-link', 5)
+        const dashboardPage = require('./dashboardPage')
+        dashboardPage.isLoaded()
+        return dashboardPage
       },
 
       // If the login was unsuccessful an error should pop up

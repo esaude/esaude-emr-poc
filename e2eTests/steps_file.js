@@ -6,6 +6,11 @@ module.exports = function() {
 
     // Log the user in
     login: function(userInfo) {
+      // Default to the admin user
+      if(!userInfo) {
+        userInfo = require('./data.js').users.admin
+      }
+
       // Create the login page object
       const loginPage = require('./pages/loginPage')
       loginPage._init()
