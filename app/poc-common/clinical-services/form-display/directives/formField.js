@@ -52,6 +52,7 @@
     $scope.isTrueFalseQuestion = isTrueFalseQuestion;
     $scope.getConceptInAnswers = getConceptInAnswers;
     $scope.getConcepts = getConcepts;
+    $scope.applyRangeClass = applyRangeClass;
 
     // Modifying minimum value constraint for height field to prevent reporting
     // less height than previous height, and old OpenMRS meters values
@@ -60,8 +61,9 @@
         if (previousEncounter) {
           previousEncounter.obs.forEach(function (obs) {
             if (obs.concept.uuid == HEIGHT_CONCEPT_UUID) {
-              if(obs.value > 2.5)
-              $scope.field.constraints.min = obs.value/100;
+              if (obs.value > 2.5) {
+                $scope.field.constraints.min = obs.value / 100;
+              }
             }
           });
         }
@@ -102,6 +104,7 @@
             dateController($scope.field.dateController);
           }
         }
+        applyRangeClass();
       });
     }
 
@@ -195,6 +198,24 @@
 
     function getConcepts(request) {
       return conceptService.searchBySource(request, $scope.field.searchBySource);
+    }
+
+    function applyRangeClass() {
+      if ($scope.fieldModel) {
+        var currentFieldValue = $scope.fieldModel.value;
+        $scope.fieldRangeClass = "";
+        if ($scope.field.constraints && currentFieldValue != null) {
+          var bellowLowerLimit = $scope.field.constraints.min && currentFieldValue < $scope.field.constraints.min;
+          var aboveHigherLimit = $scope.field.constraints.max && currentFieldValue > $scope.field.constraints.max;
+          var bellowNormalLimit = $scope.field.constraints.minNormal && currentFieldValue < $scope.field.constraints.minNormal;
+          var aboveNormalLimit = $scope.field.constraints.maxNormal && currentFieldValue > $scope.field.constraints.maxNormal;
+          if (bellowLowerLimit || aboveHigherLimit) {
+            $scope.fieldRangeClass = "field-out-of-range";
+          } else if (bellowNormalLimit || aboveNormalLimit) {
+            $scope.fieldRangeClass = "field-out-of-normal-range";
+          }
+        }
+      }
     }
   }
 

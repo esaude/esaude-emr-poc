@@ -402,3 +402,11 @@ p.capitalize {
   font-weight: bold;
 }
 /**/
+
+.field-out-of-range {
+  background-color: rgb(255, 77, 77);
+}
+
+.field-out-of-normal-range {
+  background-color: rgb(255, 163, 77);
+}
