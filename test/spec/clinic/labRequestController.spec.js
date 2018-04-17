@@ -207,4 +207,14 @@ describe('LabRequestController', function () {
     });
   });
 
+  describe('resetForm', function () {
+    it('should reset form', function () {
+      controller.resetForm();
+      expect(controller.date).toBeNull();
+      expect(controller.selectedProvider).toBeNull();
+      expect(controller.selectedTest).toBeNull();
+      expect(controller.selectedProfile).toBeNull();
+      expect(controller.selectedTests).toEqual([]);
+    });
+  });
 });
