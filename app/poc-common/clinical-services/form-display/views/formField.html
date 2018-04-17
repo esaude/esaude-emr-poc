@@ -49,8 +49,7 @@
                ng-model="fieldModel.value"
                ng-required="{{fieldModel.field.required}}"
                ng-min="{{(field.constraints) ? field.constraints.min : ''}}"
-               ng-max="{{(field.constraints) ? field.constraints.max : ''}}"
-               step="{{(field.constraints) ? field.constraints.step : ''}}">
+               ng-max="{{(field.constraints) ? field.constraints.max : ''}}">
       </div>
 
       <div ng-switch-when="Datetime" class="input-group date">
