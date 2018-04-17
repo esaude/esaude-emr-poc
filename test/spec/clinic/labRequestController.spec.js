@@ -2,7 +2,10 @@ describe('LabRequestController', function () {
 
   var controller, $controller, providerService, testProfileService, testService, $q, $rootScope, $http, notifier, testOrderService, sessionService;
   var PROVIDERS = [{ display: "Alberto" }, { display: "Zacarias" }, { display: "Cossa" }];
-  var TEST_PROFILES = [{ name: "Profile Um", tests: ["UUID1", "UUID2"] }, { name: "Profile Dois", tests: ["UUID2"] }];
+  var TEST_PROFILES = [
+    { name: "Profile Um", tests: ["UUID1", "UUID2"] },
+    { name: "Profile Dois", tests: ["UUID2"] },
+    { name: "Profile Tres", tests: ["UUID2", "UUID3"] }];
   var TESTS = [{ display: "Teste 1", testOrder: { uuid: "UUID1" } }, { display: "Teste 2", testOrder: { uuid: "UUID2" } }];
   var TEST_ORDERS = [];
   var TEST_ORDER_ITEMS = ["TEST1", "TEST2"];
@@ -60,6 +63,11 @@ describe('LabRequestController', function () {
       });
     });
     spyOn(testOrderService, 'create').and.callFake(function () {
+      return $q(function (resolve) {
+        return resolve({});
+      });
+    });
+    spyOn(testOrderService, 'deleteTestOrder').and.callFake(function () {
       return $q(function (resolve) {
         return resolve({});
       });
@@ -156,6 +164,15 @@ describe('LabRequestController', function () {
       expect(notifier.error).toHaveBeenCalled();
       expect(controller.selectedTests.length).toEqual(0);
     });
+
+    it('should add only tests from profile that are on database', function () {
+      expect(controller.selectedTests.length).toEqual(0);
+      controller.selectedProfile = TEST_PROFILES[2];
+      controller.addTestProfile();
+      expect(controller.selectedTests.length).toEqual(1);
+      expect(controller.selectedTests[0].display).toEqual("Teste 2");
+    });
+
   });
 
   describe('removeTest', function () {
@@ -215,6 +232,15 @@ describe('LabRequestController', function () {
       expect(controller.selectedTest).toBeNull();
       expect(controller.selectedProfile).toBeNull();
       expect(controller.selectedTests).toEqual([]);
+    });
+  });
+
+  describe('deleteTest', function () {
+    it('should remove test from list of tests', function () {
+      controller.testOrderInDetail = { encounter: { uuid: "UUID1" } };
+      controller.testsOfSelectedRequest = TESTS;
+      controller.deleteTest({ testOrder: { uuid: "UUID1" } });
+      expect(controller.testsOfSelectedRequest.length).toEqual(2);
     });
   });
 });
