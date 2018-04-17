@@ -17,7 +17,6 @@
     vm.loadPatientToDashboard = loadPatientToDashboard;
     vm.refresh = refresh;
 
-    ////////////////
 
     function refresh() {
       var query = vm.patient.givenName + ' ' + vm.patient.familyName;
@@ -26,8 +25,7 @@
       });
     }
 
-    function loadPatientToDashboard() {
-      $rootScope.patient = patient;
+    function loadPatientToDashboard(patient) {
       $location.url("/dashboard/" + patient.uuid);
     }
   }
