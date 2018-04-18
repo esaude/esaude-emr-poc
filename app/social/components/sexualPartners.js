@@ -13,10 +13,10 @@
     });
 
 
-  SexualPartnersController.$inject = ['$stateParams', 'notifier', 'sexualPartnersService', 'spinner', 'translateFilter', 'visitService'];
+  SexualPartnersController.$inject = ['$stateParams', 'notifier', 'sexualPartnersService',  'translateFilter', 'visitService'];
 
   /* @ngInject */
-  function SexualPartnersController($stateParams, notifier, sexualPartnersService, spinner, translateFilter, visitService) {
+  function SexualPartnersController($stateParams, notifier, sexualPartnersService,  translateFilter, visitService) {
 
     var vm = this;
 
@@ -41,15 +41,13 @@
         vm.checkedIn = visitToday !== null;
       });
 
-      var load = sexualPartnersService.getSexualPartners(vm.patient)
+      sexualPartnersService.getSexualPartners(vm.patient)
         .then(function (partners) {
           vm.partners = partners;
         })
         .catch(function () {
           notifier.error(translateFilter('COMMON_ERROR'));
         });
-
-      spinner.forPromise(load);
     }
 
     function addAnother() {
@@ -57,19 +55,17 @@
     }
 
     function removePartner(partner) {
-      var remove = sexualPartnersService.removeSexualPartner(partner)
+      sexualPartnersService.removeSexualPartner(partner)
         .then(function () {
           vm.partners.splice(vm.partners.indexOf(partner),1);
         })
         .catch(function () {
           notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
         });
-
-      spinner.forPromise(remove);
     }
 
     function savePartner(partner) {
-      var save = sexualPartnersService.saveSexualPartner(vm.patient, partner)
+      sexualPartnersService.saveSexualPartner(vm.patient, partner)
         .then(function (partner) {
           vm.partners.push(partner);
           vm.newPartner = {};
@@ -78,8 +74,6 @@
         .catch(function () {
           notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
         });
-
-      spinner.forPromise(save);
     }
   }
 

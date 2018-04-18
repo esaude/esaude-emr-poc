@@ -5,15 +5,15 @@
     .module('social')
     .factory('initialization', initialization);
 
-  initialization.$inject = ['$cookies', '$rootScope', 'configurations', 'authenticator', 'appService', 'spinner', 'userService'];
+  initialization.$inject = ['$cookies', '$rootScope', 'configurations', 'authenticator', 'appService',  'userService'];
 
   /* @ngInject */
-  function initialization($cookies, $rootScope, configurations, authenticator, appService, spinner, userService) {
+  function initialization($cookies, $rootScope, configurations, authenticator, appService,  userService) {
 
-    return spinner.forPromise(authenticator.authenticateUser()
+    return authenticator.authenticateUser()
       .then(initApp)
       .then(getConfigs)
-      .then(loadUser));
+      .then(loadUser);
 
     ////////////////
 

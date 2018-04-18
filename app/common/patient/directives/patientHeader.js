@@ -14,7 +14,7 @@
     });
 
   /* @ngInject */
-  function PatientHeaderController($state, $filter, conceptService, notifier, patientService, spinner) {
+  function PatientHeaderController($state, $filter, conceptService, notifier, patientService) {
     var vm = this;
 
     vm.linkPatientDetail = linkPatientDetail;
@@ -51,11 +51,9 @@
     }
 
     function activate() {
-      var load = getDeathConcepts().then(function () {
+      getDeathConcepts().then(function () {
         return vm.getDeathConcepts();
       });
-
-      spinner.forPromise(load);
     }
 
     function successCallback() {

@@ -5,17 +5,17 @@
     .module('clinic')
     .factory('initialization', initialization);
 
-  initialization.$inject = ['$cookies', '$rootScope', 'configurations', 'authenticator', 'appService', 'spinner', 'userService', 'sessionService'];
+  initialization.$inject = ['$cookies', '$rootScope', 'configurations', 'authenticator', 'appService',  'userService', 'sessionService'];
 
   /* @ngInject */
-  function initialization($cookies, $rootScope, configurations, authenticator, appService, spinner, userService, sessionService) {
+  function initialization($cookies, $rootScope, configurations, authenticator, appService,  userService, sessionService) {
 
-    return spinner.forPromise(authenticator.authenticateUser()
+    return authenticator.authenticateUser()
       .then(initApp)
       .then(getConfigs)
       .then(loadUser)
       .then(initDrugMapping)
-      .then(loadProvider));
+      .then(loadProvider);
 
     ////////////////
 

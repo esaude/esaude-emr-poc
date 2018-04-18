@@ -10,10 +10,10 @@
     });
 
   LabTestsController.$inject = ['$q', '$scope', '$stateParams', 'notifier', 'testOrderResultService', 'translateFilter',
-    'conceptService', 'orderService', 'spinner'];
+    'conceptService', 'orderService'];
 
   function LabTestsController($q, $scope, $stateParams, notifier, testOrderResultService, translateFilter, conceptService,
-                              orderService, spinner) {
+                              orderService) {
 
     var vm = this;
 
@@ -42,7 +42,7 @@
         return;
       }
 
-      var loadConcepts = loadOrderItemConcepts(testOrder)
+      loadOrderItemConcepts(testOrder)
         .then(function () {
           vm.selectedTestOrder = testOrder;
           vm.selectedTestOrder.selected = true;
@@ -52,8 +52,6 @@
             }
           });
         });
-
-      spinner.forPromise(loadConcepts);
     }
 
     function reloadTestOrderResult(testOrderResult) {

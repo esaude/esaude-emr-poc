@@ -3,9 +3,9 @@
 
   angular.module('pharmacy').controller('DispensationHistoryController', DispensationHistoryController);
 
-  DispensationHistoryController.$inject = ["$filter", "$stateParams", "encounterService", "dispensationService", "commonService", "notifier", "spinner"];
+  DispensationHistoryController.$inject = ["$filter", "$stateParams", "encounterService", "dispensationService", "commonService", "notifier"];
 
-  function DispensationHistoryController($filter, $stateParams, encounterService, dispensationService, commonService,  notifier, spinner) {
+  function DispensationHistoryController($filter, $stateParams, encounterService, dispensationService, commonService,  notifier) {
 
     var patientUuid = null;
     var pharmacyEncounterTypeUuid = null;
@@ -39,7 +39,7 @@
       pharmacyEncounterTypeUuid = "18fd49b7-6c2b-4604-88db-b3eb5b3a6d5f";
 
       initPickUpHistory();
-     //spinner.forPromise(initPickUpHistory());
+     //initPickUpHistory();
     }
 
     function prepareObservations (encounters) {

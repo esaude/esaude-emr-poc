@@ -6,10 +6,10 @@
     .controller('PatientChartController', PatientChartController);
 
   PatientChartController.$inject = ['$filter', '$stateParams', 'encounterService', 'observationsService',
-    'patientService', 'spinner'];
+    'patientService'];
 
   /* @ngInject */
-  function PatientChartController($filter, $stateParams, encounterService, observationsService, patientService, spinner) {
+  function PatientChartController($filter, $stateParams, encounterService, observationsService, patientService) {
 
     var chartColors = ['#F44336', '#283593', '#43A047', '#FB8C00', '#46BFBD', '#FDB45C'];
     var chartOptions = {
@@ -87,14 +87,12 @@
     ////////////////
 
     function activate() {
-      var load = getPatient(patientUuid)
+      getPatient(patientUuid)
         .then(function (patient) {
           currentPatient = patient;
         })
         .then(initLabChart)
         .then(initCD4LabChart);
-
-      spinner.forPromise(load);
     }
 
     //TODO: Show calcaculated IMC on graph line

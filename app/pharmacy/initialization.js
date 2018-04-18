@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('pharmacy').factory('initialization',
-    ['$cookies', '$rootScope', 'configurations', 'authenticator', 'appService', 'spinner', 'userService', 'sessionService',
-    function ($cookies, $rootScope, configurations, authenticator, appService, spinner, userService, sessionService) {
+    ['$cookies', '$rootScope', 'configurations', 'authenticator', 'appService',  'userService', 'sessionService',
+    function ($cookies, $rootScope, configurations, authenticator, appService,  userService, sessionService) {
         var getConfigs = function () {
             var configNames = ['patientAttributesConfig', 'addressLevels'];
             return configurations.load(configNames).then(function () {
@@ -38,11 +38,11 @@ angular.module('pharmacy').factory('initialization',
           });
         };
 
-        return spinner.forPromise(authenticator.authenticateUser()
+        return authenticator.authenticateUser()
                 .then(initApp)
                 .then(getConfigs)
                 .then(loadUser)
                 .then(initDrugMapping)
-                .then(loadProvider));
+                .then(loadProvider);
     }]
 );
