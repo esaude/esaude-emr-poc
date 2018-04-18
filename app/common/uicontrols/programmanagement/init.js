@@ -4,4 +4,7 @@ Bahmni.Common = Bahmni.Common || {};
 Bahmni.Common.UIControls = Bahmni.Common.UIControls || {};
 Bahmni.Common.UIControls.ProgramManagement = Bahmni.Common.UIControls.ProgramManagement || {};
 
-angular.module('bahmni.common.uicontrols.programmanagment', []);
+angular.module('bahmni.common.uicontrols.programmanagment', [
+  'bahmni.common.domain',
+  'bahmni.common.uiHelper'
+]);
