@@ -284,9 +284,8 @@
               "defaultValueIsLastEntry": "e1e2e934-1d5f-11e0-b929-000c29ad1d07"
             },
             "constraints": {
-              "min": "0.30",
-              "max": "2.50",
-              "step": "0.01"
+              "min": "30",
+              "max": "250"
             }
           },
           {
