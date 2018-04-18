@@ -9,7 +9,7 @@
 
   function testProfileService($http, $log) {
 
-    var TEST_PROFILE_FILE = "../common/test/resources/testProfile.json";
+    var TEST_PROFILE_FILE = "/poc_config/openmrs/apps/common/testProfile.json";
 
     var service = {
       getTestProfiles: getTestProfiles
