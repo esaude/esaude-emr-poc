@@ -93,6 +93,13 @@ Access the server by navigating to http://localhost:9000/home in your browser.
 
 Running `grunt test` will run the unit tests with karma.
 
+## End-To-End Tests
+
+0. `npm install`
+1. `npm run wd:start` - starts Selinium
+2. `npm run e2e` - runs tests and generates a report
+3. open `/e2eTests/reports/pocE2E.html` to view a report
+
 ## Setup (Staging & Production)
 
 To deploy eSaude EMR POC to a staging or production, it is necessary deploy the distributable package to a web server such as Apache or Nginx.
