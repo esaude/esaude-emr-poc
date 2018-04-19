@@ -43,6 +43,7 @@
     $scope.hasStates = hasStates;
     $scope.hasProgramWorkflowStates = hasProgramWorkflowStates;
     $scope.resetProgramFields = resetProgramFields;
+    $scope.patientUuid = $stateParams.patientUuid;
 
     activate();
 
@@ -95,8 +96,10 @@
 
       var stateUuid = $scope.workflowStateSelected && $scope.workflowStateSelected.uuid ? $scope.workflowStateSelected.uuid : null;
 
-        programService.enrollPatientToAProgram($scope.patient.uuid, $scope.programSelected.uuid, $scope.programEnrollmentDate, stateUuid)
+
+        programService.enrollPatientToAProgram($scope.patientUuid, $scope.programSelected.uuid, $scope.programEnrollmentDate, stateUuid)
           .then(successCallback, failureCallback);
+      
       $scope.errorMessage = null;
     }
 
