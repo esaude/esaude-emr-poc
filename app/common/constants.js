@@ -63,6 +63,7 @@ Bahmni.Common = Bahmni.Common || {};
         emrapiConceptUrl :EMRAPI + "/concept",
         emrEncounterUrl: EMRAPI + "/encounter",
         encounterUrl: RESTWS_V1 + "/encounter",
+        encounterWrapUrl: RESTWS_V1 + "/encounterwrap",
         locationUrl: RESTWS_V1 + "/location",
         orderUrl: RESTWS_V1 + "/order",
         drugUrl: RESTWS_V1 + "/drug",
