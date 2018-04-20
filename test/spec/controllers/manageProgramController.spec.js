@@ -55,4 +55,51 @@ describe("ManageProgramController", function () {
 
   });
 
+  describe('resetProgramFields', function () {
+
+    it('should reset selected state', function () {
+
+      var scope = {programEdited: {programEdited: ''}};
+      var ctrl = $controller('ManageProgramController', {$scope: scope});
+
+      scope.resetProgramFields();
+
+      expect(scope.programEdited.selectedState).toEqual(null);
+
+    });
+    it('should reset start date', function () {
+
+      var scope = {programEdited: {startDate: new Date()}};
+      var ctrl = $controller('ManageProgramController', {$scope: scope});
+
+      scope.resetProgramFields();
+
+      expect(scope.programEdited.startDate).toEqual(null);
+
+    });
+
+    it('should reset program selected', function () {
+
+      var scope = {programSelected: {x: 'y'}};
+      var ctrl = $controller('ManageProgramController', {$scope: scope});
+
+      scope.resetProgramFields();
+
+      expect(scope.programSelected).toEqual({});
+
+    });
+
+    it('should reset selected workflow state', function () {
+
+      var scope = {workflowStateSelected: {x: 'y'}};
+      var ctrl = $controller('ManageProgramController', {$scope: scope});
+
+      scope.resetProgramFields();
+
+      expect(scope.workflowStateSelected).toEqual({});
+
+    });
+
+  });
+
 });
