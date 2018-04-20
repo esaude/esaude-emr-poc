@@ -18,6 +18,7 @@
 
     vm.linkSearch = linkSearch;
     vm.loadPatient = loadPatient;
+    vm.reload = reload;
 
     activate();
 
@@ -39,6 +40,10 @@
         .catch(function () {
           notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
         });
+    }
+
+    function reload() {
+      $state.reload();
     }
 
 

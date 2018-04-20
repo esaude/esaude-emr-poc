@@ -2,7 +2,7 @@ describe('DashboardController', function () {
 
   var $controller, $state, $stateParams, patientService, visitService, $rootScope;
 
-  beforeEach(module('vitals', function ($provide, $translateProvider, $urlRouterProvider) {
+  beforeEach(module('pharmacy', function ($provide, $translateProvider, $urlRouterProvider) {
     // Mock translate asynchronous loader
     $provide.factory('mergeLocaleFilesService', function ($q) {
       return function () {
@@ -24,38 +24,6 @@ describe('DashboardController', function () {
     $state = _$state_;
   }));
 
-  describe('activate', function () {
-
-    var ctrl;
-
-    beforeEach(function () {
-      spyOn(patientService, 'getPatient').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve({});
-        });
-      });
-
-      spyOn(visitService, 'getTodaysVisit').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve({});
-        });
-      });
-
-      ctrl = $controller('DashboardController');
-
-    });
-
-    it('should load the patient', function () {
-      $rootScope.$apply();
-      expect(patientService.getPatient).toHaveBeenCalled();
-    });
-
-    it('should load todays visit', function () {
-      $rootScope.$apply();
-      expect(visitService.getTodaysVisit).toHaveBeenCalled();
-    });
-
-  });
 
   describe('reload', function () {
 
