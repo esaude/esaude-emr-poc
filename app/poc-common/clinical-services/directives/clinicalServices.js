@@ -10,10 +10,10 @@
     });
 
   ClinicalServiceDirectiveController.$inject = ['$filter', '$q', '$state', 'clinicalServicesService', 'notifier',
-    'patientService', 'spinner', 'visitService'];
+    'patientService',  'visitService'];
 
   function ClinicalServiceDirectiveController($filter, $q, $state, clinicalServicesService, notifier, patientService,
-                                              spinner, visitService) {
+                                               visitService) {
 
     var services = null;
 
@@ -40,14 +40,12 @@
     function onInit() {
       currentPatient = clinicalServicesService.getCurrentPatient();
 
-      var load =
+
         visitService.getTodaysVisit(currentPatient.uuid)
           .then(function (todaysVisit) {
             patientCheckedIn = todaysVisit !== null;
             return initServices(currentPatient);
           });
-
-      spinner.forPromise(load);
     }
 
 

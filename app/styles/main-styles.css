@@ -178,7 +178,7 @@ input[type=radio]:checked + label::before {
   height: 100%;
   top: 0;
   left: 0;
-  background: rgba(0,0,0,0.6) url('../images/spinner.gif') no-repeat center center;
+  background: rgba(0,0,0,0.4) url('../images/spinner.svg') no-repeat center center;
 }
 
 #overlay div {

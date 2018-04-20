@@ -5,12 +5,12 @@
     .module('home')
     .factory('initialization', initialization);
 
-  initialization.$inject = ['spinner', 'appService'];
+  initialization.$inject = ['appService'];
 
   /* @ngInject */
-  function initialization(spinner, appService) {
+  function initialization(appService) {
 
-    return spinner.forPromise(initApp());
+    return initApp();
 
     ////////////////
 

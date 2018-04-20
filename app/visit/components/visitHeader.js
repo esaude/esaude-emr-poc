@@ -12,10 +12,10 @@
       templateUrl: '../visit/components/visitHeader.html'
     });
 
-  VisitController.$inject = ['$rootScope', '$filter', 'visitService', 'notifier', 'spinner'];
+  VisitController.$inject = ['$rootScope', '$filter', 'visitService', 'notifier'];
 
   /* @ngInject */
-  function VisitController($rootScope, $filter, visitService, notifier, spinner) {
+  function VisitController($rootScope, $filter, visitService, notifier) {
 
 
     var dateFilter = $filter('date');
@@ -51,7 +51,7 @@
     }
 
     function loadVisitHeader(patient) {
-      var promise = visitService.getVisitHeader(patient)
+      visitService.getVisitHeader(patient)
         .then(function (visitHeader) {
           vm.loadFailed = false;
           _.assign(vm, visitHeader);
@@ -63,8 +63,6 @@
           vm.loadFailed = true;
           notifier.error($filter('translate')('COMMON_VISIT_HEADER_ERROR'));
         });
-
-      spinner.forPromise(promise);
     }
 
     function updateLastVisitMessage() {

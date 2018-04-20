@@ -13,10 +13,10 @@
       templateUrl: '../visit/components/checkIn.html'
     });
 
-  CheckInController.$inject = ['sessionService', 'translateFilter', 'visitService', 'notifier', 'spinner'];
+  CheckInController.$inject = ['sessionService', 'translateFilter', 'visitService', 'notifier'];
 
   /* @ngInject */
-  function CheckInController(sessionService, translateFilter, visitService, notifier, spinner) {
+  function CheckInController(sessionService, translateFilter, visitService, notifier) {
 
     var vm = this;
 
@@ -25,10 +25,8 @@
 
     function $onChanges(changesObj) {
       if (changesObj.patient && changesObj.patient.currentValue.uuid) {
-        var promise = visitService.getPatientLastVisit(changesObj.patient.currentValue)
+        visitService.getPatientLastVisit(changesObj.patient.currentValue)
           .then(processLastVisit);
-
-        spinner.forPromise(promise);
       }
     }
 
@@ -45,7 +43,7 @@
     }
 
     function checkIn() {
-      var promise = visitService.checkInPatient(vm.patient)
+      visitService.checkInPatient(vm.patient)
         .then(function (visit) {
           vm.todayVisit = visit;
           vm.disableCheckin = true;
@@ -54,8 +52,6 @@
         .catch(function () {
           notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
         });
-
-      spinner.forPromise(promise);
     }
 
   }

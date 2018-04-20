@@ -5,11 +5,11 @@
     .controller('PatientSummaryController', PatientSummaryController);
 
   PatientSummaryController.$inject = ['$rootScope', '$stateParams', 'encounterService', 'observationsService',
-    'commonService', '$filter', 'spinner', 'prescriptionService', 'patientService'];
+    'commonService', '$filter',  'prescriptionService', 'patientService'];
 
   /* @ngInject */
   function PatientSummaryController($rootScope, $stateParams, encounterService, observationsService, commonService,
-                                    $filter, spinner, prescriptionService, patientService) {
+                                    $filter,  prescriptionService, patientService) {
     var patientUuid = $stateParams.patientUuid;
     var patient = {};
     var vm = this;
@@ -51,7 +51,7 @@
     }
 
     function updateDisplayLimit() {
-      spinner.forPromise(getPatient()
+      getPatient()
         .then(function (p) { patient = p; })
         .then(initVisitHistory)
         .then(initLabResults)
@@ -61,7 +61,7 @@
         .then(initPharmacyPickupsNew)
         .then(initPrescriptions)
         .then(initAllergies)
-        .then(initVitals));
+        .then(initVitals);
     }
 
     function initVisitHistory() {

@@ -6,10 +6,10 @@
     .controller('DispensationController', DispensationController);
 
   DispensationController.$inject = ['$filter', '$stateParams', 'dispensationService', 'localStorageService',
-    'notifier', 'prescriptionService', 'sessionService', 'spinner'];
+    'notifier', 'prescriptionService', 'sessionService'];
 
   function DispensationController($filter, $stateParams, dispensationService, localStorageService, notifier,
-                                  prescriptionService, sessionService, spinner) {
+                                  prescriptionService, sessionService) {
 
     var dateUtil = Bahmni.Common.Util.DateUtil;
 
@@ -33,12 +33,10 @@
     ////////////////
 
     function activate() {
-      var load = getCurrentUser().then(function (user) {
+      getCurrentUser().then(function (user) {
         currentUser = user;
         return initPrescriptions();
       });
-
-      spinner.forPromise(load);
     }
 
 

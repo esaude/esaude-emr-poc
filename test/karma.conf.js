@@ -66,6 +66,7 @@ module.exports = function (config) {
       'bower_components/ng-dialog/js/ngDialog.min.js',
       'bower_components/toastr/toastr.js',
       'bower_components/angular-breadcrumb/dist/angular-breadcrumb.js',
+      'bower_components/angular-loading-bar/build/loading-bar.js',
 
       // endbower
       // application files

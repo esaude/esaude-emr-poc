@@ -5,10 +5,10 @@
     .module('bahmni.common.uicontrols.programmanagment')
     .controller('ManageProgramController', ManageProgramController);
 
-  ManageProgramController.$inject = ['$scope', '$window', 'programService', 'spinner', '$stateParams', 'notifier', '$filter'];
+  ManageProgramController.$inject = ['$scope', '$window', 'programService',  '$stateParams', 'notifier', '$filter'];
 
   /* @ngInject */
-  function ManageProgramController($scope, $window, programService, spinner, $stateParams, notifier, $filter) {
+  function ManageProgramController($scope, $window, programService,  $stateParams, notifier, $filter) {
 
     var DateUtil = Bahmni.Common.Util.DateUtil;
 
@@ -50,9 +50,9 @@
     ////////////////
 
     function activate() {
-      spinner.forPromise(programService.getAllPrograms().then(function (programs) {
+      programService.getAllPrograms().then(function (programs) {
         $scope.allPrograms = programs;
-      }));
+      });
       updateActiveProgramsList();
     }
 
@@ -95,19 +95,20 @@
 
 
       var stateUuid = $scope.workflowStateSelected && $scope.workflowStateSelected.uuid ? $scope.workflowStateSelected.uuid : null;
-      spinner.forPromise(
+
+
         programService.enrollPatientToAProgram($scope.patientUuid, $scope.programSelected.uuid, $scope.programEnrollmentDate, stateUuid)
-          .then(successCallback, failureCallback)
-      );
+          .then(successCallback, failureCallback);
+      
       $scope.errorMessage = null;
     }
 
     function updateActiveProgramsList() {
-      spinner.forPromise(programService.getPatientPrograms($stateParams.patientUuid).then(function (programs) {
+      programService.getPatientPrograms($stateParams.patientUuid).then(function (programs) {
         $scope.patientAllPrograms = _.union(programs.activePrograms, programs.endedPrograms);
         $scope.activePrograms = programs.activePrograms;
         $scope.endedPrograms = programs.endedPrograms;
-      }));
+      });
     }
 
     function resetProgramFields() {
@@ -238,10 +239,9 @@
         showMessage("COMMON_PROGRAM_ENROLLMENT_ERROR_NO_STATE_START_DATE");
         return;
       }
-      spinner.forPromise(
+
         programService.savePatientProgram(patientProgram.uuid, $scope.programEdited.selectedState.uuid, startDate)
-          .then(successCallback, failureCallback)
-      );
+          .then(successCallback, failureCallback);
 
       getEditProgramStateModal().modal('toggle');
       $scope.errorMessage = null;
@@ -270,11 +270,11 @@
       }
 
       var outcomeConceptUuid = patientProgram.outcome ? patientProgram.outcome.uuid : null;
-      spinner.forPromise(programService.editPatientProgram(patientProgram.uuid, dateEnrolled,
+      programService.editPatientProgram(patientProgram.uuid, dateEnrolled,
         dateCompleted, outcomeConceptUuid)
         .then(function () {
           updateActiveProgramsList();
-        }));
+        });
 
       getEditProgramModal().modal('toggle');
       $scope.errorMessage = null;
@@ -315,10 +315,9 @@
     function removePatientState(patientProgram) {
       var currProgramState = _.find(getActiveProgramStates(patientProgram), {endDate: null});
       var currProgramStateUuid = objectDeepFind(currProgramState, 'uuid');
-      spinner.forPromise(
+
         programService.deletePatientState(patientProgram.uuid, currProgramStateUuid)
-          .then(successCallback, failureCallback)
-      );
+          .then(successCallback, failureCallback);
     }
 
     function getWorkflowStates(program) {

@@ -5,11 +5,11 @@
     .module('clinic')
     .controller('PatientCommonController', PatientCommonController);
 
-  PatientCommonController.$inject = ['$filter', '$scope', 'conceptService', 'notifier', 'patientService', 'spinner'];
+  PatientCommonController.$inject = ['$filter', '$scope', 'conceptService', 'notifier', 'patientService'];
 
 
   /* @ngInject */
-  function PatientCommonController($filter, $scope, conceptService, notifier, patientService, spinner) {
+  function PatientCommonController($filter, $scope, conceptService, notifier, patientService) {
 
 
 

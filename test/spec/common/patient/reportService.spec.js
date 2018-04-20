@@ -6,14 +6,16 @@ describe('reportService', function () {
 
   var reportService, $rootScope, $compile, $timeout, $http, $log, $q;
 
-  var linkFn;
+  var element, linkFn;
 
   beforeEach(module('common.patient'));
 
   // Provide $compile and $timeout mocks
   beforeEach(function () {
-    var element = {
-      html: function () { return "<div>Malocy Landon</div>" }
+    element = {
+      html: jasmine.createSpy('html').and.callFake(function () {
+        return "<div>Malocy Landon</div>";
+      })
     };
 
     linkFn = jasmine.createSpy().and.callFake(function () {
@@ -23,9 +25,6 @@ describe('reportService', function () {
     module(function ($provide) {
       $provide.value('$compile', jasmine.createSpy().and.callFake(function () {
         return linkFn;
-      }));
-      $provide.value('$timeout', jasmine.createSpy().and.callFake(function (fn) {
-        return fn();
       }));
     });
   });
@@ -71,10 +70,11 @@ describe('reportService', function () {
 
       reportService.printPatientARVPickupHistory(patient);
       $http.flush();
+      $timeout.flush();
 
       expect($compile).toHaveBeenCalled();
       expect(linkFn).toHaveBeenCalled();
-      expect($timeout).toHaveBeenCalled();
+      expect(element.html).toHaveBeenCalled();
     });
 
     it('should cancel report generation if load fails', function () {
@@ -101,12 +101,13 @@ describe('reportService', function () {
 
       reportService.printPatientARVPickupHistory(patient);
       $http.flush();
+      $timeout.flush();
 
       expect($log.error).toHaveBeenCalled();
       expect($q.reject).toHaveBeenCalled();
       expect($compile).not.toHaveBeenCalled();
       expect(linkFn).not.toHaveBeenCalled();
-      expect($timeout).not.toHaveBeenCalled();
+      expect(element.html).not.toHaveBeenCalled();
     });
   });
 

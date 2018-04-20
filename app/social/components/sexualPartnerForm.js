@@ -14,10 +14,10 @@
     });
 
 
-  SexualPartnerFormController.$inject = ['sexualPartnersService', 'spinner'];
+  SexualPartnerFormController.$inject = ['sexualPartnersService'];
 
   /* @ngInject */
-  function SexualPartnerFormController(sexualPartnersService, spinner) {
+  function SexualPartnerFormController(sexualPartnersService) {
 
     var vm = this;
 
@@ -27,12 +27,11 @@
     ////////////////
 
     function $onInit() {
-      var promise = sexualPartnersService.getFormData()
+      sexualPartnersService.getFormData()
         .then(function (formData) {
           vm.relationshipToPatient = formData.relationshipToPatient;
           vm.hivStatus = formData.hivStatus;
         });
-      spinner.forPromise(promise);
     }
 
     function submit(form) {

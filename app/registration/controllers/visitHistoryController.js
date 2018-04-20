@@ -5,10 +5,10 @@
     .module('registration')
     .controller('VisitHistoryController', VisitHistoryController);
 
-  VisitHistoryController.$inject = ['$stateParams', 'spinner', 'visitService'];
+  VisitHistoryController.$inject = ['$stateParams',  'visitService'];
 
   /* @ngInject */
-  function VisitHistoryController($stateParams, spinner, visitService) {
+  function VisitHistoryController($stateParams,  visitService) {
 
     var vm = this;
     vm.visitHistory = [];
@@ -18,7 +18,7 @@
     ////////////////
 
     function activate() {
-      spinner.forPromise(getVisitHistory());
+      getVisitHistory();
     }
 
     function getVisitHistory() {
