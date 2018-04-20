@@ -52,8 +52,8 @@
           $location.path(landingPagePath).search({});
         })
         .catch(function (error) {
-            vm.errorMessageTranslateKey = error;
-            return $q.reject(error);
+          vm.errorMessageTranslateKey = error;
+          return $q.reject(error);
         });
     }
 

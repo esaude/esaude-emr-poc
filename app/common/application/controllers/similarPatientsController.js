@@ -5,10 +5,10 @@
     .module('application')
     .controller('SimilarPatientsController', SimilarPatientsController);
 
-  SimilarPatientsController.$inject = ['$rootScope', '$scope', '$location', 'patientService', 'openmrsPatientMapper'];
+  SimilarPatientsController.$inject = ['$scope', '$state', 'patientService', 'openmrsPatientMapper'];
 
   /* @ngInject */
-  function SimilarPatientsController($rootScope, $scope, $location, patientService, openmrsPatientMapper) {
+  function SimilarPatientsController($scope, $state, patientService, openmrsPatientMapper) {
 
     var vm = this;
     vm.patient = $scope.patient;
@@ -17,18 +17,16 @@
     vm.loadPatientToDashboard = loadPatientToDashboard;
     vm.refresh = refresh;
 
-    ////////////////
 
     function refresh() {
-      var query = vm.patient.givenName + ' ' + vm.patient.familyName;
+      var query = vm.patient.givenName || '' + ' ' + vm.patient.familyName || '';
       patientService.search(query).then(function (patients) {
         vm.similarPatients = openmrsPatientMapper.mapPatient(patients);
       });
     }
 
-    function loadPatientToDashboard() {
-      $rootScope.patient = patient;
-      $location.url("/dashboard/" + patient.uuid);
+    function loadPatientToDashboard(patient) {
+      $state.go('dashboard', {patientUuid: patient.uuid});
     }
   }
 
