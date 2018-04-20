@@ -17,7 +17,7 @@
     vm.patient = {};
 
     vm.linkSearch = linkSearch;
-    vm.loadPatient = loadPatient;
+    vm.reload = reload;
 
     activate();
 
@@ -29,6 +29,10 @@
 
     function linkSearch() {
       $state.go('search');
+    }
+
+    function reload() {
+      $state.reload();
     }
 
     function loadPatient() {
