@@ -24,7 +24,6 @@ describe('DashboardController', function () {
     $state = _$state_;
   }));
 
-
   describe('reload', function () {
 
     it('should reload current state', function () {
@@ -32,6 +31,7 @@ describe('DashboardController', function () {
       spyOn($state, 'reload');
 
       var ctrl = $controller('DashboardController');
+
       ctrl.reload();
 
       expect($state.reload).toHaveBeenCalled();

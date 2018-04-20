@@ -16,6 +16,7 @@ describe('dashboardController', function () {
       spyOn($state, 'reload');
 
       var ctrl = $componentController('dashboard');
+      
       ctrl.reload();
 
       expect($state.reload).toHaveBeenCalled();

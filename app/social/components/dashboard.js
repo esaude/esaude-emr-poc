@@ -22,7 +22,6 @@
     function reload() {
       $state.reload();
     }
-
   }
 
 })();

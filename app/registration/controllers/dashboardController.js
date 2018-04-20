@@ -32,6 +32,10 @@
       $state.go('search');
     }
 
+    function reload() {
+      $state.reload();
+    }
+
     function loadPatient() {
       return getPatient(patientUUID)
         .then(function (patient) {
