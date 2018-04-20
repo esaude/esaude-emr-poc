@@ -78,17 +78,17 @@
     "PATIENT_INFO_NEW": "Registrar paciente",
     "PATIENT_INFO_EDIT": "Alterar paciente",
     "LOGIN_LABEL_LOGGEDIN_KEY": "Entrou como",
-    "PATIENT_DAILY_HOSPITAL_PROCESS" : "PROCESSO HOSPITAL DE DIA",
+    "PATIENT_DAILY_HOSPITAL_PROCESS": "PROCESSO HOSPITAL DE DIA",
     "SIMILAR_PATIENTS": "Pacientes similares",
     "PATIENT_INFO_OTHER_NAMES_PLACEHOLDER": "Outros nomes",
-    "PATIENT_INFO_OTHER_NAMES" : "Outros nomes",
+    "PATIENT_INFO_OTHER_NAMES": "Outros nomes",
     "Pais": "Pais",
     "Provincia": "Provincia",
     "Distrito": "Distrito",
     "Posto Administrativo": "Posto Administrativo",
     "Localidade": "Localidade",
-    "Bairro":"Bairro",
-    "Celula":"Celula",
+    "Bairro": "Bairro",
+    "Celula": "Celula",
     "Av./Rua/Casa": "Av./Rua/Casa",
     "NEW_PATIENT": "Novo Paciente",
     "DELETE_PATIENT": "Apagar Paciente",
@@ -96,6 +96,6 @@
     "PATIENT_DELETED": "Paciente removido com sucesso",
     "VITALS_LAST_VISIT": "Última Visita",
     "VITALS_LAST_HEIGHT": "Última altura",
-    "VITALS_LAST_BMI": "Último IMC"
-
+    "VITALS_LAST_BMI": "Último IMC",
+    "EDIT": "Editar"
 }
