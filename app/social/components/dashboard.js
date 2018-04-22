@@ -5,10 +5,10 @@
     .module('social')
     .component('dashboard', {
       controller: DashboardController,
+      controllerAs: 'vm',
       bindings: {
         patient: '<'
       },
-      controllerAs: 'vm',
       templateUrl: '../social/components/dashboard.html'
     });
 

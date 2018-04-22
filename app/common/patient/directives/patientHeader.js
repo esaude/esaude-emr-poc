@@ -8,32 +8,20 @@
       controllerAs: 'vm',
       bindings: {
         patient: '<',
-        displayActions: '<'
+        displayActions: '<',
+        onPatientDeceased: '&'
       },
       templateUrl: '../common/patient/directives/patientHeader.html'
     });
 
   /* @ngInject */
-  function PatientHeaderController($state, $filter, conceptService, notifier, patientService) {
+  function PatientHeaderController($state, $filter, $uibModal, conceptService, notifier, patientService) {
     var vm = this;
 
     vm.linkPatientDetail = linkPatientDetail;
     vm.linkPatientEdit = linkPatientEdit;
     vm.linkSearch = linkSearch;
-
-    var now = new Date();
-
-    vm.deathDatepickerOptions = {maxDate: now};
-    vm.deathConcepts = [];
-
-    vm.deceasedPatient = deceasedPatient;
-    vm.deletePatient = deletePatient;
-    vm.disableIsDead = disableIsDead;
-    vm.getDeathConcepts = getDeathConcepts;
-
-    vm.selectIsDead = selectIsDead;
-
-    activate();
+    vm.openPatientDeleteModal = openPatientDeleteModal;
 
     function linkPatientDetail() {
       $state.go('detailpatient', {
@@ -50,59 +38,47 @@
       });
     }
 
-    function activate() {
-      getDeathConcepts().then(function () {
-        return vm.getDeathConcepts();
+    function openPatientDeleteModal() {
+      var modalInstance = $uibModal.open({
+        component: 'patientDeleteModal',
+        resolve: {
+          patient: function () {
+            return vm.patient;
+          }
+        }
       });
-    }
 
-    function successCallback() {
-      notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
-    }
-
-    function failureCallback() {
-      notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ACTION'));
-    }
-
-    function disableIsDead() {
-      return (vm.patient.causeOfDeath !== null || vm.patient.deathDate !== null) && vm.patient.dead;
-    }
-
-    function selectIsDead() {
-      if (vm.patient.causeOfDeath !== null || vm.patient.deathDate !== null) {
-        vm.patient.dead = true;
-      }
-    }
-
-    function getDeathConcepts() {
-      return conceptService.getDeathConcepts()
-        .then(function (deathConcepts) {
-          vm.deathConcepts = deathConcepts;
-        }).catch(function (error) {
-          notifier.error(($filter('translate')('COMMON_MESSAGE_ERROR_ACTION')));
+      modalInstance.result
+        .then(function (deleteData) {
+          if (deleteData.dead) {
+            return deceasedPatient(deleteData.deathDate, deleteData.causeOfDeath);
+          } else {
+            return deletePatient(deleteData.deleteReason);
+          }
+        })
+        .then(function () {
+          notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
         });
     }
 
-    function deceasedPatient() {
-      var patientState = {
-        dead: true,
-        causeOfDeath: vm.patient.causeOfDeath.uuid,
-        deathDate: vm.patient.deathDate
-      };
-      patientService.updatePerson(vm.patient.uuid, patientState)
-        .then(successCallback)
-        .catch(failureCallback);
-      $(function () {
-        $('#deletePatientModal').modal('toggle');
-      });
+    function deceasedPatient(date, causeOfDeath) {
+      return patientService.updatePerson(vm.patient.uuid, {dead: true, deathDate: date, causeOfDeath: causeOfDeath})
+        .then(function () {
+          vm.onPatientDeceased(vm.patient);
+        })
+        .catch(function (error) {
+          notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ACTION'));
+        });
     }
 
-    function deletePatient() {
-      patientService.voidPatient(vm.patient.uuid, vm.deleteReason)
-        .then(successCallback, failureCallback);
-      $(function () {
-        $('#deletePatientModal').modal('toggle');
-      });
+    function deletePatient(reason) {
+      return patientService.voidPatient(vm.patient.uuid, reason)
+        .then(function () {
+          linkSearch();
+        })
+        .catch(function (error) {
+          notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ACTION'));
+        });
     }
 
     function linkSearch() {
