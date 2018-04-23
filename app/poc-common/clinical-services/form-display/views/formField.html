@@ -85,7 +85,7 @@
                  class="form-control keyboard-in"
                  ng-required="{{fieldModel.field.required}}"
                  autocomplete="off"
-                 ng-blur="noResults = false">
+                 ng-blur="noResults = false; clearValueIfInvalid();">
           <div class="info">
             <small class="text-muted" ng-if="noResults">{{ 'NO_RESULTS' | translate }}</small>
             <img  width="20px" ng-if="loading" src="../../images/loader.gif">

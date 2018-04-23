@@ -52,6 +52,7 @@
     $scope.isTrueFalseQuestion = isTrueFalseQuestion;
     $scope.getConceptInAnswers = getConceptInAnswers;
     $scope.getConcepts = getConcepts;
+    $scope.clearValueIfInvalid = clearValueIfInvalid;
 
     // Modifying minimum value constraint for height field to prevent reporting
     // less height than previous height, and old OpenMRS meters values
@@ -60,8 +61,8 @@
         if (previousEncounter) {
           previousEncounter.obs.forEach(function (obs) {
             if (obs.concept.uuid == HEIGHT_CONCEPT_UUID) {
-              if(obs.value > 2.5)
-              $scope.field.constraints.min = obs.value/100;
+              if (obs.value > 2.5)
+                $scope.field.constraints.min = obs.value / 100;
             }
           });
         }
@@ -196,6 +197,13 @@
     function getConcepts(request) {
       return conceptService.searchBySource(request, $scope.field.searchBySource);
     }
+
+    function clearValueIfInvalid() {
+      if (!$scope.fieldModel.value.display) {
+        $scope.fieldModel.value = null;
+      }
+    }
+
   }
 
 })();
