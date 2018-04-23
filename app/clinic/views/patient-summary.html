@@ -133,7 +133,7 @@
                         <div ng-if="obs.groupMembers">
                             <div ng-repeat="member in obs.groupMembers">
                                 <div class="list-group-item">
-                                    {{obs.concept.name.display}} - {{member.concept.name.display}}:
+                                    {{obs.concept.name.display}} - {{member.concept.name.display | translate}}:
                                     <span class="badge">{{vm.isObject(member.value) ? member.value.display : vm.filterDate(member)}}</span>
                                 </div>
                             </div>
