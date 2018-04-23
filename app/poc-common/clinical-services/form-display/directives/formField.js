@@ -3,7 +3,8 @@
 
   angular
     .module('poc.common.clinicalservices.formdisplay')
-    .directive('formField', formField);
+    .directive('formField', formField)
+    .controller('FormFieldDirectiveController', FormFieldDirectiveController);
 
   formField.$inject = [];
 
