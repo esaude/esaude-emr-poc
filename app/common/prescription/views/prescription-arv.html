@@ -22,7 +22,6 @@
                 <div ng-show="vm.isTheraupeuticLineEdit">
                     <div class="col-sm-7">
                         <div ng-messages for="prescriptionForm.therapeuticLine.$error"
-                                >
                                 ng-show="vm.showMessages"></div>
                         <select name="therapeuticLine" class="form-control" ng-model="vm.prescriptionItem.therapeuticLine"
                                 ng-options="line.display for line in vm.fieldModels.therapeuticLine.model.answers"
