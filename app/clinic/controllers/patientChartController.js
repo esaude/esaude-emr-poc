@@ -116,7 +116,7 @@
 
       var encounterTypeUuid = (currentPatient.age.years >= 15) ? adultFollowupEncounterUuid : childFollowupEncounterUuid;
 
-      return encounterService.getEncountersForEncounterType(patientUuid, encounterTypeUuid).success(function (data) {
+      return encounterService.getEncountersForEncounterType(patientUuid, encounterTypeUuid, "default").success(function (data) {
         filterObs(data, concepts, series, chart);
       });
     }
@@ -133,7 +133,7 @@
       ];
       var chart = vm.charts.CD4labResults;
 
-      encounterService.getEncountersForEncounterType(patientUuid, labEncounterUuid).success(function (data) {
+      encounterService.getEncountersForEncounterType(patientUuid, labEncounterUuid, "default").success(function (data) {
         filterObs(data, concepts, series, chart);
       });
     }
@@ -150,7 +150,7 @@
       ];
       var chart = vm.charts.labResults;
 
-      return encounterService.getEncountersForEncounterType(patientUuid, labEncounterUuid).success(function (data) {
+      return encounterService.getEncountersForEncounterType(patientUuid, labEncounterUuid, "default").success(function (data) {
         filterObs(data, concepts, series, chart);
       });
     }
