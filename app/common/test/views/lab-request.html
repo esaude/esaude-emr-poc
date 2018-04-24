@@ -1,4 +1,9 @@
 <div class="row content-border-margin-regular">
+
+    <div class="alert alert-info" ng-if="!vm.patientCheckedIn">
+        {{'PLEASE_CHECK_IN_PATIENT'|translate}}
+    </div>
+
     <div class="col-sm-6">
         <div>
             <form name="laborderForm" class="form-horizontal" autocomplete="off">
