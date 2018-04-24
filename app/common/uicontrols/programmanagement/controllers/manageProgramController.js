@@ -116,6 +116,7 @@
       $scope.programEdited.startDate = null;
       $scope.programSelected = {};
       $scope.workflowStateSelected = {};
+      $scope.programEnrollmentDate = null;
     }
 
     function successCallback() {
