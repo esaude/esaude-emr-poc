@@ -19,6 +19,8 @@
     $scope.patient = {};
 
     $scope.getAlerts = getAlerts;
+    $scope.reload = reload;
+
     activate();
 
     ////////////////
@@ -44,6 +46,10 @@
       alertService.get($scope.patientUUID).success(function (data) {
         $scope.flags = data.flags;
       });
+    }
+
+    function reload() {
+      $state.reload();
     }
 
     function checkLabOrderPrivilege() {

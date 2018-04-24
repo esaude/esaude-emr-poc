@@ -63,6 +63,7 @@ Bahmni.Common = Bahmni.Common || {};
         emrapiConceptUrl :EMRAPI + "/concept",
         emrEncounterUrl: EMRAPI + "/encounter",
         encounterUrl: RESTWS_V1 + "/encounter",
+        encounterWrapUrl: RESTWS_V1 + "/encounterwrap",
         locationUrl: RESTWS_V1 + "/location",
         orderUrl: RESTWS_V1 + "/order",
         drugUrl: RESTWS_V1 + "/drug",
@@ -203,7 +204,12 @@ Bahmni.Common = Bahmni.Common || {};
         arvRegimensConvSet: "7d5728ac-730f-495e-8368-73fc3d7e3c45",
         regimenGroups: regimenGroups,
         systemSetting: '/openmrs/ws/rest/v1/systemsetting',
-        labEncounterUuid : 'e2790f68-1d5f-11e0-b929-000c29ad1d07'
+        labEncounterUuid : 'e2790f68-1d5f-11e0-b929-000c29ad1d07',
+        sexualPartnerInformationConceptUuid: '4cd975c4-56b8-478b-a528-d8ffb9ecd200',
+        partnersNameConceptUuid: 'bc39b981-bde2-4486-b1b8-8cef5a3233e3',
+        relationshipToPatientConceptUuid: 'e13e172c-9f49-4bd0-a976-b0c167f47918',
+        hivStatusConceptUuid: 'e1db0cf0-1d5f-11e0-b929-000c29ad1d07',
+        sexualPartnerEncounterTypeUuid: 'fc72477b-90a5-4222-a43d-efe10f0ad342'
 
     };
 })();

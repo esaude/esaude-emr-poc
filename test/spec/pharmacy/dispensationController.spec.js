@@ -3,7 +3,7 @@
 describe('DispensationController', function () {
 
   var $controller, $q, $rootScope, controller, dispensationService, localStorageService, notifier, prescriptionService,
-    sessionService, spinner;
+    sessionService;
 
   var rootScope = {'patient': {'uuid': '0810aecc-6642-4c1c-ac1e-537a0cfed81'}};
 
@@ -53,12 +53,11 @@ describe('DispensationController', function () {
   }));
 
   beforeEach(inject(function (_$controller_, _$q_,  _$rootScope_, _dispensationService_, _localStorageService_, _notifier_,
-                              _prescriptionService_, _sessionService_, _spinner_) {
+                              _prescriptionService_, _sessionService_) {
     $controller = _$controller_;
     $q = _$q_;
     $rootScope = _$rootScope_;
     sessionService = _sessionService_;
-    spinner = _spinner_;
     dispensationService = _dispensationService_;
     prescriptionService = _prescriptionService_;
     notifier = _notifier_;
@@ -83,8 +82,7 @@ describe('DispensationController', function () {
       controller = $controller('DispensationController', {
         $filter: {},
         prescriptionService: prescriptionService,
-        sessionService: sessionService,
-        spinner: spinner
+        sessionService: sessionService
       });
     });
 

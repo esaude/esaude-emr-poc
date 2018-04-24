@@ -27,12 +27,12 @@
   }
 
   PrescriptionController.$inject = ['$http', '$filter', '$stateParams',
-    'observationsService', 'commonService', 'conceptService', 'localStorageService', 'notifier', 'spinner',
+    'observationsService', 'commonService', 'conceptService', 'localStorageService', 'notifier',
     'drugService', 'prescriptionService', 'providerService', 'sessionService', 'patientService'];
 
   /* @ngInject */
   function PrescriptionController($http, $filter, $stateParams, observationsService,
-                                  commonService, conceptService, localStorageService, notifier, spinner,
+                                  commonService, conceptService, localStorageService, notifier,
                                   drugService, prescriptionService, providerService, sessionService,
                                   patientService) {
 
@@ -114,7 +114,7 @@
         });
       }
 
-      var load = conceptService.getPrescriptionConvSetConcept()
+      conceptService.getPrescriptionConvSetConcept()
         .then(setFieldModels)
         .then(function (z) {
           return patientService.getPatient($stateParams.patientUuid)
@@ -131,8 +131,6 @@
         .catch(function () {
           notifier.error($filter('translate')('COMMON_ERROR'));
         });
-
-      spinner.forPromise(load);
 
       getProviders().then(function (providers) {
         vm.providers = providers;
@@ -432,7 +430,7 @@
             resetSelectedProvider();
             isPrescriptionControl();
             getProviderAndPrescriptionDateModal().modal('hide');
-            spinner.forPromise(loadSavedPrescriptions(patient));
+            loadSavedPrescriptions(patient);
           })
           .catch(function (error) {
             notifier.error(error.data.error.message.replace('[','').replace(']',''));
@@ -533,7 +531,7 @@
           vm.listedPrescriptions = [];
           closeCancellationModal(form);
           isPrescriptionControl();
-          spinner.forPromise(loadSavedPrescriptions(patient));
+          loadSavedPrescriptions(patient);
         })
         .catch(function () {
           notifier.error($filter('translate')('COMMON_MESSAGE_COULD_NOT_CANCEL_PRESCRIPTION_ITEM'));

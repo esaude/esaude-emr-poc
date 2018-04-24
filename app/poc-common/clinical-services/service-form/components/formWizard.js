@@ -15,12 +15,12 @@
 
   FormWizardController.$inject = ['$filter', '$q', '$rootScope', '$scope', '$state', '$stateParams', '$transitions',
     'clinicalServicesService', 'createEncounterMapper', 'encounterService', 'localStorageService', 'notifier',
-    'patientAttributeService', 'patientService', 'sessionService', 'spinner', 'updateEncounterMapper', 'visitService'];
+    'patientAttributeService', 'patientService', 'sessionService',  'updateEncounterMapper', 'visitService'];
 
   /* @ngInject */
   function FormWizardController($filter, $q, $rootScope, $scope, $state, $stateParams, $transitions,
                                 clinicalServicesService, createEncounterMapper, encounterService, localStorageService,
-                                notifier, patientAttributeService, patientService, sessionService, spinner,
+                                notifier, patientAttributeService, patientService, sessionService,
                                 updateEncounterMapper, visitService) {
 
     var dateUtil = Bahmni.Common.Util.DateUtil;
@@ -76,7 +76,7 @@
       var deferred = $q.defer();
       vm.previousEncounter = deferred.promise;
 
-      var load = $q.all([getPatient, getFormData, getTodaysVisit]).then(function (results) {
+      $q.all([getPatient, getFormData, getTodaysVisit]).then(function (results) {
         var patient = results[0];
         var formData = results[1];
         var visitToday = results[2];
@@ -95,8 +95,6 @@
           vm.hasVisitToday = false;
         }
       });
-
-      spinner.forPromise(load);
     }
 
     function setCurrentFormPart() {

@@ -18,13 +18,6 @@ body {
   font-size: 18px;
 }
 
-
-.patientdeceased {
-  border: 1px solid #b73339;
-  background-color: #fa9898;
-  font-weight: bold;
-}
-
 .panel-marginless-sides {
     margin-left: -10px;
     margin-right: -10px;
@@ -178,7 +171,7 @@ input[type=radio]:checked + label::before {
   height: 100%;
   top: 0;
   left: 0;
-  background: rgba(0,0,0,0.6) url('../images/spinner.gif') no-repeat center center;
+  background: rgba(0,0,0,0.4) url('../images/spinner.svg') no-repeat center center;
 }
 
 #overlay div {
@@ -387,5 +380,30 @@ p.capitalize {
 .visit-header .reload {
   position: absolute;
   right: 10px;
+}
+
+/* Marital Partners */
+.marital-partners {
+  padding: 10px;
+}
+
+/*.marital-partners > .row {*/
+  /*margin-bottom: 10px;*/
+/*}*/
+
+.marital-partners > div > .row:first-child {
+  font-weight: bold;
+}
+/**/
+
+/* Patient Header */
+.patientdeceased {
+  border: 1px solid #b73339;
+  background-color: #fa9898;
+}
+
+.patientdeceased .name-age,
+.patientdeceased .identifiers {
+  opacity: .5;
 }
 /**/

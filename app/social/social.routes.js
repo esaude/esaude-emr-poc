@@ -21,56 +21,50 @@
     $stateProvider
       .state('search', {
         url: '/search',
-        views: {
-          'layout': {
-            templateUrl: '../common/application/views/layout.html'
-          },
-          'content@search': {
-            templateUrl: 'views/search.html'
-          }
-        },
-        resolve: {
-          initialization: 'initialization'
-        },
+        component: 'patientSearch',
+        bindings: {showSchedule: false},
         ncyBreadcrumb: {
           label: '{{\'APP_SOCIAL\' | translate}} /  {{\'SEARCH_PATIENT\' | translate}}'
         }
       })
       .state('dashboard', {
         url: '/dashboard/:patientUuid',
-        views: {
-          'layout': {
-            templateUrl: '../common/application/views/layout.html',
-            controller: 'DashboardController',
-            controllerAs: 'vm'
-          },
-          'content@dashboard': {
-            templateUrl: 'views/dashboard.html'
-          }
-        },
-        resolve: {
-          initialization: 'initialization',
-          clinicalServicesService: function (clinicalServicesService, $stateParams) {
-            return clinicalServicesService.init('social', $stateParams.patientUuid, true);
-          }
-        },
+        component: 'dashboard',
         ncyBreadcrumb: {
           label: '{{ \'COMMON_DASHBOARD\' | translate}}',
           parent: 'search'
+        },
+        resolve: {
+          initialization: 'initialization',
+          patient: function ($stateParams, patientService) {
+            return patientService.getPatient($stateParams.patientUuid);
+          }
+        }
+      })
+      .state('dashboard.services', {
+        url: '/services',
+        component: 'clinicalServices',
+        ncyBreadcrumb: {
+          label: '{{\'COMMON_CLINIC_SERVICES_TITLE\' | translate}}',
+          parent: 'dashboard'
+        },
+        resolve: {
+          clinicalServicesService: function (clinicalServicesService, $stateParams) {
+            return clinicalServicesService.init('social', $stateParams.patientUuid);
+          }
+        }
+      })
+      .state('dashboard.partners', {
+        url: '/partners',
+        component: 'sexualPartners',
+        ncyBreadcrumb: {
+          label: '{{ \'SEXUAL_PARTNERS\' | translate}}',
+          parent: 'dashboard'
         }
       })
       .state('detailpatient', {
         url: '/patient/detail/:patientUuid',
-        views: {
-          'layout': {
-            templateUrl: '../common/application/views/layout.html',
-            controller: 'DetailPatientController',
-            controllerAs: 'patientCommon'
-          },
-          'content@detailpatient': {
-            templateUrl: '../patient-details/views/patient-details.html'
-          }
-        },
+        component: 'patientDetails',
         params: {
           returnState: null
         },

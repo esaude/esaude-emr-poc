@@ -25,11 +25,11 @@
   }
 
   PatientSearchController.$inject = ['$location', '$rootScope', '$state', 'commonService', 'observationsService',
-    'openmrsPatientMapper', 'patientService', 'spinner', 'visitService'];
+    'openmrsPatientMapper', 'patientService',  'visitService'];
 
   /* @ngInject */
   function PatientSearchController($location, $rootScope, $state, commonService, observationsService,
-                                   openmrsPatientMapper, patientService, spinner) {
+                                   openmrsPatientMapper, patientService) {
 
     var dateUtil = Bahmni.Common.Util.DateUtil;
 
@@ -57,14 +57,12 @@
         return;
       }
 
-      var search = patientService.search(vm.searchText).then(function (patients) {
+      patientService.search(vm.searchText).then(function (patients) {
         vm.results = mapPatient(patients);
         vm.displayed = vm.results;
         vm.noResultsMessage = vm.results.length === 0 ? "SEARCH_PATIENT_NO_RESULT" : null;
         findLastDateOfNextConsultation();
       });
-
-      spinner.forPromise(search);
     }
 
     function barcodeHandler(code) {
@@ -76,7 +74,7 @@
         return;
       }
 
-      spinner.forPromise(patientService.search(cleanCode).then(function (patients) {
+      patientService.search(cleanCode).then(function (patients) {
         if (patients.length !== 1) {
           notifier.information($filter('translate')('SEARCH_PATIENT_NO_RESULT'));
           return;
@@ -85,7 +83,7 @@
         vm.onPatientSelect(patient);
       }).error(function (data) {
         vm.noResultsMessage = "SEARCH_PATIENT_NO_RESULT";
-      }));
+      });
 
     }
 

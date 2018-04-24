@@ -17,6 +17,7 @@
     <!-- Needed in myAutocomplete and bahmniAutocomplete directives -->
     <link rel="stylesheet" href="../../bower_components/jquery-ui/themes/base/jquery-ui.min.css" />
     <!-- -->
+    <link rel='stylesheet' href='../../bower_components/angular-loading-bar/build/loading-bar.min.css' />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css styles/main.min.css -->
@@ -32,8 +33,9 @@
       <!-- build:js scripts/vendor.registration.min.js -->
       <!-- bower:js -->
       <script src="../../bower_components/jquery/dist/jquery.min.js"></script>
-      <script src="../../bower_components/angular/angular.min.js"></script>
-      <script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="../../bower_components/angular/angular.min.js"></script>
+    <script src='../../bower_components/angular-loading-bar/build/loading-bar.min.js'></script>
+    <script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
       <script src="../../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
       <script src="../../bower_components/moment/min/moment.min.js"></script>
       <script src="../../bower_components/keyboard/dist/js/jquery.keyboard.min.js"></script>
@@ -100,6 +102,7 @@
       <script src="../common/patient/directives/patientHeader.js"></script>
       <script src="../common/patient/directives/patientSearch.js"></script>
       <script src="../common/patient/directives/scheduleList.js"></script>
+      <script src="../common/patient/directives/patientDeleteModal.js"></script>
       <script src="../common/patient/mappers/updatePatientMapper.js"></script>
 
       <script src="../move-patient/move-patient.module.js"></script>
@@ -115,7 +118,6 @@
       <script src="../common/util/arrayUtil.js"></script>
 
       <script src="../common/ui-helper/init.js"></script>
-      <script src="../common/ui-helper/spinner.js"></script>
       <script src="../common/ui-helper/directives.js"></script>
       <script src="../common/ui-helper/directives/bahmniAutocomplete.js"></script>
       <script src="../common/ui-helper/directives/pocConfirmButton.js"></script>

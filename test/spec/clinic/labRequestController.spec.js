@@ -7,10 +7,19 @@ describe('LabRequestController', function () {
   var TEST_ORDERS = [];
   var TEST_ORDER_ITEMS = ["TEST1", "TEST2"];
   var TEST_ORDER = {
-    testOrderItems: TEST_ORDER_ITEMS
-  }
+    testOrderItems: TEST_ORDER_ITEMS,
+    status: "NEW"
+  };
 
-  beforeEach(module('clinic', function ($urlRouterProvider) {
+  beforeEach(module('clinic', function ($provide, $translateProvider, $urlRouterProvider) {
+    $provide.factory('mergeLocaleFilesService', function ($q) {
+      return function () {
+        var deferred = $q.defer();
+        deferred.resolve({});
+        return deferred.promise;
+      };
+    });
+    $translateProvider.useLoader('mergeLocaleFilesService');
     $urlRouterProvider.deferIntercept();
   }));
 
@@ -28,7 +37,6 @@ describe('LabRequestController', function () {
   }));
 
   beforeEach(function () {
-    $http.expectGET("/poc_config/openmrs/i18n/common/locale_en.json").respond({});
     $http.expectGET("/openmrs/ws/rest/v1/user?v=custom:(username,uuid,person:(uuid,preferredName),privileges:(name,retired),userProperties)").respond({});
     $http.expectGET("/openmrs/ws/rest/v1/visit?v=full").respond({});
 
@@ -200,4 +208,16 @@ describe('LabRequestController', function () {
     });
   });
 
+  describe('isTestOrderInDetailCompleted', function () {
+    it('should be reported as not completed', function () {
+      controller.showTestOrderDetails(TEST_ORDER);
+      expect(controller.isTestOrderInDetailCompleted()).toBeFalsy();
+    });
+
+    it('should be reported as completed', function () {
+      TEST_ORDER.status = "COMPLETE";
+      controller.showTestOrderDetails(TEST_ORDER);
+      expect(controller.isTestOrderInDetailCompleted()).toBeTruthy();
+    });
+  });
 });

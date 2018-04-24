@@ -5,11 +5,11 @@
     .controller('PatientSummaryController', PatientSummaryController);
 
   PatientSummaryController.$inject = ['$rootScope', '$stateParams', 'encounterService', 'observationsService',
-    'commonService', '$filter', 'spinner', 'prescriptionService', 'patientService'];
+    'commonService', '$filter',  'prescriptionService', 'patientService'];
 
   /* @ngInject */
   function PatientSummaryController($rootScope, $stateParams, encounterService, observationsService, commonService,
-                                    $filter, spinner, prescriptionService, patientService) {
+                                    $filter,  prescriptionService, patientService) {
     var patientUuid = $stateParams.patientUuid;
     var patient = {};
     var vm = this;
@@ -51,7 +51,7 @@
     }
 
     function updateDisplayLimit() {
-      spinner.forPromise(getPatient()
+      getPatient()
         .then(function (p) { patient = p; })
         .then(initVisitHistory)
         .then(initLabResults)
@@ -61,7 +61,7 @@
         .then(initPharmacyPickupsNew)
         .then(initPrescriptions)
         .then(initAllergies)
-        .then(initVitals));
+        .then(initVitals);
     }
 
     function initVisitHistory() {
@@ -73,7 +73,7 @@
     function initLabResults() {
       var labEncounterUuid = "e2790f68-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
 
-      return encounterService.getEncountersForEncounterType(patientUuid, labEncounterUuid).success(function (data) {
+      return encounterService.getEncountersForEncounterType(patientUuid, labEncounterUuid, "default").success(function (data) {
         vm.labs = commonService.filterGroupReverse(data);
       });
     }
@@ -116,7 +116,7 @@
     function initPharmacyPickups() {
       var pharmacyEncounterUuid = "e279133c-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
 
-      return encounterService.getEncountersForEncounterType(patientUuid, pharmacyEncounterUuid).success(function (data) {
+      return encounterService.getEncountersForEncounterType(patientUuid, pharmacyEncounterUuid, "default").success(function (data) {
         vm.pickups = dropSizeToLimit(commonService.filterGroupReverse(data));
       });
     }
@@ -200,7 +200,7 @@
       var childFollowupEncounterUuid = "e278fce4-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
 
       return encounterService.getEncountersForEncounterType(patient.uuid,
-        (patient.age.years >= 15) ? adultFollowupEncounterUuid : childFollowupEncounterUuid)
+        (patient.age.years >= 15) ? adultFollowupEncounterUuid : childFollowupEncounterUuid, "default")
         .success(function (data) {
           vm.allergies = dropSizeToLimit(commonService.filterGroupReverseFollowupObs(concepts, data.results));
 
@@ -219,7 +219,7 @@
       var childFollowupEncounterUuid = "e278fce4-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
 
       return encounterService.getEncountersForEncounterType(patient.uuid,
-        (patient.age.years >= 15) ? adultFollowupEncounterUuid : childFollowupEncounterUuid)
+        (patient.age.years >= 15) ? adultFollowupEncounterUuid : childFollowupEncounterUuid, "default")
         .success(function (data) {
           vm.vitals = dropSizeToLimit(commonService.filterGroupReverseFollowupObs(concepts, data.results));
 

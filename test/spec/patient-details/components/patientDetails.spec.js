@@ -8,7 +8,7 @@ describe('PatientDetailsController', function () {
     }
   };
 
-  beforeEach(module('lab', function ($provide, $translateProvider, $urlRouterProvider) {
+  beforeEach(module('patient.details', function ($provide, $translateProvider, $urlRouterProvider) {
     // Mock translate asynchronous loader
     $provide.factory('mergeLocaleFilesService', function ($q) {
       return function () {
@@ -26,7 +26,7 @@ describe('PatientDetailsController', function () {
     appService.getAppDescriptor.and.returnValue(appDescriptor);
 
     $provide.value('appService', appService);
-    
+
     $translateProvider.useLoader('mergeLocaleFilesService');
     $urlRouterProvider.deferIntercept();
   }));

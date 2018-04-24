@@ -5,14 +5,14 @@
     .module('lab')
     .factory('initialization', initialization);
 
-  initialization.$inject = ['$cookies', '$rootScope', 'configurations', 'authenticator', 'appService', 'spinner', 'userService'];
+  initialization.$inject = ['$cookies', '$rootScope', 'configurations', 'authenticator', 'appService',  'userService'];
 
   /* @ngInject */
-  function initialization($cookies, $rootScope, configurations, authenticator, appService, spinner) {
+  function initialization($cookies, $rootScope, configurations, authenticator, appService) {
 
-    return spinner.forPromise(authenticator.authenticateUser()
+    return authenticator.authenticateUser()
       .then(initApp)
-      .then(getConfigs));
+      .then(getConfigs);
 
     ////////////////
 

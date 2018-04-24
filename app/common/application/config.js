@@ -6,11 +6,11 @@
     .config(applicationModuleConfig);
 
   applicationModuleConfig.$inject = ['$provide', '$breadcrumbProvider', 'uibDatepickerConfig', 'uibDatepickerPopupConfig',
-    'dateFormat'];
+    'dateFormat', 'cfpLoadingBarProvider'];
 
   /* @ngInject */
   function applicationModuleConfig($provide, $breadcrumbProvider, uibDatepickerConfig, uibDatepickerPopupConfig,
-                                   dateFormat) {
+                                   dateFormat, cfpLoadingBarProvider) {
     $provide.decorator('applicationService', applicationServiceAuthorizationDecorator);
 
 
@@ -26,6 +26,9 @@
     uibDatepickerPopupConfig.datepickerPopup = dateFormat.shortDate;
 
     $provide.decorator('dateFilter', dateFilterDecorator);
+
+    cfpLoadingBarProvider.includeBar = false;
+    cfpLoadingBarProvider.spinnerTemplate = '<div id="overlay"><div></div></div>';
   }
 
   applicationServiceAuthorizationDecorator.$inject = ['$delegate', 'authorizationService', '$log'];

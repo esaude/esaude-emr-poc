@@ -10,10 +10,10 @@
     });
 
   FormDisplayController.$inject = ['$state', '$stateParams', 'clinicalServicesService', 'notifier', 'patientService',
-    'spinner', 'translateFilter'];
+     'translateFilter'];
 
   /* @ngInject */
-  function FormDisplayController($state, $stateParams, clinicalServicesService, notifier, patientService, spinner,
+  function FormDisplayController($state, $stateParams, clinicalServicesService, notifier, patientService,
                                translateFilter) {
 
     var encounter = $stateParams.encounter;
@@ -37,7 +37,7 @@
 
       vm.formInfo = clinicalServicesService.getFormLayouts({id: serviceId});
 
-      var load = patientService.getPatient(vm.patientUUID)
+      patientService.getPatient(vm.patientUUID)
         .then(function (patient) {
           vm.patient = patient;
           return clinicalServicesService.getFormData(vm.patient, service, encounter);
@@ -47,8 +47,6 @@
         .catch(function () {
           notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
         });
-
-      spinner.forPromise(load);
     }
 
     function linkDashboard() {

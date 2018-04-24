@@ -19,7 +19,6 @@
 
       <div ng-messages for="aForm[fieldId].$error"
            ng-show="showMessages">
-        <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
         <div ng-message="min" ng-if="field.constraints">
           <span class="label label-danger" translate="ERROR_TOO_SMALL_VALUE"
                 translate-value-min="{{field.constraints.min}}"></span>
@@ -28,6 +27,7 @@
           <span class="label label-danger" translate="ERROR_TOO_BIG_VALUE"
                 translate-value-max="{{field.constraints.max}}"></span>
         </div>
+        <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
       </div>
 
       <div ng-switch-when="Text">
@@ -49,8 +49,7 @@
                ng-model="fieldModel.value"
                ng-required="{{fieldModel.field.required}}"
                ng-min="{{(field.constraints) ? field.constraints.min : ''}}"
-               ng-max="{{(field.constraints) ? field.constraints.max : ''}}"
-               step="{{(field.constraints) ? field.constraints.step : ''}}">
+               ng-max="{{(field.constraints) ? field.constraints.max : ''}}">
       </div>
 
       <div ng-switch-when="Datetime" class="input-group date">

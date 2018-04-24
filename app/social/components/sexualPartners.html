@@ -1,0 +1,48 @@
+<div class="marital-partners">
+
+  <div class="alert alert-info" ng-if="!vm.checkedIn">
+    {{'PLEASE_CHECK_IN_PATIENT'|translate}}
+  </div>
+
+  <div ng-if="vm.checkedIn">
+
+    <div class="row" ng-if="vm.partners.length || vm.add">
+      <div class="col-sm-4">{{'PARTNER_NAME'|translate}}</div>
+      <div class="col-sm-3">{{'RELATIONSHIP_TO_PATIENT'|translate}}</div>
+      <div class="col-sm-3">{{'HIV_STATUS'|translate}}</div>
+    </div>
+
+    <hr ng-if="vm.partners.length">
+
+    <div class="alert alert-info" ng-if="!vm.partners.length && !vm.add">
+      {{'NO_PARTNERS'|translate}}
+    </div>
+
+    <div ng-repeat="p in vm.partners">
+      <div class="row">
+        <div class="col-sm-4">{{p.name}}</div>
+        <div class="col-sm-3">{{p.relationship.display}}</div>
+        <div class="col-sm-3">{{p.hivStatus.display}}</div>
+        <div class="col-sm-2">
+          <button class="btn btn-danger btn-lg" type="button" ng-click="vm.removePartner(p);">
+            <i class="glyphicon glyphicon-remove-sign"></i>
+            {{'REMOVE'|translate}}
+          </button>
+        </div>
+      </div>
+
+      <hr>
+    </div>
+
+    <sexual-partner-form partner="vm.newPartner"
+                         on-submit="vm.savePartner(partner);"
+                         ng-show="vm.add">
+    </sexual-partner-form>
+  </div>
+
+  <button class="btn btn-default btn-lg" type="button" ng-show="!vm.add" ng-click="vm.addAnother();" ng-disabled="!vm.checkedIn">
+    <i class="glyphicon glyphicon-plus-sign"></i>
+    {{vm.partners.length ? 'ADD_ANOTHER_PARTNER' : 'ADD' | translate}}
+  </button>
+
+</div>

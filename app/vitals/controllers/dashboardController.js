@@ -16,6 +16,7 @@
     vm.todayVisit = null;
     vm.patient = {};
 
+    vm.reload = reload;
 
     activate();
 
@@ -34,6 +35,10 @@
           vm.hasVisitToday = false;
         }
       });
+    }
+
+    function reload() {
+      $state.reload();
     }
 
 

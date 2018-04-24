@@ -14,10 +14,10 @@
     });
 
 
-  TestOrderDetailsController.$inject = ['$timeout', 'notifier', 'translateFilter', '$q', 'spinner', 'testOrderResultService'];
+  TestOrderDetailsController.$inject = ['$timeout', 'notifier', 'translateFilter', '$q',  'testOrderResultService'];
 
   /* @ngInject */
-  function TestOrderDetailsController($timeout, notifier, translateFilter, $q, spinner, testOrderResultService) {
+  function TestOrderDetailsController($timeout, notifier, translateFilter, $q,  testOrderResultService) {
 
     var vm = this;
 
@@ -28,21 +28,19 @@
     function saveTestResultItem(item, result) {
       var index = findItem(item);
       var changedItem = angular.copy(vm.testOrderResult.items[index]);
-      var save =
-        testOrderResultService.saveTestResultItem(vm.testOrderResult, _.merge({}, changedItem, {value: result}))
-          .then(function (testResultItem) {
-            changedItem.uuid = testResultItem.uuid;
-            changedItem.value = testResultItem.value;
-            notifier.success(translateFilter('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
-          })
-          .catch(function (error) {
-            notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
-          })
-          .finally(function () {
-            vm.testOrderResult.items[index] = changedItem;
-          });
 
-      spinner.forPromise(save);
+      testOrderResultService.saveTestResultItem(vm.testOrderResult, _.merge({}, changedItem, {value: result}))
+        .then(function (testResultItem) {
+          changedItem.uuid = testResultItem.uuid;
+          changedItem.value = testResultItem.value;
+          notifier.success(translateFilter('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
+        })
+        .catch(function (error) {
+          notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
+        })
+        .finally(function () {
+          vm.testOrderResult.items[index] = changedItem;
+        });
     }
 
     function getTestOrderItemValue(testOrderItem) {
@@ -60,17 +58,14 @@
     }
 
     function removeTestResultItem(item) {
-      var remove =
-        testOrderResultService.removeTestResultItem(vm.testOrderResult, item)
-          .then(function () {
-            vm.reloadTestOrderResult();
-            notifier.success(translateFilter('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
-          })
-          .catch(function (error) {
-            notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
-          });
-
-      spinner.forPromise(remove);
+      testOrderResultService.removeTestResultItem(vm.testOrderResult, item)
+        .then(function () {
+          vm.reloadTestOrderResult();
+          notifier.success(translateFilter('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
+        })
+        .catch(function (error) {
+          notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
+        });
 
     }
 

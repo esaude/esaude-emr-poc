@@ -17,6 +17,7 @@
 
     var SELECT_PROVIDER_FROM_LIST = 'SELECT_PROVIDER_FROM_LIST';
     var ADD_AT_LEAST_ONE_TEST_TO_TEST_ORDER = 'ADD_AT_LEAST_ONE_TEST_TO_TEST_ORDER';
+    var COMPLETED_STATUS = "COMPLETE";
 
     //external requests have additional fields
     vm.externalRequest = $stateParams.externalRequest;
@@ -44,6 +45,7 @@
     vm.deleteTest = deleteTest;
     vm.resetForm = resetForm;
     vm.patientCheckedIn = false;
+    vm.isTestOrderInDetailCompleted = isTestOrderInDetailCompleted;
 
     activate();
 
@@ -212,6 +214,13 @@
       vm.selectedTest = null;
       vm.selectedProfile = null;
       vm.selectedTests = [];
+    }
+
+    function isTestOrderInDetailCompleted() {
+      if (vm.testOrderInDetail != null) {
+        return vm.testOrderInDetail.status == COMPLETED_STATUS;
+      }
+      return false;
     }
   }
 

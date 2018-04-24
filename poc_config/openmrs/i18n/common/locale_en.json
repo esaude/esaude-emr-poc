@@ -135,7 +135,7 @@
     "CLINIC_PATIENT_ALLERGIES": "Allergies",
     "CLINIC_PATIENT_SIDE_EFFECTS": "Side effects of ART",
     "CLINIC_PATIENT_WEIGHT": "Weight (Kg)",
-    "CLINIC_PATIENT_HEIGHT": "Height (m)",
+    "CLINIC_PATIENT_HEIGHT": "Height (cm)",
     "CLINIC_PATIENT_BMI": "BMI",
     "LOGIN_LABEL_LOGGEDIN_KEY": "Logged in as",
     "THERAPEUTIC_REGIME_ADULTS" : "The sugested line is TDF/3TC/EFV",
@@ -191,7 +191,7 @@
     "COMMON_VITALS": "Vitals",
     "COMMON_TEMPERATURE_C": "Temperature (ºC)",
     "COMMON_WEIGHT": "Weight (Kg)",
-    "COMMON_HEIGHT": "Height (m)",
+    "COMMON_HEIGHT": "Height (cm)",
     "COMMON_SYSTOLIC_BLOOD_PRESSURE": "Systolic blood pressure",
     "COMMON_DIASTOLIC_BLOOD_PRESSURE": "Diastolic blood pressere",
     "COMMON_PULSE": "Pulse",
@@ -242,6 +242,7 @@
     "APP_LAB": "Laboratory",
     "APP_COUNSELING": "Counseling",
     "APP_VITALS": "Vitals",
+    "APP_REPORTS": "Statistics",
     "COMMON_MESSAGE_ERROR_ITEM_ALREADY_IN_LIST": "The selected item is already in the list",
     "COMMON_MESSAGE_ERROR_ARV_ITEM_ALREADY_IN_LIST": "There can be only one ARV item listed",
     "COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED": "Action completed successfully",
@@ -326,7 +327,7 @@
     "ADDRESS_FORMAT_LINE2": "{{neighborhood}} {{locality}} {{district}} {{province}} {{country}}",
     "ARE_YOU_SURE": "Are you sure?",
     "INSUFFICIENT_PRIVILEGES": "Not enough privileges to use this functionality.",
-    "DELETE_PATIENT": "Delete Patient",
+    "DELETE_PATIENT": "Delete patient or Declare as dead",
     "REASON_TO_DELETE": "Reason to Delete",
     "CONFIRM_HOME": "Return to home?",
     "NO_RESULTS": "No results found.",
@@ -337,5 +338,7 @@
     "COMMON_VISIT_HEADER_ERROR": "There was an error loading last visit information.",
     "COMMON_RELOAD": "Reload",
     "COMMON_MESSAGE_DRUG_WITHOUT_STOCK_AVAILABILITY":"There's no Stock availability for the selected medicine",
-    "COMMON_MESSAGE_EXCEPTION_REQUESTING_DRUG_STOCK_AVAILABILITY":"Unable to obtain inventory information for the selected medicine"
+    "COMMON_MESSAGE_EXCEPTION_REQUESTING_DRUG_STOCK_AVAILABILITY":"Unable to obtain inventory information for the selected medicine",
+    "PLEASE_CHECK_IN_PATIENT": "Please check-in the patient.",
+    "COMMON_CANT_DELETE_PATIENT_WITH_HISTORY": "Não é possível remover este paciente porque possui histórico."
 }

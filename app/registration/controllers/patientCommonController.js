@@ -6,13 +6,13 @@
     .controller('PatientCommonController', PatientCommonController);
 
   PatientCommonController.$inject = ['$filter', '$scope', '$state', 'conceptService', 'configurations',
-    'localStorageService', 'notifier', 'patientAttributeService', 'patientService', 'sessionService', 'spinner',
+    'localStorageService', 'notifier', 'patientAttributeService', 'patientService', 'sessionService',
     'TabManager', 'appService'];
 
 
   /* @ngInject */
   function PatientCommonController($filter, $scope, $state, conceptService, configurations, localStorageService,
-                                   notifier, patientAttributeService, patientService, sessionService, spinner,
+                                   notifier, patientAttributeService, patientService, sessionService,
                                    TabManager, appService) {
 
     var patientConfiguration = $scope.patientConfiguration;
@@ -69,12 +69,10 @@
         });
       });
 
-      var load = getIdentifierTypes().then(function (identifierTypes) {
+      getIdentifierTypes().then(function (identifierTypes) {
         vm.patientIdentifierTypes = identifierTypes;
         return vm.getDeathConcepts();
       });
-
-      spinner.forPromise(load);
     }
 
     function successCallback() {
