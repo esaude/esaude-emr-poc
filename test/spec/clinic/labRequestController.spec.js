@@ -10,7 +10,8 @@ describe('LabRequestController', function () {
   var TEST_ORDERS = [];
   var TEST_ORDER_ITEMS = ["TEST1", "TEST2"];
   var TEST_ORDER = {
-    testOrderItems: TEST_ORDER_ITEMS
+    testOrderItems: TEST_ORDER_ITEMS,
+    status: "NEW"
   };
 
   beforeEach(module('clinic', function ($provide, $translateProvider, $urlRouterProvider) {
@@ -241,6 +242,19 @@ describe('LabRequestController', function () {
       controller.testsOfSelectedRequest = TESTS;
       controller.deleteTest({ testOrder: { uuid: "UUID1" } });
       expect(controller.testsOfSelectedRequest.length).toEqual(2);
+    });
+  });
+
+  describe('isTestOrderInDetailCompleted', function () {
+    it('should be reported as not completed', function () {
+      controller.showTestOrderDetails(TEST_ORDER);
+      expect(controller.isTestOrderInDetailCompleted()).toBeFalsy();
+    });
+
+    it('should be reported as completed', function () {
+      TEST_ORDER.status = "COMPLETE";
+      controller.showTestOrderDetails(TEST_ORDER);
+      expect(controller.isTestOrderInDetailCompleted()).toBeTruthy();
     });
   });
 });

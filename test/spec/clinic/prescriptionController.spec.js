@@ -3,7 +3,7 @@
   describe('PrescriptionController', function () {
 
   var $controller, controller, $http, $filter, $rootScope, $stateParams, observationsService, commonService,
-    conceptService, localStorageService, notifier, spinner, drugService, prescriptionService, $q, providerService,
+    conceptService, localStorageService, notifier, drugService, prescriptionService, $q, providerService,
     sessionService, patientService;
 
   var drugPrescriptionConvSet = [
@@ -43,7 +43,7 @@
 
   beforeEach(inject(function (_$controller_, _$httpBackend_, _$filter_, _$rootScope_, _$stateParams_,
                               _observationsService_, _commonService_, _conceptService_, _localStorageService_,
-                              _notifier_, _spinner_, _drugService_, _prescriptionService_, _$q_,
+                              _notifier_, _drugService_, _prescriptionService_, _$q_,
                               _providerService_, _sessionService_, _patientService_) {
 
     $controller = _$controller_;
@@ -56,7 +56,6 @@
     conceptService = _conceptService_;
     localStorageService = _localStorageService_;
     notifier = _notifier_;
-    spinner = _spinner_;
     drugService = _drugService_;
     prescriptionService = _prescriptionService_;
     $q = _$q_;

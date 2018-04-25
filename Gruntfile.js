@@ -35,7 +35,7 @@ module.exports = function (grunt) {
   };
 
   var generateReplacement = function () {
-      var modules = ['home', 'registration', 'social', 'clinic', 'vitals', 'pharmacy', 'lab'];
+      var modules = ['home', 'registration', 'social', 'clinic', 'vitals', 'pharmacy', 'lab', 'reports'];
       var replacements = [];
 
       for (var i in modules) {
@@ -315,6 +315,7 @@ module.exports = function (grunt) {
         '<%= yeoman.app %>/clinic/index.html',
         '<%= yeoman.app %>/pharmacy/index.html',
         '<%= yeoman.app %>/lab/index.html',
+        '<%= yeoman.app %>/reports/index.html',
         '<%= yeoman.app %>/patient-details/views/patient-arv-pickup-history-report.html',
         '<%= yeoman.app %>/patient-details/views/patient-daily-hospital-process-report.html',
         '<%= yeoman.dist %>/home/views/login.html'
@@ -338,16 +339,17 @@ module.exports = function (grunt) {
     // Performs rewrites based on filerev and the useminPrepare configuration
     usemin: {
       html: [
-        '<%= yeoman.dist %>/home/index.html',
-        '<%= yeoman.dist %>/registration/index.html',
-        '<%= yeoman.dist %>/social/index.html',
-        '<%= yeoman.dist %>/vitals/index.html',
         '<%= yeoman.dist %>/clinic/index.html',
-        '<%= yeoman.dist %>/pharmacy/index.html',
+        '<%= yeoman.dist %>/home/index.html',
+        '<%= yeoman.dist %>/home/views/login.html',
         '<%= yeoman.dist %>/lab/index.html',
         '<%= yeoman.dist %>/patient-details/views/patient-arv-pickup-history-report.html',
         '<%= yeoman.dist %>/patient-details/views/patient-daily-hospital-process-report.html',
-        '<%= yeoman.dist %>/home/views/login.html'
+        '<%= yeoman.dist %>/pharmacy/index.html',
+        '<%= yeoman.dist %>/registration/index.html',
+        '<%= yeoman.dist %>/reports/index.html',
+        '<%= yeoman.dist %>/social/index.html',
+        '<%= yeoman.dist %>/vitals/index.html'
       ],
       css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
       js: ['<%= yeoman.dist %>/scripts/{,*/}*.js'],
@@ -411,20 +413,21 @@ module.exports = function (grunt) {
                     expand: true,
                     cwd: '<%= yeoman.app %>',
                     src: [
-                        'common/**/*.html',
-                        'poc-common/**/*.html',
-                        'patient-details/**/*.html',
-                        'service-form/**/*.html',
-                        'home/**/*.html',
-                        'registration/**/*.html',
-                        'social/**/*.html',
-                        'vitals/**/*.html',
-                        'clinic/**/*.html',
-                        'pharmacy/**/*.html',
-                        'move-patient/**/*.html',
-                        'visit/**/*.html',
-                        'lab/**/*.html',
-                        'move-patient/**/*.html'
+                      'clinic/**/*.html',
+                      'common/**/*.html',
+                      'home/**/*.html',
+                      'lab/**/*.html',
+                      'move-patient/**/*.html',
+                      'move-patient/**/*.html',
+                      'patient-details/**/*.html',
+                      'pharmacy/**/*.html',
+                      'poc-common/**/*.html',
+                      'registration/**/*.html',
+                      'reports/**/*.html',
+                      'service-form/**/*.html',
+                      'social/**/*.html',
+                      'visit/**/*.html',
+                      'vitals/**/*.html',
                     ],
                     //src: ['*.html'],
                     dest: '<%= yeoman.dist %>'

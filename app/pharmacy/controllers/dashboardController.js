@@ -13,6 +13,7 @@
     var vm = this;
     vm.patient = {};
     vm.print = print;
+    vm.reload = reload;
 
     activate();
 
@@ -22,6 +23,10 @@
       patientService.getPatient(patientUuid).then(function (patient) {
         vm.patient = patient;
       });
+    }
+
+    function reload() {
+      $state.reload();
     }
 
   }

@@ -15,12 +15,13 @@ describe('DashboardController', function () {
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function (_$controller_, _$q_, _$rootScope_, _patientService_, _visitService_) {
+  beforeEach(inject(function (_$controller_, _$q_, _$rootScope_, _patientService_, _visitService_, _$state_) {
     $controller = _$controller_;
     $q = _$q_;
     $rootScope = _$rootScope_;
     patientService = _patientService_;
     visitService = _visitService_;
+    $state = _$state_;
   }));
 
   describe('activate', function () {
@@ -52,6 +53,21 @@ describe('DashboardController', function () {
     it('should load todays visit', function () {
       $rootScope.$apply();
       expect(visitService.getTodaysVisit).toHaveBeenCalled();
+    });
+
+  });
+
+  describe('reload', function () {
+
+    it('should reload current state', function () {
+
+      spyOn($state, 'reload');
+
+      var ctrl = $controller('DashboardController');
+      ctrl.reload();
+
+      expect($state.reload).toHaveBeenCalled();
+
     });
 
   });

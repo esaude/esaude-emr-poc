@@ -1,0 +1,72 @@
+<div class="modal-header">
+  <button type="button" class="close" aria-label="Close" ng-click="vm.cancel()">
+    <span aria-hidden="true">×</span></button>
+  <h4 class="modal-title" id="deletePatientModalLabel">{{'DELETE_PATIENT' | translate}}</h4>
+</div>
+
+<form name="deletePatientForm" class="form-horizontal" novalidate>
+
+  <div class="alert alert-info alert-dismissible content-border-margin" role="alert" ng-show="vm.hasConsultations">
+    {{'COMMON_CANT_DELETE_PATIENT_WITH_HISTORY' | translate}}
+  </div>
+
+  <div class="modal-body content-border-margin">
+    <div class="form-group form-group-lg">
+      <label for="isDead" class="col-sm-4 control-label">{{'PATIENT_INFO_DEAD' | translate}}:</label>
+      <div class="col-sm-8">
+        <checkbox largest
+                  name="isDead"
+                  ng-model="vm.data.dead"
+                  ng-disabled="vm.hasConsultations">
+        </checkbox>
+      </div>
+    </div>
+
+
+    <div class="form-group form-group-lg" ng-hide="vm.data.dead">
+      <label for="reasonDelete" class="col-sm-4 control-label"> {{'REASON_TO_DELETE' | translate }}: </label>
+      <div class="col-sm-8">
+        <input name="deleteReason" type="text" id="reasonDelete" class="form-control"
+               ng-model="vm.data.deleteReason" ng-required="!vm.data.dead">
+      </div>
+    </div>
+
+    <div id="deceasedPatient" ng-show="vm.data.dead">
+      <div class="form-group form-group-lg">
+        <label class="control-label col-sm-4">{{'PATIENT_INFO_DEATH_REASON' | translate}}:</label>
+        <div class="col-sm-8">
+          <select name="deathReason" id="death_reason" class="form-control" ng-model="vm.data.causeOfDeath"
+                  ng-options="concept.display for concept in vm.deathConcepts" ng-required="vm.data.dead">
+            <option></option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group form-group-lg">
+        <label class="control-label col-sm-4">{{'PATIENT_INFO_DEATH_DATE' | translate}}:</label>
+        <div class="col-sm-8">
+          <div class="input-group">
+            <input class="form-control" type="text" name="deathDate" uib-datepicker-popup ng-focus="focused=true"
+                   is-open="focused" ng-model="vm.data.deathDate" datepicker-options="vm.deathDatepickerOptions"  required>
+            <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                  </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+
+    <button type="button" class="btn btn-default btn-lg" ng-click="vm.cancel()">
+      {{'CANCEL' | translate}}
+    </button>
+
+    <button type="submit" class="btn btn-primary btn-lg" ng-click="vm.ok()" ng-disabled="deletePatientForm.$invalid">
+      {{'SAVE' | translate}}
+    </button>
+
+  </div>
+
+</form>

@@ -6,10 +6,10 @@
     .controller('DashboardController', DashboardController);
 
   DashboardController.$inject = ['$filter', '$window', 'applicationService', 'consultationService', 'sessionService',
-    'spinner', 'notifier'];
+    'notifier'];
 
   /* @ngInject */
-  function DashboardController($filter, $window, applicationService, consultationService, sessionService, spinner,
+  function DashboardController($filter, $window, applicationService, consultationService, sessionService,
                                notifier) {
 
     var mLocation = sessionService.getCurrentLocation();
@@ -75,13 +75,11 @@
     ////////////////
 
     function activate() {
-      var load = applicationService.getApps()
+      applicationService.getApps()
         .then(function (apps) {
           vm.apps = apps;
         })
         .then(loadConsultationCharts);
-
-      spinner.forPromise(load);
     }
 
     function linkApp(url) {
@@ -148,17 +146,15 @@
     }
 
     function onMonthlySummaryClick() {
-      var promise = consultationService
+      consultationService
         .getMonthlyConsultationSummary(mLocation)
         .then(fillBarChart)
         .catch(handleError);
-
-      spinner.forPromise(promise);
     }
 
     function onWeeklySummaryClick() {
-      var promise = consultationService.getWeeklyConsultationSummary(mLocation).then(fillBarChart).catch(handleError);
-      spinner.forPromise(promise);
+      consultationService.getWeeklyConsultationSummary(mLocation).then(fillBarChart).catch(handleError);
+
     }
 
     function scheduledConsultations() {

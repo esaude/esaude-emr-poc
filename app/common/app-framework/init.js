@@ -4,5 +4,6 @@ Bahmni.Common.AppFramework = Bahmni.Common.AppFramework || {};
 
 angular
   .module('bahmni.common.appFramework', [
-    'authentication'
+    'authentication',
+    'angular-loading-bar'
   ]);

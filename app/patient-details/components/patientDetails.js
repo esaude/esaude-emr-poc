@@ -1,13 +1,12 @@
 (function () {
   'use strict';
 
-  // TODO: move this component to patient.details module.
   angular
-    .module('lab')
+    .module('patient.details')
     .component('patientDetails', {
       controller: PatientDetailsController,
       controllerAs: 'patientCommon',
-      templateUrl: '../lab/components/patientDetails.html'
+      templateUrl: '../patient-details/components/patientDetails.html'
     });
 
   PatientDetailsController.$inject = ["$stateParams", "$state", "$rootScope", "reportService", "patientService",

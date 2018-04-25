@@ -2,7 +2,7 @@
 
 describe('DashboardController', function () {
   var patientUuid, scope, $rootScope, $q, $controller, controller, location, patientService, patientMapper,
-    httpBackend, stateParams, visitService, authorizationService;
+    httpBackend, stateParams, visitService, authorizationService, $state;
 
   beforeEach(module('clinic', function ($provide, $translateProvider, $urlRouterProvider) {
     // Mock translate asynchronous loader
@@ -17,7 +17,8 @@ describe('DashboardController', function () {
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function (_$controller_, _$rootScope_, _patientService_, _$q_, _visitService_, _authorizationService_) {
+  beforeEach(inject(function (_$controller_, _$rootScope_, _patientService_, _$q_, _$state_, _visitService_,
+                              _authorizationService_) {
     scope = _$rootScope_.$new();
     $rootScope = _$rootScope_;
     $controller = _$controller_;
@@ -25,6 +26,7 @@ describe('DashboardController', function () {
     $q = _$q_;
     visitService = _visitService_;
     authorizationService = _authorizationService_;
+    $state = _$state_;
 
     spyOn(patientService, 'getPatient').and.callFake(function () {
       return $q(function (resolve) {
@@ -58,4 +60,21 @@ describe('DashboardController', function () {
       expect(patientService.getPatient).toHaveBeenCalled();
     });
   });
+
+  describe('reload', function () {
+
+    it('should reload current state', function () {
+
+      spyOn($state, 'reload');
+
+      var scope = {};
+      var ctrl = $controller('DashboardController', {$scope: scope});
+      scope.reload();
+
+      expect($state.reload).toHaveBeenCalled();
+
+    });
+
+  });
+
 });

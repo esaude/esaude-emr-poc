@@ -1,6 +1,9 @@
 'use strict';
 
 Bahmni.Registration.CreatePatientRequestMapper = (function () {
+
+    var DATETIME_FORMAT = 'YYYY-MM-DD HH:mm';
+
     function CreatePatientRequestMapper(currentDate) {
         this.currentDate = currentDate;
     }
@@ -75,15 +78,18 @@ Bahmni.Registration.CreatePatientRequestMapper = (function () {
         return identifiers;
     };
 
-    var setAttributeValue = function (attributeType, attr, value) {
-        if (attributeType.format === "org.openmrs.Concept") {
-            attr.hydratedObject = value;
-        } else if(value === "" || value === null || value === undefined) {
-            attr.voided = true;
-        } else {
-            attr.value = value.toString();
-        }
-    };
+  var setAttributeValue = function (attributeType, attr, value) {
+    if (attributeType.format === "org.openmrs.Concept") {
+      attr.hydratedObject = value;
+    }
+    else if (attributeType.format === "org.openmrs.util.AttributableDate") {
+      attr.value = moment(value).format(DATETIME_FORMAT);
+    } else if (value === "" || value === null || _.isUndefined(value)) {
+      attr.voided = true;
+    } else {
+      attr.value = value.toString().slice(0,50); // person_attribute_type.value is varchar(50), maybe we should validade before.;
+    }
+  };
 
     CreatePatientRequestMapper.prototype.getBirthdate = function (birthdate, age) {
         var patientAge;

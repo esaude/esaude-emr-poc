@@ -5,10 +5,10 @@
     .module('registration')
     .controller('DashboardController', DashboardController);
 
-  DashboardController.$inject = ['$state', '$stateParams', 'notifier', 'patientService', 'translateFilter', 'spinner'];
+  DashboardController.$inject = ['$state', '$stateParams', 'notifier', 'patientService', 'translateFilter'];
 
   /* @ngInject */
-  function DashboardController($state, $stateParams, notifier, patientService, translateFilter, spinner) {
+  function DashboardController($state, $stateParams, notifier, patientService, translateFilter) {
 
     var patientUUID = $stateParams.patientUuid;
 
@@ -18,6 +18,7 @@
 
     vm.linkSearch = linkSearch;
     vm.loadPatient = loadPatient;
+    vm.reload = reload;
 
     activate();
 
@@ -31,18 +32,22 @@
       $state.go('search');
     }
 
+    function reload() {
+      $state.reload();
+    }
+
     function loadPatient() {
-      var promise = getPatient(patientUUID)
+      return getPatient(patientUUID)
         .then(function (patient) {
           vm.patient = patient;
         })
         .catch(function () {
           notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
         });
+    }
 
-      spinner.forPromise(promise);
-
-      return promise;
+    function reload() {
+      $state.reload();
     }
 
 

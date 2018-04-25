@@ -163,10 +163,15 @@
      * @param v
      */
     function getEncountersForEncounterType(patientUuid, encounterTypeUuid, v) {
+      var url = Bahmni.Common.Constants.encounterUrl;
       if (!v) {
         v = "custom:(uuid,encounterDatetime,provider,voided,visit:(uuid,startDatetime,stopDatetime),obs:(uuid,concept:(uuid,name),obsDatetime,value,groupMembers:(uuid,concept:(uuid,name),order:(uuid,voided,drug,quantity,dose,doseUnits,frequency,quantityUnits,dosingInstructions,duration,durationUnits,route),obsDatetime,value)))";
+        url = Bahmni.Common.Constants.encounterWrapUrl;
       }
-      return $http.get(Bahmni.Common.Constants.encounterUrl, {
+      if (v === "default") {
+        v = "custom:(uuid,encounterDatetime,provider,voided,obs:(uuid,concept:(uuid,name),obsDatetime,value,groupMembers:(uuid,concept:(uuid,name),obsDatetime,value)))";
+      }
+      return $http.get(url, {
         params: {
           patient: patientUuid,
           encounterType: encounterTypeUuid,
