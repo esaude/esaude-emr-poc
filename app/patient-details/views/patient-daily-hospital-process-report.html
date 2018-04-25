@@ -18,10 +18,10 @@
             <label><strong>{{'PATIENT_INFO_IDENTIFIER_IDENTIFIER' | translate}}/{{'PATIENT_INFO_IDENTIFIER_TYPE' | translate}}: </strong> <i ng-bind="patient.identifier" /> (<i ng-bind="patient.identifierType" />)</label>
         </div>
         <div>
-            <label><strong>{{'COMMON_DISTRICT' | translate}}/{{'COMMON_CITY' | translate}}: </strong> <i ng-bind="patient.Distrito" /> </label>
+            <label><strong>{{'COMMON_DISTRICT' | translate}}/{{'COMMON_CITY' | translate}}: </strong> <i ng-bind="patient.address.countyDistrict" /> </label>
         </div>
         <div>
-            <label><strong>{{'COMMON_LOCALITY' | translate}}/{{'COMMON_NEIGHBORHOOD' | translate}}: </strong> <i ng-bind="patient.address.address5" /> </label>
+            <label><strong>{{'COMMON_LOCALITY' | translate}}/{{'COMMON_NEIGHBORHOOD' | translate}}: </strong> <i ng-bind="patient.address.address6" />  <i ng-if="patient.address.address6" >/</i> <i ng-bind="patient.address.address5" /></label>
         </div>
         <div>
             <label><strong>{{'COMMON_CELL' | translate}}/{{'COMMON_BLOCK' | translate}}: </strong> <i ng-bind="patient.address.address3" /> </label>
