@@ -15,9 +15,10 @@ module.exports = function() {
       const loginPage = require('./pages/loginPage')
       loginPage._init()
 
-      // Login and return an object that helps callers
-      // check login status
-      return loginPage.login(userInfo.username, userInfo.password)
+      // Login and return the dashboard page
+      const loginStatus = loginPage.login(userInfo)
+      const dashboardPage = loginStatus.successful()
+      return dashboardPage
     },
 
   });

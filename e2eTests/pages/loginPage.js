@@ -21,10 +21,10 @@ module.exports = {
   },
 
   // Logs the user in
-  login(username, password) {
-    I.amOnPage('/index.html#/login')
-    I.fillField(this.fields.username, username);
-    I.fillField(this.fields.password, password);
+  login(userInfo) {
+    I.amOnPage('/home/index.html#/login')
+    I.fillField(this.fields.username, userInfo.username);
+    I.fillField(this.fields.password, userInfo.password);
     I.click(this.loginButton);
 
     // Helps the caller detect whether login was

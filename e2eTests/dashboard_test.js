@@ -2,8 +2,7 @@
 Feature('Dashboard');
 
 Before((I) => { // or Background
-  const loginStatus = I.login()
-	loginStatus.successful()
+  I.login()
 });
 
 Scenario('Logout successfully', (I, DashboardPage) => {
