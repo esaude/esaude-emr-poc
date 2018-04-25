@@ -1,4 +1,4 @@
-<div ng-class="{patientdeceased: vm.patient.dead}" class="row bg-info-border bg-info content-border border-rouded-top">
+<div ng-class="{patientdeceased: vm.patient.dead}" class="row bg-info-border bg-info content-border border-rouded-top patient-header">
 
   <div class="col-sm-6 name-age">
 
@@ -8,7 +8,7 @@
       <b>{{vm.patient.fullName}}</b>
     </div>
 
-    <div>
+    <div class="age">
       <span>{{vm.patient.age.years}}</span>
       <span>{{vm.patient.birthdateEstimated ? '~': ''}}({{vm.patient.birthdate | date }})</span>
       <span ng-if="patient['Numero de Telefone']">Phone number: {{patient['Numero de Telefone']}}</span>
@@ -25,7 +25,7 @@
     </ul>
   </div>
 
-  <div class="col-sm-12" ng-show="vm.patient.dead">
+  <div class="col-sm-12 deceased" ng-show="vm.patient.dead">
     <hr>
     <p class="text-center">
       <i class="glyphicon glyphicon-warning-sign"></i>

@@ -69,7 +69,6 @@
   "PATIENT_INFO_IDENTIFIER_IDENTIFIER": "Identificador",
   "PATIENT_INFO_IDENTIFIER_PREFERRED": "Preferido",
   "PATIENT_INFO_IDENTIFIER_ERROR_EXISTING": "O identificador selecionado já existe na lista.",
-  "PATIENT_INFO_DEAD": "Obitou",
   "PATIENT_INFO_NEW": "Registrar novo paciente",
   "CLINIC_PATIENT_CHART_SUMMARY": "Processo Clínico",
   "CLINIC_PATIENT_VISIT_HISTORY": "Histórico de Visitas",
