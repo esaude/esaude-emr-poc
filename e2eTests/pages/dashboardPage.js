@@ -22,7 +22,10 @@ module.exports = {
 
   // Logs the user in
   logout() {
-    I.wait(1)
+    // WaitForElement doesn't seem to work, so waiting for an arbitrary
+    // amount of time for the hamburger button to appear
+    I.wait(3)
+    
     I.click(this.dropdown.hamburgerButton)
     I.click(this.dropdown.logoutButton)
 
