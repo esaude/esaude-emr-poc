@@ -11,7 +11,7 @@ Poc.Patient.PatientAttributeTypeMapper = (function () {
 
             var isRequired = function(){
                 var element = _.find(mandatoryPersonAttributes, function (mandatoryPersonAttribute) {
-                    return mandatoryPersonAttribute == mrsAttributeType.name
+                    return mandatoryPersonAttribute === mrsAttributeType.name
                 });
                 return element ? true : false;
             };
