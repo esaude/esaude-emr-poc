@@ -4,11 +4,18 @@
   "output": "./e2eTests/output",
   "helpers": {
     "Puppeteer": {
-      "url": "http://localhost:9000/home",
+      "url": "http://localhost:9000",
       "driver": "hosted",
       "browser": "chrome",
       "rootElement": "body",
       "show": true
+    },
+    "REST": {
+      "endpoint": "http://localhost/openmrs/ws/rest/v1",
+      "defaultHeaders": {
+        "Content-Type": "application/json",
+        "Authorization": "Basic YWRtaW46ZVNhdWRlMTIz"
+      }
     }
   },
   "include": {
@@ -17,7 +24,9 @@
     "Data": "./e2eTests/data.js",
 
     "DashboardPage": "./e2eTests/pages/dashboardPage.js",
-    "LoginPage": "./e2eTests/pages/loginPage.js"
+    "LoginPage": "./e2eTests/pages/loginPage.js",
+
+    "Apis": "./e2eTests/rest/openMrsApis.js"
   },
   "bootstrap": false,
   "mocha": {
