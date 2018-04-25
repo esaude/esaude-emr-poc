@@ -1,5 +1,10 @@
 <div class="row content-border-margin-regular">
-    <div class="col-sm-6">
+
+    <div class="alert alert-info" ng-if="!vm.patientCheckedIn">
+        {{'PLEASE_CHECK_IN_PATIENT'|translate}}
+    </div>
+
+    <div class="col-sm-6" ng-if="vm.patientCheckedIn">
         <div>
             <form name="laborderForm" class="form-horizontal" autocomplete="off">
                 <poc-authorize privilege="'Write Test Order'">
@@ -137,7 +142,7 @@
         </div>
     </div>
 
-    <div class="col-sm-6">
+    <div class="col-sm-6" ng-if="vm.patientCheckedIn">
 
         <poc-authorize privilege="'Read Test Order'">
             <div class="panel panel-primary panel-marginless-sides">
@@ -188,7 +193,7 @@
 
     </div>
 
-    <div class="col-sm-6">
+    <div class="col-sm-6" ng-if="vm.patientCheckedIn">
 
         <poc-authorize privilege="'Update Test Order'">
             <div class="panel panel-primary panel-marginless-sides">
