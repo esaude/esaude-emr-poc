@@ -30,6 +30,7 @@
     "COMMON_PROGRAM_ENROLLMENT_COMPLETION_DATE": "Data de Saída",
     "COMMON_PROGRAM_ENROLLMENT_EDIT": "Editar Programa",
     "COMMON_PROGRAM_ENROLLMENT_STATE_EDIT": "Editar Estado do Programa",
+    "COMMON_PROGRAM_ENROLLMENT_STATE_ADD": "Adicionar Estado do Programa",    
     "COMMON_PROGRAM_ENROLLMENT_STATE_CHANGE": "Mudar para",
     "COMMON_PROGRAM_ENROLLMENT_ERROR_NO_ADMISSION_DATE": "Por favor, escolha a data de admissão.",
     "COMMON_PROGRAM_ENROLLMENT_ERROR_NO_PROGRAM": "Por favor, escolha um programa.",

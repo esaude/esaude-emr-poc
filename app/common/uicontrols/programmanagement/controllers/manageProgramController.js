@@ -122,7 +122,8 @@
     function successCallback() {
       updateActiveProgramsList();
       getAddProgramModal().modal('hide');
-      getEditProgramStateModal().modal('hide');      
+      getEditProgramStateModal().modal('hide');
+      getAddProgramStateModal().modal('hide');   
       notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
     }
 
@@ -363,6 +364,10 @@
 
     function getEditProgramStateModal() {
       return angular.element('#editProgramStateModal');
+    }
+
+    function getAddProgramStateModal() {
+      return angular.element('#addProgramStateModal');
     }
   }
 
