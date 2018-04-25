@@ -34,9 +34,9 @@
             {{'COMMON_FROM' | translate}} ({{currentState.startDate | date}})
           </span>
         </td>
-        <td ng-if="!hasValidProgramStateToShow(program.states)">
+        <td ng-if="!hasValidProgramStateToShow(program.states) && hasProgramWorkflowStates(program)">
           <poc-authorize privilege="'Edit Patient Program'">
-            <button class="btn btn-primary btn-lg" type="button">
+            <button class="btn btn-primary btn-lg" type="button" data-toggle="modal" data-target="#addProgramStateModal" ng-click="setProgramSelected(program)">
               <span class="glyphicon glyphicon-plus"></span>
               <span class="button-label">{{'ADD' | translate}}</span>
             </button>
@@ -111,3 +111,4 @@
 <div ng-include src="'../common/uicontrols/programmanagement/views/program-edit.html'"></div>
 <div ng-include src="'../common/uicontrols/programmanagement/views/program-state-edit.html'"></div>
 <div ng-include src="'../common/uicontrols/programmanagement/views/program-detail.html'"></div>
+<div ng-include src="'../common/uicontrols/programmanagement/views/program-state-add.html'"></div>

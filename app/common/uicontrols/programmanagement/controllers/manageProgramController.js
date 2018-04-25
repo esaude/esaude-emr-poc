@@ -5,10 +5,10 @@
     .module('bahmni.common.uicontrols.programmanagment')
     .controller('ManageProgramController', ManageProgramController);
 
-  ManageProgramController.$inject = ['$scope', '$window', 'programService',  '$stateParams', 'notifier', '$filter'];
+  ManageProgramController.$inject = ['$scope', '$window', 'programService', '$stateParams', 'notifier', '$filter'];
 
   /* @ngInject */
-  function ManageProgramController($scope, $window, programService,  $stateParams, notifier, $filter) {
+  function ManageProgramController($scope, $window, programService, $stateParams, notifier, $filter) {
 
     var DateUtil = Bahmni.Common.Util.DateUtil;
 
@@ -17,7 +17,7 @@
     $scope.workflowStateSelected = {};
     $scope.allPrograms = [];
     $scope.programWorkflowStates = [];
-    $scope.programEdited = {selectedState: "", startDate: null};
+    $scope.programEdited = { selectedState: "", startDate: null };
     $scope.workflowStatesWithoutCurrentState = [];
     $scope.outComesForProgram = [];
     $scope.configName = $stateParams.configName;
@@ -97,9 +97,9 @@
       var stateUuid = $scope.workflowStateSelected && $scope.workflowStateSelected.uuid ? $scope.workflowStateSelected.uuid : null;
 
 
-        programService.enrollPatientToAProgram($scope.patientUuid, $scope.programSelected.uuid, $scope.programEnrollmentDate, stateUuid)
-          .then(successCallback, failureCallback);
-      
+      programService.enrollPatientToAProgram($scope.patientUuid, $scope.programSelected.uuid, $scope.programEnrollmentDate, stateUuid)
+        .then(successCallback, failureCallback);
+
       $scope.errorMessage = null;
     }
 
@@ -121,13 +121,19 @@
 
     function successCallback() {
       updateActiveProgramsList();
-      getAddProgramModal().modal('toggle');
+      getAddProgramModal().modal('hide');
+      getEditProgramStateModal().modal('hide');
+      getAddProgramStateModal().modal('hide');   
       notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
     }
 
     function failureCallback(error) {
       var fieldErrorMsg = findFieldErrorIfAny(error);
-      var globalErrorMsg = error.data.error.globalErrors[0].message;
+      var globalErrors = error.data.error.globalErrors;
+      var globalErrorMsg = '';
+      if (globalErrors.length > 0) {
+        globalErrorMsg = globalErrors[0].message;
+      }
 
       var msg = fieldErrorMsg || globalErrorMsg;
 
@@ -176,7 +182,7 @@
     }
 
     function getOutcomes(program) {
-      var currentProgram = _.find($scope.allPrograms, {uuid: program.uuid});
+      var currentProgram = _.find($scope.allPrograms, { uuid: program.uuid });
       return currentProgram.outcomesConcept ? currentProgram.outcomesConcept.answers : [];
     }
 
@@ -241,10 +247,9 @@
         return;
       }
 
-        programService.savePatientProgram(patientProgram.uuid, $scope.programEdited.selectedState.uuid, startDate)
-          .then(successCallback, failureCallback);
+      programService.savePatientProgram(patientProgram.uuid, $scope.programEdited.selectedState.uuid, startDate)
+        .then(successCallback, failureCallback);
 
-      getEditProgramStateModal().modal('toggle');
       $scope.errorMessage = null;
     }
 
@@ -314,11 +319,11 @@
     }
 
     function removePatientState(patientProgram) {
-      var currProgramState = _.find(getActiveProgramStates(patientProgram), {endDate: null});
+      var currProgramState = _.find(getActiveProgramStates(patientProgram), { endDate: null });
       var currProgramStateUuid = objectDeepFind(currProgramState, 'uuid');
 
-        programService.deletePatientState(patientProgram.uuid, currProgramStateUuid)
-          .then(successCallback, failureCallback);
+      programService.deletePatientState(patientProgram.uuid, currProgramStateUuid)
+        .then(successCallback, failureCallback);
     }
 
     function getWorkflowStates(program) {
@@ -344,7 +349,7 @@
     }
 
     function showMessage(msg) {
-      $scope.errorMessage = msg;
+      $scope.errorMessage = $filter('translate')(msg);
       $scope.showMessage = true;
       angular.element('.alert').show();
     }
@@ -359,6 +364,10 @@
 
     function getEditProgramStateModal() {
       return angular.element('#editProgramStateModal');
+    }
+
+    function getAddProgramStateModal() {
+      return angular.element('#addProgramStateModal');
     }
   }
 
