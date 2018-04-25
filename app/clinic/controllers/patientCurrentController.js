@@ -29,7 +29,7 @@
     }
 
     function initLabResults() {
-      return encounterService.getEncountersForEncounterType(patientUUID, Bahmni.Common.Constants.LAB_ENCOUNTER_TYPE_UUID).success(function (data) {
+      return encounterService.getEncountersForEncounterType(patientUUID, Bahmni.Common.Constants.LAB_ENCOUNTER_TYPE_UUID, "default").success(function (data) {
         return filterGroupReverseEncounters(data, "labResults");
       });
     }
@@ -52,7 +52,7 @@
 
     function filterGroupReverseObs(concepts, element) {
       return encounterService.getEncountersForEncounterType(patientUUID,
-        (patient.age.years >= 15) ? Bahmni.Common.Constants.ADULT_FOLLOWUP_ENCOUTER_UUID : Bahmni.Common.Constants.CHILD_FOLLOWUP_ENCOUNTER_UUID)
+        (patient.age.years >= 15) ? Bahmni.Common.Constants.ADULT_FOLLOWUP_ENCOUTER_UUID : Bahmni.Common.Constants.CHILD_FOLLOWUP_ENCOUNTER_UUID, "default")
         .success(function (data) {
           var nonRetired = encounterService.filterRetiredEncoounters(data.results);
           _.forEach(nonRetired, function (encounter) {
