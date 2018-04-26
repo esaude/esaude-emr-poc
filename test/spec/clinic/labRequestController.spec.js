@@ -239,5 +239,26 @@ describe('LabRequestController', function () {
       controller.showTestOrderDetails(TEST_ORDER);
       expect(controller.isTestOrderInDetailCompleted()).toBeTruthy();
     });
+
+    it('should be reported as not completed if null', function () {
+      expect(controller.isTestOrderInDetailCompleted()).toBeFalsy();
+    });
   });
+
+  describe('resetForm', function () {
+    it('should reset all fields', function () {
+      controller.date = {};
+      controller.selectedProvider = {};
+      controller.selectedTest = {};
+      controller.selectedProfile = {};
+      controller.selectedTests = {};
+      controller.resetForm();
+      expect(controller.date).toBeNull();
+      expect(controller.selectedProvider).toBeNull();
+      expect(controller.selectedTest).toBeNull();
+      expect(controller.selectedProfile).toBeNull();
+      expect(controller.selectedTests).toEqual([]);
+    });
+  });
+  
 });
