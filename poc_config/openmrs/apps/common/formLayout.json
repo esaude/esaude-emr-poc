@@ -258,7 +258,9 @@
             "label": "COMMON_TEMPERATURE_C",
             "id": "e292af4a-1d5f-11e0-b929-000c29ad1d07",
             "constraints": {
-              "min": "32",
+              "min": "20",
+              "minNormal": "35.1",
+              "maxNormal": "37.9",
               "max": "42"
             }
           },
@@ -291,7 +293,9 @@
             "label": "COMMON_SYSTOLIC_BLOOD_PRESSURE",
             "id": "e292b648-1d5f-11e0-b929-000c29ad1d07",
             "constraints": {
-              "min": "0",
+              "min": "70",
+              "minNormal": "90",
+              "maxNormal": "120",
               "max": "250"
             }
           },
@@ -300,7 +304,9 @@
             "label": "COMMON_DIASTOLIC_BLOOD_PRESSURE",
             "id": "e293ed7e-1d5f-11e0-b929-000c29ad1d07",
             "constraints": {
-              "min": "0",
+              "min": "40",
+              "minNormal": "60",
+              "maxNormal": "80",
               "max": "150"
             }
           },
@@ -310,13 +316,21 @@
             "id": "83cec426-ddce-4c01-a366-9a60bbcc371b",
             "constraints": {
               "min": "0",
+              "minNormal": "41",
+              "maxNormal": "100",
               "max": "230"
             }
           },
           {
             "name": "Frequencia Respiratória",
             "label": "COMMON_RESPIRATORY_RATE",
-            "id": "5d0d0957-bf98-4508-9499-3047b67a9c3a"
+            "id": "5d0d0957-bf98-4508-9499-3047b67a9c3a",
+            "constraints": {
+              "min": "0",
+              "minNormal": "12",
+              "maxNormal": "16",
+              "max": "230"
+            }
           }
         ]
       }
@@ -332,7 +346,7 @@
       {
         "id": "1",
         "name": "Vitais",
-    	"label": "COMMON_VITALS",
+        "label": "COMMON_VITALS",
         "sref": ".vitals",
         "nextSref": ".confirm",
         "fields": [
@@ -468,7 +482,7 @@
         "fields": [
           {
             "name": "ESTADIO I",
-        	"label": "COMMON_STAGE_I",
+            "label": "COMMON_STAGE_I",
             "id": "d7870f17-c91e-4e0f-b0db-eca7df93d128"
           }
         ]
@@ -482,7 +496,7 @@
         "fields": [
           {
             "name": "ESTADIO II",
-        	"label": "COMMON_STAGE_II",
+            "label": "COMMON_STAGE_II",
             "id": "904c92e8-8f32-44a1-9126-d4173fc65ab6"
           }
         ]
@@ -496,7 +510,7 @@
         "fields": [
           {
             "name": "ESTADIO III",
-        	"label": "COMMON_STAGE_III",
+            "label": "COMMON_STAGE_III",
             "id": "bd03f34d-c438-4052-b83a-b530ee8c7c0a"
           }
         ]
@@ -510,7 +524,7 @@
         "fields": [
           {
             "name": "ESTADIO IV",
-        	"label": "COMMON_STAGE_IV",
+            "label": "COMMON_STAGE_IV",
             "id": "b23769cb-f6c7-4fe0-b1b2-5187f283a40b"
           }
         ]
@@ -524,7 +538,7 @@
         "fields": [
           {
             "name": "ESTADIO",
-        	  "label": "COMMON_CALCULATED_STAGE",
+            "label": "COMMON_CALCULATED_STAGE",
             "id": "e29399fa-1d5f-11e0-b929-000c29ad1d07",
             "disabled": true,
             "logics": {
@@ -535,9 +549,8 @@
       }
     ]
   },
-
   {
-    "id":"012",
+    "id": "012",
     "formId": "e28ac028-1d5f-11e0-b929-000c29ad1d07",
     "name": "OMS ESTADIO - PEDIATRIA ",
     "label": "COMMON_WHO_FORM",
@@ -552,7 +565,7 @@
         "fields": [
           {
             "name": "ESTADIO I PEDIATRIA",
-        	"label": "COMMON_STAGE_I",
+            "label": "COMMON_STAGE_I",
             "id": "9ad5fe09-a35c-4400-b216-ee72b0e76523"
           }
         ]
@@ -566,7 +579,7 @@
         "fields": [
           {
             "name": "ESTADIO II PEDIATRIA",
-        	"label": "COMMON_STAGE_II",
+            "label": "COMMON_STAGE_II",
             "id": "675e6753-e4a8-4919-939c-bcea25d76553"
           }
         ]
@@ -580,7 +593,7 @@
         "fields": [
           {
             "name": "ESTADIO III PEDIATRIA",
-        	"label": "COMMON_STAGE_III",
+            "label": "COMMON_STAGE_III",
             "id": "35c00f28-5ce7-4917-b83e-a8f41a9b626e"
           }
         ]
@@ -594,7 +607,7 @@
         "fields": [
           {
             "name": "ESTADIO IV PEDIATRIA",
-        	"label": "COMMON_STAGE_IV",
+            "label": "COMMON_STAGE_IV",
             "id": "b99023a4-1452-4f30-811f-6d96ad1028a8"
           }
         ]
@@ -608,7 +621,7 @@
         "fields": [
           {
             "name": "ESTADIO PEDIATRIA",
-        	  "label": "COMMON_CALCULATED_STAGE",
+            "label": "COMMON_CALCULATED_STAGE",
             "id": "e2adeb20-1d5f-11e0-b929-000c29ad1d07",
             "disabled": true,
             "logics": {
@@ -710,10 +723,10 @@
         "sref": ".rastreios",
         "nextSref": ".confirm",
         "flexNextSref": {
-        	"gender": {
-        		"M": ".confirm", 
-        		"F": ".pregnancy"
-    		}
+          "gender": {
+            "M": ".confirm",
+            "F": ".pregnancy"
+          }
         },
         "fields": [
           {
@@ -739,7 +752,9 @@
         "label": "COMMON_PREGNANCY",
         "sref": ".pregnancy",
         "nextSref": ".confirm",
-        "constraints": {"gender": "F"},
+        "constraints": {
+          "gender": "F"
+        },
         "fields": [
           {
             "name": "Data da última minstruação",
@@ -827,7 +842,7 @@
         "fields": [
           {
             "name": "Data da próxima visita",
-        	"label": "COMMON_NEXT_VISIT_DATE",
+            "label": "COMMON_NEXT_VISIT_DATE",
             "id": "e2ade512-1d5f-11e0-b929-000c29ad1d07"
           }
         ]
@@ -975,7 +990,7 @@
         "fields": [
           {
             "name": "Data da próxima visita",
-          	"label": "COMMON_NEXT_VISIT_DATE",
+            "label": "COMMON_NEXT_VISIT_DATE",
             "id": "e2ade81e-1d5f-11e0-b929-000c29ad1d07"
           }
         ]

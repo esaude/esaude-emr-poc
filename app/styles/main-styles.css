@@ -396,6 +396,13 @@ p.capitalize {
 }
 /**/
 
+.field-out-of-range {
+  background-color: rgb(255, 77, 77);
+}
+
+.field-out-of-normal-range {
+  background-color: rgb(255, 163, 77);
+}
 /* Patient Header */
 .patient-header .age {
   padding-left: 28px;
