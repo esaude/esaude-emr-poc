@@ -1,6 +1,7 @@
 describe('LabRequestController', function () {
 
-  var controller, $controller, providerService, testProfileService, testService, $q, $rootScope, $http, notifier, testOrderService, sessionService;
+  var controller, $controller, providerService, testProfileService, testService, $q, $rootScope, $http, notifier, testOrderService, sessionService,
+    testOrderResultService, visitService;
   var PROVIDERS = [{ display: "Alberto" }, { display: "Zacarias" }, { display: "Cossa" }];
   var TEST_PROFILES = [{ name: "Profile Um", tests: ["UUID1", "UUID2"] }, { name: "Profile Dois", tests: ["UUID2"] }];
   var TESTS = [{ display: "Teste 1", testOrder: { uuid: "UUID1" } }, { display: "Teste 2", testOrder: { uuid: "UUID2" } }];
@@ -23,7 +24,9 @@ describe('LabRequestController', function () {
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function (_$controller_, _$q_, _$rootScope_, $httpBackend, _providerService_, _testProfileService_, _testService_, _notifier_, _testOrderService_, _sessionService_) {
+  beforeEach(inject(function (_$controller_, _$q_, _$rootScope_, $httpBackend, _providerService_, _testProfileService_,
+    _testService_, _notifier_, _testOrderService_, _sessionService_, _testOrderResultService_, _visitService_) {
+
     $controller = _$controller_;
     $q = _$q_;
     $rootScope = _$rootScope_;
@@ -34,6 +37,8 @@ describe('LabRequestController', function () {
     notifier = _notifier_;
     testOrderService = _testOrderService_;
     sessionService = _sessionService_;
+    testOrderResultService = _testOrderResultService_;
+    visitService = _visitService_;
   }));
 
   beforeEach(function () {
@@ -65,9 +70,24 @@ describe('LabRequestController', function () {
         return resolve({});
       });
     });
+    spyOn(sessionService, 'getCurrentProvider').and.callFake(function () {
+      return $q(function (resolve) {
+        return resolve({});
+      });
+    });
     spyOn(sessionService, 'getCurrentLocation').and.callFake(function () {
       return $q(function (resolve) {
         return resolve({ uuid: "UUIDLocation1" });
+      });
+    });
+    spyOn(visitService, 'getTodaysVisit').and.callFake(function () {
+      return $q(function (resolve) {
+        return resolve({});
+      });
+    });
+    spyOn(testOrderResultService, 'getTestOrderResult').and.callFake(function () {
+      return $q(function (resolve) {
+        return resolve({});
       });
     });
     spyOn(notifier, 'error');
