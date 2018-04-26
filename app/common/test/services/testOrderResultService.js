@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('lab')
+    .module('common.test')
     .factory('testOrderResultService', testOrderResultService);
 
   testOrderResultService.$inject = ['$http', '$q', '$log', 'sessionService'];

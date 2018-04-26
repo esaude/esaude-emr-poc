@@ -202,6 +202,7 @@
                             <tr>
                                 <th st-sort="test">{{'TEST' | translate}}</th>
                                 <th st-sort="test">{{'CATEGORY' | translate}}</th>
+                                <th st-sort="test">{{'TEST_RESULTS' | translate}}</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -209,6 +210,7 @@
                             <tr st-select-mode="single" ng-repeat="test in vm.testsOfSelectedRequest">
                                 <td>{{test.translatedDisplay}}</td>
                                 <td>{{test.category.display}}</td>
+                                <td>{{test.consolidatedValue}}</td>
                                 <td>
                                     <button id="delete_test" type="button" class="btn btn-danger btn-lg" ng-disabled="vm.isTestOrderInDetailCompleted()" poc-confirm-dialog="'{{ 'CONFIRM_TEST_REMOVAL' | translate}}'"
                                         on-confirm="vm.deleteTest(test)">
