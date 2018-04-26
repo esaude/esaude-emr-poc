@@ -27,6 +27,9 @@ module.exports = {
     I.fillField(this.fields.password, userInfo.password);
     I.click(this.loginButton);
 
+    // Wait for the page to load
+    I.wait(1)
+
     // Helps the caller detect whether login was
     // successful or not
     return {

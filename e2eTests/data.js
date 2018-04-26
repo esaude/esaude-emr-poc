@@ -1,3 +1,10 @@
+const generatePatientIdentifier = () => {
+	// Generates a random number between [0,9]
+	const g = () => Math.floor(Math.random() * Math.floor(9))
+
+	return `${g()}${g()}${g()}${g()}${g()}${g()}${g()}${g()}/${g()}${g()}/${g()}${g()}${g()}${g()}${g()}`
+}
+
 // Data useful for tests
 module.exports = {
 	users: {
@@ -16,8 +23,14 @@ module.exports = {
 		},
 
 		patient1: {
-			username: 'p1',
-			password: 'Patient1',
+			"identifiers": [
+				{
+					"identifier": generatePatientIdentifier(),
+					"identifierType": "e2b966d0-1d5f-11e0-b929-000c29ad1d07", // NID (SERVICO TARV)
+					"location": "4c34a53f-b0c2-4315-9829-1a07f76e10a8", // Zumba
+					"preferred": true
+				}
+			],
 			person: {
 				names: [
 					{
@@ -30,8 +43,14 @@ module.exports = {
 		},
 
 		patient2: {
-			username: 'p2',
-			password: 'Patient2',
+			"identifiers": [
+				{
+					"identifier": generatePatientIdentifier(),
+					"identifierType": "e2b966d0-1d5f-11e0-b929-000c29ad1d07", // NID (SERVICO TARV)
+					"location": "4c34a53f-b0c2-4315-9829-1a07f76e10a8", // Zumba
+					"preferred": true
+				}
+			],
 			person: {
 				names: [
 					{
