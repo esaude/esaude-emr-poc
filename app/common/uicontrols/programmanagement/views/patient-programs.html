@@ -58,24 +58,19 @@
 
       <tr ng-if="hasPatientAnyPastPrograms()" ng-repeat="program in endedPrograms">
         <td>
-          <button class="btn btn-default btn-lg" type="button" data-toggle="modal" data-target="#editProgramModal" ng-click="setProgramSelected(program)">
-            <span class="glyphicon glyphicon-pencil"></span>
-            <span class="button-label">{{program.display}}</span>
-          </button>
+          {{program.display}}
         </td>
         <td>
           {{'COMMON_PROGRAM_ENROLLMENT_COMPLETED_ON' | translate}}: ({{program.dateCompleted | date}})
         </td>
         <td ng-if="hasValidProgramStateToShow(program.states)" ng-init="currentState = getCurrentProgramState(program.states)">
-          <button class="btn btn-default btn-lg" type="button" disabled="disabled">
-            <span class="button-label">{{currentState.state.concept.display}}</span>
-            <span class="button-label" ng-if="currentState.endDate !== null">
-              {{'COMMON_TO' | translate}} {{currentState.endDate | date}}
-            </span>
-            <span class="button-label" ng-if="currentState.endDate === null">
-              {{'COMMON_FROM' | translate}} ({{currentState.startDate | date}})
-            </span>
-          </button>
+          {{currentState.state.concept.display}}
+          <span ng-if="currentState.endDate !== null">
+            {{'COMMON_TO' | translate}} {{currentState.endDate | date}}
+          </span>
+          <span ng-if="currentState.endDate === null">
+            {{'COMMON_FROM' | translate}} ({{currentState.startDate | date}})
+          </span>
         </td>
         <td ng-if="!hasValidProgramStateToShow(program.states)">
           <p>{{'COMMON_PROGRAM_ENROLLMENT_NO_STATE' | translate}}</p>
