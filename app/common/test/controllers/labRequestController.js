@@ -5,10 +5,10 @@
     .controller('LabRequestController', LabRequestController);
 
   LabRequestController.$inject = ['$rootScope', '$stateParams', 'providerService', 'testProfileService', 'testService',
-    'notifier', '$filter', 'testOrderService', 'sessionService', 'visitService', 'testOrderResultService', 'orderService', 'conceptService'];
+    'notifier', '$filter', 'testOrderService', 'sessionService', 'visitService', 'testOrderResultService', 'orderService', 'conceptService', '$log'];
 
   function LabRequestController($rootScope, $stateParams, providerService, testProfileService, testService, notifier,
-    $filter, testOrderService, sessionService, visitService, testOrderResultService, orderService, conceptService) {
+    $filter, testOrderService, sessionService, visitService, testOrderResultService, orderService, conceptService, $log) {
 
     var patientUuid = $stateParams.patientUuid;
     var patient = {};
@@ -108,13 +108,13 @@
         testUuids.forEach(function (uuid) {
           var test = getTestByUuid(uuid);
           if (test != null) {
-            var alreadyContainsTest = vm.selectedTests.indexOf(test) != -1;
+            var alreadyContainsTest = vm.selectedTests.indexOf(test) !== -1;
             if (!alreadyContainsTest) {
               test.profileName = vm.selectedProfile.name;
               vm.selectedTests.push(test);
             }
           } else {
-            console.error("Teste com uuid " + uuid + " não encontrado");
+            $log.error("Teste com uuid " + uuid + " não encontrado");
             return;
           }
         });
@@ -127,7 +127,7 @@
     function getTestByUuid(uuid) {
       var foundTest = null;
       vm.tests.forEach(function (test) {
-        if (test.testOrder.uuid == uuid) {
+        if (test.testOrder.uuid === uuid) {
           foundTest = test;
         }
       });
@@ -145,7 +145,7 @@
     }
 
     function validateTestsSelected() {
-      if (vm.selectedTests.length == 0) {
+      if (vm.selectedTests.length === 0) {
         throw ADD_AT_LEAST_ONE_TEST_TO_TEST_ORDER;
       }
     }
@@ -199,13 +199,13 @@
         var itemResults = testOrderResult.items;
         itemResults.forEach(function (itemResult) {
           var currentItemResult = vm.testsOfSelectedRequest.find(function (testItem) {
-            return testItem.uuid == itemResult.uuid;
+            return testItem.uuid === itemResult.uuid;
           });
           currentItemResult.value = itemResult.value;
           orderService.getOrder(currentItemResult.uuid).then(function (order) {
             conceptService.getConcept(order.concept.uuid, 'custom:(uuid,display,answers,datatype,units,lowAbsolute,hiAbsolute)').then(function (concept) {
               currentItemResult.concept = concept;
-              if (concept.datatype.name == "Coded") {
+              if (concept.datatype.name === "Coded") {
                 var answer = concept.answers.find(function (answer) {
                   return answer.uuid = currentItemResult.value;
                 });
@@ -224,7 +224,7 @@
         vm.testsOfSelectedRequest.splice(vm.testsOfSelectedRequest.indexOf(test), 1);
 
         //if we remove the last test of the lab order the lab order is also removed, we need to update lab orders list to reflect this
-        if (vm.testsOfSelectedRequest.length == 0) {
+        if (vm.testsOfSelectedRequest.length === 0) {
           loadExistingTestOrders();
         }
       });
@@ -240,7 +240,7 @@
 
     function isTestOrderInDetailCompleted() {
       if (vm.testOrderInDetail != null) {
-        return vm.testOrderInDetail.status == COMPLETED_STATUS;
+        return vm.testOrderInDetail.status === COMPLETED_STATUS;
       }
       return false;
     }
