@@ -43,6 +43,7 @@ class Api {
 
 // Detaled description of each API found at:
 // https://wiki.openmrs.org/display/docs/REST+Web+Service+Resources+in+OpenMRS+1.8#RESTWebServiceResourcesinOpenMRS1.8-User
+// Best resource: https://psbrandt.io/openmrs-contrib-apidocs/
 module.exports = {
 
   _init() {
