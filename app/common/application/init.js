@@ -10,6 +10,7 @@
     .module('application', [
       'authentication',
       'bahmni.common.uiHelper',
+      'common.patient',
       'ncy-angular-breadcrumb',
       'ui.bootstrap'
     ]);

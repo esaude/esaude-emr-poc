@@ -2,7 +2,7 @@
     <div class="panel-heading">
         <h3 class="panel-title">{{'PATIENT_INFO_NAME' | translate}}</h3>
     </div>
-    <div class="panel-body" ng-controller="SimilarPatientsController as similar">
+    <div class="panel-body" ng-controller="SimilarPatientsController as vm">
         <div class="form-group form-group-lg"
              ng-class="{'has-error': aForm.givenName.$invalid && patientCommon.showMessages}">
             <label for="givenName" class="col-sm-2 control-label">{{'PATIENT_INFO_NAME' | translate}}:<span class="asterick">*</span></label>
@@ -13,9 +13,9 @@
                 </div>
                 <input type="text" class="form-control keyboard-in" id="givenName" name="givenName"
                        ng-model="patientCommon.patient.givenName"
+                       ng-change="vm.refresh()"
                        placeholder="{{'PATIENT_INFO_NAME_PLACEHOLDER' | translate}}" title="Enter patient's first name."
-                       my-autocomplete source="patientCommon.getAutoCompleteList" response-map="patientCommon.getDataResults"
-                       data-item-type="personName" ng-pattern="/^[a-zÀ-ú ,.'-]+$/i"
+                       ng-pattern="/^[a-zÀ-ú ,.'-]+$/i"
                        required >
             </div>
         </div>
@@ -29,6 +29,7 @@
             </div>
             <input type="text" class="form-control keyboard-in" id="patientSurname" name="patientSurname"
                    ng-model="patientCommon.patient.familyName"
+                   ng-change="vm.refresh()"
                    placeholder="{{'PATIENT_INFO_SURNAME_PLACEHOLDER' | translate}}" title="Enter patient's last name."
                    ng-pattern="/^[a-zÀ-ú ,.'-]+$/i" required>
           </div>
@@ -41,27 +42,26 @@
         </div>
 
       <div id="ng-similarpatients">
-        <div ng-show="similar.similarPatients.length"><h2>{{ 'SIMILAR_PATIENTS' | translate }}</h2></div>
-        <div ng-show="similar.similarPatients.length">
-
+        <div ng-show="vm.similarPatients.length">
+          <h3>{{vm.similarPatients.length}} {{ 'SIMILAR_PATIENTS' | translate }}</h3>
           <table class="table table-striped">
             <thead>
             <tr>
               <th>{{'SEARCH_PATIENT_NID' | translate}}</th>
               <th>{{'SEARCH_PATIENT_FIRSTNAME' | translate}}</th>
               <th>{{'SEARCH_PATIENT_LASTNAME' | translate}}</th>
-              <th>{{'PATIENT_INFO_OTHER_NAMES' | translate}}</th>
+              <th>{{'PATIENT_INFO_NICK_NAME' | translate}}</th>
               <th>{{'SEARCH_PATIENT_GENDER' | translate}}</th>
               <th>{{'SEARCH_PATIENT_AGE' | translate}}</th>
               <th>{{'SEARCH_PATIENT_BIRTHDATE' | translate}}</th>
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="patient in similar.similarPatients" ng-click="similar.loadPatientToDashboard(patientCommon.patient)">
+            <tr ng-repeat="patient in vm.similarPatients" ng-click="vm.loadPatientToDashboard(patient)">
               <td>{{patient.identifier}}</td>
               <td>{{patient.givenName}}</td>
               <td>{{patient.familyName}}</td>
-              <td>{{patient.middleName}}</td>
+              <td>{{patient.Alcunha}}</td>
               <td>{{patient.gender}}</td>
               <td>{{patient.age.years}}</td>
               <td>{{patient.birthdate | date}}</td>
