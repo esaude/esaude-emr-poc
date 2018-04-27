@@ -159,9 +159,6 @@ describe('testOrderResultService', function () {
       });
       $httpBackend.flush();
       expect(result.value).toEqual(25);
-      expect(result.codedValue).toBeNull();
-      expect(result.unit).toEqual("g");
-      expect(result.numeric).toEqual(true);
     });
 
     it('should return null result if no value is available', function () {
