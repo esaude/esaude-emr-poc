@@ -12,7 +12,7 @@ describe('LabRequestController', function () {
     status: "NEW"
   };
 
-  beforeEach(module('clinic', function ($provide, $translateProvider, $urlRouterProvider) {
+  beforeEach(module('common.test', function ($provide, $translateProvider, $urlRouterProvider) {
     $provide.factory('mergeLocaleFilesService', function ($q) {
       return function () {
         var deferred = $q.defer();
@@ -85,7 +85,7 @@ describe('LabRequestController', function () {
         return resolve({});
       });
     });
-    spyOn(testOrderResultService, 'getTestOrderResult').and.callFake(function () {
+    spyOn(testOrderResultService, 'getTestOrderConsolidateResult').and.callFake(function () {
       return $q(function (resolve) {
         return resolve({});
       });
@@ -260,5 +260,5 @@ describe('LabRequestController', function () {
       expect(controller.selectedTests).toEqual([]);
     });
   });
-  
+
 });
