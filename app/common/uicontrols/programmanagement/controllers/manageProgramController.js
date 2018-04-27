@@ -44,6 +44,7 @@
     $scope.hasProgramWorkflowStates = hasProgramWorkflowStates;
     $scope.resetProgramFields = resetProgramFields;
     $scope.patientUuid = $stateParams.patientUuid;
+    $scope.datepickerOptions = {maxDate: DateUtil.now()};
 
     activate();
 
