@@ -5,9 +5,11 @@
     .module('common.patient')
     .factory('patientService', patientService);
 
-  patientService.$inject = ['$http', '$rootScope', 'openmrsPatientMapper', '$q', '$log', 'reportService', 'updatePatientMapper'];
+  patientService.$inject = ['$http', '$rootScope', 'appService', 'openmrsPatientMapper', '$q', '$log', 'configurations',
+    'reportService', 'updatePatientMapper'];
 
-  function patientService($http, $rootScope, openmrsPatientMapper, $q, $log, reportService, updatePatientMapper) {
+  function patientService($http, $rootScope, appService, openmrsPatientMapper, $q, $log, configurations, reportService,
+    updatePatientMapper) {
 
     var OPENMRS_URL = Poc.Patient.Constants.openmrsUrl;
 
@@ -114,7 +116,7 @@
     }
 
     function create(patient) {
-      var patientJson = new Bahmni.Registration.CreatePatientRequestMapper(moment()).mapFromPatient($rootScope.patientConfiguration.personAttributeTypes, patient);
+      var patientJson = new Bahmni.Registration.CreatePatientRequestMapper(moment()).mapFromPatient(appService.getPatientConfiguration().personAttributeTypes, patient);
       return $http.post(BASE_OPENMRS_REST_URL + "/patientprofile", patientJson, {
         withCredentials: true,
         headers: { "Accept": "application/json", "Content-Type": "application/json" }
@@ -123,7 +125,7 @@
 
     function update(patient, openMRSPatient) {
 
-      var patientJson = updatePatientMapper.map($rootScope.patientConfiguration.personAttributeTypes, openMRSPatient, patient, moment());
+      var patientJson = updatePatientMapper.map(appService.getPatientConfiguration().personAttributeTypes, openMRSPatient, patient, moment());
 
       var updatedPatientProfile = {};
 

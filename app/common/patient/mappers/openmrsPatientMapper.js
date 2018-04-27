@@ -5,10 +5,10 @@
     .module('common.patient')
     .factory('openmrsPatientMapper', openmrsPatientMapper);
 
-  openmrsPatientMapper.$inject = ['patient', '$rootScope', 'age'];
+  openmrsPatientMapper.$inject = ['patient', '$rootScope', 'age', 'appService'];
 
   /* @ngInject */
-  function openmrsPatientMapper(patientModel, $rootScope, age) {
+  function openmrsPatientMapper(patientModel, $rootScope, age, appService) {
 
     var mapper = {
       map: map,
@@ -59,7 +59,7 @@
     }
 
     function addAttributeToPatient(patient, attribute) {
-      var attributeType = $rootScope.patientConfiguration.get(attribute.attributeType.uuid);
+      var attributeType = appService.getPatientConfiguration().get(attribute.attributeType.uuid);
       if (attributeType) {
         if (attributeType.format === "org.openmrs.Concept" && attribute.value) {
           patient[attributeType.name] = attribute.value.uuid;
@@ -72,8 +72,8 @@
     }
 
     function whereAttributeTypeExists(attribute) {
-      return (!$rootScope.patientConfiguration) ? $rootScope.patientConfiguration : 
-          $rootScope.patientConfiguration.get(attribute.attributeType.uuid);
+      return (!appService.getPatientConfiguration()) ? appService.getPatientConfiguration() :
+          appService.getPatientConfiguration().get(attribute.attributeType.uuid);
     }
 
     function mapAttributes(patient, attributes) {

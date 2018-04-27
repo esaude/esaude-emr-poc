@@ -16,6 +16,7 @@
     $scope.addressHierarchyConfigs = appService.getAppDescriptor().getConfigValue("addressHierarchy");
     $scope.headerText = "PATIENT_INFO_NEW";
     $scope.patient = patient.create();
+    $scope.patientConfiguration = appService.getPatientConfiguration();
     $scope.srefPrefix = "newpatient.";
 
     $scope.linkCancel = linkCancel;

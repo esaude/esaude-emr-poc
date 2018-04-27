@@ -2,12 +2,6 @@ describe('PatientDetailsController', function () {
 
   var $componentController, $q, patientService, patientConfiguration, reportService;
 
-  patientConfiguration = {
-    customAttributeRows: function () {
-      return [[1, 2], [3, 4]];
-    }
-  };
-
   beforeEach(module('patient.details', function ($provide, $translateProvider, $urlRouterProvider) {
     // Mock translate asynchronous loader
     $provide.factory('mergeLocaleFilesService', function ($q) {
@@ -20,10 +14,13 @@ describe('PatientDetailsController', function () {
 
     // Mock appService
     var appDescriptor = jasmine.createSpyObj('appDescriptor',['getConfigValue']);
-    var appService = jasmine.createSpyObj('appService', ['getAppDescriptor']);
+    var appService = jasmine.createSpyObj('appService', ['getAppDescriptor', 'getPatientConfiguration']);
 
     appDescriptor.getConfigValue.and.returnValue({});
     appService.getAppDescriptor.and.returnValue(appDescriptor);
+    appService.getPatientConfiguration.and.returnValue({personAttributeTypes: [], customAttributeRows: function () {
+        return [[1, 2], [3, 4]];
+      }});
 
     $provide.value('appService', appService);
 
@@ -50,22 +47,14 @@ describe('PatientDetailsController', function () {
     });
 
     it('should load the patient', function () {
-      var ctrl = $componentController('patientDetails', {
-        $rootScope: {
-          patientConfiguration: patientConfiguration
-        }
-      });
+      var ctrl = $componentController('patientDetails');
       ctrl.$onInit();
       $rootScope.$apply();
       expect(patientService.getPatient).toHaveBeenCalled();
     });
 
     it('should define the patient attributes', function () {
-      var ctrl = $componentController('patientDetails', {
-        $rootScope: {
-          patientConfiguration: patientConfiguration
-        }
-      });
+      var ctrl = $componentController('patientDetails');
       ctrl.$onInit();
       $rootScope.$apply();
       expect(ctrl.patientAttributes).toEqual([1, 2, 3, 4]);
