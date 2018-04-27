@@ -5,10 +5,11 @@
     .controller('LabRequestController', LabRequestController);
 
   LabRequestController.$inject = ['$rootScope', '$stateParams', 'providerService', 'testProfileService', 'testService',
-    'notifier', '$filter', 'testOrderService', 'sessionService', 'visitService', 'testOrderResultService', 'orderService', 'conceptService', '$log'];
+    'notifier', '$filter', 'testOrderService', 'sessionService', 'visitService', 'testOrderResultService', 'orderService',
+    'conceptService', '$log', '$q'];
 
   function LabRequestController($rootScope, $stateParams, providerService, testProfileService, testService, notifier,
-    $filter, testOrderService, sessionService, visitService, testOrderResultService, orderService, conceptService, $log) {
+    $filter, testOrderService, sessionService, visitService, testOrderResultService, orderService, conceptService, $log, $q) {
 
     var patientUuid = $stateParams.patientUuid;
     var patient = {};
@@ -192,30 +193,14 @@
       }
     }
 
-    function showTestOrderDetails(testOrder) {
-      vm.testsOfSelectedRequest = testOrder.testOrderItems;
-      vm.testOrderInDetail = testOrder;
-      testOrderResultService.getTestOrderResult(testOrder.uuid).then(function (testOrderResult) {
-        var itemResults = testOrderResult.items;
-        itemResults.forEach(function (itemResult) {
-          var currentItemResult = vm.testsOfSelectedRequest.find(function (testItem) {
-            return testItem.uuid === itemResult.uuid;
+    function showTestOrderDetails(testRequest) {
+      vm.testsOfSelectedRequest = testRequest.testOrderItems;
+      vm.testOrderInDetail = testRequest;
+      vm.testsOfSelectedRequest.forEach(function (testOrder) {
+        testOrderResultService.getTestOrderConsolidateResult(testRequest.uuid, testOrder.uuid)
+          .then(function (result) {
+            testOrder.result = result;
           });
-          currentItemResult.value = itemResult.value;
-          orderService.getOrder(currentItemResult.uuid).then(function (order) {
-            conceptService.getConcept(order.concept.uuid, 'custom:(uuid,display,answers,datatype,units,lowAbsolute,hiAbsolute)').then(function (concept) {
-              currentItemResult.concept = concept;
-              if (concept.datatype.name === "Coded") {
-                var answer = concept.answers.find(function (answer) {
-                  return answer.uuid = currentItemResult.value;
-                });
-                currentItemResult.consolidatedValue = answer.display;
-              } else if (currentItemResult.value) {
-                currentItemResult.consolidatedValue = currentItemResult.value + " " + concept.units;
-              }
-            });
-          });
-        });
       });
     }
 
