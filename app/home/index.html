@@ -1,109 +1,118 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Home</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width">
-    <!-- build:css styles/vendor.home.min.css -->
-    <!-- bower:css -->
-    <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="../../bower_components/keyboard/dist/css/keyboard.min.css" />
-    <link rel="stylesheet" href="../../bower_components/toastr/toastr.css" />
-    <link rel="stylesheet" href="../../bower_components/ng-dialog/css/ngDialog.min.css" />
-    <link rel="stylesheet" href="../../bower_components/ng-dialog/css/ngDialog-theme-default.min.css" />
-    <link rel='stylesheet' href='../../bower_components/angular-loading-bar/build/loading-bar.min.css' />
-    <!-- endbower -->
-    <!-- endbuild -->
-    <!-- build:css styles/main.min.css -->
-    <link rel="stylesheet" href="../styles/main-styles.css">
-    <!-- endbuild -->
-  </head>
-  <body>
 
-    <div ng-app="home">
-      <div ui-view="layout"></div>
-    </div>
+<head>
+  <meta charset="utf-8">
+  <title>Home</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+  <!-- build:css styles/vendor.home.min.css -->
+  <!-- bower:css -->
+  <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="../../bower_components/keyboard/dist/css/keyboard.min.css" />
+  <link rel="stylesheet" href="../../bower_components/toastr/toastr.css" />
+  <link rel="stylesheet" href="../../bower_components/ng-dialog/css/ngDialog.min.css" />
+  <link rel="stylesheet" href="../../bower_components/ng-dialog/css/ngDialog-theme-default.min.css" />
+  <link rel='stylesheet' href='../../bower_components/angular-loading-bar/build/loading-bar.min.css' />
+  <!-- endbower -->
+  <!-- endbuild -->
+  <!-- build:css styles/main.min.css -->
+  <link rel="stylesheet" href="../styles/main-styles.css">
+  <!-- endbuild -->
+</head>
 
-      <!-- build:js scripts/vendor.home.min.js -->
-      <!-- bower:js -->
-      <script src="../../bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="../../bower_components/angular/angular.js"></script>
-    <script src='../../bower_components/angular-loading-bar/build/loading-bar.min.js'></script>
-    <script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-      <script src="../../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-      <script src="../../bower_components/moment/min/moment.min.js"></script>
-      <script src="../../bower_components/keyboard/dist/js/jquery.keyboard.min.js"></script>
-      <script src="../../bower_components/keyboard/dist/layouts/keyboard-layouts-combined.min.js"></script>
-      <script src="../../bower_components/keyboard/dist/layouts/keyboard-layouts-greywyvern.min.js"></script>
-      <script src="../../bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
-      <script src="../../bower_components/chart.js/dist/Chart.min.js"></script>
-      <script src="../../bower_components/angular-chart.js/dist/angular-chart.min.js"></script>
-      <script src="../../bower_components/angular-smart-table/dist/smart-table.min.js"></script>
-      <script src="../../bower_components/keyboard/dist/js/jquery.keyboard.extension-all.min.js"></script>
-      <script src="../../bower_components/angular-cookies/angular-cookies.min.js"></script>
-      <script src="../../bower_components/lodash/dist/lodash.min.js"></script>
-      <script src="../../bower_components/angular-local-storage/dist/angular-local-storage.min.js"></script>
-      <script src="../../bower_components/angular-translate/angular-translate.min.js"></script>
-      <script src="../../bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
-      <script src="../../bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.min.js"></script>
-      <script src="../../bower_components/angular-translate-storage-local/angular-translate-storage-local.js"></script>
-      <script src="../../bower_components/angular-translate-handler-log/angular-translate-handler-log.min.js"></script>
-      <script src="../../bower_components/angular-breadcrumb/dist/angular-breadcrumb.min.js"></script>
-      <script src="../../bower_components/toastr/toastr.js"></script>
-      <script src="../../bower_components/ng-dialog/js/ngDialog.min.js"></script>
-      <!-- endbower -->
-      <!-- endbuild -->
+<body>
 
-    <!-- build:js scripts/home.min.js -->
-    <script src="../common/constants.js"></script>
+  <div ng-app="home">
+    <div ui-view="layout"></div>
+  </div>
 
-    <script src="../common/application/init.js"></script>
-    <script src="../common/application/constants.js"></script>
-    <script src="../common/application/config.js"></script>
-    <script src="../common/application/directives/pocHeader.js"></script>
-    <script src="../common/ui-helper/init.js"></script>
-    <script src="../common/ui-helper/notifier.js"></script>
-    <script src="../common/ui-helper/directives/pocConfirmDialog.js"></script>
+  <!-- build:js scripts/vendor.home.min.js -->
+  <!-- bower:js -->
+  <script src="../../bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="../../bower_components/angular/angular.js"></script>
+  <script src='../../bower_components/angular-loading-bar/build/loading-bar.min.js'></script>
+  <script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="../../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+  <script src="../../bower_components/angular-messages/angular-messages.min.js"></script>  
+  <script src="../../bower_components/moment/min/moment.min.js"></script>
+  <script src="../../bower_components/keyboard/dist/js/jquery.keyboard.min.js"></script>
+  <script src="../../bower_components/keyboard/dist/layouts/keyboard-layouts-combined.min.js"></script>
+  <script src="../../bower_components/keyboard/dist/layouts/keyboard-layouts-greywyvern.min.js"></script>
+  <script src="../../bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+  <script src="../../bower_components/chart.js/dist/Chart.min.js"></script>
+  <script src="../../bower_components/angular-chart.js/dist/angular-chart.min.js"></script>
+  <script src="../../bower_components/angular-smart-table/dist/smart-table.min.js"></script>
+  <script src="../../bower_components/keyboard/dist/js/jquery.keyboard.extension-all.min.js"></script>
+  <script src="../../bower_components/angular-cookies/angular-cookies.min.js"></script>
+  <script src="../../bower_components/lodash/dist/lodash.min.js"></script>
+  <script src="../../bower_components/angular-local-storage/dist/angular-local-storage.min.js"></script>
+  <script src="../../bower_components/angular-translate/angular-translate.min.js"></script>
+  <script src="../../bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
+  <script src="../../bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.min.js"></script>
+  <script src="../../bower_components/angular-translate-storage-local/angular-translate-storage-local.js"></script>
+  <script src="../../bower_components/angular-translate-handler-log/angular-translate-handler-log.min.js"></script>
+  <script src="../../bower_components/angular-breadcrumb/dist/angular-breadcrumb.min.js"></script>
+  <script src="../../bower_components/toastr/toastr.js"></script>
+  <script src="../../bower_components/ng-dialog/js/ngDialog.min.js"></script>
+  <!-- endbower -->
+  <!-- endbuild -->
 
-    <script src="../common/auth/init.js"></script>
-    <script src="../common/auth/config.js"></script>
-    <script src="../common/auth/run.js"></script>
-    <script src="../common/auth/user.js"></script>
-    <script src="../common/auth/userService.js"></script>
-    <script src="../common/auth/authenticator.js"></script>
-    <script src="../common/auth/sessionService.js"></script>
-    <script src="../common/auth/authorizationService.js"></script>
-    <script src="../common/auth/directives/logout.js"></script>
-    <script src="../common/auth/directives/pocAuthorize.js"></script>
+  <!-- build:js scripts/home.min.js -->
+  <script src="../common/constants.js"></script>
+
+  <script src="../common/application/init.js"></script>
+  <script src="../common/application/constants.js"></script>
+  <script src="../common/application/config.js"></script>
+  <script src="../common/application/directives/pocHeader.js"></script>
+  <script src="../common/ui-helper/init.js"></script>
+  <script src="../common/ui-helper/notifier.js"></script>
+  <script src="../common/ui-helper/directives/pocConfirmDialog.js"></script>
+
+  <script src="../common/auth/init.js"></script>
+  <script src="../common/auth/config.js"></script>
+  <script src="../common/auth/run.js"></script>
+  <script src="../common/auth/user.js"></script>
+  <script src="../common/auth/userService.js"></script>
+  <script src="../common/auth/authenticator.js"></script>
+  <script src="../common/auth/sessionService.js"></script>
+  <script src="../common/auth/authorizationService.js"></script>
+  <script src="../common/auth/directives/logout.js"></script>
+  <script src="../common/auth/directives/pocAuthorize.js"></script>
+
+  <script src="../common/prescription/init.js"></script>
+
+  <script src="../visit/visit.module.js"></script>
+
+  <script src="../common/test/init.js"></script>
+
+  <script src="../common/domain/init.js"></script>
+  <script src="../common/domain/services/locationService.js"></script>
+  <script src="../common/domain/services/configurationService.js"></script>
+  <script src="../common/domain/services/localeService.js"></script>
+  <script src="../common/domain/services/encounterService.js"></script>
+  <script src="../common/domain/services/consultationService.js"></script>
 
 
-    <script src="../common/domain/init.js"></script>
-    <script src="../common/domain/services/locationService.js"></script>
-    <script src="../common/domain/services/configurationService.js"></script>
-    <script src="../common/domain/services/localeService.js"></script>
-    <script src="../common/domain/services/encounterService.js"></script>
-    <script src="../common/domain/services/consultationService.js"></script>
+  <script src="../common/config/init.js"></script>
+  <script src="../common/config/services/configurations.js"></script>
 
+  <script src="../common/app-framework/init.js"></script>
+  <script src="../common/app-framework/models/appDescriptor.js"></script>
+  <script src="../common/app-framework/services/appService.js"></script>
+  <script src="../common/app-framework/services/mergeService.js"></script>
+  <script src="../common/app-framework/services/applicationService.js"></script>
 
-    <script src="../common/config/init.js"></script>
-    <script src="../common/config/services/configurations.js"></script>
+  <script src="../common/i18n/init.js"></script>
+  <script src="../common/i18n/services/bahmni-translate.js"></script>
+  <script src="../common/i18n/services/mergeLocaleFilesService.js"></script>
 
-    <script src="../common/app-framework/init.js"></script>
-    <script src="../common/app-framework/models/appDescriptor.js"></script>
-    <script src="../common/app-framework/services/appService.js"></script>
-    <script src="../common/app-framework/services/mergeService.js"></script>
-    <script src="../common/app-framework/services/applicationService.js"></script>
-
-    <script src="../common/i18n/init.js"></script>
-    <script src="../common/i18n/services/bahmni-translate.js"></script>
-    <script src="../common/i18n/services/mergeLocaleFilesService.js"></script>
-
-    <script src="init.js"></script>
-    <script src="initialization.js"></script>
-    <script src="app.js"></script>
-    <script src="controllers/loginController.js"></script>
-    <script src="controllers/dashboardController.js"></script>
-    <!-- endbuild -->
+  <script src="init.js"></script>
+  <script src="initialization.js"></script>
+  <script src="app.js"></script>
+  <script src="controllers/loginController.js"></script>
+  <script src="controllers/dashboardController.js"></script>
+  <!-- endbuild -->
 </body>
+
 </html>

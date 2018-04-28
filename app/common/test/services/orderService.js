@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('lab')
+    .module('common.test')
     .factory('orderService', orderService);
 
   orderService.$inject = ['$http', '$q', '$log'];

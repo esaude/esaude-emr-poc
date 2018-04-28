@@ -2,25 +2,26 @@
   'use strict';
 
   angular
-    .module('lab')
+    .module('common.test')
     .factory('testOrderResultService', testOrderResultService);
 
-  testOrderResultService.$inject = ['$http', '$q', '$log', 'sessionService'];
+  testOrderResultService.$inject = ['$http', '$q', '$log', 'sessionService', 'conceptService'];
 
   /* @ngInject */
-  function testOrderResultService($http, $q, $log, sessionService) {
+  function testOrderResultService($http, $q, $log, sessionService, conceptService) {
     var service = {
       getTestOrderResultsForPatient: getTestOrderResultsForPatient,
       getTestOrderResult: getTestOrderResult,
       saveTestResultItem: saveTestResultItem,
-      removeTestResultItem: removeTestResultItem
+      removeTestResultItem: removeTestResultItem,
+      getTestOrderConsolidateResult: getTestOrderConsolidateResult
     };
     return service;
 
     ////////////////
 
     function getTestOrderResultsForPatient(patient) {
-      return $http.get('/openmrs/ws/rest/v1/testorderresult', {params: {patient: patient.uuid}})
+      return $http.get('/openmrs/ws/rest/v1/testorderresult', { params: { patient: patient.uuid } })
         .then(function (response) {
           return response.data.results;
         })
@@ -42,7 +43,7 @@
     }
 
     function saveTestResultItem(testResult, testResultItem) {
-      var config = {headers: {"Accept": "application/json", "Content-Type": "application/json"}};
+      var config = { headers: { "Accept": "application/json", "Content-Type": "application/json" } };
 
       return sessionService.getCurrentProvider()
         .then(function (currentProvider) {
@@ -70,16 +71,41 @@
 
     function buildTestResultResource(provider, testResult, item) {
       return {
-        encounterRequest: {uuid: testResult.encounterRequest.uuid},
+        encounterRequest: { uuid: testResult.encounterRequest.uuid },
         dateCreation: moment().format('YYYY-MM-DD'),
-        provider: {uuid: provider.uuid},
+        provider: { uuid: provider.uuid },
         items: [
           {
-            "testOrder": {"type": item.testOrder.type, "uuid": item.testOrder.uuid},
+            "testOrder": { "type": item.testOrder.type, "uuid": item.testOrder.uuid },
             "value": "" + item.value
           }
         ]
       };
+    }
+
+    function getTestOrderConsolidateResult(testRequestUuid, testOrderUuid) {
+      return getTestOrderResult(testRequestUuid)
+        .then(function (testRequest) {
+          var testOrders = testRequest.items;
+          var testOrderWithResult = testOrders.find(function (testOrder) { return testOrder.uuid === testOrderUuid; });
+          return conceptService.getConceptByTestOrder(testOrderWithResult.uuid, 'custom:(uuid,display,answers,datatype,units)')
+            .then(function (concept) {
+              return $q(function (resolve) {
+                var result = null;
+                if (concept.datatype.name === "Coded") {
+                  var answer = concept.answers.find(function (answer) { return answer.uuid = testOrderWithResult.value; });
+                  result = { value: testOrderWithResult.value, unit: null, codedValue: answer, numeric: false };
+                } else if (testOrderWithResult.value) {
+                  result = { value: testOrderWithResult.value, unit: concept.units, codedValue: null, numeric: true };
+                }
+                resolve(result);
+              });
+            });
+        })
+        .catch(function (error) {
+          $log.error('XHR failed for getTestOrderWithResult: ' + error.data.error.message);
+          return $q.reject(error);
+        });
     }
 
   }
