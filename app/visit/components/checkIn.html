@@ -38,10 +38,10 @@
 
 
           <poc-authorize privilege="'Delete Visit'">
-            <button type="button" class="btn btn-danger btn-lg" ng-click="vm.cancelCheckIn()" ng-if="vm.todayVisit">
+            <poc-confirm-button type="button" class="btn btn-danger btn-lg" on-confirm="vm.cancelCheckIn()" ng-if="vm.todayVisit">
               <span class="glyphicon glyphicon-remove"></span>
               <span class="button-label">{{'REMOVE' | translate}}</span>
-            </button>
+            </poc-confirm-button>
           </poc-authorize>
 
         </div>

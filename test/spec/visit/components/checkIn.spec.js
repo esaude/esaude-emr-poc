@@ -67,7 +67,7 @@ describe('CheckInController', function () {
       });
 
       var ctrl = $componentController('checkIn', null, {
-        onCheckIn: function () {
+        onCheckInChange: function () {
         }
       });
 
@@ -78,7 +78,7 @@ describe('CheckInController', function () {
 
     });
 
-    it('should disable check-in', function () {
+    it('should call onCheckInChange binding', function () {
 
       var visit = {};
 
@@ -88,34 +88,12 @@ describe('CheckInController', function () {
         });
       });
 
-      var ctrl = $componentController('checkIn', null, {
-        onCheckIn: function () {
-        }
-      });
+      var ctrl = $componentController('checkIn', null, {onCheckInChange: jasmine.createSpy('onCheckInChange')});
 
       ctrl.checkIn();
       $rootScope.$apply();
 
-      expect(ctrl.disableCheckin).toEqual(true);
-
-    });
-
-    it('should call onCheckIn binding', function () {
-
-      var visit = {};
-
-      spyOn(visitService, 'checkInPatient').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve(visit);
-        });
-      });
-
-      var ctrl = $componentController('checkIn', null, {onCheckIn: jasmine.createSpy('onCheckIn')});
-
-      ctrl.checkIn();
-      $rootScope.$apply();
-
-      expect(ctrl.onCheckIn).toHaveBeenCalled();
+      expect(ctrl.onCheckInChange).toHaveBeenCalled();
 
     });
 
