@@ -88,6 +88,11 @@
     }
 
     function getTodaysVisit(patientUUID) {
+
+      if (!patientUUID) {
+        return $q.reject();
+      }
+
       var dateUtil = Bahmni.Common.Util.DateUtil;
 
       return search({patient: patientUUID, v: "full"}).then(function (visits) {

@@ -23,7 +23,7 @@
     vm.$onChanges = $onChanges;
 
     function $onChanges(changesObj) {
-      if (changesObj.patient && changesObj.patient.currentValue) {
+      if (changesObj.patient && changesObj.patient.currentValue.uuid) {
         visitService.getTodaysVisit(changesObj.patient.currentValue.uuid).then(function (visitToday) {
           vm.checkedIn = visitToday !== null;
         });
