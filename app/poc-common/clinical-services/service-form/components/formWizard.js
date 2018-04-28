@@ -42,6 +42,7 @@
     vm.previousEncounter = null;
 
     vm.$onInit = onInit;
+    vm.canSave = canSave;
     vm.compactName = compactName;
     vm.getAutoCompleteList = getAutoCompleteList;
     vm.getDataResults = getDataResults;
@@ -95,6 +96,18 @@
           vm.hasVisitToday = false;
         }
       });
+    }
+
+    function canSave() {
+      var allFields = vm.formInfo.parts.map(function (p) {
+        return p.fields
+      }).reduce(function (acc, curr) {
+        return acc.concat(curr);
+      }).length;
+
+      var visitedFields = Object.keys(vm.visitedFields).length;
+
+      return allFields === visitedFields && vm.visitedFields.every(function (f) { return f.valid; });
     }
 
     function setCurrentFormPart() {

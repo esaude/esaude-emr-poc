@@ -8,7 +8,7 @@
 </div>
 
 <div class="row bg-info-border content-border border-rouded go-to-right">
-    <button type="button" class="btn btn-primary btn-lg" ng-click="vm.formWizard.save()">
+    <button type="button" class="btn btn-primary btn-lg" ng-click="vm.formWizard.save()" ng-disabled="!vm.formWizard.canSave();">
         <span class="glyphicon glyphicon glyphicon glyphicon-floppy-disk"></span>
         <span class="button-label">{{'SAVE' | translate}}</span>
     </button>
