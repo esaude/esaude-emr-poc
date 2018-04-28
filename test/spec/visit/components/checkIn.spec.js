@@ -99,4 +99,67 @@ describe('CheckInController', function () {
 
   });
 
+  describe('cancelCheckIn', function () {
+
+    it('should check-in the patient', function () {
+
+      var visit = {};
+
+      spyOn(visitService, 'deleteVisit').and.callFake(function () {
+        return $q(function (resolve) {
+          return resolve(visit);
+        });
+      });
+
+      var ctrl = $componentController('checkIn');
+
+      ctrl.cancelCheckIn();
+
+      expect(visitService.deleteVisit).toHaveBeenCalled();
+
+    });
+
+    it('should update the day\'s visit', function () {
+
+      var visit = {};
+
+      spyOn(visitService, 'deleteVisit').and.callFake(function () {
+        return $q(function (resolve) {
+          return resolve(visit);
+        });
+      });
+
+      var ctrl = $componentController('checkIn', null, {
+        onCheckInChange: function () {
+        }
+      });
+
+      ctrl.cancelCheckIn();
+      $rootScope.$apply();
+
+      expect(ctrl.todayVisit).toEqual(null);
+
+    });
+
+    it('should call onCheckInChange binding', function () {
+
+      var visit = {};
+
+      spyOn(visitService, 'deleteVisit').and.callFake(function () {
+        return $q(function (resolve) {
+          return resolve(visit);
+        });
+      });
+
+      var ctrl = $componentController('checkIn', null, {onCheckInChange: jasmine.createSpy('onCheckInChange')});
+
+      ctrl.cancelCheckIn();
+      $rootScope.$apply();
+
+      expect(ctrl.onCheckInChange).toHaveBeenCalled();
+
+    });
+
+  });
+
 });

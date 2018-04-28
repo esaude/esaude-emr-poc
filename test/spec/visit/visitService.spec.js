@@ -59,7 +59,7 @@ describe('visitService', function () {
       $http.expectPOST("/openmrs/ws/rest/v1/visit").respond({});
     });
 
-    it('should call end visit url in registration visit service', function () {
+    it('should call end visit url', function () {
       var resolve;
       visitService.create(visitDetails).then(function (response) {
         resolve = response;
@@ -365,6 +365,24 @@ describe('visitService', function () {
       $http.verifyNoOutstandingRequest();
     });
 
+
+  });
+
+  describe('deleteVisit', function () {
+
+    beforeEach(function () {
+      $http.expectDELETE("/openmrs/ws/rest/v1/visit/1234?purge=true").respond(null);
+    });
+
+    it('should call end visit url in registration visit service', function () {
+      visitService.deleteVisit({uuid: '1234'});
+      $http.flush();
+    });
+
+    afterEach(function () {
+      $http.verifyNoOutstandingExpectation();
+      $http.verifyNoOutstandingRequest();
+    });
 
   });
 
