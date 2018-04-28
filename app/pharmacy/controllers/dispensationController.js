@@ -6,10 +6,10 @@
     .controller('DispensationController', DispensationController);
 
   DispensationController.$inject = ['$filter', '$stateParams', 'dispensationService', 'localStorageService',
-    'notifier', 'prescriptionService', 'sessionService'];
+    'notifier', 'prescriptionService', 'sessionService', 'patientService'];
 
   function DispensationController($filter, $stateParams, dispensationService, localStorageService, notifier,
-                                  prescriptionService, sessionService) {
+                                  prescriptionService, sessionService, patientService) {
 
     var dateUtil = Bahmni.Common.Util.DateUtil;
 
@@ -18,6 +18,7 @@
 
     var vm = this;
     vm.invalidQty = false;
+    vm.patient = {};
     vm.prescriptions = [];
     vm.selectedPrescriptionItems = [];
     vm.today = dateUtil.getDateWithoutTime(dateUtil.now());
@@ -37,6 +38,12 @@
         currentUser = user;
         return initPrescriptions();
       });
+
+      patientService.getPatient(patientUUID)
+        .then(function (patient) {
+          vm.patient = patient;
+        })
+        .catch(errorHandler)
     }
 
 

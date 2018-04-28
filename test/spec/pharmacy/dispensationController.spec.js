@@ -3,7 +3,7 @@
 describe('DispensationController', function () {
 
   var $controller, $q, $rootScope, controller, dispensationService, localStorageService, notifier, prescriptionService,
-    sessionService;
+    sessionService, patientService;
 
   var rootScope = {'patient': {'uuid': '0810aecc-6642-4c1c-ac1e-537a0cfed81'}};
 
@@ -53,7 +53,7 @@ describe('DispensationController', function () {
   }));
 
   beforeEach(inject(function (_$controller_, _$q_,  _$rootScope_, _dispensationService_, _localStorageService_, _notifier_,
-                              _prescriptionService_, _sessionService_) {
+                              _prescriptionService_, _sessionService_, _patientService_) {
     $controller = _$controller_;
     $q = _$q_;
     $rootScope = _$rootScope_;
@@ -61,6 +61,7 @@ describe('DispensationController', function () {
     dispensationService = _dispensationService_;
     prescriptionService = _prescriptionService_;
     notifier = _notifier_;
+    patientService = _patientService_;
   }));
 
   describe('activate', function () {
@@ -79,6 +80,12 @@ describe('DispensationController', function () {
         });
       });
 
+      spyOn(patientService, 'getPatient').and.callFake(function () {
+        return $q(function (resolve) {
+          resolve({});
+        });
+      });
+
       controller = $controller('DispensationController', {
         $filter: {},
         prescriptionService: prescriptionService,
@@ -91,6 +98,11 @@ describe('DispensationController', function () {
       expect(controller.prescriptions.length).toBe(3);
       expect(controller.prescriptions).toEqual(prescriptions);
       expect(controller.selectedPrescriptionItems.length).toBe(0);
+    });
+
+    it('should load patient', function () {
+      $rootScope.$apply();
+      expect(patientService.getPatient).toHaveBeenCalled();
     });
 
   });
