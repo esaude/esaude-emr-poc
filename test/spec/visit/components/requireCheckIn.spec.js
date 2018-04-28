@@ -41,9 +41,11 @@ describe('requireCheckIn', function () {
 
       ctrl.$onChanges({patient: {currentValue: {uuid: '39ada463-3040-49ac-b9ae-f5935efa6a2f'}}});
 
+      ctrl.checkedIn = false;
+
       $rootScope.$apply();
 
-      expect(visitService.getTodaysVisit).toHaveBeenCalled();
+      expect(ctrl.checkedIn).toEqual(true);
 
     });
 
