@@ -24,10 +24,10 @@
         <div class="col-sm-3">{{p.relationship.display}}</div>
         <div class="col-sm-3">{{p.hivStatus.display}}</div>
         <div class="col-sm-2">
-          <button class="btn btn-danger btn-lg" type="button" ng-click="vm.removePartner(p);">
-            <i class="glyphicon glyphicon-remove-sign"></i>
-            {{'REMOVE'|translate}}
-          </button>
+          <poc-confirm-button class="btn btn-danger btn-lg" on-confirm="vm.removePartner(p);">
+            <span class="glyphicon glyphicon-remove-sign"></span>
+            <span class="button-label">{{'REMOVE' | translate}}</span>
+          </poc-confirm-button>
         </div>
       </div>
 
