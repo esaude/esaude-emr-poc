@@ -1,132 +1,132 @@
 <div ng-form="aForm" class="form-group form-group-lg form-field"
-     ng-class="{'has-error': aForm.{{fieldId}}.$invalid && $parent.submitted}" ng-hide="field.hidden">
+     ng-class="{'has-error': aForm[vm.fieldId].$invalid && $parent.submitted}" ng-hide="vm.field.hidden">
 
   <label class="col-sm-4 control-label">
-    {{field.label | translate}}:
-    <span ng-if="fieldModel.field.required" class="asterick">*</span>
+    {{vm.field.label | translate}}:
+    <span ng-if="vm.fieldModel.field.required" class="asterick">*</span>
   </label>
 
-  <div ng-if="!fieldModel">
+  <div ng-if="!vm.fieldModel">
     <div class="col-sm-8">
       <input disabled type="text" placeholder="{{'LOADING' | translate}}" class="form-control keyboard-in">
     </div>
   </div>
 
 
-  <div class="col-sm-8" ng-if="fieldModel.field.fieldType.display === 'Concept'">
+  <div class="col-sm-8" ng-if="vm.fieldModel.field.fieldType.display === 'Concept'">
 
-    <div ng-switch="fieldModel.field.concept.datatype.display">
+    <div ng-switch="vm.fieldModel.field.concept.datatype.display">
 
-      <div ng-messages for="aForm[fieldId].$error"
-           ng-show="showMessages">
-        <div ng-message="min" ng-if="field.constraints">
+      <div ng-messages for="aForm[vm.fieldId].$error"
+           ng-show="vm.showMessages">
+        <div ng-message="min" ng-if="vm.field.constraints">
           <span class="label label-danger" translate="ERROR_TOO_SMALL_VALUE"
-                translate-value-min="{{field.constraints.min}}"></span>
+                translate-value-min="{{vm.field.constraints.min}}"></span>
         </div>
-        <div ng-message="max" ng-if="field.constraints">
+        <div ng-message="max" ng-if="vm.field.constraints">
           <span class="label label-danger" translate="ERROR_TOO_BIG_VALUE"
-                translate-value-max="{{field.constraints.max}}"></span>
+                translate-value-max="{{vm.field.constraints.max}}"></span>
         </div>
         <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
       </div>
 
       <div ng-switch-when="Text">
-        <input ng-if="!field.textSize" type="text" name="{{fieldId}}" class="form-control keyboard-in"
-               placeholder="{{field.label | translate}}"
-               ng-model="fieldModel.value"
-               ng-required="{{fieldModel.field.required}}">
+        <input ng-if="!vm.field.textSize" type="text" name="{{vm.fieldId}}" class="form-control keyboard-in"
+               placeholder="{{vm.field.label | translate}}"
+               ng-model="vm.fieldModel.value"
+               ng-required="{{vm.fieldModel.field.required}}">
 
-        <textarea ng-if="field.textSize" type="text" name="{{fieldId}}" class="form-control keyboard-in"
-                  placeholder="{{field.label | translate}}"
-                  ng-model="fieldModel.value"
-                  size="{{field.textSize}}"
-                  ng-required="{{fieldModel.field.required}}"></textarea>
+        <textarea ng-if="vm.field.textSize" type="text" name="{{vm.fieldId}}" class="form-control keyboard-in"
+                  placeholder="{{vm.field.label | translate}}"
+                  ng-model="vm.fieldModel.value"
+                  size="{{vm.field.textSize}}"
+                  ng-required="{{vm.fieldModel.field.required}}"></textarea>
       </div>
 
       <div ng-switch-when="Numeric">
-        <input name="{{fieldId}}" type="number" class="form-control keyboard-in"
-               placeholder="{{field.label | translate}}"
-               ng-model="fieldModel.value"
-               ng-required="{{fieldModel.field.required}}"
-               ng-min="{{(field.constraints) ? field.constraints.min : ''}}"
-               ng-max="{{(field.constraints) ? field.constraints.max : ''}}">
+        <input name="{{vm.fieldId}}" type="number" class="form-control keyboard-in"
+               placeholder="{{vm.field.label | translate}}"
+               ng-model="vm.fieldModel.value"
+               ng-required="{{vm.fieldModel.field.required}}"
+               ng-min="{{(vm.field.constraints) ? vm.field.constraints.min : ''}}"
+               ng-max="{{(vm.field.constraints) ? vm.field.constraints.max : ''}}">
       </div>
 
       <div ng-switch-when="Datetime" class="input-group date">
         <input
-          class="form-control keyboard-in" name="{{fieldId}}" type="text" placeholder="{{field.label | translate}}"
-          ng-model="fieldModel.value" uib-datepicker-popup ng-focus="focused=true" is-open="focused"
-          ng-required="{{fieldModel.field.required}}">
+          class="form-control keyboard-in" name="{{vm.fieldId}}" type="text" placeholder="{{vm.field.label | translate}}"
+          ng-model="vm.fieldModel.value" uib-datepicker-popup ng-focus="focused=true" is-open="focused"
+          ng-required="{{vm.fieldModel.field.required}}">
         <span class="input-group-addon">
           <span class="glyphicon glyphicon-calendar"></span>
         </span>
       </div>
 
-      <div ng-switch-when="Date" class="input-group date" ng-hide="field.hidden">
+      <div ng-switch-when="Date" class="input-group date" ng-hide="vm.field.hidden">
         <span ng-if="validDate==true" class="input-group-addon">
           <span class="glyphicon glyphicon-remove btn-md btn-danger" title="Date is wrong"></span>
         </span>
-        <input class="form-control keyboard-in" name="{{fieldId}}" type="text" uib-datepicker-popup
-               ng-focus="focused=true" is-open="focused" ng-disabled="field.disabled"
-               placeholder="{{field.label | translate}}" ng-model="fieldModel.value"
-               ng-required="{{fieldModel.field.required}}">
+        <input class="form-control keyboard-in" name="{{vm.fieldId}}" type="text" uib-datepicker-popup
+               ng-focus="focused=true" is-open="focused" ng-disabled="vm.field.disabled"
+               placeholder="{{vm.field.label | translate}}" ng-model="vm.fieldModel.value"
+               ng-required="{{vm.fieldModel.field.required}}">
         <span class="input-group-addon">
           <span class="glyphicon glyphicon-calendar"></span>
         </span>
       </div>
 
       <div ng-switch-when="Coded">
-        <div ng-if="field.searchBySource">
-          <input type="text" name="{{fieldId}}"
-                 ng-model="fieldModel.value"
-                 uib-typeahead="concept as concept.display for concept in getConcepts($viewValue)"
+        <div ng-if="vm.field.searchBySource">
+          <input type="text" name="{{vm.fieldId}}"
+                 ng-model="vm.fieldModel.value"
+                 uib-typeahead="concept as concept.display for concept in vm.searchBySource($viewValue)"
                  typeahead-loading="loading"
-                 typeahead-no-results="noResults"
+                 typeahead-no-results="vm.typeahead.noResults"
                  class="form-control keyboard-in"
-                 ng-required="{{fieldModel.field.required}}"
+                 ng-required="{{vm.fieldModel.field.required}}"
                  autocomplete="off"
-                 ng-blur="noResults = false">
+                 ng-blur="vm.onBlurSearchBySource();">
           <div class="info">
-            <small class="text-muted" ng-if="noResults">{{ 'NO_RESULTS' | translate }}</small>
+            <small class="text-muted" ng-if="vm.typeahead.noResults">{{ 'NO_RESULTS' | translate }}</small>
             <img  width="20px" ng-if="loading" src="../../images/loader.gif">
           </div>
         </div>
-        <div ng-if="!field.searchBySource">
-          <div class="bg-info-border border-rouded" ng-if="fieldModel.field.selectMultiple">
-            <div class="content-border-padding" ng-repeat="answer in fieldModel.field.concept.answers">
+        <div ng-if="!vm.field.searchBySource">
+          <div class="bg-info-border border-rouded" ng-if="vm.fieldModel.field.selectMultiple">
+            <div class="content-border-padding" ng-repeat="answer in vm.fieldModel.field.concept.answers">
               <checkbox largest
                         id="{{answer.uuid}}"
-                        name="{{fieldId}}"
+                        name="{{vm.fieldId}}"
                         ng-true-value="{{answer}}"
                         ng-false-value="undefined"
-                        ng-model="fieldModel.value[answer.uuid]"
-                        ng-required="{{fieldModel.field.required && !fieldModel.value}}">
+                        ng-model="vm.fieldModel.value[answer.uuid]"
+                        ng-required="{{vm.fieldModel.field.required && !vm.fieldModel.value}}">
               </checkbox>
               {{answer.display}}
             </div>
           </div>
-          <div ng-if="!fieldModel.field.selectMultiple">
-            <div ng-if="fieldModel.field.concept.answers.length > 3">
-              <select name="{{fieldId}}" class="form-control"
-                      ng-model="fieldModel.value"
-                      ng-options="answer.display for answer in fieldModel.field.concept.answers"
-                      ng-required="{{fieldModel.field.required}}"
-                      ng-disabled="{{field.disabled}}">
+          <div ng-if="!vm.fieldModel.field.selectMultiple">
+            <div ng-if="vm.fieldModel.field.concept.answers.length > 3">
+              <select name="{{vm.fieldId}}" class="form-control"
+                      ng-model="vm.fieldModel.value"
+                      ng-options="answer.display for answer in vm.fieldModel.field.concept.answers"
+                      ng-required="{{vm.fieldModel.field.required}}"
+                      ng-disabled="{{vm.field.disabled}}">
                 <option></option>
               </select>
             </div>
             <div class="bg-info-border border-rouded"
-                 ng-class="{'bg-error-border': aForm.{{fieldId}}.$invalid && showMessages}"
-                 ng-if="fieldModel.field.concept.answers.length <= 3">
-              <div class="content-border-padding" ng-repeat="answer in fieldModel.field.concept.answers">
+                 ng-class="{'bg-error-border': aForm[vm.fieldId].$invalid && vm.showMessages}"
+                 ng-if="vm.fieldModel.field.concept.answers.length <= 3">
+              <div class="content-border-padding" ng-repeat="answer in vm.fieldModel.field.concept.answers">
                 <input type="radio"
-                       id="{{fieldId}}{{answer.uuid}}"
+                       id="{{vm.fieldId}}{{answer.uuid}}"
                        class="radio-lx"
-                       name="{{fieldId}}"
+                       name="{{vm.fieldId}}"
                        ng-value="'{{answer}}'"
-                       ng-model="fieldModel.value"
-                       ng-required="{{fieldModel.field.required && !fieldModel.value}}">
-                <label for="{{fieldId}}{{answer.uuid}}">{{answer.display}}</label>
+                       ng-model="vm.fieldModel.value"
+                       ng-required="{{vm.fieldModel.field.required && !vm.fieldModel.value}}">
+                <label for="{{vm.fieldId}}{{answer.uuid}}">{{answer.display}}</label>
               </div>
             </div>
           </div>

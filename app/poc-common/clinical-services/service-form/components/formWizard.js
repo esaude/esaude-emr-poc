@@ -176,7 +176,8 @@
 
         if (vm.hasVisitToday) {
           encounterService.create(openMRSEncounter)
-            .then(encounterSuccessCallback);
+            .then(encounterSuccessCallback)
+            .catch(encounterErrorCallback);
         } else {
           checkIn()
             .then(encounterService.create(openMRSEncounter))

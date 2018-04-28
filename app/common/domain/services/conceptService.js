@@ -102,7 +102,8 @@
           source: source,
           q: term,
           v: "custom:(uuid,name,display,mappings:(conceptReferenceTerm:(conceptSource:(uuid))))"
-        }
+        },
+        ignoreLoadingBar: true // Ignored because searchBySource field already has an indicator.
       };
 
       return $http.get(Bahmni.Common.Constants.conceptUrl, options)
