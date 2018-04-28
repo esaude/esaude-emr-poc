@@ -6,7 +6,7 @@
     .component('checkIn', {
       bindings: {
         patient: '<',
-        onCheckIn: '&'
+        onCheckInChange: '&'
       },
       controller: CheckInController,
       controllerAs: 'vm',
@@ -22,6 +22,7 @@
 
     vm.$onChanges = $onChanges;
     vm.checkIn = checkIn;
+    vm.cancelCheckIn = cancelCheckIn;
 
     function $onChanges(changesObj) {
       if (changesObj.patient && changesObj.patient.currentValue.uuid) {
@@ -34,10 +35,8 @@
       if (lastVisit) {
         if (!lastVisit.stopDatetime) {
           vm.lastUnclosedVisit = lastVisit;
-          vm.disableCheckin = true;
         } else if (moment().isBetween(lastVisit.startDatetime, lastVisit.stopDatetime)) {
           vm.todayVisit = lastVisit;
-          vm.disableCheckin = true;
         }
       }
     }
@@ -46,8 +45,18 @@
       visitService.checkInPatient(vm.patient)
         .then(function (visit) {
           vm.todayVisit = visit;
-          vm.disableCheckin = true;
-          vm.onCheckIn();
+          vm.onCheckInChange();
+        })
+        .catch(function () {
+          notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
+        });
+    }
+
+    function cancelCheckIn() {
+      visitService.deleteVisit(vm.todayVisit)
+        .then(function () {
+          vm.todayVisit = null;
+          vm.onCheckInChange();
         })
         .catch(function () {
           notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));

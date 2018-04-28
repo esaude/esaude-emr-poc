@@ -26,14 +26,28 @@
       </div>
 
 
-      <poc-authorize privilege="'Write Visit'">
-        <div class="pull-right" ng-if="!vm.disableCheckin">
-          <button type="button" class="btn btn-primary btn-lg" ng-disabled="vm.disableCheckin" ng-click="vm.checkIn()">
-            <span class="glyphicon glyphicon-log-in"></span>
-            <span class="button-label">{{'COMMON_CHECKIN' | translate}}</span>
-          </button>
+
+        <div class="pull-right" >
+
+          <poc-authorize privilege="'Write Visit'">
+            <button type="button" class="btn btn-primary btn-lg" ng-click="vm.checkIn()" ng-if="!vm.todayVisit">
+              <span class="glyphicon glyphicon-log-in"></span>
+              <span class="button-label">{{'COMMON_CHECKIN' | translate}}</span>
+            </button>
+          </poc-authorize>
+
+
+          <poc-authorize privilege="'Delete Visit'">
+            <button type="button" class="btn btn-danger btn-lg" ng-click="vm.cancelCheckIn()" ng-if="vm.todayVisit">
+              <span class="glyphicon glyphicon-remove"></span>
+              <span class="button-label">{{'REMOVE' | translate}}</span>
+            </button>
+          </poc-authorize>
+
         </div>
-      </poc-authorize>
+
+
+
     </div>
 
   </div>

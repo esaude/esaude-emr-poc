@@ -25,6 +25,7 @@
     var service = {
       create: create,
       checkInPatient: checkInPatient,
+      deleteVisit: deleteVisit,
       getPatientLastVisit: getPatientLastVisit,
       getTodaysVisit: getTodaysVisit,
       getVisitHeader: getVisitHeader,
@@ -72,6 +73,17 @@
           return create(visit);
 
         });
+    }
+
+    function deleteVisit(visit) {
+      return $http.delete(Bahmni.Common.Constants.visitUrl + '/' + visit.uuid, {params: {purge: true}})
+        .then(function (response) {
+          return response.data;
+        })
+        .catch(function (error) {
+          $log.error('XHR Failed for delete: ' + error.data.error.message);
+          return $q.reject(error);
+        })
     }
 
     function getPatientLastVisit(patient) {
