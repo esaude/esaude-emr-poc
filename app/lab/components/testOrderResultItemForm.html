@@ -1,9 +1,9 @@
-<form class="item-form" name="form" ng-submit="vm.onSubmit({item: vm.item, result: vm.$item.value});">
+<form class="item-form" name="form" ng-submit="form.$valid && vm.onSubmit({item: vm.item, result: vm.$item.value});" novalidate>
 
   <div class="form-group" ng-class="{'has-error': vm.hasError(form), 'has-success': vm.hasSuccess(form)}">
     <label class="col-sm-4" for="value">{{vm.$item.testOrder.concept.display | translate }}</label>
 
-    <div class="col-sm-3 text-right">
+    <div class="col-sm-4 text-right">
 
       <div class="input-group">
 
@@ -14,6 +14,7 @@
                ng-blur="vm.onBlur(form)"
                ng-min="vm.$item.testOrder.concept.lowAbsolute"
                ng-max="vm.$item.testOrder.concept.hiAbsolute"
+               step="0.01"
                required>
 
         <div class="input-group-addon" ng-if="vm.isNumeric();">
@@ -34,7 +35,7 @@
 
     </div>
 
-    <div class="col-sm-5" style="border-left: 1px #ccc solid;">
+    <div class="col-sm-4" style="border-left: 1px #ccc solid;">
       <div class="btn-group" role="group" aria-label="..." ng-if="!vm.isInvalid(form)">
         <button class="btn btn-lg btn-primary" type="submit"
                 ng-disabled="!form.$dirty || !form.$valid">
