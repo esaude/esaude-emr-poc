@@ -6,12 +6,13 @@ describe('visitService', function () {
 
   var FOLLOW_UP_CONSULTATION_VISIT_TYPE_UUID = "3866891d-09c5-4d98-98de-6ae7916110fa";
 
-  var visitService, $http, $log, $q, $rootScope, commonService, sessionService, encounterService, observationsService;
+  var visitService, $http, $log, $q, $rootScope, commonService, sessionService, encounterService, observationsService,
+    appService;
 
   beforeEach(module('visit'));
 
   beforeEach(inject(function (_visitService_, $httpBackend, _$log_, _$q_, _$rootScope_, _commonService_,
-                              _sessionService_, _encounterService_, _observationsService_) {
+                              _sessionService_, _encounterService_, _observationsService_, _appService_) {
     visitService = _visitService_;
     $http = $httpBackend;
     $log = _$log_;
@@ -21,6 +22,7 @@ describe('visitService', function () {
     sessionService = _sessionService_;
     encounterService = _encounterService_;
     observationsService = _observationsService_;
+    appService = _appService_;
   }));
 
   describe('search', function () {
@@ -140,6 +142,12 @@ describe('visitService', function () {
           return csPebane;
         });
 
+        spyOn(appService, 'getAppDescriptor').and.callFake(function () {
+          var spyObj = jasmine.createSpyObj('appDescriptor', ['getConfigValue']);
+          spyObj.getConfigValue.and.returnValue([{uuid: FIRST_CONSULTATION_VISIT_TYPE_UUID, occurOn: 'first'}]);
+          return spyObj;
+        });
+
         var startDateTime = new Date();
         var stopDatetime = moment(startDateTime).endOf('day').toDate();
         jasmine.clock().mockDate(startDateTime);
@@ -174,6 +182,12 @@ describe('visitService', function () {
 
         spyOn(sessionService, 'getCurrentLocation').and.callFake(function () {
           return csPebane;
+        });
+
+        spyOn(appService, 'getAppDescriptor').and.callFake(function () {
+          var spyObj = jasmine.createSpyObj('appDescriptor', ['getConfigValue']);
+          spyObj.getConfigValue.and.returnValue([{uuid: FOLLOW_UP_CONSULTATION_VISIT_TYPE_UUID, occurOn: 'following'}]);
+          return spyObj;
         });
 
         var startDateTime = new Date();
