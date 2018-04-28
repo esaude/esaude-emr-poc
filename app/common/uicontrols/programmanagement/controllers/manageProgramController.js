@@ -10,6 +10,8 @@
   /* @ngInject */
   function ManageProgramController($scope, $window, programService, $stateParams, notifier, $filter) {
 
+    var ARV_TREATMENT_PROGRAM_UUID = 'efe2481f-9e75-4515-8d5a-86bfde2b5ad3';
+
     var DateUtil = Bahmni.Common.Util.DateUtil;
 
     $scope.programSelected = {};
@@ -59,6 +61,7 @@
 
     function setProgramSelected(program) {
       $scope.programSelected = program;
+      $scope.allowCompletionDate = program.program.uuid !== ARV_TREATMENT_PROGRAM_UUID;
       if ($scope.hasProgramWorkflowStates(program)) {
         $scope.workflowStatesWithoutCurrentState = $scope.getWorkflowStatesWithoutCurrent(program);
         $scope.currentState = $scope.initCurrentState(program);
