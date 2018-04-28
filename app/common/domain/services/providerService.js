@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('common.prescription')
+    .module('bahmni.common.domain')
     .factory('providerService', providerService);
 
   providerService.$inject = ['$http', '$log'];

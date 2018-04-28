@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('common.test')
+    .module('bahmni.common.domain')
     .factory('orderService', orderService);
 
   orderService.$inject = ['$http', '$q', '$log'];
