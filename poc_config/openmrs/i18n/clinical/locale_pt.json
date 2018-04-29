@@ -247,5 +247,8 @@
   "SORO DE SÓDIO": "Sódio",
   "GLOBULINAS": "Globulinas",
   "PCR EXAME/TESTE": "PCR",
-  "TEST_RESULTS": "Resultados"  
+  "TEST_RESULTS": "Resultados",
+  "ANTI-RETROVIRAIS ANTERIORES USADOS PARA TRATAMENTO": "Regime actual",
+  "ESTADIO OMS ACTUAL": "Estadio OMS actual"
+
 }
