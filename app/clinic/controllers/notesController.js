@@ -12,7 +12,7 @@ angular.module('clinic')
         (function () {
             patientUuid = $stateParams.patientUuid;
             
-            encounterService.getEncountersForEncounterType(patientUuid, Bahmni.Common.Constants.pocCurrentStoryEncounterUuid)
+            encounterService.getEncountersForEncounterType(patientUuid, Bahmni.Common.Constants.pocCurrentStoryEncounterUuid, "default")
                     .success(function (data) {
                         var nonRetired = encounterService.filterRetiredEncoounters(data.results);
                         
