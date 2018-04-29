@@ -143,10 +143,9 @@ describe('FormWizardController', function () {
         {fields: [1,2,3]}
       ];
 
-      ctrl.visitedFields = [];
-      ctrl.visitedFields[1] = {valid: true};
-      ctrl.visitedFields[2] = {valid: true};
-      ctrl.visitedFields[3] = {valid: true};
+      ctrl.addVisitedField({uuid: 1, valid: true});
+      ctrl.addVisitedField({uuid: 2, valid: true});
+      ctrl.addVisitedField({uuid: 3, valid: true});
 
       expect(ctrl.canSave()).toEqual(true);
 
@@ -158,9 +157,8 @@ describe('FormWizardController', function () {
         {fields: [1,2,3]}
       ];
 
-      ctrl.visitedFields = [];
-      ctrl.visitedFields[1] = {valid: true};
-      ctrl.visitedFields[2] = {valid: true};
+      ctrl.addVisitedField({uuid: 1, valid: true});
+      ctrl.addVisitedField({uuid: 3, valid: true});
 
       expect(ctrl.canSave()).toEqual(false);
 
@@ -172,10 +170,9 @@ describe('FormWizardController', function () {
         {fields: [1,2,3]}
       ];
 
-      ctrl.visitedFields = [];
-      ctrl.visitedFields[1] = {valid: true};
-      ctrl.visitedFields[2] = {valid: true};
-      ctrl.visitedFields[3] = {valid: false};
+      ctrl.addVisitedField({uuid: 1, valid: true});
+      ctrl.addVisitedField({uuid: 2, valid: false});
+      ctrl.addVisitedField({uuid: 3, valid: true});
 
       expect(ctrl.canSave()).toEqual(false);
 

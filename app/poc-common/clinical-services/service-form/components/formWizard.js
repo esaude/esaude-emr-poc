@@ -32,20 +32,23 @@
 
     var vm = this;
 
+    var formFields = {};
+
     vm.currentFormPart = {};
     vm.formInfo = {};
     vm.formLayout = {};
     vm.hasVisitToday = false;
     vm.submitted = false;
     vm.todayVisit = null;
-    vm.visitedFields = [];
     vm.previousEncounter = null;
 
     vm.$onInit = onInit;
+    vm.addVisitedField = addVisitedField;
     vm.canSave = canSave;
     vm.compactName = compactName;
     vm.getAutoCompleteList = getAutoCompleteList;
     vm.getDataResults = getDataResults;
+    vm.getVisitedField = getVisitedField;
     vm.linkDashboard = linkDashboard;
     vm.save = save;
     vm.stepInFormPart = stepInFormPart;
@@ -98,16 +101,24 @@
       });
     }
 
+    function addVisitedField(formField) {
+      formFields[formField.uuid] = formField;
+    }
+
+    function getVisitedField(uuid) {
+      return formFields[uuid];
+    }
+
     function canSave() {
-      var allFields = vm.formInfo.parts.map(function (p) {
-        return p.fields
+      var all = vm.formInfo.parts.map(function (p) {
+        return p.fields;
       }).reduce(function (acc, curr) {
         return acc.concat(curr);
       }).length;
 
-      var visitedFields = Object.keys(vm.visitedFields).length;
+      var visited = Object.values(formFields).length;
 
-      return allFields === visitedFields && vm.visitedFields.every(function (f) { return f.valid; });
+      return visited === all && Object.values(formFields).every(function (f) { return f.valid; });
     }
 
     function setCurrentFormPart() {

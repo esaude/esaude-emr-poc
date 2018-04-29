@@ -12,8 +12,7 @@
     ng-init="fieldMeta = vm.payload.form.fields[formField.id]">
 
   <li class="list-group-item"
-      ng-if="fieldMeta.field.fieldType.display === 'Concept'"
-      ng-init="fieldValidity = vm.getFieldValidity(formField.id)">
+      ng-if="fieldMeta.field.fieldType.display === 'Concept'">
 
     <div class="row">
 
@@ -21,11 +20,11 @@
 
       <div class="col-sm-8">
 
-        <span class="label label-danger" ng-if="!fieldValidity">
+        <span class="label label-danger" ng-if="!vm.getVisitedField(formField.id)">
             {{ 'FIELD_NEVER_VISITED' | translate }}
         </span>
 
-        <span class="label label-danger" ng-if="fieldValidity && !fieldValidity.valid">
+        <span class="label label-danger" ng-if="vm.getVisitedField(formField.id) && !vm.getVisitedField(formField.id).valid">
             {{ 'FIELD_NOT_VALID' | translate }}
         </span>
 
