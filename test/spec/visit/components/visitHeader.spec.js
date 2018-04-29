@@ -111,7 +111,7 @@ describe('VisitHeaderController', function () {
 
       $rootScope.$apply();
 
-      expect(ctrl.lastVisitMessage).toEqual('SEGUIMENTO SEGUINTE S. TARV COMMON_FROM 3/19/18 9:47 AM COMMON_TO 3/20/18 12:00 AM');
+      expect(ctrl.lastVisitMessage).toEqual('SEGUIMENTO SEGUINTE S. TARV COMMON_FROM 19/03/2018 11:47 COMMON_TO 20/03/2018 02:00');
 
     });
 
