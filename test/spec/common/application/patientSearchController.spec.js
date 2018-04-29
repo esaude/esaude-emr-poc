@@ -2,19 +2,19 @@
 
 describe('PatientSearchController', function () {
 
-  var $controller, $q, $rootScope, ctrl, patientService;
+  var $componentController, $q, $rootScope, ctrl, patientService;
 
   beforeEach(module('common.patient'));
 
-  beforeEach(inject(function (_$controller_, _$q_, _$rootScope_, _patientService_) {
-    $controller = _$controller_;
+  beforeEach(inject(function (_$componentController_, _$q_, _$rootScope_, _patientService_) {
+    $componentController = _$componentController_;
     $q = _$q_;
     $rootScope = _$rootScope_;
     patientService = _patientService_;
   }));
 
   beforeEach(function () {
-    ctrl = $controller('PatientSearchController');
+    ctrl = $componentController('patientSearch');
   });
 
   describe('change', function () {
