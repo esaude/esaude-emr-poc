@@ -42,12 +42,11 @@ angular.module('bahmni.common.domain')
 
         //TODO: Fix null referece
         _.forEach(nonRetired, function (encounter) {
-            var filtered = observationsService.filterByList(encounter.obs, concepts);
-            if (!_.isEmpty(filtered)) encounter.obs = observationsService.filterByList(encounter.obs, concepts);
+                encounter.obs = observationsService.filterByList(encounter.obs, concepts);
         });
 
         var filtered = _.filter(nonRetired, function (encounter) {
-            return !_.isUndefined(encounter.obs);
+            return !_.isEmpty(encounter.obs);
         });
 
         return filtered.reverse();

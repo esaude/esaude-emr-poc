@@ -62,7 +62,7 @@ angular.module('clinic')
           .success(function (data) {
             patientPrescriptions = commonService.filterGroupReverseFollowupObs(conceptsTreatment, data.results);
 
-            if (data.results.length != 0) {
+            if (patientPrescriptions.length != 0) {
               $scope.patientPrescription = filterObs(data, conceptsTreatment, seriesFollowUp, "followUp");
             } else {
               $scope.noWHOStage = "CLINICAL_WHO_STAGE_EMPTY";
