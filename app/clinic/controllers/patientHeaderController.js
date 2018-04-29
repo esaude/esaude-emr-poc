@@ -10,9 +10,10 @@ angular.module('clinic')
         patientUuid = $stateParams.patientUuid;
       })();
       var patientPrescriptions = [];
+      initPatientState();
 
       //TODO: Add patientState Tests, fix followup refresh scope issue
-      $scope.initPatientState = function () {
+      function initPatientState() {
         var labEncounterUuid = Bahmni.Common.Constants.labEncounterUuid;
         var conceptsLabs = ["e1e68f26-1d5f-11e0-b929-000c29ad1d07",
           "e1d6247e-1d5f-11e0-b929-000c29ad1d07",
@@ -26,7 +27,7 @@ angular.module('clinic')
         ];
         var name = "labResults";
 
-        encounterService.getEncountersForEncounterType(patientUuid, labEncounterUuid)
+        encounterService.getEncountersForEncounterType(patientUuid, labEncounterUuid, "default")
           .success(function (data) {
 
             if (data.results.length != 0) {
@@ -57,17 +58,16 @@ angular.module('clinic')
 
         patientService.getPatient(patientUuid).then(function (patient) {
           encounterService.getEncountersForEncounterType(patient.uuid,
-          (patient.age.years >= 15) ? adultFollowupEncounterUuid : childFollowupEncounterUuid)
+          (patient.age.years >= 15) ? adultFollowupEncounterUuid : childFollowupEncounterUuid, "default")
           .success(function (data) {
             patientPrescriptions = commonService.filterGroupReverseFollowupObs(conceptsTreatment, data.results);
 
-            if (data.results.length != 0) {
+            if (patientPrescriptions.length != 0) {
               $scope.patientPrescription = filterObs(data, conceptsTreatment, seriesFollowUp, "followUp");
             } else {
               $scope.noWHOStage = "CLINICAL_WHO_STAGE_EMPTY";
             }
             //TODO: Add infant and pregnant women
-            var encounterType = ((patient.age.years >= 15) ? adultFollowupEncounterUuid : childFollowupEncounterUuid);
           });
         });
       };
