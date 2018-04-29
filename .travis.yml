@@ -39,4 +39,4 @@ deploy:
       tags: true
 after_deploy:
   - sh scripts/trigger-docker-image-build.sh
-  - sh scripts/deploy.sh
+  - sh scripts/manual-deploy.sh
