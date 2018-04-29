@@ -16,8 +16,8 @@ describe('VisitHeaderController', function () {
       visitType: {
         name: "SEGUIMENTO SEGUINTE S. TARV"
       },
-      startDatetime: "2018-03-19T09:47:18.000",
-      stopDatetime: "2018-03-20T00:00:00.000"
+      startDatetime: "2018-03-19T09:47:18.000+0200",
+      stopDatetime: "2018-03-19T23:59:59.000+0200"
     },
     lastPharmacy: {
       encounterDatetime: "2018-03-15T14:37:09.000",
@@ -111,7 +111,7 @@ describe('VisitHeaderController', function () {
 
       $rootScope.$apply();
 
-      expect(ctrl.lastVisitMessage).toEqual('SEGUIMENTO SEGUINTE S. TARV COMMON_FROM 19/03/2018 11:47 COMMON_TO 20/03/2018 02:00');
+      expect(ctrl.lastVisitMessage).toEqual('SEGUIMENTO SEGUINTE S. TARV COMMON_FROM 19/03/2018 09:47 COMMON_TO 19/03/2018 23:59');
 
     });
 
