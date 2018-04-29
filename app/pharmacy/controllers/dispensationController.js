@@ -72,7 +72,7 @@
         return;
       }
 
-      if(item.regime && hasActivePreviousDispensed(item)){
+      if(hasActivePreviousDispensed(item)){
         notifier.error($filter('translate')('PHARMACY_CANNOT_DISPENSE_FOR_NOT_EXPIRED_PREVIOUS_DISPENSATION', { drugName: item.display, expirationDate: item.nextPickupDate.toDateString()}));
         return;
       }
