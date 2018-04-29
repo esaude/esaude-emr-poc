@@ -18,7 +18,6 @@
     $scope.hasLabOrderPrivilege = false;
     $scope.patient = {};
 
-    $scope.getAlerts = getAlerts;
     $scope.reload = reload;
 
     activate();
@@ -39,13 +38,11 @@
         }
       });
 
-      checkLabOrderPrivilege();
-    }
-
-    function getAlerts() {
-      alertService.get($scope.patientUUID).success(function (data) {
-        $scope.flags = data.flags;
+      alertService.get($scope.patientUUID).then(function (response) {
+        $scope.flags = response.data.flags;
       });
+
+      checkLabOrderPrivilege();
     }
 
     function reload() {
