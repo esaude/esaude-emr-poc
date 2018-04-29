@@ -334,5 +334,5 @@
     "COMMON_MESSAGE_DRUG_WITHOUT_STOCK_AVAILABILITY":"Não há disponibilidade de estoque para o medicamento selecionado",
     "COMMON_MESSAGE_EXCEPTION_REQUESTING_DRUG_STOCK_AVAILABILITY":"Não foi possivel obter informação de estoque para o medicamento selecionado",
     "PLEASE_CHECK_IN_PATIENT": "Por favor faça o check-in do paciente.",
-    "COMMON_CANT_DELETE_PATIENT_WITH_HISTORY": "You are not allowed to delete this patient because he has a History in of follow up."
+    "COMMON_CANT_DELETE_PATIENT_WITH_HISTORY": "Não é possível remover este paciente porque possui histórico."
 }
