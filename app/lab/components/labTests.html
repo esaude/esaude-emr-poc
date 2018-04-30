@@ -4,12 +4,20 @@
 
     <no-results-alert collection="vm.testOrderResults" message="NO_LIST_ITEMS"></no-results-alert>
 
+    <div class="row header">
+      <div class="col-sm-5">{{ 'LAB_ORDER' | translate}}</div>
+      <div class="col-sm-7">{{ 'RESULTS' | translate }}</div>
+    </div>
+
+    <hr>
+
     <div class="row" ng-if="vm.testOrderResults.length">
 
       <div class="col-sm-5 test-order-list">
         <test-order-result-list test-order-results="vm.testOrderResults"
                                 on-select-test-order-result="vm.selectTestOrderResult(testOrderResult)"></test-order-result-list>
       </div>
+
       <div class="col-sm-7 test-order-details">
         <test-order-result-details test-order-result="vm.selectedTestOrder"
                                    reload-test-order-result="vm.reloadTestOrderResult(vm.selectedTestOrder)">

@@ -54,10 +54,12 @@
 
     function onFocus() {
       vm.hasFocus = true;
+      vm.showButtons = true;
     }
 
     function onBlur(form) {
       vm.hasFocus = false;
+      vm.showButtons = false;
       if (form.$invalid) {
         setItem(vm.item);
         form.$setPristine();

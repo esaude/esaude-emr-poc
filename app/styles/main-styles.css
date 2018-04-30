@@ -326,45 +326,48 @@ p.capitalize {
   padding: 10px;
 }
 
-.lab-tests .table > tbody > tr > td {
-  border-top: none;
+.lab-tests .header {
+  font-weight: bold;
+}
+
+.lab-tests hr {
+  border: 0;
+  height: 1px;
+  background: #cccccc;
+  margin-bottom: 0;
 }
 
 .lab-tests .test-order-list {
   padding-right: 0;
 }
 
-.lab-tests .test-order-list .table tr {
+.lab-tests .test-order-list .test-order {
+  padding: 10px;
+  border-bottom: 1px solid #cccccc;
+  opacity: .5;
   cursor: pointer;
+  min-height: 138px;
 }
 
-.lab-tests .test-order-list .table td {
-  vertical-align: middle;
-}
-
-.lab-tests .test-order-list tbody tr {
-  height: 112px;
+.lab-tests .test-order-list .active .test-order {
+  background-color: #f5f5f5;
+  opacity: 1;
 }
 
 .lab-tests .test-order-details {
-  padding-left: 0;
+  border-left: 1px solid #cccccc;
+}
+
+.lab-tests .test-order-details .item-form {
+  padding: 10px;
+  border-bottom: 1px solid #cccccc;
+  min-height: 138px;
 }
 
 .lab-tests .test-order-details .item-form label {
   font-weight: normal;
 }
-
-.lab-tests .test-order-details .item-form .form-group {
-  min-height: 95px;
-  display: flex;
-  margin-bottom: 0;
-  align-items: center;
-  justify-content: center;
-}
-
-.lab-tests .test-order-details tbody {
-  background-color: #f5f5f5;
-}
+/**/
 
 /* FormField*/
 .form-field .info {

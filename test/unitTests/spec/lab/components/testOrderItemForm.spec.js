@@ -123,6 +123,18 @@ describe('TestOrderItemFormController', function () {
 
     });
 
+    it('should show buttons', function () {
+
+      var ctrl = $componentController('testOrderResultItemForm');
+
+      ctrl.showButtons = false;
+
+      ctrl.onFocus({});
+
+      expect(ctrl.showButtons).toBe(true);
+
+    });
+
   });
 
   describe('onBlur', function () {
@@ -174,6 +186,18 @@ describe('TestOrderItemFormController', function () {
         ctrl.onBlur({$invalid: true, $setPristine: $setPristine});
 
         expect($setPristine).toHaveBeenCalled();
+
+      });
+
+      it('should hide buttons', function () {
+
+        var ctrl = $componentController('testOrderResultItemForm');
+
+        ctrl.showButtons = true;
+
+        ctrl.onBlur({});
+
+        expect(ctrl.showButtons).toBe(false);
 
       });
 
