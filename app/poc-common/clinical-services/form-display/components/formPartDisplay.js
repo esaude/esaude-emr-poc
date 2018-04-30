@@ -24,7 +24,7 @@
 
     var vm = this;
 
-    vm.getFormField = getFormField;
+    vm.getVisitedField = getVisitedField;
     vm.isTrueFalseQuestion = isTrueFalseQuestion;
     vm.stringToJson = stringToJson;
     vm.$onInit = onInit;
@@ -43,16 +43,15 @@
       return str ? JSON.parse(str) : str;
     }
 
-    function getFormField(fieldUuid) {
+    function getVisitedField(fieldUuid) {
       if (!vm.validate) {
         return {
           uuid: fieldUuid,
-          valid: true,
-          visited: true
+          valid: true
         };
       }
 
-      return vm.formWizard.getFormField(fieldUuid);
+      return vm.formWizard.getVisitedField(fieldUuid);
     }
 
     function isTrueFalseQuestion(question) {
