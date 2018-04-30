@@ -66,8 +66,8 @@
       <!-- build:js scripts/clinic.min.js -->
 
       <script src="../poc-common/clinical-services/form-display/init.js"></script>
-      <script src="../poc-common/clinical-services/form-display/directives/formField.js"></script>
-      <script src="../poc-common/clinical-services/form-display/directives/fieldRead.js"></script>
+      <script src="../poc-common/clinical-services/form-display/components/formField.js"></script>
+      <script src="../poc-common/clinical-services/form-display/components/formPartDisplay.js"></script>
       <script src="../poc-common/clinical-services/form-display/directives/recordAvailabilityValidator.js"></script>
       <script src="../poc-common/clinical-services/service-form/serviceForm.module.js"></script>
       <script src="../poc-common/clinical-services/service-form/components/formWizard.js"></script>
@@ -97,8 +97,8 @@
       <script src="../common/patient/mappers/patientAttributeTypeMapper.js"></script>
       <script src="../common/patient/mappers/updatePatientMapper.js"></script>
       <script src="../common/patient/directives/patientHeader.js"></script>
-      <script src="../common/patient/directives/patientSearch.js"></script>
-      <script src="../common/patient/directives/scheduleList.js"></script>
+      <script src="../common/patient/components/patientSearch.js"></script>
+      <script src="../common/patient/components/scheduleList.js"></script>
       <script src="../common/patient/directives/patientDeleteModal.js"></script>
 
       <script src="../move-patient/move-patient.module.js"></script>
@@ -118,7 +118,7 @@
       <script src="../common/ui-helper/directives/pocConfirmDialog.js"></script>
       <script src="../common/ui-helper/notifier.js"></script>
 
-      <script src="../common/domain/init.js"></script>
+      <script src="../common/domain/common.domain.module.js"></script>
       <script src="../common/domain/services/configurationService.js"></script>
       <script src="../common/domain/services/encounterService.js"></script>
       <script src="../common/domain/services/observationsService.js"></script>
@@ -179,7 +179,7 @@
       <script src="../pharmacy/services/dispensationService.js"></script>
 
       <script src="../common/prescription/init.js"></script>
-      <script src="../common/prescription/services/providerService.js"></script>
+      <script src="../common/domain/services/providerService.js"></script>
       <script src="../common/prescription/directives/prescription.js"></script>
 
 
@@ -188,11 +188,12 @@
       <script src="../visit/components/visitHeader.js"></script>
 
 
-      <script src="../common/test/init.js"></script>
+      <script src="../common/test/common.test.module.js"></script>
       <script src="../common/test/services/testProfileService.js"></script>
       <script src="../common/test/services/testService.js"></script>
       <script src="../common/test/services/testOrderService.js"></script>
-
+      <script src="../common/test/services/testOrderResultService.js"></script>
+      <script src="../common/domain/services/orderService.js"></script>
       <script src="../common/test/controllers/labRequestController.js"></script>
 
 

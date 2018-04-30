@@ -161,7 +161,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr st-select-mode="single" ng-repeat="testOrder in vm.existingTestOrders">
+                            <tr st-select-mode="single" ng-repeat="testOrder in vm.existingTestOrders | orderBy: '-dateCreation'">
                                 <td>{{testOrder.dateCreation | date}}</td>
                                 <td>{{testOrder.provider.display}}</td>
                                 <td>{{testOrder.status | translate}}</td>
@@ -207,6 +207,7 @@
                             <tr>
                                 <th st-sort="test">{{'TEST' | translate}}</th>
                                 <th st-sort="test">{{'CATEGORY' | translate}}</th>
+                                <th st-sort="test">{{'TEST_RESULTS' | translate}}</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -214,6 +215,8 @@
                             <tr st-select-mode="single" ng-repeat="test in vm.testsOfSelectedRequest">
                                 <td>{{test.translatedDisplay}}</td>
                                 <td>{{test.category.display}}</td>
+                                <td ng-if="test.result.numeric">{{test.result.value}} {{test.result.unit}}</td>
+                                <td ng-if="!test.result.numeric">{{test.result.codedValue.display}}</td>
                                 <td>
                                     <button id="delete_test" type="button" class="btn btn-danger btn-lg" ng-disabled="vm.isTestOrderInDetailCompleted()" poc-confirm-dialog="'{{ 'CONFIRM_TEST_REMOVAL' | translate}}'"
                                         on-confirm="vm.deleteTest(test)">

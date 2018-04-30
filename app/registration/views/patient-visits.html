@@ -1,4 +1,7 @@
 <div class="panel panel-primary panel-marginless-sides">
+
+  <no-results-alert collection="vm.visitHistory"></no-results-alert>
+
   <div class="list-group" ng-repeat="visit in vm.visitHistory">
     <div class="bg-info content-border-padding-li">
       {{'CLINIC_PATIENT_VISIT' | translate}} {{'COMMON_ON' | translate}} {{visit[0].encounterDatetime | date}}

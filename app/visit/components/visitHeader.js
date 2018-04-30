@@ -17,6 +17,7 @@
   /* @ngInject */
   function VisitController($rootScope, $filter, visitService, notifier) {
 
+    var DATETIME_FORMAT = 'DD/MM/YYYY HH:mm';
 
     var dateFilter = $filter('date');
     var translateFilter = $filter('translate');
@@ -67,10 +68,12 @@
 
     function updateLastVisitMessage() {
       if (vm.lastVisit) {
+        var formatedStartDate = moment(vm.lastVisit.startDatetime).utcOffset('+0200').format(DATETIME_FORMAT);
+        var formatedStopDate = moment(vm.lastVisit.stopDatetime).utcOffset('+0200').format(DATETIME_FORMAT);
         vm.lastVisitMessage = vm.lastVisit.visitType.name + ' ' + translateFilter('COMMON_FROM') + ' '
-          + dateFilter(vm.lastVisit.startDatetime, 'short') + ' ' + translateFilter('COMMON_TO') + ' '
-          + dateFilter(vm.lastVisit.stopDatetime, 'short')
-      }
+        + formatedStartDate + ' ' + translateFilter('COMMON_TO') + ' '
+        + formatedStopDate
+    }
     }
 
     function updateConsultationMessages() {

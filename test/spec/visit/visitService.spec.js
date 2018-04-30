@@ -11,7 +11,7 @@ describe('visitService', function () {
   beforeEach(module('visit'));
 
   beforeEach(inject(function (_visitService_, $httpBackend, _$log_, _$q_, _$rootScope_, _commonService_,
-                              _sessionService_, _encounterService_, _observationsService_) {
+    _sessionService_, _encounterService_, _observationsService_) {
     visitService = _visitService_;
     $http = $httpBackend;
     $log = _$log_;
@@ -26,8 +26,8 @@ describe('visitService', function () {
   describe('search', function () {
 
     var uuid = "9e23a1bb-0615-4066-97b6-db309c9c6447";
-    var parameters = {patient: uuid, includeInactive: false, v: "custom:(uuid)"};
-    var response = {results: [1, 2, 3]};
+    var parameters = { patient: uuid, includeInactive: false, v: "custom:(uuid)" };
+    var response = { results: [1, 2, 3] };
 
     beforeEach(function () {
       $http.expectGET("/openmrs/ws/rest/v1/visit" + '?patient=' + parameters.patient + '&includeInactive=' + parameters.includeInactive
@@ -53,7 +53,7 @@ describe('visitService', function () {
 
   describe('create', function () {
 
-    var visitDetails = {patientUuid: "uuid"};
+    var visitDetails = { patientUuid: "uuid" };
 
     beforeEach(function () {
       $http.expectPOST("/openmrs/ws/rest/v1/visit").respond({});
@@ -79,7 +79,7 @@ describe('visitService', function () {
 
     var uuid = "9e23a1bb-0615-4066-97b6-db309c9c6447";
     var datetime = '2017-08-17';
-    var response = {results: [{startDatetime: datetime, stopDatetime: datetime}]};
+    var response = { results: [{ startDatetime: datetime, stopDatetime: datetime }] };
 
     beforeEach(function () {
       $http.expectGET("/openmrs/ws/rest/v1/visit" + '?patient=' + uuid + '&v=full').respond(response);
@@ -129,8 +129,8 @@ describe('visitService', function () {
   describe('checkInPatient', function () {
 
     var uuid = "9e23a1bb-0615-4066-97b6-db309c9c6447";
-    var parameters = {patient: uuid, includeInactive: false, v: "full"};
-    var csPebane = {uuid: 'e2b37662-1d5f-11e0-b929-000c29ad1d07'};
+    var parameters = { patient: uuid, includeInactive: false, v: "full" };
+    var csPebane = { uuid: 'e2b37662-1d5f-11e0-b929-000c29ad1d07' };
 
     describe('first visit', function () {
 
@@ -140,9 +140,7 @@ describe('visitService', function () {
           return csPebane;
         });
 
-        var startDateTime = new Date();
-        var stopDatetime = moment(startDateTime).endOf('day').toDate();
-        jasmine.clock().mockDate(startDateTime);
+        jasmine.clock().mockDate(moment('18/04/2018 10:30:00', 'DD/MM/YYYY HH:mm:ss').toDate());
 
         $http.expectGET("/openmrs/ws/rest/v1/visit?patient=" + parameters.patient
           + '&v=' + parameters.v)
@@ -152,14 +150,14 @@ describe('visitService', function () {
           patient: uuid,
           visitType: FIRST_CONSULTATION_VISIT_TYPE_UUID,
           location: csPebane.uuid,
-          startDatetime: startDateTime,
-          stopDatetime: stopDatetime
+          startDatetime: '2018-04-18T10:30:00',
+          stopDatetime: '2018-04-18T23:59:59'
         };
 
         $http.expectPOST('/openmrs/ws/rest/v1/visit', visitData).respond({});
 
         var created = {};
-        visitService.checkInPatient({uuid: uuid}).then(function (visit) {
+        visitService.checkInPatient({ uuid: uuid }).then(function (visit) {
           created = visit;
         });
 
@@ -170,33 +168,33 @@ describe('visitService', function () {
 
     describe('follow-up visit', function () {
 
+      var DATETIME_FORMAT = 'YYYY-MM-DDTHH:mm:ss';
+
       it('should create a visit with follow-up consultation type', function () {
 
         spyOn(sessionService, 'getCurrentLocation').and.callFake(function () {
           return csPebane;
         });
 
-        var startDateTime = new Date();
-        var stopDatetime = moment(startDateTime).endOf('day').toDate();
-        jasmine.clock().mockDate(startDateTime);
-
-        var visits = [{voided: false}];
+        jasmine.clock().mockDate(moment('18/04/2018 10:30:00', 'DD/MM/YYYY HH:mm:ss').toDate());
+        
+        var visits = [{ voided: false }];
         $http.expectGET("/openmrs/ws/rest/v1/visit?patient=" + parameters.patient
           + '&v=' + parameters.v)
-          .respond({results: visits});
+          .respond({ results: visits });
 
         var visitData = {
           patient: uuid,
           visitType: FOLLOW_UP_CONSULTATION_VISIT_TYPE_UUID,
           location: csPebane.uuid,
-          startDatetime: startDateTime,
-          stopDatetime: stopDatetime
+          startDatetime: '2018-04-18T10:30:00',
+          stopDatetime: '2018-04-18T23:59:59'
         };
 
         $http.expectPOST('/openmrs/ws/rest/v1/visit', visitData).respond({});
 
         var created = {};
-        visitService.checkInPatient({uuid: uuid}).then(function (visit) {
+        visitService.checkInPatient({ uuid: uuid }).then(function (visit) {
           created = visit;
         });
 
@@ -214,13 +212,13 @@ describe('visitService', function () {
           return null;
         });
 
-        var visits = [{voided: false}];
+        var visits = [{ voided: false }];
         $http.expectGET("/openmrs/ws/rest/v1/visit?patient=" + parameters.patient
           + '&v=' + parameters.v)
-          .respond({results: visits});
+          .respond({ results: visits });
 
         var created = {};
-        visitService.checkInPatient({uuid: uuid}).then(function (visit) {
+        visitService.checkInPatient({ uuid: uuid }).then(function (visit) {
           created = visit;
         });
 
@@ -239,7 +237,7 @@ describe('visitService', function () {
 
   describe('getVisitHeader', function () {
 
-    var patient = {uuid: '7401f469-60ee-4cfa-afab-c1e89e2944e4'};
+    var patient = { uuid: '7401f469-60ee-4cfa-afab-c1e89e2944e4' };
 
     beforeEach(function () {
 
@@ -297,11 +295,11 @@ describe('visitService', function () {
       it('should load patient last registered BMI', function () {
 
         var getHeight = $q(function (resolve) {
-          return resolve({value: 181});
+          return resolve({ value: 181 });
         });
 
         var getWeight = $q(function (resolve) {
-          return resolve({value: 71});
+          return resolve({ value: 71 });
         });
 
         spyOn(observationsService, 'getLastPatientObs').and.returnValues(getHeight, getWeight);
