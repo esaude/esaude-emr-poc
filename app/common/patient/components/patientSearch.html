@@ -13,7 +13,7 @@
                  ng-change="vm.change()" placeholder="{{'SEARCH_PATIENT_PLACEHOLDER' | translate}}">
         </div>
       </div>
-      <div class="col-sm-2">
+      <div class="col-sm-2" ng-if="vm.createPatient">
         <poc-authorize privilege="'Write Patient'">
           <button id="new-patient" type="button" class="btn btn-primary btn-lg" ng-click="vm.linkPatientNew()">
             <span class="glyphicon glyphicon-plus-sign" />
