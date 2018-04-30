@@ -9,7 +9,8 @@
             "additionalPatientAttributes" : {
                 "testing": [
                     {"name": "Data do teste HIV", "uuid": "46e79fce-ba89-4ec9-8f31-2dfd9318d415"},
-                    {"name": "Tipo de teste HIV", "uuid": "ce778a93-66f9-4607-9d80-8794ed127674"}  
+                    {"name": "Tipo de teste HIV", "uuid": "ce778a93-66f9-4607-9d80-8794ed127674"},
+                    {"name": "Resultado do Teste HIV", "uuid": "31cb61f4-3d81-403d-94e9-64cce17a2a00"}  
                 ],
                 "other": [
                     {"name": "Proveniência", "uuid": "46e79fce-ba89-4ec9-8f31-2dfd9318d415"},

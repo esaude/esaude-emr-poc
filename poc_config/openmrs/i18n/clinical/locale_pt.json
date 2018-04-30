@@ -249,6 +249,10 @@
   "PCR EXAME/TESTE": "PCR",
   "TEST_RESULTS": "Resultados",
   "ANTI-RETROVIRAIS ANTERIORES USADOS PARA TRATAMENTO": "Regime actual",
-  "ESTADIO OMS ACTUAL": "Estadio OMS actual"
+  "CLINIC_CURRENT_WHO_STAGE": "Estadio OMS actual",
+  "CLINIC_LAST_CD4_COUNT": "Último CD4#",
+  "CLINIC_LAST_VIRAL_LOAD": "Última Carga Viral",
+  "CLINIC_LAST_TB_START_DATE": "Última data de tratamebto TB"
+
 
 }
