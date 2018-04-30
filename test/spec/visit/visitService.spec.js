@@ -144,6 +144,13 @@ describe('visitService', function () {
 
         jasmine.clock().mockDate(moment('18/04/2018 10:30:00', 'DD/MM/YYYY HH:mm:ss').toDate());
 
+        spyOn(appService, 'getAppDescriptor').and.callFake(function () {
+          var spyObj = jasmine.createSpyObj('appDescriptor', ['getConfigValue']);
+          spyObj.getConfigValue.and.returnValue([{uuid: FIRST_CONSULTATION_VISIT_TYPE_UUID, occurOn: 'first'}]);
+          return spyObj;
+        });
+
+
         $http.expectGET("/openmrs/ws/rest/v1/visit?patient=" + parameters.patient
           + '&v=' + parameters.v)
           .respond([]);
@@ -179,9 +186,14 @@ describe('visitService', function () {
         });
 
         jasmine.clock().mockDate(moment('18/04/2018 10:30:00', 'DD/MM/YYYY HH:mm:ss').toDate());
-        
+
         var visits = [{ voided: false }];
 
+        spyOn(appService, 'getAppDescriptor').and.callFake(function () {
+          var spyObj = jasmine.createSpyObj('appDescriptor', ['getConfigValue']);
+          spyObj.getConfigValue.and.returnValue([{uuid: FOLLOW_UP_CONSULTATION_VISIT_TYPE_UUID, occurOn: 'following'}]);
+          return spyObj;
+        });
         $http.expectGET("/openmrs/ws/rest/v1/visit?patient=" + parameters.patient
           + '&v=' + parameters.v)
           .respond({ results: visits });
