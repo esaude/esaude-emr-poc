@@ -13,7 +13,7 @@
       },
       templateUrl: ' ../poc-common/clinical-services/form-display/components/formPartDisplay.html',
       require: {
-        formWizard: '^formWizard'
+        formWizard: '?^formWizard'
       }
     });
 
