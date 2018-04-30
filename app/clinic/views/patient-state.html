@@ -1,6 +1,6 @@
-<div ng-init="initPatientState()">
+<div ng-hide="nopatientState && noWHOStage">
   <div class="row bg-info-border content-border border-rouded" ng-show="!nopatientState || !noWHOStage"><!--patient header -->
-    <div class="col-sm-4 well well-sm panel-marginless-bottom" ng-show="!nopatientState">
+    <div class="col-sm-4 panel-marginless-bottom" ng-show="!nopatientState">
       <div ng-repeat="patientState in patientStates">
         <div ng-show="patientState.result">
           <p ng-class="capitalize"><strong> {{patientState.exam}} :</strong>
@@ -10,8 +10,8 @@
       </div>
     </div>
 
-    <div class="col-sm-8 well well-sm panel-marginless-bottom" ng-show="!noWHOStage">
-      <div ng-repeat="encounter in patientPrescription | limitTo: -1">
+    <div class="col-sm-8 panel-marginless-bottom" ng-show="!noWHOStage">
+      <div ng-repeat="encounter in patientPrescription">
         <p ng-repeat="obs in encounter.obs ">
           <strong> {{obs.concept.name.display | translate }} : </strong>
           <span ng-show="obs.value.display" class="label label-primary">{{obs.value.display | translate}}</span>

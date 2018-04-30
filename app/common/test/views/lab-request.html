@@ -161,7 +161,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr st-select-mode="single" ng-repeat="testOrder in vm.existingTestOrders">
+                            <tr st-select-mode="single" ng-repeat="testOrder in vm.existingTestOrders | orderBy: '-dateCreation'">
                                 <td>{{testOrder.dateCreation | date}}</td>
                                 <td>{{testOrder.provider.display}}</td>
                                 <td>{{testOrder.status | translate}}</td>

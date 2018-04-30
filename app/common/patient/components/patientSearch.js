@@ -3,26 +3,16 @@
 
   angular
     .module('common.patient')
-    .directive('patientSearch', patientSearch)
-    .controller('PatientSearchController', PatientSearchController);
-
-  patientSearch.$inject = [];
-
-  /* @ngInject */
-  function patientSearch() {
-    var directive = {
+    .component('patientSearch', {
       bindToController: true,
       controller: PatientSearchController,
       controllerAs: 'vm',
-      restrict: 'E',
-      scope: {
-        showSchedule: '=',
-        scheduleType: '='
+      bindings: {
+        showSchedule: '<',
+        scheduleType: '<'
       },
-      templateUrl: '../common/patient/directives/patientSearch.html'
-    };
-    return directive;
-  }
+      templateUrl: '../common/patient/components/patientSearch.html'
+    });
 
   PatientSearchController.$inject = ['$location', '$rootScope', '$state', 'commonService', 'observationsService',
     'openmrsPatientMapper', 'patientService',  'visitService'];
@@ -41,16 +31,12 @@
 
     vm.barcodeHandler = barcodeHandler;
     vm.change = change;
+
+    vm.linkDashboard = linkDashboard;
     vm.linkPatientNew = linkPatientNew;
     vm.onPatientSelect = onPatientSelect;
 
-    activate();
-
     ////////////////
-
-    function activate() {
-
-    }
 
     function change() {
       if (vm.searchText.trim().length <= 0) {
@@ -87,8 +73,12 @@
 
     }
 
+    function linkDashboard(patient) {
+      $state.go('dashboard', {patientUuid: patient.uuid});
+    }
+
     function linkPatientNew() {
-      $location.url("/patient/new/identifier"); // path not hash
+      $state.go('newpatient.identifier');
     }
 
     function onPatientSelect(patient) {

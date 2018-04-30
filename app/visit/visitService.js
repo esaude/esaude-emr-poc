@@ -14,6 +14,8 @@
 
     var HEIGHT_CM = "e1e2e934-1d5f-11e0-b929-000c29ad1d07";
 
+    var DATETIME_FORMAT = 'YYYY-MM-DDTHH:mm:ss';
+
     var sortByVisitStartDateTime = _.curryRight(_.sortBy, 2)(function (visit) {
       return new Date(visit.startDatetime);
     });
@@ -62,13 +64,13 @@
             return $q.reject();
           }
 
-          var now = new Date();
+          var now = moment();
           var visit = {
             patient: patient.uuid,
             visitType: isFirstVisit ? getDefaultVisitTypes('first').uuid : getDefaultVisitTypes('following').uuid,
             location: currentLocation.uuid,
-            startDatetime: now,
-            stopDatetime: moment(now).endOf('day').toDate()
+            startDatetime: now.format(DATETIME_FORMAT),
+            stopDatetime: now.endOf('day').format(DATETIME_FORMAT)
           };
 
           return create(visit);

@@ -120,6 +120,31 @@ describe("ManageProgramController", function () {
       expect(scope.programSelected).toEqual(patientProgram);
       expect(scope.getCurrentProgramState(patientProgram.program.allWorkflows[0].states).uuid).toEqual('UUID4');
     });
+
+    it('should not allow completion date for arv treatment', function () {
+      var ARV_TREATMENT_PROGRAM_UUID = 'efe2481f-9e75-4515-8d5a-86bfde2b5ad3';
+      var scope = {};
+      var patientProgram = {
+        program: {
+          uuid: ARV_TREATMENT_PROGRAM_UUID
+        }
+      };
+      var ctrl = $controller('ManageProgramController', { $scope: scope });
+      scope.setProgramSelected(patientProgram);
+      expect(scope.allowCompletionDate).toBe(false);
+    });
+
+    it('should allow completion date for any other program besides arv treatment', function () {
+      var scope = {};
+      var patientProgram = {
+        program: {
+          uuid: "RANDOM_UUID"
+        }
+      };
+      var ctrl = $controller('ManageProgramController', { $scope: scope });
+      scope.setProgramSelected(patientProgram);
+      expect(scope.allowCompletionDate).toBe(true);
+    });
   });
 
   describe('hasPatientEnrolledToSomePrograms', function () {
