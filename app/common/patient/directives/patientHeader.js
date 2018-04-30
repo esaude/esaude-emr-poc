@@ -9,6 +9,7 @@
       bindings: {
         patient: '<',
         displayActions: '<',
+        alterPatient: '<',
         onPatientDeceased: '&'
       },
       templateUrl: '../common/patient/directives/patientHeader.html'

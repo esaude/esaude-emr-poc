@@ -9,7 +9,8 @@
       controllerAs: 'vm',
       bindings: {
         showSchedule: '<',
-        scheduleType: '<'
+        scheduleType: '<',
+        createPatient: '<'
       },
       templateUrl: '../common/patient/components/patientSearch.html'
     });
