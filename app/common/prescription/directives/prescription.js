@@ -413,13 +413,12 @@
           regime: element.isArv ? element.regime : null,
           therapeuticLine:  element.isArv ? element.therapeuticLine : null,
           arvPlan:  (element.isArv && element.arvPlan ) ? element.arvPlan: null,
-          changeReason: (element.isArv && element.changeReason ) ? element.changeReason : null,
           interruptionReason: (element.isArv && element.interruptedReason ) ? element.interruptedReason : null
-
         };
-
+        prescription.changeReason = (element.isArv && element.changeReason ) ? element.changeReason : null;        
         prescription.prescriptionItems.push(prescriptionItem);
       });
+
 
       if(validateCreatePrescription(form, prescription)){
 
