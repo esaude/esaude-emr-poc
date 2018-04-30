@@ -253,6 +253,7 @@
     "COMMON_MESSAGE_COULD_NOT_CREATE_PRESCRIPTION": "Could not create this prescription",
     "COMMON_MESSAGE_COULD_NOT_CANCEL_PRESCRIPTION_ITEM": "Could not cancel this prescription item",
     "COMMON_CANCELLATION_PRESCRIPTION_ERROR_NO_REASON": "Please provide the reason of cancellation",
+    "CLINIC_PRESCRIPTION_ARV_PLAN_INTERRUPDED_REASON_REQUIRED": "Please inform the reason for interruption",
     "COMMON_CANCEL_PRESCRIPTIONS_REASON": "Cancellation Reason",
     "COMMON_CANCEL_PRESCRIPTION": "Cancel Prescription Item",
     "COMMON_MESSAGE_COULD_NOT_CANCEL_DISPENSATION_ITEM": "Could not cancel this dispensation item",
