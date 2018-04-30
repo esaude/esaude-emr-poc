@@ -86,14 +86,14 @@
                         <strong>{{'CLINIC_PRESCRIPTION_PROPHYLAXIS_PLAN'| translate}}:</strong> {{item.prophilaxyPlan.display}}
                     </span>
                     <span ng-if="item.regime && item.interruptionReason">
-                        <strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN_INTERRUPDED_FOR'| translate}}:</strong> {{item.interruptionReason}}
+                        <strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN_INTERRUPDED_FOR'| translate}}:</strong> {{item.interruptionReason.display}}
                     </span>
-                    <span ng-if="item.regime && item.changeReason">
-                        <strong>{{'CLINIC_PRESCRIPTION_ARV_CHANGE_FOR'| translate}}:</strong> {{item.changeReason}}
+                    <span ng-if="item.regime && existingPrescription.changeReason">
+                        <strong>{{'CLINIC_PRESCRIPTION_ARV_CHANGE_FOR'| translate}}:</strong> {{existingPrescription.changeReason.display}}
                     </span>
                     <span>
                         <strong>
-                            {{item.status | translate}}
+                            {{'PRESCRIPTION_' + item.status | translate}}
                         </strong>
                     </span>
                 </div>
