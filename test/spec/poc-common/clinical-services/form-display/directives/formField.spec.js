@@ -11,6 +11,55 @@ describe('formField', function () {
     conceptService = _conceptService_;
   }));
 
+  describe('$onInit', function () {
+
+    it('$watch if formWizard submitted', function () {
+
+      var formParts = {};
+      var $scope = $rootScope.$new(true);
+      $scope.$watch = jasmine.createSpy('$watch');
+      var ctrl = $componentController('formField', {$scope: $scope}, {field: {id: 1}, formParts: formParts, fieldUuid: '1234', fieldId: 2});
+      var addVisitedField = jasmine.createSpy('addVisitedField');
+      ctrl.formWizard = {addVisitedField: addVisitedField};
+
+      ctrl.$onInit();
+
+      expect($scope.$watch).toHaveBeenCalledWith('vm.formWizard.submitted', jasmine.anything());
+
+    });
+
+    it('$watch field validity', function () {
+
+      var formParts = {};
+      var $scope = $rootScope.$new(true);
+      $scope.$watch = jasmine.createSpy('$watch');
+      var ctrl = $componentController('formField', {$scope: $scope}, {field: {id: 1}, formParts: formParts, fieldUuid: '1234', fieldId: 2});
+      var addVisitedField = jasmine.createSpy('addVisitedField');
+      ctrl.formWizard = {addVisitedField: addVisitedField};
+
+      ctrl.$onInit();
+
+      expect($scope.$watch).toHaveBeenCalledWith('aForm.2.$valid', jasmine.anything());
+
+    });
+
+    it('$watch formParts', function () {
+
+      var formParts = {};
+      var $scope = $rootScope.$new(true);
+      $scope.$watch = jasmine.createSpy('$watch');
+      var ctrl = $componentController('formField', {$scope: $scope}, {field: {id: 1}, formParts: formParts, fieldUuid: '1234', fieldId: 2});
+      var addVisitedField = jasmine.createSpy('addVisitedField');
+      ctrl.formWizard = {addVisitedField: addVisitedField};
+
+      ctrl.$onInit();
+
+      expect($scope.$watch).toHaveBeenCalledWith('vm.formParts', jasmine.anything());
+
+    });
+
+  });
+
   describe('onBlurSearchBySource', function () {
 
     describe('no results found', function () {
@@ -19,6 +68,8 @@ describe('formField', function () {
 
         var formParts = {};
         var ctrl = $componentController('formField', {$scope: $rootScope.$new(true)}, {field: {id: 1}, formParts: formParts, fieldUuid: '1234'});
+        ctrl.formWizard = {addVisitedField: jasmine.createSpy('addVisitedField')};
+        ctrl.$onInit();
         ctrl.formParts = {form: {fields: {'1234': {field: {uuid: '1234'}, value: 1234}}}};
         ctrl.typeahead.noResults = true;
         $rootScope.$apply();
@@ -33,6 +84,8 @@ describe('formField', function () {
 
         var formParts = {};
         var ctrl = $componentController('formField', {$scope: $rootScope.$new(true)}, {field: {id: 1}, formParts: formParts, fieldUuid: '1234'});
+        ctrl.formWizard = {addVisitedField: jasmine.createSpy('addVisitedField')};
+        ctrl.$onInit();
         ctrl.formParts = {form: {fields: {'1234': {field: {uuid: '1234'}, value: 1234}}}};
         ctrl.typeahead.noResults = true;
         $rootScope.$apply();

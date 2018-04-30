@@ -15,7 +15,10 @@
         patient: '<',
         previousEncounter: '<'
       },
-      templateUrl: ' ../poc-common/clinical-services/form-display/views/formField.html'
+      require: {
+        formWizard: '^'
+      },
+      templateUrl: ' ../poc-common/clinical-services/form-display/components/formField.html'
     });
 
   FormFieldDirectiveController.$inject = ['$filter', '$scope', 'observationsService', 'conceptService'];
@@ -38,6 +41,7 @@
 
     vm.typeahead = {noResults: false};
 
+    vm.$onInit = $onInit;
     vm.searchBySource = searchBySource;
     vm.onBlurSearchBySource = onBlurSearchBySource;
 
@@ -56,21 +60,16 @@
       });
     }
 
-    activate();
-
     ////////////////
 
-    function activate() {
-      $scope.$watch('$parent.$parent.vm.formWizard.submitted', function (value) {
+    function $onInit() {
+      $scope.$watch('vm.formWizard.submitted', function (value) {
         vm.showMessages = value;
       });
 
       $scope.$watch('aForm.' + vm.fieldId + '.$valid', function (value) {
         if (angular.isDefined(value)) {
-          $scope.$parent.$parent.vm.formWizard.visitedFields[vm.fieldUuid] = {
-            uuid: vm.fieldUuid,
-            valid: value
-          };
+          vm.formWizard.addVisitedField({uuid: vm.fieldUuid, valid: value});
         }
       });
 
