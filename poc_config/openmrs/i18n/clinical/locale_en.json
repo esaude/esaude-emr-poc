@@ -241,5 +241,9 @@
   "SORO DE SÓDIO": "Sódio",
   "GLOBULINAS": "Globulinas",
   "PCR EXAME/TESTE": "PCR",
-  "TEST_RESULTS": "Results"
+  "TEST_RESULTS": "Results",
+  "CLINIC_CURRENT_WHO_STAGE": "Estadio OMS actual",
+  "CLINIC_LAST_CD4_COUNT": "Last CD4#",
+  "CLINIC_LAST_VIRAL_LOAD": "Last Viral Load",
+  "CLINIC_LAST_TB_START_DATE": "Last TB treatment date"
 }

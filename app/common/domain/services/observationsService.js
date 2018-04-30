@@ -73,7 +73,7 @@
       });
     }
 
-    function getLastValueForConcept(patientUUID, concept) {
+    function getLastValueForConcept(patientUUID, concept, representation) {
       return getObs(patientUUID, concept)
         .then(function (obs) {
 
@@ -86,6 +86,9 @@
                 return answer.uuid === last.value.uuid;
               });
             }
+
+            if (representation === "full") return last;
+            
             return last.value;
           }
         })
