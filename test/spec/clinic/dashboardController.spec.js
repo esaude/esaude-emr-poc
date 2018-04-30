@@ -4,6 +4,8 @@ describe('DashboardController', function () {
   var patientUuid, scope, $rootScope, $q, $controller, controller, location, patientService, patientMapper,
     httpBackend, stateParams, visitService, authorizationService, $state, alertService;
 
+  var FLAGS = ['TB', 'Low Hemoglobin'];
+
   beforeEach(module('clinic', function ($provide, $translateProvider, $urlRouterProvider) {
     // Mock translate asynchronous loader
     $provide.factory('mergeLocaleFilesService', function ($q) {
@@ -37,7 +39,7 @@ describe('DashboardController', function () {
 
     spyOn(alertService, 'get').and.callFake(function () {
       return $q(function (resolve) {
-        return resolve({data:{flags:[]}});
+        return resolve({data:{flags:FLAGS}});
       });
     });
 
@@ -65,7 +67,7 @@ describe('DashboardController', function () {
     it('should get patient uuid', function () {
       $rootScope.$apply();
       expect(patientService.getPatient).toHaveBeenCalled();
-      expect(alertService.get).toHaveBeenCalled();
+      expect(scope.flags).toEqual(FLAGS);
     });
   });
 
