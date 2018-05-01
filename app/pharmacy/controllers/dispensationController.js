@@ -146,7 +146,7 @@
         return;
       }
 
-      if (item.quantity >= twoDays) {
+      if (item.status === "NEW" && item.quantity >= twoDays) {
         numberOfPillsMinusTwoDays -= twoDays;
       }
 

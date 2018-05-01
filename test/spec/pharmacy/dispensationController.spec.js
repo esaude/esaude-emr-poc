@@ -235,6 +235,7 @@ describe('DispensationController', function () {
 
         controller.selectedPrescriptionItems = prescriptionItems;
         item.quantity = 4;
+        item.status = "NEW";
         controller.updatePickup(item);
 
         expect(item.quantity).toEqual(prescriptionItems[1].drugToPickUp);
