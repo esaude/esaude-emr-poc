@@ -8,12 +8,6 @@
             <button type="button" class="close btn-lg content-border-margin-regular-sides " data-dismiss="alert" aria-label="Close">
                 <span class="glyphicon glyphicon-remove-circle"></span>
             </button>
-            <button type="button" class="close btn-lg content-border-margin-regular-sides">
-                <span class="glyphicon glyphicon-list-alt"></span>
-            </button>
-            <button type="button" class="close btn-lg content-border-margin-regular-sides" ng-click="notes.show = true">
-                <span class="glyphicon glyphicon-plus"></span>
-            </button>
             <strong>{{lastNotesMessageType.value.display}}!</strong> {{lastNotesStory.value}}
             <br/><strong>{{'COMMON_BY'| translate}}</strong> {{lastNotes.provider.display}} <strong>{{'COMMON_ON'| translate}}</strong> {{lastNotes.encounterDatetime | date}}
         </div>

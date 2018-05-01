@@ -207,7 +207,7 @@ p.capitalize {
 }
 
 .navbar .navbar-brand {
-  line-height: 34px;
+  line-height: 50px;
   height: 80px;       /* navbar min-height */
   color: #ffffff;
 }

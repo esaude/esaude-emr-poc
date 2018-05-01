@@ -244,6 +244,7 @@
     "COMMON_MESSAGE_COULD_NOT_CREATE_PRESCRIPTION": "Não foi possível criar a prescrição",
     "COMMON_MESSAGE_COULD_NOT_CANCEL_PRESCRIPTION_ITEM": "Não foi possível cancelar o item da prescrição",
     "COMMON_CANCELLATION_PRESCRIPTION_ERROR_NO_REASON": "Por favor indique o motivo de cancelamento",
+    "CLINIC_PRESCRIPTION_ARV_PLAN_INTERRUPDED_REASON_REQUIRED": "Por favor indique o motivo de interrupção",
     "COMMON_MESSAGE_COULD_NOT_CANCEL_DISPENSATION_ITEM": "Não foi possível cancelar o item da dispensa",
     "COMMON_MESSAGE_COULD_NOT_ADD_ITEM_ARV_BECAUSE_EXISTS_AN_ACTIVE_ARV_PRESCRIPTION": "Item {{EXISTING_ITEM}} não pode ser adicionado pois existe uma prescrição ARV activa",
     "COMMON_MESSAGE_COULD_NOT_CREATE_ARV_PRESCRIPTION_BECAUSE_EXISTS_AN_ACTIVE_ARV_PRESCRIPTION": "Prescrição não pode ser criada pois existe uma prescrição ARV activa",
