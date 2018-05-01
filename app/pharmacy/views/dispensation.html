@@ -76,7 +76,6 @@
                 <th>{{'COMMON_ITEM' | translate}}</th>
                 <th>{{'PHARMACY_NEXT_PICKUP' | translate}}<span class="asterick">*</span></th>
                 <th>{{'PHARMACY_QUANTITY' | translate}}</th>
-                <th>{{'PHARMACY_AVAILABLE' | translate}}</th>
                 <th></th>
               </tr>
               </thead>
@@ -120,10 +119,6 @@
                              ng-change="vm.updatePickup(item)" size="4" min="1" required>
                     </div>
                   </div>
-                  <span>{{item.drugToPickUp}}</span>
-                </td>
-                <td>
-                  <label class="label label-success"><span class="glyphicon glyphicon-thumbs-up"></span></label>
                 </td>
                 <td>
                   <button type="button" class="btn btn-danger btn-lg" ng-click="vm.remove(item)">
