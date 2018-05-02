@@ -57,7 +57,6 @@ describe('FormWizardController', function () {
       createEncounterMapper: {},
       updateEncounterMapper: {},
       $q: $q,
-      spinner: spinner,
       patientService: patientService,
       $stateParams: { patientUuid: "P001" }
     });
@@ -132,6 +131,51 @@ describe('FormWizardController', function () {
           }
         }, { uuid: "UUID2" });
       expect(previousEncounter).toBeNull();
+    });
+
+  });
+
+  describe('canSave', function () {
+
+    it('should return true if all fields visited and all valid', function () {
+
+      ctrl.formInfo.parts = [
+        {fields: [1,2,3]}
+      ];
+
+      ctrl.addVisitedField({uuid: 1, valid: true});
+      ctrl.addVisitedField({uuid: 2, valid: true});
+      ctrl.addVisitedField({uuid: 3, valid: true});
+
+      expect(ctrl.canSave()).toEqual(true);
+
+    });
+
+    it('should return false if not all fields visited', function () {
+
+      ctrl.formInfo.parts = [
+        {fields: [1,2,3]}
+      ];
+
+      ctrl.addVisitedField({uuid: 1, valid: true});
+      ctrl.addVisitedField({uuid: 3, valid: true});
+
+      expect(ctrl.canSave()).toEqual(false);
+
+    });
+
+    it('should return false if not all fields valid', function () {
+
+      ctrl.formInfo.parts = [
+        {fields: [1,2,3]}
+      ];
+
+      ctrl.addVisitedField({uuid: 1, valid: true});
+      ctrl.addVisitedField({uuid: 2, valid: false});
+      ctrl.addVisitedField({uuid: 3, valid: true});
+
+      expect(ctrl.canSave()).toEqual(false);
+
     });
 
   });

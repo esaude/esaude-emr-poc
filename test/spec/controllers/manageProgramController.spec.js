@@ -36,7 +36,7 @@ describe("ManageProgramController", function () {
 
     it('should load all programs', function () {
 
-      var ctrl = $controller('ManageProgramController', {$scope: {}});
+      var ctrl = $controller('ManageProgramController', { $scope: {} });
 
       expect(programService.getAllPrograms).toHaveBeenCalled();
 
@@ -45,7 +45,7 @@ describe("ManageProgramController", function () {
     it('should initialize data and load all programs', function () {
 
       var scope = {};
-      var ctrl = $controller('ManageProgramController', {$scope: scope});
+      var ctrl = $controller('ManageProgramController', { $scope: scope });
 
       $rootScope.$apply();
 
@@ -59,8 +59,8 @@ describe("ManageProgramController", function () {
 
     it('should reset selected state', function () {
 
-      var scope = {programEdited: {programEdited: ''}};
-      var ctrl = $controller('ManageProgramController', {$scope: scope});
+      var scope = { programEdited: { programEdited: '' } };
+      var ctrl = $controller('ManageProgramController', { $scope: scope });
 
       scope.resetProgramFields();
 
@@ -69,8 +69,8 @@ describe("ManageProgramController", function () {
     });
     it('should reset start date', function () {
 
-      var scope = {programEdited: {startDate: new Date()}};
-      var ctrl = $controller('ManageProgramController', {$scope: scope});
+      var scope = { programEdited: { startDate: new Date() } };
+      var ctrl = $controller('ManageProgramController', { $scope: scope });
 
       scope.resetProgramFields();
 
@@ -80,8 +80,8 @@ describe("ManageProgramController", function () {
 
     it('should reset program selected', function () {
 
-      var scope = {programSelected: {x: 'y'}};
-      var ctrl = $controller('ManageProgramController', {$scope: scope});
+      var scope = { programSelected: { x: 'y' } };
+      var ctrl = $controller('ManageProgramController', { $scope: scope });
 
       scope.resetProgramFields();
 
@@ -91,8 +91,8 @@ describe("ManageProgramController", function () {
 
     it('should reset selected workflow state', function () {
 
-      var scope = {workflowStateSelected: {x: 'y'}};
-      var ctrl = $controller('ManageProgramController', {$scope: scope});
+      var scope = { workflowStateSelected: { x: 'y' } };
+      var ctrl = $controller('ManageProgramController', { $scope: scope });
 
       scope.resetProgramFields();
 
@@ -102,4 +102,70 @@ describe("ManageProgramController", function () {
 
   });
 
+  describe('setProgramSelected', function () {
+    it('should set the selected program and state', function () {
+      var scope = {};
+      var patientProgram = {
+        program: {
+          allWorkflows: [
+            {
+              states: [
+                { endDate: null, uuid: 'UUID4' },
+                { endDate: moment('2017-10-16').toDate(), uuid: 'UUID3' }]
+            }]
+        }
+      };
+      var ctrl = $controller('ManageProgramController', { $scope: scope });
+      scope.setProgramSelected(patientProgram);
+      expect(scope.programSelected).toEqual(patientProgram);
+      expect(scope.getCurrentProgramState(patientProgram.program.allWorkflows[0].states).uuid).toEqual('UUID4');
+    });
+
+    it('should not allow completion date for arv treatment', function () {
+      var ARV_TREATMENT_PROGRAM_UUID = 'efe2481f-9e75-4515-8d5a-86bfde2b5ad3';
+      var scope = {};
+      var patientProgram = {
+        program: {
+          uuid: ARV_TREATMENT_PROGRAM_UUID
+        }
+      };
+      var ctrl = $controller('ManageProgramController', { $scope: scope });
+      scope.setProgramSelected(patientProgram);
+      expect(scope.allowCompletionDate).toBe(false);
+    });
+
+    it('should allow completion date for any other program besides arv treatment', function () {
+      var scope = {};
+      var patientProgram = {
+        program: {
+          uuid: "RANDOM_UUID"
+        }
+      };
+      var ctrl = $controller('ManageProgramController', { $scope: scope });
+      scope.setProgramSelected(patientProgram);
+      expect(scope.allowCompletionDate).toBe(true);
+    });
+  });
+
+  describe('hasPatientEnrolledToSomePrograms', function () {
+    it('should be false when programs list is empty', function () {
+      var scope = { activePrograms: [] };
+      var ctrl = $controller('ManageProgramController', { $scope: scope });
+      expect(scope.hasPatientEnrolledToSomePrograms()).toBeFalsy();
+    });
+
+    it('should be true when programs list is not empty', function () {
+      var scope = { activePrograms: ["PRG1"] };
+      var ctrl = $controller('ManageProgramController', { $scope: scope });
+      expect(scope.hasPatientEnrolledToSomePrograms()).toBeTruthy();
+    });
+  });
+
+  describe('hasPatientAnyPastPrograms', function () {
+    it('should be true when ended programs list is not empty', function () {
+      var scope = { endedPrograms: ["PRG1"] };
+      var ctrl = $controller('ManageProgramController', { $scope: scope });
+      expect(scope.hasPatientAnyPastPrograms()).toBeTruthy();
+    });
+  });
 });

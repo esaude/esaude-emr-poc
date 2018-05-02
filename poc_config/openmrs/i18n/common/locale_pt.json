@@ -109,8 +109,8 @@
     "PATIENT_INFO_IDENTIFIER_ERROR_EXISTING": "O identificador selecionado já existe na lista.",
     "PATIENT_INFO_DEATH_DATE": "Data de óbito",
     "PATIENT_INFO_DEATH_REASON": "Motivo de óbito",
-    "PATIENT_INFO_DEAD": "Obitou",
-    "PATIENT_IS_DEAD": "Este paciente obitou",
+    "PATIENT_INFO_DEAD": "Faleceu",
+    "PATIENT_IS_DEAD": "Este paciente faleceu",
     "PATIENT_INFO_NEW": "Registrar novo paciente",
     "PATIENT_INFO_HIV_TEST": "Testagem HIV",
     "CLINIC_PATIENT_SUMMARY": "Resumo",
@@ -138,7 +138,9 @@
     "CLINIC_PATIENT_HEIGHT": "Altura (cm)",
     "CLINIC_PATIENT_BMI": "IMC",
     "LOGIN_LABEL_LOGGEDIN_KEY": "Entrou como",
-    "SCHEDULE_LIST_PATIENT": "Marcados para consulta",
+    "SCHEDULE_LIST_PATIENT": "Consultas e levantamentos na farmácia marcados para hoje",
+    "SCHEDULE_LIST_PROVIDER": "Consultas marcadas para hoje",
+    "SCHEDULE_LIST_DRUG_PICKUP": "Levantamentos na farmácia marcados marcadas para hoje",
     "SCHEDULE_HASNT_SCHEDULES": "Nenhuma marcação feita para hoje",
     "SCHEDULE_PATIENT": "Paciente",
     "SCHEDULE_DATE_SCHEDULED": "Marcado aos",
@@ -242,6 +244,7 @@
     "COMMON_MESSAGE_COULD_NOT_CREATE_PRESCRIPTION": "Não foi possível criar a prescrição",
     "COMMON_MESSAGE_COULD_NOT_CANCEL_PRESCRIPTION_ITEM": "Não foi possível cancelar o item da prescrição",
     "COMMON_CANCELLATION_PRESCRIPTION_ERROR_NO_REASON": "Por favor indique o motivo de cancelamento",
+    "CLINIC_PRESCRIPTION_ARV_PLAN_INTERRUPDED_REASON_REQUIRED": "Por favor indique o motivo de interrupção",
     "COMMON_MESSAGE_COULD_NOT_CANCEL_DISPENSATION_ITEM": "Não foi possível cancelar o item da dispensa",
     "COMMON_MESSAGE_COULD_NOT_ADD_ITEM_ARV_BECAUSE_EXISTS_AN_ACTIVE_ARV_PRESCRIPTION": "Item {{EXISTING_ITEM}} não pode ser adicionado pois existe uma prescrição ARV activa",
     "COMMON_MESSAGE_COULD_NOT_CREATE_ARV_PRESCRIPTION_BECAUSE_EXISTS_AN_ACTIVE_ARV_PRESCRIPTION": "Prescrição não pode ser criada pois existe uma prescrição ARV activa",
@@ -334,5 +337,5 @@
     "COMMON_MESSAGE_DRUG_WITHOUT_STOCK_AVAILABILITY":"Não há disponibilidade de estoque para o medicamento selecionado",
     "COMMON_MESSAGE_EXCEPTION_REQUESTING_DRUG_STOCK_AVAILABILITY":"Não foi possivel obter informação de estoque para o medicamento selecionado",
     "PLEASE_CHECK_IN_PATIENT": "Por favor faça o check-in do paciente.",
-    "COMMON_CANT_DELETE_PATIENT_WITH_HISTORY": "You are not allowed to delete this patient because he has a History in of follow up."
+    "COMMON_CANT_DELETE_PATIENT_WITH_HISTORY": "Não é possível remover este paciente porque possui histórico."
 }

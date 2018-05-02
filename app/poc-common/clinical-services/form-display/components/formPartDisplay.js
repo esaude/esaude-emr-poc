@@ -3,26 +3,19 @@
 
   angular
     .module('poc.common.clinicalservices.formdisplay')
-    .directive('fieldRead', fieldRead);
-
-  fieldRead.$inject = [];
-
-  /* @ngInject */
-  function fieldRead() {
-    var directive = {
-      bindToController: true,
+    .component('formPartDisplay', {
       controller: FieldReadDirectiveController,
       controllerAs: 'vm',
-      restrict: 'AE',
-      scope: {
-        payload: '=',
-        formPart: '=',
-        displaying: '='
+      bindings: {
+        payload: '<',
+        formPart: '<',
+        validate: '<'
       },
-      templateUrl: ' ../poc-common/clinical-services/form-display/views/fieldRead.html'
-    };
-    return directive;
-  }
+      templateUrl: ' ../poc-common/clinical-services/form-display/components/formPartDisplay.html',
+      require: {
+        formWizard: '?^formWizard'
+      }
+    });
 
   FieldReadDirectiveController.$inject = ['$scope'];
 
@@ -31,7 +24,7 @@
 
     var vm = this;
 
-    vm.getFieldValidity = getFieldValidity;
+    vm.getVisitedField = getVisitedField;
     vm.isTrueFalseQuestion = isTrueFalseQuestion;
     vm.stringToJson = stringToJson;
     vm.$onInit = onInit;
@@ -50,15 +43,15 @@
       return str ? JSON.parse(str) : str;
     }
 
-    function getFieldValidity(fieldUuid) {
-      if (vm.displaying) {
+    function getVisitedField(fieldUuid) {
+      if (!vm.validate) {
         return {
           uuid: fieldUuid,
           valid: true
         };
       }
 
-      return $scope.$parent.$parent.vm.formWizard.visitedFields[fieldUuid];
+      return vm.formWizard.getVisitedField(fieldUuid);
     }
 
     function isTrueFalseQuestion(question) {

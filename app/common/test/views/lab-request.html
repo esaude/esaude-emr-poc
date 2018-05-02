@@ -1,5 +1,10 @@
 <div class="row content-border-margin-regular">
-    <div class="col-sm-6">
+
+    <div class="alert alert-info" ng-if="!vm.patientCheckedIn">
+        {{'PLEASE_CHECK_IN_PATIENT'|translate}}
+    </div>
+
+    <div class="col-sm-6" ng-if="vm.patientCheckedIn">
         <div>
             <form name="laborderForm" class="form-horizontal" autocomplete="off">
                 <poc-authorize privilege="'Write Test Order'">
@@ -137,7 +142,7 @@
         </div>
     </div>
 
-    <div class="col-sm-6">
+    <div class="col-sm-6" ng-if="vm.patientCheckedIn">
 
         <poc-authorize privilege="'Read Test Order'">
             <div class="panel panel-primary panel-marginless-sides">
@@ -156,7 +161,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr st-select-mode="single" ng-repeat="testOrder in vm.existingTestOrders">
+                            <tr st-select-mode="single" ng-repeat="testOrder in vm.existingTestOrders | orderBy: '-dateCreation'">
                                 <td>{{testOrder.dateCreation | date}}</td>
                                 <td>{{testOrder.provider.display}}</td>
                                 <td>{{testOrder.status | translate}}</td>
@@ -188,7 +193,7 @@
 
     </div>
 
-    <div class="col-sm-6">
+    <div class="col-sm-6" ng-if="vm.patientCheckedIn">
 
         <poc-authorize privilege="'Update Test Order'">
             <div class="panel panel-primary panel-marginless-sides">
@@ -202,6 +207,7 @@
                             <tr>
                                 <th st-sort="test">{{'TEST' | translate}}</th>
                                 <th st-sort="test">{{'CATEGORY' | translate}}</th>
+                                <th st-sort="test">{{'TEST_RESULTS' | translate}}</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -209,6 +215,8 @@
                             <tr st-select-mode="single" ng-repeat="test in vm.testsOfSelectedRequest">
                                 <td>{{test.translatedDisplay}}</td>
                                 <td>{{test.category.display}}</td>
+                                <td ng-if="test.result.numeric">{{test.result.value}} {{test.result.unit}}</td>
+                                <td ng-if="!test.result.numeric">{{test.result.codedValue.display}}</td>
                                 <td>
                                     <button id="delete_test" type="button" class="btn btn-danger btn-lg" ng-disabled="vm.isTestOrderInDetailCompleted()" poc-confirm-dialog="'{{ 'CONFIRM_TEST_REMOVAL' | translate}}'"
                                         on-confirm="vm.deleteTest(test)">

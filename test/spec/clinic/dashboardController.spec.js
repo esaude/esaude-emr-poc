@@ -2,7 +2,9 @@
 
 describe('DashboardController', function () {
   var patientUuid, scope, $rootScope, $q, $controller, controller, location, patientService, patientMapper,
-    httpBackend, stateParams, visitService, authorizationService, $state;
+    httpBackend, stateParams, visitService, authorizationService, $state, alertService;
+
+  var FLAGS = ['TB', 'Low Hemoglobin'];
 
   beforeEach(module('clinic', function ($provide, $translateProvider, $urlRouterProvider) {
     // Mock translate asynchronous loader
@@ -18,7 +20,7 @@ describe('DashboardController', function () {
   }));
 
   beforeEach(inject(function (_$controller_, _$rootScope_, _patientService_, _$q_, _$state_, _visitService_,
-                              _authorizationService_) {
+                              _authorizationService_, _alertService_) {
     scope = _$rootScope_.$new();
     $rootScope = _$rootScope_;
     $controller = _$controller_;
@@ -27,10 +29,17 @@ describe('DashboardController', function () {
     visitService = _visitService_;
     authorizationService = _authorizationService_;
     $state = _$state_;
+    alertService = _alertService_;
 
     spyOn(patientService, 'getPatient').and.callFake(function () {
       return $q(function (resolve) {
         return resolve({});
+      });
+    });
+
+    spyOn(alertService, 'get').and.callFake(function () {
+      return $q(function (resolve) {
+        return resolve({data:{flags:FLAGS}});
       });
     });
 
@@ -58,6 +67,7 @@ describe('DashboardController', function () {
     it('should get patient uuid', function () {
       $rootScope.$apply();
       expect(patientService.getPatient).toHaveBeenCalled();
+      expect(scope.flags).toEqual(FLAGS);
     });
   });
 

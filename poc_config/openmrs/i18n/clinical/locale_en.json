@@ -69,7 +69,6 @@
   "PATIENT_INFO_IDENTIFIER_IDENTIFIER": "Identifier",
   "PATIENT_INFO_IDENTIFIER_PREFERRED": "Preferred",
   "PATIENT_INFO_IDENTIFIER_ERROR_EXISTING": "The selected Patient Identifier Type is already contained.",
-  "PATIENT_INFO_DEAD": "Is Dead",
   "PATIENT_INFO_NEW": "New Patient",
   "CLINIC_PATIENT_CHART_SUMMARY": "Clinical Process",
   "CLINIC_PATIENT_VISIT_HISTORY": "Visit History",
@@ -241,5 +240,10 @@
   "SORO DE POTÁSSIO": "Potassio",
   "SORO DE SÓDIO": "Sódio",
   "GLOBULINAS": "Globulinas",
-  "PCR EXAME/TESTE": "PCR"
+  "PCR EXAME/TESTE": "PCR",
+  "TEST_RESULTS": "Results",
+  "CLINIC_CURRENT_WHO_STAGE": "Estadio OMS actual",
+  "CLINIC_LAST_CD4_COUNT": "Last CD4#",
+  "CLINIC_LAST_VIRAL_LOAD": "Last Viral Load",
+  "CLINIC_LAST_TB_START_DATE": "Last TB treatment date"
 }

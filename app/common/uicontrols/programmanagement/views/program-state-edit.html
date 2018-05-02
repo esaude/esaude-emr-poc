@@ -2,11 +2,13 @@
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
                 <h4 class="modal-title" id="editProgramStateModalLabel">{{'COMMON_PROGRAM_ENROLLMENT_STATE_EDIT' | translate}}</h4>
             </div>
             <form class="form-horizontal">
-                <div class="alert alert-danger alert-dismissible content-border-margin" role="alert"  ng-show="errorMessage">
+                <div class="alert alert-danger alert-dismissible content-border-margin" role="alert" ng-show="errorMessage">
                     <strong>{{errorMessage}}</strong>
                 </div>
                 <div class="modal-body content-border-margin">
@@ -19,8 +21,7 @@
                     <div class="form-group form-group-lg">
                         <label for="program_state" class="control-label col-sm-4">{{'COMMON_PROGRAM_ENROLLMENT_STATE_CHANGE' | translate}}:</label>
                         <div class="col-sm-8">
-                            <select class="form-control" id="program_state" ng-model="programEdited.selectedState" required
-                                    ng-options="state.concept.display for state in workflowStatesWithoutCurrentState track by state.uuid">
+                            <select class="form-control" id="program_state" ng-model="programEdited.selectedState" required ng-options="state.concept.display for state in workflowStatesWithoutCurrentState track by state.uuid">
                                 <option></option>
                             </select>
                         </div>
@@ -28,13 +29,13 @@
                     <div class="form-group form-group-lg">
                         <label class="control-label col-sm-4">{{'COMMON_ON' | translate}}:</label>
                         <div class="col-sm-8">
-                          <div class="input-group">
-                            <input class="form-control" type="text" uib-datepicker-popup ng-focus="focused=true"
-                                   is-open="focused" ng-model="programEdited.startDate" required>
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-calendar"></span>
-                            </span>
-                          </div>
+                            <div class="input-group">
+                                <input class="form-control" type="text" uib-datepicker-popup ng-focus="focused=true" datepicker-options="datepickerOptions" is-open="focused" ng-model="programEdited.startDate"
+                                    required>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -43,27 +44,14 @@
                         <span class="glyphicon glyphicon-minus-sign"></span>
                         <span class="button-label">{{'CANCEL' | translate}}</span>
                     </button>
-                  <poc-authorize privilege="'Edit Patient Program'">
-                    <button type="submit" class="btn btn-primary btn-lg" data-dismiss="modal">
-                        <span class="glyphicon glyphicon-floppy-disk"
-                              ng-click="savePatientProgram(programSelected)"></span>
-                      <span class="button-label">{{'SAVE' | translate}}</span>
-                    </button>
-                  </poc-authorize>
-                  <poc-authorize privilege="'Edit Patient Program'">
-                    <button type="button" class="btn btn-danger btn-lg">
-                      <span class="glyphicon glyphicon-remove-sign"></span>
-                      <span class="button-label">{{'REMOVE' | translate}}</span>
-                    </button>
-                  </poc-authorize>
+                    <poc-authorize privilege="'Edit Patient Program'">
+                        <button type="submit" class="btn btn-primary btn-lg" ng-click="savePatientProgram(programSelected)">
+                            <span class="glyphicon glyphicon-floppy-disk"></span>
+                            <span class="button-label">{{'SAVE' | translate}}</span>
+                        </button>
+                    </poc-authorize>
                 </div>
             </form>
         </div>
     </div>
 </div>
-<script>
-    $('.modal').on('show.bs.modal', function() {
-        $(this).find('form')[0].reset();
-        $('.alert').hide();
-    });
-</script>

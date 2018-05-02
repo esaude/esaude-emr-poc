@@ -5,10 +5,11 @@
     .controller('LabRequestController', LabRequestController);
 
   LabRequestController.$inject = ['$rootScope', '$stateParams', 'providerService', 'testProfileService', 'testService',
-    'notifier', '$filter', 'testOrderService', 'sessionService', 'visitService'];
+    'notifier', '$filter', 'testOrderService', 'sessionService', 'visitService', 'testOrderResultService', 'orderService',
+    'conceptService', '$log', '$q'];
 
   function LabRequestController($rootScope, $stateParams, providerService, testProfileService, testService, notifier,
-    $filter, testOrderService, sessionService, visitService) {
+    $filter, testOrderService, sessionService, visitService, testOrderResultService, orderService, conceptService, $log, $q) {
 
     var patientUuid = $stateParams.patientUuid;
     var patient = {};
@@ -108,13 +109,13 @@
         testUuids.forEach(function (uuid) {
           var test = getTestByUuid(uuid);
           if (test != null) {
-            var alreadyContainsTest = vm.selectedTests.indexOf(test) != -1;
+            var alreadyContainsTest = vm.selectedTests.indexOf(test) !== -1;
             if (!alreadyContainsTest) {
               test.profileName = vm.selectedProfile.name;
               vm.selectedTests.push(test);
             }
           } else {
-            console.error("Teste com uuid " + uuid + " não encontrado");
+            $log.error("Teste com uuid " + uuid + " não encontrado");
             return;
           }
         });
@@ -127,7 +128,7 @@
     function getTestByUuid(uuid) {
       var foundTest = null;
       vm.tests.forEach(function (test) {
-        if (test.testOrder.uuid == uuid) {
+        if (test.testOrder.uuid === uuid) {
           foundTest = test;
         }
       });
@@ -145,7 +146,7 @@
     }
 
     function validateTestsSelected() {
-      if (vm.selectedTests.length == 0) {
+      if (vm.selectedTests.length === 0) {
         throw ADD_AT_LEAST_ONE_TEST_TO_TEST_ORDER;
       }
     }
@@ -192,9 +193,15 @@
       }
     }
 
-    function showTestOrderDetails(testOrder) {
-      vm.testsOfSelectedRequest = testOrder.testOrderItems;
-      vm.testOrderInDetail = testOrder;
+    function showTestOrderDetails(testRequest) {
+      vm.testsOfSelectedRequest = testRequest.testOrderItems;
+      vm.testOrderInDetail = testRequest;
+      vm.testsOfSelectedRequest.forEach(function (testOrder) {
+        testOrderResultService.getTestOrderConsolidateResult(testRequest.uuid, testOrder.uuid)
+          .then(function (result) {
+            testOrder.result = result;
+          });
+      });
     }
 
     function deleteTest(test) {
@@ -202,7 +209,7 @@
         vm.testsOfSelectedRequest.splice(vm.testsOfSelectedRequest.indexOf(test), 1);
 
         //if we remove the last test of the lab order the lab order is also removed, we need to update lab orders list to reflect this
-        if (vm.testsOfSelectedRequest.length == 0) {
+        if (vm.testsOfSelectedRequest.length === 0) {
           loadExistingTestOrders();
         }
       });
@@ -218,7 +225,7 @@
 
     function isTestOrderInDetailCompleted() {
       if (vm.testOrderInDetail != null) {
-        return vm.testOrderInDetail.status == COMPLETED_STATUS;
+        return vm.testOrderInDetail.status === COMPLETED_STATUS;
       }
       return false;
     }

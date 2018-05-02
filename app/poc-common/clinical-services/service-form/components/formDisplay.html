@@ -12,15 +12,8 @@
     <h3 class="panel-title">{{part.label | translate}}</h3>
   </div>
 
-  <field-read payload="vm.formPayload" form-part="part" displaying="true"></field-read>
+  <form-part-display payload="vm.formPayload" form-part="part"></form-part-display>
 
-</div>
-
-<div class="row bg-info-border content-border border-rouded go-to-right">
-  <button type="button" class="btn btn-primary btn-lg">
-    <span class="glyphicon glyphicon-print"></span>
-    <span class="button-label">{{'PRINT' | translate}}</span>
-  </button>
 </div>
 
 <div class="row bg-info-border content-border border-rouded-bottom go-to-left">
