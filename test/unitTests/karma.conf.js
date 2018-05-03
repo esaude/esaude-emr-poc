@@ -11,7 +11,7 @@ module.exports = function (config) {
     autoWatch: true,
 
     // base path, that will be used to resolve files and exclude
-    basePath: '../',
+    basePath: '../../',
 
     // testing framework to use (jasmine/mocha/qunit/...)
     // as well as any additional frameworks (requirejs/chai/sinon/...)
@@ -75,11 +75,11 @@ module.exports = function (config) {
       'app/common/**/*.js',
       'app/**/*.html',
       // fixtures
-      'test/fixtures/**/*.json',
+      'test/unitTests/fixtures/**/*.json',
       //test utils
-      'test/spec/support/**/*.js',
+      'test/unitTests/spec/support/**/*.js',
       // test files
-      'test/spec/**/*.js'
+      'test/unitTests/spec/**/*.js'
     ],
 
     angularFilesort: {
@@ -93,7 +93,7 @@ module.exports = function (config) {
 
     preprocessors: {
       'app/**/*.js': ['coverage'],
-      'test/fixtures/**/*.json': ['json_fixtures'],
+      'test/unitTests/fixtures/**/*.json': ['json_fixtures'],
       'app/**/*.html': ['ng-html2js']
     },
 

@@ -1,7 +1,7 @@
 {
-  "tests": "./e2eTests/**/*_test.js",
+  "tests": "./test/e2eTests/**/*_test.js",
   "timeout": 10000,
-  "output": "./e2eTests/output",
+  "output": "./test/e2eTests/output",
   "helpers": {
     "Puppeteer": {
       "url": "http://localhost:9000",
@@ -19,22 +19,22 @@
     }
   },
   "hooks": [
-    "./e2eTests/hooks.js"
+    "./test/e2eTests/hooks.js"
   ],
   "include": {
-    "I": "./e2eTests/steps_file.js",
+    "I": "./test/e2eTests/steps_file.js",
 
-    "Data": "./e2eTests/data.js",
+    "Data": "./test/e2eTests/data.js",
 
-    "DashboardPage": "./e2eTests/pages/dashboardPage.js",
-    "LoginPage": "./e2eTests/pages/loginPage.js",
+    "DashboardPage": "./test/e2eTests/pages/dashboardPage.js",
+    "LoginPage": "./test/e2eTests/pages/loginPage.js",
 
-    "Apis": "./e2eTests/rest/openMrsApis.js"
+    "Apis": "./test/e2eTests/rest/openMrsApis.js"
   },
   "bootstrap": false,
   "mocha": {
     "reporterOptions": {
-      "reportDir": "e2eTests/reports",
+      "reportDir": "test/e2eTests/reports",
       "reportFilename": "pocE2E",
       "inlineAssets": true,
       "reportPageTitle": "E2E Test Reports",
