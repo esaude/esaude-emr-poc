@@ -41,8 +41,8 @@ module.exports = {
       },
 
       // If the login was unsuccessful an error should pop up
-      unsuccessful() {
-        I.waitForElement('div[ng-show="vm.errorMessageTranslateKey"]', 5)
+      unsuccessful(errorMessage) {
+        I.see(errorMessage)
       },
     }
   },

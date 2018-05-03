@@ -18,6 +18,9 @@
       }
     }
   },
+  "hooks": [
+    "./e2eTests/hooks.js"
+  ],
   "include": {
     "I": "./e2eTests/steps_file.js",
 
