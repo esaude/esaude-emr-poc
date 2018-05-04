@@ -1,17 +1,24 @@
+// Generates a patient identifier
 const generatePatientIdentifier = () => {
 	// Generates a random number between [0,9]
 	const g = () => Math.floor(Math.random() * Math.floor(9))
 
+	// Returns a randomly generated identifier of the format
+	// "PPDDUUSS/AA/NNNNN" where each is a number between [0, 9]
 	return `${g()}${g()}${g()}${g()}${g()}${g()}${g()}${g()}/${g()}${g()}/${g()}${g()}${g()}${g()}${g()}`
 }
 
+// Defines the uuids of roles
 const Roles = {
 	provider: '8d94f280-c2cc-11de-8d13-0010c6dffd0f',
 }
 
 // Data useful for tests
 module.exports = {
+	// Data about each user
 	users: {
+
+		// The admin user
 		admin: {
 			username: 'admin',
 			password: 'eSaude123',
@@ -26,6 +33,19 @@ module.exports = {
 			},
 		},
 
+		// A user with a username that is not expected to be in the database
+		invalidUsername: {
+			username: 'invalidUsername',
+			password: 'eSaude123',
+		},
+
+		// The admin user with an invalid password
+		invalidPassword: {
+			username: 'admin',
+			password: 'thisIsInvalid',
+		},
+
+		// A user that is not a provider
 		nonProvider: {
 			username: 'nonProvider',
 			password: 'testPass',
@@ -82,19 +102,12 @@ module.exports = {
 				gender: 'F',
 			},
 		},
-
-		invalidUsername: {
-			username: 'invalidUsername',
-			password: 'eSaude123',
-		},
-
-		invalidPassword: {
-			username: 'admin',
-			password: 'thisIsInvalid',
-		},
 	},
 
+	// Utilities for generating provider related data
 	providers: {
+		// Generates JSON that can be used to make
+		// the user a provider
 		generateJsonFromUser: function (user) {
 			return {
 				person: user.person.uuid,
@@ -103,6 +116,7 @@ module.exports = {
 		},
 	},
 
+	// Uuids for programs
 	programs: {
 		SERVICO_TARV_CUIDADO: '7b2e4a0a-d4eb-4df7-be30-78ca4b28ca99',
 		SERVICO_TARV_TRATAMENTO: 'efe2481f-9e75-4515-8d5a-86bfde2b5ad3',

@@ -2,9 +2,16 @@
 Feature('Login');
 
 Scenario('Login successful with admin credentials and logout', (I, LoginPage, Data) => {
+	// Log the user in
 	const loginStatus = LoginPage.login(Data.users.admin)
+	
+	// Validate that login was successful
 	const dashboardPage = loginStatus.successful()
+	
+	// Log the user out
 	const logoutStatus = dashboardPage.logout()
+	
+	// Validate that logout was successful
 	logoutStatus.successful()
 })
 
@@ -12,6 +19,7 @@ Scenario('Attempt to login with a user that does not have the provider role', as
 	// Create a user that does not have the provider role
 	await Apis.user.create(Data.users.nonProvider)
 
+	// Attempt to log the user in
 	const loginStatus = LoginPage.login(Data.users.nonProvider)
 
 	// TODO: Make strings dependant on locale

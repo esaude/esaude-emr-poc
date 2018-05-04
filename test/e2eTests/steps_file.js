@@ -1,3 +1,5 @@
+// Properties defined in the actor below are added
+// to the instance of "I" used during tests
 
 'use strict';
 
