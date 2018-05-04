@@ -15,6 +15,7 @@ module.exports = {
 
   loginButton: {css: '.btn'},
 
+  // Validates that the page is loaded
   isLoaded() {
     I.waitForElement(this.fields.username, 5)
     I.seeInCurrentUrl('/login')
