@@ -322,6 +322,10 @@ p.capitalize {
 /**/
 
 /* Lab tests */
+.lab-tests {
+  padding: 10px;
+}
+
 .lab-tests .table > tbody > tr > td {
   border-top: none;
 }
