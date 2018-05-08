@@ -21,7 +21,8 @@
       "active": true,
       "roles": [
         "POC: Psychologist - social worker",
-        "POC: Receptionist"
+        "POC: Receptionist",
+        "POC: Receptionist (Admin)"
       ]
     },
     {
@@ -65,7 +66,11 @@
       "url": "/lab",
       "logo": "images/microscope.png",
       "active": true,
-      "roles": ["POC: Clinician"]
+      "roles": [
+        "POC: Clinician",
+        "POC: Clinician (Admin)",
+        "POC: Lab technician"
+      ]
     },
     {
       "id": "counseling",
@@ -82,7 +87,8 @@
       "logo": "images/report.png",
       "active": true,
       "roles": [
-        "POC: Clinician"
+        "POC: Clinician",
+        "POC: Clinician (Admin)"
       ]
     }
   ]

@@ -12,7 +12,7 @@
     "actionConstraints": {
       "requireCheckIn": true
     },
-    "privilege": "Anamnesis"
+    "privilege": "Social"
   },
   {
     "id": "002",
@@ -27,7 +27,7 @@
     "actionConstraints": {
       "requireCheckIn": true
     },
-    "privilege": "Anamnesis"
+    "privilege": "Social"
   },
   {
     "id": "003",
