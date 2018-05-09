@@ -13,14 +13,13 @@
     });
 
 
-  SexualPartnersController.$inject = ['$stateParams', 'notifier', 'sexualPartnersService',  'translateFilter', 'visitService'];
+  SexualPartnersController.$inject = ['$stateParams', 'notifier', 'sexualPartnersService',  'translateFilter'];
 
   /* @ngInject */
-  function SexualPartnersController($stateParams, notifier, sexualPartnersService,  translateFilter, visitService) {
+  function SexualPartnersController($stateParams, notifier, sexualPartnersService,  translateFilter) {
 
     var vm = this;
 
-    vm.checkedIn = false;
     vm.partners = [];
     vm.newPartner = {
       relationship: null,
@@ -36,11 +35,6 @@
 
 
     function $onInit() {
-
-      visitService.getTodaysVisit(vm.patient.uuid).then(function (visitToday) {
-        vm.checkedIn = visitToday !== null;
-      });
-
       sexualPartnersService.getSexualPartners(vm.patient)
         .then(function (partners) {
           vm.partners = partners;

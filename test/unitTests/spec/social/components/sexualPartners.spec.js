@@ -54,18 +54,6 @@ describe('SexualPartnersController', function () {
 
     });
 
-    it('should load todays visit', function () {
-
-      var ctrl = $componentController('sexualPartners', null, {patient: {uuid: 'uuid', age: {years: 27}}});
-
-      ctrl.$onInit();
-
-      $rootScope.$apply();
-
-      expect(ctrl.checkedIn).toEqual(true);
-
-    });
-
   });
 
   describe('addAnother', function () {
