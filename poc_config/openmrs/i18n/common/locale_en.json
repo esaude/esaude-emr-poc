@@ -144,7 +144,9 @@
     "NO_CD4_6_TO_6_MONTHS" : "CD4 test is required",
     "ELIGIBLE" : "Patient should start ARV treatment",
     "CTZ_PROPHILAXIS" : "Patient should stop using CTZ Prophylaxis",
-    "SCHEDULE_LIST_PATIENT": "Scheduled for consultation",
+    "SCHEDULE_LIST_PATIENT": "Consultations and pharmacy pick-ups scheduled for today",
+    "SCHEDULE_LIST_PROVIDER": "Consultations scheduled for today",
+    "SCHEDULE_LIST_DRUG_PICKUP": "Pharmacy pick-ups scheduled for today",
     "SCHEDULE_HASNT_SCHEDULES": "No shcedules made for today",
     "SCHEDULE_PATIENT": "Patient",
     "SCHEDULE_DATE_SCHEDULED": "Scheduled on",
@@ -251,6 +253,7 @@
     "COMMON_MESSAGE_COULD_NOT_CREATE_PRESCRIPTION": "Could not create this prescription",
     "COMMON_MESSAGE_COULD_NOT_CANCEL_PRESCRIPTION_ITEM": "Could not cancel this prescription item",
     "COMMON_CANCELLATION_PRESCRIPTION_ERROR_NO_REASON": "Please provide the reason of cancellation",
+    "CLINIC_PRESCRIPTION_ARV_PLAN_INTERRUPDED_REASON_REQUIRED": "Please inform the reason for interruption",
     "COMMON_CANCEL_PRESCRIPTIONS_REASON": "Cancellation Reason",
     "COMMON_CANCEL_PRESCRIPTION": "Cancel Prescription Item",
     "COMMON_MESSAGE_COULD_NOT_CANCEL_DISPENSATION_ITEM": "Could not cancel this dispensation item",
@@ -340,5 +343,5 @@
     "COMMON_MESSAGE_DRUG_WITHOUT_STOCK_AVAILABILITY":"There's no Stock availability for the selected medicine",
     "COMMON_MESSAGE_EXCEPTION_REQUESTING_DRUG_STOCK_AVAILABILITY":"Unable to obtain inventory information for the selected medicine",
     "PLEASE_CHECK_IN_PATIENT": "Please check-in the patient.",
-    "COMMON_CANT_DELETE_PATIENT_WITH_HISTORY": "Não é possível remover este paciente porque possui histórico."
+    "COMMON_CANT_DELETE_PATIENT_WITH_HISTORY": "You are not allowed to delete this patient because he has a History in of follow up."
 }

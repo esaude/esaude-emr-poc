@@ -1,0 +1,41 @@
+<div class="panel panel-success content-border-margin">
+  <div class="panel-heading">
+    <h3 class="panel-title">{{vm.title}}</h3>
+  </div>
+  <div class="panel-body">
+    <table st-table="vm.cohortMembers" class="table table-striped">
+      <thead>
+      <tr>
+        <th>{{'SCHEDULE_PATIENT' | translate}}</th>
+        <th>{{'SCHEDULE_DATE_SCHEDULED' | translate}}</th>
+        <th>{{'COMMON_BY' | translate}}</th>
+        <th>{{'SCHEDULE_LAST_SEEN' | translate}}</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr st-select-row="patient" st-select-mode="single" ng-repeat="patient in vm.patients"
+          ng-click="vm.onPatientSelect({patient: patient})">
+        <td>{{patient.display}}</td>
+        <td>{{patient.scheduledInfo.encounter.encounterDatetime | date:'short'}}</td>
+        <td>{{patient.scheduledInfo.encounter.provider.display}}</td>
+        <td ng-if="patient.lastVisit">{{patient.lastVisit.startDatetime | date:'short'}} {{'COMMON_AT' | translate}}
+          {{patient.lastVisit.visitType.name}}
+        </td>
+        <td ng-if="!patient.lastVisit">{{'COMMON_NONE' | translate}}</td>
+      </tr>
+      </tbody>
+      <tfoot>
+      <tr ng-show="vm.patients.length === 0">
+        <td colspan="4" class="text-center">
+          {{'SCHEDULE_HASNT_SCHEDULES'| translate}}
+        </td>
+      </tr>
+      <tr>
+        <td colspan="4" class="text-center">
+          <div st-items-by-page="12" st-displayed-pages="7" st-pagination=""></div>
+        </td>
+      </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>

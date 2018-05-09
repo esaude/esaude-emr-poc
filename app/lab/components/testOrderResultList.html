@@ -10,13 +10,13 @@
   </thead>
   <tbody>
   <tr ng-repeat="t in vm.testOrderResults" ng-class="{'active': t.selected}" ng-click="vm.onSelectTestOrderResult({testOrderResult: t})">
-    <td>{{t.id}}</td>
+    <td>{{t.codeSequence}}</td>
     <td>{{t.dateCreation | date}}</td>
     <td>{{t.provider.display}}</td>
     <td>{{t.status}}</td>
     <td>
       <button class="btn btn-lg btn-default" type="button">
-        <i class="glyphicon glyphicon-eye-open"></i> {{ 'VIEW' | translate}}
+        <i class="glyphicon glyphicon-eye-open"></i>
       </button>
     </td>
   </tr>

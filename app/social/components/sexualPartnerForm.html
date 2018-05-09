@@ -35,10 +35,16 @@
   </div>
 
   <div class="col-sm-2">
-    <button class="btn btn-primary btn-lg" type="submit">
-      <i class="glyphicon glyphicon-floppy-disk"></i>
-      {{'SAVE'|translate}}
-    </button>
+
+    <poc-authorize privilege="'Write Social'">
+
+      <button class="btn btn-primary btn-lg" type="submit">
+        <i class="glyphicon glyphicon-floppy-disk"></i>
+        {{'SAVE'|translate}}
+      </button>
+
+    </poc-authorize>
+
   </div>
 
 </form>

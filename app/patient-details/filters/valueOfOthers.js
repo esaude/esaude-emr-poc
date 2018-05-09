@@ -10,9 +10,11 @@
 
     ////////////////
 
-    function valueofothersFilter(input, patient) {
+    function valueofothersFilter(input, patient, style) {
       var attributeName = input.name || '';
       var value = patient[attributeName];
+
+      if (style === "brackets" && !_.isUndefined(value)) value = "(" + value + ")";
 
       if (input.format === "org.openmrs.Concept") {
         for (var i in input.answers) {

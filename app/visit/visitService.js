@@ -5,18 +5,16 @@
     .module('visit')
     .factory('visitService', visitService);
 
-  visitService.$inject = ['$http', '$log', '$q', 'commonService', 'encounterService', 'observationsService', 'sessionService'];
+  visitService.$inject = ['$http', '$log', '$q', 'appService', 'commonService', 'encounterService', 'observationsService', 'sessionService'];
 
   /* @ngInject */
-  function visitService($http, $log, $q, commonService, encounterService, observationsService, sessionService) {
-
-    var FIRST_CONSULTATION_VISIT_TYPE_UUID = "64a510a1-fbf4-465f-acd2-cd37bc321cee";
-
-    var FOLLOW_UP_CONSULTATION_VISIT_TYPE_UUID = "3866891d-09c5-4d98-98de-6ae7916110fa";
+  function visitService($http, $log, $q, appService, commonService, encounterService, observationsService, sessionService) {
 
     var WEIGHT_KG = "e1e2e826-1d5f-11e0-b929-000c29ad1d07";
 
     var HEIGHT_CM = "e1e2e934-1d5f-11e0-b929-000c29ad1d07";
+
+    var DATETIME_FORMAT = 'YYYY-MM-DDTHH:mm:ss';
 
     var sortByVisitStartDateTime = _.curryRight(_.sortBy, 2)(function (visit) {
       return new Date(visit.startDatetime);
@@ -48,6 +46,16 @@
       });
     }
 
+    function getDefaultVisitTypes(occurOn) {
+      var find = appService.getAppDescriptor().getConfigValue("defaultVisitTypes").find(function (v) {
+        return v.occurOn === occurOn;
+      });
+      if (!find) {
+        throw new Error('No default ' + occurOn + ' visit defined.');
+      }
+      return find;
+    }
+
     function checkInPatient(patient) {
       return search({patient: patient.uuid, v: 'full'})
         .then(function (visits) {
@@ -61,13 +69,13 @@
             return $q.reject();
           }
 
-          var now = new Date();
+          var now = moment();
           var visit = {
             patient: patient.uuid,
-            visitType: isFirstVisit ? FIRST_CONSULTATION_VISIT_TYPE_UUID : FOLLOW_UP_CONSULTATION_VISIT_TYPE_UUID,
+            visitType: isFirstVisit ? getDefaultVisitTypes('first').uuid : getDefaultVisitTypes('following').uuid,
             location: currentLocation.uuid,
-            startDatetime: now,
-            stopDatetime: moment(now).endOf('day').toDate()
+            startDatetime: now.format(DATETIME_FORMAT),
+            stopDatetime: now.endOf('day').format(DATETIME_FORMAT)
           };
 
           return create(visit);
@@ -98,6 +106,11 @@
     }
 
     function getTodaysVisit(patientUUID) {
+
+      if (!patientUUID) {
+        return $q.reject();
+      }
+
       var dateUtil = Bahmni.Common.Util.DateUtil;
 
       return search({patient: patientUUID, v: "full"}).then(function (visits) {

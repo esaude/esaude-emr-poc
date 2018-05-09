@@ -207,7 +207,7 @@ p.capitalize {
 }
 
 .navbar .navbar-brand {
-  line-height: 34px;
+  line-height: 50px;
   height: 80px;       /* navbar min-height */
   color: #ffffff;
 }
@@ -322,6 +322,10 @@ p.capitalize {
 /**/
 
 /* Lab tests */
+.lab-tests {
+  padding: 10px;
+}
+
 .lab-tests .table > tbody > tr > td {
   border-top: none;
 }
@@ -387,11 +391,7 @@ p.capitalize {
   padding: 10px;
 }
 
-/*.marital-partners > .row {*/
-  /*margin-bottom: 10px;*/
-/*}*/
-
-.marital-partners > div > .row:first-child {
+.marital-partners .header {
   font-weight: bold;
 }
 /**/

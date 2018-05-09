@@ -118,7 +118,7 @@ module.exports = function (grunt) {
         }
       },
       jsTest: {
-        files: ['test/spec/{,*/}*.js'],
+        files: ['test/unitTests/spec/{,*/}*.js'],
         tasks: ['lint', 'karma']
       },
       styles: {
@@ -187,7 +187,7 @@ module.exports = function (grunt) {
           middleware: function (connect) {
             return [
               serveStatic('.tmp'),
-              serveStatic('test'),
+              serveStatic('test/unitTests'),
               connect().use(
                 '/bower_components',
                 serveStatic('./bower_components')
@@ -221,8 +221,8 @@ module.exports = function (grunt) {
       all: [
         'Gruntfile.js',
         'app/**/*.js',
-        'test/karma.conf.js',
-        'test/spec/**/*.js'
+        'test/unitTests/karma.conf.js',
+        'test/unitTests/spec/**/*.js'
       ]
     },
 
@@ -489,7 +489,7 @@ module.exports = function (grunt) {
     // Test settings
     karma: {
       unit: {
-        configFile: 'test/karma.conf.js',
+        configFile: 'test/unitTests/karma.conf.js',
         singleRun: true
       }
     },

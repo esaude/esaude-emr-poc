@@ -97,8 +97,8 @@
           closeCancellationModal(form);
           initPickUpHistory();
         })
-        .catch(function () {
-          notifier.error($filter('translate')('COMMON_MESSAGE_COULD_NOT_CANCEL_DISPENSATION_ITEM'));
+        .catch(function (error) {
+          notifier.error(error.data.error.message.replace('[','').replace(']',''));
         });
     }
 
