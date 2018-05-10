@@ -80,8 +80,8 @@
 
     function initPickUpHistory(){
 
-      encounterService.getEncountersForEncounterType(patientUuid, pharmacyEncounterTypeUuid).success(function (data) {
-        vm.pickups = prepareObservations(commonService.filterReverse(data));
+      encounterService.getEncountersForEncounterType(patientUuid, pharmacyEncounterTypeUuid).then(function (encounters) {
+        vm.pickups = prepareObservations(commonService.filterReverse(encounters));
       });
     }
 

@@ -116,8 +116,8 @@
 
       var encounterTypeUuid = (currentPatient.age.years >= 15) ? adultFollowupEncounterUuid : childFollowupEncounterUuid;
 
-      return encounterService.getEncountersForEncounterType(patientUuid, encounterTypeUuid, "default").success(function (data) {
-        filterObs(data, concepts, series, chart);
+      return encounterService.getEncountersForEncounterType(patientUuid, encounterTypeUuid, "default").then(function (encounters) {
+        filterObs(encounters, concepts, series, chart);
       });
     }
 
@@ -133,8 +133,8 @@
       ];
       var chart = vm.charts.CD4labResults;
 
-      encounterService.getEncountersForEncounterType(patientUuid, labEncounterUuid, "default").success(function (data) {
-        filterObs(data, concepts, series, chart);
+      encounterService.getEncountersForEncounterType(patientUuid, labEncounterUuid, "default").then(function (encounters) {
+        filterObs(encounters, concepts, series, chart);
       });
     }
 
@@ -150,14 +150,14 @@
       ];
       var chart = vm.charts.labResults;
 
-      return encounterService.getEncountersForEncounterType(patientUuid, labEncounterUuid, "default").success(function (data) {
-        filterObs(data, concepts, series, chart);
+      return encounterService.getEncountersForEncounterType(patientUuid, labEncounterUuid, "default").then(function (encounters) {
+        filterObs(encounters, concepts, series, chart);
       });
     }
 
-    function filterObs(data, concepts, series, chart) {
+    function filterObs(encounters, concepts, series, chart) {
 
-      var nonRetired = encounterService.filterRetiredEncoounters(data.results);
+      var nonRetired = encounterService.filterRetiredEncoounters(encounters);
 
       var sliced = _.slice(nonRetired, 0, 9);
 
