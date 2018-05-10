@@ -37,7 +37,7 @@ describe('encounterService', function () {
       $httpBackend.expectGET('/openmrs/ws/rest/v1/encounterwrap?encounterType=ccc-aaa-bbb&patient=aaa-bbb-ccc&v=custom:(uuid,encounterDatetime,provider,voided,visit:(uuid,startDatetime,stopDatetime),obs:(uuid,concept:(uuid,name),obsDatetime,value,groupMembers:(uuid,concept:(uuid,name),order:(uuid,voided,drug,quantity,dose,doseUnits,frequency,quantityUnits,dosingInstructions,duration,durationUnits,route),obsDatetime,value)))')
         .respond({ results: ENCOUNTER });
 
-      var encounter = null;
+      var encounter;
       encounterService.getEncountersForEncounterType(patient, encounterType).then(function (created) {
         encounter = created;
       });
