@@ -1,9 +1,9 @@
 
 Feature('Dashboard');
 
-Before((I) => { // or Background
-  const loginStatus = I.login()
-	loginStatus.successful()
+// In order to be on the dashboard we must first login
+Before((I) => {
+  I.login()
 });
 
 Scenario('Logout successfully', (I, DashboardPage) => {

@@ -50,7 +50,7 @@
     }
 
     function checkLabOrderPrivilege() {
-      var privilegesToCheck = ['Write Test Order', 'Read Test Order', 'Update Test Order'];
+      var privilegesToCheck = ['Write Test Order', 'Read Test Order', 'Edit Test Order'];
       privilegesToCheck.forEach(function (privilege) {
         authorizationService.hasPrivilege(privilege).then(function (hasPrivilege) {
           if (hasPrivilege) {

@@ -37,15 +37,24 @@
 
     <div class="col-sm-4" style="border-left: 1px #ccc solid;">
       <div class="btn-group" role="group" aria-label="..." ng-if="!vm.isInvalid(form)">
-        <button class="btn btn-lg btn-primary" type="submit"
-                ng-disabled="!form.$dirty || !form.$valid">
-          <i class="glyphicon glyphicon-floppy-disk"></i> {{ 'SAVE' | translate }}
-        </button>
 
-        <button class="btn btn-lg btn-danger" type="button" ng-click="vm.onRemove({item: vm.item});"
-                ng-disabled="vm.item.value === ''">
-          <i class="glyphicon glyphicon-remove"></i> {{ 'REMOVE' | translate }}
-        </button>
+        <poc-authorize privilege="'Write Test Result'">
+
+          <button class="btn btn-lg btn-primary" type="submit" ng-disabled="!form.$dirty || !form.$valid">
+            <i class="glyphicon glyphicon-floppy-disk"></i> {{ 'SAVE' | translate }}
+          </button>
+
+        </poc-authorize>
+
+        <poc-authorize privilege="'Delete Test Result'">
+
+          <button class="btn btn-lg btn-danger" type="button" ng-click="vm.onRemove({item: vm.item});"
+                  ng-disabled="vm.item.value === ''">
+            <i class="glyphicon glyphicon-remove"></i> {{ 'REMOVE' | translate }}
+          </button>
+
+        </poc-authorize>
+
       </div>
 
       <div ng-messages for="form.value.$error" ng-if="vm.isInvalid(form)">

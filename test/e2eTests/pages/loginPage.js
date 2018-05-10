@@ -15,17 +15,21 @@ module.exports = {
 
   loginButton: {css: '.btn'},
 
+  // Validates that the page is loaded
   isLoaded() {
     I.waitForElement(this.fields.username, 5)
     I.seeInCurrentUrl('/login')
   },
 
   // Logs the user in
-  login(username, password) {
-    I.amOnPage('/index.html#/login')
-    I.fillField(this.fields.username, username);
-    I.fillField(this.fields.password, password);
+  login(userInfo) {
+    I.amOnPage('/home/index.html#/login')
+    I.fillField(this.fields.username, userInfo.username);
+    I.fillField(this.fields.password, userInfo.password);
     I.click(this.loginButton);
+
+    // Wait for the page to load
+    I.wait(1)
 
     // Helps the caller detect whether login was
     // successful or not
@@ -38,8 +42,8 @@ module.exports = {
       },
 
       // If the login was unsuccessful an error should pop up
-      unsuccessful() {
-        I.waitForElement('div[ng-show="vm.errorMessageTranslateKey"]', 5)
+      unsuccessful(errorMessage) {
+        I.see(errorMessage)
       },
     }
   },

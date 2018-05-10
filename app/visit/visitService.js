@@ -46,9 +46,13 @@
     }
 
     function getDefaultVisitTypes(occurOn) {
-      return appService.getAppDescriptor().getConfigValue("defaultVisitTypes").find(function (v) {
+      var find = appService.getAppDescriptor().getConfigValue("defaultVisitTypes").find(function (v) {
         return v.occurOn === occurOn;
       });
+      if (!find) {
+        throw new Error('No default ' + occurOn + ' visit defined.');
+      }
+      return find;
     }
 
     function checkInPatient(patient) {
