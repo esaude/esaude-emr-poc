@@ -33,17 +33,18 @@ describe('encounterService', function () {
 
       var patient = "aaa-bbb-ccc";
       var encounterType = "ccc-aaa-bbb";
-      var urlFull= "/openmrs/ws/rest/v1/encounterwrap?encounterType="+ encounterType + "&patient="+ patient + "&v=custom:(uuid,encounterDatetime,provider,voided,visit:(uuid,startDatetime,stopDatetime),obs:(uuid,concept:(uuid,name),obsDatetime,value,groupMembers:(uuid,concept:(uuid,name),order:(uuid,voided,drug,quantity,dose,doseUnits,frequency,quantityUnits,dosingInstructions,duration,durationUnits,route),obsDatetime,value)))";
-      $httpBackend.expectGET(urlFull, {"Accept":"application/json, text/plain, */*"}).respond({});
+      var ENCOUNTER = { uuid: "UUID_1" };
+      $httpBackend.expectGET('/openmrs/ws/rest/v1/encounterwrap?encounterType=ccc-aaa-bbb&patient=aaa-bbb-ccc&v=custom:(uuid,encounterDatetime,provider,voided,visit:(uuid,startDatetime,stopDatetime),obs:(uuid,concept:(uuid,name),obsDatetime,value,groupMembers:(uuid,concept:(uuid,name),order:(uuid,voided,drug,quantity,dose,doseUnits,frequency,quantityUnits,dosingInstructions,duration,durationUnits,route),obsDatetime,value)))')
+        .respond({ results: ENCOUNTER });
 
-      var encounter;
+      var encounter = null;
       encounterService.getEncountersForEncounterType(patient, encounterType).then(function (created) {
         encounter = created;
       });
 
       $httpBackend.flush();
 
-      expect(encounter.data).toEqual({});
+      expect(encounter).toEqual(ENCOUNTER);
 
     });
 
@@ -51,8 +52,9 @@ describe('encounterService', function () {
 
       var patient = "aaa-bbb-ccc";
       var encounterType = "ccc-aaa-bbb";
-      var urlFull= "/openmrs/ws/rest/v1/encounter?encounterType="+ encounterType + "&patient="+ patient + "&v=custom:(uuid,encounterDatetime,provider,voided,obs:(uuid,concept:(uuid,name),obsDatetime,value,groupMembers:(uuid,concept:(uuid,name),obsDatetime,value)))"
-      $httpBackend.expectGET(urlFull, {"Accept":"application/json, text/plain, */*"}).respond({});
+      var ENCOUNTER = { uuid: "UUID_1" };
+      $httpBackend.expectGET('/openmrs/ws/rest/v1/encounter?encounterType=ccc-aaa-bbb&patient=aaa-bbb-ccc&v=custom:(uuid,encounterDatetime,provider,voided,obs:(uuid,concept:(uuid,name),obsDatetime,value,groupMembers:(uuid,concept:(uuid,name),obsDatetime,value)))')
+        .respond({ results: ENCOUNTER });
 
       var encounter;
       encounterService.getEncountersForEncounterType(patient, encounterType, "default").then(function (created) {
@@ -61,7 +63,7 @@ describe('encounterService', function () {
 
       $httpBackend.flush();
 
-      expect(encounter.data).toEqual({});
+      expect(encounter).toEqual(ENCOUNTER);
 
     });
 
