@@ -36,6 +36,7 @@ class LoginPage extends Page {
       // If login was successful we should be taken to the dashboard
       successful() {
         const dashboardPage = require('./dashboardPage')
+        dashboardPage._init()
         dashboardPage.isLoaded()
         return dashboardPage
       },

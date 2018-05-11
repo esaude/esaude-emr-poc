@@ -41,6 +41,7 @@ class LoginPage extends Page {
       // If logout was successful we should be taken to the home page
       successful() {
         const loginPage = require('./loginPage')
+        loginPage._init()
         loginPage.isLoaded()
         return loginPage
       },
