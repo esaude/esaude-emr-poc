@@ -66,7 +66,7 @@ module.exports = {
 		patient1: {
 			"identifiers": [
 				{
-					"identifier": generatePatientIdentifier(),
+					"identifier": "30532063/03/33743",
 					"identifierType": "e2b966d0-1d5f-11e0-b929-000c29ad1d07", // NID (SERVICO TARV)
 					"location": "4c34a53f-b0c2-4315-9829-1a07f76e10a8", // Zumba
 					"preferred": true
@@ -87,7 +87,7 @@ module.exports = {
 		patient2: {
 			"identifiers": [
 				{
-					"identifier": generatePatientIdentifier(),
+					"identifier": "88654738/73/84441",
 					"identifierType": "e2b966d0-1d5f-11e0-b929-000c29ad1d07", // NID (SERVICO TARV)
 					"location": "4c34a53f-b0c2-4315-9829-1a07f76e10a8", // Zumba
 					"preferred": true
