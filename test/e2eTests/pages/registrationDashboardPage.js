@@ -1,18 +1,8 @@
-'use strict';
+const Page = require('./page')
 
-let I;
-
-module.exports = {
-
-  _init() {
-    I = actor();
+module.exports = new Page({
+  loaded: {
+    element: '[ui-sref="dashboard.program"]',
+    inUrl: '/registration/#/dashboard',
   },
-
-  programsTab: '[ui-sref="dashboard.program"]',
-
-  // Validates that the page is loaded
-  isLoaded() {
-    I.waitForElement(this.programsTab, 5)
-    I.seeInCurrentUrl('/registration/#/dashboard')
-  },
-}
+})

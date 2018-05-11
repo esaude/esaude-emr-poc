@@ -1,44 +1,39 @@
-'use strict';
+const Page = require('./page')
 
-let I;
+class LoginPage extends Page {
 
-module.exports = {
+  constructor() {
+    super({
+      loaded: {
+        element: '#home-link',
+        inUrl: '/dashboard',
+      },
+    })
 
-  _init() {
-    I = actor();
-  },
+    this.buttons = {
+      registration: {css: '#registration'},
+      social: {css: '#social'},
+      vitals: {css: '#vitals'},
+      clinic: {css: '#clinic'},
+      pharmacy: {css: '#pharmacy'},
+      lab: {css: '#lab'},
+      report: {css: '#report'},
+    }
 
-  buttons: {
-    registration: {css: '#registration'},
-    social: {css: '#social'},
-    vitals: {css: '#vitals'},
-    clinic: {css: '#clinic'},
-    pharmacy: {css: '#pharmacy'},
-    lab: {css: '#lab'},
-    report: {css: '#report'},
-  },
-
-  dropdown: {
-    hamburgerButton: {css: '.dropdown-toggle'},
-    logoutButton: {css: 'a[log-out]'},
-  },
-
-  homeLink: '#home-link',
-
-  // Validates that the page is loaded
-  isLoaded() {
-    I.waitForElement(this.homeLink, 5)
-    I.seeInCurrentUrl('/dashboard')
-  },
+    this.dropdown = {
+      hamburgerButton: {css: '.dropdown-toggle'},
+      logoutButton: {css: 'a[log-out]'},
+    }
+  }
 
   // Logs the user out
   logout() {
     // WaitForElement doesn't seem to work, so waiting for an arbitrary
     // amount of time for the hamburger button to appear
-    I.wait(3)
+    this.I.wait(3)
 
-    I.click(this.dropdown.hamburgerButton)
-    I.click(this.dropdown.logoutButton)
+    this.I.click(this.dropdown.hamburgerButton)
+    this.I.click(this.dropdown.logoutButton)
 
     // Helps the caller detect whether logout was
     // successful or not
@@ -50,22 +45,24 @@ module.exports = {
         return loginPage
       },
     }
-  },
+  }
 
   // Navigates to the registration page
   navigateToRegistrationPage() {
     return this._navigate(this.buttons.registration, './registrationPage.js')
-  },
+  }
 
   // Navigates to an app by clicking the app's button
   _navigate(button, newPageFile) {
-    I.waitForElement(button.css, 5)
-    I.wait(1)
-    I.click(button)
+    this.I.waitForElement(button.css, 5)
+    this.I.wait(1)
+    this.I.click(button)
 
     const page = require(newPageFile)
     page._init()
     page.isLoaded()
     return page
-  },
+  }
 }
+
+module.exports = new LoginPage()
