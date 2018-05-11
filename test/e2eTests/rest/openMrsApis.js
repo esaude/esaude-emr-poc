@@ -39,15 +39,26 @@ class Api {
     this.resourcesToDestroy = []
   }
 
+  async getAll(query) {
+    const response = await this.I.sendGetRequest(`${this.url}?q=${query}`)
+
+    assert.equal(response.statusCode, 200,
+      `get all ${this.name} request failed ${JSON.stringify(response, null, 2)}`)
+
+    this.I.say(`${this.name} get all successful ${JSON.stringify(response.body, null, 2)}`)
+
+    return response.body.results
+  }
+
   async get(id) {
     const response = await this.I.sendGetRequest(`${this.url}/${id}`)
 
     assert.equal(response.statusCode, 200,
-      `get ${this.name} request failed ${JSON.stringify(response, null, 2)}`)
+      `get ${this.name} by id request failed ${JSON.stringify(response, null, 2)}`)
 
     this.validate(response.body)
 
-    this.I.say(`${this.name} get successful ${JSON.stringify(response.body, null, 2)}`)
+    this.I.say(`${this.name} get by id successful ${JSON.stringify(response.body, null, 2)}`)
 
     return response.body
   }
@@ -81,7 +92,7 @@ class Api {
     if(response.statusCode == 204)
       this.resourcesToDestroy = this.resourcesToDestroy.filter(r => r.uuid != json.uuid)
 
-    this.I.say(`${this.name} delete successful ${JSON.stringify(response.body, null, 2)}`)
+    this.I.say(`${this.name} delete successful`)
   }
 
   async cleanUp() {
