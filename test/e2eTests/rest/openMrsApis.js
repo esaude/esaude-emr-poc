@@ -46,6 +46,9 @@ class Api {
       `get ${this.name} request failed ${JSON.stringify(response, null, 2)}`)
 
     this.validate(response.body)
+
+    this.I.say(`${this.name} get successful ${JSON.stringify(response.body, null, 2)}`)
+
     return response.body
   }
 
@@ -57,7 +60,7 @@ class Api {
 
     this.validate(response.body)
 
-    this.I.say(`${this.name} created successfully`)
+    this.I.say(`${this.name} create successful ${JSON.stringify(response.body, null, 2)}`)
 
     // When a new resource is created save it so we can delete it
     // before the test is over
@@ -77,12 +80,17 @@ class Api {
     // our list of things to destroy later
     if(response.statusCode == 204)
       this.resourcesToDestroy = this.resourcesToDestroy.filter(r => r.uuid != json.uuid)
+
+    this.I.say(`${this.name} delete successful ${JSON.stringify(response.body, null, 2)}`)
   }
 
   async cleanUp() {
     // Delete all resources that were created
     for(var toDestroyIndex = 0; toDestroyIndex < this.resourcesToDestroy.length; toDestroyIndex++) {
-      await this.delete(this.resourcesToDestroy[toDestroyIndex])
+      const resourceToDestroy = this.resourcesToDestroy[toDestroyIndex]
+
+      this.I.say(`${this.name} cleaning up resource ${JSON.stringify(resourceToDestroy, null, 2)}`)
+      await this.delete(resourceToDestroy)
     }
   }
 
