@@ -17,13 +17,13 @@ class ApiManager {
     this.user = new Api('user')
   }
 
-  cleanUp() {
+  async cleanUp() {
     // Clean up each API
     for(const propertyName in this) {
       const property = this[propertyName]
       
       if(property instanceof Api)
-        property.cleanUp()
+        await property.cleanUp()
     }
   }
 }
@@ -85,9 +85,13 @@ class Api {
   }
 
   async cleanUp() {
+    // Save a pointer to the array of objects to destroy
+    // because the delete function creates a new array after a deletion
+    const resourcesToDestroy = this.resourcesToDestroy
+
     // Delete all resources that were created
-    for(var toDestroyIndex = 0; toDestroyIndex < this.resourcesToDestroy.length; toDestroyIndex++) {
-      const resourceToDestroy = this.resourcesToDestroy[toDestroyIndex]
+    for(var toDestroyIndex = 0; toDestroyIndex < resourcesToDestroy.length; toDestroyIndex++) {
+      const resourceToDestroy = resourcesToDestroy[toDestroyIndex]
 
       this.I.say(`${this.name} cleaning up resource ${JSON.stringify(resourceToDestroy, null, 2)}`)
       await this.delete(resourceToDestroy)
