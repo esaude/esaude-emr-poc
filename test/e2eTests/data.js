@@ -80,6 +80,7 @@ module.exports = {
 					}
 				],
 				gender: 'M',
+				birthdate: (new Date('2002-10-2')).toISOString(),
 			},
 		},
 
@@ -100,6 +101,7 @@ module.exports = {
 					}
 				],
 				gender: 'F',
+				birthdate: (new Date('1994-3-19')).toISOString(),
 			},
 		},
 	},
