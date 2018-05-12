@@ -1,3 +1,5 @@
+const Component = require('./components/component')
+
 // Represents a page on the POC website
 // A page can consist of multiple components
 // Subclasses of Page pass in options that define when the page is loaded
@@ -28,17 +30,12 @@ class Page {
 		this.I.seeInCurrentUrl(this.options.isLoaded.urlPart)
 	}
 
-	// Gets an instance of each component
-	// initializes is and copies its properties
-	// to this page. In effect, this function
-	// makes the component part of the page
+	// Gets an instance of the component
+	// and copies its properties and functions
+	// to this page
 	_addComponent(componentName) {
-		const component = require(`./components/${componentName}`)
-		component._init()
-		for(const key in component) {
-			if(key !== '_init')
-				this[key] = component[key]
-		}
+		const component = Component.create(componentName)
+		component.addToPage(this)
 	}
 }
 
