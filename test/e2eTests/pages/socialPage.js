@@ -1,9 +1,9 @@
 const Page = require('./page')
 
 module.exports = new Page({
-  loaded: {
+  isLoaded: {
     element: '[ng-app="social"]',
-    inUrl: '/social',
+    urlPart: '/social',
   },
   components: ['patientSearch'],
 })

@@ -23,10 +23,10 @@ class Page {
 	}
 
 	// Validates that the page is loaded
-  isLoaded() {
-    this.I.waitForElement(this.options.loaded.element, 5)
-    this.I.seeInCurrentUrl(this.options.loaded.inUrl)
-  }
+	isLoaded() {
+		this.I.waitForElement(this.options.isLoaded.element, 5)
+		this.I.seeInCurrentUrl(this.options.isLoaded.urlPart)
+	}
 
 	// Gets an instance of each component
 	// initializes is and copies its properties
@@ -35,10 +35,10 @@ class Page {
 	_addComponent(componentName) {
 		const component = require(`./components/${componentName}`)
 		component._init()
-    for(const key in component) {
-      if(key !== '_init')
-        this[key] = component[key]
-    }
+		for(const key in component) {
+			if(key !== '_init')
+				this[key] = component[key]
+		}
 	}
 }
 

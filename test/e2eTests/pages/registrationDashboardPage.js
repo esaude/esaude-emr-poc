@@ -1,8 +1,8 @@
 const Page = require('./page')
 
 module.exports = new Page({
-  loaded: {
+  isLoaded: {
     element: '[ui-sref="dashboard.program"]',
-    inUrl: '/registration/#/dashboard',
+    urlPart: '/registration/#/dashboard',
   },
 })

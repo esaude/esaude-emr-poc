@@ -1,9 +1,9 @@
 const Page = require('./page')
 
 module.exports = new Page({
-  loaded: {
+  isLoaded: {
     element: '[ng-app="registration"]',
-    inUrl: '/registration',
+    urlPart: '/registration',
   },
   components: ['patientSearch'],
 })

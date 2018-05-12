@@ -4,9 +4,9 @@ class LoginPage extends Page {
 
   constructor() {
     super({
-      loaded: {
+      isLoaded: {
         element: '#home-link',
-        inUrl: '/dashboard',
+        urlPart: '/dashboard',
       },
     })
 
