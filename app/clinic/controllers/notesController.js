@@ -13,8 +13,8 @@ angular.module('clinic')
             patientUuid = $stateParams.patientUuid;
             
             encounterService.getEncountersForEncounterType(patientUuid, Bahmni.Common.Constants.pocCurrentStoryEncounterUuid, "default")
-                    .then(function (data) {
-                        var nonRetired = encounterService.filterRetiredEncoounters(data.results);
+                    .then(function (encounters) {
+                        var nonRetired = encounterService.filterRetiredEncoounters(encounters);
                         
                         if (_.isEmpty(nonRetired)) {
                             $scope.showNotes = false;

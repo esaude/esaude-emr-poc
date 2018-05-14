@@ -73,8 +73,8 @@
     function initLabResults() {
       var labEncounterUuid = "e2790f68-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
 
-      return encounterService.getEncountersForEncounterType(patientUuid, labEncounterUuid, "default").success(function (data) {
-        vm.labs = commonService.filterGroupReverse(data);
+      return encounterService.getEncountersForEncounterType(patientUuid, labEncounterUuid, "default").then(function (encounters) {
+        vm.labs = commonService.filterGroupReverse(encounters);
       });
     }
 
@@ -116,8 +116,8 @@
     function initPharmacyPickups() {
       var pharmacyEncounterUuid = "e279133c-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
 
-      return encounterService.getEncountersForEncounterType(patientUuid, pharmacyEncounterUuid, "default").success(function (data) {
-        vm.pickups = dropSizeToLimit(commonService.filterGroupReverse(data));
+      return encounterService.getEncountersForEncounterType(patientUuid, pharmacyEncounterUuid, "default").then(function (encounters) {
+        vm.pickups = dropSizeToLimit(commonService.filterGroupReverse(encounters));
       });
     }
 
@@ -125,8 +125,8 @@
       var patientUuid = $stateParams.patientUuid;
       var pharmacyEncounterTypeUuid = "18fd49b7-6c2b-4604-88db-b3eb5b3a6d5f";
 
-      return encounterService.getEncountersForEncounterType(patientUuid, pharmacyEncounterTypeUuid).success(function (data) {
-        var nonRetired = prepareDispenses(commonService.filterReverse(data));
+      return encounterService.getEncountersForEncounterType(patientUuid, pharmacyEncounterTypeUuid).then(function (encounters) {
+        var nonRetired = prepareDispenses(commonService.filterReverse(encounters));
         vm.newPickups = dropSizeToLimit(nonRetired);
 
       });
@@ -201,8 +201,8 @@
 
       return encounterService.getEncountersForEncounterType(patient.uuid,
         (patient.age.years >= 15) ? adultFollowupEncounterUuid : childFollowupEncounterUuid, "default")
-        .success(function (data) {
-          vm.allergies = dropSizeToLimit(commonService.filterGroupReverseFollowupObs(concepts, data.results));
+        .then(function (encounters) {
+          vm.allergies = dropSizeToLimit(commonService.filterGroupReverseFollowupObs(concepts, encounters));
 
         });
     }
@@ -220,8 +220,8 @@
 
       return encounterService.getEncountersForEncounterType(patient.uuid,
         (patient.age.years >= 15) ? adultFollowupEncounterUuid : childFollowupEncounterUuid, "default")
-        .success(function (data) {
-          vm.vitals = dropSizeToLimit(commonService.filterGroupReverseFollowupObs(concepts, data.results));
+        .then(function (encounters) {
+          vm.vitals = dropSizeToLimit(commonService.filterGroupReverseFollowupObs(concepts, encounters));
 
         });
     }

@@ -17,13 +17,15 @@ angular.module('bahmni.common.domain')
     };
 
     this.filterReverse = function (data) {
-        var nonRetired = encounterService.filterRetiredEncoounters(data.results);
+        var results = getResultThenCompatible(data);
+        var nonRetired = encounterService.filterRetiredEncoounters(results);
         
         return _.values(nonRetired).reverse();
     };
 
     this.filterGroupReverse = function (data) {
-        var nonRetired = encounterService.filterRetiredEncoounters(data.results);
+        var results = getResultThenCompatible(data);
+        var nonRetired = encounterService.filterRetiredEncoounters(results);
         var grouped = _.groupBy(nonRetired, function (element) {
             return Bahmni.Common.Util.DateUtil.getDateWithoutTime(element.encounterDatetime);
         });
@@ -61,6 +63,14 @@ angular.module('bahmni.common.domain')
             return member.concept.uuid === uuid;
         });
     }
+
+    function getResultThenCompatible(data) {
+        if (data.results) {
+            return data.results;
+        }
+        return data;
+    }
+
 
 }]);
 
