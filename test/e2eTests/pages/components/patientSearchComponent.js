@@ -16,7 +16,7 @@ class PatientSearchComponent extends Component {
     this.I.fillField(this.searchBox, text)
 
     // Wait for the search to complete
-    this.I.wait(5)
+    this.I.waitForInvisible('#overlay', 5)
   }
 
   // Clears the search box
@@ -26,7 +26,7 @@ class PatientSearchComponent extends Component {
     this.I.fillField(this.searchBox, '')
 
     // Wait for the search to complete
-    this.I.wait(5)
+    this.I.waitForInvisible('#overlay', 5)
   }
 
   // Used to validate search results
