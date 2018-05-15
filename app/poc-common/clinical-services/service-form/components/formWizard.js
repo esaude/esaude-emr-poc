@@ -182,15 +182,13 @@
 
     // TODO: move this to clinicalServicesService
     function save() {
-      var currDate = Bahmni.Common.Util.DateUtil.now();
       var location = sessionService.getCurrentLocation();
 
       var openMRSEncounter = createEncounterMapper.mapFromFormPayload(vm.formPayload,
         vm.formInfo.parts,
         vm.patient.uuid,
         location.uuid,
-        $rootScope.currentUser.person.uuid,
-        currDate);//set date
+        $rootScope.currentUser.person.uuid);
 
       var clinicalService = vm.formPayload.service;
 
