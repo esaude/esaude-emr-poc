@@ -15,32 +15,32 @@ Before(async (I, Apis, Data) => {
   I.login()
 })
 
-Scenario('Validate searching works on the clinic page', (I, Apis, Data, DashboardPage) => {
+Scenario('Validate searching works on the clinic page', (I, Data, DashboardPage) => {
 	const clinicPage = DashboardPage.navigateToClinicPage()
 	validateSearch(I, Data, clinicPage)
 })
 
-Scenario('Validate searching works on the lab page', (I, Apis, Data, DashboardPage) => {
+Scenario('Validate searching works on the lab page', (I, Data, DashboardPage) => {
 	const labPage = DashboardPage.navigateToLabPage()
 	validateSearch(I, Data, labPage)
 })
 
-Scenario('Validate searching works on the pharmacy page', (I, Apis, Data, DashboardPage) => {
+Scenario('Validate searching works on the pharmacy page', (I, Data, DashboardPage) => {
 	const pharmacyPage = DashboardPage.navigateToPharmacyPage()
 	validateSearch(I, Data, pharmacyPage)
 })
 
-Scenario('Validate searching works on the registration page', (I, Apis, Data, DashboardPage) => {
+Scenario('Validate searching works on the registration page', (I, Data, DashboardPage) => {
 	const registrationPage = DashboardPage.navigateToRegistrationPage()
 	validateSearch(I, Data, registrationPage)
 })
 
-Scenario('Validate searching works on the social page', (I, Apis, Data, DashboardPage) => {
+Scenario('Validate searching works on the social page', (I, Data, DashboardPage) => {
 	const socialPage = DashboardPage.navigateToSocialPage()
 	validateSearch(I, Data, socialPage)
 })
 
-Scenario('Validate searching works on the vitals page', (I, Apis, Data, DashboardPage) => {
+Scenario('Validate searching works on the vitals page', (I, Data, DashboardPage) => {
 	const vitalsPage = DashboardPage.navigateToVitalsPage()
 	validateSearch(I, Data, vitalsPage)
 })
