@@ -25,11 +25,10 @@
 
     ////////////////
 
-    function mapFromFormPayload(formPayload, formParts, patient, location, provider, currentDate) {
+    function mapFromFormPayload(formPayload, formParts, patient, location, provider) {
       var fields = filterOnlyConceptFields(formPayload.form.fields);
       var openMRSEncounter = {
         encounterType: formPayload.encounterType.uuid,
-        encounterDatetime: currentDate,
         patient: patient,
         location: location,
         form: formPayload.form.uuid,
@@ -64,7 +63,6 @@
         if (field.field.concept.set) {
           var obs = {
             concept: field.field.concept.uuid,
-            obsDatetime: Bahmni.Common.Util.DateUtil.now(),
             person: person,
             groupMembers: []
 
@@ -88,7 +86,6 @@
                       obs.groupMembers.push({
                         concept: memberField.field.concept.uuid,
                         value: JSON.parse(answerValue).uuid,
-                        obsDatetime: Bahmni.Common.Util.DateUtil.now(),
                         person: person
                       });
                     }
@@ -109,7 +106,6 @@
                     obs.groupMembers.push({
                       concept: memberField.field.concept.uuid,
                       value: value,
-                      obsDatetime: Bahmni.Common.Util.DateUtil.now(),
                       person: person
                     });
                   }
@@ -153,7 +149,6 @@
                 obs.push({
                   concept: formField.field.concept.uuid,
                   value: JSON.parse(answerValue).uuid,
-                  obsDatetime: Bahmni.Common.Util.DateUtil.now(),
                   person: person
                 });
               }
@@ -162,7 +157,6 @@
             obs.push({
               concept: formField.field.concept.uuid,
               value: getNonSelectMultipleObsValue(formField),
-              obsDatetime: Bahmni.Common.Util.DateUtil.now(),
               person: person
             });
           }
