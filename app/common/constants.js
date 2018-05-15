@@ -74,7 +74,7 @@ Bahmni.Common = Bahmni.Common || {};
         batchUrl: RESTWS_V1 + "/batch",
         conceptUrl: RESTWS_V1 + "/concept",
         conceptSearchByFullNameUrl: RESTWS_V1 + "/concept?s=byFullySpecifiedName",
-        visitUrl: RESTWS_V1 + "/visit",
+        visitUrl: RESTWS_V1 + "/pocvisit",
         visitTypeUrl: RESTWS_V1 + "/visittype",
         patientImageUrl: "/patient_images/",
         labResultUploadedFileNameUrl: "/uploaded_results/",

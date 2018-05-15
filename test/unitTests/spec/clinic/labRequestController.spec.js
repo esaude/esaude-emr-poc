@@ -43,7 +43,7 @@ describe('LabRequestController', function () {
 
   beforeEach(function () {
     $http.expectGET("/openmrs/ws/rest/v1/user?v=custom:(username,uuid,person:(uuid,preferredName),privileges:(name,retired),userProperties)").respond({});
-    $http.expectGET("/openmrs/ws/rest/v1/visit?v=full").respond({});
+    $http.expectGET("/openmrs/ws/rest/v1/pocvisit?v=full").respond({});
 
     spyOn(providerService, 'getProviders').and.callFake(function () {
       return $q(function (resolve) {

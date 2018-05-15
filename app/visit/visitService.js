@@ -36,7 +36,7 @@
     function create(visit) {
       return $http.post(Bahmni.Common.Constants.visitUrl, visit, {
         withCredentials: true,
-        headers: {"Accept": "application/json", "Content-Type": "application/json"}
+        headers: { "Accept": "application/json", "Content-Type": "application/json" }
       }).then(function (response) {
         return response.data;
       }).catch(function (error) {
@@ -56,30 +56,17 @@
     }
 
     function checkInPatient(patient) {
-      return search({patient: patient.uuid, v: 'full'})
-        .then(function (visits) {
-
-          var nonRetired = commonService.filterRetired(visits);
-          var isFirstVisit = _.isEmpty(nonRetired);
-          var currentLocation = sessionService.getCurrentLocation();
-
-          if (!currentLocation) {
-            $log.error('checkInPatient: No current location defined.');
-            return $q.reject();
-          }
-
-          var now = moment();
-          var visit = {
-            patient: patient.uuid,
-            visitType: isFirstVisit ? getDefaultVisitTypes('first').uuid : getDefaultVisitTypes('following').uuid,
-            location: currentLocation.uuid,
-            startDatetime: now.format(DATETIME_FORMAT),
-            stopDatetime: now.endOf('day').format(DATETIME_FORMAT)
-          };
-
-          return create(visit);
-
-        });
+      var currentLocation = sessionService.getCurrentLocation();
+      if (currentLocation) {
+        var visit = {
+          patient: patient.uuid,
+          location: currentLocation.uuid
+        };
+        return create(visit);
+      } else {
+        $log.error('checkInPatient: No current location defined.');
+        return $q.reject();
+      }
     }
 
     function getPatientLastVisit(patient) {
@@ -87,7 +74,7 @@
         $log.error('getPatientLastVisit: No patient uuid defined.');
         return $q.reject();
       }
-      return search({patient: patient.uuid, v: "full"})
+      return search({ patient: patient.uuid, v: "full" })
         .then(function (visits) {
           return _.flow([filterNotRetired, sortByVisitStartDateTime, _.reverse])(visits)[0];
         });
@@ -101,7 +88,7 @@
 
       var dateUtil = Bahmni.Common.Util.DateUtil;
 
-      return search({patient: patientUUID, v: "full"}).then(function (visits) {
+      return search({ patient: patientUUID, v: "full" }).then(function (visits) {
 
         var nonRetired = commonService.filterRetired(visits);
 
@@ -128,8 +115,8 @@
 
 
     function getPatientLastBMI(patient) {
-      var getHeightCM = observationsService.getLastPatientObs(patient, {uuid: HEIGHT_CM}, 'custom:(uuid,display,value,obsDatetime)');
-      var getWeightKg = observationsService.getLastPatientObs(patient, {uuid: WEIGHT_KG}, 'custom:(uuid,display,value)');
+      var getHeightCM = observationsService.getLastPatientObs(patient, { uuid: HEIGHT_CM }, 'custom:(uuid,display,value,obsDatetime)');
+      var getWeightKg = observationsService.getLastPatientObs(patient, { uuid: WEIGHT_KG }, 'custom:(uuid,display,value)');
       return $q.all([getHeightCM, getWeightKg])
         .then(function (result) {
           var heightCMObs = result[0];
@@ -170,12 +157,12 @@
           });
 
       var getLastBmi = getPatientLastBMI(patient)
-          .then(function (lastBmi) {
-            visitHeader.lastBmi = lastBmi;
-          });
+        .then(function (lastBmi) {
+          visitHeader.lastBmi = lastBmi;
+        });
 
       var getLastVisit =
-        search({patient: patient.uuid, v: 'custom:(visitType:(name),startDatetime,stopDatetime,uuid)'})
+        search({ patient: patient.uuid, v: 'custom:(visitType:(name),startDatetime,stopDatetime,uuid)' })
           .then(function (visits) {
             visitHeader.lastVisit = _.maxBy(visits, 'startDatetime');
           });

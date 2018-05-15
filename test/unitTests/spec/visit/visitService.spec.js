@@ -12,7 +12,7 @@ describe('visitService', function () {
   beforeEach(module('visit'));
 
   beforeEach(inject(function (_visitService_, $httpBackend, _$log_, _$q_, _$rootScope_, _commonService_,
-                              _sessionService_, _encounterService_, _observationsService_, _appService_) {
+    _sessionService_, _encounterService_, _observationsService_, _appService_) {
     visitService = _visitService_;
     $http = $httpBackend;
     $log = _$log_;
@@ -32,7 +32,7 @@ describe('visitService', function () {
     var response = { results: [1, 2, 3] };
 
     beforeEach(function () {
-      $http.expectGET("/openmrs/ws/rest/v1/visit" + '?patient=' + parameters.patient + '&includeInactive=' + parameters.includeInactive
+      $http.expectGET("/openmrs/ws/rest/v1/pocvisit" + '?patient=' + parameters.patient + '&includeInactive=' + parameters.includeInactive
         + '&v=' + parameters.v).respond(response);
     });
 
@@ -58,7 +58,7 @@ describe('visitService', function () {
     var visitDetails = { patientUuid: "uuid" };
 
     beforeEach(function () {
-      $http.expectPOST("/openmrs/ws/rest/v1/visit").respond({});
+      $http.expectPOST("/openmrs/ws/rest/v1/pocvisit").respond({});
     });
 
     it('should call end visit url in registration visit service', function () {
@@ -84,7 +84,7 @@ describe('visitService', function () {
     var response = { results: [{ startDatetime: datetime, stopDatetime: datetime }] };
 
     beforeEach(function () {
-      $http.expectGET("/openmrs/ws/rest/v1/visit" + '?patient=' + uuid + '&v=full').respond(response);
+      $http.expectGET("/openmrs/ws/rest/v1/pocvisit" + '?patient=' + uuid + '&v=full').respond(response);
     });
 
     describe('last visit is today', function () {
@@ -146,24 +146,16 @@ describe('visitService', function () {
 
         spyOn(appService, 'getAppDescriptor').and.callFake(function () {
           var spyObj = jasmine.createSpyObj('appDescriptor', ['getConfigValue']);
-          spyObj.getConfigValue.and.returnValue([{uuid: FIRST_CONSULTATION_VISIT_TYPE_UUID, occurOn: 'first'}]);
+          spyObj.getConfigValue.and.returnValue([{ uuid: FIRST_CONSULTATION_VISIT_TYPE_UUID, occurOn: 'first' }]);
           return spyObj;
         });
 
-
-        $http.expectGET("/openmrs/ws/rest/v1/visit?patient=" + parameters.patient
-          + '&v=' + parameters.v)
-          .respond([]);
-
         var visitData = {
           patient: uuid,
-          visitType: FIRST_CONSULTATION_VISIT_TYPE_UUID,
-          location: csPebane.uuid,
-          startDatetime: '2018-04-18T10:30:00',
-          stopDatetime: '2018-04-18T23:59:59'
+          location: csPebane.uuid
         };
 
-        $http.expectPOST('/openmrs/ws/rest/v1/visit', visitData).respond({});
+        $http.expectPOST('/openmrs/ws/rest/v1/pocvisit', visitData).respond({});
 
         var created = {};
         visitService.checkInPatient({ uuid: uuid }).then(function (visit) {
@@ -191,22 +183,16 @@ describe('visitService', function () {
 
         spyOn(appService, 'getAppDescriptor').and.callFake(function () {
           var spyObj = jasmine.createSpyObj('appDescriptor', ['getConfigValue']);
-          spyObj.getConfigValue.and.returnValue([{uuid: FOLLOW_UP_CONSULTATION_VISIT_TYPE_UUID, occurOn: 'following'}]);
+          spyObj.getConfigValue.and.returnValue([{ uuid: FOLLOW_UP_CONSULTATION_VISIT_TYPE_UUID, occurOn: 'following' }]);
           return spyObj;
         });
-        $http.expectGET("/openmrs/ws/rest/v1/visit?patient=" + parameters.patient
-          + '&v=' + parameters.v)
-          .respond({ results: visits });
 
         var visitData = {
           patient: uuid,
-          visitType: FOLLOW_UP_CONSULTATION_VISIT_TYPE_UUID,
-          location: csPebane.uuid,
-          startDatetime: '2018-04-18T10:30:00',
-          stopDatetime: '2018-04-18T23:59:59'
+          location: csPebane.uuid
         };
 
-        $http.expectPOST('/openmrs/ws/rest/v1/visit', visitData).respond({});
+        $http.expectPOST('/openmrs/ws/rest/v1/pocvisit', visitData).respond({});
 
         var created = {};
         visitService.checkInPatient({ uuid: uuid }).then(function (visit) {
@@ -227,17 +213,10 @@ describe('visitService', function () {
           return null;
         });
 
-        var visits = [{ voided: false }];
-        $http.expectGET("/openmrs/ws/rest/v1/visit?patient=" + parameters.patient
-          + '&v=' + parameters.v)
-          .respond({ results: visits });
-
         var created = {};
         visitService.checkInPatient({ uuid: uuid }).then(function (visit) {
           created = visit;
         });
-
-        $http.flush();
 
       });
 
@@ -268,7 +247,7 @@ describe('visitService', function () {
         })
       });
 
-      $http.expectGET("/openmrs/ws/rest/v1/visit?patient=" + patient.uuid + '&v=custom:(visitType:(name),startDatetime,stopDatetime,uuid)')
+      $http.expectGET("/openmrs/ws/rest/v1/pocvisit?patient=" + patient.uuid + '&v=custom:(visitType:(name),startDatetime,stopDatetime,uuid)')
         .respond([]);
 
     });
