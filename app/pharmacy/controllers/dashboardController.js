@@ -5,13 +5,12 @@
     .module('pharmacy')
     .controller('DashboardController', DashboardController);
 
-  DashboardController.$inject = ['$state', '$stateParams', 'patientService'];
-
-  function DashboardController($state, $stateParams, patientService) {
+  function DashboardController($state, $stateParams, patientService, authorizationService) {
     var patientUuid = $stateParams.patientUuid;
 
     var vm = this;
     vm.patient = {};
+    vm.independentPharmacist = false;
     vm.print = print;
     vm.reload = reload;
 
@@ -23,6 +22,11 @@
       patientService.getPatient(patientUuid).then(function (patient) {
         vm.patient = patient;
       });
+
+      authorizationService.hasRole(['POC: Pharmacist - Independent', 'POC: Pharmacist - Independent (Admin)']).then(function (hasRole) {
+        vm.independentPharmacist = hasRole;
+      });
+
     }
 
     function reload() {

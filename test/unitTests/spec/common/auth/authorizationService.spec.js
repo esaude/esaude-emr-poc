@@ -43,7 +43,7 @@ describe('authorizationService', function () {
 
         var hasRole;
 
-        authorizationService.hasRole('Data Manager').then(function (v) {
+        authorizationService.hasRole(['Data Manager']).then(function (v) {
           hasRole = v;
         });
 
@@ -68,7 +68,7 @@ describe('authorizationService', function () {
 
         var hasRole;
 
-        authorizationService.hasRole('Data Manager').then(function (v) {
+        authorizationService.hasRole(['Data Manager']).then(function (v) {
           hasRole = v;
         });
 

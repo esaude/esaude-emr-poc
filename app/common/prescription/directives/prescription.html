@@ -1,9 +1,10 @@
+<poc-authorize privilege="'Write Drug Prescription'" display-info="true">
 <div class="row content-border-margin-regular" ng-init="vm.selectedProvider = null">
   <div class="col-sm-5">
 
     <div>
       <form name="prescriptionForm" class="form-horizontal" autocomplete="off">
-        <poc-authorize privilege="'Write Drug Prescription'">
+
           <div class="panel panel-primary panel-marginless-sides" ng-if="vm.retrospectiveMode">
             <div class="panel-heading">
               <h3 class="panel-title">
@@ -250,7 +251,6 @@
 
   <div class="col-sm-7">
 
-    <poc-authorize privilege="'Write Drug Prescription'">
       <div class="panel panel-primary panel-marginless-sides">
         <div class="panel-heading">
           <h3 class="panel-title">{{'CLINIC_PRESCRIPTION_NEW'| translate}}</h3>
@@ -316,7 +316,6 @@
         </span>
         </div>
       </div>
-    </poc-authorize>
 
     <poc-authorize privilege="'Read Drug Prescription'">
       <div class="panel panel-primary panel-marginless-sides" ng-init="vm.initPrescriptions()">
@@ -390,6 +389,8 @@
 
   </div>
 </div>
+
+</poc-authorize>
 
 <!-- modal dialogs -->
 <div ng-include src="'../common/prescription/views/cancel-prescription.html'"></div>

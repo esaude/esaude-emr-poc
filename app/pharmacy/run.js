@@ -5,12 +5,13 @@
     .module('pharmacy')
     .run(runPharmacy);
 
-  runPharmacy.$inject = ['$transitions'];
-
   /* @ngInject */
-  function runPharmacy ($transitions) {
+  function runPharmacy ($transitions, authorizationService) {
     $transitions.onBefore({to: 'dashboard'}, function (transition) {
-      return transition.router.stateService.target('dashboard.prescriptions', {patientUuid: transition.params().patientUuid});
+      return authorizationService.hasRole(['POC: Pharmacist - Independent', 'POC: Pharmacist - Independent (Admin)']).then(function (hasRole) {
+        var target = hasRole ? 'dashboard.prescriptions' : 'dashboard.filaHistory';
+        return transition.router.stateService.target(target, {patientUuid: transition.params().patientUuid});
+      });
     });
   }
 
