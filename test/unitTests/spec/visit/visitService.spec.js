@@ -79,18 +79,31 @@ describe('visitService', function () {
 
   describe('getTodaysVisit', function () {
 
-    var uuid = "9e23a1bb-0615-4066-97b6-db309c9c6447";
-    var datetime = '2017-08-17';
-    var response = { results: [{ startDatetime: datetime, stopDatetime: datetime }] };
-
-    beforeEach(function () {
-      $http.expectGET("/openmrs/ws/rest/v1/pocvisit" + '?patient=' + uuid + '&v=full').respond(response);
+    it('should return null when empty array is returned by back-end', function () {
+      $http.expectGET("/openmrs/ws/rest/v1/pocvisit?currentDateOnly=true&mostRecentOnly=true&patient=UUID_1&v=full&voided=false")
+        .respond({ results: [] });
+      var foundVisit;
+      visitService.getTodaysVisit("UUID_1").then(function (visit) {
+        foundVisit = visit;
+      });
+      $rootScope.$apply();
+      $http.flush();
+      expect(foundVisit).toBeNull();
     });
 
-    afterEach(function () {
-      $http.verifyNoOutstandingExpectation();
-      $http.verifyNoOutstandingRequest();
+    it('should return first ocurrent when visits are returned by back-end', function () {
+      var visit = { patient: { uuid: "UUID_1" } };
+      $http.expectGET("/openmrs/ws/rest/v1/pocvisit?currentDateOnly=true&mostRecentOnly=true&patient=UUID_1&v=full&voided=false")
+        .respond({ results: [visit] });
+      var foundVisit;
+      visitService.getTodaysVisit("UUID_1").then(function (todayVisit) {
+        foundVisit = todayVisit;
+      });
+      $rootScope.$apply();
+      $http.flush();
+      expect(foundVisit).toEqual(visit);
     });
+
   });
 
   describe('checkInPatient', function () {
@@ -219,7 +232,7 @@ describe('visitService', function () {
       });
 
       $http.expectGET("/openmrs/ws/rest/v1/pocvisit?mostRecentOnly=true&patient=7401f469-60ee-4cfa-afab-c1e89e2944e4&v=custom:(visitType:(name),startDatetime,stopDatetime,uuid)&voided=false")
-         .respond({ results: [] });
+        .respond({ results: [] });
 
     });
 
@@ -235,7 +248,7 @@ describe('visitService', function () {
 
       $http.flush();
       $rootScope.$apply();
-      
+
       expect(encounterService.getPatientFollowupEncounters).toHaveBeenCalled();
 
     });
