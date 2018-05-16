@@ -33,14 +33,4 @@ describe('MovePatientController', function () {
     });
   });
 
-  describe('$onInit', function () {
-
-    it('should load apps', function () {
-      controller.$onInit();
-      $rootScope.$apply();
-      expect(applicationService.getApps).toHaveBeenCalled();
-    });
-
-  });
-
 });
