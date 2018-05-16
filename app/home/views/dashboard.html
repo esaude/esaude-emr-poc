@@ -1,12 +1,5 @@
 <div class="bg-info-border content-border border-rouded go-to-center">
-  <div class="inline-align content-border-margin-regular" ng-repeat="app in vm.apps">
-    <button id="{{app.id}}" type="button" ng-show="app.active" class="btn btn-default" ng-click="vm.linkApp(app.url)">
-            <span>
-                <img ng-src="../../{{app.logo}}" width="120" height="82" alt="provider">
-            </span>
-      <br/>{{app.name | translate}}
-    </button>
-  </div>
+  <apps on-app-select="vm.linkApp"></apps>
 </div>
 
 <div class="panel panel-primary content-border-margin consultation-summary">

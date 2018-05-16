@@ -1,0 +1,9 @@
+<div class="inline-align content-border-margin-regular" ng-repeat="app in vm.apps" ng-if="app.id != vm.currentApp.id">
+  <button type="button" class="btn btn-default" ng-click="vm.onAppSelect(app)">
+    <span>
+        <img ng-src="../../{{app.logo}}" width="100" height="72" alt="provider">
+    </span>
+    <br/>{{app.name | translate}}
+  </button>
+</div>
+<h4 ng-if="!vm.apps.length">{{'COMMON_NO_APPS'  | translate}}</h4>
