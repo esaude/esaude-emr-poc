@@ -3,14 +3,6 @@
 
     <div class="checkin">
       <div class="pull-left status">
-        <div ng-if="vm.lastUnclosedVisit">
-          <span class="glyphicon glyphicon-ban-circle"></span>
-          <span translate="CHECKIN_UNTERMINATED_VISIT"
-                translate-value-visittype="{{vm.lastUnclosedVisit.visitType.display}}"
-                translate-value-startdatetime="{{vm.lastUnclosedVisit.startDatetime | date:'short'}}">
-          </span>
-        </div>
-
         <div class="checked-in" ng-if="vm.todayVisit">
           <span class="glyphicon glyphicon-info-sign"></span>
           <span translate="CHECKIN_CHECKED_IN_TODAY"
@@ -19,7 +11,7 @@
           </span>
         </div>
 
-        <div ng-if="!vm.todayVisit && !vm.lastUnclosedVisit">
+        <div ng-if="!vm.todayVisit">
           <span class="glyphicon glyphicon-warning-sign"></span>
           <span>{{'CHECKIN_NOT_CHECKED_IN_TODAY' | translate}}</span>
         </div>

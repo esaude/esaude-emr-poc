@@ -74,43 +74,33 @@
         $log.error('getPatientLastVisit: No patient uuid defined.');
         return $q.reject();
       }
-      return search({ patient: patient.uuid, v: "full" })
+      var parameters = { patient: patient.uuid, voided: false, mostRecentOnly: true, v: "custom:(visitType:(name),startDatetime,stopDatetime,uuid)" };
+      return search(parameters)
         .then(function (visits) {
-          return _.flow([filterNotRetired, sortByVisitStartDateTime, _.reverse])(visits)[0];
+          if (visits.length > 0) {
+            return visits[0];
+          }
+          return null;
         });
     }
 
     function getTodaysVisit(patientUUID) {
-
-      if (!patientUUID) {
+      if (patientUUID) {
+        var parameters = { patient: patientUUID, voided: false, mostRecentOnly: true, currentDateOnly: true, v: "full" };
+        return search(parameters)
+          .then(function (visits) {
+            if (visits.length > 0) {
+              return visits[0];
+            }
+            return null;
+          })
+          .catch(function (error) {
+            $log.error('XHR Failed for getTodaysVisit: ' + error.data.error.message);
+            return $q.reject(error);
+          });
+      } else {
         return $q.reject();
       }
-
-      var dateUtil = Bahmni.Common.Util.DateUtil;
-
-      return search({ patient: patientUUID, v: "full" }).then(function (visits) {
-
-        var nonRetired = commonService.filterRetired(visits);
-
-        if (!_.isEmpty(nonRetired)) {
-
-          var lastVisit = _.maxBy(nonRetired, 'startDatetime');
-
-          var now = dateUtil.now();
-          var startDatetime = dateUtil.parseDatetime(lastVisit.startDatetime);
-          var stopDatetime = dateUtil.parseDatetime(lastVisit.stopDatetime);
-
-          if (startDatetime <= now && stopDatetime >= now) {
-            return lastVisit;
-          }
-        }
-
-        return null;
-      })
-        .catch(function (error) {
-          $log.error('XHR Failed for getTodaysVisit: ' + error.data.error.message);
-          return $q.reject(error);
-        });
     }
 
 
@@ -161,11 +151,11 @@
           visitHeader.lastBmi = lastBmi;
         });
 
-      var getLastVisit =
-        search({ patient: patient.uuid, v: 'custom:(visitType:(name),startDatetime,stopDatetime,uuid)' })
-          .then(function (visits) {
-            visitHeader.lastVisit = _.maxBy(visits, 'startDatetime');
-          });
+
+
+      var getLastVisit = getPatientLastVisit(patient).then(function (lastVisit) {
+        visitHeader.lastVisit = lastVisit;
+      });
 
       return $q.all([getPharmacyEncounters, getConsultations, getLastBmi, getLastVisit])
         .then(function () {
@@ -197,11 +187,6 @@
       });
     }
 
-    function filterNotRetired(visits) {
-      return _.filter(visits, function (v) {
-        return !v.voided;
-      });
-    }
   }
 
 })();

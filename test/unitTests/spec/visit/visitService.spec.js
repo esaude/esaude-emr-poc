@@ -87,41 +87,6 @@ describe('visitService', function () {
       $http.expectGET("/openmrs/ws/rest/v1/pocvisit" + '?patient=' + uuid + '&v=full').respond(response);
     });
 
-    describe('last visit is today', function () {
-
-      it('should return the patients visit', function () {
-
-        var dateUtil = Bahmni.Common.Util.DateUtil;
-        var resolve = {};
-
-        spyOn(dateUtil, 'now').and.callFake(function () {
-          return dateUtil.parseDatetime(datetime);
-        });
-
-        visitService.getTodaysVisit(uuid).then(function (todaysVisit) {
-          resolve = todaysVisit;
-        });
-
-        $http.flush();
-        expect(resolve).toEqual(response.results[0]);
-      });
-
-    });
-
-    describe('last visit not today', function () {
-      it('should return the patients visit', function () {
-
-        var resolve = {};
-
-        visitService.getTodaysVisit(uuid).then(function (todaysVisit) {
-          resolve = todaysVisit;
-        });
-
-        $http.flush();
-        expect(resolve).toEqual(null);
-      });
-    });
-
     afterEach(function () {
       $http.verifyNoOutstandingExpectation();
       $http.verifyNoOutstandingRequest();
@@ -247,8 +212,14 @@ describe('visitService', function () {
         })
       });
 
-      $http.expectGET("/openmrs/ws/rest/v1/pocvisit?patient=" + patient.uuid + '&v=custom:(visitType:(name),startDatetime,stopDatetime,uuid)')
-        .respond([]);
+      spyOn(visitService, 'getPatientLastVisit').and.callFake(function () {
+        return $q(function (resolve) {
+          return resolve(null);
+        })
+      });
+
+      $http.expectGET("/openmrs/ws/rest/v1/pocvisit?mostRecentOnly=true&patient=7401f469-60ee-4cfa-afab-c1e89e2944e4&v=custom:(visitType:(name),startDatetime,stopDatetime,uuid)&voided=false")
+         .respond({ results: [] });
 
     });
 
@@ -263,7 +234,8 @@ describe('visitService', function () {
       visitService.getVisitHeader(patient);
 
       $http.flush();
-
+      $rootScope.$apply();
+      
       expect(encounterService.getPatientFollowupEncounters).toHaveBeenCalled();
 
     });

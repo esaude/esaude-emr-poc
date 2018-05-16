@@ -24,21 +24,15 @@
     vm.checkIn = checkIn;
 
     function $onChanges(changesObj) {
-      if (changesObj.patient && changesObj.patient.currentValue.uuid) {
-        visitService.getPatientLastVisit(changesObj.patient.currentValue)
-          .then(processLastVisit);
-      }
-    }
-
-    function processLastVisit(lastVisit) {
-      if (lastVisit) {
-        if (!lastVisit.stopDatetime) {
-          vm.lastUnclosedVisit = lastVisit;
-          vm.disableCheckin = true;
-        } else if (moment().isBetween(lastVisit.startDatetime, lastVisit.stopDatetime)) {
-          vm.todayVisit = lastVisit;
-          vm.disableCheckin = true;
-        }
+      var patient = changesObj.patient.currentValue;
+      if (patient && patient.uuid) {
+        visitService.getTodaysVisit(patient.uuid)
+          .then(function (todaysLastVisit) {
+            if (todaysLastVisit != null) {
+              vm.todayVisit = todaysLastVisit;
+              vm.disableCheckin = true;
+            }
+          });
       }
     }
 

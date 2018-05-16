@@ -27,7 +27,6 @@
     vm.disableCheckin = false;
     vm.lastConsultationMessage = translateFilter('COMMON_NONE');
     vm.lastPharmacyMessage = translateFilter('COMMON_NONE');
-    vm.lastUnclosedVisit = null;
     vm.lastVisitMessage = translateFilter('COMMON_NONE');
     vm.loadFailed = false;
     vm.nextConsultationMessage = translateFilter('COMMON_NOT_SCHEDULED');
