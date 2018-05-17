@@ -141,7 +141,12 @@ describe('TestOrderItemFormController', function () {
 
     it('should remove flag indicating that the form is focused', function () {
 
-      var ctrl = $componentController('testOrderResultItemForm');
+      var ctrl = $componentController('testOrderResultItemForm', null, {
+        item: {
+          testOrder: {concept: {datatype: {display: 'Numeric'}}},
+          value: "2"
+        }
+      });
 
       ctrl.hasFocus = true;
 
@@ -191,7 +196,16 @@ describe('TestOrderItemFormController', function () {
 
       it('should hide buttons', function () {
 
-        var ctrl = $componentController('testOrderResultItemForm');
+        var item = {
+          testOrder: {concept: {datatype: {display: 'Numeric'}}},
+          value: "2"
+        };
+
+        var ctrl = $componentController('testOrderResultItemForm', null, {
+          item: item
+        });
+
+        ctrl.$onChanges({item: {currentValue: item}});
 
         ctrl.showButtons = true;
 
