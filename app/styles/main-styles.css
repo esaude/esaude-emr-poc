@@ -367,6 +367,19 @@ p.capitalize {
 .lab-tests .test-order-details .item-form label {
   font-weight: normal;
 }
+
+.lab-tests .test-order-details .item-form .btn-group {
+  transition: opacity 0.3s, visibility 0.3s, height 0.1s linear;
+  opacity: 0;
+  visibility: hidden;
+  height: 0;
+}
+
+.lab-tests .test-order-details .item-form.show-buttons .btn-group {
+  opacity: 1;
+  visibility: visible;
+  height: 48px;
+}
 /**/
 
 /* FormField*/

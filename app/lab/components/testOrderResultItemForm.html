@@ -1,4 +1,5 @@
 <form class="item-form form-horizontal" name="form"
+      ng-class="{'show-buttons': vm.showButtons}"
       ng-submit="form.$valid && vm.onSubmit({item: vm.item, result: vm.$item.value});"
       novalidate>
 
@@ -55,26 +56,26 @@
 
   </div>
 
-  <div class="form-group" ng-show="vm.showButtons">
+  <div class="form-group">
     <div class="col-sm-12">
       <div class="btn-group pull-right" role="group" aria-label="..." ng-if="!vm.isInvalid(form)">
 
-        <!--<poc-authorize privilege="'Write Test Result'">-->
+        <poc-authorize privilege="'Write Test Result'">
 
-        <button class="btn btn-lg btn-primary" type="submit" ng-disabled="!form.$dirty || !form.$valid">
-          <i class="glyphicon glyphicon-floppy-disk"></i> {{ 'SAVE' | translate }}
-        </button>
+          <button class="btn btn-lg btn-primary" type="submit" ng-disabled="!form.$dirty || !form.$valid">
+            <i class="glyphicon glyphicon-floppy-disk"></i> {{ 'SAVE' | translate }}
+          </button>
 
-        <!--</poc-authorize>-->
+        </poc-authorize>
 
-        <!--<poc-authorize privilege="'Delete Test Result'">-->
+        <poc-authorize privilege="'Delete Test Result'">
 
-        <button class="btn btn-lg btn-danger" type="button" ng-click="vm.onRemove({item: vm.item});"
-                ng-disabled="vm.item.value === ''">
-          <i class="glyphicon glyphicon-remove"></i> {{ 'REMOVE' | translate }}
-        </button>
+          <button class="btn btn-lg btn-danger" type="button" ng-click="vm.onRemove({item: vm.item});"
+                  ng-disabled="vm.item.value === ''">
+            <i class="glyphicon glyphicon-remove"></i> {{ 'REMOVE' | translate }}
+          </button>
 
-        <!--</poc-authorize>-->
+        </poc-authorize>
 
       </div>
 
