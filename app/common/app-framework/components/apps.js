@@ -27,7 +27,7 @@
 
       applicationService.getApps()
         .then(function (apps) {
-          vm.apps = apps.filter(function (a) { return a.active; });
+          vm.apps = apps.filter(function (a) { return a.active && a.id !== vm.currentApp.id; });
         })
         .catch(function () {
           notifier.error($filter('translate')('COMMON_ERROR'));

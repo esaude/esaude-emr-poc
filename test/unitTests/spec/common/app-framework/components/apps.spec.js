@@ -20,7 +20,7 @@ describe('apps', function () {
 
       spyOn(applicationService, 'getApps').and.callFake(function () {
         return $q(function (resolve) {
-          return resolve([{active: false}, {active: true}]);
+          return resolve([{active: false}, {active: true}, {active: true, id: 'registration'}]);
         });
       });
 
@@ -44,7 +44,22 @@ describe('apps', function () {
 
       $rootScope.$apply();
 
-      expect(ctrl.apps).toEqual([{active: true}]);
+      var allActive = ctrl.apps.every(function (a) {
+        return a.active;
+      });
+      expect(allActive).toEqual(true);
+
+    });
+
+    it('should get all apps different from current app', function () {
+
+      var ctrl = $componentController('apps');
+
+      ctrl.$onInit();
+
+      $rootScope.$apply();
+
+      expect(ctrl.apps).not.toContain(jasmine.objectContaining({id: 'registration'}));
 
     });
 
