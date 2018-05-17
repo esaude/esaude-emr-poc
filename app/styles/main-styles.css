@@ -355,6 +355,7 @@ p.capitalize {
 }
 
 .lab-tests .test-order-details {
+  background-color: #f5f5f5;
   border-left: 1px solid #cccccc;
 }
 
