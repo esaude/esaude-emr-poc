@@ -196,12 +196,6 @@
     function showTestOrderDetails(testRequest) {
       vm.testsOfSelectedRequest = testRequest.testOrderItems;
       vm.testOrderInDetail = testRequest;
-      vm.testsOfSelectedRequest.forEach(function (testOrder) {
-        testOrderResultService.getTestOrderConsolidateResult(testRequest.uuid, testOrder.uuid)
-          .then(function (result) {
-            testOrder.result = result;
-          });
-      });
     }
 
     function deleteTest(test) {

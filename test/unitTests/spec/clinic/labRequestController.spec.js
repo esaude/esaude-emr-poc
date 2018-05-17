@@ -85,11 +85,6 @@ describe('LabRequestController', function () {
         return resolve({});
       });
     });
-    spyOn(testOrderResultService, 'getTestOrderConsolidateResult').and.callFake(function () {
-      return $q(function (resolve) {
-        return resolve({});
-      });
-    });
     spyOn(notifier, 'error');
 
     controller = $controller('LabRequestController', {
