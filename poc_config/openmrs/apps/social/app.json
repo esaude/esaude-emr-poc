@@ -20,11 +20,7 @@
             },
             "encounterTypes" : {
               "fila": "e279133c-1d5f-11e0-b929-000c29ad1d07"
-            },
-            "defaultVisitTypes" : [
-                {"name": "FIRST CONSULTATION", "uuid": "64a510a1-fbf4-465f-acd2-cd37bc321cee", "occurOn": "first"},
-                {"name": "FOLLOW-UP CONSULTATION", "uuid": "3866891d-09c5-4d98-98de-6ae7916110fa", "occurOn": "following"}
-            ]
+            }
         }
     }
 ]

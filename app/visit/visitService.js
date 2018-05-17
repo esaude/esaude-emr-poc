@@ -45,16 +45,6 @@
       });
     }
 
-    function getDefaultVisitTypes(occurOn) {
-      var find = appService.getAppDescriptor().getConfigValue("defaultVisitTypes").find(function (v) {
-        return v.occurOn === occurOn;
-      });
-      if (!find) {
-        throw new Error('No default ' + occurOn + ' visit defined.');
-      }
-      return find;
-    }
-
     function checkInPatient(patient) {
       var currentLocation = sessionService.getCurrentLocation();
       if (currentLocation) {
