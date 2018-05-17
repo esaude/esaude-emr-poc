@@ -58,7 +58,7 @@ describe('visitService', function () {
     var visitDetails = { patientUuid: "uuid" };
 
     beforeEach(function () {
-      $http.expectPOST("/openmrs/ws/rest/v1/pocvisit").respond({});
+      $http.expectPOST("/openmrs/ws/rest/v1/checkin").respond({});
     });
 
     it('should call end visit url in registration visit service', function () {
@@ -133,7 +133,7 @@ describe('visitService', function () {
           location: csPebane.uuid
         };
 
-        $http.expectPOST('/openmrs/ws/rest/v1/pocvisit', visitData).respond({});
+        $http.expectPOST('/openmrs/ws/rest/v1/checkin', visitData).respond({});
 
         var created = {};
         visitService.checkInPatient({ uuid: uuid }).then(function (visit) {
@@ -170,7 +170,7 @@ describe('visitService', function () {
           location: csPebane.uuid
         };
 
-        $http.expectPOST('/openmrs/ws/rest/v1/pocvisit', visitData).respond({});
+        $http.expectPOST('/openmrs/ws/rest/v1/checkin', visitData).respond({});
 
         var created = {};
         visitService.checkInPatient({ uuid: uuid }).then(function (visit) {

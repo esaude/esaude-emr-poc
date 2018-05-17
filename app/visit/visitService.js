@@ -33,8 +33,8 @@
 
     ////////////////
 
-    function create(visit) {
-      return $http.post(Bahmni.Common.Constants.visitUrl, visit, {
+    function create(checkin) {
+      return $http.post(Bahmni.Common.Constants.checkinUrl, checkin, {
         withCredentials: true,
         headers: { "Accept": "application/json", "Content-Type": "application/json" }
       }).then(function (response) {
@@ -58,11 +58,12 @@
     function checkInPatient(patient) {
       var currentLocation = sessionService.getCurrentLocation();
       if (currentLocation) {
-        var visit = {
+        var checkin = {
           patient: patient.uuid,
-          location: currentLocation.uuid
+          location: currentLocation.uuid,
+          module: appService.getAppDescriptor().id
         };
-        return create(visit);
+        return create(checkin);
       } else {
         $log.error('checkInPatient: No current location defined.');
         return $q.reject();
