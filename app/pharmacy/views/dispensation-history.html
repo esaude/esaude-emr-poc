@@ -1,4 +1,6 @@
-<div class="row content-border-margin-regular">
+<no-results-alert collection="vm.pickups"></no-results-alert>
+
+<div class="row content-border-margin-regular" ng-if="vm.pickups.length">
   <table st-table="pickups" st-safe-src="displayed" class="table table-striped">
     <thead>
     <tr>
