@@ -1,9 +1,14 @@
-<form class="item-form" name="form" ng-submit="form.$valid && vm.onSubmit({item: vm.item, result: vm.$item.value});" novalidate>
+<form class="item-form form-horizontal" name="form"
+      ng-class="{'show-buttons': vm.showButtons}"
+      ng-submit="form.$valid && vm.onSubmit({item: vm.item, result: vm.$item.value});"
+      novalidate>
 
   <div class="form-group" ng-class="{'has-error': vm.hasError(form), 'has-success': vm.hasSuccess(form)}">
-    <label class="col-sm-4" for="value">{{vm.$item.testOrder.concept.display | translate }}</label>
 
-    <div class="col-sm-4 text-right">
+    <div class="col-sm-12">
+
+      <label for="value">{{vm.$item.testOrder.concept.display | translate }}</label>
+
 
       <div class="input-group">
 
@@ -33,10 +38,27 @@
 
       </select>
 
+
+      <div ng-messages for="form.value.$error" ng-if="vm.isInvalid(form)">
+        <div ng-message="min">
+          <small class="help-block" translate="ERROR_TOO_SMALL_VALUE"
+                 translate-value-min="{{vm.$item.testOrder.concept.lowAbsolute}} {{vm.$item.testOrder.concept.units}}"></small>
+        </div>
+        <div ng-message="max">
+          <small class="help-block" translate="ERROR_TOO_BIG_VALUE"
+                 translate-value-max="{{vm.$item.testOrder.concept.hiAbsolute}} {{vm.$item.testOrder.concept.units}}"></small>
+        </div>
+        <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
+      </div>
+
     </div>
 
-    <div class="col-sm-4" style="border-left: 1px #ccc solid;">
-      <div class="btn-group" role="group" aria-label="..." ng-if="!vm.isInvalid(form)">
+
+  </div>
+
+  <div class="form-group">
+    <div class="col-sm-12">
+      <div class="btn-group pull-right" role="group" aria-label="..." ng-if="!vm.isInvalid(form)">
 
         <poc-authorize privilege="'Write Test Result'">
 
@@ -57,18 +79,8 @@
 
       </div>
 
-      <div ng-messages for="form.value.$error" ng-if="vm.isInvalid(form)">
-        <div ng-message="min">
-          <small class="help-block" translate="ERROR_TOO_SMALL_VALUE"
-                 translate-value-min="{{vm.$item.testOrder.concept.lowAbsolute}} {{vm.$item.testOrder.concept.units}}"></small>
-        </div>
-        <div ng-message="max">
-          <small class="help-block" translate="ERROR_TOO_BIG_VALUE"
-                 translate-value-max="{{vm.$item.testOrder.concept.hiAbsolute}} {{vm.$item.testOrder.concept.units}}"></small>
-        </div>
-        <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
-      </div>
     </div>
-
   </div>
+
 </form>
+

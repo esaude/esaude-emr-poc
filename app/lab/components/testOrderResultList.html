@@ -1,24 +1,12 @@
-<table class="table table-hover">
-  <thead>
-  <tr>
-    <th>{{ 'ORDER_ID' | translate}}</th>
-    <th>{{ 'DATE' | translate }}</th>
-    <th>{{ 'PROVIDER' | translate }}</th>
-    <th>{{ 'STATE' | translate }}</th>
-    <th width="18%"></th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr ng-repeat="t in vm.testOrderResults" ng-class="{'active': t.selected}" ng-click="vm.onSelectTestOrderResult({testOrderResult: t})">
-    <td>{{t.codeSequence}}</td>
-    <td>{{t.dateCreation | date}}</td>
-    <td>{{t.provider.display}}</td>
-    <td>{{t.status}}</td>
-    <td>
-      <button class="btn btn-lg btn-default" type="button">
-        <i class="glyphicon glyphicon-eye-open"></i>
-      </button>
-    </td>
-  </tr>
-  </tbody>
-</table>
+<div class="row" ng-repeat="t in vm.testOrderResults" ng-class="{'active': t.selected}"
+     ng-click="vm.onSelectTestOrderResult({testOrderResult: t})">
+
+  <div class="col-sm-12">
+    <div class="test-order">
+      <p><strong>{{t.codeSequence}}</strong> <span class="pull-right">{{t.dateCreation | date}}</span></p>
+      <p>{{t.provider.display}}</p>
+      <p>{{t.status}}</p>
+    </div>
+  </div>
+
+</div>

@@ -54,13 +54,19 @@
 
     function onFocus() {
       vm.hasFocus = true;
+      vm.showButtons = true;
     }
 
     function onBlur(form) {
       vm.hasFocus = false;
+
       if (form.$invalid) {
         setItem(vm.item);
         form.$setPristine();
+      }
+
+      if (vm.$item.value == vm.item.value) { // Loose equality is intended. Numeric datatypes values come as strings.
+        vm.showButtons = false;
       }
     }
 
