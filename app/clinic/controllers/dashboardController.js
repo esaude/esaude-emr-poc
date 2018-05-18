@@ -15,7 +15,7 @@
     $scope.flags = [];
     $scope.patientUUID = $stateParams.patientUuid;
     $scope.todayVisit = null;
-    $scope.hasLabOrderPrivilege = false;
+    $scope.hasLabOrderPrivilege = true;
     $scope.patient = {};
 
     $scope.reload = reload;
@@ -53,8 +53,8 @@
       var privilegesToCheck = ['Write Test Order', 'Read Test Order', 'Edit Test Order'];
       privilegesToCheck.forEach(function (privilege) {
         authorizationService.hasPrivilege(privilege).then(function (hasPrivilege) {
-          if (hasPrivilege) {
-            $scope.hasLabOrderPrivilege = true;
+          if (!hasPrivilege) {
+            $scope.hasLabOrderPrivilege = false;
           }
         });
       });
