@@ -49,15 +49,10 @@ describe('createEncounterMapper', function () {
 
     it('should format date and datetime datatypes', function () {
 
-      spyOn(Bahmni.Common.Util.DateUtil, 'now').and.callFake(function () {
-        return jan312018;
-      });
-
-      var encounter = createEncounterMapper.mapFromFormPayload(formPayload, formParts, patient, location, provider, jan312018);
+      var encounter = createEncounterMapper.mapFromFormPayload(formPayload, formParts, patient, location, provider);
 
       expect(encounter).toEqual({
         encounterType: 'e278f956-1d5f-11e0-b929-000c29ad1d07',
-        encounterDatetime: jan312018,
         patient: 'd5b9d975-9412-4d14-a264-c72e557c9d58',
         location: '7fc3f286-15b1-465e-9013-b72916f58b2d',
         form: 'e28aa7aa-1d5f-11e0-b929-000c29ad1d07',
@@ -66,7 +61,6 @@ describe('createEncounterMapper', function () {
           {
             concept: '088deb09-4aa4-4533-8b21-5c04f6c3e4a6',
             value: '2018-01-31 00:00',
-            obsDatetime: jan312018,
             person: 'd5b9d975-9412-4d14-a264-c72e557c9d58'
           }
         ]
