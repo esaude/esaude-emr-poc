@@ -6,8 +6,6 @@
     .directive('movePatient', movePatient)
     .controller('MovePatientController', MovePatientController);
 
-  movePatient.$inject = [];
-
   /* @ngInject */
   function movePatient() {
     var directive = {
