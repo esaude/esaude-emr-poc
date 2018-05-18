@@ -82,8 +82,8 @@
         .then(loadConsultationCharts);
     }
 
-    function linkApp(url) {
-      $window.location.href = url;
+    function linkApp(app) {
+      $window.location.href = app.url;
     }
 
     function loadConsultationCharts() {
