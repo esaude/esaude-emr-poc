@@ -182,15 +182,13 @@
 
     // TODO: move this to clinicalServicesService
     function save() {
-      var currDate = Bahmni.Common.Util.DateUtil.now();
       var location = sessionService.getCurrentLocation();
 
       var openMRSEncounter = createEncounterMapper.mapFromFormPayload(vm.formPayload,
         vm.formInfo.parts,
         vm.patient.uuid,
         location.uuid,
-        $rootScope.currentUser.person.uuid,
-        currDate);//set date
+        $rootScope.currentUser.person.uuid);
 
       var clinicalService = vm.formPayload.service;
 
@@ -241,19 +239,7 @@
     }
 
     function checkIn() {
-      var visitType = _.find($rootScope.defaultVisitTypes, function (o) {
-        return o.occurOn === "following";
-      });
-      var location = sessionService.getCurrentLocation();
-      //create visit object
-      var visit = {
-        patient: vm.patient.uuid,
-        visitType: visitType.uuid,
-        location: location.uuid,
-        startDatetime: dateUtil.now(),
-        stopDatetime: dateUtil.endOfToday()
-      };
-      return visitService.create(visit);
+      return visitService.checkInPatient(vm.patient);
     }
 
     function encounterSuccessCallback() {

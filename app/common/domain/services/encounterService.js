@@ -45,7 +45,7 @@
      * @return {Date} The next consultation date in the encounter's obs or undefined if not found.
      */
     function getNextConsultationDate(encounter) {
-      return _.find(encounter.obs, {concept: {uuid: RETURN_VISIT_DATE_CONCEPT_UUID}});
+      return _.find(encounter.obs, { concept: { uuid: RETURN_VISIT_DATE_CONCEPT_UUID } });
     }
 
     /**
@@ -53,7 +53,7 @@
      * @return {Date} Then next drug pick-up date in the encounter's obs or undefined if not found.
      */
     function getNextPickupDate(encounter) {
-      return _.find(encounter.obs, {concept: {uuid: NEXT_PICKUP_DATE_CONCEPT_UUID}});
+      return _.find(encounter.obs, { concept: { uuid: NEXT_PICKUP_DATE_CONCEPT_UUID } });
     }
 
     function getDefaultEncounterType() {
@@ -86,12 +86,12 @@
 
     function _delete(encounterUuid, reason) {
       return $http.delete(Bahmni.Common.Constants.bahmniEncounterUrl + "/" + encounterUuid, {
-        params: {reason: reason}
+        params: { reason: reason }
       });
     }
 
     function stripExtraConceptInfo(obs) {
-      obs.concept = {uuid: obs.concept.uuid, name: obs.concept.name, dataType: obs.concept.dataType};
+      obs.concept = { uuid: obs.concept.uuid, name: obs.concept.name, dataType: obs.concept.dataType };
       obs.groupMembers = obs.groupMembers || [];
       obs.groupMembers.forEach(function (groupMember) {
         stripExtraConceptInfo(groupMember);
@@ -103,8 +103,8 @@
         visitUuids: [visitUuid],
         includeAll: Bahmni.Common.Constants.includeAllObservations
       }, {
-        withCredentials: true
-      });
+          withCredentials: true
+        });
     }
 
     function search(visitUuid, encounterDate) {
@@ -178,6 +178,11 @@
           v: v
         },
         withCredentials: true
+      }).then(function (response) {
+        return response.data.results;
+      }).catch(function (error) {
+        $log.error('XHR Failed for getEncountersForEncounterType. ' + error.data.error.message);
+        return $q.reject(error);
       });
     }
 

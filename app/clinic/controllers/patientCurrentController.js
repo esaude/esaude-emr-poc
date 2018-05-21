@@ -29,8 +29,8 @@
     }
 
     function initLabResults() {
-      return encounterService.getEncountersForEncounterType(patientUUID, Bahmni.Common.Constants.LAB_ENCOUNTER_TYPE_UUID, "default").success(function (data) {
-        return filterGroupReverseEncounters(data, "labResults");
+      return encounterService.getEncountersForEncounterType(patientUUID, Bahmni.Common.Constants.LAB_ENCOUNTER_TYPE_UUID, "default").then(function (encounters) {
+        return filterGroupReverseEncounters(encounters, "labResults");
       });
     }
 
@@ -42,8 +42,8 @@
       return filterGroupReverseObs(conceptsUuids, "vitals");
     }
 
-    function filterGroupReverseEncounters(data, element) {
-      var nonRetired = encounterService.filterRetiredEncoounters(data.results);
+    function filterGroupReverseEncounters(encounters, element) {
+      var nonRetired = encounterService.filterRetiredEncoounters(encounters);
       var grouped = _.groupBy(nonRetired, function (element) {
         return Bahmni.Common.Util.DateUtil.getDate(element.encounterDatetime);
       });
@@ -53,8 +53,8 @@
     function filterGroupReverseObs(concepts, element) {
       return encounterService.getEncountersForEncounterType(patientUUID,
         (patient.age.years >= 15) ? Bahmni.Common.Constants.ADULT_FOLLOWUP_ENCOUTER_UUID : Bahmni.Common.Constants.CHILD_FOLLOWUP_ENCOUNTER_UUID, "default")
-        .success(function (data) {
-          var nonRetired = encounterService.filterRetiredEncoounters(data.results);
+        .then(function (encounters) {
+          var nonRetired = encounterService.filterRetiredEncoounters(encounters);
           _.forEach(nonRetired, function (encounter) {
             encounter.obs = observationsService.filterByList(encounter.obs, concepts);
           });

@@ -1,17 +1,6 @@
-<table class="table">
-  <thead>
-  <tr>
-    <th>{{ 'RESULTS' | translate }}</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr ng-repeat="i in vm.testOrderResult.items">
-    <td>
-      <test-order-result-item-form item="i"
-                                   on-submit="vm.saveTestResultItem(item, result);"
-                                   on-remove="vm.removeTestResultItem(item);">
-      </test-order-result-item-form>
-    </td>
-  </tr>
-  </tbody>
-</table>
+<div class="row" ng-repeat="i in vm.testOrderResult.items">
+  <test-order-result-item-form item="i"
+                               on-submit="vm.saveTestResultItem(item, result);"
+                               on-remove="vm.removeTestResultItem(item);">
+  </test-order-result-item-form>
+</div>
