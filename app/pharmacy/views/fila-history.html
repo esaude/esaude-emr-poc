@@ -5,7 +5,7 @@
     <div class="form-group">
       <label for="startDate">{{"START_DATE" | translate }}:</label>
       <div class="input-group">
-        <input class="form-control" id="startDate" name="startDate" type="text" uib-datepicker-popup ng-model="vm.startDate" ng-focus="focused1=true"
+        <input class="form-control input-lg" id="startDate" name="startDate" type="text" uib-datepicker-popup ng-model="vm.startDate" ng-focus="focused1=true"
           is-open="focused1" ng-change="vm.onStartDateChange(); vm.updateResults();" datepicker-options="patientCommon.birthDatepickerOptions" required/>
         <span class="input-group-addon">
           <span class="glyphicon glyphicon-calendar"></span>
@@ -16,7 +16,7 @@
     <div class="form-group" style="margin-left: 10px;">
       <label for="endDate">{{"END_DATE" | translate }}:</label>
       <div class="input-group">
-        <input class="form-control" id="endDate" name="endDate" type="text" uib-datepicker-popup ng-model="vm.endDate" ng-focus="focused2=true"
+        <input class="form-control input-lg" id="endDate" name="endDate" type="text" uib-datepicker-popup ng-model="vm.endDate" ng-focus="focused2=true"
           is-open="focused2" datepicker-options="patientCommon.birthDatepickerOptions" ng-change="vm.updateResults();" required/>
         <span class="input-group-addon">
           <span class="glyphicon glyphicon-calendar"></span>
