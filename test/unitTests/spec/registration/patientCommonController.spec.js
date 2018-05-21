@@ -14,9 +14,14 @@ describe('PatientCommonController', function () {
     $provide.factory('initialization', function () {
     });
     // Mock appService
-    var appService = jasmine.createSpyObj('appService', ['getAppDescriptor', 'initApp']);
+    var appService = jasmine.createSpyObj('appService', ['getAppDescriptor', 'initApp', 'getPatientConfiguration']);
     appService.initApp.and.returnValue({
       then: function (fn) {
+      }
+    });
+    appService.getPatientConfiguration.and.returnValue({
+      customAttributeRows: function () {
+        return patientAttributes;
       }
     });
 
@@ -51,14 +56,7 @@ describe('PatientCommonController', function () {
 
   describe('activate', function () {
 
-    var patientConfig;
-
     beforeEach(function () {
-      patientConfig = {
-        customAttributeRows: function () {
-          return patientAttributes;
-        }
-      };
 
       spyOn(patientService, 'getIdentifierTypes').and.callFake(function () {
         return $q(function (resolve) {
@@ -73,9 +71,7 @@ describe('PatientCommonController', function () {
       });
 
       controller = $controller('PatientCommonController', {
-        $scope: {
-          patientConfiguration: patientConfig
-        },
+        $scope: {},
         patientService: patientService
       });
     });
@@ -98,7 +94,7 @@ describe('PatientCommonController', function () {
 
         var testingAttrs = [
                     {"name": "Data do teste HIV", "uuid": "46e79fce-ba89-4ec9-8f31-2dfd9318d415"},
-                    {"name": "Tipo de teste HIV", "uuid": "ce778a93-66f9-4607-9d80-8794ed127674"}  
+                    {"name": "Tipo de teste HIV", "uuid": "ce778a93-66f9-4607-9d80-8794ed127674"}
                 ]
 
         var personAttributes = [

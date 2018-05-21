@@ -1,12 +1,12 @@
 describe('patientService', function () {
 
   var patientService, $httpBackend, $rootScope, openmrsPatientMapper, reportService, prescriptionService,
-    updatePatientMapper;
+    updatePatientMapper, appService;
 
   beforeEach(module('common.patient'));
 
   beforeEach(inject(function (_patientService_, _prescriptionService_, _reportService_, _$rootScope_,
-                              _$httpBackend_, _openmrsPatientMapper_, _updatePatientMapper_) {
+                              _$httpBackend_, _openmrsPatientMapper_, _updatePatientMapper_, _appService_) {
     patientService = _patientService_;
     prescriptionService = _prescriptionService_;
     reportService = _reportService_;
@@ -14,6 +14,7 @@ describe('patientService', function () {
     $httpBackend = _$httpBackend_;
     openmrsPatientMapper = _openmrsPatientMapper_;
     updatePatientMapper = _updatePatientMapper_;
+    appService = _appService_;
   }));
 
   it("should fetch the the specific patient by name ", function () {
@@ -62,7 +63,7 @@ describe('patientService', function () {
   describe('update', function () {
 
     beforeEach(function () {
-      $rootScope.patientConfiguration = {personAttributeTypes: []};
+      spyOn(appService, 'getPatientConfiguration').and.returnValue({personAttributeTypes: []});
     });
 
     var openMRSPatient = {uuid: 'e2bc2a32-1d5f-11e0-b929-000c29ad1d07'};

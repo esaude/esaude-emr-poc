@@ -36,7 +36,8 @@
         },
         resolve: {
           initialization: 'initialization',
-          patient: function ($stateParams, patientService) {
+          patient: function (initialization, $stateParams, patientService) {
+            // We need initialization to always resolve first
             return patientService.getPatient($stateParams.patientUuid);
           }
         }

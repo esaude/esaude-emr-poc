@@ -50,7 +50,8 @@
         },
         resolve: {
           initialization: 'initialization',
-          clinicalServicesService: function (clinicalServicesService, $stateParams) {
+          clinicalServicesService: function (initialization, clinicalServicesService, $stateParams) {
+            // We need initialization to always resolve first
             return clinicalServicesService.init('vitals', $stateParams.patientUuid, true);
           }
         },

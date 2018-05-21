@@ -183,7 +183,8 @@
           returnState: null
         },
         resolve: {
-          patient: function ($stateParams, initialization, patientService) {
+          patient: function (initialization, $stateParams, patientService) {
+            // We need initialization to always resolve first
             var representation = "custom:(uuid,voided,display,person:full,identifiers:(uuid,display,identifier,location,preferred,voided,identifierType:full))";
             return patientService.getPatient($stateParams.patientUuid, representation);
           }

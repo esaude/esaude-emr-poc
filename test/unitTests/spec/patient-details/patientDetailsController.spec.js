@@ -14,8 +14,7 @@ describe('DetailPatientController', function () {
               {"description":"PCR EXAME/TESTE","conceptId":"e1d7f61e-1d5f-11e0-b929-000c29ad1d07"},
               {"description":"SERIOLOGIA HIV DATA RESULTADO","conceptId":"e1d800dc-1d5f-11e0-b929-000c29ad1d07"}
             ],"required":false}
-          ]
-
+          ];
 
   beforeEach(module('patient.details', function ($provide, $translateProvider, $urlRouterProvider) {
     // Mock initialization
@@ -23,10 +22,15 @@ describe('DetailPatientController', function () {
     });
     // Mock appService
     var appDescriptor = jasmine.createSpyObj('appDescriptor',['getConfigValue']);
-    var appService = jasmine.createSpyObj('appService', ['getAppDescriptor']);
+    var appService = jasmine.createSpyObj('appService', ['getAppDescriptor', 'getPatientConfiguration']);
 
     appDescriptor.getConfigValue.and.returnValue({});
     appService.getAppDescriptor.and.returnValue(appDescriptor);
+    appService.getPatientConfiguration.and.returnValue({
+      customAttributeRows: function () {
+        return patientAttributes;
+      }
+    });
 
     $provide.value('appService', appService);
     // Mock translate asynchronous loader
@@ -53,19 +57,9 @@ describe('DetailPatientController', function () {
 
 
   describe('attributes for current step', function () {
-    var patientConfig;
-
     beforeEach(function () {
-      patientConfig = {
-        customAttributeRows: function () {
-          return patientAttributes;
-        }
-      };
-
       controller = $controller('DetailPatientController', {
-        $scope: {
-          patientConfiguration: patientConfig
-        },
+        $scope: {},
         patientService: patientService
       });
     });
@@ -74,8 +68,8 @@ describe('DetailPatientController', function () {
 
       var testingAttrs = [
                   {"name": "Data do teste HIV", "uuid": "46e79fce-ba89-4ec9-8f31-2dfd9318d415"},
-                  {"name": "Tipo de teste HIV", "uuid": "ce778a93-66f9-4607-9d80-8794ed127674"}  
-              ]
+                  {"name": "Tipo de teste HIV", "uuid": "ce778a93-66f9-4607-9d80-8794ed127674"}
+              ];
 
       var filteredAttrs = controller.filterPersonAttributesForDetails(patientAttributes, testingAttrs);
       expect(filteredAttrs.length).toEqual(2);

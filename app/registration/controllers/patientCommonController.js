@@ -15,7 +15,7 @@
                                    notifier, patientAttributeService, patientService, sessionService,
                                    TabManager, appService) {
 
-    var patientConfiguration = $scope.patientConfiguration;
+    var patientConfiguration = appService.getPatientConfiguration();
     var now = new Date();
 
     // TODO: Remove dependency on $scope!
