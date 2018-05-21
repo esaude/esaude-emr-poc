@@ -348,7 +348,7 @@ describe('visitService', function () {
   describe('deleteVisit', function () {
 
     beforeEach(function () {
-      $http.expectDELETE("/openmrs/ws/rest/v1/visit/1234?purge=true").respond(null);
+      $http.expectDELETE("/openmrs/ws/rest/v1/pocvisit/1234?purge=true").respond(null);
     });
 
     it('should call end visit url in registration visit service', function () {
