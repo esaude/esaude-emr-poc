@@ -2,9 +2,14 @@
 
 describe('DashboardController', function () {
   var patientUuid, scope, $rootScope, $q, $controller, controller, location, patientService, patientMapper,
-    httpBackend, stateParams, visitService, authorizationService, $state, alertService;
+    httpBackend, stateParams, visitService, authorizationService, $state, alertService, stateParams;
 
   var FLAGS = ['TB', 'Low Hemoglobin'];
+
+  var visit1 = { patient: { uuid: "3951a5f8-cdce-4421-bfe3-cfdd701168d0" } };
+  var getTodaysVisitParams = {
+    "3951a5f8-cdce-4421-bfe3-cfdd701168d0": visit1
+  }
 
   beforeEach(module('clinic', function ($provide, $translateProvider, $urlRouterProvider) {
     // Mock translate asynchronous loader
@@ -20,7 +25,7 @@ describe('DashboardController', function () {
   }));
 
   beforeEach(inject(function (_$controller_, _$rootScope_, _patientService_, _$q_, _$state_, _visitService_,
-                              _authorizationService_, _alertService_) {
+    _authorizationService_, _alertService_) {
     scope = _$rootScope_.$new();
     $rootScope = _$rootScope_;
     $controller = _$controller_;
@@ -39,13 +44,13 @@ describe('DashboardController', function () {
 
     spyOn(alertService, 'get').and.callFake(function () {
       return $q(function (resolve) {
-        return resolve({data:{flags:FLAGS}});
+        return resolve({ data: { flags: FLAGS } });
       });
     });
 
-    spyOn(visitService, 'getTodaysVisit').and.callFake(function () {
+    spyOn(visitService, 'getTodaysVisit').and.callFake(function (patientUuid) {
       return $q(function (resolve) {
-        return resolve({});
+        return resolve(getTodaysVisitParams[patientUuid]);
       });
     });
 
@@ -57,7 +62,7 @@ describe('DashboardController', function () {
 
     controller = $controller('DashboardController', {
       $scope: scope,
-      $stateParams: {patientUuid: '3951a5f8-cdce-4421-bfe3-cfdd701168d0'}
+      $stateParams: { patientUuid: '3951a5f8-cdce-4421-bfe3-cfdd701168d0' }
     });
 
   }));
@@ -69,6 +74,22 @@ describe('DashboardController', function () {
       expect(patientService.getPatient).toHaveBeenCalled();
       expect(scope.flags).toEqual(FLAGS);
     });
+
+    it('should load last visit', function () {
+      $rootScope.$apply();
+      expect(scope.hasVisitToday).toEqual(true);
+      expect(scope.todayVisit).toEqual(visit1);
+    });
+
+    it('should not load last visit', function () {
+      controller = $controller('DashboardController', {
+        $scope: scope,
+        $stateParams: { patientUuid: 'OUTRO_UUID' }
+      });
+      $rootScope.$apply();
+      expect(scope.hasVisitToday).toEqual(false);
+    });
+
   });
 
   describe('reload', function () {
@@ -78,7 +99,7 @@ describe('DashboardController', function () {
       spyOn($state, 'reload');
 
       var scope = {};
-      var ctrl = $controller('DashboardController', {$scope: scope});
+      var ctrl = $controller('DashboardController', { $scope: scope });
       scope.reload();
 
       expect($state.reload).toHaveBeenCalled();
