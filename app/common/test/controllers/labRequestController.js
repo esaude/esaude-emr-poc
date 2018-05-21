@@ -156,12 +156,10 @@
         validateSelectedProvider();
         validateTestsSelected();
 
-        var date;
+        var date = null;
         if (vm.externalRequest) {
           providerUuid = vm.selectedProvider.uuid;
           date = vm.date;
-        } else {
-          date = new Date();
         }
 
         var testOrder = {
