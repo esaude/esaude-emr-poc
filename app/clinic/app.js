@@ -66,12 +66,6 @@
           skip: true
         }
       })
-      // TODO: check if in use
-      .state('dashboard.actual', {
-        url: '/actual',
-        templateUrl: 'views/patient-actual.html',
-        controller: 'PatientActualController'
-      })
       .state('dashboard.prescriptions', {
         url: '/prescription',
         templateUrl: 'views/patient-prescriptions.html',
