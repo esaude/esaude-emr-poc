@@ -146,6 +146,17 @@ describe('DispensationController', function () {
       expect(item.prescription).toEqual(prescription);
     });
 
+
+    it('should select a item that is already dispensed', function () {
+
+      spyOn(notifier, 'error').and.callThrough();
+
+      var itemDispensed =  {regime: {uuid: '1'}, drugToPickUp: 10, drugPickedUp:15, quantity:8};
+      controller.select(prescription, itemDispensed);
+
+      expect(notifier.error).toHaveBeenCalled();
+    });
+
     afterEach(function () {
       item.selected = false;
       item.prescription = undefined;
