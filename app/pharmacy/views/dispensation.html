@@ -110,18 +110,16 @@
                            ng-show="showMessages">
                         <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
                         <div ng-message="min">
-                        <span class="label label-danger" translate="ERROR_TOO_SMALL_VALUE"
-                              translate-value-min="1"></span>
+                          <span class="label label-danger" translate="ERROR_TOO_SMALL_VALUE" translate-value-min="1"></span>
                         </div>
-
                       </div>
-                      <input type="number" name="quantity" class="form-control" ng-model="item.quantity"
+                      <input type="number" name="quantity" class="form-control keyboard-in" ng-model="item.quantity"
                              ng-change="vm.updatePickup(item)" size="4" min="1" required>
                     </div>
                   </div>
                 </td>
                 <td>
-                  <button type="button" class="btn btn-danger btn-lg" ng-click="vm.remove(item)">
+                  <button type="button" class="btn btn-danger btn-lg" ng-click="vm.remove(item)" >
                     <span class="glyphicon glyphicon-remove-sign"></span>
                     <span class="button-label">{{'REMOVE' | translate}}</span>
                   </button>
@@ -140,7 +138,7 @@
                  ng-if="vm.selectedPrescriptionItems.length">
               <poc-authorize privilege="'Write Drug Dispensation'">
                 <button class="btn btn-primary btn-lg" type="button" ng-click="vm.dispense()"
-                        ng-disabled="!vm.selectedPrescriptionItems.length">
+                        ng-disabled="!vm.selectedPrescriptionItems.length || dispenseForm.$invalid">
                   <span class="glyphicon glyphicon-floppy-disk"></span>
                   <span class="button-label">{{'SAVE' | translate}}</span>
                 </button>
