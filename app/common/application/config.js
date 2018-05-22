@@ -6,17 +6,21 @@
     .config(applicationModuleConfig);
 
   applicationModuleConfig.$inject = ['$provide', '$breadcrumbProvider', 'uibDatepickerConfig', 'uibDatepickerPopupConfig',
-    'dateFormat', 'cfpLoadingBarProvider'];
+    'dateFormat', 'cfpLoadingBarProvider', '$httpProvider', 'serializeObject'];
 
   /* @ngInject */
   function applicationModuleConfig($provide, $breadcrumbProvider, uibDatepickerConfig, uibDatepickerPopupConfig,
-                                   dateFormat, cfpLoadingBarProvider) {
+    dateFormat, cfpLoadingBarProvider, $httpProvider, serializeObject) {
     $provide.decorator('applicationService', applicationServiceAuthorizationDecorator);
 
 
     // Breadcrumb config
     $breadcrumbProvider.setOptions({
       templateUrl: '/common/application/views/breadcrumb.html'
+    });
+
+    $httpProvider.defaults.transformRequest.unshift(function (data) {
+      return serializeObject(data);
     });
 
     // Datepicker config

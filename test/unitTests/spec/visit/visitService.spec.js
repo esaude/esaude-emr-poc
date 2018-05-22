@@ -147,8 +147,6 @@ describe('visitService', function () {
 
     describe('follow-up visit', function () {
 
-      var DATETIME_FORMAT = 'YYYY-MM-DDTHH:mm:ss';
-
       it('should create a visit with follow-up consultation type', function () {
 
         spyOn(sessionService, 'getCurrentLocation').and.callFake(function () {

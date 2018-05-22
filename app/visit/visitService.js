@@ -14,8 +14,6 @@
 
     var HEIGHT_CM = "e1e2e934-1d5f-11e0-b929-000c29ad1d07";
 
-    var DATETIME_FORMAT = 'YYYY-MM-DDTHH:mm:ss';
-
     var sortByVisitStartDateTime = _.curryRight(_.sortBy, 2)(function (visit) {
       return new Date(visit.startDatetime);
     });
