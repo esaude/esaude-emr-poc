@@ -317,4 +317,49 @@ describe('sessionService', function () {
 
   });
 
+  describe('loadCredentials', function () {
+
+    describe('no current user', function () {
+
+      it('should destroy current session', function () {
+
+        spyOn($cookies, 'get').and.returnValue(null);
+
+        $httpBackend.expectDELETE(SESSION_RESOURCE_PATH)
+          .respond(null);
+
+        sessionService.destroy();
+
+        $httpBackend.flush();
+
+      });
+
+
+      it('should broadcast login required event', function () {
+
+        spyOn($cookies, 'get').and.returnValue(null);
+
+        spyOn($rootScope, '$broadcast').and.callThrough();
+
+        $httpBackend.expectDELETE(SESSION_RESOURCE_PATH)
+          .respond(null);
+
+        sessionService.destroy();
+
+        $httpBackend.flush();
+
+        expect($rootScope.$broadcast).toHaveBeenCalled();
+
+      });
+
+
+    });
+
+    afterEach(function () {
+      $httpBackend.verifyNoOutstandingExpectation();
+      $httpBackend.verifyNoOutstandingRequest();
+    });
+
+  });
+
 });
