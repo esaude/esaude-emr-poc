@@ -24,7 +24,9 @@
 <body>
 
   <div ng-app="home">
-    <div ui-view="layout"></div>
+    <poc-layout>
+      <div id="overlay"></div>
+    </poc-layout>
   </div>
 
   <!-- build:js scripts/vendor.home.min.js -->
@@ -64,7 +66,9 @@
   <script src="../common/application/init.js"></script>
   <script src="../common/application/constants.js"></script>
   <script src="../common/application/config.js"></script>
-  <script src="../common/application/directives/pocHeader.js"></script>
+  <script src="../common/application/components/pocHeader.js"></script>
+  <script src="../common/application/components/pocFooter.js"></script>
+  <script src="../common/application/components/pocLayout.js"></script>
   <script src="../common/ui-helper/init.js"></script>
   <script src="../common/ui-helper/notifier.js"></script>
   <script src="../common/ui-helper/directives/pocConfirmDialog.js"></script>

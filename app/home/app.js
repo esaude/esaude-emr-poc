@@ -21,29 +21,18 @@
     $stateProvider
       .state('login', {
         url: '/login?showLoginMessage=LOGIN_LABEL_LOGIN_ERROR_MESSAGE_KEY',
-        views: {
-          'layout': {
-            templateUrl: 'views/login.html',
-            controller: 'LoginController',
-            controllerAs: 'vm'
-          }
-        },
+        templateUrl: 'views/login.html',
+        controller: 'LoginController',
+        controllerAs: 'vm',
         ncyBreadcrumb: {
           skip: true
         }
       })
       .state('dashboard', {
         url: '/dashboard',
-        views: {
-          'layout': {
-            templateUrl: '../common/application/views/layout.html',
-            controller: 'DashboardController',
-            controllerAs: 'vm'
-          },
-          'content@dashboard': {
-            templateUrl: 'views/dashboard.html'
-          }
-        },
+        templateUrl: 'views/dashboard.html',
+        controller: 'DashboardController',
+        controllerAs: 'vm',
         resolve: {
           initialization: 'initialization'
         },

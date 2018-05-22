@@ -24,7 +24,9 @@
   <body>
 
     <div ng-app="reports">
-      <reports></reports>
+      <poc-layout>
+        <div id="overlay"></div>
+      </poc-layout>
     </div>
 
       <!-- build:js scripts/vendor.reports.min.js -->
@@ -79,7 +81,6 @@
       <script src="../common/patient/directives/patientHeader.js"></script>
       <script src="../common/patient/components/patientSearch.js"></script>
       <script src="../common/patient/components/scheduleList.js"></script>
-      <script src="../common/patient/controllers/visitController.js"></script>
 
       <script src="../move-patient/move-patient.module.js"></script>
       <script src="../move-patient/config.js"></script>
@@ -102,7 +103,6 @@
 
       <script src="../common/domain/common.domain.module.js"></script>
       <script src="../common/domain/services/configurationService.js"></script>
-      <script src="../common/domain/services/visitService.js"></script>
       <script src="../common/domain/services/encounterService.js"></script>
       <script src="../common/domain/services/observationsService.js"></script>
       <script src="../common/domain/services/programService.js"></script>
@@ -140,7 +140,9 @@
       <script src="../common/application/run.js"></script>
       <script src="../common/application/services/adminConfigService.js"></script>
       <script src="../common/app-framework/services/applicationService.js"></script>
-      <script src="../common/application/directives/pocHeader.js"></script>
+      <script src="../common/application/components/pocHeader.js"></script>
+      <script src="../common/application/components/pocFooter.js"></script>
+      <script src="../common/application/components/pocLayout.js"></script>
 
       <script src="../common/uicontrols/init.js"></script>
       <script src="../common/uicontrols/programmanagement/init.js"></script>
@@ -162,10 +164,8 @@
       <script src="../common/domain/services/providerService.js"></script>
       <script src="../common/prescription/directives/prescription.js"></script>
 
-      <script src="constants.js"></script>
       <script src="reports.module.js"></script>
       <script src="reports.routes.js"></script>
-      <script src="components/reports.js"></script>
       <script src="components/dashboard.js"></script>
       <!-- endbuild -->
   </body>

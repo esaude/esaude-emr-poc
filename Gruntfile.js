@@ -91,7 +91,7 @@ module.exports = function (grunt) {
           ]
         },
         files: [
-          {expand: true, flatten: true, src: ['app/common/application/views/footer.html'], dest: 'dist/common/application/views/'}
+          {expand: true, flatten: true, src: ['app/common/application/components/pocFooter.html'], dest: 'dist/common/application/views/'}
         ]
       }
     },

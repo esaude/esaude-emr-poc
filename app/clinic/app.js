@@ -21,16 +21,12 @@
     $stateProvider
       .state('search', {
         url: '/search',
-        views: {
-          'layout': {
-            templateUrl: '../common/application/views/layout.html'
-          },
-          'content@search': {
-            templateUrl: 'views/search.html'
-          }
-        },
+        component: 'patientSearch',
         resolve: {
-          initialization: 'initialization'
+          initialization: 'initialization',
+          createPatient: function () { return false },
+          showSchedule: function () { return true },
+          scheduleType: function () { return 'currentProvider' },
         },
         ncyBreadcrumb: {
           label: '{{\'APP_CLINIC\' | translate}} /  {{\'SEARCH_PATIENT\' | translate}}'
@@ -38,15 +34,8 @@
       })
       .state('dashboard', {
         url: '/dashboard/:patientUuid',
-        views: {
-          'layout': {
-            templateUrl: '../common/application/views/layout.html',
-            controller: 'DashboardController'
-          },
-          'content@dashboard': {
-            templateUrl: 'views/dashboard.html'
-          }
-        },
+        templateUrl: 'views/dashboard.html',
+        controller: 'DashboardController',
         resolve: {
           initialization: 'initialization'
         },
@@ -116,7 +105,7 @@
         },
         resolve: {
           clinicalServicesService: function (clinicalServicesService, $stateParams) {
-            return clinicalServicesService.init('clinical', $stateParams.patientUuid, true);
+            return clinicalServicesService.init('clinical', $stateParams.patientUuid);
           }
         }
       })
@@ -132,16 +121,9 @@
       })
       .state('detailpatient', {
         url: '/patient/detail/:patientUuid',
-        views: {
-          'layout': {
-            templateUrl: '../common/application/views/layout.html',
-            controller: 'DetailPatientController',
-            controllerAs: 'patientCommon'
-          },
-          'content@detailpatient': {
-            templateUrl: '../patient-details/views/patient-details.html'
-          }
-        },
+        templateUrl: '../patient-details/views/patient-details.html',
+        controller: 'DetailPatientController',
+        controllerAs: 'patientCommon',
         params: {
           returnState: null
         },

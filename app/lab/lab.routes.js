@@ -21,12 +21,14 @@
     $stateProvider
       .state('search', {
         url: '/search',
-        component: 'search',
+        component: 'patientSearch',
         ncyBreadcrumb: {
           label: '{{\'APP_LAB\' | translate}} /  {{\'SEARCH_PATIENT\' | translate}}'
         },
         resolve: {
-          initialization: 'initialization'
+          initialization: 'initialization',
+          createPatient: function () { return false },
+          showSchedule: function () { return false },
         }
       })
       .state('dashboard', {
