@@ -7,16 +7,25 @@ class PatientSearchComponent extends Component {
   }
 
   // Searches in the registration search box
-  search(text) {
+  search(text, autoSelect) {
+    // Update auto selection
+    this.I.executeScript((autoSelectVal) => {
+      $('barcode-listener').data('auto-select', autoSelectVal)
+    }, autoSelect)
+
     this.I.waitForElement(this.searchBox)
     
-    // This selects the element for some reason
-    // That behavior seems like a bug in codeceptjs
-    // We should have to send enter or something, right?
+    // Search
     this.I.fillField(this.searchBox, text)
 
     // Wait for the search to complete
     this.I.waitForInvisible('#overlay', 5)
+
+
+    this.I.wait(1)
+
+    // Make sure auto selection is enabled
+    this.I.executeScript(() => $('barcode-listener').data('auto-select', true))
   }
 
   // Clears the search box
