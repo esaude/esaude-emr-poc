@@ -23,6 +23,10 @@
       return serializeObject(data);
     });
 
+    //set default timezone to Maputo
+    moment.tz.add("Africa/Maputo|LMT CAT|-2a.k -20|01|-2GJea.k|26e5");
+    moment.tz.setDefault("Africa/Maputo");
+    
     // Datepicker config
     uibDatepickerConfig.datepickerMode = 'month';
     uibDatepickerConfig.showWeeks = false;
