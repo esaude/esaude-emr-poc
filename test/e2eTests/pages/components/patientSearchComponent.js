@@ -21,7 +21,6 @@ class PatientSearchComponent extends Component {
     // Wait for the search to complete
     this.I.waitForInvisible('#overlay', 5)
 
-
     this.I.wait(1)
 
     // Make sure auto selection is enabled
