@@ -30,6 +30,7 @@ module.exports = function (config) {
       'bower_components/bootstrap/dist/js/bootstrap.min.js',
       'bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
       'bower_components/moment/min/moment.min.js',
+      'bower_components/moment-timezone/moment-timezone.js',
       'bower_components/jquery-ui/ui/minified/jquery-ui.min.js',
       'bower_components/keyboard/dist/js/jquery.keyboard.min.js',
       'bower_components/keyboard/dist/layouts/keyboard-layouts-combined.min.js',
