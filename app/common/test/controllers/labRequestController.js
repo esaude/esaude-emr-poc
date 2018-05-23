@@ -156,12 +156,10 @@
         validateSelectedProvider();
         validateTestsSelected();
 
-        var date;
+        var date = null;
         if (vm.externalRequest) {
           providerUuid = vm.selectedProvider.uuid;
           date = vm.date;
-        } else {
-          date = new Date();
         }
 
         var testOrder = {
@@ -196,12 +194,6 @@
     function showTestOrderDetails(testRequest) {
       vm.testsOfSelectedRequest = testRequest.testOrderItems;
       vm.testOrderInDetail = testRequest;
-      vm.testsOfSelectedRequest.forEach(function (testOrder) {
-        testOrderResultService.getTestOrderConsolidateResult(testRequest.uuid, testOrder.uuid)
-          .then(function (result) {
-            testOrder.result = result;
-          });
-      });
     }
 
     function deleteTest(test) {

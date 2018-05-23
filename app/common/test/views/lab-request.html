@@ -215,8 +215,7 @@
                             <tr st-select-mode="single" ng-repeat="test in vm.testsOfSelectedRequest">
                                 <td>{{test.translatedDisplay}}</td>
                                 <td>{{test.category.display}}</td>
-                                <td ng-if="test.result.numeric">{{test.result.value}} {{test.result.unit}}</td>
-                                <td ng-if="!test.result.numeric">{{test.result.codedValue.display}}</td>
+                                <td>{{test.result.value}} {{test.result.unit}}</td>
                                 <td>
                                     <button id="delete_test" type="button" class="btn btn-danger btn-lg" ng-disabled="vm.isTestOrderInDetailCompleted()" poc-confirm-dialog="'{{ 'CONFIRM_TEST_REMOVAL' | translate}}'"
                                         on-confirm="vm.deleteTest(test)">

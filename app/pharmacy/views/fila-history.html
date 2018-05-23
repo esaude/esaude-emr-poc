@@ -31,8 +31,11 @@
 
   </div>
 
+  <hr>
 
-  <table st-table="vm.displayedPickups" st-safe-src="vm.filteredPickups" class="table table-striped">
+  <no-results-alert collection="vm.displayedPickups"></no-results-alert>
+
+  <table st-table="vm.displayedPickups" st-safe-src="vm.filteredPickups" class="table table-striped" ng-if="vm.displayedPickups.length">
     <thead>
       <tr>
         <th>{{'PHARMACY_PICKUP_DATE' | translate}}</th>
