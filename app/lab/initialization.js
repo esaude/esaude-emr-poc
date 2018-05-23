@@ -12,20 +12,12 @@
 
     return authenticator.authenticateUser()
       .then(initApp)
-      .then(getConfigs);
+      .then(loadConfigs);
 
     ////////////////
 
-    function getConfigs() {
-      var configNames = ['patientAttributesConfig', 'addressLevels'];
-      return configurations.load(configNames).then(function () {
-        var mandatoryPersonAttributes = appService.getAppDescriptor().getConfigValue("mandatoryPersonAttributes");
-        var patientAttributeTypes = new Poc.Patient.PatientAttributeTypeMapper()
-          .mapFromOpenmrsPatientAttributeTypes(configurations.patientAttributesConfig(), mandatoryPersonAttributes);
-
-        $rootScope.patientConfiguration = new Poc.Patient.PatientConfig(patientAttributeTypes.personAttributeTypes,
-        appService.getAppDescriptor().getConfigValue("additionalPatientInformation"));
-      });
+    function loadConfigs() {
+      return configurations.load(['patientAttributesConfig', 'addressLevels']);
     }
 
     function initApp() {

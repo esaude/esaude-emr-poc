@@ -11,7 +11,7 @@
                                    translateFilter, configurations, appService) {
 
     var patientUUID = $stateParams.patientUuid;
-    var patientConfiguration = $scope.patientConfiguration;
+    var patientConfiguration = appService.getPatientConfiguration();
     var returnState = $stateParams.returnState;
 
     var vm = this;

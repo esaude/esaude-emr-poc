@@ -14,7 +14,6 @@
       getTestOrderResult: getTestOrderResult,
       saveTestResultItem: saveTestResultItem,
       removeTestResultItem: removeTestResultItem,
-      getTestOrderConsolidateResult: getTestOrderConsolidateResult
     };
     return service;
 
@@ -81,31 +80,6 @@
           }
         ]
       };
-    }
-
-    function getTestOrderConsolidateResult(testRequestUuid, testOrderUuid) {
-      return getTestOrderResult(testRequestUuid)
-        .then(function (testRequest) {
-          var testOrders = testRequest.items;
-          var testOrderWithResult = testOrders.find(function (testOrder) { return testOrder.uuid === testOrderUuid; });
-          return conceptService.getConceptByTestOrder(testOrderWithResult.uuid, 'custom:(uuid,display,answers,datatype,units)')
-            .then(function (concept) {
-              return $q(function (resolve) {
-                var result = null;
-                if (concept.datatype.name === "Coded") {
-                  var answer = concept.answers.find(function (answer) { return answer.uuid = testOrderWithResult.value; });
-                  result = { value: testOrderWithResult.value, unit: null, codedValue: answer, numeric: false };
-                } else if (testOrderWithResult.value) {
-                  result = { value: testOrderWithResult.value, unit: concept.units, codedValue: null, numeric: true };
-                }
-                resolve(result);
-              });
-            });
-        })
-        .catch(function (error) {
-          $log.error('XHR failed for getTestOrderWithResult: ' + error.data.error.message);
-          return $q.reject(error);
-        });
     }
 
   }

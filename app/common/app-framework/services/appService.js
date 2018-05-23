@@ -5,18 +5,19 @@
     .module('bahmni.common.appFramework')
     .factory('appService', appService);
 
-  appService.$inject = ['$http', '$q', 'sessionService'];
+  appService.$inject = ['$http', '$q', 'sessionService', 'configurations'];
 
   /* @ngInject */
-  function appService($http, $q, sessionService) {
+  function appService($http, $q, sessionService, configurations) {
 
     var currentUser = null;
     var baseUrl = "/poc_config/openmrs/apps/";
     var appDescriptor = null;
 
     var service = {
+      initApp: initApp,
       getAppDescriptor: getAppDescriptor,
-      initApp: initApp
+      getPatientConfiguration: getPatientConfiguration,
     };
     return service;
 
@@ -97,6 +98,13 @@
         }
       );
       return deferrable.promise;
+    }
+
+    // This method depends on calling configurations.load before, right now its done in initialization.js scripts
+    function getPatientConfiguration() {
+      var mandatoryPersonAttributes = getAppDescriptor().getConfigValue("mandatoryPersonAttributes");
+      var patientAttributeTypes = new Poc.Patient.PatientAttributeTypeMapper().mapFromOpenmrsPatientAttributeTypes(configurations.patientAttributesConfig(), mandatoryPersonAttributes);
+      return new Poc.Patient.PatientConfig(patientAttributeTypes.personAttributeTypes, getAppDescriptor().getConfigValue("additionalPatientInformation"));
     }
   }
 

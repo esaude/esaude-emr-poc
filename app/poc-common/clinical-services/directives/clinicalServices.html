@@ -50,7 +50,8 @@
             <button ng-disabled="service.encountersForService.length === 0" class="btn btn-default btn-lg" type="button"
                     ng-click="vm.toggleListEncounters(service)">
               <span class="glyphicon glyphicon-list-alt"></span>
-              <span class="button-label">{{'LIST' | translate}} ({{service.encountersForService.length}})</span>
+              <span class="button-label">{{'LIST' | translate}}</span>
+              <span class="badge">{{service.encountersForService.length}}</span>
             </button>
           </poc-authorize>
 

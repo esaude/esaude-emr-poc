@@ -239,19 +239,7 @@
     }
 
     function checkIn() {
-      var visitType = _.find($rootScope.defaultVisitTypes, function (o) {
-        return o.occurOn === "following";
-      });
-      var location = sessionService.getCurrentLocation();
-      //create visit object
-      var visit = {
-        patient: vm.patient.uuid,
-        visitType: visitType.uuid,
-        location: location.uuid,
-        startDatetime: dateUtil.now(),
-        stopDatetime: dateUtil.endOfToday()
-      };
-      return visitService.create(visit);
+      return visitService.checkInPatient(vm.patient);
     }
 
     function encounterSuccessCallback() {
