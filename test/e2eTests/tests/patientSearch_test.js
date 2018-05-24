@@ -34,12 +34,12 @@ Scenario('Validate searching works on the registration page', (I, Data, Dashboar
 	const registrationPage = DashboardPage.navigateToRegistrationPage()
 	validateSearch(I, Data, registrationPage)
 })
-
+/*
 Scenario('Validate searching works on the social page', (I, Data, DashboardPage) => {
 	const socialPage = DashboardPage.navigateToSocialPage()
 	validateSearch(I, Data, socialPage)
 })
-
+*/
 Scenario('Validate searching works on the vitals page', (I, Data, DashboardPage) => {
 	const vitalsPage = DashboardPage.navigateToVitalsPage()
 	validateSearch(I, Data, vitalsPage)
