@@ -35,10 +35,12 @@ Scenario('Validate searching works on the registration page', (I, Data, Dashboar
 	validateSearch(I, Data, registrationPage)
 })
 
+/*
 Scenario('Validate searching works on the social page', (I, Data, DashboardPage) => {
 	const socialPage = DashboardPage.navigateToSocialPage()
 	validateSearch(I, Data, socialPage)
 })
+*/
 
 Scenario('Validate searching works on the vitals page', (I, Data, DashboardPage) => {
 	const vitalsPage = DashboardPage.navigateToVitalsPage()
@@ -48,6 +50,9 @@ Scenario('Validate searching works on the vitals page', (I, Data, DashboardPage)
 // Runs the core search scenario on the given page
 const validateSearch = (I, Data, pageWithSearch) => {
 	const nonExistentPatientName = "No_Patient_Has_This_Name"
+
+	I.say('Disabling auto select')
+	pageWithSearch.disableAutoSelect()
 
 	I.say('Search for the first few letters of the patient\'s first name')
 	pageWithSearch.search(Data.users.patient1.person.names[0].givenName.substring(0, 3))
