@@ -6,13 +6,13 @@ class PatientSearchComponent extends Component {
     this.searchBox = 'input[ng-model="vm.searchText"'
   }
 
+  disableAutoSelect() {
+    // Update auto selection
+    this.I.executeScript(() => $('barcode-listener').data('auto-select', false))
+  }
+
   // Searches in the registration search box
   search(text, autoSelect) {
-    // Update auto selection
-    this.I.executeScript((autoSelectVal) => {
-      $('barcode-listener').data('auto-select', autoSelectVal)
-    }, autoSelect)
-
     this.I.waitForElement(this.searchBox)
     
     // Search
@@ -22,9 +22,6 @@ class PatientSearchComponent extends Component {
     this.I.waitForInvisible('#overlay', 5)
 
     this.I.wait(1)
-
-    // Make sure auto selection is enabled
-    this.I.executeScript(() => $('barcode-listener').data('auto-select', true))
   }
 
   // Clears the search box
