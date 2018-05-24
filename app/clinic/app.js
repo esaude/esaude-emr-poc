@@ -57,9 +57,7 @@
       })
       .state('dashboard.chart', {
         url: '/chart',
-        templateUrl: 'views/patient-chart.html',
-        controller: 'PatientChartController',
-        controllerAs: 'vm',
+        component: 'patientCharts',
         ncyBreadcrumb: {
           label: '{{\'CLINIC_PATIENT_CHARTS\' | translate}}',
           parent: 'dashboard',
