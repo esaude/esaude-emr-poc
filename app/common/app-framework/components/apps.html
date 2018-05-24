@@ -1,5 +1,5 @@
 <div class="inline-align content-border-margin-regular" ng-repeat="app in vm.apps">
-  <button type="button" class="btn btn-default" ng-click="vm.onAppSelect(app)">
+  <button id="{{app.id}}" type="button" class="btn btn-default" ng-click="vm.onAppSelect(app)">
     <span>
         <img ng-src="../../{{app.logo}}" width="100" height="72" alt="provider">
     </span>
