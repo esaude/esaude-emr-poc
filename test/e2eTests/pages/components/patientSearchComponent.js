@@ -12,7 +12,7 @@ class PatientSearchComponent extends Component {
   }
 
   // Searches in the registration search box
-  search(text, autoSelect) {
+  search(text) {
     this.I.waitForElement(this.searchBox)
     
     // Search
