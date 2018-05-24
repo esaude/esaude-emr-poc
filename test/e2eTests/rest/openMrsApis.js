@@ -17,13 +17,13 @@ class ApiManager {
     this.user = new Api('user')
   }
 
-  cleanUp() {
+  async cleanUp() {
     // Clean up each API
     for(const propertyName in this) {
       const property = this[propertyName]
       
       if(property instanceof Api)
-        property.cleanUp()
+        await property.cleanUp()
     }
   }
 }
@@ -39,13 +39,27 @@ class Api {
     this.resourcesToDestroy = []
   }
 
+  async getAll(query) {
+    const response = await this.I.sendGetRequest(`${this.url}?q=${query}`)
+
+    assert.equal(response.statusCode, 200,
+      `get all ${this.name} request failed ${JSON.stringify(response, null, 2)}`)
+
+    this.I.say(`${this.name} get all successful ${JSON.stringify(response.body, null, 2)}`)
+
+    return response.body.results
+  }
+
   async get(id) {
     const response = await this.I.sendGetRequest(`${this.url}/${id}`)
 
     assert.equal(response.statusCode, 200,
-      `get ${this.name} request failed ${JSON.stringify(response, null, 2)}`)
+      `get ${this.name} by id request failed ${JSON.stringify(response, null, 2)}`)
 
     this.validate(response.body)
+
+    this.I.say(`${this.name} get by id successful ${JSON.stringify(response.body, null, 2)}`)
+
     return response.body
   }
 
@@ -57,7 +71,7 @@ class Api {
 
     this.validate(response.body)
 
-    this.I.say(`${this.name} created successfully`)
+    this.I.say(`${this.name} create successful ${JSON.stringify(response.body, null, 2)}`)
 
     // When a new resource is created save it so we can delete it
     // before the test is over
@@ -77,12 +91,21 @@ class Api {
     // our list of things to destroy later
     if(response.statusCode == 204)
       this.resourcesToDestroy = this.resourcesToDestroy.filter(r => r.uuid != json.uuid)
+
+    this.I.say(`${this.name} delete successful`)
   }
 
   async cleanUp() {
+    // Save a pointer to the array of objects to destroy
+    // because the delete function creates a new array after a deletion
+    const resourcesToDestroy = this.resourcesToDestroy
+
     // Delete all resources that were created
-    for(var toDestroyIndex = 0; toDestroyIndex < this.resourcesToDestroy.length; toDestroyIndex++) {
-      await this.delete(this.resourcesToDestroy[toDestroyIndex])
+    for(var toDestroyIndex = 0; toDestroyIndex < resourcesToDestroy.length; toDestroyIndex++) {
+      const resourceToDestroy = resourcesToDestroy[toDestroyIndex]
+
+      this.I.say(`${this.name} cleaning up resource ${JSON.stringify(resourceToDestroy, null, 2)}`)
+      await this.delete(resourceToDestroy)
     }
   }
 

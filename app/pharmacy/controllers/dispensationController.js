@@ -62,15 +62,11 @@
         return;
       }
 
-      var sameRegimeItems = [item].concat(getSameRegimeItems(vm.selectedPrescriptionItems, item));
+      item.selected = false;
+      item.quantity = null;
+      item.nextPickupDate = null;
 
-      sameRegimeItems.forEach(function (i) {
-        i.selected = false;
-        i.quantity = null;
-        i.nextPickupDate = null;
-      });
-
-      _.pullAll(vm.selectedPrescriptionItems, sameRegimeItems);
+      _.pullAll(vm.selectedPrescriptionItems, [item]);
     }
 
 
@@ -83,18 +79,14 @@
         notifier.error($filter('translate')('PHARMACY_CANNOT_DISPENSE_FOR_NOT_EXPIRED_PREVIOUS_DISPENSATION', { drugName: item.display, expirationDate: item.nextPickupDate.toDateString()}));
         return;
       }
-      var sameRegimeItems = [item].concat(getSameRegimeItems(prescription.prescriptionItems, item));
+      item.selected = true;
+      item.prescription = prescription;
+      item.nextPickupDate = new Date();
+      item.showNextPickupDate = true;
+      item.quantity = item.drugToPickUp;
+      updatePickupDate(item);
 
-      sameRegimeItems.forEach(function (i) {
-        i.selected = true;
-        i.prescription = prescription;
-        i.nextPickupDate = new Date();
-        i.showNextPickupDate = true;
-        i.quantity = 1;
-        updatePickupDate(i);
-      });
-
-      vm.selectedPrescriptionItems = vm.selectedPrescriptionItems.concat(sameRegimeItems);
+      vm.selectedPrescriptionItems = vm.selectedPrescriptionItems.concat([item]);
     }
 
 
@@ -108,28 +100,16 @@
       });
     }
 
-
     function updatePickup(item) {
 
-      var sameRegimeItems = [item].concat(getSameRegimeItems(vm.selectedPrescriptionItems, item));
-
-      var minAvailable = sameRegimeItems.reduce(function (min, i) {
-        return min.drugToPickUp > i.drugToPickUp ? i : min;
-      });
-
-      if (item.quantity > minAvailable.drugToPickUp) {
-        item.quantity = minAvailable.drugToPickUp;
+      if (item.quantity > item.drugToPickUp) {
+        item.quantity = item.drugToPickUp;
         notifier.info($filter('translate')('PHARMACY_CANNOT_DISPENSE_MORE_THAN_AVAILABLE', {
-          availableQty: minAvailable.drugToPickUp
+          availableQty: item.drugToPickUp
         }));
       }
-
-      sameRegimeItems.forEach(function (i) {
-        i.quantity = item.quantity;
-        updatePickupDate(i);
-      });
+      updatePickupDate(item);
     }
-
 
     function updatePickupDate(item) {
 
@@ -146,8 +126,12 @@
         return;
       }
 
-      if (item.status === "NEW" && item.quantity >= twoDays) {
+      if (item.status === "NEW" && item.quantity > twoDays) {
         numberOfPillsMinusTwoDays -= twoDays;
+      }
+
+      if (item.status === "NEW" && item.quantity === twoDays) {
+        numberOfPillsMinusTwoDays -= 1;
       }
 
       item.nextPickupDate = new Date(today.getTime() + (oneDayInMilSec * numberOfPillsMinusTwoDays));
@@ -217,20 +201,11 @@
         .catch(errorHandler);
     }
 
-
     function getPatientNonDispensedPrescriptions(patientUUID) {
       return prescriptionService
         .getPatientNonDispensedPrescriptions(patientUUID)
         .catch(errorHandler);
     }
 
-
-    function getSameRegimeItems(list, item) {
-      return list.filter(function (i) {
-        return item.regime && i.regime
-          && item.regime.uuid === i.regime.uuid
-          && item !== i;
-      });
-    }
   }
 })();

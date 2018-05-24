@@ -146,19 +146,15 @@ describe('DispensationController', function () {
       expect(item.prescription).toEqual(prescription);
     });
 
-    describe('ARV prescription item', function () {
 
-      it('should select all items from the same regime', function () {
+    it('should select a item that is already dispensed', function () {
 
-        var prescription = prescriptions[0];
-        var item = prescription.prescriptionItems[1];
+      spyOn(notifier, 'error').and.callThrough();
 
-        controller.select(prescription, item);
+      var itemDispensed =  {regime: {uuid: '1'}, drugToPickUp: 10, drugPickedUp:15, quantity:8};
+      controller.select(prescription, itemDispensed);
 
-        expect(controller.selectedPrescriptionItems).toContain(prescription.prescriptionItems[0]);
-        expect(controller.selectedPrescriptionItems).toContain(prescription.prescriptionItems[1]);
-      });
-
+      expect(notifier.error).toHaveBeenCalled();
     });
 
     afterEach(function () {
@@ -218,10 +214,8 @@ describe('DispensationController', function () {
   describe('updatePickup', function () {
 
     var prescriptionItems = [
-      {regime: {uuid: '1'}, drugToPickUp: 6},
-      {regime: {uuid: '1'}, drugToPickUp: 2},
-      {regime: {uuid: '1'}, drugToPickUp: 3}
-    ];
+      {regime: {uuid: '1'}, drugToPickUp: 6}
+        ];
 
     beforeEach(function () {
       controller = $controller('DispensationController');
@@ -238,21 +232,7 @@ describe('DispensationController', function () {
         item.status = "NEW";
         controller.updatePickup(item);
 
-        expect(item.quantity).toEqual(prescriptionItems[1].drugToPickUp);
-
-      });
-
-      it('should dispense all items in the same quantity', function () {
-
-        var item = prescriptionItems[0];
-
-        controller.selectedPrescriptionItems = prescriptionItems;
-        item.quantity = 3;
-        controller.updatePickup(item);
-
-        prescriptionItems.forEach(function (i) {
-          expect(i.quantity).toEqual(prescriptionItems[1].drugToPickUp);
-        });
+        expect(item.quantity).toEqual(prescriptionItems[0].quantity);
 
       });
 
@@ -265,7 +245,7 @@ describe('DispensationController', function () {
       var item = prescriptionItems[0];
 
       controller.selectedPrescriptionItems = prescriptionItems;
-      item.quantity = 4;
+      item.quantity = 8;
       controller.updatePickup(item);
 
       expect(notifier.info).toHaveBeenCalled();
