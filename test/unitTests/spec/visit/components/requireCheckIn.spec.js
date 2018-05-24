@@ -1,4 +1,4 @@
-describe('requireCheckIn', function () {
+describe('pocRequireCheckIn', function () {
 
   var $componentController, $q, $rootScope, visitService;
 
@@ -21,7 +21,7 @@ describe('requireCheckIn', function () {
         });
       });
 
-      var ctrl = $componentController('requireCheckIn');
+      var ctrl = $componentController('pocRequireCheckIn');
 
       ctrl.$onChanges({patient: {currentValue: {uuid: '39ada463-3040-49ac-b9ae-f5935efa6a2f'}}});
 
@@ -37,7 +37,7 @@ describe('requireCheckIn', function () {
         });
       });
 
-      var ctrl = $componentController('requireCheckIn');
+      var ctrl = $componentController('pocRequireCheckIn');
 
       ctrl.$onChanges({patient: {currentValue: {uuid: '39ada463-3040-49ac-b9ae-f5935efa6a2f'}}});
 
