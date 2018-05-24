@@ -3,14 +3,17 @@
 
   angular
     .module('visit')
-    .component('requireCheckIn', {
+    .component('pocRequireCheckIn', {
       controller: RequireCheckInController,
       controllerAs: 'vm',
       bindings: {
-        patient: '<'
+        patient: '<',
+        message: '@'
       },
       templateUrl: '../visit/components/requireCheckIn.html',
-      transclude: true
+      transclude: {
+        showAnyway: '?showAnyway'
+      }
     });
 
   /* @ngInject */

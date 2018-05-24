@@ -4,5 +4,6 @@
   "PARTNER_NAME": "Nome do Parceiro",
   "RELATIONSHIP_TO_PATIENT": "Relacionamento",
   "HIV_STATUS": "HIV Status",
-  "NO_PARTNERS": "Nenhum parceiro."
+  "NO_PARTNERS": "Nenhum parceiro.",
+  "PLEASE_CHECK_IN_TO_ADD": "Por favor faça o check-in do paciente para poder adicionar."
 }

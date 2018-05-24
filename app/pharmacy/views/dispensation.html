@@ -1,6 +1,6 @@
 <poc-authorize privilege="'Read Drug Dispensation'" display-info="true">
 
-  <require-check-in patient="vm.patient">
+  <poc-require-check-in patient="vm.patient">
 
     <div class="dispensation content-border-margin-regular">
       <div ng-repeat="p in vm.prescriptions" class="row prescription">
@@ -149,6 +149,6 @@
       </div>
     </div>
 
-  </require-check-in>
+  </poc-require-check-in>
 
 </poc-authorize>

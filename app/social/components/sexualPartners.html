@@ -2,40 +2,43 @@
 
   <poc-authorize privilege="'Read Social'" display-info="true">
 
-    <require-check-in patient="vm.patient">
+    <poc-require-check-in patient="vm.patient" message="PLEASE_CHECK_IN_TO_ADD">
 
+      <show-anyway>
 
-      <div class="row header" ng-if="vm.partners.length || vm.add">
-        <div class="col-sm-4">{{'PARTNER_NAME'|translate}}</div>
-        <div class="col-sm-3">{{'RELATIONSHIP_TO_PATIENT'|translate}}</div>
-        <div class="col-sm-3">{{'HIV_STATUS'|translate}}</div>
-      </div>
-
-      <hr ng-if="vm.partners.length">
-
-      <no-results-alert collection="vm.partners" message="NO_PARTNERS" ng-if="!vm.add"></no-results-alert>
-
-      <div ng-repeat="p in vm.partners">
-        <div class="row">
-          <div class="col-sm-4">{{p.name}}</div>
-          <div class="col-sm-3">{{p.relationship.display}}</div>
-          <div class="col-sm-3">{{p.hivStatus.display}}</div>
-          <div class="col-sm-2">
-
-            <poc-authorize privilege="'Delete Social'">
-
-              <poc-confirm-button class="btn btn-danger btn-lg" on-confirm="vm.removePartner(p);">
-                <span class="glyphicon glyphicon-remove-sign"></span>
-                <span class="button-label">{{'REMOVE' | translate}}</span>
-              </poc-confirm-button>
-
-            </poc-authorize>
-
-          </div>
+        <div class="row header" ng-if="vm.partners.length || vm.add">
+          <div class="col-sm-4">{{'PARTNER_NAME'|translate}}</div>
+          <div class="col-sm-3">{{'RELATIONSHIP_TO_PATIENT'|translate}}</div>
+          <div class="col-sm-3">{{'HIV_STATUS'|translate}}</div>
         </div>
 
-        <hr>
-      </div>
+        <hr ng-if="vm.partners.length">
+
+        <no-results-alert collection="vm.partners" message="NO_PARTNERS" ng-if="!vm.add"></no-results-alert>
+
+        <div ng-repeat="p in vm.partners">
+          <div class="row">
+            <div class="col-sm-4">{{p.name}}</div>
+            <div class="col-sm-3">{{p.relationship.display}}</div>
+            <div class="col-sm-3">{{p.hivStatus.display}}</div>
+            <div class="col-sm-2">
+
+              <poc-authorize privilege="'Delete Social'">
+
+                <poc-confirm-button class="btn btn-danger btn-lg" on-confirm="vm.removePartner(p);">
+                  <span class="glyphicon glyphicon-remove-sign"></span>
+                  <span class="button-label">{{'REMOVE' | translate}}</span>
+                </poc-confirm-button>
+
+              </poc-authorize>
+
+            </div>
+          </div>
+
+          <hr>
+        </div>
+
+      </show-anyway>
 
       <sexual-partner-form partner="vm.newPartner"
                            on-submit="vm.savePartner(partner);"
@@ -51,7 +54,7 @@
 
       </poc-authorize>
 
-    </require-check-in>
+    </poc-require-check-in>
 
   </poc-authorize>
 
