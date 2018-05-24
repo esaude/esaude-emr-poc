@@ -2,9 +2,14 @@
 
 describe('DashboardController', function () {
   var patientUuid, scope, $rootScope, $q, $controller, controller, location, patientService, patientMapper,
-    httpBackend, stateParams, visitService, authorizationService, $state, alertService, patient;
+    httpBackend, stateParams, visitService, authorizationService, $state, alertService, patient, stateParams;
 
   var FLAGS = ['TB', 'Low Hemoglobin'];
+
+  var visit1 = { patient: { uuid: "3951a5f8-cdce-4421-bfe3-cfdd701168d0" } };
+  var getTodaysVisitParams = {
+    "3951a5f8-cdce-4421-bfe3-cfdd701168d0": visit1
+  }
 
   beforeEach(module('clinic', function ($provide, $translateProvider, $urlRouterProvider) {
     // Mock translate asynchronous loader
@@ -44,16 +49,17 @@ describe('DashboardController', function () {
       });
     });
 
+    spyOn(visitService, 'getTodaysVisit').and.callFake(function (patientUuid) {
+      return $q(function (resolve) {
+        return resolve(getTodaysVisitParams[patientUuid]);
+      });
+    });
+
   }));
 
   describe('activate', function () {
 
     it('should retrieve necessary data', function () {
-      spyOn(visitService, 'getTodaysVisit').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve({});
-        });
-      });
 
       spyOn(authorizationService, 'hasPrivilege').and.callFake(function () {
         return $q(function (resolve) {
@@ -73,12 +79,24 @@ describe('DashboardController', function () {
       expect(scope.hasLabOrderPrivilege).toEqual(true);
     });
 
-    it('should mark accordingly when no visit', function () {
-      spyOn(visitService, 'getTodaysVisit').and.callFake(function () {
+    it('should mark accordingly when no privilege', function () {
+
+      spyOn(authorizationService, 'hasPrivilege').and.callFake(function () {
         return $q(function (resolve) {
-          return resolve(null);
+          return resolve(false);
         });
       });
+
+      controller = $controller('DashboardController', {
+        $scope: scope,
+        $stateParams: { patientUuid: 'OTHER_UUID' }
+      });
+
+      $rootScope.$apply();
+      expect(scope.hasLabOrderPrivilege).toEqual(false);
+    });
+
+    it('should load last visit', function () {
 
       spyOn(authorizationService, 'hasPrivilege').and.callFake(function () {
         return $q(function (resolve) {
@@ -91,31 +109,27 @@ describe('DashboardController', function () {
         $stateParams: { patientUuid: '3951a5f8-cdce-4421-bfe3-cfdd701168d0' }
       });
 
-      $rootScope.$apply();      
-      expect(scope.hasVisitToday).toEqual(false);
+      $rootScope.$apply();
+      expect(scope.hasVisitToday).toEqual(true);
+      expect(scope.todayVisit).toEqual(visit1);
     });
 
-    it('should mark accordingly when no privilege', function () {
-      spyOn(visitService, 'getTodaysVisit').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve(null);
-        });
-      });
-
+    it('should not load last visit', function () {
       spyOn(authorizationService, 'hasPrivilege').and.callFake(function () {
         return $q(function (resolve) {
-          return resolve(false);
+          return resolve(true);
         });
       });
 
       controller = $controller('DashboardController', {
         $scope: scope,
-        $stateParams: { patientUuid: '3951a5f8-cdce-4421-bfe3-cfdd701168d0' }
+        $stateParams: { patientUuid: 'OUTRO_UUID' }
       });
 
-      $rootScope.$apply();      
-      expect(scope.hasLabOrderPrivilege).toEqual(false);
+      $rootScope.$apply();
+      expect(scope.hasVisitToday).toEqual(false);
     });
+
   });
 
   describe('reload', function () {
