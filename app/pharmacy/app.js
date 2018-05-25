@@ -21,16 +21,12 @@
       $stateProvider
         .state('search', {
           url: '/search',
-          views: {
-            'layout': {
-              templateUrl: '../common/application/views/layout.html'
-            },
-            'content@search': {
-              templateUrl: 'views/search.html'
-            }
-          },
+          component: 'patientSearch',
           resolve: {
-            initialization: 'initialization'
+            initialization: 'initialization',
+            createPatient: function () { return false },
+            showSchedule: function () { return true },
+            scheduleType: function () { return 'drugPickup' },
           },
           ncyBreadcrumb: {
             label: '{{\'APP_PHARMACY\' | translate}} /  {{\'SEARCH_PATIENT\' | translate}}'
@@ -38,16 +34,9 @@
         })
         .state('dashboard', {
           url: '/dashboard/:patientUuid',
-          views: {
-            'layout': {
-              templateUrl: '../common/application/views/layout.html',
-              controller: 'DashboardController',
-              controllerAs: 'vm'
-            },
-            'content@dashboard': {
-              templateUrl: 'views/dashboard.html'
-            }
-          },
+          templateUrl: 'views/dashboard.html',
+          controller: 'DashboardController',
+          controllerAs: 'vm',
           resolve: {
             initialization: 'initialization'
           },
@@ -100,16 +89,9 @@
         })
         .state('detailpatient', {
           url: '/patient/detail/:patientUuid',
-          views: {
-            'layout': {
-              templateUrl: '../common/application/views/layout.html',
-              controller: 'DetailPatientController',
-              controllerAs: 'patientCommon'
-            },
-            'content@detailpatient': {
-              templateUrl: '../patient-details/views/patient-details.html'
-            }
-          },
+          templateUrl: '../patient-details/views/patient-details.html',
+          controller: 'DetailPatientController',
+          controllerAs: 'patientCommon',
           params: {
             returnState: null
           },

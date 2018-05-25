@@ -24,7 +24,9 @@
   <body>
 
     <div ng-app="clinic">
-      <div ui-view="layout"></div>
+      <poc-layout>
+        <div id="overlay"></div>
+      </poc-layout>
     </div>
 
       <!-- build:js scripts/vendor.clinic.min.js -->
@@ -156,7 +158,9 @@
       <script src="../common/application/run.js"></script>
       <script src="../common/application/services/adminConfigService.js"></script>
       <script src="../common/app-framework/services/applicationService.js"></script>
-      <script src="../common/application/directives/pocHeader.js"></script>
+      <script src="../common/application/components/pocHeader.js"></script>
+      <script src="../common/application/components/pocFooter.js"></script>
+      <script src="../common/application/components/pocLayout.js"></script>
 
       <script src="../common/uicontrols/init.js"></script>
       <script src="../common/uicontrols/programmanagement/init.js"></script>
@@ -202,10 +206,9 @@
       <script src="initialization.js"></script>
       <script src="app.js"></script>
       <script src="run.js"></script>
+      <script src="components/patientCharts.js"></script>
       <script src="controllers/dashboardController.js"></script>
       <script src="controllers/patientSummaryController.js"></script>
-      <script src="controllers/patientChartController.js"></script>
-      <script src="controllers/patientActualController.js"></script>
       <script src="controllers/notesController.js"></script>
       <script src="controllers/patientCurrentController.js"></script>
       <script src="controllers/patientStateController.js"></script>

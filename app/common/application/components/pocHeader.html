@@ -7,7 +7,7 @@
       </a>
     </div>
 
-    <ul class="nav navbar-nav navbar-right">
+    <ul class="nav navbar-nav navbar-right" ng-if="vm.currentUser">
       <li>
         <a href="#" ng-click="$event.preventDefault()"><span class="glyphicon glyphicon-user"></span> {{ vm.currentUser.person.preferredName.display }}</a>
       </li>

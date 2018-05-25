@@ -8,8 +8,6 @@
 
   function clinicalServicesProvider($stateProvider) {
 
-    var _legacyMode = false;
-
     this.$get = ClinicalServiceForms;
 
     ClinicalServiceForms.$inject = ['$http', '$log', '$q', '$state', 'clinicalServicesFormMapper', 'encounterService',
@@ -41,7 +39,6 @@
 
       /**
        * Loads clinical services and related form layout then registers the required routes for each form and form parts.
-       * If using legacy mode form routes are registered using named views, otherwise routes to components are used.
        *
        * NOTE: Don't forget to handle returned promise failure if not using in route resolve.
        *
@@ -49,16 +46,14 @@
        *
        * @param {String} moduleName Name of the module for which clinical services should be loaded.
        * @param {String} patientUuid The uuid of the patient for whom the forms will be filled
-       * @param {boolean} legacyMode If should work in legacy mode.
        */
-      function init(moduleName, patientUuid, legacyMode) {
+      function init(moduleName, patientUuid) {
 
         if (moduleName === '') {
           return $q.reject('No current module set.');
         }
 
         _currentModule = moduleName;
-        _legacyMode = legacyMode;
 
         var getPatient = patientService.getPatient(patientUuid);
 
@@ -334,18 +329,7 @@
             }
           };
 
-          if (_legacyMode) {
-            state.views = {
-              layout: {
-                templateUrl: '../common/application/views/layout.html'
-              }
-            };
-            state.views["content@" + formLayout.sufix] = {
-              component: 'formWizard'
-            };
-          } else {
-            state.component = 'formWizard';
-          }
+          state.component = 'formWizard';
 
           $stateProvider.state(formLayout.sufix, state);
         }
@@ -413,18 +397,9 @@
               returnState: null
             }
           };
-          if (_legacyMode) {
-            displayState.views = {
-              layout: {
-                templateUrl: '../common/application/views/layout.html'
-              }
-            };
-            displayState.views["content@" + formLayout.sufix + "_display"] = {
-              component: 'formDisplay'
-            };
-          } else  {
-            displayState.component = 'formDisplay';
-          }
+
+          displayState.component = 'formDisplay';
+
           $stateProvider.state(formLayout.sufix + "_display", displayState);
         }
 
