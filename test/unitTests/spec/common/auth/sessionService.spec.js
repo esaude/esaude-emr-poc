@@ -136,7 +136,7 @@ describe('sessionService', function () {
 
     beforeEach(function () {
       $httpBackend.expectDELETE(SESSION_RESOURCE_PATH)
-        .respond({});
+        .respond(null);
     });
 
     it('should remove current user from cookie', function () {
@@ -171,6 +171,18 @@ describe('sessionService', function () {
 
     });
 
+    it('should broadcast logout event', function () {
+
+      spyOn($rootScope, '$broadcast').and.callThrough();
+
+      sessionService.destroy();
+
+      $httpBackend.flush();
+
+      expect($rootScope.$broadcast).toHaveBeenCalledWith('event:auth-logout');
+
+    });
+
     afterEach(function() {
       $httpBackend.verifyNoOutstandingExpectation();
       $httpBackend.verifyNoOutstandingRequest();
@@ -183,10 +195,12 @@ describe('sessionService', function () {
     var mockUser = { username: 'Malocy' };
 
     beforeEach(function () {
-      spyOn($cookies, 'get').and.returnValue(mockUser.username);
     });
 
     it('should load logged in user details', function () {
+
+      spyOn($cookies, 'get').and.returnValue(mockUser.username);
+
       spyOn(userService, 'getUser').and.callFake(function () {
         return $q(function (resolve) {
           return resolve({data: {results: [mockUser]}});
@@ -206,6 +220,8 @@ describe('sessionService', function () {
     describe('failed to get logged in user details', function () {
 
       beforeEach(function () {
+        spyOn($cookies, 'get').and.returnValue(mockUser.username);
+
         spyOn($log, 'error').and.callFake(function () {
         });
       });
@@ -222,6 +238,24 @@ describe('sessionService', function () {
         $rootScope.$apply();
         expect($log.error).toHaveBeenCalled();
       });
+    });
+
+    describe('user not logged in', function () {
+
+      it('should return nothing', function () {
+
+        spyOn($cookies, 'get').and.returnValue(null);
+
+        var user;
+
+        sessionService.getCurrentUser().then(function (currentUser) {
+          user = currentUser;
+        });
+
+        $rootScope.$apply();
+        expect(user).toBeNull();
+      });
+
     });
   });
 
@@ -274,6 +308,51 @@ describe('sessionService', function () {
     it('should set set selected locale', function () {
       sessionService.setLocale(locale);
       $httpBackend.flush();
+    });
+
+    afterEach(function () {
+      $httpBackend.verifyNoOutstandingExpectation();
+      $httpBackend.verifyNoOutstandingRequest();
+    });
+
+  });
+
+  describe('loadCredentials', function () {
+
+    describe('no current user', function () {
+
+      it('should destroy current session', function () {
+
+        spyOn($cookies, 'get').and.returnValue(null);
+
+        $httpBackend.expectDELETE(SESSION_RESOURCE_PATH)
+          .respond(null);
+
+        sessionService.destroy();
+
+        $httpBackend.flush();
+
+      });
+
+
+      it('should broadcast login required event', function () {
+
+        spyOn($cookies, 'get').and.returnValue(null);
+
+        spyOn($rootScope, '$broadcast').and.callThrough();
+
+        $httpBackend.expectDELETE(SESSION_RESOURCE_PATH)
+          .respond(null);
+
+        sessionService.destroy();
+
+        $httpBackend.flush();
+
+        expect($rootScope.$broadcast).toHaveBeenCalled();
+
+      });
+
+
     });
 
     afterEach(function () {

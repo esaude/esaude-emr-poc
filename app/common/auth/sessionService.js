@@ -51,11 +51,13 @@
     }
 
     function destroy() {
-      return $http.delete(SESSION_RESOURCE_PATH).success(function (data) {
-        $cookies.remove(Bahmni.Common.Constants.currentUser, {path: '/'});
-        localStorageService.cookie.remove("emr.location");
-        $rootScope.currentUser = null;
-      });
+      return $http.delete(SESSION_RESOURCE_PATH)
+        .then(function () {
+          $cookies.remove(Bahmni.Common.Constants.currentUser, {path: '/'});
+          localStorageService.cookie.remove("emr.location");
+          $rootScope.currentUser = null;
+          $rootScope.$broadcast('event:auth-logout');
+        });
     }
 
     function getCurrentProvider() {
@@ -74,6 +76,10 @@
 
     function getCurrentUser() {
       var currentUser = $cookies.get(Bahmni.Common.Constants.currentUser);
+
+      if (!currentUser) {
+       return $q.resolve(null);
+      }
 
       return userService.getUser(currentUser)
         .then(function (response) {
@@ -103,7 +109,7 @@
           return loadDefaultLocation();
         })
         .then(function () {
-          return authenticated;
+          $rootScope.$broadcast('event:auth-login');
         })
         .catch(function (error) {
           $log.error('XHR Failed for loginUser: ' + (error.data && error.data.error.message || error));

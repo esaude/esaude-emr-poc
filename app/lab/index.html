@@ -24,9 +24,9 @@
   <body>
 
     <div ng-app="lab">
-      <lab-component>
+      <poc-layout>
         <div id="overlay"></div>
-      </lab-component>
+      </poc-layout>
     </div>
 
     <!-- build:js scripts/vendor.lab.min.js -->
@@ -142,7 +142,10 @@
     <script src="../common/application/services/adminConfigService.js"></script>
     <script src="../common/app-framework/services/applicationService.js"></script>
     <script src="../common/app-framework/constants/serializeObject.js"></script>
-    <script src="../common/application/directives/pocHeader.js"></script>
+    <script src="../common/application/components/pocLayout.js"></script>
+    <script src="../common/application/components/pocHeader.js"></script>
+    <script src="../common/application/components/pocFooter.js"></script>
+
     <script src="../common/uicontrols/init.js"></script>
     <script src="../common/uicontrols/programmanagement/init.js"></script>
     <script src="../common/uicontrols/programmanagement/controllers/manageProgramController.js"></script>
@@ -175,9 +178,7 @@
     <script src="initialization.js"></script>
     <script src="lab.routes.js"></script>
     <script src="lab.run.js"></script>
-    <script src="components/labComponent.js"></script>
     <script src="components/labTests.js"></script>
-    <script src="components/search.js"></script>
     <script src="components/dashboard.js"></script>
     <script src="components/testOrderResultList.js"></script>
     <script src="components/testOrderResultDetails.js"></script>

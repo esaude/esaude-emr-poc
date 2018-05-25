@@ -67,7 +67,10 @@
           return;
         }
         var patient = openmrsPatientMapper.map(patients[0]);
-        vm.onPatientSelect(patient);
+        
+        // Auto select the patient if the attribute is set
+        if(angular.element('barcode-listener').data('auto-select'))
+          vm.onPatientSelect(patient);
       }).error(function (data) {
         vm.noResultsMessage = "SEARCH_PATIENT_NO_RESULT";
       });

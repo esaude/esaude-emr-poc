@@ -27,7 +27,9 @@
   <body>
 
     <div ng-app="registration">
-      <div ui-view="layout"></div>
+      <poc-layout>
+        <div id="overlay"></div>
+      </poc-layout>
     </div>
 
       <!-- build:js scripts/vendor.registration.min.js -->
@@ -172,7 +174,9 @@
       <script src="../common/app-framework/services/applicationService.js"></script>
       <script src="../common/app-framework/constants/serializeObject.js"></script>
       <script src="../common/application/controllers/similarPatientsController.js"></script>
-      <script src="../common/application/directives/pocHeader.js"></script>
+      <script src="../common/application/components/pocHeader.js"></script>
+      <script src="../common/application/components/pocLayout.js"></script>
+      <script src="../common/application/components/pocFooter.js"></script>
 
       <script src="../common/uicontrols/init.js"></script>
       <script src="../common/uicontrols/programmanagement/init.js"></script>
