@@ -8,7 +8,6 @@ angular
     'bahmni.common.i18n',
     'bahmni.common.uicontrols.programmanagment',
     'bahmni.common.uiHelper',
-    'barcodeListener',
     'common.patient',
     'common.prescription',
     'frapontillo.bootstrap-switch',
