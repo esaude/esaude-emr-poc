@@ -2,7 +2,7 @@
 
 describe('PatientSearchController', function () {
 
-  var $componentController, $q, $compile, $rootScope, $state, ctrl, openmrsPatientMapper, patientService;
+  var $componentController, $q, $compile, $rootScope, $state, ctrl, openmrsPatientMapper, patientService, notifier;
 
   beforeEach(module('barcodeListener', function ($provide) {
 
@@ -26,7 +26,8 @@ describe('PatientSearchController', function () {
 
   beforeEach(module('common.patient'));
 
-  beforeEach(inject(function (_$componentController_, _$q_, _$compile_, _$rootScope_, _$state_, _openmrsPatientMapper_, _patientService_) {
+  beforeEach(inject(function (_$componentController_, _$q_, _$compile_, _$rootScope_, _$state_, _openmrsPatientMapper_,
+                              _patientService_, _notifier_) {
     $componentController = _$componentController_;
     $q = _$q_;
     $compile = _$compile_;
@@ -34,6 +35,7 @@ describe('PatientSearchController', function () {
     openmrsPatientMapper = _openmrsPatientMapper_;
     patientService = _patientService_;
     $state = _$state_;
+    notifier = _notifier_;
   }));
 
   beforeEach(function () {
@@ -71,9 +73,6 @@ describe('PatientSearchController', function () {
     };
 
     beforeEach(function () {
-      spyOn(patientService, 'search').and.callFake(function () {
-        return $q.resolve([testPatient]);
-      });
 
       spyOn(openmrsPatientMapper, 'map').and.callFake(function () {
         return testPatient
@@ -83,6 +82,10 @@ describe('PatientSearchController', function () {
     });
 
     it("should automatically select patient after search", function () {
+
+      spyOn(patientService, 'search').and.callFake(function () {
+        return $q.resolve([testPatient]);
+      });
 
       // Add the bard code listener element with auto select set to true
       const autoSelect = 'true';
@@ -102,6 +105,10 @@ describe('PatientSearchController', function () {
 
     it("should not automatically select patient after search", function () {
 
+      spyOn(patientService, 'search').and.callFake(function () {
+        return $q.resolve([testPatient]);
+      });
+
       // Add the bard code listener element with auto select set to false
       const autoSelect = 'false';
       var html = `<barcode-listener data-auto-select="${autoSelect}" prefix=""><barcode-listener>`;
@@ -120,11 +127,31 @@ describe('PatientSearchController', function () {
 
     it('should set search text to scanned barcode', function () {
 
+      spyOn(patientService, 'search').and.callFake(function () {
+        return $q.resolve([testPatient]);
+      });
+
       ctrl.barcodeHandler(testPatient.uuid);
 
       $rootScope.$apply();
 
       expect(ctrl.searchText).toEqual(testPatient.uuid);
+
+    });
+
+    it('should inform if no patients found', function () {
+
+      spyOn(patientService, 'search').and.callFake(function () {
+        return $q.resolve([]);
+      });
+
+      spyOn(notifier, 'info');
+
+      ctrl.barcodeHandler(testPatient.uuid);
+
+      $rootScope.$apply();
+
+      expect(notifier.info).toHaveBeenCalled();
 
     });
   });
