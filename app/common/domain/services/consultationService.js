@@ -57,13 +57,10 @@
       var config = {
         params: {
           location: location.uuid,
-          montly: montly
+          montly: montly,
+          v: representation
         }
       };
-      // Endpoint does not have full support for representations.
-      if (representation) {
-        config.params.v = representation
-      }
       return $http.get('/openmrs/ws/rest/v1/patientconsultationsummary', config).then(function (response) {
         return response.data.results;
       })
