@@ -72,14 +72,7 @@ describe('PatientSearchController', function () {
 
     beforeEach(function () {
       spyOn(patientService, 'search').and.callFake(function () {
-        return {
-          then: (fn) => {
-            fn([testPatient]);
-            return {
-              error: (errorFn) => errorFn(),
-            }
-          },
-        }
+        return $q.resolve([testPatient]);
       });
 
       spyOn(openmrsPatientMapper, 'map').and.callFake(function () {
@@ -123,6 +116,16 @@ describe('PatientSearchController', function () {
       expect(openmrsPatientMapper.map).toHaveBeenCalled();
 
       expect(ctrl.onPatientSelect).toHaveBeenCalled();
+    });
+
+    it('should set search text to scanned barcode', function () {
+
+      ctrl.barcodeHandler(testPatient.uuid);
+
+      $rootScope.$apply();
+
+      expect(ctrl.searchText).toEqual(testPatient.uuid);
+
     });
   });
 
