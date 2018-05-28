@@ -4,5 +4,6 @@
   "PARTNER_NAME": "Partner Name",
   "RELATIONSHIP_TO_PATIENT": "Relationship to Patient",
   "HIV_STATUS": "HIV Status",
-  "NO_PARTNERS": "No Sexual Partners."
+  "NO_PARTNERS": "No Sexual Partners.",
+  "PLEASE_CHECK_IN_TO_EDIT": "Please check-in the patient to be able to be able to edit."
 }

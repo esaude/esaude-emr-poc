@@ -8,8 +8,6 @@ angular
       'bahmni.common.i18n',
       'bahmni.common.uicontrols.programmanagment',
       'bahmni.common.uiHelper',
-      'barcode',
-      'barcodeListener',
       'common.patient',
       'frapontillo.bootstrap-switch',
       'LocalStorageModule',
