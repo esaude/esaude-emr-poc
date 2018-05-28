@@ -1,4 +1,4 @@
-describe('requireCheckIn', function () {
+describe('pocRequireCheckIn', function () {
 
   var $componentController, $q, $rootScope, visitService;
 
@@ -21,7 +21,7 @@ describe('requireCheckIn', function () {
         });
       });
 
-      var ctrl = $componentController('requireCheckIn');
+      var ctrl = $componentController('pocRequireCheckIn');
 
       ctrl.$onChanges({patient: {currentValue: {uuid: '39ada463-3040-49ac-b9ae-f5935efa6a2f'}}});
 
@@ -37,7 +37,7 @@ describe('requireCheckIn', function () {
         });
       });
 
-      var ctrl = $componentController('requireCheckIn');
+      var ctrl = $componentController('pocRequireCheckIn');
 
       ctrl.$onChanges({patient: {currentValue: {uuid: '39ada463-3040-49ac-b9ae-f5935efa6a2f'}}});
 
@@ -50,5 +50,30 @@ describe('requireCheckIn', function () {
     });
 
   });
+
+
+  describe('$onInit', function () {
+
+    it('should not set show messages if no message is provided', function () {
+
+      var ctrl = $componentController('pocRequireCheckIn');
+
+      ctrl.$onInit();
+
+      expect(ctrl.showMessage).not.toBeDefined();
+
+    });
+
+    it('should set show messages if message is provided', function () {
+
+      var ctrl = $componentController('pocRequireCheckIn', null, {message: 'PLEASE_CHECK_IN'});
+
+      ctrl.$onInit();
+
+      expect(ctrl.showMessage).toEqual(true);
+
+    });
+
+  })
 
 });
