@@ -14,7 +14,7 @@ describe('DashboardController', function () {
   }));
 
   beforeEach(inject(function (_$controller_, _$rootScope_, _applicationService_, _$httpBackend_,
-                              _locationService_, _$window_, _$q_, _consultationService_, _sessionService_) {
+    _locationService_, _$window_, _$q_, _consultationService_, _sessionService_) {
     $q = _$q_;
     $controller = _$controller_;
     applicationService = _applicationService_;
@@ -41,11 +41,11 @@ describe('DashboardController', function () {
     spyOn(consultationService, 'getWeeklyConsultationSummary').and.callFake(function () {
       return $q(function (resolve) {
         return resolve({
-          startDate: new Date('2017-10-31 00:00:00'),
-          endDate: new Date('2017-11-07 00:00:00'),
+          startDate: moment('2017-10-31', 'YYYY-MM-DD'),
+          endDate: moment('2017-11-07', 'YYYY-MM-DD'),
           summary: [
             {
-              consultationDate: "2017-10-31 00:00:00",
+              consultationDate: "2017-10-31T00:00:00.000+0200",
               patientConsultations: [
                 {
                   checkInOnConsultationDate: true
@@ -53,7 +53,7 @@ describe('DashboardController', function () {
               ]
             },
             {
-              consultationDate: "2017-11-01 00:00:00",
+              consultationDate: "2017-11-01T00:00:00.000+0200",
               patientConsultations: [
                 {
                   checkInOnConsultationDate: true
@@ -70,7 +70,7 @@ describe('DashboardController', function () {
               ]
             },
             {
-              consultationDate: "2017-11-02 00:00:00",
+              consultationDate: "2017-11-02T00:00:00.000+0200",
               patientConsultations: [
                 {
                   checkInOnConsultationDate: true
@@ -87,7 +87,11 @@ describe('DashboardController', function () {
 
     spyOn(consultationService, 'getMonthlyConsultationSummary').and.callFake(function () {
       return $q(function (resolve) {
-        return resolve({});
+        return resolve({
+          startDate: moment('2017-10-31', 'YYYY-MM-DD'),
+          endDate: moment('2017-11-07', 'YYYY-MM-DD'),
+          summary: []
+        });
       })
     });
 
@@ -115,9 +119,9 @@ describe('DashboardController', function () {
       $rootScope.$apply();
 
       expect(consultationService.getWeeklyConsultationSummary).toHaveBeenCalled();
-      expect(controller.consultationSummary.data).toEqual([[2,1,0,0,0,0,0],
-                                                           [4,2,0,0,0,0,0]]);
-      expect(controller.consultationSummary.labels).toEqual(["1 Nov","2 Nov","3 Nov","4 Nov","5 Nov","6 Nov","7 Nov"]);
+      expect(controller.consultationSummary.data).toEqual([[2, 1, 0, 0, 0, 0, 0],
+      [4, 2, 0, 0, 0, 0, 0]]);
+      expect(controller.consultationSummary.labels).toEqual(["1 Nov", "2 Nov", "3 Nov", "4 Nov", "5 Nov", "6 Nov", "7 Nov"]);
 
     });
 

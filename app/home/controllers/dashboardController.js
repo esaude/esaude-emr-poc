@@ -92,7 +92,7 @@
 
     function getConsultationsAndCheckedInCount(date, summary) {
       var found = summary.find(function (s) {
-        return new Date(s.consultationDate).getTime() === date.getTime();
+        return moment(s.consultationDate).isSame(date);
       });
       if (found) {
         var checkedIn = found.patientConsultations.filter(function (c) {
@@ -109,7 +109,7 @@
       var dates = dateRange(consultationSummary.startDate, consultationSummary.endDate);
 
       vm.consultationSummary.labels = dates.map(function (d) {
-        return $filter('date')(d, 'd MMM');
+        return d.format('D MMM');
       });
 
       var data = dates.map(function (d) {
@@ -124,7 +124,7 @@
       var dates = dateRange(errorData.consultationSummary.startDate, errorData.consultationSummary.endDate);
 
       vm.consultationSummary.labels = dates.map(function (d) {
-        return $filter('date')(d, 'd MMM');
+        return d.format('D MMM');
       });
 
       notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ACTION'));
@@ -136,12 +136,10 @@
      * @returns {Array} dates between startDate end endDate, not including startDate
      */
     function dateRange(startDate, endDate) {
-      var diff = moment(endDate).diff(startDate, 'days');
+      var diff = endDate.diff(startDate, 'days');
       var range = new Array(diff).fill(0);
       return range.map(function (curr, idx) {
-        var newDate = new Date(startDate);
-        newDate.setDate(startDate.getDate() + idx + 1);
-        return newDate;
+        return startDate.clone().add(idx + 1, 'days');
       });
     }
 
