@@ -1,4 +1,4 @@
-<div class="alert alert-info" ng-if="!vm.checkedIn">
+<div class="alert alert-info" ng-if="!vm.checkedIn && vm.showMessage">
   {{vm.message ? vm.message : 'PLEASE_CHECK_IN_PATIENT' | translate}}
 </div>
 
