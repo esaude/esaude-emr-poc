@@ -2,7 +2,7 @@
 
   <poc-authorize privilege="'Read Social'" display-info="true">
 
-    <poc-require-check-in patient="vm.patient" message="PLEASE_CHECK_IN_TO_ADD">
+    <poc-require-check-in patient="vm.patient" message="PLEASE_CHECK_IN_TO_EDIT">
 
       <show-anyway>
 
@@ -23,14 +23,16 @@
             <div class="col-sm-2">{{p.hivStatus.display}}</div>
             <div class="col-sm-3">
 
-              <poc-authorize privilege="'Delete Social'">
+              <poc-require-check-in patient="vm.patient">
+                <poc-authorize privilege="'Delete Social'">
 
-                <poc-confirm-button class="btn btn-danger btn-lg" on-confirm="vm.removePartner(p);">
-                  <span class="glyphicon glyphicon-remove-sign"></span>
-                  <span class="button-label">{{'REMOVE' | translate}}</span>
-                </poc-confirm-button>
+                  <poc-confirm-button class="btn btn-danger btn-lg" on-confirm="vm.removePartner(p);">
+                    <span class="glyphicon glyphicon-remove-sign"></span>
+                    <span class="button-label">{{'REMOVE' | translate}}</span>
+                  </poc-confirm-button>
 
-              </poc-authorize>
+                </poc-authorize>
+              </poc-require-check-in>
 
             </div>
           </div>

@@ -51,4 +51,29 @@ describe('pocRequireCheckIn', function () {
 
   });
 
+
+  describe('$onInit', function () {
+
+    it('should not set show messages if no message is provided', function () {
+
+      var ctrl = $componentController('pocRequireCheckIn');
+
+      ctrl.$onInit();
+
+      expect(ctrl.showMessage).not.toBeDefined();
+
+    });
+
+    it('should set show messages if message is provided', function () {
+
+      var ctrl = $componentController('pocRequireCheckIn', null, {message: 'PLEASE_CHECK_IN'});
+
+      ctrl.$onInit();
+
+      expect(ctrl.showMessage).toEqual(true);
+
+    });
+
+  })
+
 });

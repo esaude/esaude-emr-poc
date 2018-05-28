@@ -11,7 +11,7 @@
         showMessage: '<',
         message: '@'
       },
-      templateUrl: '../visit/components/requireCheckIn.html',
+      templateUrl: '../visit/components/pocRequireCheckIn.html',
       transclude: {
         showAnyway: '?showAnyway'
       }
@@ -24,7 +24,7 @@
 
     vm.checkedIn = false;
 
-    vm.$onInit = $onInit();
+    vm.$onInit = $onInit;
     vm.$onChanges = $onChanges;
 
     function $onInit() {
@@ -35,6 +35,7 @@
 
     function $onChanges(changesObj) {
       if (changesObj.patient && changesObj.patient.currentValue.uuid) {
+        // TODO: might be necessary to cache this call
         visitService.getTodaysVisit(changesObj.patient.currentValue.uuid).then(function (visitToday) {
           vm.checkedIn = visitToday !== null;
         });
