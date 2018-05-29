@@ -16,7 +16,7 @@ module.exports.config = {
       show: true,
     },
     REST: {
-      endpoint: `http://${proxy.host}${proxy.context}/ws/rest/v1`,
+      endpoint: `http://${proxy.host}:${proxy.port}${proxy.context}/ws/rest/v1`,
       defaultHeaders: {
         'Content-Type': 'application/json',
         Authorization: 'Basic YWRtaW46ZVNhdWRlMTIz'
