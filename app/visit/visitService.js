@@ -68,7 +68,7 @@
         })
         .catch(function (error) {
           $log.error('XHR Failed for delete: ' + error.data.error.message);
-          return $q.reject(error);
+          return $q.reject(error.data.error.message.replace('[','').replace(']',''));
         })
     }
 

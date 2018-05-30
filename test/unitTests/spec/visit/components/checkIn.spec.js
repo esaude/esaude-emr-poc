@@ -18,7 +18,7 @@ describe('CheckInController', function () {
 
   describe('$onChanges', function () {
 
-    it('should disable check-in when there is a visit for today', function () {
+    it('should load visit for today', function () {
       var visit = { patient: { uuid: '7401f469-60ee-4cfa-afab-c1e89e2944e4' } };
       spyOn(visitService, 'getTodaysVisit').and.callFake(function () {
         return $q(function (resolve) {
@@ -29,20 +29,6 @@ describe('CheckInController', function () {
       ctrl.$onChanges({ patient: { currentValue: { uuid: '7401f469-60ee-4cfa-afab-c1e89e2944e4' } } });
       $rootScope.$apply();
       expect(ctrl.todayVisit).toEqual(visit);
-      expect(ctrl.disableCheckin).toEqual(true);
-    });
-
-    it('should check-in enabled when there is not visit for today', function () {
-      spyOn(visitService, 'getTodaysVisit').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve(null);
-        });
-      });
-      var ctrl = $componentController('checkIn');
-      ctrl.$onChanges({ patient: { currentValue: { uuid: '7401f469-60ee-4cfa-afab-c1e89e2944e4' } } });
-      $rootScope.$apply();
-      expect(ctrl.todayVisit).toBeUndefined();
-      expect(ctrl.disableCheckin).toBeUndefined();
     });
   });
 

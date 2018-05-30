@@ -31,7 +31,6 @@
           .then(function (todaysLastVisit) {
             if (todaysLastVisit != null) {
               vm.todayVisit = todaysLastVisit;
-              vm.disableCheckin = true;
             }
           });
       }
@@ -54,8 +53,8 @@
           vm.todayVisit = null;
           vm.onCheckInChange();
         })
-        .catch(function () {
-          notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
+        .catch(function (errorMsg) {
+          notifier.error(errorMsg);
         });
     }
 
