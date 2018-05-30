@@ -1,6 +1,6 @@
-describe('DashboardController', function () {
+describe('dashboard', function () {
 
-  var $controller, $state, $stateParams, patientService, visitService, $rootScope;
+  var $componentController, $state, $stateParams, patientService, visitService, $rootScope;
 
   beforeEach(module('vitals', function ($provide, $translateProvider, $urlRouterProvider) {
     // Mock translate asynchronous loader
@@ -15,8 +15,8 @@ describe('DashboardController', function () {
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function (_$controller_, _$q_, _$rootScope_, _patientService_, _visitService_, _$state_) {
-    $controller = _$controller_;
+  beforeEach(inject(function (_$componentController_, _$q_, _$rootScope_, _patientService_, _visitService_, _$state_) {
+    $componentController = _$componentController_;
     $q = _$q_;
     $rootScope = _$rootScope_;
     patientService = _patientService_;
@@ -41,18 +41,8 @@ describe('DashboardController', function () {
         });
       });
 
-      ctrl = $controller('DashboardController');
+      ctrl = $componentController('dashboard');
 
-    });
-
-    it('should load the patient', function () {
-      $rootScope.$apply();
-      expect(patientService.getPatient).toHaveBeenCalled();
-    });
-
-    it('should load todays visit', function () {
-      $rootScope.$apply();
-      expect(visitService.getTodaysVisit).toHaveBeenCalled();
     });
 
   });
@@ -63,7 +53,7 @@ describe('DashboardController', function () {
 
       spyOn($state, 'reload');
 
-      var ctrl = $controller('DashboardController');
+      var ctrl = $componentController('dashboard');
       ctrl.reload();
 
       expect($state.reload).toHaveBeenCalled();
