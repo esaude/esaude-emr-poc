@@ -1,6 +1,6 @@
-describe('NotesController', function () {
+describe('patientNotes', function () {
 
-  var controller, $controller, scope, $rootScope, encounterService, $q, stateParams;
+  var controller, $componentController, scope, $rootScope, encounterService, $q, stateParams;
 
   beforeEach(module('clinic'));
 
@@ -16,8 +16,8 @@ describe('NotesController', function () {
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function (_$controller_, _$rootScope_, $httpBackend, _encounterService_, _$q_) {
-    $controller = _$controller_;
+  beforeEach(inject(function (_$componentController_, _$rootScope_, $httpBackend, _encounterService_, _$q_) {
+    $componentController = _$componentController_;
     $rootScope = _$rootScope_;
     $http = $httpBackend;
     encounterService = _encounterService_;
@@ -29,16 +29,20 @@ describe('NotesController', function () {
     stateParams = { patientUuid: "UUID_1" };
   });
 
-  describe('activate', function () {
+  describe('$onInit', function () {
+
     it('should not show notes if none exists', function () {
-      spyOn(encounterService, 'getEncountersForEncounterType').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve([]);
-        });
-      });
-      controller = $controller('NotesController', { $scope: scope, $stateParams: stateParams });
+
+      spyOn(encounterService, 'getEncountersForEncounterType').and.returnValue($q.resolve([]));
+
+      controller = $componentController('patientNotes', null, {patient: {uuid: 'uuid'}});
+
+      controller.$onInit();
+
       $rootScope.$apply();
-      expect(scope.showNotes).toBe(false);
+
+      expect(controller.showNotes).toBe(false);
+
     });
 
     it('should show notes', function () {
@@ -53,12 +57,13 @@ describe('NotesController', function () {
           return resolve(encounters);
         });
       });
-      controller = $controller('NotesController', { $scope: scope, $stateParams: stateParams });
+      controller = $componentController('patientNotes', null, {patient: {uuid: 'uuid'}});
+      controller.$onInit();
       $rootScope.$apply();
-      expect(scope.allNotes).toEqual(encounters);
-      expect(scope.lastNotes).toEqual(encounter2);
-      expect(scope.lastNotesMessageType).toEqual(obs2);
-      expect(scope.messageTypeMapping).toEqual("error");
+      expect(controller.allNotes).toEqual(encounters);
+      expect(controller.lastNotes).toEqual(encounter2);
+      expect(controller.lastNotesMessageType).toEqual(obs2);
+      expect(controller.messageTypeMapping).toEqual("error");
     });
   });
 

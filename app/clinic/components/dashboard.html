@@ -1,0 +1,21 @@
+<patient-header patient="vm.patient" display-actions="true" alter-patient="true" on-patient-deceased="vm.reload();"></patient-header>
+
+<visit-header patient="vm.patient"></visit-header>
+
+<div class="row bg-info-border content-border border-rouded" ng-if="vm.flags.length !== 0">
+    <span class="label label-warning content-border-margin-regular-sides" ng-repeat="flag in vm.flags"> {{flag.name | translate}}</span>
+</div>
+
+<patient-state patient="vm.patient"></patient-state>
+
+<div class="bg-info-border content-border border-rouded">
+    <ul class="nav nav-tabs">
+        <li role="presentation" ui-sref-active="active"><a ui-sref="dashboard.summary">{{'CLINIC_PATIENT_CHART_SUMMARY' | translate}}</a></li>
+        <li role="presentation" ui-sref-active="active"><a ui-sref="dashboard.chart">{{'CLINIC_PATIENT_CHARTS' | translate}}</a></li>
+        <li role="presentation" ui-sref-active="active"><a ui-sref="dashboard.consultation">{{'CLINIC_PATIENT_CONSULTATION' | translate}}</a></li>
+        <li ng-if="vm.hasVisitToday" role="presentation" ui-sref-active="active"><a ui-sref="dashboard.prescriptions">{{'CLINIC_PATIENT_PRESCRIPTIONS' | translate}}</a></li>
+        <li ng-if="vm.hasLabOrderPrivilege" role="presentation" ui-sref-active="active"><a ui-sref="dashboard.laboratory">{{'LAB_ORDER' | translate}}</a></li>
+        <li role="presentation" ui-sref-active="active"><a ui-sref="dashboard.current">{{'CLINIC_PATIENT_CURRENT_STATUS' | translate}}</a></li>
+    </ul>
+    <ui-view></ui-view>
+</div>

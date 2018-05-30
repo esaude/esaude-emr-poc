@@ -2,16 +2,19 @@
   'use strict';
 
   angular.module('clinic')
-    .controller('PatientSummaryController', PatientSummaryController);
-
-  PatientSummaryController.$inject = ['$rootScope', '$stateParams', 'encounterService', 'observationsService',
-    'commonService', '$filter',  'prescriptionService', 'patientService'];
+    .component('patientSummary', {
+      bindings: {
+        patient: '<'
+      },
+      controller: PatientSummaryController,
+      controllerAs: 'vm',
+      templateUrl: '../clinic/components/patientSummary.html',
+    });
 
   /* @ngInject */
-  function PatientSummaryController($rootScope, $stateParams, encounterService, observationsService, commonService,
-                                    $filter,  prescriptionService, patientService) {
-    var patientUuid = $stateParams.patientUuid;
-    var patient = {};
+  function PatientSummaryController($stateParams, appService, encounterService, observationsService, commonService,
+                                    dateFilter, prescriptionService) {
+
     var vm = this;
 
     vm.displayLimits = [
@@ -24,18 +27,15 @@
     ];
 
     vm.displayLimit = _.find(vm.displayLimits, function (item) {
-      return item.value === +$rootScope.defaultDisplayLimit;
+      return item.value === +appService.getAppDescriptor().getConfigValue("defaultDisplayLimit");
     });
 
+    vm.$onInit = $onInit;
     vm.filterDate = filterDate;
     vm.isObject = isObject;
     vm.updateDisplayLimit = updateDisplayLimit;
 
-    activate();
-
-    ////////////////
-
-    function activate() {
+    function $onInit() {
       updateDisplayLimit(vm.displayLimit);
     }
 
@@ -51,9 +51,7 @@
     }
 
     function updateDisplayLimit() {
-      getPatient()
-        .then(function (p) { patient = p; })
-        .then(initVisitHistory)
+      initVisitHistory()
         .then(initLabResults)
         .then(initDiagnosis)
         .then(initICD10Diagnosis)
@@ -65,7 +63,7 @@
     }
 
     function initVisitHistory() {
-      return encounterService.getEncountersOfPatient(patientUuid).success(function (data) {
+      return encounterService.getEncountersOfPatient(vm.patient.uuid).success(function (data) {
         vm.visits = dropSizeToLimit(commonService.filterGroupReverse(data));
       });
     }
@@ -73,7 +71,7 @@
     function initLabResults() {
       var labEncounterUuid = "e2790f68-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
 
-      return encounterService.getEncountersForEncounterType(patientUuid, labEncounterUuid, "default").then(function (encounters) {
+      return encounterService.getEncountersForEncounterType(vm.patient.uuid, labEncounterUuid, "default").then(function (encounters) {
         vm.labs = commonService.filterGroupReverse(encounters);
       });
     }
@@ -95,7 +93,7 @@
         "e1dce93a-1d5f-11e0-b929-000c29ad1d07"
       ];//TODO: create in configuration file
 
-      return observationsService.findAll(patientUuid).success (function (data) {
+      return observationsService.findAll(vm.patient.uuid).success(function (data) {
         var filtered = observationsService.filterByList(data.results, concepts);//TODO: filter must be dome in backend system
         var ordered = _.sortBy(filtered, function (obs) {
           return obs.obsDatetime;
@@ -107,7 +105,7 @@
     function initICD10Diagnosis() {
       var concept = "e1eb7806-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
 
-      return observationsService.getObs(patientUuid, concept).then (function (obs) {
+      return observationsService.getObs(vm.patient.uuid, concept).then(function (obs) {
         var filtered = commonService.filterRetired(obs);//TODO: filter must be dome in backend system
         vm.icdDiagnosis = dropSizeToLimit(filtered);
       });
@@ -116,16 +114,15 @@
     function initPharmacyPickups() {
       var pharmacyEncounterUuid = "e279133c-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
 
-      return encounterService.getEncountersForEncounterType(patientUuid, pharmacyEncounterUuid, "default").then(function (encounters) {
+      return encounterService.getEncountersForEncounterType(vm.patient.uuid, pharmacyEncounterUuid, "default").then(function (encounters) {
         vm.pickups = dropSizeToLimit(commonService.filterGroupReverse(encounters));
       });
     }
 
     function initPharmacyPickupsNew() {
-      var patientUuid = $stateParams.patientUuid;
       var pharmacyEncounterTypeUuid = "18fd49b7-6c2b-4604-88db-b3eb5b3a6d5f";
 
-      return encounterService.getEncountersForEncounterType(patientUuid, pharmacyEncounterTypeUuid).then(function (encounters) {
+      return encounterService.getEncountersForEncounterType(vm.patient.uuid, pharmacyEncounterTypeUuid).then(function (encounters) {
         var nonRetired = prepareDispenses(commonService.filterReverse(encounters));
         vm.newPickups = dropSizeToLimit(nonRetired);
 
@@ -143,7 +140,7 @@
         dispense.items = [];
         _.forEach(encounter.obs, function (obs) {
 
-          if(obs.groupMembers){
+          if (obs.groupMembers) {
             var item = {};
             item.order = obs.groupMembers[0].order;
             item.quantity = commonService.findByMemberConcept(obs.groupMembers, "e1de2ca0-1d5f-11e0-b929-000c29ad1d07");
@@ -160,7 +157,7 @@
 
     //TODO: Remove this duplicated function
     function initPrescriptions() {
-      return prescriptionService.getAllPrescriptions(patient).then(function (patientPrescriptions) {
+      return prescriptionService.getAllPrescriptions(vm.patient).then(function (patientPrescriptions) {
         vm.hasServiceToday = (hasActivePrescription(patientPrescriptions)) ? true : null;
         vm.prescriptions = patientPrescriptions.reverse();
         setPrescritpionItemStatus(vm.existingPrescriptions);
@@ -168,25 +165,25 @@
     }
 
     //TODO: Remove this duplicated function
-    function hasActivePrescription(prescriptions){
+    function hasActivePrescription(prescriptions) {
       return _.find(prescriptions, function (prescription) {
         return prescription.prescriptionStatus === true;
       });
     }
 
     //TODO: Remove this duplicated function
-    function setPrescritpionItemStatus(prescriptions){
+    function setPrescritpionItemStatus(prescriptions) {
       _.forEach(prescriptions, function (prescription) {
         _.forEach(prescription.prescriptionItems, function (item) {
-          if(prescription.prescriptionStatus === true){
-            if((item.drugOrder.action === 'NEW') ||(item.drugOrder.action === 'REVISE') ){
+          if (prescription.prescriptionStatus === true) {
+            if ((item.drugOrder.action === 'NEW') || (item.drugOrder.action === 'REVISE')) {
               item.status = "PHARMACY_ACTIVE";
             }
-            else{
+            else {
               item.status = "PHARMACY_FINALIZED";
             }
           }
-          else{
+          else {
             item.status = "PHARMACY_FINALIZED";
           }
         });
@@ -199,8 +196,8 @@
       var adultFollowupEncounterUuid = "e278f956-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
       var childFollowupEncounterUuid = "e278fce4-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
 
-      return encounterService.getEncountersForEncounterType(patient.uuid,
-        (patient.age.years >= 15) ? adultFollowupEncounterUuid : childFollowupEncounterUuid, "default")
+      return encounterService.getEncountersForEncounterType(vm.patient.uuid,
+        (vm.patient.age.years >= 15) ? adultFollowupEncounterUuid : childFollowupEncounterUuid, "default")
         .then(function (encounters) {
           vm.allergies = dropSizeToLimit(commonService.filterGroupReverseFollowupObs(concepts, encounters));
 
@@ -218,8 +215,8 @@
       var adultFollowupEncounterUuid = "e278f956-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
       var childFollowupEncounterUuid = "e278fce4-1d5f-11e0-b929-000c29ad1d07";//TODO: create in configuration file
 
-      return encounterService.getEncountersForEncounterType(patient.uuid,
-        (patient.age.years >= 15) ? adultFollowupEncounterUuid : childFollowupEncounterUuid, "default")
+      return encounterService.getEncountersForEncounterType(vm.patient.uuid,
+        (vm.patient.age.years >= 15) ? adultFollowupEncounterUuid : childFollowupEncounterUuid, "default")
         .then(function (encounters) {
           vm.vitals = dropSizeToLimit(commonService.filterGroupReverseFollowupObs(concepts, encounters));
 
@@ -233,14 +230,10 @@
     function filterDate(obs) {
       if (obs.concept.uuid === "892a98b2-9c98-4813-b4e5-0b434d14404d"
         || obs.concept.uuid === "e1e2efd8-1d5f-11e0-b929-000c29ad1d07") {
-        return $filter('date')(obs.value, "MMM d, y");
+        return dateFilter(obs.value, "MMM d, y");
       }
 
       return obs.value;
-    }
-
-    function getPatient() {
-      return patientService.getPatient(patientUuid);
     }
 
   }
