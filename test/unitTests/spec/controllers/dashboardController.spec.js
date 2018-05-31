@@ -41,7 +41,7 @@ describe('DashboardController', function () {
     spyOn(consultationService, 'getWeeklyConsultationSummary').and.callFake(function () {
       return $q(function (resolve) {
         return resolve({
-          startDate: moment('2017-10-31', 'YYYY-MM-DD'),
+          startDate: moment('2017-11-01', 'YYYY-MM-DD'),
           endDate: moment('2017-11-07', 'YYYY-MM-DD'),
           summary: [
             {
