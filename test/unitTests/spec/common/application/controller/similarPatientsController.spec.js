@@ -33,8 +33,8 @@ describe("SimilarPatientsController", function () {
         it("should load dashboard", function() {
             expect(controller.patient).toEqual(patient);
             controller.loadPatientToDashboard();
-            //expect($rootScope.patient).toEqual(patient);
-            //expect($location.url).toHaveBeenCalled();
+            expect($rootScope.patient).toEqual(patient);
+            expect($location.url).toHaveBeenCalled();
         });
 
     });
