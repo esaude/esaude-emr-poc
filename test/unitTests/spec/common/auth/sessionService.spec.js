@@ -328,7 +328,7 @@ describe('sessionService', function () {
         $httpBackend.expectDELETE(SESSION_RESOURCE_PATH)
           .respond(null);
 
-        sessionService.destroy();
+        sessionService.loadCredentials();
 
         $httpBackend.flush();
 
@@ -344,7 +344,7 @@ describe('sessionService', function () {
         $httpBackend.expectDELETE(SESSION_RESOURCE_PATH)
           .respond(null);
 
-        sessionService.destroy();
+        sessionService.loadCredentials();
 
         $httpBackend.flush();
 

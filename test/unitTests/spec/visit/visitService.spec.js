@@ -104,6 +104,20 @@ describe('visitService', function () {
       expect(foundVisit).toEqual(visit);
     });
 
+    it('should reject if no patient uuid', function () {
+
+      var err = {};
+
+      visitService.getTodaysVisit().catch(function (error) {
+        err = error;
+      });
+
+      $rootScope.$apply();
+
+      expect(err).toBeUndefined();
+
+    });
+
   });
 
   describe('checkInPatient', function () {

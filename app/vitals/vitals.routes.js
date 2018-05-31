@@ -33,9 +33,22 @@
       })
       .state('dashboard', {
         url: '/dashboard/:patientUuid',
-        templateUrl: 'views/dashboard.html',
-        controller: 'DashboardController',
-        controllerAs: 'vm',
+        component: 'dashboard',
+        resolve: {
+          initialization: 'initialization',
+          patient: function (initialization, $stateParams, patientService) {
+            // We need initialization to always resolve first
+            return patientService.getPatient($stateParams.patientUuid);
+          }
+        },
+        ncyBreadcrumb: {
+          label: '{{ \'COMMON_DASHBOARD\' | translate}}',
+          parent: 'search'
+        }
+      })
+      .state('dashboard.clinicalservices', {
+        url: '/clinicalservices',
+        component: 'clinicalServices',
         resolve: {
           initialization: 'initialization',
           clinicalServicesService: function (initialization, clinicalServicesService, $stateParams) {
@@ -44,24 +57,22 @@
           }
         },
         ncyBreadcrumb: {
-          label: '{{ \'COMMON_DASHBOARD\' | translate}}',
+          label: '{{ \'COMMON_CLINIC_SERVICES_TITLE\' | translate}}',
           parent: 'search'
         }
       })
       .state('detailpatient', {
         url: '/patient/detail/:patientUuid',
-        templateUrl: '../patient-details/views/patient-details.html',
-        controller: 'DetailPatientController',
-        controllerAs: 'patientCommon',
+        component: 'patientDetails',
+        ncyBreadcrumb: {
+          label: '{{\'PATIENT_DETAILS\' | translate }}',
+          parent: 'dashboard'
+        },
         params: {
           returnState: null
         },
         resolve: {
           initialization: 'initialization'
-        },
-        ncyBreadcrumb: {
-          label: '{{\'PATIENT_DETAILS\' | translate }}',
-          parent: 'dashboard'
         }
       });
 
