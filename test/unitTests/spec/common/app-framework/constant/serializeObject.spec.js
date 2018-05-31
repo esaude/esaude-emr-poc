@@ -69,6 +69,22 @@ describe("dateSerializerService", function () {
             expect(obj).toEqual({ date: '2018-04-18T10:30:12' });
         });
 
+        it("should not have problems with ciclic dependencies", function () {
+            var objToSerialize = {
+                date: moment('18/04/2018 10:30:12', 'DD/MM/YYYY HH:mm:ss')
+            };
+            objToSerialize.next = objToSerialize;
+            var obj = serializeObject(objToSerialize);
+            expect(obj.date).toEqual('2018-04-18T10:30:12');
+        });
+
+        it("should not change original object", function () {
+            var original = { date: moment('18/04/2018 10:30:12', 'DD/MM/YYYY HH:mm:ss') };
+            var obj = serializeObject(original);
+            expect(original).toEqual({ date: moment('18/04/2018 10:30:12', 'DD/MM/YYYY HH:mm:ss') });
+            expect(obj).toEqual({ date: '2018-04-18T10:30:12' });
+        });
+
     });
 
 });

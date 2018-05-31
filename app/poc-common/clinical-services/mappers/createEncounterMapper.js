@@ -129,16 +129,6 @@
       if (isAnyObject(value)) {
         if (dataType === CODED_DATATYPE) {
           value = ensureObject(formField.value).uuid;
-        } else if (dataType === DATE_DATATYPE || dataType === DATETIME_DATATYPE) {
-          //temporary solution, we are working on a transparent solution for timezone issues next
-          value = moment()
-            .year(value.getFullYear())
-            .month(value.getMonth())
-            .date(value.getDate())
-            .hour(value.getHours())
-            .minute(value.getMinutes())
-            .second(value.getSeconds())
-            .format(DATETIME_FORMAT);
         }
       }
       return value;
