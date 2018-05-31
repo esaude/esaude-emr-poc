@@ -60,7 +60,7 @@ describe('createEncounterMapper', function () {
         obs: [
           {
             concept: '088deb09-4aa4-4533-8b21-5c04f6c3e4a6',
-            value: '2018-01-31 00:00',
+            value: jan312018,
             person: 'd5b9d975-9412-4d14-a264-c72e557c9d58'
           }
         ]
