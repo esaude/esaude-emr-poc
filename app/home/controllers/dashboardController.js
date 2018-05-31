@@ -136,10 +136,10 @@
      * @returns {Array} dates between startDate end endDate, not including startDate
      */
     function dateRange(startDate, endDate) {
-      var diff = endDate.diff(startDate, 'days');
+      var diff = endDate.diff(startDate, 'days') + 1;
       var range = new Array(diff).fill(0);
       return range.map(function (curr, idx) {
-        return startDate.clone().add(idx + 1, 'days');
+        return startDate.clone().add(idx, 'days');
       });
     }
 
