@@ -3,15 +3,20 @@
 
   angular
     .module('pharmacy')
-    .controller('FilaHistoryController', FilaHistoryController);
+    .component('filaHistory', {
+      bindings: {
+        patient: '<'
+      },
+      controller: FilaHistoryController,
+      controllerAs: 'vm',
+      templateUrl: '../pharmacy/components/filaHistory.html'
+    });
 
-  FilaHistoryController.$inject = ['$stateParams', 'encounterService', 'patientService', 'dispensationService', '$q', 'notifier', '$filter'];
-
-  function FilaHistoryController($stateParams, encounterService, patientService, dispensationService, $q, notifier, $filter) {
+  /* @ngInject */
+  function FilaHistoryController(encounterService, patientService, dispensationService, $q, notifier, $filter) {
 
     var DAYS_IN_YEAR = 366;
 
-    var patientUUID = $stateParams.patientUuid;
     var pickups = [];
     var now = new Date();
 
@@ -20,17 +25,18 @@
     vm.filteredPickups = [];
     vm.groupedDispensations = [];
     vm.year = now.getFullYear();
-    vm.years = [vm.year];
-    vm.onPrint = onPrint;
-    vm.onStartDateChange = onStartDateChange;
-    vm.updateResults = updateResults;
-
     vm.endDate = moment().startOf('day').toDate();
     vm.startDate = moment().add(-1, 'year').startOf('day').toDate();
+    vm.years = [vm.year];
 
-    updateResults();
+    vm.$onInit = $onInit;
+    vm.updateResults = updateResults;
+    vm.onPrint = onPrint;
+    vm.onStartDateChange = onStartDateChange;
 
-    ////////////////
+    function $onInit() {
+      updateResults();
+    }
 
     function onStartDateChange() {
       if (vm.startDate) {
@@ -40,15 +46,15 @@
 
     function onPrint() {
       var daysBetween = moment(vm.endDate).diff(moment(vm.startDate), 'days');
-      if (daysBetween <= DAYS_IN_YEAR) { 
-        patientService.printPatientARVPickupHistory(patientUUID, vm.groupedDispensations, vm.startDate, vm.endDate);
+      if (daysBetween <= DAYS_IN_YEAR) {
+        patientService.printPatientARVPickupHistory(vm.patient.uuid, vm.groupedDispensations, vm.startDate, vm.endDate);
       } else {
-        notifier.error($filter('translate')('FILA_REPORT_INVALID_DATE_INTERVAL'));        
+        notifier.error($filter('translate')('FILA_REPORT_INVALID_DATE_INTERVAL'));
       }
     }
 
     function updateResults() {
-      var getDispensation = dispensationService.getDispensation(patientUUID,
+      var getDispensation = dispensationService.getDispensation(vm.patient.uuid,
         moment(vm.startDate).format('DD-MM-YYYY'),
         moment(vm.endDate).format('DD-MM-YYYY'));
       $q.all([getDispensation]).then(function (values) {

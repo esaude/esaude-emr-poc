@@ -34,11 +34,13 @@
         })
         .state('dashboard', {
           url: '/dashboard/:patientUuid',
-          templateUrl: 'views/dashboard.html',
-          controller: 'DashboardController',
-          controllerAs: 'vm',
+          component: 'dashboard',
           resolve: {
-            initialization: 'initialization'
+            initialization: 'initialization',
+            patient: function ($stateParams, initialization, patientService) {
+              // initialization is needed here so this is resolved after it
+              return patientService.getPatient($stateParams.patientUuid);
+            }
           },
           ncyBreadcrumb: {
             label: '{{ \'COMMON_DASHBOARD\' | translate}}',
@@ -56,9 +58,7 @@
         })
         .state('dashboard.filaHistory', {
           url: '/fila-history',
-          templateUrl: 'views/fila-history.html',
-          controller: 'FilaHistoryController',
-          controllerAs: 'vm',
+          component: 'filaHistory',
           ncyBreadcrumb: {
             label: '{{\'PHARMACY_HISTORY_FILA\' | translate}}',
             parent: 'dashboard',
@@ -67,9 +67,7 @@
         })
         .state('dashboard.dispensationHistory', {
           url: '/dispensation-history',
-          templateUrl: 'views/dispensation-history.html',
-          controller: 'DispensationHistoryController',
-          controllerAs: 'vm',
+          component: 'dispensationHistory',
           ncyBreadcrumb: {
             label: '{{\'PHARMACY_HISTORY_PICKUP\' | translate}}',
             parent: 'dashboard',
@@ -78,9 +76,7 @@
         })
         .state('dashboard.dispensation', {
           url: '/dispensation',
-          templateUrl: 'views/dispensation.html',
-          controller: 'DispensationController',
-          controllerAs: 'vm',
+          component: 'dispensation',
           ncyBreadcrumb: {
             label: '{{\'PHARMACY_DISPENSATION\' | translate}}',
             parent: 'dashboard',
@@ -89,9 +85,7 @@
         })
         .state('detailpatient', {
           url: '/patient/detail/:patientUuid',
-          templateUrl: '../patient-details/views/patient-details.html',
-          controller: 'DetailPatientController',
-          controllerAs: 'patientCommon',
+          component: 'patientDetails',
           params: {
             returnState: null
           },

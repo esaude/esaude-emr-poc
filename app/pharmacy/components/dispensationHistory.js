@@ -1,13 +1,20 @@
 (function () {
   'use strict';
 
-  angular.module('pharmacy').controller('DispensationHistoryController', DispensationHistoryController);
+  angular
+    .module('pharmacy')
+    .component('dispensationHistory', {
+      bindings: {
+        patient: '<'
+      },
+      controller: DispensationHistoryController,
+      controllerAs: 'vm',
+      templateUrl: '../pharmacy/components/dispensationHistory.html'
+    });
 
-  DispensationHistoryController.$inject = ["$filter", "$stateParams", "encounterService", "dispensationService", "commonService", "notifier"];
+  /* @ngInject */
+  function DispensationHistoryController($filter, encounterService, dispensationService, commonService,  notifier) {
 
-  function DispensationHistoryController($filter, $stateParams, encounterService, dispensationService, commonService,  notifier) {
-
-    var patientUuid = null;
     var pharmacyEncounterTypeUuid = null;
 
     var vm = this;
@@ -18,6 +25,7 @@
     vm.dispensationItemToCancel = null;
     vm.errorMessage = null;
 
+    vm.$onInit = $onInit;
     vm.initPickUpHistory = initPickUpHistory;
     vm.prepareObservations = prepareObservations;
     vm.filterActiveOrders = filterActiveOrders;
@@ -26,16 +34,13 @@
     vm.setDispensationItemToCancel = setDispensationItemToCancel;
     vm.closeCancellationModal = closeCancellationModal;
 
-    activate();
-
-    function activate() {
+    function $onInit() {
 
       vm.filaObsList = {
         nextPickup: "e1e2efd8-1d5f-11e0-b929-000c29ad1d07",
         quantity: "e1de2ca0-1d5f-11e0-b929-000c29ad1d07"
       };
 
-      patientUuid = $stateParams.patientUuid;
       pharmacyEncounterTypeUuid = "18fd49b7-6c2b-4604-88db-b3eb5b3a6d5f";
 
       initPickUpHistory();
@@ -80,7 +85,7 @@
 
     function initPickUpHistory(){
 
-      encounterService.getEncountersForEncounterType(patientUuid, pharmacyEncounterTypeUuid).then(function (encounters) {
+      encounterService.getEncountersForEncounterType(vm.patient.uuid, pharmacyEncounterTypeUuid).then(function (encounters) {
         vm.pickups = prepareObservations(commonService.filterReverse(encounters));
       });
     }

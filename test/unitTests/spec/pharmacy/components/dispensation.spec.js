@@ -1,8 +1,8 @@
 'use strict';
 
-describe('DispensationController', function () {
+describe('dispensation', function () {
 
-  var $controller, $q, $rootScope, controller, dispensationService, localStorageService, notifier, prescriptionService,
+  var $componentController, $q, $rootScope, controller, dispensationService, localStorageService, notifier, prescriptionService,
     sessionService, patientService;
 
   var rootScope = {'patient': {'uuid': '0810aecc-6642-4c1c-ac1e-537a0cfed81'}};
@@ -52,9 +52,9 @@ describe('DispensationController', function () {
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function (_$controller_, _$q_,  _$rootScope_, _dispensationService_, _localStorageService_, _notifier_,
+  beforeEach(inject(function (_$componentController_, _$q_,  _$rootScope_, _dispensationService_, _localStorageService_, _notifier_,
                               _prescriptionService_, _sessionService_, _patientService_) {
-    $controller = _$controller_;
+    $componentController = _$componentController_;
     $q = _$q_;
     $rootScope = _$rootScope_;
     sessionService = _sessionService_;
@@ -64,7 +64,7 @@ describe('DispensationController', function () {
     patientService = _patientService_;
   }));
 
-  describe('activate', function () {
+  describe('$onInit', function () {
 
     beforeEach(function () {
 
@@ -86,23 +86,17 @@ describe('DispensationController', function () {
         });
       });
 
-      controller = $controller('DispensationController', {
-        $filter: {},
-        prescriptionService: prescriptionService,
-        sessionService: sessionService
-      });
+      controller = $componentController('dispensation', null, {patient: {uuid: 'uuid'}});
     });
 
     it('should load patient prescriptions', function () {
+
+      controller.$onInit();
+
       $rootScope.$apply();
       expect(controller.prescriptions.length).toBe(3);
       expect(controller.prescriptions).toEqual(prescriptions);
       expect(controller.selectedPrescriptionItems.length).toBe(0);
-    });
-
-    it('should load patient', function () {
-      $rootScope.$apply();
-      expect(patientService.getPatient).toHaveBeenCalled();
     });
 
   });
@@ -110,7 +104,7 @@ describe('DispensationController', function () {
   describe('select', function () {
 
     beforeEach(function () {
-      controller = $controller('DispensationController');
+      controller = $componentController('dispensation');
     });
 
     var prescription = prescriptions[1];
@@ -169,7 +163,7 @@ describe('DispensationController', function () {
     var selectedPrescription = prescriptions[0];
 
     beforeEach(function () {
-      controller = $controller('DispensationController');
+      controller = $componentController('dispensation');
       controller.prescriptions = prescriptions;
     });
 
@@ -191,7 +185,7 @@ describe('DispensationController', function () {
   describe('remove', function () {
 
     beforeEach(function () {
-      controller = $controller('DispensationController');
+      controller = $componentController('dispensation');
       controller.selectedPrescriptionItems = [];
     });
       it('it should remove a selected item', function () {
@@ -218,7 +212,7 @@ describe('DispensationController', function () {
         ];
 
     beforeEach(function () {
-      controller = $controller('DispensationController');
+      controller = $componentController('dispensation');
     });
 
     describe('ARV prescription item', function () {

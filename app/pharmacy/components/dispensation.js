@@ -3,52 +3,45 @@
 
   angular
     .module('pharmacy')
-    .controller('DispensationController', DispensationController);
+    .component('dispensation', {
+      bindings: {
+        patient: '<'
+      },
+      controller: DispensationController,
+      controllerAs: 'vm',
+      templateUrl: '../pharmacy/components/dispensation.html'
+    });
 
-  DispensationController.$inject = ['$filter', '$stateParams', 'dispensationService', 'localStorageService',
-    'notifier', 'prescriptionService', 'sessionService', 'patientService'];
-
-  function DispensationController($filter, $stateParams, dispensationService, localStorageService, notifier,
-                                  prescriptionService, sessionService, patientService) {
+  /* @ngInject */
+  function DispensationController($filter, dispensationService, notifier, prescriptionService, sessionService) {
 
     var dateUtil = Bahmni.Common.Util.DateUtil;
 
     var currentUser = {};
-    var patientUUID = $stateParams.patientUuid;
 
     var vm = this;
     vm.invalidQty = false;
-    vm.patient = {};
     vm.prescriptions = [];
     vm.selectedPrescriptionItems = [];
     vm.today = dateUtil.getDateWithoutTime(dateUtil.now());
 
+    vm.$onInit = $onInit;
     vm.dispense = dispense;
     vm.remove = remove;
     vm.select = select;
     vm.toggleVisibility = toggleVisibility;
     vm.updatePickup = updatePickup;
 
-    activate();
-
-    ////////////////
-
-    function activate() {
+    function $onInit() {
       getCurrentUser().then(function (user) {
         currentUser = user;
         return initPrescriptions();
       });
-
-      patientService.getPatient(patientUUID)
-        .then(function (patient) {
-          vm.patient = patient;
-        })
-        .catch(errorHandler)
     }
 
 
     function initPrescriptions() {
-      return getPatientNonDispensedPrescriptions(patientUUID).then(function (prescriptions) {
+      return getPatientNonDispensedPrescriptions(vm.patient).then(function (prescriptions) {
         vm.prescriptions = prescriptions;
         vm.prescriptions.slice(1).forEach(function (p) {
           p.hidden = true;
@@ -157,7 +150,7 @@
 
       var dispensation = {
         providerUuid: currentUser.person.uuid,
-        patientUuid: patientUUID,
+        patientUuid: vm.patient.uuid,
         locationUuid: sessionService.getCurrentLocation().uuid,
         dispensationItems: items
       };
@@ -186,7 +179,7 @@
 
     function getPredfinedDateWithoutTime(myDate) {
       var resultDate = angular.copy(myDate);
-      resultDate.setHours(0,0,0,0)
+      resultDate.setHours(0,0,0,0);
       return resultDate;
   }
 
@@ -201,9 +194,9 @@
         .catch(errorHandler);
     }
 
-    function getPatientNonDispensedPrescriptions(patientUUID) {
+    function getPatientNonDispensedPrescriptions(patient) {
       return prescriptionService
-        .getPatientNonDispensedPrescriptions(patientUUID)
+        .getPatientNonDispensedPrescriptions(patient.uuid)
         .catch(errorHandler);
     }
 
