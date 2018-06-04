@@ -5,8 +5,6 @@
     .module('home')
     .config(config);
 
-  config.$inject = ['$urlRouterProvider', '$stateProvider', '$bahmniTranslateProvider', '$httpProvider'];
-
   /* @ngInject */
   function config($urlRouterProvider, $stateProvider, $bahmniTranslateProvider, $httpProvider) {
 
@@ -21,18 +19,14 @@
     $stateProvider
       .state('login', {
         url: '/login?showLoginMessage=LOGIN_LABEL_LOGIN_ERROR_MESSAGE_KEY',
-        templateUrl: 'views/login.html',
-        controller: 'LoginController',
-        controllerAs: 'vm',
+        component: 'login',
         ncyBreadcrumb: {
           skip: true
         }
       })
       .state('dashboard', {
         url: '/dashboard',
-        templateUrl: 'views/dashboard.html',
-        controller: 'DashboardController',
-        controllerAs: 'vm',
+        component: 'dashboard',
         resolve: {
           initialization: 'initialization'
         },

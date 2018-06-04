@@ -3,9 +3,11 @@
 
   angular
     .module('home')
-    .controller('LoginController', LoginController);
-
-  LoginController.$inject = ['$location', '$q', '$rootScope', '$scope', '$stateParams', '$translate', 'sessionService'];
+    .component('login', {
+      controller: LoginController,
+      controllerAs: 'vm',
+      templateUrl: '../home/components/login.html'
+    });
 
   /* @ngInject */
   function LoginController($location, $q, $rootScope, $scope, $stateParams, $translate, sessionService) {
@@ -23,14 +25,11 @@
     vm.selectedLocale = getSelectedLocale();
     vm.showMenu = true;
 
+    vm.$onInit = $onInit;
     vm.login = login;
     vm.updateLocale = updateLocale;
 
-    activate();
-
-    ////////////////
-
-    function activate() {
+    function $onInit() {
 
       if ($stateParams.showLoginMessage) {
         vm.errorMessageTranslateKey = $stateParams.showLoginMessage;

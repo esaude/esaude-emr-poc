@@ -1,5 +1,5 @@
 describe('DashboardController', function () {
-  var $controller, $q, controller, applicationService, $rootScope, consultationService, sessionService;
+  var $componentController, $q, controller, applicationService, $rootScope, consultationService, sessionService;
 
   beforeEach(module('home', function ($provide, $translateProvider, $urlRouterProvider) {
     $provide.factory('mergeLocaleFilesService', function ($q) {
@@ -13,10 +13,10 @@ describe('DashboardController', function () {
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function (_$controller_, _$rootScope_, _applicationService_, _$httpBackend_,
+  beforeEach(inject(function (_$componentController_, _$rootScope_, _applicationService_, _$httpBackend_,
     _locationService_, _$window_, _$q_, _consultationService_, _sessionService_) {
     $q = _$q_;
-    $controller = _$controller_;
+    $componentController = _$componentController_;
     applicationService = _applicationService_;
     $rootScope = _$rootScope_;
     consultationService = _consultationService_;
@@ -95,7 +95,7 @@ describe('DashboardController', function () {
       })
     });
 
-    controller = $controller('DashboardController');
+    controller = $componentController('dashboard');
 
   });
 
@@ -103,9 +103,11 @@ describe('DashboardController', function () {
     expect(sessionService.getCurrentLocation).toHaveBeenCalled();
   });
 
-  describe('activate', function () {
+  describe('$onInit', function () {
 
     it('should correctly set the list of apps', function () {
+
+      controller.$onInit();
 
       $rootScope.$apply();
 
@@ -115,6 +117,8 @@ describe('DashboardController', function () {
     });
 
     it('should load the weekly consultation summary', function () {
+
+      controller.$onInit();
 
       $rootScope.$apply();
 
@@ -145,6 +149,8 @@ describe('DashboardController', function () {
 
     it('should return the total number of scheduled consultations', function () {
 
+      controller.$onInit();
+
       $rootScope.$apply();
 
       var total = controller.scheduledConsultations();
@@ -159,6 +165,8 @@ describe('DashboardController', function () {
   describe('checkedIn', function () {
 
     it('should return the total number of patients who checked in to scheduled consultations', function () {
+
+      controller.$onInit();
 
       $rootScope.$apply();
 
