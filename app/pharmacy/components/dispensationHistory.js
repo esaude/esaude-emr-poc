@@ -103,15 +103,18 @@
 
       cancelDispensationItemModal.result
         .then(function (reason) {
-          return dispensationService.cancelDispensationItem(order.uuid, reason);
-        })
-        .then(function () {
-          notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
-          initPickUpHistory();
-        })
-        .catch(function (error) {
-          notifier.error(error.data.error.message.replace('[','').replace(']',''));
+          // Don't chain so that reject is not mistaken with modal cancel
+          dispensationService.cancelDispensationItem(order.uuid, reason)
+            .then(function () {
+              notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
+              initPickUpHistory();
+            })
+            .catch(function (error) {
+              notifier.error(error.data.error.message.replace('[','').replace(']',''));
+            });
         });
+        // Do nothing if modal cancelled
+
     }
 
   }
