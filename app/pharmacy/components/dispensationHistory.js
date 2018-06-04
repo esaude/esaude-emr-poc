@@ -13,7 +13,7 @@
     });
 
   /* @ngInject */
-  function DispensationHistoryController($filter, encounterService, dispensationService, commonService,  notifier) {
+  function DispensationHistoryController($filter, $uibModal, encounterService, dispensationService, commonService, notifier) {
 
     var pharmacyEncounterTypeUuid = null;
 
@@ -26,13 +26,8 @@
     vm.errorMessage = null;
 
     vm.$onInit = $onInit;
-    vm.initPickUpHistory = initPickUpHistory;
-    vm.prepareObservations = prepareObservations;
-    vm.filterActiveOrders = filterActiveOrders;
-    vm.cancelDispensationItem = cancelDispensationItem;
     vm.valueOfField = valueOfField;
-    vm.setDispensationItemToCancel = setDispensationItemToCancel;
-    vm.closeCancellationModal = closeCancellationModal;
+    vm.cancelDispensationItem = cancelDispensationItem;
 
     function $onInit() {
 
@@ -44,7 +39,6 @@
       pharmacyEncounterTypeUuid = "18fd49b7-6c2b-4604-88db-b3eb5b3a6d5f";
 
       initPickUpHistory();
-     //initPickUpHistory();
     }
 
     function prepareObservations (encounters) {
@@ -90,23 +84,6 @@
       });
     }
 
-    function cancelDispensationItem(form, dispensationItemToCancel){
-
-      if (!form.$valid) {
-        return;
-      }
-
-      dispensationService.cancelDispensationItem(dispensationItemToCancel.uuid, vm.cancelationReasonTyped )
-        .then(function () {
-          notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
-          closeCancellationModal(form);
-          initPickUpHistory();
-        })
-        .catch(function (error) {
-          notifier.error(error.data.error.message.replace('[','').replace(']',''));
-        });
-    }
-
     function valueOfField(conceptUuid, members) {
 
       return _.find(members, function (member) {
@@ -114,22 +91,29 @@
       });
     }
 
-    function closeCancellationModal(form) {
-      // TODO: handle close via esc key
-      form.$setPristine();
-      form.$setUntouched();
-      vm.cancelationReasonTyped = null;
-      vm.dispensationItemToCancel = null;
-      getCancellationModal().modal('hide');
-    }
+    function cancelDispensationItem(order){
+      var cancelDispensationItemModal = $uibModal.open({
+        component: 'cancelDispensationItemModal',
+        resolve: {
+          dispensationItem: function () {
+            return order;
+          }
+        }
+      });
 
-    function setDispensationItemToCancel(order){
-      vm.dispensationItemToCancel =  order;
-    }
-
-    function getCancellationModal() {
-      return angular.element('#cancellationDispensationItemModal');
+      cancelDispensationItemModal.result
+        .then(function (reason) {
+          return dispensationService.cancelDispensationItem(order.uuid, reason);
+        })
+        .then(function () {
+          notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
+          initPickUpHistory();
+        })
+        .catch(function (error) {
+          notifier.error(error.data.error.message.replace('[','').replace(']',''));
+        });
     }
 
   }
+
 })();
