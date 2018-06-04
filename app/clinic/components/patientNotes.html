@@ -1,0 +1,17 @@
+<div ng-if="vm.showNotes" class="alert-dismissible" role="alert"
+     ng-class="{'alert alert-warning': vm.messageTypeMapping === 'warning',
+                'alert alert-info': vm.messageTypeMapping === 'info',
+                'alert alert-danger': vm.messageTypeMapping === 'error',
+                'alert alert-success': vm.messageTypeMapping === 'success'}">
+
+  <button type="button" class="close btn-lg content-border-margin-regular-sides " data-dismiss="alert"
+          aria-label="Close">
+    <span class="glyphicon glyphicon-remove-circle"></span>
+  </button>
+
+  <strong>{{vm.lastNotesMessageType.value.display}}!</strong> {{vm.lastNotesStory.value}} <br/>
+
+  <strong>{{'COMMON_BY'| translate}}</strong> {{vm.lastNotes.provider.display}}
+
+  <strong>{{'COMMON_ON'| translate}}</strong> {{vm.lastNotes.encounterDatetime | date}}
+</div>

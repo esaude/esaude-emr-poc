@@ -5,8 +5,6 @@
     .module('clinic')
     .config(config);
 
-  config.$inject = ['$urlRouterProvider', '$stateProvider', '$bahmniTranslateProvider', '$httpProvider'];
-
   /* @ngInject */
   function config($urlRouterProvider, $stateProvider, $bahmniTranslateProvider, $httpProvider) {
 
@@ -34,10 +32,14 @@
       })
       .state('dashboard', {
         url: '/dashboard/:patientUuid',
-        templateUrl: 'views/dashboard.html',
-        controller: 'DashboardController',
+        component: 'dashboard',
         resolve: {
-          initialization: 'initialization'
+          initialization: 'initialization',
+          patient: function ($stateParams, initialization, patientService) {
+            // initialization should resolve first because of openmrs patient mapper needs to load patient attributes
+            // config
+            return patientService.getPatient($stateParams.patientUuid);
+          }
         },
         ncyBreadcrumb: {
           label: '{{\'COMMON_DASHBOARD\' | translate}}',
@@ -46,9 +48,7 @@
       })
       .state('dashboard.summary', {
         url: '/summary',
-        templateUrl: 'views/patient-summary.html',
-        controller: 'PatientSummaryController',
-        controllerAs: 'vm',
+        component: 'patientSummary',
         ncyBreadcrumb: {
           label: '{{\'CLINIC_PATIENT_CHART_SUMMARY\' | translate}}',
           parent: 'dashboard',
@@ -66,7 +66,7 @@
       })
       .state('dashboard.prescriptions', {
         url: '/prescription',
-        templateUrl: 'views/patient-prescriptions.html',
+        component: 'prescription',
         ncyBreadcrumb: {
           label: '{{\'CLINIC_PATIENT_PRESCRIPTIONS\' | translate}}',
           parent: 'dashboard',
@@ -89,7 +89,7 @@
       })
       .state('dashboard.consultation', {
         url: '/consultation',
-        templateUrl: 'views/patient-consultation.html',
+        component: 'patientConsultation',
         ncyBreadcrumb: {
           label: '{{\'CLINIC_PATIENT_CONSULTATION\' | translate}}',
           parent: 'dashboard',
@@ -103,8 +103,7 @@
       })
       .state('dashboard.current', {
         url: '/current',
-        templateUrl: 'views/patient-current.html',
-        controller: 'PatientCurrentController',
+        component: 'patientCurrent',
         ncyBreadcrumb: {
           label: '{{\'CLINIC_PATIENT_CURRENT_STATUS\' | translate}}',
           parent: 'dashboard',
@@ -113,9 +112,7 @@
       })
       .state('detailpatient', {
         url: '/patient/detail/:patientUuid',
-        templateUrl: '../patient-details/views/patient-details.html',
-        controller: 'DetailPatientController',
-        controllerAs: 'patientCommon',
+        component: 'patientDetails',
         params: {
           returnState: null
         },
