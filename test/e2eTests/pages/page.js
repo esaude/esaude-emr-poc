@@ -12,16 +12,22 @@ const Component = require('./components/component')
 // tests can call page.search(...)
 class Page {
 	constructor(options) {
+		// Make sure the components array is inialized
+		options.components = options.components || []
+
 		this.options = options
+
+		// Every page should have the header component
+		if(!this.options.components.includes('header')) {
+			this.options.components.push('header')
+		}
 	}
 
 	_init() {
 		this.I = actor()
 
 		// Add each component to this page
-		if(this.options.components) {
-			this.options.components.forEach(name => this._addComponent(name))
-		}
+		this.options.components.forEach(name => this._addComponent(name))
 	}
 
 	// Validates that the page is loaded

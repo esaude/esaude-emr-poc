@@ -31,6 +31,7 @@ module.exports.config = {
 
     Data: './test/e2eTests/data.js',
 
+    ClinicDashboardPage: './test/e2eTests/pages/clinicDashboardPage.js',
     DashboardPage: './test/e2eTests/pages/dashboardPage.js',
     LoginPage: './test/e2eTests/pages/loginPage.js',
     RegistrationDashboardPage: './test/e2eTests/pages/registrationDashboardPage.js',

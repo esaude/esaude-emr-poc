@@ -12,8 +12,15 @@ class RegistrationDashboardPage extends Page {
 	}
 
 	clickCheckIn() {
+		this.I.wait(1)
+
 		this.I.waitForElement({css: '.checkin button'}, 5)
 		this.I.click({css: '.checkin button'})
+
+		this.I.say('Waiting for the check in to complete')
+		this.I.waitForInvisible('#overlay', 5)
+
+		this.I.wait(1)
 	}
 }
 
