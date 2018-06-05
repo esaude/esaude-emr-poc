@@ -21,8 +21,10 @@
       <td>{{pickup.provider}}</td>
       <td>
         <poc-authorize privilege="'Delete Drug Dispensation'">
-          <button type="button" class="close btn-lg content-border-margin-regular-sides" ng-click ="vm.setDispensationItemToCancel(vm.valueOfField(vm.filaObsList.quantity, pickup.members).order)" data-toggle="modal" data-target="#cancellationDispensationItemModal" >
-            <span class="glyphicon glyphicon-trash"  ></span>
+          <button type="button" class="close btn-lg content-border-margin-regular-sides"
+                  ng-click="vm.cancelDispensationItem(vm.valueOfField(vm.filaObsList.quantity, pickup.members).order)"
+                  data-toggle="modal">
+            <span class="glyphicon glyphicon-trash"></span>
           </button>
         </poc-authorize>
       </td>
@@ -42,6 +44,3 @@
     </tfoot>
   </table>
 </div>
-
-<!-- modal dialogs -->
-<div ng-include src="'../pharmacy/views/cancel-dispensation-item.html'"></div>

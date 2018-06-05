@@ -1,6 +1,6 @@
-describe('FilaHistoryController', function () {
+describe('filaHistory', function () {
 
-  var $controller, controller, encounterService, patientService, dispensationService, $q, $rootScope, $http;
+  var $componentController, controller, encounterService, patientService, dispensationService, $q, $rootScope, $http;
 
   var stateParams = { 'patientUuid': '0810aecc-6642-4c1c-ac1e-537a0cfed81' };
 
@@ -21,12 +21,13 @@ describe('FilaHistoryController', function () {
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function (_$controller_, _dispensationService_, _$q_, _$rootScope_, $httpBackend) {
-    $controller = _$controller_;
+  beforeEach(inject(function (_$componentController_, _dispensationService_, _$q_, _$rootScope_, $httpBackend, _patientService_) {
+    $componentController = _$componentController_;
     dispensationService = _dispensationService_;
     $q = _$q_;
     $rootScope = _$rootScope_;
-    $http = $httpBackend
+    $http = $httpBackend;
+    patientService = _patientService_;
   }));
 
   beforeEach(function () {
@@ -37,8 +38,7 @@ describe('FilaHistoryController', function () {
       }
     });
 
-    patientService = jasmine.createSpyObj('patientService', ['printPatientARVPickupHistory']);
-    patientService.printPatientARVPickupHistory.and.callFake(function () { });
+    spyOn(patientService, 'printPatientARVPickupHistory').and.callFake(function () { });
 
     spyOn(dispensationService, 'getDispensation').and.callFake(function () {
       return $q(function (resolve) {
@@ -52,12 +52,7 @@ describe('FilaHistoryController', function () {
 
     $http.expectGET("/poc_config/openmrs/i18n/common/locale_pt.json").respond({});
 
-    controller = $controller('FilaHistoryController', {
-      $statePrams: stateParams,
-      encounterService: encounterService,
-      patientService: patientService,
-      dispensationService: dispensationService
-    });
+    controller = $componentController('filaHistory', null, {patient: {uuid: '1234'}});
 
     $rootScope.$apply();
   });
@@ -65,6 +60,10 @@ describe('FilaHistoryController', function () {
   describe('updateResults', function () {
 
     it('should load dispensations', function () {
+
+      controller.updateResults();
+
+      $rootScope.$apply();
       expect(dispensationService.getDispensation).toHaveBeenCalled();
       expect(controller.groupedDispensations).toBe(groupedDispensations);
       expect(controller.displayedPickups).toEqual([1, 2, 3]);

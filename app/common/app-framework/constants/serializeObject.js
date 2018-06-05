@@ -9,7 +9,7 @@
 
     function serializeObject(obj) {
         if (obj) {
-            //preventing colateral damage, this object could for example 
+            //preventing colateral damage, this object could for example
             //have properties that are binded to fields on the screen
             var copy = angular.copy(obj);
             var visitedObjects = [];
@@ -47,4 +47,4 @@
     }
 
 
-})()
+})();
