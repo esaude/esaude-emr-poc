@@ -17,7 +17,16 @@ describe('filaHistory', function () {
     { dispensationItems: [3] }
   ];
 
-  beforeEach(module('pharmacy', function ($urlRouterProvider) {
+  beforeEach(module('pharmacy', function ($provide, $translateProvider, $urlRouterProvider) {
+    // Mock translate asynchronous loader
+    $provide.factory('mergeLocaleFilesService', function ($q) {
+      return function () {
+        var deferred = $q.defer();
+        deferred.resolve({});
+        return deferred.promise;
+      };
+    });
+    $translateProvider.useLoader('mergeLocaleFilesService');
     $urlRouterProvider.deferIntercept();
   }));
 

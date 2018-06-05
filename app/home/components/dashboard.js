@@ -3,14 +3,14 @@
 
   angular
     .module('home')
-    .controller('DashboardController', DashboardController);
-
-  DashboardController.$inject = ['$filter', '$window', 'applicationService', 'consultationService', 'sessionService',
-    'notifier'];
+    .component('dashboard', {
+      controller: DashboardController,
+      controllerAs: 'vm',
+      templateUrl: '../home/components/dashboard.html'
+    });
 
   /* @ngInject */
-  function DashboardController($filter, $window, applicationService, consultationService, sessionService,
-                               notifier) {
+  function DashboardController($filter, $window, applicationService, consultationService, sessionService, notifier) {
 
     var mLocation = sessionService.getCurrentLocation();
 
@@ -63,6 +63,7 @@
       }
     };
 
+    vm.$onInit = $onInit;
     vm.linkApp = linkApp;
     vm.onMonthlySummaryClick = onMonthlySummaryClick;
     vm.onWeeklySummaryClick = onWeeklySummaryClick;
@@ -70,11 +71,7 @@
     vm.checkedIn = checkedIn;
     vm.currentPeriod = currentPeriod;
 
-    activate();
-
-    ////////////////
-
-    function activate() {
+    function $onInit() {
       applicationService.getApps()
         .then(function (apps) {
           vm.apps = apps;
