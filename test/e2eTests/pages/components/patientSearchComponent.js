@@ -7,8 +7,12 @@ class PatientSearchComponent extends Component {
   }
 
   disableAutoSelect() {
+    this.I.waitForElement('barcode-listener')
+    
     // Update auto selection
-    this.I.executeScript(() => $('barcode-listener').data('auto-select', false))
+    this.I.executeScript(() => {
+      $('barcode-listener').data('auto-select', false)
+    })
   }
 
   // Searches in the registration search box
