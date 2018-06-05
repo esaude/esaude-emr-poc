@@ -25,6 +25,49 @@ describe('DashboardController', function () {
 
   var apps = [1, 2, 3];
 
+  var weeklySummary = {
+    startDate: moment('2017-11-01', 'YYYY-MM-DD'),
+    endDate: moment('2017-11-07', 'YYYY-MM-DD'),
+    summary: [
+      {
+        consultationDate: "2017-10-31T00:00:00.000+0200",
+        patientConsultations: [
+          {
+            checkInOnConsultationDate: true
+          }
+        ]
+      },
+      {
+        consultationDate: "2017-11-01T00:00:00.000+0200",
+        patientConsultations: [
+          {
+            checkInOnConsultationDate: true
+          },
+          {
+            checkInOnConsultationDate: true
+          },
+          {
+            checkInOnConsultationDate: false
+          },
+          {
+            checkInOnConsultationDate: false
+          }
+        ]
+      },
+      {
+        consultationDate: "2017-11-02T00:00:00.000+0200",
+        patientConsultations: [
+          {
+            checkInOnConsultationDate: true
+          },
+          {
+            checkInOnConsultationDate: false
+          }
+        ]
+      }
+    ]
+  };
+
   beforeEach(function () {
 
     spyOn(applicationService, 'getApps').and.callFake(function () {
@@ -38,53 +81,6 @@ describe('DashboardController', function () {
       uuid: '7fc3f286-15b1-465e-9013-b72916f58b2d'
     });
 
-    spyOn(consultationService, 'getWeeklyConsultationSummary').and.callFake(function () {
-      return $q(function (resolve) {
-        return resolve({
-          startDate: moment('2017-11-01', 'YYYY-MM-DD'),
-          endDate: moment('2017-11-07', 'YYYY-MM-DD'),
-          summary: [
-            {
-              consultationDate: "2017-10-31T00:00:00.000+0200",
-              patientConsultations: [
-                {
-                  checkInOnConsultationDate: true
-                }
-              ]
-            },
-            {
-              consultationDate: "2017-11-01T00:00:00.000+0200",
-              patientConsultations: [
-                {
-                  checkInOnConsultationDate: true
-                },
-                {
-                  checkInOnConsultationDate: true
-                },
-                {
-                  checkInOnConsultationDate: false
-                },
-                {
-                  checkInOnConsultationDate: false
-                }
-              ]
-            },
-            {
-              consultationDate: "2017-11-02T00:00:00.000+0200",
-              patientConsultations: [
-                {
-                  checkInOnConsultationDate: true
-                },
-                {
-                  checkInOnConsultationDate: false
-                }
-              ]
-            }
-          ]
-        });
-      });
-    });
-
     spyOn(consultationService, 'getMonthlyConsultationSummary').and.callFake(function () {
       return $q(function (resolve) {
         return resolve({
@@ -92,7 +88,7 @@ describe('DashboardController', function () {
           endDate: moment('2017-11-07', 'YYYY-MM-DD'),
           summary: []
         });
-      })
+      });
     });
 
     controller = $componentController('dashboard');
@@ -107,6 +103,10 @@ describe('DashboardController', function () {
 
     it('should correctly set the list of apps', function () {
 
+      spyOn(consultationService, 'getWeeklyConsultationSummary').and.callFake(function () {
+        return $q.resolve(weeklySummary);
+      });
+
       controller.$onInit();
 
       $rootScope.$apply();
@@ -116,7 +116,11 @@ describe('DashboardController', function () {
 
     });
 
-    it('should load the weekly consultation summary', function () {
+    it('should load the weekly consultation weeklySummary', function () {
+
+      spyOn(consultationService, 'getWeeklyConsultationSummary').and.callFake(function () {
+        return $q.resolve(weeklySummary);
+      });
 
       controller.$onInit();
 
@@ -129,11 +133,35 @@ describe('DashboardController', function () {
 
     });
 
+    describe('failed to load consultations', function () {
+
+      it('set consultation summary labels', function () {
+
+        spyOn(consultationService, 'getWeeklyConsultationSummary').and.callFake(function () {
+          return $q.reject({
+            consultationSummary: {
+              startDate: moment('2018-05-30', 'YYYY-MM-DD'),
+              endDate: moment('2018-06-05', 'YYYY-MM-DD'),
+              summary: []
+            }
+          });
+        });
+
+        controller.$onInit();
+
+        $rootScope.$apply();
+
+        expect(controller.consultationSummary.labels).toEqual(["30 May", "31 May", "1 Jun", "2 Jun", "3 Jun", "4 Jun", "5 Jun"]);
+
+      });
+
+    });
+
   });
 
   describe('onMonthlySummaryClick', function () {
 
-    it('should load the weekly consultation summary', function () {
+    it('should load the weekly consultation weeklySummary', function () {
 
       controller.onMonthlySummaryClick();
 
@@ -148,6 +176,10 @@ describe('DashboardController', function () {
   describe('scheduledConsultations', function () {
 
     it('should return the total number of scheduled consultations', function () {
+
+      spyOn(consultationService, 'getWeeklyConsultationSummary').and.callFake(function () {
+        return $q.resolve(weeklySummary);
+      });
 
       controller.$onInit();
 
@@ -165,6 +197,10 @@ describe('DashboardController', function () {
   describe('checkedIn', function () {
 
     it('should return the total number of patients who checked in to scheduled consultations', function () {
+
+      spyOn(consultationService, 'getWeeklyConsultationSummary').and.callFake(function () {
+        return $q.resolve(weeklySummary);
+      });
 
       controller.$onInit();
 
