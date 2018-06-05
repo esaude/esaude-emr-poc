@@ -25,48 +25,7 @@ describe('DashboardController', function () {
 
   var apps = [1, 2, 3];
 
-  var weeklySummary = {
-    startDate: moment('2017-11-01', 'YYYY-MM-DD'),
-    endDate: moment('2017-11-07', 'YYYY-MM-DD'),
-    summary: [
-      {
-        consultationDate: "2017-10-31T00:00:00.000+0200",
-        patientConsultations: [
-          {
-            checkInOnConsultationDate: true
-          }
-        ]
-      },
-      {
-        consultationDate: "2017-11-01T00:00:00.000+0200",
-        patientConsultations: [
-          {
-            checkInOnConsultationDate: true
-          },
-          {
-            checkInOnConsultationDate: true
-          },
-          {
-            checkInOnConsultationDate: false
-          },
-          {
-            checkInOnConsultationDate: false
-          }
-        ]
-      },
-      {
-        consultationDate: "2017-11-02T00:00:00.000+0200",
-        patientConsultations: [
-          {
-            checkInOnConsultationDate: true
-          },
-          {
-            checkInOnConsultationDate: false
-          }
-        ]
-      }
-    ]
-  };
+  var weeklySummary = {};
 
   beforeEach(function () {
 
@@ -92,6 +51,50 @@ describe('DashboardController', function () {
     });
 
     controller = $componentController('dashboard');
+
+    // Needs to be inside beforeEach so that moment timezone config in application module config runs first.
+    weeklySummary = {
+      startDate: moment('2017-11-01', 'YYYY-MM-DD'),
+      endDate: moment('2017-11-07', 'YYYY-MM-DD'),
+      summary: [
+        {
+          consultationDate: "2017-10-31T00:00:00.000+0200",
+          patientConsultations: [
+            {
+              checkInOnConsultationDate: true
+            }
+          ]
+        },
+        {
+          consultationDate: "2017-11-01T00:00:00.000+0200",
+          patientConsultations: [
+            {
+              checkInOnConsultationDate: true
+            },
+            {
+              checkInOnConsultationDate: true
+            },
+            {
+              checkInOnConsultationDate: false
+            },
+            {
+              checkInOnConsultationDate: false
+            }
+          ]
+        },
+        {
+          consultationDate: "2017-11-02T00:00:00.000+0200",
+          patientConsultations: [
+            {
+              checkInOnConsultationDate: true
+            },
+            {
+              checkInOnConsultationDate: false
+            }
+          ]
+        }
+      ]
+    };
 
   });
 
