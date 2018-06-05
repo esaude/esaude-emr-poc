@@ -33,7 +33,7 @@ module.exports = function (grunt) {
               pattern: '<link rel="stylesheet" href="styles/vendor.' + module + '.min.css">',
               replacement: '<link rel="stylesheet" href="../styles/vendor.' + module + '.min.css">'
             }
-          )
+          );
       }
       replacements.push(
             {
@@ -392,8 +392,6 @@ module.exports = function (grunt) {
                         'common/**/*.html',
                         'home/**/*.html',
                         'lab/**/*.html',
-                        'move-patient/**/*.html',
-                        'move-patient/**/*.html',
                         'patient-details/**/*.html',
                         'pharmacy/**/*.html',
                         'poc-common/**/*.html',
@@ -496,5 +494,5 @@ module.exports = function (grunt) {
           dest: 'esaude-emr-poc.zip'
         }
       }
-  }
-}
+  };
+};

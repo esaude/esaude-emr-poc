@@ -46,7 +46,7 @@
       var scope = $scope.$new(true);
       scope.vm = vm;
       ngDialog.open({
-        template: '../move-patient/directives/movePatient.html',
+        template: '../common/move-patient/directives/movePatient.html',
         scope: scope,
         width: '60%',
         showClose: false
