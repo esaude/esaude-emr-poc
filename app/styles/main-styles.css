@@ -200,6 +200,10 @@ p.capitalize {
   height: 10px;
 }
 
+.nav-tabs {
+  margin-bottom: 10px;
+}
+
 /* Header */
 .navbar {
   min-height: 80px;

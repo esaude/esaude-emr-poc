@@ -3,6 +3,7 @@
     <h3 class="panel-title">{{'SEARCH_PATIENT' | translate}}</h3>
   </div>
   <div class="panel-body">
+
     <div class="row">
       <div class="col-sm-10">
         <div class="input-group input-group-lg">
@@ -22,7 +23,12 @@
         </poc-authorize>
       </div>
     </div>
-    <table st-table="vm.results" st-safe-src="vm.displayed" class="table table-striped">
+
+    <hr>
+
+    <no-results-alert collection="vm.results"></no-results-alert>
+
+    <table st-table="vm.results" st-safe-src="vm.displayed" class="table table-striped" ng-if="vm.results.length">
       <thead>
       <tr>
         <th>{{'SEARCH_PATIENT_NID' | translate}}</th>

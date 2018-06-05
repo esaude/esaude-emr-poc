@@ -2,8 +2,10 @@
 
   <poc-require-check-in patient="vm.patient" show-message="true">
 
-    <div class="dispensation content-border-margin-regular">
-      <div ng-repeat="p in vm.prescriptions" class="row prescription">
+    <no-results-alert collection="vm.dispensation" message="PHARMACY_LIST_NO_ITEMS"></no-results-alert>
+
+    <div class="dispensation content-border-margin-regular" ng-if="vm.dispensations.length">
+      <div ng-repeat="p in vm.prescriptions" class="row prescription" >
         <div class="col-sm-12">
           <div class="panel panel-primary">
 
