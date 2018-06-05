@@ -26,7 +26,7 @@ class LoginPage extends Page {
     this.I.click(this.loginButton);
 
     // Wait for the page to load
-    this.I.wait(1)
+    this.I.waitForInvisible('#overlay', 5)
 
     const I = this.I
 

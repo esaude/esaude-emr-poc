@@ -24,6 +24,31 @@ class PatientSearchComponent extends Component {
     this.I.wait(1)
   }
 
+  clickSearchResult(patient) {
+    const patientId = patient.identifiers[0].identifier
+
+    // Make sure the element is visible
+    this.I.waitForText(patientId, 5, '.patient-identifier')
+
+    // Find the correct element and click it 
+    this.I.executeScript((patientId) => {
+      try {
+        // Get the div that displays the patient's id
+        const patientIdElement = $(`td.patient-identifier:contains('${patientId}')`)
+        
+        // Get the row element containing the patient id because
+        // it's the element we need to click to navigate to the patient's page
+        const patientRow = patientIdElement.parent('tr[st-select-row="patient"')
+        
+        // Click it
+        patientRow.click()
+      } catch(e) {
+        console.log(`Unable to find patient with id ${patientId}. Error: ${e}`)
+      }
+      
+    }, patientId)
+  }
+
   // Clears the search box
   clearSearch(text) {
     this.I.waitForElement(this.searchBox)

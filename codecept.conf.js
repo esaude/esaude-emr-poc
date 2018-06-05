@@ -33,7 +33,7 @@ module.exports.config = {
 
     DashboardPage: './test/e2eTests/pages/dashboardPage.js',
     LoginPage: './test/e2eTests/pages/loginPage.js',
-    RegistrationDashPage: './test/e2eTests/pages/registrationDashboardPage.js',
+    RegistrationDashboardPage: './test/e2eTests/pages/registrationDashboardPage.js',
     RegistrationPage: './test/e2eTests/pages/registrationPage.js',
 
     Apis: './test/e2eTests/rest/openMrsApis.js',

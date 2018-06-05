@@ -36,10 +36,13 @@ Scenario('Validate searching works on the registration page', (I, Data, Dashboar
 })
 
 /*
+=======
+>>>>>>> 832b52024196350f33dc7209a1ded7be998a7c63
 Scenario('Validate searching works on the social page', (I, Data, DashboardPage) => {
 	const socialPage = DashboardPage.navigateToSocialPage()
 	validateSearch(I, Data, socialPage)
 })
+<<<<<<< HEAD
 */
 
 Scenario('Validate searching works on the vitals page', (I, Data, DashboardPage) => {
@@ -51,9 +54,12 @@ Scenario('Validate searching works on the vitals page', (I, Data, DashboardPage)
 const validateSearch = (I, Data, pageWithSearch) => {
 	const nonExistentPatientName = "No_Patient_Has_This_Name"
 
+<<<<<<< HEAD
 	I.say('Disabling auto select')
 	pageWithSearch.disableAutoSelect()
 
+=======
+>>>>>>> 832b52024196350f33dc7209a1ded7be998a7c63
 	I.say('Search for the first few letters of the patient\'s first name')
 	pageWithSearch.search(Data.users.patient1.person.names[0].givenName.substring(0, 3))
 
