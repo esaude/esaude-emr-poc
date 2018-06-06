@@ -34,6 +34,9 @@ class Page {
 	isLoaded() {
 		this.I.waitForElement(this.options.isLoaded.element, 5)
 		this.I.seeInCurrentUrl(this.options.isLoaded.urlPart)
+
+		// If there is an overlay, wait for it
+		this.I.waitForInvisible('#overlay', 10);
 	}
 
 	// Gets an instance of the component

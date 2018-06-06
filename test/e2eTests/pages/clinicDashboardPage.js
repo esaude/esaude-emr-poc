@@ -2,14 +2,42 @@ const Page = require('./page')
 
 class ClinicDashboardPage extends Page {
 
-	constructor() {
-		super({
-			isLoaded: {
-				element: '[ng-app="clinic"]',
-				urlPart: '/clinic/#/dashboard',
-			},
-		})
-	}
+  constructor() {
+    super({
+      isLoaded: {
+        element: '[ng-app="clinic"]',
+        urlPart: '/clinic/#/dashboard',
+      },
+    })
+
+    this.tabs = {
+      consultation: 'a[ui-sref="dashboard.consultation"]',
+    };
+  }
+
+  clickConsultationTab() {
+    this.I.waitForElement(this.tabs.consultation);
+    this.I.click(this.tabs.consultation);
+
+    this.I.waitForInvisible('#overlay', 5);
+    this.I.wait(1)
+  }
+
+  clickAddVitals() {
+    const vitalsServiceId = '003';
+    const addButton = `[data-qa-service-id="${vitalsServiceId}"] button[data-qa-type="add"]`
+    
+    this.I.waitForElement(addButton, 5)
+    this.I.click(addButton)
+
+    // Wait for the page to load
+    this.I.wait(1)
+
+    const vitalsAdultFormPage = require('./vitalsAdultFormPage')
+    vitalsAdultFormPage._init()
+    vitalsAdultFormPage.isLoaded()
+    return vitalsAdultFormPage
+  }
 }
 
 module.exports = new ClinicDashboardPage()

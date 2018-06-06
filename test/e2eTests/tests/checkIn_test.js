@@ -76,4 +76,30 @@ Scenario('', async (I, Apis, ClinicDashboardPage, Data, RegistrationDashboardPag
 
   I.say('Make sure the registration dashboard page is loaded');
   ClinicDashboardPage.isLoaded();
+
+  I.say('Select the consultation tab');
+  ClinicDashboardPage.clickConsultationTab();
+
+  I.say('Click the add vitals button');
+  const vitalsAdultFormPage = ClinicDashboardPage.clickAddVitals();
+
+  const formData = {
+    temperature: '37',
+    weight: '60',
+    height: '152',
+    systolicBloodPressure: '110',
+    diastolicBloodPressure: '70',
+    cardiacFrequency: '108',
+    respiratoryRate: '16',
+  };
+  I.say(`Using form data ${JSON.stringify(formData, null, 2)}`);
+
+  I.say('Fill in the vitals form');
+  vitalsAdultFormPage.fillForm(formData);
+
+  I.say('Click the next button');
+  vitalsAdultFormPage.next();
+
+  I.say('Verify the form data is correct');
+  vitalsAdultFormPage.verifyForm(formData);
 });
