@@ -3,7 +3,6 @@ angular
     'application',
     'bahmni.common.appFramework',
     'bahmni.common.appFramework',
-    'bahmni.common.config',
     'bahmni.common.domain',
     'bahmni.common.i18n',
     'bahmni.common.uicontrols.programmanagment',

@@ -4,11 +4,8 @@
   angular.module('patient.details')
     .controller('DetailPatientController', DetailPatientController);
 
-  DetailPatientController.$inject = ["$stateParams", "$state", "$scope", "reportService", "patientService",
-    "notifier", "translateFilter", "configurations", "appService"];
-
   function DetailPatientController($stateParams, $state, $scope, reportService, patientService, notifier,
-                                   translateFilter, configurations, appService) {
+                                   translateFilter, configurationService, appService) {
 
     var patientUUID = $stateParams.patientUuid;
     var patientConfiguration = appService.getPatientConfiguration();
@@ -17,7 +14,7 @@
     var vm = this;
 
     vm.patient = {};
-    vm.addressLevels = configurations.addressLevels();
+    vm.addressLevels = [];
     vm.patientAttributes = [];
     vm.linkDashboard = linkDashboard;
     vm.print = print;
@@ -38,6 +35,11 @@
         })
         .catch(function () {
           notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
+        });
+
+      configurationService.getAddressLevels()
+        .then(function (addressLevels) {
+          vm.addressLevels = addressLevels;
         });
     }
 

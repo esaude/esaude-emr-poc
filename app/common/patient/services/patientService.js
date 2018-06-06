@@ -5,11 +5,8 @@
     .module('common.patient')
     .factory('patientService', patientService);
 
-  patientService.$inject = ['$http', '$rootScope', 'appService', 'openmrsPatientMapper', '$q', '$log', 'configurations',
-    'reportService', 'updatePatientMapper'];
-
-  function patientService($http, $rootScope, appService, openmrsPatientMapper, $q, $log, configurations, reportService,
-    updatePatientMapper) {
+  /* @ngInject */
+  function patientService($http, $rootScope, appService, openmrsPatientMapper, $q, $log, reportService, updatePatientMapper) {
 
     var OPENMRS_URL = Poc.Patient.Constants.openmrsUrl;
 

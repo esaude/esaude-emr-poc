@@ -1,65 +1,73 @@
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('bahmni.common.domain')
-    .factory('configurationService', ['$http', '$q', function ($http, $q) {
+  angular
+    .module('bahmni.common.domain')
+    .factory('configurationService', configurationService);
 
-        var configurationFunctions = {};
+  function configurationService($http, $log, $q) {
 
-        configurationFunctions.patientAttributesConfig = function () {
-            return $http.get(Bahmni.Common.Constants.personAttributeTypeUrl, {
-                params: {v: "full"},
-                withCredentials: true
-            });
-        };
+    return {
+      getConfigurations: getConfigurations,
+      getDefaultLocation: getDefaultLocation,
+      getAddressLevels: getAddressLevels,
+      getPatientAttributeTypes: getPatientAttributeTypes,
+    };
 
+    function getConfigurations(configurationNames) {
 
-        configurationFunctions.addressLevels = function () {
-            return $http.get(Bahmni.Common.Constants.openmrsUrl + "/module/addresshierarchy/ajax/getOrderedAddressHierarchyLevels.form", {
-                withCredentials: true
-            });
-        };
-        
-        configurationFunctions.defaultLocation = function() {
-            return $http.get("/openmrs/ws/rest/v1/systemsetting", {
-                method: "GET",
-                params: {
-                    q: 'default_location',
-                    v: 'full'
-                },
-                 withCredentials: false
-            });
-        };
+      var configurationFunctions = {
+        relationshipTypeConfig: relationshipTypeConfig,
+      };
 
-        configurationFunctions.relationshipTypeConfig = function() {
-            return $http.get(Bahmni.Common.Constants.relationshipTypesUrl, {
-                withCredentials: true,
-                params: {v: "custom:(aIsToB,uuid)"}
-            });
-        };
+      var promises = configurationNames.map(function (configurationName) {
+        return configurationFunctions[configurationName]().then(function (response) {
+          return response.data;
+        });
+      });
 
-        var existingPromises = {};
-        var configurations = {};
+      return $q.all(promises);
+    }
 
-        var getConfigurations = function (configurationNames) {
-            var configurationsPromiseDefer = $q.defer();
-            var promises = [];
+    function getPatientAttributeTypes() {
+      return $http.get(Bahmni.Common.Constants.personAttributeTypeUrl, {params: {v: "full"}})
+        .then(function (response) {
+          return response.data.results;
+        })
+        .catch(function (error) {
+          $log.error('XHR Failed for getPatientAttributeTypes: ' + error.data.error.message);
+          return $q.reject(error);
+        });
+    }
 
-            configurationNames.forEach(function (configurationName) {
-                if (!existingPromises[configurationName]) {
-                    existingPromises[configurationName] = configurationFunctions[configurationName]().then(function (response) {
-                        configurations[configurationName] = response.data;
-                    });
-                    promises.push(existingPromises[configurationName]);
-                }
-            });
+    function getAddressLevels() {
+      return $http.get(Bahmni.Common.Constants.openmrsUrl + "/module/addresshierarchy/ajax/getOrderedAddressHierarchyLevels.form")
+        .then(function (response) {
+          return response.data;
+        })
+        .catch(function (error) {
+          $log.error('XHR Failed for getAddressLevels: ' + error.data.error.message);
+          return $q.reject(error);
+        });
+    }
 
-            $q.all(promises).then(function () {
-                configurationsPromiseDefer.resolve(configurations);
-            });
-            return configurationsPromiseDefer.promise;
-        };
+    function getDefaultLocation() {
+      return $http.get("/openmrs/ws/rest/v1/systemsetting", {params: {q: 'default_location', v: 'custom:(value)'}})
+        .then(function (response) {
+          return response.data.results[0].value;
+        })
+        .catch(function (error) {
+          $log.error('XHR Failed for getDefaultLocation: ' + error.data.error.message);
+          return $q.reject(error);
+        });
+    }
 
-        return {
-            getConfigurations: getConfigurations
-        };
-    }]);
+    function relationshipTypeConfig() {
+      return $http.get(Bahmni.Common.Constants.relationshipTypesUrl, {
+        withCredentials: true,
+        params: {v: "custom:(aIsToB,uuid)"}
+      });
+    }
+  }
+
+})();

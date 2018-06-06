@@ -59,11 +59,10 @@
     }
 
     function getDefaultLocation() {
-      return configurationService.getConfigurations(['defaultLocation'])
-        .then(function (configurations) {
-          var defaultLocationConfig = configurations.defaultLocation.results[0];
-          if (defaultLocationConfig.value) {
-            return getLocationsByName(defaultLocationConfig.value);
+      return configurationService.getDefaultLocation()
+        .then(function (defaultLocation) {
+          if (defaultLocation) {
+            return getLocationsByName(defaultLocation.value);
           } else {
             return $q.reject('LOGIN_LABEL_LOGIN_ERROR_NO_DEFAULT_LOCATION');
           }

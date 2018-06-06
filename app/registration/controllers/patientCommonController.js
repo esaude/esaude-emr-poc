@@ -5,22 +5,17 @@
     .module('registration')
     .controller('PatientCommonController', PatientCommonController);
 
-  PatientCommonController.$inject = ['$filter', '$scope', '$state', 'conceptService', 'configurations',
-    'localStorageService', 'notifier', 'patientAttributeService', 'patientService', 'sessionService',
-    'TabManager', 'appService'];
-
-
   /* @ngInject */
-  function PatientCommonController($filter, $scope, $state, conceptService, configurations, localStorageService,
+  function PatientCommonController($filter, $scope, $state, conceptService, localStorageService,
                                    notifier, patientAttributeService, patientService, sessionService,
-                                   TabManager, appService) {
+                                   TabManager, appService, configurationService) {
 
     var patientConfiguration = appService.getPatientConfiguration();
     var now = new Date();
 
     // TODO: Remove dependency on $scope!
     var vm = this;
-    vm.addressLevels = configurations.addressLevels();
+    vm.addressLevels = [];
     vm.birthDatepickerOptions = {maxDate: now};
     vm.deathDatepickerOptions = {maxDate: now};
     vm.deathConcepts = [];
@@ -73,6 +68,11 @@
         vm.patientIdentifierTypes = identifierTypes;
         return vm.getDeathConcepts();
       });
+
+      configurationService.getAddressLevels()
+        .then(function (addressLevels) {
+          vm.addressLevels = addressLevels;
+        });
     }
 
     function successCallback() {

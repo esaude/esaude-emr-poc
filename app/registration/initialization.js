@@ -5,22 +5,15 @@
     .module('registration')
     .factory('initialization', initialization);
 
-  initialization.$inject = ['$cookies', '$rootScope', 'configurations', 'authenticator', 'appService',  'userService'];
-
   /* @ngInject */
-  function initialization($cookies, $rootScope, configurations, authenticator, appService,  userService) {
+  function initialization($cookies, $rootScope, authenticator, appService,  userService) {
 
     return authenticator.authenticateUser()
       .then(initApp)
-      .then(loadConfigs)
       .then(getConfigs)
       .then(loadUser);
 
     ////////////////
-
-    function loadConfigs() {
-      return configurations.load(['patientAttributesConfig', 'addressLevels']);
-    }
 
     function getConfigs() {
       $rootScope.encounterTypes = appService.getAppDescriptor().getConfigValue("encounterTypes");

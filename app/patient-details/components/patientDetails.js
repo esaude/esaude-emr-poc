@@ -9,11 +9,8 @@
       templateUrl: '../patient-details/components/patientDetails.html'
     });
 
-  PatientDetailsController.$inject = ["$stateParams", "$state", "$rootScope", "reportService", "patientService",
-    "notifier", "translateFilter", "configurations", "appService"];
-
   function PatientDetailsController($stateParams, $state, $rootScope, reportService, patientService, notifier,
-                                    translateFilter, configurations, appService) {
+                                    translateFilter, configurationService, appService) {
 
     var patientUUID = $stateParams.patientUuid;
     var patientConfiguration = appService.getPatientConfiguration();
@@ -22,7 +19,7 @@
     var vm = this;
 
     vm.patient = {};
-    vm.addressLevels = configurations.addressLevels();
+    vm.addressLevels = [];
     vm.patientAttributes = [];
 
     vm.linkDashboard = linkDashboard;
@@ -43,6 +40,11 @@
         })
         .catch(function () {
           notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
+        });
+
+      configurationService.getAddressLevels()
+        .then(function (addressLevels) {
+          vm.addressLevels = addressLevels;
         });
     }
 
