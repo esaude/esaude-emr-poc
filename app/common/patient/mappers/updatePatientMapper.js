@@ -9,6 +9,7 @@
 
   /* @ngInject */
   function updatePatientMapper() {
+    var DATETIME_FORMAT = 'YYYY-MM-DD HH:mm';
     var service = {
       map: map
     };
@@ -84,7 +85,7 @@
       };
     }
 
-    function getBirthdate (birthdate, age, currentDate) {
+    function getBirthdate(birthdate, age, currentDate) {
       var mnt;
       if (birthdate !== undefined && birthdate !== "") {
         mnt = moment(birthdate, 'DD-MM-YYYY');
@@ -94,7 +95,7 @@
       return mnt.format('YYYY-MM-DD');
     }
 
-    function getMrsAttributes (openMRSPatient, patient, patientAttributeTypes) {
+    function getMrsAttributes(openMRSPatient, patient, patientAttributeTypes) {
       var attributes = [];
       patientAttributeTypes.forEach(function (attributeType) {
         var attr = {
@@ -120,7 +121,9 @@
     function setAttributeValue(attributeType, attr, value) {
       if (attributeType.format === "org.openmrs.Concept") {
         attr.hydratedObject = value;
-      } else if(value === "" || value === null || value === undefined) {
+      } else if (attributeType.format === "org.openmrs.util.AttributableDate") {
+        attr.value = moment(value).format(DATETIME_FORMAT);
+      } else if (value === "" || value === null || value === undefined) {
         attr.voided = true;
       } else {
         attr.value = value.toString();
