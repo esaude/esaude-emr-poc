@@ -13,27 +13,27 @@ const Component = require('./components/component')
 class Page {
 	constructor(options) {
 		// Make sure the components array is inialized
-		options.components = options.components || []
+		options.components = options.components || [];
 
-		this.options = options
+		this.options = options;
 
 		// Every page should have the header component
 		if(!this.options.components.includes('header')) {
-			this.options.components.push('header')
+			this.options.components.push('header');
 		}
 	}
 
 	_init() {
-		this.I = actor()
+		this.I = actor();
 
 		// Add each component to this page
-		this.options.components.forEach(name => this._addComponent(name))
+		this.options.components.forEach(name => this._addComponent(name));
 	}
 
 	// Validates that the page is loaded
 	isLoaded() {
-		this.I.waitForElement(this.options.isLoaded.element, 5)
-		this.I.seeInCurrentUrl(this.options.isLoaded.urlPart)
+		this.I.waitForElement(this.options.isLoaded.element, 5);
+		this.I.seeInCurrentUrl(this.options.isLoaded.urlPart);
 
 		// If there is an overlay, wait for it
 		this.I.waitForInvisible('#overlay', 10);
@@ -43,9 +43,9 @@ class Page {
 	// and copies its properties and functions
 	// to this page
 	_addComponent(componentName) {
-		const component = Component.create(componentName)
-		component.addToPage(this)
+		const component = Component.create(componentName);
+		component.addToPage(this);
 	}
 }
 
-module.exports = Page
+module.exports = Page;

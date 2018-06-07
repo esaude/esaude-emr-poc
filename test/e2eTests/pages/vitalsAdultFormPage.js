@@ -38,17 +38,17 @@ class VitalsAdultFormPage extends Page {
   }
 
   clickConfirm() {
-    this.I.click('form-wizard-confirm-part button')
+    this.I.click('form-wizard-confirm-part button');
 
     // Wait a moment for the next page to load
     this.I.waitForInvisible('#overlay', 5);
-    this.I.wait(1)
+    this.I.wait(1);
     this.I.waitForInvisible('#overlay', 5);
 
-    const clinicDashboardPage = require('./clinicDashboardPage')
-    clinicDashboardPage._init()
-    clinicDashboardPage.isLoaded()
-    return clinicDashboardPage
+    const clinicDashboardPage = require('./clinicDashboardPage');
+    clinicDashboardPage._init();
+    clinicDashboardPage.isLoaded();
+    return clinicDashboardPage;
   }
 
   _initFields() {
@@ -66,4 +66,4 @@ class VitalsAdultFormPage extends Page {
   }
 }
 
-module.exports = new VitalsAdultFormPage()
+module.exports = new VitalsAdultFormPage();

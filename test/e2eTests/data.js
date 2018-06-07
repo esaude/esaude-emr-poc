@@ -104,27 +104,6 @@ module.exports = {
 				birthdate: (new Date('1994-3-19')).toISOString(),
 			},
 		},
-
-		patient3: {
-			"identifiers": [
-				{
-					"identifier": "88654837/37/14448",
-					"identifierType": "e2b966d0-1d5f-11e0-b929-000c29ad1d07", // NID (SERVICO TARV)
-					"location": "4c34a53f-b0c2-4315-9829-1a07f76e10a8", // Zumba
-					"preferred": true
-				}
-			],
-			person: {
-				names: [
-					{
-						givenName: "Patient3FirstName",
-						familyName: "Patient3LastName"
-					}
-				],
-				gender: 'F',
-				birthdate: (new Date('1994-8-13')).toISOString(),
-			},
-		},
 	},
 
 	// Utilities for generating provider related data

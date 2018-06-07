@@ -61,6 +61,7 @@ class ApiManager {
     //--------------
     // List APIs here
     //--------------
+    this.encounter = createApi('encounter')
     this.patient = createApi('patient')
     this.person = createApi('person')
     this.programEnrollment = createApi('programenrollment')

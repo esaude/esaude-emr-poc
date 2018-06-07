@@ -6,4 +6,4 @@ module.exports = new Page({
     urlPart: '/clinic',
   },
   components: ['patientSearch'],
-})
+});
