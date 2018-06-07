@@ -1,43 +1,69 @@
-'use strict';
-
 describe('configurationService', function () {
 
+  var configurationservice, $rootScope, $httpBackend;
 
-    var _$http;
-    var rootScope;
-    beforeEach(module('bahmni.common.domain'));
+  beforeEach(module('bahmni.common.domain'));
 
-    beforeEach(module(function ($provide) {
-        _$http = jasmine.createSpyObj('$http', ['get']);
-        _$http.get.and.callFake(function (url) {
-            return specUtil.respondWith({data: "success"});
-        });
+  beforeEach(inject(function (_$rootScope_, _configurationService_, _$httpBackend_) {
+    $rootScope = _$rootScope_;
+    configurationservice = _configurationService_;
+    $httpBackend = _$httpBackend_;
+  }));
 
-        $provide.value('$http', _$http);
-        $provide.value('$q', Q);
-    }));
-
-    var configurationservice;
-
-    beforeEach(inject(function (_$rootScope_, _configurationService_) {
-        rootScope = _$rootScope_;
-        configurationservice = _configurationService_;
-    }));
+  describe('getPatientAttributeTypes', function () {
 
     it('should fetch patientAttributesConfig from backend', function () {
-        configurationservice.getConfigurations(['patientAttributesConfig']);
-        expect(_$http.get.calls.mostRecent().args[0]).toEqual(Bahmni.Common.Constants.personAttributeTypeUrl);
-        expect(_$http.get.calls.mostRecent().args[1].params.v).toEqual("full");
+
+      $httpBackend.expectGET('/openmrs/ws/rest/v1/personattributetype?v=full').respond({});
+
+      configurationservice.getPatientAttributeTypes();
+
+      $httpBackend.flush();
+
     });
+
+  });
+
+  describe('getAddressLevels', function () {
 
     it('should fetch addressLevels from backend', function () {
-        configurationservice.getConfigurations(['addressLevels']);
-        expect(_$http.get.calls.mostRecent().args[0]).toEqual("/openmrs/module/addresshierarchy/ajax/getOrderedAddressHierarchyLevels.form");
+
+      $httpBackend.expectGET('/openmrs/module/addresshierarchy/ajax/getOrderedAddressHierarchyLevels.form').respond({});
+
+      configurationservice.getAddressLevels();
+
+      $httpBackend.flush();
+
     });
 
+  });
+
+  describe('getConfigurations', function () {
+
     it('should fetch relationshipTypes from backend', function () {
-        configurationservice.getConfigurations(['relationshipTypeConfig']);
-        expect(_$http.get.calls.mostRecent().args[0]).toEqual(Bahmni.Common.Constants.relationshipTypesUrl);
-        expect(_$http.get.calls.mostRecent().args[1].params.v).toEqual("custom:(aIsToB,uuid)");
+
+      $httpBackend.expectGET('/openmrs/ws/rest/v1/relationshiptype?v=custom:(aIsToB,uuid)').respond([]);
+
+      configurationservice.getConfigurations(['relationshipTypeConfig']);
+
+      $httpBackend.flush();
+
     });
+
+  });
+
+
+  describe('getDefaultLocation', function () {
+
+    it('should get default location from system settings', function () {
+
+      $httpBackend.expectGET('').respond({results: [{value: 'Local Desconhecido'}]});
+
+      configurationservice.getDefaultLocation();
+
+      $httpBackend.flush();
+
+    });
+
+  });
 });

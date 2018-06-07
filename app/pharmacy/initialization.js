@@ -6,21 +6,16 @@
     .factory('initialization', initialization);
 
   /* @ngInject */
-  function initialization($cookies, $rootScope, configurations, authenticator, appService,  userService, sessionService) {
+  function initialization($cookies, $rootScope, authenticator, appService,  userService, sessionService) {
 
     return authenticator.authenticateUser()
       .then(initApp)
-      .then(loadConfigs)
       .then(getConfigs)
       .then(loadUser)
       .then(initDrugMapping)
       .then(loadProvider);
 
     ////////////////
-
-    function loadConfigs() {
-      return configurations.load(['patientAttributesConfig', 'addressLevels']);
-    }
 
     function getConfigs() {
       $rootScope.encounterTypes = appService.getAppDescriptor().getConfigValue("encounterTypes");

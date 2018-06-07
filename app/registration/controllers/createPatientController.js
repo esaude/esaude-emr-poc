@@ -13,7 +13,6 @@
                                    openmrsPatientMapper, notifier) {
 
     $scope.actions = {};
-    $scope.addressHierarchyConfigs = appService.getAppDescriptor().getConfigValue("addressHierarchy");
     $scope.headerText = "PATIENT_INFO_NEW";
     $scope.patient = patient.create();
     $scope.patientConfiguration = appService.getPatientConfiguration();

@@ -4,9 +4,7 @@
   angular.module('bahmni.common.domain')
     .factory('encounterService', encounterService);
 
-  encounterService.$inject = ['$http', '$q', 'configurations', '$log'];
-
-  function encounterService($http, $q, configurations, $log) {
+  function encounterService($http, $q, $log) {
 
     var PHARMACY_ENCOUNTER_TYPE_UUID = "e279133c-1d5f-11e0-b929-000c29ad1d07";
 
@@ -54,13 +52,6 @@
      */
     function getNextPickupDate(encounter) {
       return _.find(encounter.obs, { concept: { uuid: NEXT_PICKUP_DATE_CONCEPT_UUID } });
-    }
-
-    function getDefaultEncounterType() {
-      var url = Bahmni.Common.Constants.encounterTypeUrl;
-      return $http.get(url + '/' + configurations.defaultEncounterType()).then(function (response) {
-        return response.data;
-      });
     }
 
     function create(encounter) {

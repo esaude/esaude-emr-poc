@@ -6,18 +6,13 @@
     .factory('initialization', initialization);
 
   /* @ngInject */
-  function initialization($cookies, $rootScope, configurations, authenticator, appService,  userService) {
+  function initialization($cookies, $rootScope, authenticator, appService,  userService) {
 
     return authenticator.authenticateUser()
       .then(initApp)
-      .then(loadConfigs)
       .then(loadUser);
 
     ////////////////
-
-    function loadConfigs() {
-      return configurations.load(['patientAttributesConfig', 'addressLevels']);
-    }
 
     function initApp() {
       return appService.initApp('clinical', {'app': true, 'extension' : true, 'service': true });

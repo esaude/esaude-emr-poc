@@ -7,7 +7,7 @@ describe('PatientCommonController', function () {
 
   var identifierTypes = [1, 2, 3];
 
-  var patientAttributes = [[1,2], [3,4]];
+  var patientAttributes = [[1,2], [3,4]], configurationService;
 
   beforeEach(module('registration', function ($provide, $translateProvider, $urlRouterProvider) {
     // Mock initialization
@@ -25,7 +25,7 @@ describe('PatientCommonController', function () {
       }
     });
 
-    appService.getAppDescriptor.and.returnValue({getConfigValue: function (param) { return {}}});
+    appService.getAppDescriptor.and.returnValue({getConfigValue: function (param) { return {}; }});
 
     $provide.value('appService', appService);
     // Mock translate asynchronous loader
@@ -41,7 +41,8 @@ describe('PatientCommonController', function () {
   }));
 
   beforeEach(inject(function (_$controller_, _$httpBackend_, _patientAttributeService_, _patientService_,
-                              _localStorageService_, _$q_, _$rootScope_, _conceptService_, _sessionService_) {
+                              _localStorageService_, _$q_, _$rootScope_, _conceptService_, _sessionService_,
+                              _configurationService_) {
     $q = _$q_;
     $rootScope = _$rootScope_;
     $controller = _$controller_;
@@ -51,7 +52,7 @@ describe('PatientCommonController', function () {
     localStorageService = _localStorageService_;
     conceptService = _conceptService_;
     sessionService = _sessionService_;
-
+    configurationService = _configurationService_;
   }));
 
   describe('activate', function () {
@@ -61,13 +62,20 @@ describe('PatientCommonController', function () {
       spyOn(patientService, 'getIdentifierTypes').and.callFake(function () {
         return $q(function (resolve) {
           return resolve(identifierTypes);
-        })
+        });
       });
 
       spyOn(conceptService, 'getDeathConcepts').and.callFake(function () {
         return $q(function (resolve) {
           return resolve([]);
-        })
+        });
+      });
+
+      spyOn(configurationService, 'getAddressLevels').and.callFake(function () {
+        return $q.resolve([
+          {name: "Pais", addressField: "country", required: true},
+          {name: "Provincia", addressField: "stateProvince", required: true}
+        ]);
       });
 
       controller = $controller('PatientCommonController', {
@@ -85,6 +93,14 @@ describe('PatientCommonController', function () {
       $rootScope.$apply();
       expect(controller.deathConcepts).toEqual([]);
     });
+    it('should load addressLevels', function () {
+      $rootScope.$apply();
+      expect(controller.addressLevels).toEqual([
+        {name: "Pais", addressField: "country", required: true},
+        {name: "Provincia", addressField: "stateProvince", required: true}
+      ]);
+    });
+
 
   });
 
@@ -95,7 +111,7 @@ describe('PatientCommonController', function () {
         var testingAttrs = [
                     {"name": "Data do teste HIV", "uuid": "46e79fce-ba89-4ec9-8f31-2dfd9318d415"},
                     {"name": "Tipo de teste HIV", "uuid": "ce778a93-66f9-4607-9d80-8794ed127674"}
-                ]
+                ];
 
         var personAttributes = [
           [
@@ -129,7 +145,7 @@ describe('PatientCommonController', function () {
               {"description":"SERIOLOGIA HIV DATA RESULTADO","conceptId":"e1d800dc-1d5f-11e0-b929-000c29ad1d07"}
             ],"required":false}],
           [{"uuid":"5719d315-dbe7-4da0-bf90-466f09b5b777","name":"Alcunha","format":"java.lang.String","answers":[],"required":false}]
-        ]
+        ];
 
         var filteredAttrs = controller.filterPersonAttributesForCurrStep(personAttributes, testingAttrs);
         expect(filteredAttrs.length).toEqual(2);

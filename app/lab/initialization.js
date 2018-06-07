@@ -5,20 +5,13 @@
     .module('lab')
     .factory('initialization', initialization);
 
-  initialization.$inject = ['$cookies', '$rootScope', 'configurations', 'authenticator', 'appService',  'userService'];
-
   /* @ngInject */
-  function initialization($cookies, $rootScope, configurations, authenticator, appService) {
+  function initialization($cookies, $rootScope, authenticator, appService) {
 
     return authenticator.authenticateUser()
-      .then(initApp)
-      .then(loadConfigs);
+      .then(initApp);
 
     ////////////////
-
-    function loadConfigs() {
-      return configurations.load(['patientAttributesConfig', 'addressLevels']);
-    }
 
     function initApp() {
       return appService.initApp('lab', {'app': true, 'extension': true, 'service': true});
