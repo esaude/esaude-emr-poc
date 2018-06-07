@@ -66,6 +66,7 @@ module.exports.config = {
     I: `./${TestDir}/steps_file.js`,
     Data: `./${TestDir}/data.js`,
     Apis: `./${TestDir}/rest/openMrsApis.js`,
+    // Pages in the /pages dir are added automatically
   }),
   bootstrap: false,
   mocha: {
