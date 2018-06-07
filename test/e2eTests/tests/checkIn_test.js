@@ -139,3 +139,4 @@ Scenario('Check in through pharmacy dashboard', async (I, Apis, Data, PharmacyDa
   I.say(`${LOG_TAG} Validate the check in message appears`);
   PharmacyDashboardPage.verifyCheckIn();
 });
+
