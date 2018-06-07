@@ -51,7 +51,6 @@ describe('dispensationHistory', function () {
       $rootScope.$apply();
       expect(controller.filaObsList.nextPickup).toEqual("e1e2efd8-1d5f-11e0-b929-000c29ad1d07");
       expect(controller.filaObsList.quantity).toEqual("e1de2ca0-1d5f-11e0-b929-000c29ad1d07");
-      expect(controller.pharmacyEncounterTypeUuid).toEqual("18fd49b7-6c2b-4604-88db-b3eb5b3a6d5f");
     });
 
   });
