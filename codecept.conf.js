@@ -9,11 +9,12 @@ module.exports.config = {
   output: './test/e2eTests/output',
   helpers: {
     Puppeteer: {
-      url: `http://${options.hostname}:${options.port}`,
+      url: `http://${options.hostname}:${options.port}/poc`,
       driver: 'hosted',
       browser: 'chrome',
       rootElement: 'body',
       show: true,
+      windowSize: '1680x1050',
     },
     REST: {
       endpoint: `http://${proxy.host}:${proxy.port}${proxy.context}/ws/rest/v1`,
@@ -30,6 +31,8 @@ module.exports.config = {
     I: './test/e2eTests/steps_file.js',
 
     Data: './test/e2eTests/data.js',
+
+    Translator: './test/e2eTests/translator.js',
 
     DashboardPage: './test/e2eTests/pages/dashboardPage.js',
     LoginPage: './test/e2eTests/pages/loginPage.js',
