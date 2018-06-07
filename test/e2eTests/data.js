@@ -128,9 +128,4 @@ module.exports = {
 		PTV_ETV: '06057245-ca21-43ab-a02f-e861d7e54593',
 		CLINICA_MOVEL: 'fb455824-fb53-45ab-bf5a-a81482ff6848',
 	},
-
-	// Uuids for visits
-	visits: {
-		SEGUIMENTO_PTV: '056a9354-320f-4b12-9db3-187e12e20b76',
-	},
 }

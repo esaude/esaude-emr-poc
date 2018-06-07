@@ -122,7 +122,7 @@ describe('PatientSearchController', function () {
       expect(patientService.search).toHaveBeenCalled();
       expect(openmrsPatientMapper.map).toHaveBeenCalled();
 
-      expect(ctrl.onPatientSelect).not.toHaveBeenCalled();
+      expect(ctrl.onPatientSelect).toHaveBeenCalled();
     });
 
     it('should set search text to scanned barcode', function () {

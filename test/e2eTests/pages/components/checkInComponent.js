@@ -5,8 +5,6 @@ const LOG_TAG = '[CheckInComponent]';
 class CheckInComponent extends Component {
   // Clicks the check in button
   clickCheckIn() {
-    this.I.wait(1);
-
     this.I.say(`${LOG_TAG} Click the check in button`);
     this.I.waitForElement({css: '.checkin button'}, 5);
     this.I.click({css: '.checkin button'});

@@ -10,7 +10,7 @@ class ClinicDashboardPage extends Page {
         element: '[ng-app="clinic"]',
         urlPart: '/clinic/#/dashboard',
       },
-    })
+    });
 
     this.tabs = {
       consultation: 'a[ui-sref="dashboard.consultation"]',
@@ -21,6 +21,7 @@ class ClinicDashboardPage extends Page {
     this.I.waitForElement(this.tabs.consultation);
     this.I.click(this.tabs.consultation);
 
+    this.I.say(`${LOG_TAG} waiting for consultation tab to load`);
     this.I.waitForInvisible('#overlay', 5);
     this.I.wait(1);
   }
@@ -33,7 +34,7 @@ class ClinicDashboardPage extends Page {
     this.I.waitForElement(addButton, 5);
     this.I.click(addButton);
 
-    // Wait for the page to load
+    this.I.say(`${LOG_TAG} waiting for adult vitals form to load`);
     this.I.wait(1);
 
     const vitalsAdultFormPage = require('./vitalsAdultFormPage');

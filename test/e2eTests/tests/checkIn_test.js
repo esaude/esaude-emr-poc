@@ -10,35 +10,6 @@ const LOG_TAG = '[CheckInTests]';
 let Patient1 = null;
 
 Before(async (I, Apis, Data) => {
-  /*// Removes all visits and encounters associated with a patient
-  const cleanUpPatientData = async (patient) => {
-    // If the patient wasn't created yet there's nothing to do
-    if(!patient)
-      return
-
-    I.say(`${LOG_TAG} Deleting any visits created through the UI`);
-
-    I.say(`${LOG_TAG} Getting all visits associated with patient ${patient.uuid}`);
-    const visits = await Apis.visit.getAll({ patient: patient.uuid });
-
-    I.say(`${LOG_TAG} Deleting ${visits.length} visits associated with patient ${patient.uuid}`);
-    visits.forEach(async v => await Apis.visit.delete(v));
-
-    I.say(`${LOG_TAG} Deleting any encounters created through the UI`);
-
-    I.say(`${LOG_TAG} Getting all encounters associated with patient ${patient.uuid}`);
-    const encounters = await Apis.encounter.getAll({ patient: patient.uuid });
-
-    I.say(`${LOG_TAG} Deleting ${encounters.length} encounters associated with patient ${patient.uuid}`);
-    encounters.forEach(async v => await Apis.encounter.delete(v));
-  };
-
-  const patients = await Apis.patient.getAll({q: 'pat'})
-  patients.forEach(async (p) => {
-    await cleanUpPatientData(p)
-    await Apis.patient.delete(p)
-  })*/
-
   I.say(`${LOG_TAG} Creating patient one`);
   Patient1 = await Apis.patient.create(Data.users.patient1);
 });

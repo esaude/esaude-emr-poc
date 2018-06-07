@@ -11,7 +11,11 @@ const proxy = gruntConfig.connect.proxies[0];
 // Constantly updating config.include with new pages is a pain
 // This function adds them automatically
 const addPages = (include) => {
+  // Read all files in the pages dir
   const pagePaths = fs.readdirSync(`${__dirname}/${TestDir}/pages`);
+  
+  // Add each file to config.include
+  // Skip page.js and anything not ending in .js, like folders
   pagePaths.forEach(pagePath => {
     // We only care about .js files
     // and we don't care about the abstract base class in page.js
@@ -26,8 +30,8 @@ const addPages = (include) => {
     let pageName = path.basename(pagePath, path.extname(pagePath));
     pageName = pageName.charAt(0).toUpperCase() + pageName.slice(1);
 
-    // Add the page to the includes section
-    // so we can reference it in tests
+    // Add the page to config.includes so we can reference it in tests
+    // After this line config.include will contain a property like...
     // Ex: RegistrationPage: ./test/e2eTests/pages/registrationPage.js
     include[pageName] = `./${TestDir}/pages/${pageFilename}`;
   })

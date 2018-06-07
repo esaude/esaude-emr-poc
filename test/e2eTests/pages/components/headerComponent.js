@@ -4,12 +4,12 @@ const LOG_TAG = '[HeaderComponent]'
 
 class HeaderComponent extends Component {
   constructor() {
-    super()
+    super();
 
     this.dropdown = {
       hamburgerButton: {css: '.dropdown-toggle'},
       logoutButton: {css: 'a[log-out]'},
-    }
+    };
 
     this.homeLink = '#home-link';
   }

@@ -8,9 +8,9 @@ class VitalsAdultFormPage extends Page {
         element: '[name="aForm"]',
         urlPart: '/vitals/adult',
       },
-    })
+    });
 
-    this._initFields()
+    this._initFieldsProperty();
   }
 
   fillForm(data) {
@@ -51,7 +51,7 @@ class VitalsAdultFormPage extends Page {
     return clinicDashboardPage;
   }
 
-  _initFields() {
+  _initFieldsProperty() {
     const getFieldData = (fieldName) => `input[name="${fieldName}"]`
 
     this.fields = {
