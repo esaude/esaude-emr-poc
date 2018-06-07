@@ -5,7 +5,7 @@
     .module('bahmni.common.domain')
     .factory('configurationService', configurationService);
 
-  function configurationService($http, $log, $q) {
+  function configurationService($http, $log, $q, personAttributeTypeMapper) {
 
     return {
       getConfigurations: getConfigurations,
@@ -32,7 +32,7 @@
     function getPatientAttributeTypes() {
       return $http.get(Bahmni.Common.Constants.personAttributeTypeUrl, {params: {v: "full"}})
         .then(function (response) {
-          return response.data.results;
+          return personAttributeTypeMapper.map(response.data.results);
         })
         .catch(function (error) {
           $log.error('XHR Failed for getPatientAttributeTypes: ' + error.data.error.message);

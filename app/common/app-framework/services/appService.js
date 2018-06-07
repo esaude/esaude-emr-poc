@@ -104,12 +104,12 @@
       return deferrable.promise;
     }
 
+
+    // TODO: move to patientService load only when needed.
     function loadPatientAttributeTypes() {
       return configurationService.getPatientAttributeTypes()
         .then(function (patientAttributeTypes) {
-          var mandatoryPersonAttributes = getAppDescriptor().getConfigValue("mandatoryPersonAttributes");
-          var pocPatientAttributeTypes = new Poc.Patient.PatientAttributeTypeMapper().mapFromOpenmrsPatientAttributeTypes(patientAttributeTypes, mandatoryPersonAttributes);
-          pocPatientConfig = new Poc.Patient.PatientConfig(pocPatientAttributeTypes.personAttributeTypes, getAppDescriptor().getConfigValue("additionalPatientInformation"));
+          pocPatientConfig = patientAttributeTypes;
         })
         .catch(function () {
           $log.error('XHR Failed for loadPatientAttributeTypes: ' + error.data.error.message);

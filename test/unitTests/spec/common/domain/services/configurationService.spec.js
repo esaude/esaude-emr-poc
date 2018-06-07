@@ -1,24 +1,41 @@
 describe('configurationService', function () {
 
-  var configurationservice, $rootScope, $httpBackend;
+  var configurationservice, $rootScope, $httpBackend, personAttributeTypeMapper;
 
   beforeEach(module('bahmni.common.domain'));
 
-  beforeEach(inject(function (_$rootScope_, _configurationService_, _$httpBackend_) {
+  beforeEach(inject(function (_$rootScope_, _configurationService_, _$httpBackend_, _personAttributeTypeMapper_) {
     $rootScope = _$rootScope_;
     configurationservice = _configurationService_;
     $httpBackend = _$httpBackend_;
+    personAttributeTypeMapper = _personAttributeTypeMapper_;
   }));
 
   describe('getPatientAttributeTypes', function () {
 
-    it('should fetch patientAttributesConfig from backend', function () {
+    it('should fetch person attribute types from backend', function () {
+
+      spyOn(personAttributeTypeMapper, 'map');
 
       $httpBackend.expectGET('/openmrs/ws/rest/v1/personattributetype?v=full').respond({});
 
       configurationservice.getPatientAttributeTypes();
 
       $httpBackend.flush();
+
+    });
+
+    it('should map person attributes', function () {
+
+      spyOn(personAttributeTypeMapper, 'map');
+
+      $httpBackend.expectGET('/openmrs/ws/rest/v1/personattributetype?v=full').respond({});
+
+      configurationservice.getPatientAttributeTypes();
+
+      $httpBackend.flush();
+
+      expect(personAttributeTypeMapper.map).toHaveBeenCalled();
 
     });
 

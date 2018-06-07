@@ -62,13 +62,6 @@ describe('PatientDetailsController', function () {
       expect(patientService.getPatient).toHaveBeenCalled();
     });
 
-    it('should define the patient attributes', function () {
-      var ctrl = $componentController('patientDetails');
-      ctrl.$onInit();
-      $rootScope.$apply();
-      expect(ctrl.patientAttributes).toEqual([1, 2, 3, 4]);
-    });
-
     it('should load addressLevels', function () {
       var ctrl = $componentController('patientDetails');
       ctrl.$onInit();

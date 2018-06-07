@@ -18,17 +18,6 @@
   ];
 
   beforeEach(module('clinic', function ($provide, $translateProvider, $urlRouterProvider) {
-    // Mock initialization
-    $provide.factory('initialization', function () {
-    });
-    // Mock appService
-    var appService = jasmine.createSpyObj('appService', ['initApp']);
-    appService.initApp.and.returnValue({
-      then: function (fn) {
-        fn({});
-      }
-    });
-    $provide.value('appService', appService);
     // Mock translate asynchronous loader
     $provide.factory('mergeLocaleFilesService', function ($q) {
       return function () {

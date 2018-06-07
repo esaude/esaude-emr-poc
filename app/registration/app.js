@@ -159,10 +159,9 @@
           returnState: null
         },
         resolve: {
-          patient: function (initialization, $stateParams, patientService) {
-            // We need initialization to always resolve first
-            var representation = "custom:(uuid,voided,display,person:full,identifiers:(uuid,display,identifier,location,preferred,voided,identifierType:full))";
-            return patientService.getPatient($stateParams.patientUuid, representation);
+          patient: function (initialization, $stateParams, patientService, patientRepresentation) {
+            // We need initialization to always resolve first';
+            return patientService.getPatient($stateParams.patientUuid, patientRepresentation);
           }
         }
       })
@@ -224,9 +223,7 @@
       })
       .state('detailpatient', {
         url: '/patient/detail/:patientUuid',
-        templateUrl: '../patient-details/views/patient-details.html',
-        controller: 'DetailPatientController',
-        controllerAs: 'patientCommon',
+        component: 'patientDetails',
         ncyBreadcrumb: {
           label: '{{\'PATIENT_DETAILS\' | translate }}',
           parent: 'dashboard'

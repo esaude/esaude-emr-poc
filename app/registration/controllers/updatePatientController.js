@@ -5,10 +5,8 @@
     .module('registration')
     .controller('UpdatePatientController', UpdatePatientController);
 
-  UpdatePatientController.$inject = ['$filter', '$scope', '$state', '$stateParams', 'patient', 'patientService', 'notifier', 'appService'];
-
   /* @ngInject */
-  function UpdatePatientController($filter, $scope, $state, $stateParams, patient, patientService, notifier, appService) {
+  function UpdatePatientController($filter, $scope, $state, $stateParams, patient, patientService, notifier) {
 
     var returnState = $stateParams.returnState;
     var uuid = $stateParams.patientUuid;
@@ -16,7 +14,6 @@
 
     $scope.headerText = "PATIENT_INFO_EDIT";
     $scope.patient = patient;
-    $scope.patientConfiguration = appService.getPatientConfiguration();
     $scope.openMRSPatient = {};
     $scope.srefPrefix = "editpatient.";
 
