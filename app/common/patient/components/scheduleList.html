@@ -3,7 +3,10 @@
     <h3 class="panel-title">{{vm.title}}</h3>
   </div>
   <div class="panel-body">
-    <table st-table="vm.cohortMembers" class="table table-striped">
+
+    <no-results-alert collection="vm.cohortMembers" message="SCHEDULE_HASNT_SCHEDULES"></no-results-alert>
+
+    <table st-table="vm.cohortMembers" class="table table-striped" ng-if="vm.cohortMembers">
       <thead>
       <tr>
         <th>{{'SCHEDULE_PATIENT' | translate}}</th>
@@ -25,11 +28,6 @@
       </tr>
       </tbody>
       <tfoot>
-      <tr ng-show="vm.patients.length === 0">
-        <td colspan="4" class="text-center">
-          {{'SCHEDULE_HASNT_SCHEDULES'| translate}}
-        </td>
-      </tr>
       <tr>
         <td colspan="4" class="text-center">
           <div st-items-by-page="12" st-displayed-pages="7" st-pagination=""></div>
