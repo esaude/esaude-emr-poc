@@ -55,6 +55,7 @@
 
         _currentModule = moduleName;
 
+        // TODO: dont load patient, use loaded from router resolve.
         var getPatient = patientService.getPatient(patientUuid);
 
         return $q.all([service.loadClinicalServices(), loadFormLayouts(), getPatient])

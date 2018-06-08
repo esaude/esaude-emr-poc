@@ -345,6 +345,9 @@
     "COMMON_MESSAGE_EXCEPTION_REQUESTING_DRUG_STOCK_AVAILABILITY":"Unable to obtain inventory information for the selected medicine",
     "PLEASE_CHECK_IN_PATIENT": "Please check-in the patient.",
     "COMMON_CANT_DELETE_PATIENT_WITH_HISTORY": "You are not allowed to delete this patient because he has a History in of follow up.",
-    "COMMON_PATIENT_SEARCH_ERROR": "There was an error searching for the patient."
+    "COMMON_PATIENT_SEARCH_ERROR": "There was an error searching for the patient.",
+    "COMMON_PATIENT_CREATED": "Patient created with success.",
+    "COMMON_COULD_NOT_LOAD_PATIENT": "Could not load patient, please try again.",
+    "COMMON_PATIENT_UPDATED": "Patient updated with success."
 
 }

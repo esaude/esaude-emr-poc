@@ -1,0 +1,73 @@
+<form name="vm.form" class="form-horizontal">
+  <div class="panel panel-primary content-border-margin">
+
+    <div class="panel-heading">
+      <h3 class="panel-title">{{'PATIENT_INFO_AGE' | translate}}/{{'PATIENT_INFO_BIRTHDATE' | translate}}</h3>
+    </div>
+
+    <div class="panel-body">
+
+      <div class="form-group form-group-lg"
+           ng-class="{'has-error': vm.form.patientBirthdate.$invalid && vm.shouldShowMessages()}">
+        <label class="col-sm-2 control-label"><b>{{'PATIENT_INFO_BIRTHDATE' | translate}}:<span
+          class="asterick">*</span></b></label>
+        <div class="col-sm-6">
+          <div ng-messages for="vm.form.patientBirthdate.$error"
+               ng-show="vm.shouldShowMessages();">
+            <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
+          </div>
+          <div class="input-group">
+            <input class="form-control" id="createdDate1" name="patientBirthdate" type="text" uib-datepicker-popup
+                   ng-model="vm.patient.birthdate" ng-focus="focused=true" is-open="focused"
+                   datepicker-options="vm.birthDatepickerOptions"
+                   ng-change="vm.patient.calculateAge()"
+                   placeholder=""
+                   required/>
+            <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group form-group-lg"
+           ng-class="{'has-error': vm.form.patientBirthdate.$invalid && vm.shouldShowMessages()}">
+        <label class="col-sm-2 control-label"><b>{{'PATIENT_INFO_AGE' | translate}}:<span class="asterick">*</span></b></label>
+        <div class="col-sm-2">
+          <div class="input-group">
+            <span class="input-group-addon" id="age-addon">{{'PATIENT_INFO_YEARS' | translate}}</span>
+            <input id="patientYears" name="patientYears" type="number"
+                   min="0" max="120" class="form-control" ng-model="vm.patient.age.years"
+                   ng-change="vm.patient.calculateBirthDate()"
+                   required aria-describedby="age-addon">
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <div class="input-group">
+            <span class="input-group-addon" id="months-addon">{{'PATIENT_INFO_MONTHS' | translate}}</span>
+            <input id="patientMonths" name="patientMonths" type="number"
+                   min="0" class="form-control" ng-model="vm.patient.age.months"
+                   ng-change="vm.patient.calculateBirthDate()"
+                   required aria-describedby="months-addon">
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <div class="input-group">
+            <span class="input-group-addon" id="days-addon">{{'PATIENT_INFO_DAYS' | translate}}</span>
+            <input id="patientDays" name="patientDays" type="number"
+                   min="0" class="form-control" ng-model="vm.patient.age.days"
+                   ng-change="vm.patient.calculateBirthDate()"
+                   required aria-describedby="days-addon">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group form-group-lg" ng-show="vm.form.patientBirthdate.$valid">
+        <label class="col-sm-2 control-label"><b>{{'PATIENT_INFO_ESTIMATED' | translate}}:</b></label>
+        <label class="col-sm-1 control-label go-left">
+          {{(vm.patient.birthdateEstimated) ? 'COMMON_YES' : 'COMMON_NO' | translate}}
+        </label>
+      </div>
+    </div>
+  </div>
+</form>

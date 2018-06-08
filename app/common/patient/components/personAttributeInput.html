@@ -1,0 +1,50 @@
+<div data-ng-switch on="vm.attribute.format">
+
+  <div data-ng-switch-when="java.lang.String">
+        <span data-ng-switch="isAutoComplete(attribute.name)">
+            <input class="form-control keyboard-in" data-ng-switch-when="true" name="{{vm.attribute.name}}"
+                   type="text" id="{{vm.attribute.name}}" ng-maxlength="50"
+                   ng-model="vm.person[vm.attribute.name]" data-item-type="personAttribute"
+                   my-autocomplete source="getAutoCompleteList" response-map="getDataResults"
+                   ng-disabled="isReadOnly(vm.attribute.name)" ng-required="{{vm.attribute.required}}">
+
+            <input class="form-control keyboard-in" data-ng-switch-default name="{{vm.attribute.name}}"
+                   type="text" pattern-validate id="{{vm.attribute.name}}" ng-maxlength="50"
+                   ng-model="vm.person[vm.attribute.name]" data-item-type="personAttribute"
+                   ng-disabled="isReadOnly(attribute.name)" ng-required="{{vm.attribute.required}}">
+        </span>
+  </div>
+  <div data-ng-switch-when="org.openmrs.Concept">
+    <select class="form-control" id="{{vm.attribute.name}}" ng-model="vm.person[vm.attribute.name]"
+            name="{{vm.attribute.name}}"
+            ng-options="a.conceptId as a.description for a in vm.attribute.answers"
+            ng-disabled="isReadOnly(attribute.name)" ng-required="{{vm.attribute.required}}">
+      <option value=""></option>
+    </select>
+  </div>
+  <div class="left" data-ng-switch-when="java.lang.Integer">
+    <input class="form-control" id="{{vm.attribute.name}}" type="number" pattern-validate name="{{vm.attribute.name}}"
+           ng-model="vm.person[vm.attribute.name]" data-item-type="personAttribute"
+           ng-disabled="isReadOnly(attribute.name)"
+           ng-required="{{vm.attribute.required}}"/>
+  </div>
+  <div data-ng-switch-when="java.lang.Float">
+    <input class="form-control" type="number" pattern-validate step="any" id="{{vm.attribute.name}}"
+           name="{{vm.attribute.name}}"
+           ng-model="vm.person[vm.attribute.name]" data-item-type="personAttribute"
+           ng-disabled="isReadOnly(attribute.name)"
+           ng-required="{{vm.attribute.required}}"/>
+  </div>
+  <div data-ng-switch-when="java.lang.Boolean">
+    <input class="form-control" id="{{vm.attribute.name}}" type="checkbox" ng-model="vm.person[vm.attribute.name]"
+           name="{{vm.attribute.name}}"
+           ng-disabled="isReadOnly(attribute.name)" ng-required="{{vm.attribute.required}}"/>
+  </div>
+  <div data-ng-switch-when="org.openmrs.util.AttributableDate">
+    <input class="form-control" id="{{vm.attribute.name}}" type="text" uib-datepicker-popup
+           ng-model="vm.person[vm.attribute.name]" ng-focus="focused=true" is-open="focused"
+           name="{{vm.attribute.name}}"
+           datepicker-options="patientCommon.birthDatepickerOptions" ng-disabled="isReadOnly(attribute.name)"
+           ng-required="{{vm.attribute.required}}"/>
+  </div>
+</div>
