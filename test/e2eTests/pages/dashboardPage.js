@@ -5,8 +5,8 @@ class LoginPage extends Page {
   constructor() {
     super({
       isLoaded: {
-        element: '#home-link',
-        urlPart: '/dashboard',
+        element: '[ng-app="home"]',
+        urlPart: '/home/',
       },
     })
 
@@ -20,32 +20,7 @@ class LoginPage extends Page {
       vitals: {css: '#vitals'},
     }
 
-    this.dropdown = {
-      hamburgerButton: {css: '.dropdown-toggle'},
-      logoutButton: {css: 'a[log-out]'},
-    }
-  }
-
-  // Logs the user out
-  logout() {
-    // WaitForElement doesn't seem to work, so waiting for an arbitrary
-    // amount of time for the hamburger button to appear
-    this.I.wait(3)
-
-    this.I.click(this.dropdown.hamburgerButton)
-    this.I.click(this.dropdown.logoutButton)
-
-    // Helps the caller detect whether logout was
-    // successful or not
-    return {
-      // If logout was successful we should be taken to the home page
-      successful() {
-        const loginPage = require('./loginPage')
-        loginPage._init()
-        loginPage.isLoaded()
-        return loginPage
-      },
-    }
+    
   }
 
   // Navigates to the clinic page
