@@ -8,9 +8,8 @@
   /* @ngInject */
   function PatientCommonController($filter, $scope, $state, conceptService, localStorageService,
                                    notifier, patientAttributeService, patientService, sessionService,
-                                   TabManager, appService, configurationService) {
+                                   TabManager, configurationService) {
 
-    var patientConfiguration = appService.getPatientConfiguration();
     var now = new Date();
 
     // TODO: Remove dependency on $scope!
@@ -19,7 +18,6 @@
     vm.birthDatepickerOptions = {maxDate: now};
     vm.deathDatepickerOptions = {maxDate: now};
     vm.deathConcepts = [];
-    vm.patientAttributes = [];
     vm.patientIdentifierTypes = [];
     vm.patient = $scope.patient;
     vm.srefPrefix = $scope.srefPrefix;
@@ -39,9 +37,6 @@
     vm.setPreferredId = setPreferredId;
     vm.stepForward = stepForward;
     vm.filterPersonAttributesForCurrStep = filterPersonAttributesForCurrStep;
-    vm.filterPersonAttributesForDetails = filterPersonAttributesForDetails;
-    vm.additionalPatientAttributes = appService.getAppDescriptor().getConfigValue("additionalPatientAttributes");
-
 
     var tabManager = new TabManager();
     tabManager.addStepDefinition(vm.srefPrefix + "identifier", 1);
@@ -57,12 +52,6 @@
     ////////////////
 
     function activate() {
-
-      angular.forEach(patientConfiguration.customAttributeRows(), function (value) {
-        angular.forEach(value, function (value) {
-          vm.patientAttributes.push(value);
-        });
-      });
 
       getIdentifierTypes().then(function (identifierTypes) {
         vm.patientIdentifierTypes = identifierTypes;
@@ -248,12 +237,8 @@
       }
     }
 
-    function filterPersonAttributesForCurrStep (attributes, stepConfigAttrs) {
-      return patientService.filterPersonAttributesForCurrStep (attributes, stepConfigAttrs);
-    }
-
-    function filterPersonAttributesForDetails (attributes, stepConfigAttrs) {
-      return patientService.filterPersonAttributesForDetails (attributes, stepConfigAttrs);
+    function filterPersonAttributesForCurrStep (step) {
+      return patientService.filterPersonAttributesForCurrStep (step);
     }
 
   }

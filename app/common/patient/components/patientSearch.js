@@ -17,7 +17,7 @@
 
   /* @ngInject */
   function PatientSearchController($location, $rootScope, $state, notifier, commonService, observationsService,
-                                   openmrsPatientMapper, patientService, translateFilter) {
+                                   openmrsPatientMapper, patientService, translateFilter, patientRepresentation) {
 
     var dateUtil = Bahmni.Common.Util.DateUtil;
 
@@ -37,11 +37,12 @@
     ////////////////
 
     function change() {
+
       if (vm.searchText.trim().length <= 0) {
         return;
       }
 
-      patientService.search(vm.searchText).then(function (patients) {
+      patientService.search(vm.searchText, patientRepresentation).then(function (patients) {
         vm.results = mapPatient(patients);
         vm.displayed = vm.results;
         vm.noResultsMessage = vm.results.length === 0 ? "SEARCH_PATIENT_NO_RESULT" : null;

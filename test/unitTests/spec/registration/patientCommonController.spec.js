@@ -104,60 +104,6 @@ describe('PatientCommonController', function () {
 
   });
 
-  describe('attributes for current step', function () {
-
-      it('should filter person attributes for step config', function () {
-
-        var testingAttrs = [
-                    {"name": "Data do teste HIV", "uuid": "46e79fce-ba89-4ec9-8f31-2dfd9318d415"},
-                    {"name": "Tipo de teste HIV", "uuid": "ce778a93-66f9-4607-9d80-8794ed127674"}
-                ];
-
-        var personAttributes = [
-          [
-            {"uuid":"d10628a7-ba75-4495-840b-bf6f1c44fd2d","name":"Proveniência","format":"org.openmrs.Concept",
-            "answers":
-            [
-              {"description":"INTERNAMENTO","conceptId":"e1dca3ee-1d5f-11e0-b929-000c29ad1d07"},
-              {"description":"CLINICA MOVEL","conceptId":"e1daca74-1d5f-11e0-b929-000c29ad1d07"},
-              {"description":"PROVEDOR PRIVADO","conceptId":"e1dca7ea-1d5f-11e0-b929-000c29ad1d07"},
-              {"description":"PREVENCAO DE TRANSMISSAO VERTICAL","conceptId":"e1dca6e6-1d5f-11e0-b929-000c29ad1d07"},
-              {"description":"PLANO NACIONAL PARA COMBATE TUBERCULOSE","conceptId":"e1daea2c-1d5f-11e0-b929-000c29ad1d07"},
-              {"description":"CONSULTA EXTERNA","conceptId":"e1dca4e8-1d5f-11e0-b929-000c29ad1d07"},
-              {"description":"LABORATORIO","conceptId":"e1dacb78-1d5f-11e0-b929-000c29ad1d07"},
-              {"description":"ACONSELHAMENTO E TESTAGEM DE SAUDE","conceptId":"e1dca5e2-1d5f-11e0-b929-000c29ad1d07"},
-              {"description":"OUTRO, NAO CODIFICADO","conceptId":"e1e783ea-1d5f-11e0-b929-000c29ad1d07"},
-              {"description":"HOSPITAL DO DIA","conceptId":"e1de8d4e-1d5f-11e0-b929-000c29ad1d07"},
-              {"description":"ORGANIZACAO DE BASE COMUNITARIA","conceptId":"c983ffa9-82e1-4929-8dbb-5ef9a9509679"}
-            ],"required":false},
-            {"uuid":"e944813c-11b1-49f3-b9a5-9fbbd10beec2","name":"Ponto de Referência","format":"java.lang.String","answers":[],"required":false}
-          ],
-          [
-            {"uuid":"e2e3fd64-1d5f-11e0-b929-000c29ad1d07","name":"Numero de Telefone 1","format":"java.lang.String","answers":[],"required":false},
-            {"uuid":"e6c97a9d-a77b-401f-b06e-81900e21ed1d","name":"Numero de Telefone 2","format":"java.lang.String","answers":[],"required":false}
-          ],
-          [
-            {"uuid":"46e79fce-ba89-4ec9-8f31-2dfd9318d415","name":"Data do teste HIV","format":"org.openmrs.util.AttributableDate","answers":[],"required":false},
-            {"uuid":"ce778a93-66f9-4607-9d80-8794ed127674","name":"Tipo de teste HIV","format":"org.openmrs.Concept",
-            "answers":
-            [
-              {"description":"PCR EXAME/TESTE","conceptId":"e1d7f61e-1d5f-11e0-b929-000c29ad1d07"},
-              {"description":"SERIOLOGIA HIV DATA RESULTADO","conceptId":"e1d800dc-1d5f-11e0-b929-000c29ad1d07"}
-            ],"required":false}],
-          [{"uuid":"5719d315-dbe7-4da0-bf90-466f09b5b777","name":"Alcunha","format":"java.lang.String","answers":[],"required":false}]
-        ];
-
-        var filteredAttrs = controller.filterPersonAttributesForCurrStep(personAttributes, testingAttrs);
-        expect(filteredAttrs.length).toEqual(2);
-        expect(filteredAttrs[0].name).toEqual("Data do teste HIV");
-
-        controller.filterPersonAttributesForDetails(filteredAttrs, testingAttrs);
-
-
-      });
-
-    });
-
   describe('create', function () {
 
     var identifiers;

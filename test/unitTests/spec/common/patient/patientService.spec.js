@@ -176,4 +176,22 @@ describe('patientService', function () {
 
   });
 
+  describe('filterPersonAttributesForCurrStep', function () {
+
+    it('should return person attributes required in given patient step', function () {
+
+      spyOn(appService, 'getPatientConfiguration').and.returnValue([
+        {uuid: "d82b0cf4-26cc-11e8-bdc0-2b5ea141f82e", sortWeight: 1, name: "Alcunha", description: "Patient's nick name", format: "java.lang.String"},
+        {uuid: "d10628a7-ba75-4495-840b-bf6f1c44fd2d", sortWeight: 2, name: "Proveniência", description: "", format: "org.openmrs.Concept"},
+      ]);
+
+      var attributesForStep = patientService.filterPersonAttributesForCurrStep('name');
+
+      expect(attributesForStep.length).toEqual(1);
+      expect(attributesForStep).toContain(jasmine.objectContaining({name: 'Alcunha'}));
+
+    });
+
+  });
+
 });

@@ -15,7 +15,6 @@
     $scope.actions = {};
     $scope.headerText = "PATIENT_INFO_NEW";
     $scope.patient = patient.create();
-    $scope.patientConfiguration = appService.getPatientConfiguration();
     $scope.srefPrefix = "newpatient.";
 
     $scope.linkCancel = linkCancel;
@@ -28,12 +27,6 @@
     }
 
     function save() {
-      var errMsg = Bahmni.Common.Util.ValidationUtil
-        .validate($scope.patient,$scope.patientConfiguration.personAttributeTypes);
-      if(errMsg){
-        return;
-      }
-
       patientService.create($scope.patient).success(successCallback).error(errorCallback);
     }
 

@@ -6,7 +6,8 @@
     .factory('patientService', patientService);
 
   /* @ngInject */
-  function patientService($http, $rootScope, appService, openmrsPatientMapper, $q, $log, reportService, updatePatientMapper) {
+  function patientService($http, $rootScope, appService, openmrsPatientMapper, $q, $log, reportService, updatePatientMapper,
+                          additionalPatientAttributes) {
 
     var OPENMRS_URL = Poc.Patient.Constants.openmrsUrl;
 
@@ -25,17 +26,16 @@
       voidPatient: voidPatient,
       updatePerson: updatePerson,
       filterPersonAttributesForCurrStep: filterPersonAttributesForCurrStep,
-      filterPersonAttributesForDetails: filterPersonAttributesForDetails
     };
 
     ////////////////
 
-    function search(query) {
+    function search(query, representation) {
       var config = {
         params: {
           q: query,
           identifier: query,
-          v: "full"
+          v: representation || "full"
         }
       };
       return $http.get(OPENMRS_PATIENT_URL, config)
@@ -113,16 +113,17 @@
     }
 
     function create(patient) {
-      var patientJson = new Bahmni.Registration.CreatePatientRequestMapper(moment()).mapFromPatient(appService.getPatientConfiguration().personAttributeTypes, patient);
-      return $http.post(BASE_OPENMRS_REST_URL + "/patientprofile", patientJson, {
-        withCredentials: true,
-        headers: { "Accept": "application/json", "Content-Type": "application/json" }
-      });
+      var errMsg = Bahmni.Common.Util.ValidationUtil.validate(patient, appService.getPatientConfiguration());
+      if(errMsg){
+        return $q.reject(errMsg);
+      }
+      var patientJson = new Bahmni.Registration.CreatePatientRequestMapper(moment()).mapFromPatient(appService.getPatientConfiguration(), patient);
+      return $http.post(BASE_OPENMRS_REST_URL + "/patientprofile", patientJson);
     }
 
     function update(patient, openMRSPatient) {
 
-      var patientJson = updatePatientMapper.map(appService.getPatientConfiguration().personAttributeTypes, openMRSPatient, patient, moment());
+      var patientJson = updatePatientMapper.map(appService.getPatientConfiguration(), openMRSPatient, patient, moment());
 
       var updatedPatientProfile = {};
 
@@ -222,28 +223,13 @@
         });
     }
 
-    function filterPersonAttributesForCurrStep (attributes, stepConfigAttrs) {
-      var filteredAttrs = [];
-      _.forEach(attributes, function (attributeRow) {
-        filteredAttrs = _.concat(filteredAttrs, filterPersonAttributes(attributeRow, stepConfigAttrs));
-      })
-      return filteredAttrs;
-    }
-
-    function filterPersonAttributesForDetails (attributes, stepConfigAttrs) {
-      return filterPersonAttributes(attributes, stepConfigAttrs);
-    }
-
-    function filterPersonAttributes (attributes, stepConfigAttrs) {
-      var filteredAttrs = [];
-      _.forEach(attributes, function (attr) {
-        var foundAttr = _.find(stepConfigAttrs, function (configAttr) {
-          return configAttr.name === attr.name;
-        })
-
-        if (foundAttr) filteredAttrs.push(attr);
-      })
-      return filteredAttrs;
+    function filterPersonAttributesForCurrStep (step) {
+      var attributes = appService.getPatientConfiguration();
+      var stepConfigAttrs = additionalPatientAttributes[step];
+      if (!stepConfigAttrs) {
+        throw new Error(`No additional person attributes for step ${step}`);
+      }
+      return _.intersectionBy(attributes, stepConfigAttrs, 'name');
     }
   }
 
