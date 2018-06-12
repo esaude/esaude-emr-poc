@@ -394,7 +394,6 @@ module.exports = function (grunt) {
                         'lab/**/*.html',
                         'patient-details/**/*.html',
                         'pharmacy/**/*.html',
-                        'poc-common/**/*.html',
                         'registration/**/*.html',
                         'reports/**/*.html',
                         'service-form/**/*.html',
