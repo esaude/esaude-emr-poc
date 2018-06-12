@@ -44,8 +44,8 @@ After(async (I, Apis, Data) => {
   // If this test passed then a visit or encounter was created
   // If so, it needs to be deleted so the patient can be cleaned up
   // Since the visit/encounter was not created with Apis it needs to be cleaned manually 
-  await cleanUpPatientVisit(Patient1);
   await cleanUpPatientEncounter(Patient1);
+  await cleanUpPatientVisit(Patient1);
 });
 
 Scenario('Check in through registration dashbaord', async (I, Apis, Data, RegistrationDashboardPage) => {
