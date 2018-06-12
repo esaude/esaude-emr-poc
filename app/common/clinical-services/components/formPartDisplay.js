@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('poc.common.clinicalservices.formdisplay')
+    .module('poc.common.clinicalservices')
     .component('formPartDisplay', {
       controller: FieldReadDirectiveController,
       controllerAs: 'vm',
@@ -11,7 +11,7 @@
         formPart: '<',
         validate: '<'
       },
-      templateUrl: ' ../poc-common/clinical-services/form-display/components/formPartDisplay.html',
+      templateUrl: ' ../common/clinical-services/components/formPartDisplay.html',
       require: {
         formWizard: '?^formWizard'
       }

@@ -16,7 +16,7 @@ describe('FormWizardController', function () {
   var LAST_ENCOUNTER = { encounterDateTime: null };
   var FORM_DATA = { service: { lastEncounterForService: LAST_ENCOUNTER, hasEntryToday: false } };
 
-  beforeEach(module('poc.common.clinicalservices.serviceform'));
+  beforeEach(module('poc.common.clinicalservices'));
 
   beforeEach(inject(function (_$componentController_, _$q_, _$rootScope_, _$httpBackend_, _patientService_, _visitService_) {
     $q = _$q_;

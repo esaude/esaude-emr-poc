@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  angular.module('poc.common.clinicalservices.formdisplay')
+  angular.module('poc.common.clinicalservices')
     .provider('clinicalServicesService', clinicalServicesProvider);
 
   clinicalServicesProvider.$inject = ['$stateProvider'];

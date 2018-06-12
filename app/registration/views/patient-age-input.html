@@ -9,7 +9,7 @@
             <div class="col-sm-6">
                 <div ng-messages for="aForm.patientBirthdate.$error"
                      ng-show="patientCommon.showMessages">
-                  <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
+                  <div ng-messages-include="../common/application/views/error-messages.html"></div>
                 </div>
               <div class="input-group">
                 <input class="form-control" id="createdDate1" name="patientBirthdate" type="text" uib-datepicker-popup
@@ -30,7 +30,7 @@
             <div class="col-sm-2">
                 <div ng-messages for="aForm.patientAge.$error"
                      ng-show="patientCommon.showMessages">
-                  <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
+                  <div ng-messages-include="../common/application/views/error-messages.html"></div>
                 </div>
                 <div class="input-group">
                   <span class="input-group-addon" id="age-addon">{{'PATIENT_INFO_YEARS' | translate}}</span>

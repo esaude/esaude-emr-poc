@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('poc.common.clinicalservices.serviceform')
+    .module('poc.common.clinicalservices')
     .component('formWizard', {
       bindings: {
         formInfo: '<',
@@ -10,7 +10,7 @@
       },
       controller: FormWizardController,
       controllerAs: 'vm',
-      templateUrl: '../poc-common/clinical-services/service-form/components/formWizard.html'
+      templateUrl: '../common/clinical-services/components/formWizard.html'
     });
 
   FormWizardController.$inject = ['$filter', '$q', '$rootScope', '$scope', '$state', '$stateParams', '$transitions',
