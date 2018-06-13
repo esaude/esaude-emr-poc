@@ -13,11 +13,21 @@
     });
 
   /* @ngInject */
-  function DashboardController($state) {
+  function DashboardController($state, authorizationService) {
 
     var vm = this;
 
+    vm.independentPharmacist = false;
+
+    vm.$onInit = $onInit;
     vm.reload = reload;
+
+    function $onInit() {
+      var independentPharmacistRoles = ['POC: Pharmacist - Independent', 'POC: Pharmacist - Independent (Admin)'];
+      authorizationService.hasRole(independentPharmacistRoles).then(function (hasRole) {
+        vm.independentPharmacist = hasRole;
+      });
+    }
 
     function reload() {
       $state.reload();

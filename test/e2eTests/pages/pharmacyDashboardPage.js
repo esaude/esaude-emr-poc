@@ -2,8 +2,8 @@ const Page = require('./page')
 
 module.exports = new Page({
   isLoaded: {
-    element: '[ui-sref="dashboard.program"]',
-    urlPart: '/registration/#/dashboard',
+    element: '[ng-app="pharmacy"]',
+    urlPart: '/pharmacy/#/dashboard',
   },
   components: ['patientSearch', 'checkIn'],
 });

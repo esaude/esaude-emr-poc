@@ -1,4 +1,5 @@
 const assert = require('assert')
+const querystring = require('querystring') 
 
 const APIMANAGER_LOGTAG = '[ApiManager]'
 const API_LOGTAG = '[Api]'
@@ -60,6 +61,7 @@ class ApiManager {
     //--------------
     // List APIs here
     //--------------
+    this.encounter = createApi('encounter')
     this.patient = createApi('patient')
     this.person = createApi('person')
     this.programEnrollment = createApi('programenrollment')
@@ -99,8 +101,9 @@ class Api {
     this.onDelete = onDelete
   }
 
-  async getAll(query) {
-    const response = await this.I.sendGetRequest(`${this.url}?q=${query}`)
+  async getAll(options) {
+    const query = querystring.stringify(options)
+    const response = await this.I.sendGetRequest(`${this.url}?${query}`)
 
     assert.equal(response.statusCode, 200,
       `${API_LOGTAG} get all ${this.url} request failed ${JSON.stringify(response, null, 2)}`)

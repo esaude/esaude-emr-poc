@@ -21,6 +21,7 @@
     var service = {
       create: create,
       checkInPatient: checkInPatient,
+      deleteVisit: deleteVisit,
       getPatientLastVisit: getPatientLastVisit,
       getTodaysVisit: getTodaysVisit,
       getVisitHeader: getVisitHeader,
@@ -56,6 +57,17 @@
         $log.error('checkInPatient: No current location defined.');
         return $q.reject();
       }
+    }
+
+    function deleteVisit(visit) {
+      return $http.delete(Bahmni.Common.Constants.visitUrl + '/' + visit.uuid, {params: {purge: true}})
+        .then(function (response) {
+          return response.data;
+        })
+        .catch(function (error) {
+          $log.error('XHR Failed for delete: ' + error.data.error.message);
+          return $q.reject(error.data.error.message.replace('[','').replace(']',''));
+        })
     }
 
     function getPatientLastVisit(patient) {

@@ -6,7 +6,7 @@
              ng-class="{'has-error': aForm.{{addressLevel.addressField}}.$invalid && showMessages}">
             <div ng-messages for="aForm[addressLevel.addressField].$error"
                  ng-show="showMessages">
-              <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
+              <div ng-messages-include="../common/application/views/error-messages.html"></div>
             </div>
             <input type="text" name="{{addressLevel.addressField}}" id="{{addressLevel.addressField}}"
                    ng-required="{{addressLevel.required}}"

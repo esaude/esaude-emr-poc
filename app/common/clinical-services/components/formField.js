@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('poc.common.clinicalservices.formdisplay')
+    .module('poc.common.clinicalservices')
     .component('formField', {
       controller: FormFieldDirectiveController,
       controllerAs: 'vm',
@@ -18,7 +18,7 @@
       require: {
         formWizard: '^'
       },
-      templateUrl: ' ../poc-common/clinical-services/form-display/components/formField.html'
+      templateUrl: ' ../common/clinical-services/components/formField.html'
     });
 
   FormFieldDirectiveController.$inject = ['$filter', '$scope', 'observationsService', 'conceptService'];

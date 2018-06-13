@@ -2,7 +2,7 @@
 
 describe('dispensationHistory', function () {
 
-  var $componentController, $rootScope, controller, encounterService;
+  var $componentController, $rootScope, controller, encounterService, $q;
 
   beforeEach(module('pharmacy', function ($provide, $translateProvider, $urlRouterProvider) {
     // Mock initialization
@@ -27,10 +27,11 @@ describe('dispensationHistory', function () {
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function (_$componentController_, _$rootScope_, _encounterService_) {
+  beforeEach(inject(function (_$componentController_, _$rootScope_, _encounterService_, _$q_) {
     $componentController = _$componentController_;
     $rootScope = _$rootScope_;
     encounterService = _encounterService_;
+    $q = _$q_;
   }));
 
   describe('$onInit', function () {
@@ -41,7 +42,7 @@ describe('dispensationHistory', function () {
         return $q(function (resolve) {
           resolve([]);
         });
-      });;
+      });
 
       controller = $componentController('dispensationHistory', null, { patient: { uuid: 'UUID_1' } });
     });

@@ -1,9 +1,10 @@
+<poc-authorize privilege="'Write Drug Prescription'" display-info="true">
 <div class="row content-border-margin-regular" ng-init="vm.selectedProvider = null">
   <div class="col-sm-5">
 
     <div>
       <form name="prescriptionForm" class="form-horizontal" autocomplete="off">
-        <poc-authorize privilege="'Write Drug Prescription'">
+
           <div class="panel panel-primary panel-marginless-sides" ng-if="vm.retrospectiveMode">
             <div class="panel-heading">
               <h3 class="panel-title">
@@ -20,7 +21,7 @@
                   <div class="col-sm-9">
                     <div ng-messages for="prescriptionForm.prescriptionDate.$error"
                          ng-show="vm.showMessages">
-                      <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
+                      <div ng-messages-include="../common/application/views/error-messages.html"></div>
                     </div>
                     <div class="input-group">
                       <input class="form-control keyboard-in" id="prescriptionDate" type="text" name="prescriptionDate"
@@ -42,7 +43,7 @@
                   <div class="col-sm-9">
                     <div ng-messages for="prescriptionForm.selectedProvider.$error"
                          ng-show="vm.showMessages">
-                      <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
+                      <div ng-messages-include="../common/application/views/error-messages.html"></div>
                     </div>
                     <input name="selectedProvider"
                            uib-typeahead="p as p.display for p in vm.providers | filter:vm.selectedProvider"
@@ -82,7 +83,7 @@
                 <div class="col-sm-9">
                   <div ng-messages for="prescriptionForm.drug.$error"
                        ng-show="vm.showMessages">
-                    <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
+                    <div ng-messages-include="../common/application/views/error-messages.html"></div>
                   </div>
                   <input type="text"
                          name="drug"
@@ -102,7 +103,7 @@
                 <div class="col-sm-9">
                   <div ng-messages for="prescriptionForm.arvDrug.$error"
                        ng-show="vm.showMessages">
-                    <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
+                    <div ng-messages-include="../common/application/views/error-messages.html"></div>
                   </div>
                   <select name="arvDrug" class="form-control" ng-model="vm.prescriptionItem.drugOrder.drug"
                           ng-options="arvDrug.display for arvDrug in vm.arvDrugs track by arvDrug.uuid"
@@ -118,7 +119,7 @@
                 <div class="col-sm-3">
                   <div ng-messages for="prescriptionForm.doseAmount.$error"
                        ng-show="vm.showMessages">
-                    <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
+                    <div ng-messages-include="../common/application/views/error-messages.html"></div>
                     <div class="label label-danger" ng-message="min">
                       {{ 'COMMON_MESSAGE_ERROR_DOSAGE_CANNOT_BE_ZERO' | translate }}
                     </div>
@@ -137,7 +138,7 @@
                 <div class="col-sm-9">
                   <div ng-messages for="prescriptionForm.dosingUnits.$error"
                        ng-show="vm.showMessages">
-                    <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
+                    <div ng-messages-include="../common/application/views/error-messages.html"></div>
                   </div>
                   <select name="dosingUnits" class="form-control" ng-model="vm.prescriptionItem.drugOrder.doseUnits"
                           ng-options="unit.display for unit in vm.fieldModels.dosingUnits.model.answers track by unit.uuid"
@@ -153,7 +154,7 @@
                 <div class="col-sm-9">
                   <div ng-messages for="prescriptionForm.dosgeFrequency.$error"
                        ng-show="vm.showMessages">
-                    <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
+                    <div ng-messages-include="../common/application/views/error-messages.html"></div>
                   </div>
                   <select name="dosgeFrequency" class="form-control"
                           ng-model="vm.prescriptionItem.drugOrder.frequency"
@@ -170,7 +171,7 @@
                 <div class="col-sm-9">
                   <div ng-messages for="prescriptionForm.drugRoute.$error"
                        ng-show="vm.showMessages">
-                    <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
+                    <div ng-messages-include="../common/application/views/error-messages.html"></div>
                   </div>
                   <select name="drugRoute" class="form-control" ng-model="vm.prescriptionItem.drugOrder.route"
                           ng-options="route.display for route in vm.fieldModels.drugRoute.model.answers track by route.uuid"
@@ -186,7 +187,7 @@
                 <div class="col-sm-3">
                   <div ng-messages for="prescriptionForm.duration.$error"
                        ng-show="vm.showMessages">
-                    <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
+                    <div ng-messages-include="../common/application/views/error-messages.html"></div>
                     <div class="label label-danger" ng-message="min">{{ 'COMMON_MESSAGE_ERROR_DURATION_CANNOT_BE_ZERO' |
                       translate }}
                     </div>
@@ -201,7 +202,7 @@
                      ng-class="{'has-error': prescriptionForm.durationUnits.$invalid && vm.showMessages}">
                   <div ng-messages for="prescriptionForm.durationUnits.$error"
                        ng-show="vm.showMessages">
-                    <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
+                    <div ng-messages-include="../common/application/views/error-messages.html"></div>
                   </div>
                   <select name="durationUnits" class="form-control"
                           ng-model="vm.prescriptionItem.drugOrder.durationUnits"
@@ -218,7 +219,7 @@
                 <div class="col-sm-9">
                   <div ng-messages for="prescriptionForm.dosingInstructions.$error"
                        ng-show="vm.showMessages">
-                    <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
+                    <div ng-messages-include="../common/application/views/error-messages.html"></div>
                   </div>
                   <select name="dosingInstructions" class="form-control"
                           ng-model="vm.prescriptionItem.drugOrder.dosingInstructions"
@@ -250,7 +251,6 @@
 
   <div class="col-sm-7">
 
-    <poc-authorize privilege="'Write Drug Prescription'">
       <div class="panel panel-primary panel-marginless-sides">
         <div class="panel-heading">
           <h3 class="panel-title">{{'CLINIC_PRESCRIPTION_NEW'| translate}}</h3>
@@ -316,7 +316,6 @@
         </span>
         </div>
       </div>
-    </poc-authorize>
 
     <poc-authorize privilege="'Read Drug Prescription'">
       <div class="panel panel-primary panel-marginless-sides" ng-init="vm.initPrescriptions()">
@@ -390,6 +389,8 @@
 
   </div>
 </div>
+
+</poc-authorize>
 
 <!-- modal dialogs -->
 <div ng-include src="'../common/prescription/views/cancel-prescription.html'"></div>

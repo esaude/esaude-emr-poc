@@ -1,6 +1,6 @@
 describe('dashboard', function () {
 
-  var $componentController, $state, $stateParams, patientService, visitService, $rootScope;
+  var $componentController, $state, patientService, visitService, $rootScope, authorizationService, $q;
 
   beforeEach(module('pharmacy', function ($provide, $translateProvider, $urlRouterProvider) {
     // Mock translate asynchronous loader
@@ -15,14 +15,58 @@ describe('dashboard', function () {
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function (_$componentController_, _$q_, _$rootScope_, _patientService_, _visitService_, _$state_) {
+  beforeEach(inject(function (_$componentController_, _$q_, _$rootScope_, _patientService_, _visitService_, _$state_,
+                              _authorizationService_) {
     $componentController = _$componentController_;
     $q = _$q_;
     $rootScope = _$rootScope_;
     patientService = _patientService_;
     visitService = _visitService_;
     $state = _$state_;
+    authorizationService = _authorizationService_;
   }));
+
+  describe('$onInit', function () {
+
+    beforeEach(function () {
+
+      spyOn(authorizationService, 'hasRole').and.callFake(function () {
+        return $q(function (resolve) {
+          return resolve(true);
+        });
+      });
+
+      spyOn(patientService, 'getPatient').and.callFake(function () {
+        return $q(function (resolve) {
+          return resolve({});
+        });
+      });
+
+    });
+
+    it('should check if user is independent pharmacist', function () {
+
+      var ctrl = $componentController('dashboard');
+
+      ctrl.$onInit();
+
+      expect(authorizationService.hasRole).toHaveBeenCalled();
+
+    });
+
+    it('should set independentPharmacist property', function () {
+
+      var ctrl = $componentController('dashboard');
+
+      ctrl.$onInit();
+
+      $rootScope.$apply();
+
+      expect(ctrl.independentPharmacist).toEqual(true);
+
+    });
+
+  });
 
 
   describe('reload', function () {

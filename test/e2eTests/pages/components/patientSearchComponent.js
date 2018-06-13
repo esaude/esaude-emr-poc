@@ -1,5 +1,7 @@
 const Component = require('./component')
 
+const LOG_TAG = '[PatientSearchComponent]';
+
 class PatientSearchComponent extends Component {
   constructor() {
     super()
@@ -7,6 +9,8 @@ class PatientSearchComponent extends Component {
   }
 
   disableAutoSelect() {
+    this.I.waitForElement('barcode-listener')
+    
     // Update auto selection
     this.I.executeScript(() => $('barcode-listener').data('auto-select', false))
   }
@@ -22,6 +26,31 @@ class PatientSearchComponent extends Component {
     this.I.waitForInvisible('#overlay', 5)
 
     this.I.wait(1)
+  }
+
+  clickSearchResult(patient) {
+    const patientId = patient.identifiers[0].identifier
+
+    // Make sure the element is visible
+    this.I.waitForText(patientId, 5, '.patient-identifier')
+
+    // Find the correct element and click it 
+    this.I.executeScript((patientId) => {
+      try {
+        // Get the div that displays the patient's id
+        const patientIdElement = $(`td.patient-identifier:contains('${patientId}')`)
+        
+        // Get the row element containing the patient id because
+        // it's the element we need to click to navigate to the patient's page
+        const patientRow = patientIdElement.parent('tr[st-select-row="patient"')
+        
+        // Click it
+        patientRow.click()
+      } catch(e) {
+        console.log(`Unable to find patient with id ${patientId}. Error: ${e}`)
+      }
+      
+    }, patientId)
   }
 
   // Clears the search box
@@ -62,6 +91,20 @@ class PatientSearchComponent extends Component {
 
   seeNoResults() {
     this.I.see('Nenhum resultado encontrado')
+  }
+
+  // Search for the patient by their id, verify the search result then select it
+  searchForPatientByIdAndSelect(patient) {
+    const patientId = patient.identifiers[0].identifier;
+
+    this.I.say(`${LOG_TAG} Search for patient by identifier ${patientId}`);
+    this.search(patientId);
+
+    this.I.say(`${LOG_TAG} Validate data is visible for patient with id ${patientId}`);
+    this.seePatientRecord(patient);
+
+    this.I.say(`${LOG_TAG} Select patient ${patientId}`);
+    this.clickSearchResult(patient);
   }
 
   // Calculates the person's age given a Date

@@ -2,13 +2,13 @@
   'use strict';
 
   angular
-    .module('poc.common.clinicalservices.serviceform')
+    .module('poc.common.clinicalservices')
     .component('formWizardPart', {
       controllerAs: 'vm',
       require: {
         formWizard: '^formWizard'
       },
-      templateUrl: '../poc-common/clinical-services/service-form/components/formWizardPart.html'
+      templateUrl: '../common/clinical-services/components/formWizardPart.html'
     });
 
 })();

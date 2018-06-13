@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-      .module('pharmacy')
+    .module('pharmacy')
     .config(config);
 
     config.$inject = ['$urlRouterProvider', '$stateProvider', '$bahmniTranslateProvider', '$httpProvider'];
@@ -24,9 +24,9 @@
           component: 'patientSearch',
           resolve: {
             initialization: 'initialization',
-            createPatient: function () { return false },
-            showSchedule: function () { return true },
-            scheduleType: function () { return 'drugPickup' },
+            createPatient: function () { return false; },
+            showSchedule: function () { return true; },
+            scheduleType: function () { return 'drugPickup'; },
           },
           ncyBreadcrumb: {
             label: '{{\'APP_PHARMACY\' | translate}} /  {{\'SEARCH_PATIENT\' | translate}}'

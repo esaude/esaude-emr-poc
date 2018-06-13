@@ -2,11 +2,11 @@
   'use strict';
 
   angular
-    .module('poc.common.clinicalservices.serviceform')
+    .module('poc.common.clinicalservices')
     .component('formDisplay', {
       controller: FormDisplayController,
       controllerAs: 'vm',
-      templateUrl: '../poc-common/clinical-services/service-form/components/formDisplay.html'
+      templateUrl: '../common/clinical-services/components/formDisplay.html'
     });
 
   FormDisplayController.$inject = ['$state', '$stateParams', 'clinicalServicesService', 'notifier', 'patientService',
