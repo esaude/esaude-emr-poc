@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('visit')
+    .module('poc.common.visit')
     .component('pocRequireCheckIn', {
       controller: RequireCheckInController,
       controllerAs: 'vm',
@@ -11,7 +11,7 @@
         showMessage: '<',
         message: '@'
       },
-      templateUrl: '../visit/components/pocRequireCheckIn.html',
+      templateUrl: '../common/visit/components/pocRequireCheckIn.html',
       transclude: {
         showAnyway: '?showAnyway'
       }

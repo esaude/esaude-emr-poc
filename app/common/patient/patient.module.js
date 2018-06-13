@@ -4,6 +4,6 @@ angular
     'bahmni.common.uiHelper',
     'barcodeListener',
     'pascalprecht.translate',
+    'poc.common.visit',
     'ui.bootstrap',
-    'visit'
   ]);

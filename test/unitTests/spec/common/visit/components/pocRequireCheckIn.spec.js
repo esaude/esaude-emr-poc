@@ -2,7 +2,7 @@ describe('pocRequireCheckIn', function () {
 
   var $componentController, $q, $rootScope, visitService;
 
-  beforeEach(module('visit'));
+  beforeEach(module('poc.common.visit'));
 
   beforeEach(inject(function (_$componentController_, _$q_, _$rootScope_, _visitService_) {
     $q = _$q_;

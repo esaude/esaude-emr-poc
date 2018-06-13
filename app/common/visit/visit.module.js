@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('visit', [
+    .module('poc.common.visit', [
       'authentication',
       'bahmni.common.domain',
       'bahmni.common.uiHelper'

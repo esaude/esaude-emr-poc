@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('visit')
+    .module('poc.common.visit')
     .factory('visitService', visitService);
 
   visitService.$inject = ['$http', '$log', '$q', 'appService', 'commonService', 'encounterService', 'observationsService', 'sessionService'];
