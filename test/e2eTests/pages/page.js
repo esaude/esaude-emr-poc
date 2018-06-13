@@ -1,4 +1,5 @@
-const Component = require('./components/component')
+const Component = require('./components/component');
+const I18n = require('./../i18n');
 
 // Represents a page on the POC website
 // A page can consist of multiple components
@@ -11,41 +12,51 @@ const Component = require('./components/component')
 // For example, when the patientSearch component is added to a page
 // tests can call page.search(...)
 class Page {
-	constructor(options) {
-		// Make sure the components array is inialized
-		options.components = options.components || [];
+  constructor(options) {
+    // Make sure the components array is inialized
+    options.components = options.components || [];
 
-		this.options = options;
+    this.options = options;
 
-		// Every page should have the header component
-		if(!this.options.components.includes('header')) {
-			this.options.components.push('header');
-		}
-	}
+    // Every page should have the header component
+    if (!this.options.components.includes('header')) {
+      this.options.components.push('header');
+    }
 
-	_init() {
-		this.I = actor();
+    // Add translator
+    this.i18n = new I18n({
+      directory: __dirname + '/../../../poc_config/openmrs/i18n/'
+    });
+  }
 
-		// Add each component to this page
-		this.options.components.forEach(name => this._addComponent(name));
-	}
+  _init() {
+    this.I = actor();
 
-	// Validates that the page is loaded
-	isLoaded() {
-		this.I.waitForElement(this.options.isLoaded.element, 5);
-		this.I.seeInCurrentUrl(this.options.isLoaded.urlPart);
+    // Add each component to this page
+    this.options.components.forEach(name => this._addComponent(name));
+  }
 
-		// If there is an overlay, wait for it
-		this.I.waitForInvisible('#overlay', 10);
-	}
+  // Validates that the page is loaded
+  isLoaded() {
+    this.I.waitForElement(this.options.isLoaded.element, 5);
+    this.I.seeInCurrentUrl(this.options.isLoaded.urlPart);
 
-	// Gets an instance of the component
-	// and copies its properties and functions
-	// to this page
-	_addComponent(componentName) {
-		const component = Component.create(componentName);
-		component.addToPage(this);
-	}
+    // If there is an overlay, wait for it
+    this.I.waitForInvisible('#overlay', 10);
+  }
+
+  // Gets an instance of the component
+  // and copies its properties and functions
+  // to this page
+  _addComponent(componentName) {
+    const component = Component.create(componentName);
+    component.addToPage(this);
+  }
+
+  // TODO: Set locale automatically
+  translate(key) {
+    return this.i18n.t('locale_pt', key);
+  }
 }
 
 module.exports = Page;
