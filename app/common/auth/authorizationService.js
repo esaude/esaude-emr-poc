@@ -19,18 +19,18 @@
     ////////////////
 
     /**
-     * Determines if the currently logged user has a specific role.
+     * Determines if the currently logged user has one of specified roles.
      *
-     * @param {String} role Role to check.
+     * @param {Array} roles Role to check.
      * @returns {Promise}
      */
-    function hasRole(role) {
+    function hasRole(roles) {
       return sessionService.getSession()
         .then(function (session) {
-          var found = session.user.roles.filter(function (r) {
-            return r.display === role;
+          var fromSession = session.user.roles.map(function (r) {
+            return r.display;
           });
-          return found.length > 0;
+          return _.intersection(fromSession, roles).length > 0;
         })
         .catch(function (error) {
           $log.error('Could not check user role: ' + error.data.error.message);
