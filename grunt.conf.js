@@ -398,7 +398,6 @@ module.exports = function (grunt) {
                         'reports/**/*.html',
                         'service-form/**/*.html',
                         'social/**/*.html',
-                        'visit/**/*.html',
                         'vitals/**/*.html',
                       ],
                       //src: ['*.html'],

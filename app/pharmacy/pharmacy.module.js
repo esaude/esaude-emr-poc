@@ -17,9 +17,9 @@ angular
     'ngMessages',
     'pascalprecht.translate',
     'patient.details',
+    'poc.common.visit',
     'smart-table',
     'ui.bootstrap',
     'ui.checkbox',
     'ui.router',
-    'visit'
   ]);

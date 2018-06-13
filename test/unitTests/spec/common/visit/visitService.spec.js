@@ -9,7 +9,7 @@ describe('visitService', function () {
   var visitService, $http, $log, $q, $rootScope, commonService, sessionService, encounterService, observationsService,
     appService;
 
-  beforeEach(module('visit'));
+  beforeEach(module('poc.common.visit'));
 
   beforeEach(inject(function (_visitService_, $httpBackend, _$log_, _$q_, _$rootScope_, _commonService_,
     _sessionService_, _encounterService_, _observationsService_, _appService_) {

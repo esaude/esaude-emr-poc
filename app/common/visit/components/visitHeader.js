@@ -2,14 +2,14 @@
   'use strict';
 
   angular
-    .module('visit')
+    .module('poc.common.visit')
     .component('visitHeader', {
       bindings: {
         patient: '<'
       },
       controller: VisitController,
       controllerAs: 'vm',
-      templateUrl: '../visit/components/visitHeader.html'
+      templateUrl: '../common/visit/components/visitHeader.html'
     });
 
   VisitController.$inject = ['$rootScope', '$filter', 'visitService', 'notifier'];

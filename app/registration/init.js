@@ -17,10 +17,10 @@ angular
       'pascalprecht.translate',
       'patient.details',
       'poc.common.clinicalservices',
+      'poc.common.visit',
       'smart-table',
       'ui.bootstrap',
       'ui.checkbox',
       'ui.router',
-      'visit'
     ]
   );

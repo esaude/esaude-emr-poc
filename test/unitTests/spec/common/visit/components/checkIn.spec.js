@@ -2,7 +2,7 @@ describe('CheckInController', function () {
 
   var $componentController, $rootScope, visitService, notifier, $q;
 
-  beforeEach(module('visit'));
+  beforeEach(module('poc.common.visit'));
 
   beforeEach(inject(function (_$componentController_, _visitService_, _$rootScope_, _$q_, _notifier_) {
     $componentController = _$componentController_;

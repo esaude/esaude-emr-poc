@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('visit')
+    .module('poc.common.visit')
     .component('checkIn', {
       bindings: {
         patient: '<',
@@ -10,7 +10,7 @@
       },
       controller: CheckInController,
       controllerAs: 'vm',
-      templateUrl: '../visit/components/checkIn.html'
+      templateUrl: '../common/visit/components/checkIn.html'
     });
 
   CheckInController.$inject = ['sessionService', 'translateFilter', 'visitService', 'notifier'];
