@@ -5,7 +5,7 @@
     .module('patient.details')
     .component('patientDetails', {
       controller: PatientDetailsController,
-      controllerAs: 'patientCommon',
+      controllerAs: 'vm',
       templateUrl: '../patient-details/components/patientDetails.html'
     });
 
@@ -55,7 +55,7 @@
     }
 
     function filterPersonAttributesForCurrStep (step) {
-      return patientService.filterPersonAttributesForCurrStep(step);
+      return patientService.getPersonAttributesForStep(step);
     }
   }
 

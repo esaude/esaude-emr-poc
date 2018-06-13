@@ -16,16 +16,16 @@
     var OPENMRS_PATIENT_URL = OPENMRS_URL + "/ws/rest/v1/patient/";
 
     return {
-      create: create,
+      createPatientProfile: createPatientProfile,
       getIdentifierTypes: getIdentifierTypes,
       getPatient: getPatient,
       getOpenMRSPatient: getOpenMRSPatient,
       printPatientARVPickupHistory: printPatientARVPickupHistory,
       search: search,
-      update: update,
+      updatePatientProfile: updatePatientProfile,
       voidPatient: voidPatient,
       updatePerson: updatePerson,
-      filterPersonAttributesForCurrStep: filterPersonAttributesForCurrStep,
+      getPersonAttributesForStep: getPersonAttributesForStep,
     };
 
     ////////////////
@@ -112,16 +112,24 @@
       });
     }
 
-    function create(patient) {
+    function createPatientProfile(patient) {
+      // TODO validation does not work, missing Bahmni.Regsitration.customValidators
       var errMsg = Bahmni.Common.Util.ValidationUtil.validate(patient, appService.getPatientConfiguration());
       if(errMsg){
         return $q.reject(errMsg);
       }
       var patientJson = new Bahmni.Registration.CreatePatientRequestMapper(moment()).mapFromPatient(appService.getPatientConfiguration(), patient);
-      return $http.post(BASE_OPENMRS_REST_URL + "/patientprofile", patientJson);
+      return $http.post(BASE_OPENMRS_REST_URL + "/patientprofile", patientJson)
+        .then(function (response) {
+          return response.data;
+        })
+        .catch(function (error) {
+          $log.error('XHR Failed for createPatientProfile: ' + error.data.error.message);
+          return $q.reject(error);
+        });
     }
 
-    function update(patient, openMRSPatient) {
+    function updatePatientProfile(patient, openMRSPatient) {
 
       var patientJson = updatePatientMapper.map(appService.getPatientConfiguration(), openMRSPatient, patient, moment());
 
@@ -154,12 +162,11 @@
           });
           return updatedPatientProfile;
         }).catch(function (error) {
-          $log.error('XHR Failed for update: ' + error.data.error.message);
+          $log.error('XHR Failed for updatePatientProfile: ' + error.data.error.message);
           return $q.reject();
         });
     }
 
-    //This is needed because of updatePatientRequestMapper.
     function getOpenMRSPatient(patientUUID) {
       return get(patientUUID).then(function (response) {
         return response.data;
@@ -223,13 +230,13 @@
         });
     }
 
-    function filterPersonAttributesForCurrStep (step) {
+    function getPersonAttributesForStep (step) {
       var attributes = appService.getPatientConfiguration();
       var stepConfigAttrs = additionalPatientAttributes[step];
       if (!stepConfigAttrs) {
         throw new Error(`No additional person attributes for step ${step}`);
       }
-      return _.intersectionBy(attributes, stepConfigAttrs, 'name');
+      return _.intersectionBy(attributes, stepConfigAttrs, 'uuid');
     }
   }
 

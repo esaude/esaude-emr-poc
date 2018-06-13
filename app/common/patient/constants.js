@@ -27,19 +27,19 @@ Poc.Patient.Constants.Errors = {};
         {name: "Resultado do Teste HIV", uuid: "31cb61f4-3d81-403d-94e9-64cce17a2a00"}
       ],
       other: [
-        {name: "Proveniência", uuid: "46e79fce-ba89-4ec9-8f31-2dfd9318d415"},
-        {name: "Ponto de Referência", uuid: "ce778a93-66f9-4607-9d80-8794ed127674"},
-        {name: "Numero de Telefone 1", uuid: "46e79fce-ba89-4ec9-8f31-2dfd9318d415"},
-        {name: "Numero de Telefone 2", uuid: "ce778a93-66f9-4607-9d80-8794ed127674"}
+        {name: "Proveniência", uuid: "d10628a7-ba75-4495-840b-bf6f1c44fd2d"},
+        {name: "Ponto de Referência", uuid: "e944813c-11b1-49f3-b9a5-9fbbd10beec2"},
+        {name: "Numero de Telefone 1", uuid: "e2e3fd64-1d5f-11e0-b929-000c29ad1d07"},
+        {name: "Numero de Telefone 2", uuid: "e6c97a9d-a77b-401f-b06e-81900e21ed1d"}
       ],
       name: [
-        {name: "Alcunha", uuid: "5719d315-dbe7-4da0-bf90-466f09b5b777"}
+        {name: "Alcunha", uuid: "d82b0cf4-26cc-11e8-bdc0-2b5ea141f82e"}
       ]
     })
     .constant('mandatoryPersonAttributes', [
       'Proveniência'
     ])
     .constant('patientRepresentation',
-      'custom:(uuid,identifiers,person:(auditInfo,birthdate,birthdateEstimated,gender,preferredAddress,preferredName,attributes:(value,attributeType:(name,format))');
+      'custom:(uuid,identifiers:(uuid,display,identifier,preferred,identifierType:(uuid,display,required,formatDescription)),person:(auditInfo,birthdate,birthdateEstimated,gender,preferredAddress,preferredName,attributes:(value,attributeType:(name,format))');
 
 })();

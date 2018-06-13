@@ -1,0 +1,85 @@
+<form name="vm.form">
+  <div class="panel panel-primary content-border-margin"><!-- identifier -->
+    <div class="panel-heading">
+      <h3 class="panel-title">{{'PATIENT_INFO_IDENTIFIERS' | translate}}</h3>
+    </div>
+    <table class="table">
+      <thead>
+      <tr>
+        <th>{{'PATIENT_INFO_IDENTIFIER_TYPE' | translate}}</th>
+        <th>{{'PATIENT_INFO_IDENTIFIER_IDENTIFIER' | translate}}</th>
+        <th>{{'PATIENT_INFO_IDENTIFIER_PREFERRED' | translate}}</th>
+        <th></th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody ng-init="vm.listRequiredIdentifiers()">
+      <tr ng-repeat="pi in vm.patient.identifiers">
+        <td class="col-sm-4">
+          <span ng-if="pi.identifierType" class="control-label pull-left">{{pi.identifierType.display}}</span>
+
+          <span ng-if="!pi.identifierType" class="pull-left">
+                        <select class="form-control input-lg" id="patient_identifier_type"
+                                ng-model="pi.selectedIdentifierType" ng-change="vm.selectIdentifierType(pi)"
+                                ng-options="it.name for it in vm.patientIdentifierTypes | filterNid">
+                            <option></option>
+                        </select>
+                    </span>
+
+        </td>
+        <td>
+          <div class="pull-left" ng-messages for="vm.form[pi.fieldName].$error"
+               ng-show="vm.shouldShowMessages();">
+            <div ng-messages-include="../common/application/views/error-messages.html"></div>
+            <div ng-message="pattern">
+                        <span class="label label-danger"
+                              translate="ERROR_INVALID_FORMAT_PATTERN"
+                              translate-value-pattern="{{pi.identifierType.formatDescription}}"></span>
+            </div>
+          </div>
+          <div ng-class="{'has-error': vm.form[pi.fieldName].$invalid && vm.shouldShowMessages()}">
+            <input type="text" class="form-control input-lg keyboard-in" name="{{pi.fieldName}}"
+                   ng-model="pi.identifier"
+                   record-availability-validator="/ws/rest/v1/patient"
+                   ng-pattern="pi.identifierType.format"
+                   placeholder="{{pi.identifierType.formatDescription}}"
+                   ng-disabled="!pi.identifierType"
+                   required>
+
+          </div>
+        </td>
+        <td>
+          <input id="{{pi.fieldName}}_Rdo" class="radio-lx" type="radio" name="preferedIdRGroup"
+                 ng-value="true" ng-model="pi.preferred" ng-click="vm.setPreferredId(pi)">
+          <label for="{{pi.fieldName}}_Rdo"></label>
+        </td>
+        <td>
+          <button ng-show="!pi.identifierType.required" type="button" class="btn btn-danger btn-lg"
+                  ng-click="vm.removeIdentifier(pi)">
+            <span class="glyphicon glyphicon-remove-sign"></span>
+            <span class="button-label">{{'REMOVE' | translate}}</span>
+          </button>
+        </td>
+        <td>
+          <button popover-placement="Top" uib-popover="{{pi.identifierType.formatDescription}}" type="button"
+                  class="btn btn-info btn-lg" ng-disabled="!pi.identifierType.formatDescription">
+            <span class="glyphicon glyphicon-question-sign"></span>
+            <span class="button-label">{{'HELP' | translate}}</span>
+          </button>
+        </td>
+
+      </tr>
+      </tbody>
+      <tfoot>
+      <tr>
+        <td colspan="5">
+          <button type="button" class="btn btn-primary btn-lg pull-left" ng-click="vm.addNewIdentifier()">
+            <span class="glyphicon glyphicon-plus-sign"></span>
+            <span class="button-label">{{'REGISTRATION_ADD_IDENTIFIER' | translate}}</span>
+          </button>
+        </td>
+      </tr>
+      </tfoot>
+    </table>
+  </div>
+</form>
