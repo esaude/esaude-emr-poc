@@ -6,7 +6,7 @@
     .component('clinicalServices', {
       controller: ClinicalServiceDirectiveController,
       controllerAs: 'vm',
-      templateUrl: '../poc-common/clinical-services/directives/clinicalServices.html'
+      templateUrl: '../common/clinical-services/components/clinicalServices.html'
     });
 
   ClinicalServiceDirectiveController.$inject = ['$filter', '$q', '$state', 'clinicalServicesService', 'notifier',

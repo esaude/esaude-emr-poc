@@ -57,7 +57,7 @@
                     <div class="col-sm-7">
                         <div ng-messages for="prescriptionForm.regime.$error"
                                 ng-show="vm.showMessages">
-                          <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
+                          <div ng-messages-include="../common/application/views/error-messages.html"></div>
                         </div>
                         <select name="regime" class="form-control" ng-model="vm.prescriptionItem.regime"
                                 ng-options="regime.display for regime in vm.regimes.answers"
@@ -93,7 +93,7 @@
                     <div class="col-sm-7">
                         <div ng-messages for="prescriptionForm.artPlan.$error"
                                 ng-show="vm.showMessages">
-                          <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
+                          <div ng-messages-include="../common/application/views/error-messages.html"></div>
                         </div>
                         <select name="artPlan" class="form-control" ng-model="vm.prescriptionItem.arvPlan"
                                 ng-options="plan.display for plan in vm.fieldModels.artPlan.model.answers"
@@ -128,7 +128,7 @@
                     <div class="col-sm-7">
                         <div ng-messages for="prescriptionForm.interruptedReason.$error"
                                 ng-show="vm.showMessages">
-                          <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
+                          <div ng-messages-include="../common/application/views/error-messages.html"></div>
                         </div>
                         <select name="interruptedReason" class="form-control" ng-model="vm.prescriptionItem.interruptedReason"
                                 ng-options="reason.display for reason in vm.fieldModels.interruptedReason.model.answers" ng-required="vm.isPlanInterrupted"
@@ -163,7 +163,7 @@
                     <div class="col-sm-7">
                         <div ng-messages for="prescriptionForm.changeReason.$error"
                                 ng-show="vm.showMessages">
-                          <div ng-messages-include="../poc-common/form-display/views/error-messages.html"></div>
+                          <div ng-messages-include="../common/application/views/error-messages.html"></div>
                         </div>
                         <select name="changeReason" class="form-control" ng-model="vm.prescriptionItem.changeReason"
                                 ng-options="reason.display for reason in vm.fieldModels.changeReason.model.answers" ng-required="vm.prescriptionItem.isPlanChanged"
