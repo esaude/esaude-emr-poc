@@ -236,6 +236,7 @@
     "APP_COUNSELING": "Aconselhamento",
     "APP_VITALS": "Vitais",
     "APP_REPORTS": "Estatistica",
+    "COMMON_NO_APPS": "Não tem acesso a nenhuma applicação",
     "COMMON_MESSAGE_ERROR_ITEM_ALREADY_IN_LIST": "O item selecionado já está contido na lista",
     "COMMON_MESSAGE_ERROR_ARV_ITEM_ALREADY_IN_LIST": "Apenas um item do tipo ARV pode ser listado",
     "COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED": "Acção completada com sucesso",
@@ -337,5 +338,6 @@
     "COMMON_MESSAGE_DRUG_WITHOUT_STOCK_AVAILABILITY":"Não há disponibilidade de estoque para o medicamento selecionado",
     "COMMON_MESSAGE_EXCEPTION_REQUESTING_DRUG_STOCK_AVAILABILITY":"Não foi possivel obter informação de estoque para o medicamento selecionado",
     "PLEASE_CHECK_IN_PATIENT": "Por favor faça o check-in do paciente.",
-    "COMMON_CANT_DELETE_PATIENT_WITH_HISTORY": "Não é possível remover este paciente porque possui histórico."
+    "COMMON_CANT_DELETE_PATIENT_WITH_HISTORY": "Não é possível remover este paciente porque possui histórico.",
+    "COMMON_SEARCH_PATIENT_ERROR": "Ocorreu um erro ao pesquisar o paciente."
 }

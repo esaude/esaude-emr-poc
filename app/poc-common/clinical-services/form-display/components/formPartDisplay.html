@@ -12,7 +12,8 @@
     ng-init="fieldMeta = vm.payload.form.fields[formField.id]">
 
   <li class="list-group-item"
-      ng-if="fieldMeta.field.fieldType.display === 'Concept'">
+      ng-if="fieldMeta.field.fieldType.display === 'Concept'"
+      data-qa-field-name="{{formField.name}}">
 
     <div class="row">
 

@@ -1,12 +1,6 @@
 describe('PatientDetailsController', function () {
 
-  var $componentController, $q, patientService, patientConfiguration, reportService;
-
-  patientConfiguration = {
-    customAttributeRows: function () {
-      return [[1, 2], [3, 4]];
-    }
-  };
+  var $componentController, $q, patientService, configurationService, reportService, $rootScope;
 
   beforeEach(module('patient.details', function ($provide, $translateProvider, $urlRouterProvider) {
     // Mock translate asynchronous loader
@@ -20,10 +14,13 @@ describe('PatientDetailsController', function () {
 
     // Mock appService
     var appDescriptor = jasmine.createSpyObj('appDescriptor',['getConfigValue']);
-    var appService = jasmine.createSpyObj('appService', ['getAppDescriptor']);
+    var appService = jasmine.createSpyObj('appService', ['getAppDescriptor', 'getPatientConfiguration']);
 
     appDescriptor.getConfigValue.and.returnValue({});
     appService.getAppDescriptor.and.returnValue(appDescriptor);
+    appService.getPatientConfiguration.and.returnValue({personAttributeTypes: [], customAttributeRows: function () {
+        return [[1, 2], [3, 4]];
+      }});
 
     $provide.value('appService', appService);
 
@@ -31,12 +28,14 @@ describe('PatientDetailsController', function () {
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function (_$componentController_, _patientService_, _$q_, _$rootScope_, _reportService_) {
+  beforeEach(inject(function (_$componentController_, _patientService_, _$q_, _$rootScope_, _reportService_,
+                              _configurationService_) {
     $componentController = _$componentController_;
     $q = _$q_;
     patientService = _patientService_;
     $rootScope = _$rootScope_;
     reportService = _reportService_;
+    configurationService = _configurationService_;
   }));
 
   describe('$onInit', function () {
@@ -45,30 +44,32 @@ describe('PatientDetailsController', function () {
       spyOn(patientService, 'getPatient').and.callFake(function () {
         return $q(function (resolve) {
           resolve({});
-        })
+        });
+      });
+
+      spyOn(configurationService, 'getAddressLevels').and.callFake(function () {
+        return $q.resolve([
+          {name: "Pais", addressField: "country", required: true},
+          {name: "Provincia", addressField: "stateProvince", required: true}
+        ]);
       });
     });
 
     it('should load the patient', function () {
-      var ctrl = $componentController('patientDetails', {
-        $rootScope: {
-          patientConfiguration: patientConfiguration
-        }
-      });
+      var ctrl = $componentController('patientDetails');
       ctrl.$onInit();
       $rootScope.$apply();
       expect(patientService.getPatient).toHaveBeenCalled();
     });
 
-    it('should define the patient attributes', function () {
-      var ctrl = $componentController('patientDetails', {
-        $rootScope: {
-          patientConfiguration: patientConfiguration
-        }
-      });
+    it('should load addressLevels', function () {
+      var ctrl = $componentController('patientDetails');
       ctrl.$onInit();
       $rootScope.$apply();
-      expect(ctrl.patientAttributes).toEqual([1, 2, 3, 4]);
+      expect(ctrl.addressLevels).toEqual([
+        {name: "Pais", addressField: "country", required: true},
+        {name: "Provincia", addressField: "stateProvince", required: true}
+      ]);
     });
 
   });

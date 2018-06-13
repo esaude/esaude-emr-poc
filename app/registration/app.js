@@ -22,16 +22,11 @@
     $stateProvider
       .state('search', {
         url: '/search',
-        views: {
-          'layout': {
-            templateUrl: '../common/application/views/layout.html'
-          },
-          'content@search': {
-            templateUrl: 'views/search.html'
-          }
-        },
+        component: 'patientSearch',
         resolve: {
-          initialization: 'initialization'
+          initialization: 'initialization',
+          showSchedule: function () { return true; },
+          createPatient: function () { return true; },
         },
         ncyBreadcrumb: {
           label: '{{\'APP_REGISTRATION\' | translate}} /  {{\'SEARCH_PATIENT\' | translate}}'
@@ -39,16 +34,9 @@
       })
       .state('dashboard', {
         url: '/dashboard/:patientUuid',
-        views: {
-          'layout': {
-            templateUrl: '../common/application/views/layout.html',
-            controller: 'DashboardController',
-            controllerAs: 'vm'
-          },
-          'content@dashboard': {
-            templateUrl: 'views/dashboard.html'
-          }
-        },
+        templateUrl: 'views/dashboard.html',
+        controller: 'DashboardController',
+        controllerAs: 'vm',
         resolve: {
           initialization: 'initialization'
         },
@@ -90,19 +78,14 @@
         },
         resolve: {
           clinicalServicesService: function (clinicalServicesService, $stateParams) {
-            return clinicalServicesService.init('registration', $stateParams.patientUuid, true);
+            return clinicalServicesService.init('registration', $stateParams.patientUuid);
           }
         }
       })
       .state('newpatient', {
         url: '/patient/new',
-        views: {
-          'layout': {
-            templateUrl: '../common/application/views/layout.html',
-            controller: 'CreatePatientController'
-          },
-          'content@newpatient': {templateUrl: 'views/patient-add.html'}
-        },
+        templateUrl: 'views/patient-add.html',
+        controller: 'CreatePatientController',
         ncyBreadcrumb: {
           label: '{{\'PATIENT_INFO_NEW\' | translate}}',
           parent: 'search'
@@ -166,15 +149,8 @@
       })
       .state('editpatient', {
         url: '/patient/edit/:patientUuid',
-        views: {
-          'layout': {
-            templateUrl: '../common/application/views/layout.html',
-            controller: 'UpdatePatientController'
-          },
-          'content@editpatient': {
-            templateUrl: 'views/patient-add.html'
-          }
-        },
+        templateUrl: 'views/patient-add.html',
+        controller: 'UpdatePatientController',
         ncyBreadcrumb: {
           label: '{{\'EDIT_PATIENT\' | translate }}',
           parent: 'dashboard'
@@ -183,9 +159,9 @@
           returnState: null
         },
         resolve: {
-          patient: function ($stateParams, initialization, patientService) {
-            var representation = "custom:(uuid,voided,display,person:full,identifiers:(uuid,display,identifier,location,preferred,voided,identifierType:full))";
-            return patientService.getPatient($stateParams.patientUuid, representation);
+          patient: function (initialization, $stateParams, patientService, patientRepresentation) {
+            // We need initialization to always resolve first';
+            return patientService.getPatient($stateParams.patientUuid, patientRepresentation);
           }
         }
       })
@@ -247,16 +223,7 @@
       })
       .state('detailpatient', {
         url: '/patient/detail/:patientUuid',
-        views: {
-          'layout': {
-            templateUrl: '../common/application/views/layout.html',
-            controller: 'DetailPatientController',
-            controllerAs: 'patientCommon'
-          },
-          'content@detailpatient': {
-            templateUrl: '../patient-details/views/patient-details.html'
-          }
-        },
+        component: 'patientDetails',
         ncyBreadcrumb: {
           label: '{{\'PATIENT_DETAILS\' | translate }}',
           parent: 'dashboard'

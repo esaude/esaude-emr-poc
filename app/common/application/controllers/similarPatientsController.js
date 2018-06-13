@@ -27,8 +27,8 @@
     }
 
     function loadPatientToDashboard() {
-      $rootScope.patient = patient;
-      $location.url("/dashboard/" + patient.uuid);
+      $rootScope.patient = vm.patient;
+      $location.url("/dashboard/" + vm.patient.uuid);
     }
   }
 

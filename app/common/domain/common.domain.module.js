@@ -5,6 +5,5 @@ Bahmni.Common.Domain = Bahmni.Common.Domain || {};
 
 angular.module('bahmni.common.domain', [
   'bahmni.common.appFramework',
-  'bahmni.common.config',
   'ngCookies'
 ]);

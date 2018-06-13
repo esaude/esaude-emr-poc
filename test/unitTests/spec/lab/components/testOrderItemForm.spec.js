@@ -123,13 +123,30 @@ describe('TestOrderItemFormController', function () {
 
     });
 
+    it('should show buttons', function () {
+
+      var ctrl = $componentController('testOrderResultItemForm');
+
+      ctrl.showButtons = false;
+
+      ctrl.onFocus({});
+
+      expect(ctrl.showButtons).toBe(true);
+
+    });
+
   });
 
   describe('onBlur', function () {
 
     it('should remove flag indicating that the form is focused', function () {
 
-      var ctrl = $componentController('testOrderResultItemForm');
+      var ctrl = $componentController('testOrderResultItemForm', null, {
+        item: {
+          testOrder: {concept: {datatype: {display: 'Numeric'}}},
+          value: "2"
+        }
+      });
 
       ctrl.hasFocus = true;
 
@@ -174,6 +191,27 @@ describe('TestOrderItemFormController', function () {
         ctrl.onBlur({$invalid: true, $setPristine: $setPristine});
 
         expect($setPristine).toHaveBeenCalled();
+
+      });
+
+      it('should hide buttons', function () {
+
+        var item = {
+          testOrder: {concept: {datatype: {display: 'Numeric'}}},
+          value: "2"
+        };
+
+        var ctrl = $componentController('testOrderResultItemForm', null, {
+          item: item
+        });
+
+        ctrl.$onChanges({item: {currentValue: item}});
+
+        ctrl.showButtons = true;
+
+        ctrl.onBlur({});
+
+        expect(ctrl.showButtons).toBe(false);
 
       });
 

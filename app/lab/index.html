@@ -24,9 +24,9 @@
   <body>
 
     <div ng-app="lab">
-      <lab-component>
+      <poc-layout>
         <div id="overlay"></div>
-      </lab-component>
+      </poc-layout>
     </div>
 
     <!-- build:js scripts/vendor.lab.min.js -->
@@ -34,10 +34,12 @@
     <script src="../../bower_components/jquery/dist/jquery.min.js"></script>
     <script src="../../bower_components/angular/angular.js"></script>
     <script src='../../bower_components/angular-loading-bar/build/loading-bar.min.js'></script>
-
+    <script src="../../bower_components/angular-barcode/dist/angular-barcode.min.js"></script>
+    <script src="../../bower_components/angular-barcode-listener/angular-barcode-listener.min.js"></script>
     <script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="../../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
     <script src="../../bower_components/moment/min/moment.min.js"></script>
+    <script src="../../bower_components/moment-timezone/moment-timezone.js"></script>
     <script src="../../bower_components/keyboard/dist/js/jquery.keyboard.min.js"></script>
     <script src="../../bower_components/keyboard/dist/layouts/keyboard-layouts-combined.min.js"></script>
     <script src="../../bower_components/keyboard/dist/layouts/keyboard-layouts-greywyvern.min.js"></script>
@@ -64,26 +66,25 @@
 
     <!-- build:js scripts/lab.min.js -->
 
-    <script src="../common/patient/constants.js"></script>
     <script src="../common/patient/init.js"></script>
+    <script src="../common/patient/constants.js"></script>
     <script src="../common/patient/services/patientService.js"></script>
     <script src="../common/patient/services/patientAttributeService.js"></script>
     <script src="../common/patient/services/addressAttributeService.js"></script>
     <script src="../common/patient/services/reportService.js"></script>
     <script src="../common/patient/models/age.js"></script>
     <script src="../common/patient/models/patient.js"></script>
-    <script src="../common/patient/models/patientConfig.js"></script>
     <script src="../common/patient/mappers/openmrsPatientMapper.js"></script>
-    <script src="../common/patient/mappers/patientAttributeTypeMapper.js"></script>
+    <script src="../common/patient/mappers/personAttributeTypeMapper.js"></script>
     <script src="../common/patient/mappers/updatePatientMapper.js"></script>
     <script src="../common/patient/directives/patientHeader.js"></script>
     <script src="../common/patient/components/patientSearch.js"></script>
     <script src="../common/patient/directives/patientDeleteModal.js"></script>
 
-    <script src="../move-patient/move-patient.module.js"></script>
-    <script src="../move-patient/config.js"></script>
-    <script src="../move-patient/run.js"></script>
-    <script src="../move-patient/directives/movePatient.js"></script>
+    <script src="../common/move-patient/move-patient.module.js"></script>
+    <script src="../common/move-patient/move-patient.config.js"></script>
+    <script src="../common/move-patient/move-patient.run.js"></script>
+    <script src="../common/move-patient/directives/movePatient.js"></script>
 
     <script src="../common/constants.js"></script>
     <script src="../common/constants.js"></script>
@@ -109,13 +110,9 @@
     <script src="../common/domain/services/commonService.js"></script>
     <script src="../common/domain/services/orderService.js"></script>
 
-    <script src="../common/config/init.js"></script>
-    <script src="../common/config/services/configurations.js"></script>
     <script src="../common/domain/services/locationService.js"></script>
     <script src="../common/domain/services/prescriptionService.js"></script>
 
-    <script src="../common/config/init.js"></script>
-    <script src="../common/config/services/configurations.js"></script>
 
     <script src="../common/auth/init.js"></script>
     <script src="../common/auth/config.js"></script>
@@ -132,6 +129,7 @@
     <script src="../common/app-framework/models/appDescriptor.js"></script>
     <script src="../common/app-framework/services/appService.js"></script>
     <script src="../common/app-framework/services/mergeService.js"></script>
+    <script src="../common/app-framework/components/apps.js"></script>
 
     <script src="../common/application/init.js"></script>
     <script src="../common/application/constants.js"></script>
@@ -139,7 +137,11 @@
     <script src="../common/application/run.js"></script>
     <script src="../common/application/services/adminConfigService.js"></script>
     <script src="../common/app-framework/services/applicationService.js"></script>
-    <script src="../common/application/directives/pocHeader.js"></script>
+    <script src="../common/app-framework/constants/serializeObject.js"></script>
+    <script src="../common/application/components/pocLayout.js"></script>
+    <script src="../common/application/components/pocHeader.js"></script>
+    <script src="../common/application/components/pocFooter.js"></script>
+
     <script src="../common/uicontrols/init.js"></script>
     <script src="../common/uicontrols/programmanagement/init.js"></script>
     <script src="../common/uicontrols/programmanagement/controllers/manageProgramController.js"></script>
@@ -156,7 +158,6 @@
 
     <script src="../common/prescription/init.js"></script>
     <script src="../common/domain/services/providerService.js"></script>
-    <script src="../common/prescription/directives/prescription.js"></script>
 
     <script src="../common/test/common.test.module.js"></script>
     <script src="../common/test/services/testProfileService.js"></script>
@@ -172,9 +173,7 @@
     <script src="initialization.js"></script>
     <script src="lab.routes.js"></script>
     <script src="lab.run.js"></script>
-    <script src="components/labComponent.js"></script>
     <script src="components/labTests.js"></script>
-    <script src="components/search.js"></script>
     <script src="components/dashboard.js"></script>
     <script src="components/testOrderResultList.js"></script>
     <script src="components/testOrderResultDetails.js"></script>

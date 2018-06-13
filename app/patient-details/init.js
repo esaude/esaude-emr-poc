@@ -1,1 +1,5 @@
-angular.module('patient.details', ['common.patient', 'ui.bootstrap']);
+angular.module('patient.details', [
+  'barcode',
+  'common.patient',
+  'ui.bootstrap',
+]);

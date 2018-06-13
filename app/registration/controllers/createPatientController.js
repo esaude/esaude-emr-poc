@@ -13,7 +13,6 @@
                                    openmrsPatientMapper, notifier) {
 
     $scope.actions = {};
-    $scope.addressHierarchyConfigs = appService.getAppDescriptor().getConfigValue("addressHierarchy");
     $scope.headerText = "PATIENT_INFO_NEW";
     $scope.patient = patient.create();
     $scope.srefPrefix = "newpatient.";
@@ -28,12 +27,6 @@
     }
 
     function save() {
-      var errMsg = Bahmni.Common.Util.ValidationUtil
-        .validate($scope.patient,$scope.patientConfiguration.personAttributeTypes);
-      if(errMsg){
-        return;
-      }
-
       patientService.create($scope.patient).success(successCallback).error(errorCallback);
     }
 

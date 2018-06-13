@@ -245,6 +245,7 @@
     "APP_COUNSELING": "Counseling",
     "APP_VITALS": "Vitals",
     "APP_REPORTS": "Statistics",
+    "COMMON_NO_APPS": "No apps",
     "COMMON_MESSAGE_ERROR_ITEM_ALREADY_IN_LIST": "The selected item is already in the list",
     "COMMON_MESSAGE_ERROR_ARV_ITEM_ALREADY_IN_LIST": "There can be only one ARV item listed",
     "COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED": "Action completed successfully",
@@ -343,5 +344,7 @@
     "COMMON_MESSAGE_DRUG_WITHOUT_STOCK_AVAILABILITY":"There's no Stock availability for the selected medicine",
     "COMMON_MESSAGE_EXCEPTION_REQUESTING_DRUG_STOCK_AVAILABILITY":"Unable to obtain inventory information for the selected medicine",
     "PLEASE_CHECK_IN_PATIENT": "Please check-in the patient.",
-    "COMMON_CANT_DELETE_PATIENT_WITH_HISTORY": "You are not allowed to delete this patient because he has a History in of follow up."
+    "COMMON_CANT_DELETE_PATIENT_WITH_HISTORY": "You are not allowed to delete this patient because he has a History in of follow up.",
+    "COMMON_PATIENT_SEARCH_ERROR": "There was an error searching for the patient."
+
 }

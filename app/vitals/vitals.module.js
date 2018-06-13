@@ -1,0 +1,23 @@
+angular
+  .module('vitals', [
+    'application',
+    'bahmni.common.appFramework',
+    'bahmni.common.domain',
+    'bahmni.common.i18n',
+    'bahmni.common.uicontrols.programmanagment',
+    'bahmni.common.uiHelper',
+    'common.patient',
+    'frapontillo.bootstrap-switch',
+    'LocalStorageModule',
+    'movepatient',
+    'ngCookies',
+    'ngDialog',
+    'ngMessages',
+    'pascalprecht.translate',
+    'patient.details',
+    'poc.common.clinicalservices',
+    'smart-table',
+    'ui.checkbox',
+    'ui.router',
+    'visit'
+  ]);

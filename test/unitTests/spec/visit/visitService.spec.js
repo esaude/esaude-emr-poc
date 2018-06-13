@@ -12,7 +12,7 @@ describe('visitService', function () {
   beforeEach(module('visit'));
 
   beforeEach(inject(function (_visitService_, $httpBackend, _$log_, _$q_, _$rootScope_, _commonService_,
-                              _sessionService_, _encounterService_, _observationsService_, _appService_) {
+    _sessionService_, _encounterService_, _observationsService_, _appService_) {
     visitService = _visitService_;
     $http = $httpBackend;
     $log = _$log_;
@@ -32,7 +32,7 @@ describe('visitService', function () {
     var response = { results: [1, 2, 3] };
 
     beforeEach(function () {
-      $http.expectGET("/openmrs/ws/rest/v1/visit" + '?patient=' + parameters.patient + '&includeInactive=' + parameters.includeInactive
+      $http.expectGET("/openmrs/ws/rest/v1/pocvisit" + '?patient=' + parameters.patient + '&includeInactive=' + parameters.includeInactive
         + '&v=' + parameters.v).respond(response);
     });
 
@@ -58,7 +58,7 @@ describe('visitService', function () {
     var visitDetails = { patientUuid: "uuid" };
 
     beforeEach(function () {
-      $http.expectPOST("/openmrs/ws/rest/v1/visit").respond({});
+      $http.expectPOST("/openmrs/ws/rest/v1/checkin").respond({});
     });
 
     it('should call end visit url in registration visit service', function () {
@@ -79,53 +79,45 @@ describe('visitService', function () {
 
   describe('getTodaysVisit', function () {
 
-    var uuid = "9e23a1bb-0615-4066-97b6-db309c9c6447";
-    var datetime = '2017-08-17';
-    var response = { results: [{ startDatetime: datetime, stopDatetime: datetime }] };
-
-    beforeEach(function () {
-      $http.expectGET("/openmrs/ws/rest/v1/visit" + '?patient=' + uuid + '&v=full').respond(response);
+    it('should return null when empty array is returned by back-end', function () {
+      $http.expectGET("/openmrs/ws/rest/v1/pocvisit?currentDateOnly=true&mostRecentOnly=true&patient=UUID_1&v=full&voided=false")
+        .respond({ results: [] });
+      var foundVisit;
+      visitService.getTodaysVisit("UUID_1").then(function (visit) {
+        foundVisit = visit;
+      });
+      $rootScope.$apply();
+      $http.flush();
+      expect(foundVisit).toBeNull();
     });
 
-    describe('last visit is today', function () {
+    it('should return first ocurrent when visits are returned by back-end', function () {
+      var visit = { patient: { uuid: "UUID_1" } };
+      $http.expectGET("/openmrs/ws/rest/v1/pocvisit?currentDateOnly=true&mostRecentOnly=true&patient=UUID_1&v=full&voided=false")
+        .respond({ results: [visit] });
+      var foundVisit;
+      visitService.getTodaysVisit("UUID_1").then(function (todayVisit) {
+        foundVisit = todayVisit;
+      });
+      $rootScope.$apply();
+      $http.flush();
+      expect(foundVisit).toEqual(visit);
+    });
 
-      it('should return the patients visit', function () {
+    it('should reject if no patient uuid', function () {
 
-        var dateUtil = Bahmni.Common.Util.DateUtil;
-        var resolve = {};
+      var err = {};
 
-        spyOn(dateUtil, 'now').and.callFake(function () {
-          return dateUtil.parseDatetime(datetime);
-        });
-
-        visitService.getTodaysVisit(uuid).then(function (todaysVisit) {
-          resolve = todaysVisit;
-        });
-
-        $http.flush();
-        expect(resolve).toEqual(response.results[0]);
+      visitService.getTodaysVisit().catch(function (error) {
+        err = error;
       });
 
+      $rootScope.$apply();
+
+      expect(err).toBeUndefined();
+
     });
 
-    describe('last visit not today', function () {
-      it('should return the patients visit', function () {
-
-        var resolve = {};
-
-        visitService.getTodaysVisit(uuid).then(function (todaysVisit) {
-          resolve = todaysVisit;
-        });
-
-        $http.flush();
-        expect(resolve).toEqual(null);
-      });
-    });
-
-    afterEach(function () {
-      $http.verifyNoOutstandingExpectation();
-      $http.verifyNoOutstandingRequest();
-    });
   });
 
   describe('checkInPatient', function () {
@@ -146,24 +138,16 @@ describe('visitService', function () {
 
         spyOn(appService, 'getAppDescriptor').and.callFake(function () {
           var spyObj = jasmine.createSpyObj('appDescriptor', ['getConfigValue']);
-          spyObj.getConfigValue.and.returnValue([{uuid: FIRST_CONSULTATION_VISIT_TYPE_UUID, occurOn: 'first'}]);
+          spyObj.getConfigValue.and.returnValue([{ uuid: FIRST_CONSULTATION_VISIT_TYPE_UUID, occurOn: 'first' }]);
           return spyObj;
         });
 
-
-        $http.expectGET("/openmrs/ws/rest/v1/visit?patient=" + parameters.patient
-          + '&v=' + parameters.v)
-          .respond([]);
-
         var visitData = {
           patient: uuid,
-          visitType: FIRST_CONSULTATION_VISIT_TYPE_UUID,
-          location: csPebane.uuid,
-          startDatetime: '2018-04-18T10:30:00',
-          stopDatetime: '2018-04-18T23:59:59'
+          location: csPebane.uuid
         };
 
-        $http.expectPOST('/openmrs/ws/rest/v1/visit', visitData).respond({});
+        $http.expectPOST('/openmrs/ws/rest/v1/checkin', visitData).respond({});
 
         var created = {};
         visitService.checkInPatient({ uuid: uuid }).then(function (visit) {
@@ -177,8 +161,6 @@ describe('visitService', function () {
 
     describe('follow-up visit', function () {
 
-      var DATETIME_FORMAT = 'YYYY-MM-DDTHH:mm:ss';
-
       it('should create a visit with follow-up consultation type', function () {
 
         spyOn(sessionService, 'getCurrentLocation').and.callFake(function () {
@@ -191,22 +173,16 @@ describe('visitService', function () {
 
         spyOn(appService, 'getAppDescriptor').and.callFake(function () {
           var spyObj = jasmine.createSpyObj('appDescriptor', ['getConfigValue']);
-          spyObj.getConfigValue.and.returnValue([{uuid: FOLLOW_UP_CONSULTATION_VISIT_TYPE_UUID, occurOn: 'following'}]);
+          spyObj.getConfigValue.and.returnValue([{ uuid: FOLLOW_UP_CONSULTATION_VISIT_TYPE_UUID, occurOn: 'following' }]);
           return spyObj;
         });
-        $http.expectGET("/openmrs/ws/rest/v1/visit?patient=" + parameters.patient
-          + '&v=' + parameters.v)
-          .respond({ results: visits });
 
         var visitData = {
           patient: uuid,
-          visitType: FOLLOW_UP_CONSULTATION_VISIT_TYPE_UUID,
-          location: csPebane.uuid,
-          startDatetime: '2018-04-18T10:30:00',
-          stopDatetime: '2018-04-18T23:59:59'
+          location: csPebane.uuid
         };
 
-        $http.expectPOST('/openmrs/ws/rest/v1/visit', visitData).respond({});
+        $http.expectPOST('/openmrs/ws/rest/v1/checkin', visitData).respond({});
 
         var created = {};
         visitService.checkInPatient({ uuid: uuid }).then(function (visit) {
@@ -227,17 +203,10 @@ describe('visitService', function () {
           return null;
         });
 
-        var visits = [{ voided: false }];
-        $http.expectGET("/openmrs/ws/rest/v1/visit?patient=" + parameters.patient
-          + '&v=' + parameters.v)
-          .respond({ results: visits });
-
         var created = {};
         visitService.checkInPatient({ uuid: uuid }).then(function (visit) {
           created = visit;
         });
-
-        $http.flush();
 
       });
 
@@ -268,8 +237,14 @@ describe('visitService', function () {
         })
       });
 
-      $http.expectGET("/openmrs/ws/rest/v1/visit?patient=" + patient.uuid + '&v=custom:(visitType:(name),startDatetime,stopDatetime,uuid)')
-        .respond([]);
+      spyOn(visitService, 'getPatientLastVisit').and.callFake(function () {
+        return $q(function (resolve) {
+          return resolve(null);
+        })
+      });
+
+      $http.expectGET("/openmrs/ws/rest/v1/pocvisit?mostRecentOnly=true&patient=7401f469-60ee-4cfa-afab-c1e89e2944e4&v=custom:(visitType:(name),startDatetime,stopDatetime,uuid)&voided=false")
+        .respond({ results: [] });
 
     });
 
@@ -284,6 +259,7 @@ describe('visitService', function () {
       visitService.getVisitHeader(patient);
 
       $http.flush();
+      $rootScope.$apply();
 
       expect(encounterService.getPatientFollowupEncounters).toHaveBeenCalled();
 

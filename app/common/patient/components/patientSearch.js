@@ -15,12 +15,9 @@
       templateUrl: '../common/patient/components/patientSearch.html'
     });
 
-  PatientSearchController.$inject = ['$location', '$rootScope', '$state', 'commonService', 'observationsService',
-    'openmrsPatientMapper', 'patientService',  'visitService'];
-
   /* @ngInject */
-  function PatientSearchController($location, $rootScope, $state, commonService, observationsService,
-                                   openmrsPatientMapper, patientService) {
+  function PatientSearchController($location, $rootScope, $state, notifier, commonService, observationsService,
+                                   openmrsPatientMapper, patientService, translateFilter, patientRepresentation) {
 
     var dateUtil = Bahmni.Common.Util.DateUtil;
 
@@ -40,11 +37,12 @@
     ////////////////
 
     function change() {
+
       if (vm.searchText.trim().length <= 0) {
         return;
       }
 
-      patientService.search(vm.searchText).then(function (patients) {
+      patientService.search(vm.searchText, patientRepresentation).then(function (patients) {
         vm.results = mapPatient(patients);
         vm.displayed = vm.results;
         vm.noResultsMessage = vm.results.length === 0 ? "SEARCH_PATIENT_NO_RESULT" : null;
@@ -57,20 +55,27 @@
       var cleanCode = code.replace(/[^\w\s]/gi, '/');
       var nidRegex = new RegExp("[0-9]{8}/[0-9]{2}/[0-9]{5}");
       if (!nidRegex.test(cleanCode)) {
-        notifier.information($filter('translate')('SEARCH_PATIENT_NO_RESULT'));
+        notifier.info($filter('translate')('SEARCH_PATIENT_NO_RESULT'));
         return;
       }
 
-      patientService.search(cleanCode).then(function (patients) {
-        if (patients.length !== 1) {
-          notifier.information($filter('translate')('SEARCH_PATIENT_NO_RESULT'));
-          return;
-        }
-        var patient = openmrsPatientMapper.map(patients[0]);
-        vm.onPatientSelect(patient);
-      }).error(function (data) {
-        vm.noResultsMessage = "SEARCH_PATIENT_NO_RESULT";
-      });
+      vm.searchText = cleanCode;
+
+      patientService.search(cleanCode)
+        .then(function (patients) {
+          if (patients.length) {
+            var patient = openmrsPatientMapper.map(patients[0]);
+            // Auto select the patient if the attribute is set
+            if (angular.element('barcode-listener').data('auto-select')) {
+              vm.onPatientSelect(patient);
+            }
+          } else {
+            notifier.info(translateFilter('SEARCH_PATIENT_NO_RESULT'));
+          }
+        })
+        .catch(function (data) {
+          notifier.error(translateFilter('COMMON_SEARCH_PATIENT_ERROR'));
+        });
 
     }
 
