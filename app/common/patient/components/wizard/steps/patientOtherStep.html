@@ -1,0 +1,31 @@
+<form action="" class="form-horizontal" name="vm.form">
+
+  <div class="panel panel-primary content-border-margin">
+
+    <div class="panel-heading">
+      <h3 class="panel-title">{{'PATIENT_INFO_OTHERS' | translate}}</h3>
+    </div>
+
+    <div class="panel-body">
+      <div class="form-group form-group-lg" ng-repeat="attr in vm.patientAttributes">
+
+        <div class="col-sm-2 control-label">
+          <label for="{{attr.name}}">{{attr.name}}
+            <span class="asterick" ng-show="attr.required">*</span></label>
+        </div>
+
+        <div class="col-sm-10" ng-class="{'has-error': vm.form[attr.name].$invalid && vm.shouldShowMessages()}">
+
+          <div ng-messages for="vm.form[attr.name].$error" ng-show="vm.shouldShowMessages();">
+            <div ng-messages-include="../common/application/views/error-messages.html"></div>
+          </div>
+
+          <person-attribute-input person="vm.patient" attribute="attr"></person-attribute-input>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</form>

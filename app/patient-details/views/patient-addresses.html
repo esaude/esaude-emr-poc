@@ -1,5 +1,5 @@
 <ul class="list-group content-border-margin-regular">
-  <li class="list-group-item" ng-repeat="a in patientCommon.addressLevels">
-    <b>{{a.name}}: </b> {{patientCommon.patient.address[a.addressField]}}
+  <li class="list-group-item" ng-repeat="a in vm.addressLevels">
+    <b>{{a.name}}: </b> {{vm.patient.address[a.addressField]}}
   </li>
 </ul>

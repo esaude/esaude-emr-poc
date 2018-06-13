@@ -4,7 +4,7 @@ angular.module('patient.details')
   .directive('addressFields', function () {
     return {
       restrict: 'AE',
-      templateUrl: ' views/addressFields.html',
+      templateUrl: '../patient-details/directives/addressFields.html',
       controller: 'AddressFieldsDirectiveController',
       scope: {
         address: '=',
@@ -15,15 +15,22 @@ angular.module('patient.details')
     };
   })
   .controller('AddressFieldsDirectiveController', function ($scope, addressAttributeService) {
-    var addressLevelsCloneInAscendingOrder = $scope.addressLevels;
-    $scope.addressLevelsChunks = Bahmni.Common.Util.ArrayUtil.chunk(addressLevelsCloneInAscendingOrder, 2);
 
-    var addressLevelsCloneInDescendingOrder = $scope.addressLevels.slice(0).reverse();
-    $scope.addressLevelsChunks = Bahmni.Common.Util.ArrayUtil.chunk(addressLevelsCloneInDescendingOrder, 2);
-    var addressLevelsNamesInDescendingOrder = addressLevelsCloneInDescendingOrder.map(function (addressLevel) {
-      return addressLevel.addressField;
-    });
     var autocompletedFields = [];
+    var addressLevelsNamesInDescendingOrder = [];
+
+    $scope.$watch('addressLevels', function (newVal) {
+      var addressLevelsCloneInAscendingOrder = newVal;
+      $scope.addressLevelsChunks = Bahmni.Common.Util.ArrayUtil.chunk(addressLevelsCloneInAscendingOrder, 2);
+
+      var addressLevelsCloneInDescendingOrder = $scope.addressLevels.slice(0).reverse();
+      $scope.addressLevelsChunks = Bahmni.Common.Util.ArrayUtil.chunk(addressLevelsCloneInDescendingOrder, 2);
+      addressLevelsNamesInDescendingOrder = addressLevelsCloneInDescendingOrder.map(function (addressLevel) {
+        return addressLevel.addressField;
+      });
+    });
+
+
     $scope.addressFieldSelected = function (fieldName) {
       return function (addressFieldItem) {
         var parentFields = addressLevelsNamesInDescendingOrder.slice(addressLevelsNamesInDescendingOrder.indexOf(fieldName) + 1);

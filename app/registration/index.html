@@ -87,7 +87,7 @@
     <script src="../common/clinical-services/mappers/createEncounterMapper.js"></script>
     <script src="../common/clinical-services/mappers/updateEncounterMapper.js"></script>
 
-      <script src="../common/patient/init.js"></script>
+      <script src="../common/patient/patient.module.js"></script>
       <script src="../common/patient/constants.js"></script>
       <script src="../common/patient/services/patientService.js"></script>
       <script src="../common/patient/services/patientAttributeService.js"></script>
@@ -101,6 +101,16 @@
       <script src="../common/patient/directives/patientHeader.js"></script>
       <script src="../common/patient/components/patientSearch.js"></script>
       <script src="../common/patient/components/scheduleList.js"></script>
+      <script src="../common/patient/components/wizard/patientWizard.js"></script>
+      <script src="../common/patient/components/wizard/steps/patientIdentifiersStep.js"></script>
+      <script src="../common/patient/components/wizard/steps/patientNamesStep.js"></script>
+      <script src="../common/patient/components/wizard/steps/patientGenderStep.js"></script>
+      <script src="../common/patient/components/wizard/steps/patientAgeStep.js"></script>
+      <script src="../common/patient/components/wizard/steps/patientAddressStep.js"></script>
+      <script src="../common/patient/components/wizard/steps/patientOtherStep.js"></script>
+      <script src="../common/patient/components/wizard/steps/patientHIVTestStep.js"></script>
+      <script src="../common/patient/components/wizard/steps/patientConfirmStep.js"></script>
+      <script src="../common/patient/components/personAttributeInput.js"></script>
       <script src="../common/patient/directives/patientDeleteModal.js"></script>
       <script src="../common/patient/mappers/updatePatientMapper.js"></script>
 
@@ -193,17 +203,14 @@
       <script src="../visit/components/visitHeader.js"></script>
       <script src="../visit/components/checkIn.js"></script>
 
-      <script src="init.js"></script>
+      <script src="registration.module.js"></script>
       <script src="initialization.js"></script>
-      <script src="app.js"></script>
+      <script src="registration.routes.js"></script>
       <script src="constants.js"></script>
       <script src="run.js"></script>
-      <script src="controllers/dashboardController.js"></script>
-      <script src="controllers/clinicalServicesController.js"></script>
-      <script src="controllers/createPatientController.js"></script>
-      <script src="controllers/updatePatientController.js"></script>
-      <script src="controllers/patientCommonController.js"></script>
-      <script src="controllers/visitHistoryController.js"></script>
+      <script src="../common/patient/tabManager.js"></script>
+      <script src="components/dashboard.js"></script>
+      <script src="components/visitHistory.js"></script>
       <script src="mappers/createPatientRequestMapper.js"></script>
     <!-- endbuild -->
   </body>

@@ -94,7 +94,7 @@ describe('patientService', function () {
           .respond(identifier2);
 
         var patientProfile = {};
-        patientService.update(patient, openMRSPatient).then(function (updatedPatientProfile) {
+        patientService.updatePatientProfile(patient, openMRSPatient).then(function (updatedPatientProfile) {
           patientProfile = updatedPatientProfile;
         });
 
@@ -128,7 +128,7 @@ describe('patientService', function () {
           .respond({});
 
         var patientProfile = {};
-        patientService.update(patient, openMRSPatient).then(function (updatedPatientProfile) {
+        patientService.updatePatientProfile(patient, openMRSPatient).then(function (updatedPatientProfile) {
           patientProfile = updatedPatientProfile;
         });
 
@@ -158,7 +158,7 @@ describe('patientService', function () {
           .respond({});
 
         var patientProfile = {};
-        patientService.update(patient, openMRSPatient).then(function (updatedPatientProfile) {
+        patientService.updatePatientProfile(patient, openMRSPatient).then(function (updatedPatientProfile) {
           patientProfile = updatedPatientProfile;
         });
 
@@ -176,7 +176,7 @@ describe('patientService', function () {
 
   });
 
-  describe('filterPersonAttributesForCurrStep', function () {
+  describe('getPersonAttributesForStep', function () {
 
     it('should return person attributes required in given patient step', function () {
 
@@ -185,7 +185,7 @@ describe('patientService', function () {
         {uuid: "d10628a7-ba75-4495-840b-bf6f1c44fd2d", sortWeight: 2, name: "Proveniência", description: "", format: "org.openmrs.Concept"},
       ]);
 
-      var attributesForStep = patientService.filterPersonAttributesForCurrStep('name');
+      var attributesForStep = patientService.getPersonAttributesForStep('name');
 
       expect(attributesForStep.length).toEqual(1);
       expect(attributesForStep).toContain(jasmine.objectContaining({name: 'Alcunha'}));

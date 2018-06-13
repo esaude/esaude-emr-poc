@@ -118,6 +118,9 @@
     }
 
     function getPatientConfiguration() {
+      if (!pocPatientConfig) {
+        throw new Error('App not initialized');
+      }
       return pocPatientConfig;
     }
   }

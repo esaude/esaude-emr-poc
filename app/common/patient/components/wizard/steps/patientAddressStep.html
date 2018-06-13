@@ -1,0 +1,19 @@
+<form name="vm.form" class="form-horizontal">
+
+  <div class="panel panel-primary content-border-margin">
+
+    <div class="panel-heading">
+      <h3 class="panel-title">{{'PATIENT_INFO_ADDRESS' | translate}}</h3>
+    </div>
+
+    <div class="panel-body">
+      <address-fields
+        address="vm.patient.address"
+        address-levels="vm.addressLevels"
+        field-validation="fieldValidation"
+        show-messages="vm.shouldShowMessages();">
+      </address-fields>
+    </div>
+  </div>
+
+</form>
