@@ -16,23 +16,27 @@
   <uib-tabset active="active">
 
     <uib-tab index="0" heading="{{'PATIENT_INFO_IDENTIFIERS' | translate}}">
-      <div ng-include src="'../patient-details/views/patient-identifiers.html'"></div>
+      <patient-identifiers patient="vm.patient"></patient-identifiers>
     </uib-tab>
 
     <uib-tab index="1" heading="{{'PATIENT_INFO_DEMOGRAPHICS' | translate}}">
-      <div ng-include src="'../patient-details/views/patient-demographics.html'"></div>
+      <patient-demographics patient="vm.patient"></patient-demographics>
     </uib-tab>
 
     <uib-tab index="2" heading="{{'PATIENT_INFO_ADDRESSES' | translate}}">
-      <div ng-include src="'../patient-details/views/patient-addresses.html'"></div>
+      <patient-address patient="vm.patient"></patient-address>
     </uib-tab>
 
     <uib-tab index="3" heading="{{'PATIENT_INFO_OTHERS' | translate}}">
-      <div ng-include src="'../patient-details/views/patient-attributes.html'"></div>
+      <patient-other patient="vm.patient"></patient-other>
     </uib-tab>
 
     <uib-tab index="4" heading="{{'PATIENT_INFO_DEATH' | translate}}">
-      <div ng-include src="'../patient-details/views/patient-death.html'"></div>
+      <patient-death patient="vm.patient"></patient-death>
+    </uib-tab>
+
+    <uib-tab index="5" heading="{{'PATIENT_INFO_HIV_TEST' | translate}}">
+      <patient-hiv-test patient="vm.patient"></patient-hiv-test>
     </uib-tab>
 
   </uib-tabset>

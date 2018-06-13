@@ -2,7 +2,7 @@
     <li class="list-group-item">
         <b>{{'PATIENT_INFO_NAMES' | translate}}: </b> {{vm.patient.givenName}} {{vm.patient.familyName}}
       <span
-        ng-repeat="personAttribute in vm.filterPersonAttributesForCurrStep('name')">
+        ng-repeat="personAttribute in vm.personAttributes">
         {{personAttribute | valueofothers:vm.patient:'brackets'}}
       </span>
     </li>

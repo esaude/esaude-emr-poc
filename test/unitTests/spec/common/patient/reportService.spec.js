@@ -2,7 +2,7 @@
 
 describe('reportService', function () {
 
-  var PATIENT_ARV_PICKUP_HISTORY_TEMPLATE = "../patient-details/views/patient-arv-pickup-history-report.html";
+  var PATIENT_ARV_PICKUP_HISTORY_TEMPLATE = "../common/patient/views/patient-arv-pickup-history-report.html";
 
   var reportService, $rootScope, $compile, $timeout, $http, $log, $q;
 

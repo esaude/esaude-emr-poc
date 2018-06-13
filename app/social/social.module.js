@@ -15,7 +15,6 @@ angular
       'ngDialog',
       'ngMessages',
       'pascalprecht.translate',
-      'patient.details',
       'poc.common.clinicalservices',
       'poc.common.visit',
       'smart-table',
