@@ -24,7 +24,9 @@
   <body>
 
     <div ng-app="reports">
-      <reports></reports>
+      <poc-layout>
+        <div id="overlay"></div>
+      </poc-layout>
     </div>
 
       <!-- build:js scripts/vendor.reports.min.js -->
@@ -35,6 +37,7 @@
     <script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
       <script src="../../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
       <script src="../../bower_components/moment/min/moment.min.js"></script>
+      <script src="../../bower_components/moment-timezone/moment-timezone.js"></script>
       <script src="../../bower_components/keyboard/dist/js/jquery.keyboard.min.js"></script>
       <script src="../../bower_components/keyboard/dist/layouts/keyboard-layouts-combined.min.js"></script>
       <script src="../../bower_components/keyboard/dist/layouts/keyboard-layouts-greywyvern.min.js"></script>
@@ -63,8 +66,8 @@
 
       <!-- build:js scripts/reports.min.js -->
 
-      <script src="../common/patient/constants.js"></script>
       <script src="../common/patient/init.js"></script>
+      <script src="../common/patient/constants.js"></script>
       <script src="../common/patient/services/patientService.js"></script>
       <script src="../common/patient/services/patientAttributeService.js"></script>
       <script src="../common/patient/services/addressAttributeService.js"></script>
@@ -72,19 +75,17 @@
       <script src="../common/patient/services/scheduleService.js"></script>
       <script src="../common/patient/models/age.js"></script>
       <script src="../common/patient/models/patient.js"></script>
-      <script src="../common/patient/models/patientConfig.js"></script>
       <script src="../common/patient/mappers/openmrsPatientMapper.js"></script>
-      <script src="../common/patient/mappers/patientAttributeTypeMapper.js"></script>
+      <script src="../common/patient/mappers/personAttributeTypeMapper.js"></script>
       <script src="../common/patient/mappers/updatePatientMapper.js"></script>
       <script src="../common/patient/directives/patientHeader.js"></script>
       <script src="../common/patient/components/patientSearch.js"></script>
       <script src="../common/patient/components/scheduleList.js"></script>
-      <script src="../common/patient/controllers/visitController.js"></script>
 
-      <script src="../move-patient/move-patient.module.js"></script>
-      <script src="../move-patient/config.js"></script>
-      <script src="../move-patient/run.js"></script>
-      <script src="../move-patient/directives/movePatient.js"></script>
+      <script src="../common/move-patient/move-patient.module.js"></script>
+      <script src="../common/move-patient/move-patient.config.js"></script>
+      <script src="../common/move-patient/move-patient.run.js"></script>
+      <script src="../common/move-patient/directives/movePatient.js"></script>
 
       <script src="../common/constants.js"></script>
       <script src="../common/constants.js"></script>
@@ -102,7 +103,6 @@
 
       <script src="../common/domain/common.domain.module.js"></script>
       <script src="../common/domain/services/configurationService.js"></script>
-      <script src="../common/domain/services/visitService.js"></script>
       <script src="../common/domain/services/encounterService.js"></script>
       <script src="../common/domain/services/observationsService.js"></script>
       <script src="../common/domain/services/programService.js"></script>
@@ -113,8 +113,6 @@
       <script src="../common/domain/services/conceptService.js"></script>
       <script src="../common/domain/services/drugService.js"></script>
 
-      <script src="../common/config/init.js"></script>
-      <script src="../common/config/services/configurations.js"></script>
       <script src="../common/domain/services/locationService.js"></script>
       <script src="../common/domain/services/prescriptionService.js"></script>
 
@@ -140,7 +138,10 @@
       <script src="../common/application/run.js"></script>
       <script src="../common/application/services/adminConfigService.js"></script>
       <script src="../common/app-framework/services/applicationService.js"></script>
-      <script src="../common/application/directives/pocHeader.js"></script>
+      <script src="../common/app-framework/constants/serializeObject.js"></script>
+      <script src="../common/application/components/pocHeader.js"></script>
+      <script src="../common/application/components/pocFooter.js"></script>
+      <script src="../common/application/components/pocLayout.js"></script>
 
       <script src="../common/uicontrols/init.js"></script>
       <script src="../common/uicontrols/programmanagement/init.js"></script>
@@ -151,21 +152,16 @@
       <script src="../common/i18n/services/mergeLocaleFilesService.js"></script>
 
       <script src="../patient-details/init.js"></script>
-      <script src="../patient-details/controllers/patientDetailController.js"></script>
       <script src="../patient-details/directives/addressFields.js"></script>
       <script src="../patient-details/directives/dynamicElementName.js"></script>
       <script src="../patient-details/filters/valueOfOthers.js"></script>
 
-      <script src="../registration/init.js"></script>
-
       <script src="../common/prescription/init.js"></script>
       <script src="../common/domain/services/providerService.js"></script>
-      <script src="../common/prescription/directives/prescription.js"></script>
+      <script src="../common/prescription/components/prescription.js"></script>
 
-      <script src="constants.js"></script>
       <script src="reports.module.js"></script>
       <script src="reports.routes.js"></script>
-      <script src="components/reports.js"></script>
       <script src="components/dashboard.js"></script>
       <!-- endbuild -->
   </body>

@@ -6,5 +6,6 @@ angular
   .module('bahmni.common.appFramework', [
     'authentication',
     'angular-loading-bar',
-    'bahmni.common.uiHelper'
+    'bahmni.common.uiHelper',
+    'common.patient',
   ]);

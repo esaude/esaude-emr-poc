@@ -1,0 +1,9 @@
+<div class="alert alert-info" ng-if="!vm.checkedIn && vm.showMessage">
+  {{vm.message ? vm.message : 'PLEASE_CHECK_IN_PATIENT' | translate}}
+</div>
+
+<div ng-transclude="showAnyway"></div>
+
+<div ng-if="vm.checkedIn">
+  <ng-transclude></ng-transclude>
+</div>

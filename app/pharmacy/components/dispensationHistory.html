@@ -1,0 +1,46 @@
+<no-results-alert collection="vm.pickups"></no-results-alert>
+
+<div class="row content-border-margin-regular" ng-if="vm.pickups.length">
+  <table st-table="pickups" st-safe-src="displayed" class="table table-striped">
+    <thead>
+    <tr>
+      <th>{{'PHARMACY_PICKUP_DATE' | translate}}</th>
+      <th>{{'PHARMACY_DRUG' | translate}}</th>
+      <th>{{'PHARMACY_QUANTITY' | translate}}</th>
+      <th>{{'PHARMACY_NEXT_PICKUP' | translate}}</th>
+      <th>{{'COMMON_BY' | translate}}</th>
+      <th>{{'COMMON_CLINICAL_SERVICE_HEADER_ACTIONS' | translate}}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="pickup in vm.pickups">
+      <td>{{pickup.encounterDatetime | date}}</td>
+      <td>{{vm.valueOfField(vm.filaObsList.quantity, pickup.members).order.drug.display}}</td>
+      <td>{{vm.valueOfField(vm.filaObsList.quantity, pickup.members).value}}</td>
+      <td>{{vm.valueOfField(vm.filaObsList.nextPickup, pickup.members).value | date}}</td>
+      <td>{{pickup.provider}}</td>
+      <td>
+        <poc-authorize privilege="'Delete Drug Dispensation'">
+          <button type="button" class="close btn-lg content-border-margin-regular-sides"
+                  ng-click="vm.cancelDispensationItem(vm.valueOfField(vm.filaObsList.quantity, pickup.members).order)"
+                  data-toggle="modal">
+            <span class="glyphicon glyphicon-trash"></span>
+          </button>
+        </poc-authorize>
+      </td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr ng-show="noResultsMessage">
+      <td  colspan="6" class="text-center">
+        {{noResultsMessage | translate}}
+      </td>
+    </tr>
+    <tr>
+      <td  colspan="6" class="text-center">
+        <div  st-items-by-page="4" st-displayed-pages="7" st-pagination=""></div>
+      </td>
+    </tr>
+    </tfoot>
+  </table>
+</div>

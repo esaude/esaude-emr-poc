@@ -59,7 +59,7 @@
     }
 
     function addAttributeToPatient(patient, attribute) {
-      var attributeType = $rootScope.patientConfiguration.get(attribute.attributeType.uuid);
+      var attributeType = attribute.attributeType;
       if (attributeType) {
         if (attributeType.format === "org.openmrs.Concept" && attribute.value) {
           patient[attributeType.name] = attribute.value.uuid;
@@ -71,13 +71,8 @@
       }
     }
 
-    function whereAttributeTypeExists(attribute) {
-      return (!$rootScope.patientConfiguration) ? $rootScope.patientConfiguration : 
-          $rootScope.patientConfiguration.get(attribute.attributeType.uuid);
-    }
-
     function mapAttributes(patient, attributes) {
-      attributes.filter(whereAttributeTypeExists).forEach(function (attribute) {
+      attributes.forEach(function (attribute) {
         addAttributeToPatient(patient, attribute);
       });
     }

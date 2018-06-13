@@ -1,35 +1,34 @@
-'use strict';
+const Page = require('./page')
 
-let I;
+class LoginPage extends Page {
 
-module.exports = {
+  constructor() {
+    super({
+      isLoaded: {
+        element: '#username',
+        urlPart: '/login',
+      },
+    })
 
-  _init() {
-    I = actor();
-  },
+    this.fields = {
+      username: '#username',
+      password: '#password'
+    }
 
-  fields: {
-    username: '#username',
-    password: '#password'
-  },
-
-  loginButton: {css: '.btn'},
-
-  // Validates that the page is loaded
-  isLoaded() {
-    I.waitForElement(this.fields.username, 5)
-    I.seeInCurrentUrl('/login')
-  },
+    this.loginButton = {css: '.btn'}
+  }
 
   // Logs the user in
   login(userInfo) {
-    I.amOnPage('/home/index.html#/login')
-    I.fillField(this.fields.username, userInfo.username);
-    I.fillField(this.fields.password, userInfo.password);
-    I.click(this.loginButton);
+    this.I.amOnPage('/home/index.html#/login')
+    this.I.fillField(this.fields.username, userInfo.username);
+    this.I.fillField(this.fields.password, userInfo.password);
+    this.I.click(this.loginButton);
 
     // Wait for the page to load
-    I.wait(1)
+    this.I.waitForInvisible('#overlay', 5)
+
+    const I = this.I
 
     // Helps the caller detect whether login was
     // successful or not
@@ -37,6 +36,7 @@ module.exports = {
       // If login was successful we should be taken to the dashboard
       successful() {
         const dashboardPage = require('./dashboardPage')
+        dashboardPage._init()
         dashboardPage.isLoaded()
         return dashboardPage
       },
@@ -46,5 +46,7 @@ module.exports = {
         I.see(errorMessage)
       },
     }
-  },
+  }
 }
+
+module.exports = new LoginPage()

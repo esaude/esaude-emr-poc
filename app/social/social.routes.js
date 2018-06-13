@@ -22,9 +22,13 @@
       .state('search', {
         url: '/search',
         component: 'patientSearch',
-        bindings: {showSchedule: false},
         ncyBreadcrumb: {
           label: '{{\'APP_SOCIAL\' | translate}} /  {{\'SEARCH_PATIENT\' | translate}}'
+        },
+        resolve: {
+          initialization: 'initialization',
+          createPatient: function () { return false },
+          showSchedule: function () { return false },
         }
       })
       .state('dashboard', {
@@ -36,7 +40,8 @@
         },
         resolve: {
           initialization: 'initialization',
-          patient: function ($stateParams, patientService) {
+          patient: function (initialization, $stateParams, patientService) {
+            // We need initialization to always resolve first
             return patientService.getPatient($stateParams.patientUuid);
           }
         }

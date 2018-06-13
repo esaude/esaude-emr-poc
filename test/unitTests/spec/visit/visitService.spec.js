@@ -104,6 +104,20 @@ describe('visitService', function () {
       expect(foundVisit).toEqual(visit);
     });
 
+    it('should reject if no patient uuid', function () {
+
+      var err = {};
+
+      visitService.getTodaysVisit().catch(function (error) {
+        err = error;
+      });
+
+      $rootScope.$apply();
+
+      expect(err).toBeUndefined();
+
+    });
+
   });
 
   describe('checkInPatient', function () {
@@ -146,8 +160,6 @@ describe('visitService', function () {
     });
 
     describe('follow-up visit', function () {
-
-      var DATETIME_FORMAT = 'YYYY-MM-DDTHH:mm:ss';
 
       it('should create a visit with follow-up consultation type', function () {
 

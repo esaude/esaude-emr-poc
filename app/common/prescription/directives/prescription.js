@@ -51,7 +51,10 @@
     vm.isRegimenChangeEdit = false;
     vm.isRegimenEdit = false;
     vm.listedPrescriptions = [];
-    vm.prescriptionDate = new Date();
+    vm.prescriptionDate = null;
+    if (vm.retrospectiveMode) {
+      vm.prescriptionDate = new Date();
+    }
     vm.prescriptionItem = {};
     vm.prescriptionItemToCancel = null;
     vm.providers = [];
@@ -385,13 +388,15 @@
     function save(form) {
 
       var prescription = {
-
-        prescriptionDate: vm.prescriptionDate,
         patient: {uuid: patientUuid},
         provider: {uuid: vm.selectedProvider.uuid},
         location: {uuid: sessionService.getCurrentLocation().uuid},
         prescriptionItems: []
       };
+
+      if (vm.retrospectiveMode) {
+        prescription.prescriptionDate = vm.prescriptionDate;
+      }
 
       _.forEach(vm.listedPrescriptions, function (element) {
 

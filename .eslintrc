@@ -1,1 +1,5 @@
 extends: angular
+env:
+  es6: true
+rules:
+  semi: error

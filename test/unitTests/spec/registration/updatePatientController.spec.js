@@ -1,6 +1,6 @@
 describe('UpdatePatientController', function () {
 
-  var $controller, $filter, $scope, $location, $state, $stateParams, patient, patientService, notifier, $q, $rootScope;
+  var $controller, patientService, $q, $rootScope;
 
   beforeEach(module('registration', function ($provide, $translateProvider, $urlRouterProvider) {
     // Mock initialization
@@ -16,6 +16,19 @@ describe('UpdatePatientController', function () {
     });
     $translateProvider.useLoader('mergeLocaleFilesService');
     $urlRouterProvider.deferIntercept();
+
+    var appService = jasmine.createSpyObj('appService', ['getAppDescriptor', 'getPatientConfiguration']);
+
+    var appDescriptor = jasmine.createSpyObj('appDescriptor',['getConfigValue']);
+    appDescriptor.getConfigValue.and.returnValue({});
+    appService.getAppDescriptor.and.returnValue(appDescriptor);
+    appService.getPatientConfiguration.and.returnValue({
+      customAttributeRows: function () {
+        return patientAttributes;
+      }
+    });
+
+    $provide.value('appService', appService);
   }));
 
   beforeEach(inject(function (_$controller_, _$q_, _$rootScope_, _patientService_) {

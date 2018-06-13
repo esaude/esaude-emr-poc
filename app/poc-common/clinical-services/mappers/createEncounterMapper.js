@@ -129,8 +129,6 @@
       if (isAnyObject(value)) {
         if (dataType === CODED_DATATYPE) {
           value = ensureObject(formField.value).uuid;
-        } else if (dataType === DATE_DATATYPE || dataType === DATETIME_DATATYPE) {
-          value = moment(value).format(DATETIME_FORMAT);
         }
       }
       return value;

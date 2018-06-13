@@ -9,27 +9,21 @@
       templateUrl: '../patient-details/components/patientDetails.html'
     });
 
-  PatientDetailsController.$inject = ["$stateParams", "$state", "$rootScope", "reportService", "patientService",
-    "notifier", "translateFilter", "configurations", "appService"];
-
   function PatientDetailsController($stateParams, $state, $rootScope, reportService, patientService, notifier,
-                                    translateFilter, configurations, appService) {
+                                    translateFilter, configurationService, patientRepresentation) {
 
     var patientUUID = $stateParams.patientUuid;
-    var patientConfiguration = $rootScope.patientConfiguration;
     var returnState = $stateParams.returnState;
 
     var vm = this;
 
     vm.patient = {};
-    vm.addressLevels = configurations.addressLevels();
-    vm.patientAttributes = [];
+    vm.addressLevels = [];
 
     vm.linkDashboard = linkDashboard;
     vm.print = print;
-    vm.filterPersonAttributesForDetails = filterPersonAttributesForDetails;
+    vm.filterPersonAttributesForCurrStep = filterPersonAttributesForCurrStep;
     vm.$onInit = $onInit;
-    vm.additionalPatientAttributes = appService.getAppDescriptor().getConfigValue("additionalPatientAttributes");
 
     ////////////////
 
@@ -37,12 +31,14 @@
       getPatient(patientUUID)
         .then(function (patient) {
           vm.patient = patient;
-          vm.patientAttributes = patientConfiguration.customAttributeRows().reduce(function (acc, cur) {
-            return acc.concat(cur);
-          }, []);
         })
         .catch(function () {
           notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
+        });
+
+      configurationService.getAddressLevels()
+        .then(function (addressLevels) {
+          vm.addressLevels = addressLevels;
         });
     }
 
@@ -55,11 +51,11 @@
     }
 
     function getPatient(uuid) {
-      return patientService.getPatient(uuid);
+      return patientService.getPatient(uuid, patientRepresentation);
     }
 
-    function filterPersonAttributesForDetails (attributes, configAttr) {
-      return patientService.filterPersonAttributesForDetails (attributes, configAttr);
+    function filterPersonAttributesForCurrStep (step) {
+      return patientService.filterPersonAttributesForCurrStep(step);
     }
   }
 

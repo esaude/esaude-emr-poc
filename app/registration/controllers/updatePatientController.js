@@ -5,8 +5,6 @@
     .module('registration')
     .controller('UpdatePatientController', UpdatePatientController);
 
-  UpdatePatientController.$inject = ['$filter', '$scope', '$state', '$stateParams', 'patient', 'patientService', 'notifier'];
-
   /* @ngInject */
   function UpdatePatientController($filter, $scope, $state, $stateParams, patient, patientService, notifier) {
 
