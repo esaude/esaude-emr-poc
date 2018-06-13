@@ -70,7 +70,9 @@
   "engines": {
     "node": ">=0.10.0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "mustache": "^2.3.0"
+  },
   "scripts": {
     "test": "grunt test",
     "e2e": "./node_modules/.bin/codeceptjs run --steps --reporter mochawesome",
