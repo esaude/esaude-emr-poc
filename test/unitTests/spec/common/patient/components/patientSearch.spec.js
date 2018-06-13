@@ -88,8 +88,8 @@ describe('PatientSearchController', function () {
       });
 
       // Add the bard code listener element with auto select set to true
-      const autoSelect = 'true';
-      var html = `<barcode-listener data-auto-select="${autoSelect}" prefix=""><barcode-listener>`;
+      const autoSelect = true;
+      var html = `<barcode-listener on-scan='vm.barcodeHandler' prefix='' length='17' scan-duration='500' data-auto-select='${autoSelect}'><barcode-listener>`;
       const element = $compile(html)($rootScope);
       angular.element(document.body).append(element);
       $rootScope.$digest();
@@ -110,8 +110,8 @@ describe('PatientSearchController', function () {
       });
 
       // Add the bard code listener element with auto select set to false
-      const autoSelect = 'false';
-      var html = `<barcode-listener data-auto-select="${autoSelect}" prefix=""><barcode-listener>`;
+      const autoSelect = false;
+      var html = `<barcode-listener on-scan='vm.barcodeHandler' prefix='' length='17' scan-duration='500' data-auto-select='${autoSelect}'><barcode-listener>`;
       const element = $compile(html)($rootScope);
       angular.element(document.body).append(element);
       $rootScope.$digest();
