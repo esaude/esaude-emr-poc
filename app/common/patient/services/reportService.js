@@ -9,9 +9,9 @@
 
   function reportService($rootScope, $compile, $timeout, $http, $log, $q, translateFilter) {
 
-    var PATIENT_ARV_PICKUP_HISTORY_TEMPLATE = "../patient-details/views/patient-arv-pickup-history-report.html";
+    var PATIENT_ARV_PICKUP_HISTORY_TEMPLATE = "../common/patient/views/patient-arv-pickup-history-report.html";
 
-    var PATIENT_DAILY_HOSPITAL_PROCESS_TEMPLATE = "../patient-details/views/patient-daily-hospital-process-report.html";
+    var PATIENT_DAILY_HOSPITAL_PROCESS_TEMPLATE = "../common/patient/views/patient-daily-hospital-process-report.html";
 
     var NUMBER_OF_DISPLACEMENT_LINES = 12;
     var WEEKS_IN_MONTH = 4;

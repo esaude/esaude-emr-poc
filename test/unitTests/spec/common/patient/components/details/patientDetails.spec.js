@@ -1,8 +1,8 @@
-describe('PatientDetailsController', function () {
+describe('patientDetails', function () {
 
-  var $componentController, $q, patientService, configurationService, reportService, $rootScope;
+  var $componentController, $q, patientService, reportService, $rootScope;
 
-  beforeEach(module('patient.details', function ($provide, $translateProvider, $urlRouterProvider) {
+  beforeEach(module('common.patient', function ($provide, $translateProvider, $urlRouterProvider) {
     // Mock translate asynchronous loader
     $provide.factory('mergeLocaleFilesService', function ($q) {
       return function () {
@@ -28,14 +28,12 @@ describe('PatientDetailsController', function () {
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function (_$componentController_, _patientService_, _$q_, _$rootScope_, _reportService_,
-                              _configurationService_) {
+  beforeEach(inject(function (_$componentController_, _patientService_, _$q_, _$rootScope_, _reportService_) {
     $componentController = _$componentController_;
     $q = _$q_;
     patientService = _patientService_;
     $rootScope = _$rootScope_;
     reportService = _reportService_;
-    configurationService = _configurationService_;
   }));
 
   describe('$onInit', function () {
@@ -46,13 +44,6 @@ describe('PatientDetailsController', function () {
           resolve({});
         });
       });
-
-      spyOn(configurationService, 'getAddressLevels').and.callFake(function () {
-        return $q.resolve([
-          {name: "Pais", addressField: "country", required: true},
-          {name: "Provincia", addressField: "stateProvince", required: true}
-        ]);
-      });
     });
 
     it('should load the patient', function () {
@@ -60,16 +51,6 @@ describe('PatientDetailsController', function () {
       ctrl.$onInit();
       $rootScope.$apply();
       expect(patientService.getPatient).toHaveBeenCalled();
-    });
-
-    it('should load addressLevels', function () {
-      var ctrl = $componentController('patientDetails');
-      ctrl.$onInit();
-      $rootScope.$apply();
-      expect(ctrl.addressLevels).toEqual([
-        {name: "Pais", addressField: "country", required: true},
-        {name: "Provincia", addressField: "stateProvince", required: true}
-      ]);
     });
 
   });
