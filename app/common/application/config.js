@@ -6,11 +6,11 @@
     .config(applicationModuleConfig);
 
   applicationModuleConfig.$inject = ['$provide', '$breadcrumbProvider', 'uibDatepickerConfig', 'uibDatepickerPopupConfig',
-    'dateFormat', 'cfpLoadingBarProvider'];
+    'dateFormat', 'cfpLoadingBarProvider', '$httpProvider', 'serializeObject'];
 
   /* @ngInject */
   function applicationModuleConfig($provide, $breadcrumbProvider, uibDatepickerConfig, uibDatepickerPopupConfig,
-                                   dateFormat, cfpLoadingBarProvider) {
+    dateFormat, cfpLoadingBarProvider, $httpProvider, serializeObject) {
     $provide.decorator('applicationService', applicationServiceAuthorizationDecorator);
 
 
@@ -18,6 +18,14 @@
     $breadcrumbProvider.setOptions({
       templateUrl: '/common/application/views/breadcrumb.html'
     });
+
+    $httpProvider.defaults.transformRequest.unshift(function (data) {
+      return serializeObject(data);
+    });
+
+    //set default timezone to Maputo
+    moment.tz.add("Africa/Maputo|LMT CAT|-2a.k -20|01|-2GJea.k|26e5");
+    moment.tz.setDefault("Africa/Maputo");
 
     // Datepicker config
     uibDatepickerConfig.datepickerMode = 'month';

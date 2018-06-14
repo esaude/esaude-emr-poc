@@ -1,0 +1,46 @@
+<div class="row bg-info-border content-border header-text-lg">
+  <div class="col-sm-12">
+
+    <div class="checkin">
+      <div class="pull-left status">
+        <div class="checked-in" ng-if="vm.todayVisit">
+          <span class="glyphicon glyphicon-info-sign"></span>
+          <span translate="CHECKIN_CHECKED_IN_TODAY"
+                translate-value-visitType="{{vm.todayVisit.visitType.display}}"
+                translate-value-startDateTime="{{vm.todayVisit.startDatetime | date:'short'}}">
+          </span>
+        </div>
+
+        <div ng-if="!vm.todayVisit">
+          <span class="glyphicon glyphicon-warning-sign"></span>
+          <span>{{'CHECKIN_NOT_CHECKED_IN_TODAY' | translate}}</span>
+        </div>
+      </div>
+
+
+
+        <div class="pull-right" >
+
+          <poc-authorize privilege="'Write Visit'">
+            <button type="button" class="btn btn-primary btn-lg" ng-click="vm.checkIn()" ng-if="!vm.todayVisit">
+              <span class="glyphicon glyphicon-log-in"></span>
+              <span class="button-label">{{'COMMON_CHECKIN' | translate}}</span>
+            </button>
+          </poc-authorize>
+
+
+          <poc-authorize privilege="'Delete Visit'">
+            <poc-confirm-button type="button" class="btn btn-danger btn-lg" on-confirm="vm.cancelCheckIn()" ng-if="vm.todayVisit">
+              <span class="glyphicon glyphicon-remove"></span>
+              <span class="button-label">{{'REMOVE' | translate}}</span>
+            </poc-confirm-button>
+          </poc-authorize>
+
+        </div>
+
+
+
+    </div>
+
+  </div>
+</div>

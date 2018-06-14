@@ -4,6 +4,6 @@ angular
     'bahmni.common.uiHelper',
     'common.prescription',
     'pascalprecht.translate',
+    'poc.common.visit',
     'ui.router',
-    'visit'
   ]);

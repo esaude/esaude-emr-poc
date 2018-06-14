@@ -1,0 +1,13 @@
+<no-results-alert collection="vm.visitHistory"></no-results-alert>
+
+<div class="panel panel-primary panel-marginless-sides" ng-if="vm.visitHistory.length">
+  <div class="list-group" ng-repeat="visit in vm.visitHistory">
+    <div class="bg-info content-border-padding-li">
+      {{'CLINIC_PATIENT_VISIT' | translate}} {{'COMMON_ON' | translate}} {{visit[0].encounterDatetime | date}}
+    </div>
+    <div class="list-group-item" ng-repeat="encounter in visit">
+      <div>{{encounter.encounterType.display}} {{'COMMON_ON' | translate}} {{encounter.encounterDatetime | date}},
+        {{'COMMON_BY' | translate}}: {{encounter.provider.display}}</div>
+    </div>
+  </div>
+</div>

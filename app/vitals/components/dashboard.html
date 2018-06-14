@@ -1,0 +1,13 @@
+<patient-header patient="vm.patient" display-actions="true" on-patient-deceased="vm.reload();"></patient-header>
+
+<visit-header patient="vm.patient"></visit-header>
+
+<div class="bg-info-border content-border border-rouded">
+
+  <ul class="nav nav-tabs">
+    <li role="presentation" ui-sref-active="active"><a ui-sref="dashboard.clinicalservices">{{'COMMON_CLINIC_SERVICES_TITLE' | translate}}</a></li>
+  </ul>
+
+  <ui-view></ui-view>
+
+</div>

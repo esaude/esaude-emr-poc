@@ -1,12 +1,12 @@
 describe('patientService', function () {
 
   var patientService, $httpBackend, $rootScope, openmrsPatientMapper, reportService, prescriptionService,
-    updatePatientMapper;
+    updatePatientMapper, appService;
 
   beforeEach(module('common.patient'));
 
   beforeEach(inject(function (_patientService_, _prescriptionService_, _reportService_, _$rootScope_,
-                              _$httpBackend_, _openmrsPatientMapper_, _updatePatientMapper_) {
+                              _$httpBackend_, _openmrsPatientMapper_, _updatePatientMapper_, _appService_) {
     patientService = _patientService_;
     prescriptionService = _prescriptionService_;
     reportService = _reportService_;
@@ -14,6 +14,7 @@ describe('patientService', function () {
     $httpBackend = _$httpBackend_;
     openmrsPatientMapper = _openmrsPatientMapper_;
     updatePatientMapper = _updatePatientMapper_;
+    appService = _appService_;
   }));
 
   it("should fetch the the specific patient by name ", function () {
@@ -62,7 +63,7 @@ describe('patientService', function () {
   describe('update', function () {
 
     beforeEach(function () {
-      $rootScope.patientConfiguration = {personAttributeTypes: []};
+      spyOn(appService, 'getPatientConfiguration').and.returnValue({personAttributeTypes: []});
     });
 
     var openMRSPatient = {uuid: 'e2bc2a32-1d5f-11e0-b929-000c29ad1d07'};
@@ -93,7 +94,7 @@ describe('patientService', function () {
           .respond(identifier2);
 
         var patientProfile = {};
-        patientService.update(patient, openMRSPatient).then(function (updatedPatientProfile) {
+        patientService.updatePatientProfile(patient, openMRSPatient).then(function (updatedPatientProfile) {
           patientProfile = updatedPatientProfile;
         });
 
@@ -127,7 +128,7 @@ describe('patientService', function () {
           .respond({});
 
         var patientProfile = {};
-        patientService.update(patient, openMRSPatient).then(function (updatedPatientProfile) {
+        patientService.updatePatientProfile(patient, openMRSPatient).then(function (updatedPatientProfile) {
           patientProfile = updatedPatientProfile;
         });
 
@@ -157,7 +158,7 @@ describe('patientService', function () {
           .respond({});
 
         var patientProfile = {};
-        patientService.update(patient, openMRSPatient).then(function (updatedPatientProfile) {
+        patientService.updatePatientProfile(patient, openMRSPatient).then(function (updatedPatientProfile) {
           patientProfile = updatedPatientProfile;
         });
 
@@ -171,6 +172,24 @@ describe('patientService', function () {
     afterEach(function () {
       $httpBackend.verifyNoOutstandingExpectation();
       $httpBackend.verifyNoOutstandingRequest();
+    });
+
+  });
+
+  describe('getPersonAttributesForStep', function () {
+
+    it('should return person attributes required in given patient step', function () {
+
+      spyOn(appService, 'getPatientConfiguration').and.returnValue([
+        {uuid: "d82b0cf4-26cc-11e8-bdc0-2b5ea141f82e", sortWeight: 1, name: "Alcunha", description: "Patient's nick name", format: "java.lang.String"},
+        {uuid: "d10628a7-ba75-4495-840b-bf6f1c44fd2d", sortWeight: 2, name: "Proveniência", description: "", format: "org.openmrs.Concept"},
+      ]);
+
+      var attributesForStep = patientService.getPersonAttributesForStep('name');
+
+      expect(attributesForStep.length).toEqual(1);
+      expect(attributesForStep).toContain(jasmine.objectContaining({name: 'Alcunha'}));
+
     });
 
   });

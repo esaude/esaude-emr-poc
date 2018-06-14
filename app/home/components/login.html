@@ -1,0 +1,63 @@
+<div class="login">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-6 col-xs-offset-3">
+
+        <form class="form-horizontal" name="loginForm" autofillable="true" ng-submit="vm.login()">
+
+          <div class="row">
+            <div class="col-xs-12">
+              <p class="text-center">EMR Point of Care</p>
+            </div>
+          </div>
+
+          <div class="alert alert-danger alert-dismissible" role="alert" ng-show="vm.errorMessageTranslateKey">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <strong>{{vm.errorMessageTranslateKey | translate}}</strong>
+          </div>
+
+          <!-- build:remove -->
+          <div class="form-group form-group-lg">
+            <label for="locale" class="col-md-4 control-label">
+              {{'LOGIN_LABEL_SELECT_LOCALE_KEY' | translate}}:
+              <span class="asterick">*</span>
+            </label>
+            <div class="col-md-8">
+              <select id="locale" class="form-control" ng-model="vm.selectedLocale"
+                      ng-options="l.label for l in vm.locales"
+                      ng-change="vm.updateLocale(vm.selectedLocale)" required>
+              </select>
+            </div>
+          </div>
+          <!-- endbuild-->
+          <div class="form-group form-group-lg">
+            <label for="username" class="col-md-4 control-label">
+              {{'LOGIN_LABEL_USERNAME_KEY' | translate}}:
+              <span class="asterick">*</span>
+            </label>
+            <div class="col-md-8">
+              <input type="text" class="form-control keyboard-in" id="username" ng-model="vm.loginUser.username" required>
+            </div>
+          </div>
+          <div class="form-group form-group-lg">
+            <label for="password" class="col-md-4 control-label">
+              {{'LOGIN_LABEL_PASSWORD_KEY' | translate}}:
+              <span class="asterick">*</span>
+            </label>
+            <div class="col-md-8">
+              <input type="password" class="form-control keyboard-in" id="password" ng-model="vm.loginUser.password" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-12 text-center">
+              <button type="submit" class="btn btn-primary btn-lg">{{'LOGIN_LABEL_LOGIN_KEY' | translate}}</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div>

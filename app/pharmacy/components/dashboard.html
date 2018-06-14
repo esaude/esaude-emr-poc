@@ -1,0 +1,17 @@
+<patient-header patient="vm.patient" display-actions="true" on-patient-deceased="vm.reload();"></patient-header>
+
+<visit-header patient="vm.patient"></visit-header>
+
+<check-in patient="vm.patient" on-check-in-change="vm.reload();"></check-in>
+
+<div class="bg-info-border content-border border-rouded">
+    <ul class="nav nav-tabs">
+        <li role="presentation" ui-sref-active="active" ng-if="vm.independentPharmacist">
+          <a ui-sref="dashboard.prescriptions">{{'CLINIC_PATIENT_PRESCRIPTIONS' | translate}}</a>
+        </li>
+        <li role="presentation" ui-sref-active="active"><a ui-sref="dashboard.filaHistory">{{'PHARMACY_HISTORY_FILA' | translate}}</a></li>
+        <li role="presentation" ui-sref-active="active"><a ui-sref="dashboard.dispensationHistory">{{'PHARMACY_HISTORY_PICKUP' | translate}}</a></li>
+        <li role="presentation" ui-sref-active="active"><a ui-sref="dashboard.dispensation">{{'PHARMACY_DISPENSATION' | translate}}</a></li>
+    </ul>
+    <div ui-view=""></div>
+</div>

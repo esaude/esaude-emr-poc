@@ -3,7 +3,6 @@ angular
     [
       'application',
       'bahmni.common.appFramework',
-      'bahmni.common.config',
       'bahmni.common.domain',
       'bahmni.common.i18n',
       'bahmni.common.uicontrols.programmanagment',
@@ -18,10 +17,10 @@ angular
       'pascalprecht.translate',
       'patient.details',
       'poc.common.clinicalservices',
+      'poc.common.visit',
       'smart-table',
       'ui.bootstrap',
       'ui.checkbox',
       'ui.router',
-      'visit'
     ]
   );

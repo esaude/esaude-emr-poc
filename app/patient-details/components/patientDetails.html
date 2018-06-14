@@ -1,4 +1,15 @@
-<patient-header patient="patientCommon.patient"></patient-header>
+<patient-header patient="vm.patient"></patient-header>
+
+<div class="row bg-info-border content-border border-rouded-bottom go-to-right">
+  <button type="button" class="btn btn-warning btn-lg" ng-click="vm.linkDashboard()">
+    <span class="glyphicon glyphicon-step-backward"></span>
+    <span class="button-label">{{'PREVIOUS_STEP' | translate}}</span>
+  </button>
+  <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addVisitModal" ng-click="vm.print()">
+    <span class="glyphicon glyphicon-print"></span>
+    <span class="button-label">{{'PRINT' | translate}}</span>
+  </button>
+</div>
 
 <div class="row bg-info-border content-border border-rouded-top"><!-- program header controls -->
 
@@ -26,15 +37,4 @@
 
   </uib-tabset>
 
-</div>
-
-<div class="row bg-info-border content-border border-rouded-bottom go-to-right">
-  <button type="button" class="btn btn-warning btn-lg" ng-click="patientCommon.linkDashboard()">
-    <span class="glyphicon glyphicon-step-backward"></span>
-    <span class="button-label">{{'PREVIOUS_STEP' | translate}}</span>
-  </button>
-  <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addVisitModal" ng-click="patientCommon.print()">
-    <span class="glyphicon glyphicon-print"></span>
-    <span class="button-label">{{'PRINT' | translate}}</span>
-  </button>
 </div>

@@ -5,18 +5,18 @@
     .module('bahmni.common.appFramework')
     .factory('appService', appService);
 
-  appService.$inject = ['$http', '$q', 'sessionService'];
-
   /* @ngInject */
-  function appService($http, $q, sessionService) {
+  function appService($http, $q, sessionService, configurationService) {
 
     var currentUser = null;
     var baseUrl = "/poc_config/openmrs/apps/";
     var appDescriptor = null;
+    var pocPatientConfig = null;
 
     var service = {
+      initApp: initApp,
       getAppDescriptor: getAppDescriptor,
-      initApp: initApp
+      getPatientConfiguration: getPatientConfiguration,
     };
     return service;
 
@@ -27,7 +27,6 @@
     }
 
     function initApp(appName, options) {
-      var appLoader = $q.defer();
       var promises = [];
       var opts = options || {'app': true, 'extension': true, 'service': false};
 
@@ -47,13 +46,19 @@
       if (opts.app) {
         promises.push(loadDefinition(appDescriptor));
       }
-      $q.all(promises).then(function (results) {
-        currentUser = results[0];
-        appLoader.resolve(appDescriptor);
-      }, function (errors) {
-        appLoader.reject(errors);
-      });
-      return appLoader.promise;
+
+      var appLoader = $q.all(promises)
+        .then(function (results) {
+          currentUser = results[0];
+        })
+        .then(function () {
+          return loadPatientAttributeTypes();
+        })
+        .then(function () {
+          return appDescriptor;
+        });
+
+      return appLoader;
     }
 
     function loadConfig(url) {
@@ -97,6 +102,26 @@
         }
       );
       return deferrable.promise;
+    }
+
+
+    // TODO: move to patientService load only when needed.
+    function loadPatientAttributeTypes() {
+      return configurationService.getPatientAttributeTypes()
+        .then(function (patientAttributeTypes) {
+          pocPatientConfig = patientAttributeTypes;
+        })
+        .catch(function () {
+          $log.error('XHR Failed for loadPatientAttributeTypes: ' + error.data.error.message);
+          return $q.reject(error);
+        });
+    }
+
+    function getPatientConfiguration() {
+      if (!pocPatientConfig) {
+        throw new Error('App not initialized');
+      }
+      return pocPatientConfig;
     }
   }
 
