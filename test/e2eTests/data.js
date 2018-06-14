@@ -62,7 +62,32 @@ module.exports = {
 				Roles.provider,
 			],*/
     },
+  },
 
+  // Utilities for generating provider related data
+  providers: {
+    // Generates JSON that can be used to make
+    // the user a provider
+    generateJsonFromUser: function (user) {
+      return {
+        person: user.person.uuid,
+        identifier: user.systemId
+      }
+    },
+  },
+
+  // Uuids for programs
+  programs: {
+    SERVICO_TARV_CUIDADO: '7b2e4a0a-d4eb-4df7-be30-78ca4b28ca99',
+    SERVICO_TARV_TRATAMENTO: 'efe2481f-9e75-4515-8d5a-86bfde2b5ad3',
+    TUBERCULOSE: '142d23c4-c29f-4799-8047-eb3af911fd21',
+    CCR: '611f0a6b-68b7-4de7-bc7a-fd021330eef8',
+    CCU: '8954a750-079e-4bf2-940c-b4f71ea8bb15',
+    PTV_ETV: '06057245-ca21-43ab-a02f-e861d7e54593',
+    CLINICA_MOVEL: 'fb455824-fb53-45ab-bf5a-a81482ff6848',
+  },
+
+  patients: {
     patient1: {
       "identifiers": [
         {
@@ -104,33 +129,8 @@ module.exports = {
         birthdate: (new Date('1994-3-19')).toISOString(),
       },
     },
-  },
 
-  // Utilities for generating provider related data
-  providers: {
-    // Generates JSON that can be used to make
-    // the user a provider
-    generateJsonFromUser: function (user) {
-      return {
-        person: user.person.uuid,
-        identifier: user.systemId
-      }
-    },
-  },
-
-  // Uuids for programs
-  programs: {
-    SERVICO_TARV_CUIDADO: '7b2e4a0a-d4eb-4df7-be30-78ca4b28ca99',
-    SERVICO_TARV_TRATAMENTO: 'efe2481f-9e75-4515-8d5a-86bfde2b5ad3',
-    TUBERCULOSE: '142d23c4-c29f-4799-8047-eb3af911fd21',
-    CCR: '611f0a6b-68b7-4de7-bc7a-fd021330eef8',
-    CCU: '8954a750-079e-4bf2-940c-b4f71ea8bb15',
-    PTV_ETV: '06057245-ca21-43ab-a02f-e861d7e54593',
-    CLINICA_MOVEL: 'fb455824-fb53-45ab-bf5a-a81482ff6848',
-  },
-
-  patients: {
-    patient1: {
+    patient3: {
       "identifiers": [
         {
           "identifier1": "12345678/22/987654",

@@ -6,10 +6,10 @@ Feature('Patient Search');
 Before(async (I, Apis, Data) => {
 	// Create the patients
 	I.say("Creating patient one")
-	await Apis.patient.create(Data.users.patient1)
-	
+	await Apis.patient.create(Data.patients.patient1)
+
 	I.say("Creating patient two")
-	await Apis.patient.create(Data.users.patient2)
+	await Apis.patient.create(Data.patients.patient2)
 
 	// Login
   I.login()
@@ -55,25 +55,25 @@ const validateSearch = (I, Data, pageWithSearch) => {
 	pageWithSearch.disableAutoSelect()
 
 	I.say('Search for the first few letters of the patient\'s first name')
-	pageWithSearch.search(Data.users.patient1.person.names[0].givenName.substring(0, 3))
+	pageWithSearch.search(Data.patients.patient1.person.names[0].givenName.substring(0, 3))
 
 	I.say('Validate patient 1\'s data is visible')
-	pageWithSearch.seePatientRecord(Data.users.patient1)
+	pageWithSearch.seePatientRecord(Data.patients.patient1)
 
 	I.say('Validate patient 2\'s data is visible since patient 2\'s first name start with the same letter as patient 1\'s')
-	pageWithSearch.seePatientRecord(Data.users.patient2)
+	pageWithSearch.seePatientRecord(Data.patients.patient2)
 
 	I.say('Search for the patient\'s entire first name')
-	pageWithSearch.search(Data.users.patient1.person.names[0].givenName)
+	pageWithSearch.search(Data.patients.patient1.person.names[0].givenName)
 
 	I.say('Validate patient 1\'s data is still visible')
-	pageWithSearch.seePatientRecord(Data.users.patient1)
+	pageWithSearch.seePatientRecord(Data.patients.patient1)
 
 	I.say('Search for the patient\'s identifier')
-	pageWithSearch.search(Data.users.patient1.identifiers[0].identifier)
+	pageWithSearch.search(Data.patients.patient1.identifiers[0].identifier)
 
 	I.say('Validate patient 1\'s data is still visible')
-	pageWithSearch.seePatientRecord(Data.users.patient1)
+	pageWithSearch.seePatientRecord(Data.patients.patient1)
 
 	I.say('Search for a name that no patient has')
 	pageWithSearch.search(nonExistentPatientName)
