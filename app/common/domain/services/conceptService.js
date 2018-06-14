@@ -12,7 +12,6 @@
     var service = {
       get: get,
       getConcept: getConcept,
-      getPrescriptionConvSetConcept: getPrescriptionConvSetConcept,
       getDeathConcepts: getDeathConcepts,
       searchBySource: searchBySource,
       getConceptByTestOrder: getConceptByTestOrder
@@ -49,16 +48,6 @@
         .then(order => getConcept(order.concept.uuid, representation))
         .catch(error => {
           $log.error('XHR Failed for getConceptByTestOrder: ' + error.data.error.message);
-          return $q.reject(error);
-        });
-    }
-
-    function getPrescriptionConvSetConcept() {
-      var concept = Bahmni.Common.Constants.prescriptionConvSetConcept;
-      return get(concept)
-        .then(response => response.data.setMembers)
-        .catch(error => {
-          $log.error('XHR Failed for getPrescriptionConvSetConcept: ' + error.data.error.message);
           return $q.reject(error);
         });
     }

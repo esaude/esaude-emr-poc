@@ -1,6 +1,6 @@
 describe('pharmacy.routes', () => {
 
-  var patientService, $location, $rootScope, $state, authorizationService, $q, $httpBackend;
+  var patientService, $location, $rootScope, $state, authorizationService, $q;
 
   beforeEach(module('pharmacy', ($provide, $translateProvider) => {
     // Mock translate asynchronous loader
@@ -15,14 +15,13 @@ describe('pharmacy.routes', () => {
     $provide.factory('initialization', $q => $q.resolve({}));
   }));
 
-  beforeEach(inject((_$location_, _$rootScope_, _$state_, _patientService_, _authorizationService_, _$q_, _$httpBackend_) => {
+  beforeEach(inject((_$location_, _$rootScope_, _$state_, _patientService_, _authorizationService_, _$q_) => {
     patientService = _patientService_;
     $location = _$location_;
     $rootScope = _$rootScope_;
     $state = _$state_;
     authorizationService =_authorizationService_;
     $q = _$q_;
-    $httpBackend = _$httpBackend_;
   }));
 
   describe('dashboard', () => {
@@ -61,14 +60,9 @@ describe('pharmacy.routes', () => {
 
       it('should redirect to prescriptions for independent pharmacists', () => {
 
-        // TODO just remove after refactoring prescription
-        $httpBackend.expectGET('views/patient-simplified-prescriptions.html').respond('');
-
         spyOn(authorizationService, 'hasRole').and.callFake(() => $q.resolve(true));
 
         $location.url(`/dashboard/${patient.uuid}`);
-
-        $httpBackend.flush();
 
         $rootScope.$apply();
 

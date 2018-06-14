@@ -4,7 +4,7 @@ describe('prescriptionService', () => {
 
   var prescriptionService, encounterService, conceptService, appService, $http, $q, $log, $rootScope;
 
-  beforeEach(module('bahmni.common.domain'));
+  beforeEach(module('poc.common.prescription'));
 
   beforeEach(inject((_prescriptionService_, _encounterService_, _conceptService_, _appService_, _$q_, _$rootScope_,
                      _$httpBackend_) => {
@@ -23,8 +23,6 @@ describe('prescriptionService', () => {
 
     beforeEach(() => {
       spyOn(encounterService, 'getPatientFollowupEncounters').and.callFake(() => $q(resolve => resolve(encounters)));
-
-      spyOn(conceptService, 'getPrescriptionConvSetConcept').and.callFake(() => $q(resolve => resolve(drugPrescriptionConvSet)));
 
       spyOn(appService, 'getAppDescriptor').and.returnValue({
         getDrugMapping: () => [{

@@ -67,6 +67,9 @@
       .state('dashboard.prescriptions', {
         url: '/prescription',
         component: 'prescription',
+        resolve: {
+          patient: ($stateParams, initialization, patientService) => patientService.getPatient($stateParams.patientUuid)
+        },
         ncyBreadcrumb: {
           label: '{{\'CLINIC_PATIENT_PRESCRIPTIONS\' | translate}}',
           parent: 'dashboard',

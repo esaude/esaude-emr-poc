@@ -1,14 +1,14 @@
 describe('patientService', () => {
 
-  var patientService, $httpBackend, $rootScope, openmrsPatientMapper, reportService, prescriptionService,
+  var patientService, $httpBackend, $rootScope, openmrsPatientMapper, reportService,
     updatePatientMapper, appService;
 
   beforeEach(module('common.patient'));
 
-  beforeEach(inject((_patientService_, _prescriptionService_, _reportService_, _$rootScope_,
+  beforeEach(inject((_patientService_, _reportService_, _$rootScope_,
                      _$httpBackend_, _openmrsPatientMapper_, _updatePatientMapper_, _appService_) => {
+
     patientService = _patientService_;
-    prescriptionService = _prescriptionService_;
     reportService = _reportService_;
     $rootScope = _$rootScope_;
     $httpBackend = _$httpBackend_;
