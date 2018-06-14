@@ -135,7 +135,7 @@ module.exports = {
         {
           "identifier1": "12345678/22/987654",
           "identifier2": "452631256M",
-          "identifier3": "12345678/22/98799",
+          "identifier3": "12345678/22/98789",
           "alternativeIdentifier1": "12345",
           "alternativeIdentifier2": "234567",
           "preferred": true
