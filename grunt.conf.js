@@ -293,7 +293,7 @@ module.exports = function (grunt) {
           '<%= yeoman.app %>/reports/index.html',
           '<%= yeoman.app %>/common/patient/views/patient-arv-pickup-history-report.html',
           '<%= yeoman.app %>/common/patient/views/patient-daily-hospital-process-report.html',
-          '<%= yeoman.dist %>/home/views/login.html'
+          '<%= yeoman.dist %>/home/components/login.html'
         ],
         css: '<%= yeoman.app %>/styles/**/*.css',
         options: {
@@ -316,7 +316,7 @@ module.exports = function (grunt) {
         html: [
           '<%= yeoman.dist %>/clinic/index.html',
           '<%= yeoman.dist %>/home/index.html',
-          '<%= yeoman.dist %>/home/views/login.html',
+          '<%= yeoman.dist %>/home/components/login.html',
           '<%= yeoman.dist %>/lab/index.html',
           '<%= yeoman.dist %>/common/patient/views/patient-arv-pickup-history-report.html',
           '<%= yeoman.dist %>/common/patient/views/patient-daily-hospital-process-report.html',
