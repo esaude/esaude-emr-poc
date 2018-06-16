@@ -264,7 +264,7 @@
           printScope.$destroy();
           return element.html();
         }, 0, false);
-      }
+      };
     }
   }
 

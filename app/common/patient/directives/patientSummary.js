@@ -11,7 +11,7 @@ angular.module('common.patient').directive('patientSummary', function() {
             if($scope.onImageClickHandler) {
                 $scope.onImageClickHandler();
             }
-        }
+        };
     };
 
     return {
@@ -24,5 +24,5 @@ angular.module('common.patient').directive('patientSummary', function() {
             bedDetails: "=",
             onImageClickHandler: "&"
         }
-    }
+    };
 });

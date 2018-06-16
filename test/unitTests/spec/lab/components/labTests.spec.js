@@ -23,7 +23,7 @@ describe('LabTestsController', function () {
     testOrderResultService = _testOrderResultService_;
     $rootScope = _$rootScope_;
     orderService = _orderService_;
-    conceptService = _conceptService_
+    conceptService = _conceptService_;
 
   }));
 

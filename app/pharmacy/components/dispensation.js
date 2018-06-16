@@ -145,7 +145,7 @@
           dateOfNextPickUp: i.nextPickupDate,
           regimeUuid: (i.regime) ? i.regime.uuid : null,
           prescriptionUuid: i.prescription.prescriptionEncounter.uuid
-        }
+        };
       });
 
       var dispensation = {

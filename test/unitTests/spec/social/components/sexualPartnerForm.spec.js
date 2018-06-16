@@ -51,7 +51,7 @@ describe('SexualPartnerFormController', function () {
     it('should call onSubmit binding', function () {
 
       var spy = jasmine.createSpy('onSubmit');
-      var ctrl = $componentController('sexualPartnerForm', null, {onSubmit: spy})
+      var ctrl = $componentController('sexualPartnerForm', null, {onSubmit: spy});
 
       ctrl.submit({$valid: true});
 

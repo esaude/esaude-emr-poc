@@ -278,7 +278,7 @@ describe('DateUtil', function () {
         });
         it("should return the original string if it cannot be formatted", function () {
             expect(dateUtil.formatTime("Recent")).toBe("Recent");
-        })
+        });
     });
 
     describe("diffInDays", function () {

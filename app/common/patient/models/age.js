@@ -35,6 +35,6 @@ angular.module('common.patient')
             fromBirthDate: fromBirthDate,
             create: create,
             calculateBirthDate: calculateBirthDate
-        }
+        };
     }]
 );

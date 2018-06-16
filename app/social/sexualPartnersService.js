@@ -152,7 +152,7 @@
         name: name,
         hivStatus: hivStatus,
         relationship: relationship
-      }
+      };
     }
 
     function getRelationshipToPatient() {

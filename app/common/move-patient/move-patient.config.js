@@ -12,7 +12,7 @@
     $stateProvider
       .state('mvp', {
         url: '/mvp/:patientUuid'
-      })
+      });
   }
 
 })();

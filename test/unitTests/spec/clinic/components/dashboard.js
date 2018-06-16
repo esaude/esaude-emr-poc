@@ -10,7 +10,7 @@ describe('dashboard', function () {
   var visit1 = {patient: {uuid: "3951a5f8-cdce-4421-bfe3-cfdd701168d0"}};
   var getTodaysVisitParams = {
     "3951a5f8-cdce-4421-bfe3-cfdd701168d0": visit1
-  }
+  };
 
   beforeEach(module('clinic', function ($provide, $translateProvider, $urlRouterProvider) {
     // Mock translate asynchronous loader

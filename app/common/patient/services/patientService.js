@@ -141,7 +141,7 @@
         }).then(function () {
           return $q.all(patientJson.addedIdentifiers.map(function (i) {
             return createPatientIdentifier(patient, i);
-          }))
+          }));
         }).then(function () {
           return $q.all(patientJson.voidedIdentifiers.map(function (i) {
             return deletePatientIdentifier(openMRSPatient, i);

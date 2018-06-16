@@ -62,7 +62,7 @@
         var dispensations = [];
         vm.groupedDispensations.forEach(function (groupedDispensation) {
           groupedDispensation.dispensationItems.forEach(function (dispensationItem) {
-            dispensations.push(dispensationItem)
+            dispensations.push(dispensationItem);
           });
         });
         vm.displayedPickups = dispensations;

@@ -83,6 +83,6 @@ describe("merge functionality", function () {
         expect(result.a.c).toBe(master.a.c);
         expect(result.b).toBe(master.b);
         expect(result.a.d.e).toBe(master.a.d.e);
-        expect(result.a.d.f).toBe(master.a.d.f)
+        expect(result.a.d.f).toBe(master.a.d.f);
     });
 });

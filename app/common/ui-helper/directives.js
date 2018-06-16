@@ -43,7 +43,7 @@ angular.module('bahmni.common.uiHelper')
                 responseMap: '&',
                 onSelect: '&'
             }
-        }
+        };
     })
     .directive('patternValidate', function () {
         return function ($scope, element, attrs) {
@@ -56,5 +56,5 @@ angular.module('bahmni.common.uiHelper')
             $scope.$watch(attrs.patternValidate, function () {
                 addPatternToElement();
             });
-        }
+        };
     });

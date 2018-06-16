@@ -72,7 +72,7 @@
           if (location) {
             return location;
           } else {
-            return $q.reject('LOGIN_LABEL_LOGIN_ERROR_INVALID_DEFAULT_LOCATION')
+            return $q.reject('LOGIN_LABEL_LOGIN_ERROR_INVALID_DEFAULT_LOCATION');
           }
         })
         .catch(function (error) {

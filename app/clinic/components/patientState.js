@@ -21,7 +21,7 @@
     vm.observations = [];
 
     function $onInit() {
-      processLastObs()
+      processLastObs();
     }
 
     function processLastObs() {
@@ -46,7 +46,7 @@
             vm.observations.push(observation);
           }
         });
-      })
+      });
     }
   }
 

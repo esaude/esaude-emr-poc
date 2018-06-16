@@ -101,7 +101,7 @@ describe('clinicalServicesService', function () {
     it('should load clinical services for specified module', function () {
       clinicalServicesService.init(module);
       $http.flush();
-      expect()
+      expect();
     });
 
     it('should load form layouts', function () {
@@ -367,7 +367,7 @@ describe('clinicalServicesService', function () {
       var deferred;
 
       var patient = {uuid: '5dc89638-b0cd-4390-bf10-ad07ed97965b'};
-      var encounterType = {uuid: "adultFolowup"}
+      var encounterType = {uuid: "adultFolowup"};
 
       var representation = 'custom:(uuid,encounterDatetime,obs:(value,concept:(display,uuid,mappings:(' +
               'conceptReferenceTerm:(conceptSource:(display,uuid))))),provider:(display))';

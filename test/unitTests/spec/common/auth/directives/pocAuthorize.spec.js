@@ -20,7 +20,7 @@ describe('pocAuthorize', function () {
       directive.compile = function () {
         return function (scope, element, attrs) {
           link.apply(this, arguments);
-        }
+        };
       };
 
       delete directive.link;
@@ -41,7 +41,7 @@ describe('pocAuthorize', function () {
       spyOn(authorizationService, 'hasPrivilege').and.callFake(function () {
         return $q(function (resolve) {
           resolve(true);
-        })
+        });
       });
     });
 
@@ -61,7 +61,7 @@ describe('pocAuthorize', function () {
       spyOn(authorizationService, 'hasPrivilege').and.callFake(function () {
         return $q(function (resolve) {
           resolve(false);
-        })
+        });
       });
     });
 

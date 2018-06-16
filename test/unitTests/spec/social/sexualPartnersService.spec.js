@@ -94,7 +94,7 @@ describe('sexualPartnersService', function () {
       expect(partners[0].relationship.display).toEqual('PARCEIRO');
       expect(partners[0].hivStatus.display).toEqual('SEM INFORMACAO');
 
-    })
+    });
 
   });
 
@@ -120,13 +120,13 @@ describe('sexualPartnersService', function () {
         spyOn(visitService, 'getTodaysVisit').and.callFake(function () {
           return $q(function (resolve) {
             return resolve({encounters:[]});
-          })
+          });
         });
 
         spyOn(encounterService, 'create').and.callFake(function () {
           return $q(function (resolve) {
             return resolve({obs: [{uuid: '1063cbd9-df94-45df-becb-e30d15c13f52'}]});
-          })
+          });
         });
 
         service.saveSexualPartner({uuid: '98288a2a-8c08-4deb-bb66-a111f1018de5'}, {
@@ -150,12 +150,12 @@ describe('sexualPartnersService', function () {
         spyOn(visitService, 'getTodaysVisit').and.callFake(function () {
           return $q(function (resolve) {
             return resolve({encounters:[{encounterType:{uuid:'fc72477b-90a5-4222-a43d-efe10f0ad342'}, voided: false}]});
-          })
+          });
         });
 
         spyOn(observationsService, 'createObs').and.callFake(function () {
           return $q(function (resolve) {
-            return resolve({})
+            return resolve({});
           });
         });
 

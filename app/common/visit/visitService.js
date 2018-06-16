@@ -67,7 +67,7 @@
         .catch(function (error) {
           $log.error('XHR Failed for delete: ' + error.data.error.message);
           return $q.reject(error.data.error.message.replace('[','').replace(']',''));
-        })
+        });
     }
 
     function getPatientLastVisit(patient) {

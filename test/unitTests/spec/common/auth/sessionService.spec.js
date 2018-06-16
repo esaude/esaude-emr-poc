@@ -285,7 +285,7 @@ describe('sessionService', function () {
       });
 
       $httpBackend.flush();
-      expect(provider).toEqual(mockProvider)
+      expect(provider).toEqual(mockProvider);
     });
 
     afterEach(function () {

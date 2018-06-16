@@ -19,12 +19,12 @@ describe('programService', function () {
             getConfig: function () {
                 return {
                     program: ""
-                }
+                };
             },
             getConfigValue: function () {
                 return {
                     mandatoryProgramAttributes: ""
-                }
+                };
             }
         });
 
@@ -37,7 +37,7 @@ describe('programService', function () {
         inject(function (_$rootScope_, _programService_, $httpBackend) {
             rootScope = _$rootScope_;
             programService = _programService_;
-            mockBackend = $httpBackend
+            mockBackend = $httpBackend;
         });
     });
 

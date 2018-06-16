@@ -78,7 +78,7 @@
           vm.fieldModel = vm.formParts.form.fields[vm.fieldUuid];
 
           if (!vm.fieldModel.value) {
-            loadField()
+            loadField();
           }
 
           if (vm.fieldModel.field.uuid === whoCurrentStageuuId) {
@@ -174,7 +174,7 @@
     function onBlurSearchBySource() {
       if (vm.typeahead.noResults) {
         vm.fieldModel.value = null;
-        vm.typeahead.noResults = false
+        vm.typeahead.noResults = false;
       }
     }
   }

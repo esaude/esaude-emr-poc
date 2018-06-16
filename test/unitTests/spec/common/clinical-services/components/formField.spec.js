@@ -132,7 +132,7 @@ describe('formField', function () {
 
       var results;
       ctrl.searchBySource('Malár').then(function (concepts) {
-        results = concepts
+        results = concepts;
       });
 
       $rootScope.$apply();

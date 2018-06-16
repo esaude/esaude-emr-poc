@@ -43,7 +43,7 @@
         .catch(function (error) {
           $log.error('XHR Failed for getConcept: ' + error.data.error.message);
           return $q.reject(error);
-        })
+        });
     }
 
     function getConceptByTestOrder(testOrderUuid, representation) {
@@ -54,7 +54,7 @@
         .catch(function (error) {
           $log.error('XHR Failed for getConceptByTestOrder: ' + error.data.error.message);
           return $q.reject(error);
-        })
+        });
     }
 
     function getPrescriptionConvSetConcept() {

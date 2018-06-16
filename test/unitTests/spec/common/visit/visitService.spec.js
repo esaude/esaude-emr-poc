@@ -228,19 +228,19 @@ describe('visitService', function () {
       spyOn(encounterService, 'getPatientFollowupEncounters').and.callFake(function () {
         return $q(function (resolve) {
           return resolve([]);
-        })
+        });
       });
 
       spyOn(encounterService, 'getPatientPharmacyEncounters').and.callFake(function () {
         return $q(function (resolve) {
           return resolve([]);
-        })
+        });
       });
 
       spyOn(visitService, 'getPatientLastVisit').and.callFake(function () {
         return $q(function (resolve) {
           return resolve(null);
-        })
+        });
       });
 
       $http.expectGET("/openmrs/ws/rest/v1/pocvisit?mostRecentOnly=true&patient=7401f469-60ee-4cfa-afab-c1e89e2944e4&v=custom:(visitType:(name),startDatetime,stopDatetime,uuid)&voided=false")

@@ -211,7 +211,7 @@
         if (representation) {
           config.params = {
             v: representation
-          }
+          };
         }
 
         return $http.get("/openmrs/ws/rest/v1/form" + "/" + uuid, config).then(function (response) {

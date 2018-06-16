@@ -22,9 +22,9 @@
         component: 'patientSearch',
         resolve: {
           initialization: 'initialization',
-          createPatient: function () { return false },
-          showSchedule: function () { return true },
-          scheduleType: function () { return 'currentProvider' },
+          createPatient: function () { return false; },
+          showSchedule: function () { return true; },
+          scheduleType: function () { return 'currentProvider'; },
         },
         ncyBreadcrumb: {
           label: '{{\'APP_CLINIC\' | translate}} /  {{\'SEARCH_PATIENT\' | translate}}'

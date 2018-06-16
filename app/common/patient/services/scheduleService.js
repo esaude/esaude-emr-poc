@@ -36,7 +36,7 @@
         .then(function (members) {
           return $q.all(members.map(function (m) {
             return getLastPickup(m);
-          }))
+          }));
         });
     }
 

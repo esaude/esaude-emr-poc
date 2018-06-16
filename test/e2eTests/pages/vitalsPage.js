@@ -1,4 +1,4 @@
-const Page = require('./page')
+const Page = require('./page');
 
 module.exports = new Page({
   isLoaded: {
@@ -6,4 +6,4 @@ module.exports = new Page({
     urlPart: '/vitals',
   },
   components: ['patientSearch'],
-})
+});

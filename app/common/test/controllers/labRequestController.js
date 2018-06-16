@@ -168,7 +168,7 @@
           location: { uuid: sessionService.getCurrentLocation().uuid },
           dateCreation: date,
           testOrderItems: []
-        }
+        };
         vm.selectedTests.forEach(function (test) {
           testOrder.testOrderItems.push({
             testOrder: {

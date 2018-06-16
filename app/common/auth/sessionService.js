@@ -46,7 +46,7 @@
 
     function hasAnyActiveProvider(providers) {
       return _.filter(providers, function (provider) {
-        return (angular.isUndefined(provider.retired) || provider.retired === "false")
+        return (angular.isUndefined(provider.retired) || provider.retired === "false");
       }).length > 0;
     }
 
@@ -63,7 +63,7 @@
     function getCurrentProvider() {
       return getCurrentUser()
         .then(function (currentUser) {
-          return loadProviders(currentUser)
+          return loadProviders(currentUser);
         })
         .then(function (response) {
           return (response.data.results.length > 0) ? response.data.results[0] : undefined;
@@ -134,7 +134,7 @@
       if (!currentUser) {
         this.destroy().then(function () {
           $rootScope.$broadcast('event:auth-loginRequired', 'LOGIN_LABEL_LOGIN_ERROR_MESSAGE_KEY');
-          deferrable.reject('LOGIN_LABEL_LOGIN_ERROR_NO_SESSION_USER_KEY')
+          deferrable.reject('LOGIN_LABEL_LOGIN_ERROR_NO_SESSION_USER_KEY');
         });
         return deferrable.promise;
       }
@@ -175,7 +175,7 @@
       }).catch(function (error) {
         $log.error('XHR Failed for setLocale: ' + error.data.error.message);
         return $q.reject(error);
-      })
+      });
     }
 
     function getCurrentLocation() {
