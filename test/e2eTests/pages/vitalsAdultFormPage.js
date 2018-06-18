@@ -1,4 +1,4 @@
-const Page = require('./page')
+const Page = require('./page');
 
 class VitalsAdultFormPage extends Page {
 
@@ -52,7 +52,7 @@ class VitalsAdultFormPage extends Page {
   }
 
   _initFieldsProperty() {
-    const getFieldData = (fieldName) => `input[name="${fieldName}"]`
+    const getFieldData = (fieldName) => `input[name="${fieldName}"]`;
 
     this.fields = {
       temperature: getFieldData('Temperatura'),

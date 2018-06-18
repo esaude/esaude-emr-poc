@@ -1,6 +1,6 @@
-const Component = require('./component')
+const Component = require('./component');
 
-const LOG_TAG = '[HeaderComponent]'
+const LOG_TAG = '[HeaderComponent]';
 
 class HeaderComponent extends Component {
   constructor() {
@@ -51,7 +51,7 @@ class HeaderComponent extends Component {
         loginPage.isLoaded();
         return loginPage;
       },
-    }
+    };
   }
 }
 

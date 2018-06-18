@@ -39,13 +39,13 @@ Bahmni.Common.Util.DateUtil = {
         return moment(date).subtract(seconds, 'seconds').toDate();
     },
     subtractDays: function (date, days) {
-        return this.addDays(date, -1 * days)
+        return this.addDays(date, -1 * days);
     },
     subtractMonths: function (date, months) {
-        return this.addMonths(date, -1 * months)
+        return this.addMonths(date, -1 * months);
     },
     subtractYears: function (date, years) {
-        return this.addYears(date, -1 * years)
+        return this.addYears(date, -1 * years);
     },
 
     createDays: function (startDate, endDate) {

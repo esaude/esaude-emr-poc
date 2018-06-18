@@ -36,7 +36,7 @@ angular.module('bahmni.common.domain')
     this.findInList = function (list, attribute, value) {
         return _.find(list, function (e) {
             return e[attribute] === value;
-        })
+        });
     };
 
     this.filterGroupReverseFollowupObs = function (concepts, results) {
@@ -62,7 +62,7 @@ angular.module('bahmni.common.domain')
         return _.find(group, function (member) {
             return member.concept.uuid === uuid;
         });
-    }
+    };
 
     function getResultThenCompatible(data) {
         if (data.results) {

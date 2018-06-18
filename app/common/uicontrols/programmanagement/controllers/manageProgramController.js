@@ -173,7 +173,7 @@
 
     function isThePatientAlreadyEnrolled() {
       return _.map($scope.activePrograms, function (program) {
-        return program.program.uuid
+        return program.program.uuid;
       }).indexOf($scope.programSelected.uuid) > -1;
     }
 
@@ -314,7 +314,7 @@
 
     function getActiveProgramStates(patientProgram) {
       return _.reject(patientProgram.states, function (st) {
-        return st.voided
+        return st.voided;
       });
     }
 

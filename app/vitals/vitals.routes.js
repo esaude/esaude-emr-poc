@@ -24,8 +24,8 @@
         component: 'patientSearch',
         resolve: {
           initialization: 'initialization',
-          createPatient: function () { return false },
-          showSchedule: function () { return false },
+          createPatient: function () { return false; },
+          showSchedule: function () { return false; },
         },
         ncyBreadcrumb: {
           label: '{{\'APP_VITALS\' | translate}} /  {{\'SEARCH_PATIENT\' | translate}}'

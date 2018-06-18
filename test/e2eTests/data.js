@@ -1,17 +1,17 @@
 // Generates a patient identifier
 const generatePatientIdentifier = () => {
   // Generates a random number between [0,9]
-  const g = () => Math.floor(Math.random() * Math.floor(9))
+  const g = () => Math.floor(Math.random() * Math.floor(9));
 
   // Returns a randomly generated identifier of the format
   // "PPDDUUSS/AA/NNNNN" where each is a number between [0, 9]
-  return `${g()}${g()}${g()}${g()}${g()}${g()}${g()}${g()}/${g()}${g()}/${g()}${g()}${g()}${g()}${g()}`
-}
+  return `${g()}${g()}${g()}${g()}${g()}${g()}${g()}${g()}/${g()}${g()}/${g()}${g()}${g()}${g()}${g()}`;
+};
 
 // Defines the uuids of roles
 const Roles = {
   provider: '8d94f280-c2cc-11de-8d13-0010c6dffd0f',
-}
+};
 
 // Data useful for tests
 module.exports = {
@@ -114,7 +114,7 @@ module.exports = {
       return {
         person: user.person.uuid,
         identifier: user.systemId
-      }
+      };
     },
   },
 
@@ -171,4 +171,4 @@ module.exports = {
       }
     },
   }
-}
+};

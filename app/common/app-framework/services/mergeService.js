@@ -14,5 +14,5 @@ angular.module('bahmni.common.appFramework')
                 }
             });
             return currentObject;
-        }
+        };
     }]);

@@ -39,7 +39,7 @@ describe('testOrderResultService', function () {
 
       $httpBackend.flush();
 
-      expect(results).toEqual([{ uuid: "d3da5962-f7a8-46da-9207-f5e8fda4d435" }])
+      expect(results).toEqual([{ uuid: "d3da5962-f7a8-46da-9207-f5e8fda4d435" }]);
 
     });
 

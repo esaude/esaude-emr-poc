@@ -23,7 +23,7 @@ angular.module('bahmni.common.i18n')
                 return input.display;
             }
             return null;
-        }
+        };
     }]);
 
 function $bahmniTranslateProvider($translateProvider){

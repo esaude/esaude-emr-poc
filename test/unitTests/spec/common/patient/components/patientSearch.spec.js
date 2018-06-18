@@ -50,8 +50,8 @@ describe('PatientSearchController', function () {
       spyOn(patientService, 'search').and.callFake(function () {
         return $q(function (resolve) {
           return resolve(results);
-        })
-      })
+        });
+      });
     });
 
     it("should search for patients", function () {
@@ -75,7 +75,7 @@ describe('PatientSearchController', function () {
     beforeEach(function () {
 
       spyOn(openmrsPatientMapper, 'map').and.callFake(function () {
-        return testPatient
+        return testPatient;
       });
 
       spyOn(ctrl, 'onPatientSelect');

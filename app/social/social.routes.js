@@ -27,8 +27,8 @@
         },
         resolve: {
           initialization: 'initialization',
-          createPatient: function () { return false },
-          showSchedule: function () { return false },
+          createPatient: function () { return false; },
+          showSchedule: function () { return false; },
         }
       })
       .state('dashboard', {

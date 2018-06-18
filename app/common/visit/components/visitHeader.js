@@ -71,7 +71,7 @@
         var formatedStopDate = moment(vm.lastVisit.stopDatetime).utcOffset('+0200').format(DATETIME_FORMAT);
         vm.lastVisitMessage = vm.lastVisit.visitType.name + ' ' + translateFilter('COMMON_FROM') + ' '
         + formatedStartDate + ' ' + translateFilter('COMMON_TO') + ' '
-        + formatedStopDate
+        + formatedStopDate;
     }
     }
 

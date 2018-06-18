@@ -49,7 +49,7 @@
             state:stateUuid,
             startDate:dateEnrolled
           }
-        ]
+        ];
       }
       return $http.post(req.url, req.content).then(function (response) {
         return response;
@@ -87,8 +87,8 @@
             activePrograms.push(program);
           }
         });
-        groupedPrograms.activePrograms =  _.sortBy(activePrograms, function(program){ return moment(program.dateEnrolled).toDate() }).reverse();
-        groupedPrograms.endedPrograms = _.sortBy(endedPrograms, function(program){ return moment(program.dateCompleted).toDate() }).reverse();
+        groupedPrograms.activePrograms =  _.sortBy(activePrograms, function(program){ return moment(program.dateEnrolled).toDate(); }).reverse();
+        groupedPrograms.endedPrograms = _.sortBy(endedPrograms, function(program){ return moment(program.dateCompleted).toDate(); }).reverse();
       }
       return groupedPrograms;
     }
@@ -105,8 +105,8 @@
       });
       _.forEach(allWorkflows, function (workflow) {
         workflow.states = _.filter(workflow.states, function (state) {
-          return !state.retired
-        })
+          return !state.retired;
+        });
       });
       return allWorkflows;
     }
@@ -114,7 +114,7 @@
     function filterRetiredOutcomes (outcomes) {
       return _.filter(outcomes, function (outcome) {
         return !outcome.retired;
-      })
+      });
     }
 
     function constructStatesPayload (stateUuid, onDate, currProgramStateUuid){

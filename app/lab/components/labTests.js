@@ -86,7 +86,7 @@
           .then(function (concept) {
             i.testOrder.concept = concept;
             return concept;
-          })
+          });
       });
       return $q.all(loadConcept)
         .catch(function (error) {

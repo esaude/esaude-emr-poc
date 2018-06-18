@@ -44,6 +44,6 @@ describe('MovePatientController', function () {
 
     });
 
-  })
+  });
 
 });

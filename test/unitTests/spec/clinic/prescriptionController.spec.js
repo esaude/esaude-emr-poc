@@ -57,7 +57,7 @@
     spyOn(conceptService, 'getPrescriptionConvSetConcept').and.callFake(function () {
       return $q(function (resolve) {
         return resolve(drugPrescriptionConvSet);
-      })
+      });
     });
 
     var prescriptions = [{
@@ -105,7 +105,7 @@
     spyOn(prescriptionService, 'getAllPrescriptions').and.callFake(function () {
       return $q(function (resolve) {
         return resolve(prescriptions);
-      })
+      });
     });
 
     spyOn(conceptService, 'get').and.callFake(function () {
@@ -117,19 +117,19 @@
     spyOn(providerService, 'getProviders').and.callFake(function () {
       return $q(function (resolve) {
         return resolve([]);
-      })
+      });
     });
 
     spyOn(sessionService, 'getCurrentProvider').and.callFake(function () {
       return $q(function (resolve) {
         return resolve([]);
-      })
+      });
     });
 
     spyOn(patientService, 'getPatient').and.callFake(function () {
       return $q(function (resolve) {
         return resolve({});
-      })
+      });
     });
   });
 
@@ -221,7 +221,7 @@
       spyOn(drugService, 'getDrugStock').and.callFake(function () {
         return $q(function (resolve) {
           return resolve([]);
-        })
+        });
       });
     });
     describe('drug is an ARV', function () {
@@ -230,7 +230,7 @@
         spyOn(drugService, 'isArvDrug').and.callFake(function () {
           return $q(function (resolve) {
             return resolve(true);
-          })
+          });
         });
 
         controller = $controller('PrescriptionController', {
@@ -254,7 +254,7 @@
         spyOn(drugService, 'isArvDrug').and.callFake(function () {
           return $q(function (resolve) {
             return resolve(false);
-          })
+          });
         });
 
         controller = $controller('PrescriptionController', {
@@ -412,7 +412,7 @@
         spyOn(prescriptionService, 'create').and.callFake(function () {
           return $q(function (resolve) {
             return resolve([]);
-          })
+          });
         });
 
         controller = $controller('PrescriptionController', {
@@ -466,7 +466,7 @@
         spyOn(prescriptionService, 'create').and.callFake(function () {
           return $q(function (resolve, reject) {
             return reject({data: {error: {message: '[]'}}});
-          })
+          });
         });
 
         controller = $controller('PrescriptionController', {
@@ -667,7 +667,7 @@
         "currentRegimen" : {},
         "regime" : {},
         "arvPlan" : {}
-        }
+        };
     });
     it('should clean ARV fields', function () {
       controller.cleanDrugIfUnchecked();

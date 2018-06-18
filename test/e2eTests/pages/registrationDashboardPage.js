@@ -1,4 +1,4 @@
-const Page = require('./page')
+const Page = require('./page');
 
 const LOG_TAG = '[RegistrationDashboardPage]';
 
@@ -57,7 +57,7 @@ class RegistrationDashboardPage extends Page {
 
   // Verify if the new patient page is loaded
   verifyNewPatientPage() {
-    this.I.seeInCurrentUrl('/#/patient/new/identifier')
+    this.I.seeInCurrentUrl('/#/patient/new/identifier');
     this.I.seeElement(this.tabs.identifiers);
     this.I.seeElement(this.tabs.name);
     this.I.seeElement(this.tabs.gender);

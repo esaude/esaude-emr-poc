@@ -44,7 +44,7 @@ Bahmni.Registration.CreatePatientRequestMapper = (function () {
 
     CreatePatientRequestMapper.prototype.setImage = function (patient, openMRSPatient) {
         if (patient.getImageData()) {
-            openMRSPatient.image = patient.getImageData()
+            openMRSPatient.image = patient.getImageData();
         }
     };
 
@@ -57,7 +57,7 @@ Bahmni.Registration.CreatePatientRequestMapper = (function () {
             };
             setAttributeValue(result, attribute, patient[result.name]);
             return  attribute;
-        })
+        });
     };
 
     var setIdentifiers = function (patient) {

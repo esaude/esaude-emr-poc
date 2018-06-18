@@ -120,7 +120,7 @@
       conceptService.getPrescriptionConvSetConcept()
         .then(setFieldModels)
         .then(function (z) {
-          return patientService.getPatient($stateParams.patientUuid)
+          return patientService.getPatient($stateParams.patientUuid);
         })
         .then(function (p) {
           patient = p;
@@ -441,7 +441,7 @@
           });
       }
       else{
-        resetSelectedProvider()
+        resetSelectedProvider();
       }
     }
 

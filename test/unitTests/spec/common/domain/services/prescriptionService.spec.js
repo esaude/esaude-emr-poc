@@ -25,12 +25,12 @@ describe('prescriptionService', function () {
       spyOn(encounterService, 'getPatientFollowupEncounters').and.callFake(function () {
         return $q(function (resolve) {
           return resolve(encounters);
-        })
+        });
       });
 
       spyOn(conceptService, 'getPrescriptionConvSetConcept').and.callFake(function () {
         return $q(function (resolve) {
-          return resolve(drugPrescriptionConvSet)
+          return resolve(drugPrescriptionConvSet);
         });
       });
 
@@ -88,7 +88,7 @@ describe('prescriptionService', function () {
     afterEach(function () {
       $http.verifyNoOutstandingExpectation();
       $http.verifyNoOutstandingRequest();
-    })
+    });
 
   });
 

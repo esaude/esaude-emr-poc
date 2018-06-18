@@ -49,8 +49,8 @@ describe('patientNotes', function () {
       var obs1 = { concept: { uuid: Bahmni.Common.Constants.typeOfMessageConceptUuid }, value: { uuid: "feb94661-9f27-4a63-972f-39ebb63c7022" } };
       var obs2 = { concept: { uuid: Bahmni.Common.Constants.typeOfMessageConceptUuid }, value: { uuid: "9b9c21dc-e1fb-4cd9-a947-186e921fa78c" } };
       var obs3 = { concept: { uuid: Bahmni.Common.Constants.observationStoryConceptuuid } };
-      var encounter1 = { encounterDatetime: moment('2018-05-17').toDate(), obs: [obs1, obs3] }
-      var encounter2 = { encounterDatetime: moment('2018-05-18').toDate(), obs: [obs2, obs3] }
+      var encounter1 = { encounterDatetime: moment('2018-05-17').toDate(), obs: [obs1, obs3] };
+      var encounter2 = { encounterDatetime: moment('2018-05-18').toDate(), obs: [obs2, obs3] };
       var encounters = [encounter1, encounter2];
       spyOn(encounterService, 'getEncountersForEncounterType').and.callFake(function () {
         return $q(function (resolve) {

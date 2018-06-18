@@ -10,7 +10,7 @@ Bahmni.Tests.tehsilMother = {
                     "name": "Chattisgarh"
                 }
             }
-        }
+        };
     }
 };
 
@@ -19,7 +19,7 @@ Bahmni.Tests.villageMother = {
         return {
             "name": "argaav",
             "parent":  Bahmni.Tests.tehsilMother.build()
-        }
+        };
     }
 };
 

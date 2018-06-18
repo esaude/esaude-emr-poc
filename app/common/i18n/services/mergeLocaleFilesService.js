@@ -34,5 +34,5 @@ angular.module('bahmni.common.i18n')
                 return deferrable.promise;
             };
             return $q.when(mergeLocaleFile(options));
-        }
+        };
     }]);

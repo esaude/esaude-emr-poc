@@ -9,7 +9,7 @@ angular.module('common.patient')
         urlMap = {
             "personName" : Bahmni.Common.Constants.bahmniSearchUrl + "/personname",
             "personAttribute" : Bahmni.Common.Constants.bahmniSearchUrl + "/personattribute"
-        }
+        };
     };
     init();
 

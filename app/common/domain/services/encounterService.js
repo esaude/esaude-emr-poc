@@ -194,7 +194,7 @@
       };
 
       if (representation) {
-        config.params.v = representation
+        config.params.v = representation;
       }
 
       return $http.get(Bahmni.Common.Constants.encounterUrl, config)
@@ -229,7 +229,7 @@
         .catch(function (error) {
           $log.error('XHR Failed for getPatientChildFollowupEncounters: ' + error.data.error.message);
           return $q.reject(error);
-        })
+        });
     }
 
 
@@ -243,7 +243,7 @@
         .catch(function (error) {
           $log.error('XHR Failed for getPatientAdultFollowupEncounters: ' + error.data.error.message);
           return $q.reject(error);
-        })
+        });
     }
 
 

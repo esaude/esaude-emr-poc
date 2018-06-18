@@ -62,7 +62,7 @@
     directive.compile = function () {
       return function (scope, element, attrs) {
         link.apply(this, arguments);
-      }
+      };
     };
 
     delete directive.link;

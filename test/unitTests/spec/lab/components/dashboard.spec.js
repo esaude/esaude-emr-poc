@@ -16,7 +16,7 @@ describe('dashboardController', function () {
       spyOn(patientService, 'getPatient').and.callFake(function () {
         return $q(function (resolve) {
           resolve({});
-        })
+        });
       });
 
       var ctrl = $componentController('dashboard');

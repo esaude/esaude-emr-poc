@@ -2,7 +2,7 @@ describe('PatientCurrentController', function () {
 
   var controller, $componentController, $q, $rootScope, $http, $scope, $stateParams, patientService, encounterService;
 
-  var PATIENT = { uuid: "UUID_1", age: { years: 20 } }
+  var PATIENT = { uuid: "UUID_1", age: { years: 20 } };
 
   var ENCOUNTER_1 = { uuid: 'ENC_UUID_1', encounterDateTime: new Date(), voided: false, obs: [] };
   var ENCOUNTERS = [ENCOUNTER_1];

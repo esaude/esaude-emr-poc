@@ -74,6 +74,6 @@ describe('pocRequireCheckIn', function () {
 
     });
 
-  })
+  });
 
 });
