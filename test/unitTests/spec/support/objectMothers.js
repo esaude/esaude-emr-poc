@@ -2,31 +2,28 @@ Bahmni = Bahmni || {};
 Bahmni.Tests = Bahmni.Tests || {};
 
 Bahmni.Tests.tehsilMother = {
-    build: function () {
-        return {"name": "Bilaspur",
-            "parent": {
-                "name": "Distr",
-                "parent": {
-                    "name": "Chattisgarh"
-                }
-            }
-        };
-    }
+    build: () => ({
+      "name": "Bilaspur",
+      "parent": {
+        "name": "Distr",
+        "parent": {
+          "name": "Chattisgarh"
+        }
+      }
+    })
 };
 
 Bahmni.Tests.villageMother = {
-    build: function () {
-        return {
-            "name": "argaav",
-            "parent":  Bahmni.Tests.tehsilMother.build()
-        };
-    }
+    build: () => ({
+      "name": "argaav",
+      "parent": Bahmni.Tests.tehsilMother.build()
+    })
 };
 
-Bahmni.Tests.genUUID = function() { return (Math.random() * Math.pow(10, 16)).toString(); };
+Bahmni.Tests.genUUID = () => (Math.random() * Math.pow(10, 16)).toString();
 
 Bahmni.Tests.openMRSConceptMother = {
-    build: function(conceptData) {
+    build: conceptData => {
         var concept = {
             uuid: conceptData.uuid || Bahmni.Tests.genUUID(),
             name: { name: conceptData.name || "conceptName"},
@@ -41,7 +38,7 @@ Bahmni.Tests.openMRSConceptMother = {
 };
 
 Bahmni.Tests.conceptMother = {
-    build: function(conceptData) {
+    build: conceptData => {
         var defaultConcept = {
             uuid: Bahmni.Tests.genUUID(),
             name: "conceptName",
@@ -55,7 +52,7 @@ Bahmni.Tests.conceptMother = {
 };
 
 Bahmni.Tests.observationMother = {
-    build: function(observationData) {
+    build: observationData => {
         var defaultObservation = {
             uuid: Bahmni.Tests.genUUID(),
             groupMembers: [],
@@ -67,7 +64,7 @@ Bahmni.Tests.observationMother = {
 };
 
 Bahmni.Tests.drugOrderViewModelMother = {
-    build: function (treatmentConfig, drugOrderViewModelData, encounterDate) {
+    build: (treatmentConfig, drugOrderViewModelData, encounterDate) => {
         var defaultModel = new Bahmni.Clinical.DrugOrderViewModel(treatmentConfig, drugOrderViewModelData);
         defaultModel.instructions = "Before Meals";
         defaultModel.duration = "10";
@@ -83,10 +80,10 @@ Bahmni.Tests.drugOrderViewModelMother = {
         defaultModel.encounterDate = encounterDate;
         return defaultModel;
     },
-    buildWith: function(treatmentConfig, drugOrderViewModelData) { // TODO : Mujir/Bharti - remove this, use the method with encounterDate
+    buildWith: (treatmentConfig, drugOrderViewModelData) => { // TODO : Mujir/Bharti - remove this, use the method with encounterDate
         return buildWith(treatmentConfig, drugOrderViewModelData, undefined);
     },
-    buildWith: function(treatmentConfig, drugOrderViewModelData, encounterDate) {
+    buildWith: (treatmentConfig, drugOrderViewModelData, encounterDate) => {
         var defaultModel = new Bahmni.Clinical.DrugOrderViewModel(treatmentConfig, drugOrderViewModelData, encounterDate);
 
         defaultModel.instructions = drugOrderViewModelData.instructions || "Before Meals";

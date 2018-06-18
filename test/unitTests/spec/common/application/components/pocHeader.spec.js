@@ -1,5 +1,5 @@
 'use strict';
-describe('pocHeader', function () {
+describe('pocHeader', () => {
 
   var $componentController, $q, $rootScope, ctrl;
 
@@ -7,23 +7,23 @@ describe('pocHeader', function () {
 
   var $event = {preventDefault: jasmine.createSpy('preventDefault')};
 
-  beforeEach(module('application', function ($provide) {
+  beforeEach(module('application', $provide => {
     $provide.value('$window', $window);
   }));
 
-  beforeEach(inject(function (_$componentController_, _$q_, _$rootScope_) {
+  beforeEach(inject((_$componentController_, _$q_, _$rootScope_) => {
     $componentController = _$componentController_;
     $q = _$q_;
     $rootScope = _$rootScope_;
   }));
 
-  beforeEach(function () {
+  beforeEach(() => {
     ctrl = $componentController('pocHeader');
   });
 
-  describe('$onInit', function () {
+  describe('$onInit', () => {
 
-    it('should listen for login event', function () {
+    it('should listen for login event', () => {
 
       spyOn($rootScope, '$on');
 
@@ -33,7 +33,7 @@ describe('pocHeader', function () {
 
     });
 
-    it('should listen for logout event', function () {
+    it('should listen for logout event', () => {
 
       spyOn($rootScope, '$on');
 
@@ -45,9 +45,9 @@ describe('pocHeader', function () {
 
   });
 
-  describe('$onDestroy', function () {
+  describe('$onDestroy', () => {
 
-    it('should deregister login and logout event callbacks', function () {
+    it('should deregister login and logout event callbacks', () => {
 
       var spy = jasmine.createSpy('deregisterOnLogin');
 
@@ -63,9 +63,9 @@ describe('pocHeader', function () {
 
   });
 
-  describe('goHome', function () {
+  describe('goHome', () => {
 
-    it('should navigate to home dashboard', function () {
+    it('should navigate to home dashboard', () => {
 
       ctrl.goHome($event);
 
@@ -75,9 +75,9 @@ describe('pocHeader', function () {
 
   });
 
-  describe('isHome', function () {
+  describe('isHome', () => {
 
-    it('should return true if current page is home', function () {
+    it('should return true if current page is home', () => {
 
       $window.location.pathname = '/poc/home/#/dashboard';
 

@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -13,7 +13,7 @@
     // to prevent the browser from displaying a password pop-up in case of an authentication error
     $httpProvider.defaults.headers.common['Disable-WWW-Authenticate'] = 'true';
 
-    $urlRouterProvider.otherwise(function ($injector) {
+    $urlRouterProvider.otherwise($injector => {
       $injector.get('$state').go('search');
     });
 
@@ -25,8 +25,8 @@
         component: 'patientSearch',
         resolve: {
           initialization: 'initialization',
-          showSchedule: function () { return true; },
-          createPatient: function () { return true; },
+          showSchedule: () => true,
+          createPatient: () => true,
         },
         ncyBreadcrumb: {
           label: '{{\'APP_REGISTRATION\' | translate}} /  {{\'SEARCH_PATIENT\' | translate}}'
@@ -37,9 +37,7 @@
         component: 'dashboard',
         resolve: {
           initialization: 'initialization',
-          patient: function(initialization, $stateParams, patientService) {
-            return patientService.getPatient($stateParams.patientUuid);
-          }
+          patient: (initialization, $stateParams, patientService) => patientService.getPatient($stateParams.patientUuid)
         },
         ncyBreadcrumb: {
           label: '{{ \'COMMON_DASHBOARD\' | translate}}',
@@ -74,9 +72,7 @@
           skip: true
         },
         resolve: {
-          clinicalServicesService: function (clinicalServicesService, patient) {
-            return clinicalServicesService.init('registration', patient.uuid);
-          }
+          clinicalServicesService: (clinicalServicesService, patient) => clinicalServicesService.init('registration', patient.uuid)
         }
       })
       // TODO move newpatient and editpatient routes to common.patient modules after route based authorization is done.
@@ -85,9 +81,7 @@
         component: 'patientWizard',
         resolve: {
           initialization: 'initialization',
-          patient: function(patient) {
-            return patient.create();
-          }
+          patient: patient => patient.create()
         },
         ncyBreadcrumb: {
           label: '{{\'PATIENT_INFO_NEW\' | translate}}',
@@ -162,7 +156,7 @@
         },
         resolve: {
           initialization: 'initialization',
-          patient: function (initialization, $stateParams, patientService, patientRepresentation) {
+          patient: (initialization, $stateParams, patientService, patientRepresentation) => {
             // We need initialization to always resolve first';
             return patientService.getPatient($stateParams.patientUuid, patientRepresentation);
           }

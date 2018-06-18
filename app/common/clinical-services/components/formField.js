@@ -48,9 +48,9 @@
     // Modifying minimum value constraint for height field to prevent reporting
     // less height than previous height, and old OpenMRS meters values
     if (isHeightFormField(vm.field.id) && vm.previousEncounter) {
-      vm.previousEncounter.then(function (previousEncounter) {
+      vm.previousEncounter.then(previousEncounter => {
         if (previousEncounter) {
-          previousEncounter.obs.forEach(function (obs) {
+          previousEncounter.obs.forEach(obs => {
             if (obs.concept.uuid === HEIGHT_CONCEPT_UUID) {
               if(obs.value > 2.5)
                 vm.field.constraints.min = obs.value/100;
@@ -63,17 +63,17 @@
     ////////////////
 
     function $onInit() {
-      $scope.$watch('vm.formWizard.submitted', function (value) {
+      $scope.$watch('vm.formWizard.submitted', value => {
         vm.showMessages = value;
       });
 
-      $scope.$watch('aForm.' + vm.fieldId + '.$valid', function (value) {
+      $scope.$watch('aForm.' + vm.fieldId + '.$valid', value => {
         if (angular.isDefined(value)) {
           vm.formWizard.addVisitedField({uuid: vm.fieldUuid, valid: value});
         }
       });
 
-      $scope.$watch('vm.formParts', function (value) {
+      $scope.$watch('vm.formParts', value => {
         if (value && value.form) {
           vm.fieldModel = vm.formParts.form.fields[vm.fieldUuid];
 
@@ -93,7 +93,7 @@
     }
 
     function dateController(param) {
-      $scope.$watch('aForm.' + vm.fieldId + '.$viewValue', function (newVal, oldVal) {
+      $scope.$watch('aForm.' + vm.fieldId + '.$viewValue', (newVal, oldVal) => {
         var dateUtil = Bahmni.Common.Util.DateUtil;
 
         var startDate = vm.formParts.form.fields[param].value;
@@ -119,13 +119,13 @@
     }
 
     function defaultValueIsLastEntry(concept) {
-      observationsService.getLastValueForConcept(vm.patient.uuid, concept).then(function (value) {
+      observationsService.getLastValueForConcept(vm.patient.uuid, concept).then(value => {
         vm.fieldModel.value = value;
       });
     }
 
     function loadField() {
-      _.forEach(vm.field.logics, function (param, name) {
+      _.forEach(vm.field.logics, (param, name) => {
         formLogic[name](param);
       });
     }
@@ -147,15 +147,13 @@
         var part = vm.formLayout.parts[i];
         var model = vm.formParts.form.fields[part.fields[firstField].id];
 
-        angular.forEach(model.field.concept.answers, function (answer) {
+        angular.forEach(model.field.concept.answers, answer => {
 
           if (angular.isDefined(model.value)) {
 
             if (angular.isDefined(model.value[answer.uuid])) {
 
-              vm.fieldModel.value = _.find(whoStages, function (stage) {
-                return stage.uuid === model.field.concept.uuid;
-              });
+              vm.fieldModel.value = _.find(whoStages, stage => stage.uuid === model.field.concept.uuid);
 
             }
           }
@@ -166,9 +164,7 @@
 
     function searchBySource(term) {
       return conceptService.searchBySource(term, vm.field.searchBySource)
-        .then(function (concepts) {
-          return $filter('filter')(concepts, {display: term});
-        });
+        .then(concepts => $filter('filter')(concepts, {display: term}));
     }
 
     function onBlurSearchBySource() {

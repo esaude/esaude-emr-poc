@@ -38,13 +38,13 @@
       vm.formInfo = clinicalServicesService.getFormLayouts({id: serviceId});
 
       patientService.getPatient(vm.patientUUID)
-        .then(function (patient) {
+        .then(patient => {
           vm.patient = patient;
           return clinicalServicesService.getFormData(vm.patient, service, encounter);
-        }).then(function (formData) {
+        }).then(formData => {
           vm.formPayload = formData;
         })
-        .catch(function () {
+        .catch(() => {
           notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
         });
     }

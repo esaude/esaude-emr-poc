@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -32,18 +32,18 @@
     return directive;
 
     function link(scope, element, attrs) {
-      scope.$watch(attrs.pocConfirmDialog, function (value) {
+      scope.$watch(attrs.pocConfirmDialog, value => {
         ngDialogOptions.scope.message = value;
       });
 
-      element.click(function (event) {
+      element.click(event => {
         event.preventDefault();
         var promise = ngDialog.openConfirm(ngDialogOptions);
         promise
-          .then(function () {
+          .then(() => {
             scope.vm.confirm();
           })
-          .catch(function () {
+          .catch(() => {
             scope.vm.cancel();
           });
       });

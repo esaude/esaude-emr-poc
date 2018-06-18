@@ -35,24 +35,20 @@
         cache: false
       };
       return $http.get(SESSION_RESOURCE_PATH, config)
-        .then(function (response) {
-          return response.data.authenticated;
-        })
-        .catch(function (error) {
+        .then(response => response.data.authenticated)
+        .catch(error => {
           $log.error('XHR failed for createSession: ' + error.data.error.message);
           return $q.reject(error);
         });
     }
 
     function hasAnyActiveProvider(providers) {
-      return _.filter(providers, function (provider) {
-        return (angular.isUndefined(provider.retired) || provider.retired === "false");
-      }).length > 0;
+      return _.filter(providers, provider => (angular.isUndefined(provider.retired) || provider.retired === "false")).length > 0;
     }
 
     function destroy() {
       return $http.delete(SESSION_RESOURCE_PATH)
-        .then(function () {
+        .then(() => {
           $cookies.remove(Bahmni.Common.Constants.currentUser, {path: '/'});
           localStorageService.cookie.remove("emr.location");
           $rootScope.currentUser = null;
@@ -62,13 +58,9 @@
 
     function getCurrentProvider() {
       return getCurrentUser()
-        .then(function (currentUser) {
-          return loadProviders(currentUser);
-        })
-        .then(function (response) {
-          return (response.data.results.length > 0) ? response.data.results[0] : undefined;
-        })
-        .catch(function (error) {
+        .then(currentUser => loadProviders(currentUser))
+        .then(response => (response.data.results.length > 0) ? response.data.results[0] : undefined)
+        .catch(error => {
           $log.error('Could not load current provider: ' + error.data.error.message);
           return $q.reject(error);
         });
@@ -82,10 +74,8 @@
       }
 
       return userService.getUser(currentUser)
-        .then(function (response) {
-          return response.data.results[0];
-        })
-        .catch(function (error) {
+        .then(response => response.data.results[0])
+        .catch(error => {
           $log.error('XHR Failed for getCurrentUser: ' + error.data.error.message);
           return $q.reject(error);
         });
@@ -94,7 +84,7 @@
     function loginUser(username, password) {
       var authenticated = false;
       return createSession(username, password)
-        .then(function (auth) {
+        .then(auth => {
           authenticated = auth;
           if (authenticated) {
             $cookies.put(Bahmni.Common.Constants.currentUser, username, {path: '/'});
@@ -102,16 +92,12 @@
             return $q.reject('LOGIN_LABEL_LOGIN_ERROR_FAIL_KEY');
           }
         })
-        .then(function () {
-          return loadCredentials();
-        })
-        .then(function () {
-          return loadDefaultLocation();
-        })
-        .then(function () {
+        .then(() => loadCredentials())
+        .then(() => loadDefaultLocation())
+        .then(() => {
           $rootScope.$broadcast('event:auth-login');
         })
-        .catch(function (error) {
+        .catch(error => {
           $log.error('XHR Failed for loginUser: ' + (error.data && error.data.error.message || error));
           return $q.reject(error.data ? 'LOGIN_LABEL_LOGIN_ERROR_FAIL_KEY' : error);
         });
@@ -119,10 +105,8 @@
 
     function getSession() {
       return $http.get(SESSION_RESOURCE_PATH, {cache: false})
-        .then(function (response) {
-          return response.data;
-        })
-        .catch(function (error) {
+        .then(response => response.data)
+        .catch(error => {
           $log.error('XHR Failed for getSession: ' + error.data.error.message);
           return $q.reject(error);
         });
@@ -132,14 +116,14 @@
       var deferrable = $q.defer();
       var currentUser = $cookies.get(Bahmni.Common.Constants.currentUser);
       if (!currentUser) {
-        this.destroy().then(function () {
+        this.destroy().then(() => {
           $rootScope.$broadcast('event:auth-loginRequired', 'LOGIN_LABEL_LOGIN_ERROR_MESSAGE_KEY');
           deferrable.reject('LOGIN_LABEL_LOGIN_ERROR_NO_SESSION_USER_KEY');
         });
         return deferrable.promise;
       }
-      userService.getUser(currentUser).success(function (data) {
-        userService.getProviderForUser(data.results[0].uuid).success(function (providers) {
+      userService.getUser(currentUser).success(data => {
+        userService.getProviderForUser(data.results[0].uuid).success(providers => {
             if (!_.isEmpty(providers.results) && hasAnyActiveProvider(providers.results)) {
               $rootScope.currentUser = new Bahmni.Auth.User(data.results[0]);
               deferrable.resolve(data.results[0]);
@@ -148,11 +132,11 @@
               deferrable.reject('LOGIN_LABEL_LOGIN_ERROR_NOT_PROVIDER');
             }
           }
-        ).error(function () {
+        ).error(() => {
           destroy();
           deferrable.reject('LOGIN_LABEL_LOGIN_ERROR_NO_PROVIDER');
         });
-      }).error(function () {
+      }).error(() => {
         destroy();
         deferrable.reject('LOGIN_LABEL_LOGIN_ERROR_NO_ROLES');
       });
@@ -170,9 +154,9 @@
     }
 
     function setLocale(locale) {
-      return $http.post(SESSION_RESOURCE_PATH, {locale: locale}).then(function () {
+      return $http.post(SESSION_RESOURCE_PATH, {locale: locale}).then(() => {
         return null; // Endpoint Does not return anything
-      }).catch(function (error) {
+      }).catch(error => {
         $log.error('XHR Failed for setLocale: ' + error.data.error.message);
         return $q.reject(error);
       });
@@ -184,11 +168,11 @@
 
     function loadDefaultLocation() {
       return locationService.getDefaultLocation()
-        .then(function (location) {
+        .then(location => {
           localStorageService.cookie.remove(CURRENT_LOCATION_KEY);
           location = {name: location.display, uuid: location.uuid, code: location.code};
           localStorageService.cookie.set(CURRENT_LOCATION_KEY, location, 7);
-        }).catch(function (error) {
+        }).catch(error => {
           $rootScope.$broadcast('event:auth-loginRequired', error.data ? error.data.error.message : error);
           return $q.reject(error);
         });

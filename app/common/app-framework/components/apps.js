@@ -26,10 +26,10 @@
       vm.currentApp = appService.getAppDescriptor();
 
       applicationService.getApps()
-        .then(function (apps) {
-          vm.apps = apps.filter(function (a) { return a.active && a.id !== vm.currentApp.id; });
+        .then(apps => {
+          vm.apps = apps.filter(a => a.active && a.id !== vm.currentApp.id);
         })
-        .catch(function () {
+        .catch(() => {
           notifier.error($filter('translate')('COMMON_ERROR'));
         });
     }

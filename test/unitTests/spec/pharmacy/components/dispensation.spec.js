@@ -1,6 +1,6 @@
 'use strict';
 
-describe('dispensation', function () {
+describe('dispensation', () => {
 
   var $componentController, $q, $rootScope, controller, dispensationService, localStorageService, notifier, prescriptionService,
     sessionService, patientService;
@@ -29,31 +29,29 @@ describe('dispensation', function () {
     }
   ];
 
-  beforeEach(module('pharmacy', function ($provide, $translateProvider, $urlRouterProvider) {
+  beforeEach(module('pharmacy', ($provide, $translateProvider, $urlRouterProvider) => {
     // Mock initialization
-    $provide.factory('initialization', function () {
+    $provide.factory('initialization', () => {
     });
     // Mock appService
     var appService = jasmine.createSpyObj('appService', ['initApp']);
     appService.initApp.and.returnValue({
-      then: function (fn) {
+      then: fn => {
       }
     });
     $provide.value('appService', appService);
     // Mock translate asynchronous loader
-    $provide.factory('mergeLocaleFilesService', function ($q) {
-      return function () {
-        var deferred = $q.defer();
-        deferred.resolve({});
-        return deferred.promise;
-      };
+    $provide.factory('mergeLocaleFilesService', $q => () => {
+      var deferred = $q.defer();
+      deferred.resolve({});
+      return deferred.promise;
     });
     $translateProvider.useLoader('mergeLocaleFilesService');
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function (_$componentController_, _$q_,  _$rootScope_, _dispensationService_, _localStorageService_, _notifier_,
-                              _prescriptionService_, _sessionService_, _patientService_) {
+  beforeEach(inject((_$componentController_, _$q_, _$rootScope_, _dispensationService_, _localStorageService_, _notifier_,
+                     _prescriptionService_, _sessionService_, _patientService_) => {
     $componentController = _$componentController_;
     $q = _$q_;
     $rootScope = _$rootScope_;
@@ -64,32 +62,26 @@ describe('dispensation', function () {
     patientService = _patientService_;
   }));
 
-  describe('$onInit', function () {
+  describe('$onInit', () => {
 
-    beforeEach(function () {
+    beforeEach(() => {
 
-      spyOn(sessionService, 'getCurrentUser').and.callFake(function () {
-        return $q(function (resolve) {
-          resolve({});
-        });
-      });
+      spyOn(sessionService, 'getCurrentUser').and.callFake(() => $q(resolve => {
+        resolve({});
+      }));
 
-      spyOn(prescriptionService, 'getPatientNonDispensedPrescriptions').and.callFake(function () {
-        return $q(function (resolve) {
-          resolve(prescriptions);
-        });
-      });
+      spyOn(prescriptionService, 'getPatientNonDispensedPrescriptions').and.callFake(() => $q(resolve => {
+        resolve(prescriptions);
+      }));
 
-      spyOn(patientService, 'getPatient').and.callFake(function () {
-        return $q(function (resolve) {
-          resolve({});
-        });
-      });
+      spyOn(patientService, 'getPatient').and.callFake(() => $q(resolve => {
+        resolve({});
+      }));
 
       controller = $componentController('dispensation', null, {patient: {uuid: 'uuid'}});
     });
 
-    it('should load patient prescriptions', function () {
+    it('should load patient prescriptions', () => {
 
       controller.$onInit();
 
@@ -101,37 +93,37 @@ describe('dispensation', function () {
 
   });
 
-  describe('select', function () {
+  describe('select', () => {
 
-    beforeEach(function () {
+    beforeEach(() => {
       controller = $componentController('dispensation');
     });
 
     var prescription = prescriptions[1];
     var item = prescription.prescriptionItems[0];
 
-    it('should select item do dispense', function () {
+    it('should select item do dispense', () => {
 
       controller.select(prescription, item);
 
       expect(controller.selectedPrescriptionItems).toContain(item);
     });
 
-    it('should mark item as selected', function () {
+    it('should mark item as selected', () => {
 
       controller.select(prescription, item);
 
       expect(controller.selectedPrescriptionItems[0].selected).toEqual(true);
     });
 
-    it('should mark item as selected when already selected', function () {
+    it('should mark item as selected when already selected', () => {
       controller.select(prescription, item);
       expect(controller.selectedPrescriptionItems[0].selected).toEqual(true);
       controller.select(prescription, item);
       expect(controller.selectedPrescriptionItems[0].selected).toEqual(true);
     });
 
-    it('should set reference to prescription on item', function () {
+    it('should set reference to prescription on item', () => {
 
       expect(item.prescription).toBeUndefined();
 
@@ -141,7 +133,7 @@ describe('dispensation', function () {
     });
 
 
-    it('should select a item that is already dispensed', function () {
+    it('should select a item that is already dispensed', () => {
 
       spyOn(notifier, 'error').and.callThrough();
 
@@ -151,23 +143,23 @@ describe('dispensation', function () {
       expect(notifier.error).toHaveBeenCalled();
     });
 
-    afterEach(function () {
+    afterEach(() => {
       item.selected = false;
       item.prescription = undefined;
     });
 
   });
 
-  describe('toggleVisibility', function () {
+  describe('toggleVisibility', () => {
 
     var selectedPrescription = prescriptions[0];
 
-    beforeEach(function () {
+    beforeEach(() => {
       controller = $componentController('dispensation');
       controller.prescriptions = prescriptions;
     });
 
-    it('it should show the selected prescription and hide all other', function () {
+    it('it should show the selected prescription and hide all other', () => {
 
       selectedPrescription.hidden = true;
       prescriptions[1].hidden = true;
@@ -182,13 +174,13 @@ describe('dispensation', function () {
 
   });
 
-  describe('remove', function () {
+  describe('remove', () => {
 
-    beforeEach(function () {
+    beforeEach(() => {
       controller = $componentController('dispensation');
       controller.selectedPrescriptionItems = [];
     });
-      it('it should remove a selected item', function () {
+      it('it should remove a selected item', () => {
         var item = {"selected": true,
           "regime" : "AZT+3TC+XYV"};
 
@@ -198,26 +190,26 @@ describe('dispensation', function () {
       });
 
 
-    it('it should not remove a not selected item', function () {
+    it('it should not remove a not selected item', () => {
       var item = {};
       controller.remove(item);
     });
 
     });
 
-  describe('updatePickup', function () {
+  describe('updatePickup', () => {
 
     var prescriptionItems = [
       {regime: {uuid: '1'}, drugToPickUp: 6}
         ];
 
-    beforeEach(function () {
+    beforeEach(() => {
       controller = $componentController('dispensation');
     });
 
-    describe('ARV prescription item', function () {
+    describe('ARV prescription item', () => {
 
-      it('should set the maximum quantity to dispense to the prescription item with the least available items to pickup', function () {
+      it('should set the maximum quantity to dispense to the prescription item with the least available items to pickup', () => {
 
         var item = prescriptionItems[0];
 
@@ -232,7 +224,7 @@ describe('dispensation', function () {
 
     });
 
-    it('should show warning when dispensing more than permitted', function () {
+    it('should show warning when dispensing more than permitted', () => {
 
       spyOn(notifier, 'info').and.callThrough();
 
@@ -248,7 +240,7 @@ describe('dispensation', function () {
   });
 
 
-  xdescribe('dispense', function () {
+  xdescribe('dispense', () => {
 
   });
 

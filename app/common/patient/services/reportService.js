@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -80,9 +80,9 @@
 
     function fillDisplacements(vm) {
       var allFilaDisplacements = [];
-      vm.patient.dispensations.forEach(function (dispensation) {
+      vm.patient.dispensations.forEach(dispensation => {
         var filaDispensations = generateFilaDispensations(dispensation);
-        filaDispensations.forEach(function (filaDispensation) {
+        filaDispensations.forEach(filaDispensation => {
           allFilaDisplacements.push(filaDispensation);
         });
       });
@@ -105,7 +105,7 @@
       if (dispensationItems.length > 0) {
         var rowSpanSize = dispensationItems.length;
         var remainingRowSpanSize = rowSpanSize;
-        dispensationItems.forEach(function (dispensationItem) {
+        dispensationItems.forEach(dispensationItem => {
           var displacement = {
             dateRowSpanSize: rowSpanSize,
             remainingRowSpanSize: remainingRowSpanSize,
@@ -150,13 +150,13 @@
       shiftLeft(vm.months, initialCalendarMonth);
 
       var dates = [];
-      vm.patient.dispensations.forEach(function (dispensation) {
-        dispensation.dispensationItems.forEach(function (dispensationItem) {
+      vm.patient.dispensations.forEach(dispensation => {
+        dispensation.dispensationItems.forEach(dispensationItem => {
           dates.unshift(new Date(dispensationItem.prescriptionExpirationDate));
         });
       });
 
-      dates.forEach(function (date) {
+      dates.forEach(date => {
         var markIndexes = getMarkIndexesForDate(date, initialCalendarMonth);
         vm.calendar[markIndexes.week][markIndexes.month] = "X";
       });
@@ -219,7 +219,7 @@
         .css('height', '0')
         .appendTo('body')[0];
 
-      hiddenFrame.contentWindow.printAndRemove = function () {
+      hiddenFrame.contentWindow.printAndRemove = () => {
         hiddenFrame.contentWindow.print();
         angular.element(hiddenFrame).remove();
       };
@@ -242,10 +242,8 @@
      */
     function loadTemplate(templateUrl) {
       return $http.get(templateUrl)
-        .then(function (response) {
-          return response.data;
-        })
-        .catch(function (error) {
+        .then(response => response.data)
+        .catch(error => {
           $log.error('XHR Failed for loadTemplate: ' + error.data);
           return $q.reject(error);
         });
@@ -256,11 +254,11 @@
      * @returns {Function} Function returning a promise that will be resolved when the template finishes compiling.
      */
     function compileWith(data) {
-      return function (template) {
+      return template => {
         var printScope = angular.extend($rootScope.$new(false), data);
         var element = $compile(angular.element('<div>' + template + '</div>'))(printScope);
 
-        return $timeout(function () {
+        return $timeout(() => {
           printScope.$destroy();
           return element.html();
         }, 0, false);

@@ -1,16 +1,16 @@
 'use strict';
 
-describe('CreatePatientRequestMapper', function () {
+describe('CreatePatientRequestMapper', () => {
 
   var patient;
   var patientAttributeTypes;
   var identifiersMock, identifierDetails;
   var date = new Date();
 
-  beforeEach(function () {
+  beforeEach(() => {
     module('registration');
     module('common.patient');
-    module(function($provide){
+    module($provide => {
       identifiersMock = jasmine.createSpyObj('identifiers', ['create']);
       identifierDetails = {
         primaryIdentifier: {
@@ -31,7 +31,7 @@ describe('CreatePatientRequestMapper', function () {
 
       $provide.value('identifiers', identifiersMock);
     });
-    inject(['patient', function (patientFactory) {
+    inject(['patient', patientFactory => {
       patient = patientFactory.create();
     }]);
 
@@ -64,7 +64,7 @@ describe('CreatePatientRequestMapper', function () {
 
   });
 
-  it('should map angular patient model to openmrs patient', function () {
+  it('should map angular patient model to openmrs patient', () => {
 
     angular.extend(patient, {
       "givenName": "gname",

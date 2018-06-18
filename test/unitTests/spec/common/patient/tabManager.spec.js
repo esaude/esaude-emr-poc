@@ -1,16 +1,16 @@
-describe('TabManager', function () {
+describe('TabManager', () => {
 
   var TabManager;
 
   beforeEach(module('common.patient'));
 
-  beforeEach(inject(function (_TabManager_) {
+  beforeEach(inject(_TabManager_ => {
     TabManager = _TabManager_;
   }));
 
-  describe('constructor', function () {
+  describe('constructor', () => {
 
-    it('should instantiate steps', function () {
+    it('should instantiate steps', () => {
 
       var tabManager = new TabManager();
 
@@ -18,7 +18,7 @@ describe('TabManager', function () {
 
     });
 
-    it('should initialize current step', function () {
+    it('should initialize current step', () => {
 
       var tabManager = new TabManager();
 
@@ -28,9 +28,9 @@ describe('TabManager', function () {
 
   });
 
-  describe('addStepDefinition', function () {
+  describe('addStepDefinition', () => {
 
-    it('should add new step to steps', function () {
+    it('should add new step to steps', () => {
 
       var tabManager = new TabManager();
 
@@ -40,9 +40,9 @@ describe('TabManager', function () {
 
     });
 
-    describe('subsequent steps', function () {
+    describe('subsequent steps', () => {
 
-      it('should not increment current step', function () {
+      it('should not increment current step', () => {
 
         var tabManager = new TabManager();
 
@@ -56,9 +56,9 @@ describe('TabManager', function () {
 
     });
 
-    describe('first step', function () {
+    describe('first step', () => {
 
-      it('should increment current step', function () {
+      it('should increment current step', () => {
 
         var tabManager = new TabManager();
 
@@ -72,9 +72,9 @@ describe('TabManager', function () {
 
   });
 
-  describe('stepForward', function () {
+  describe('stepForward', () => {
 
-    it('should step forward', function () {
+    it('should step forward', () => {
 
       var tabManager = new TabManager();
 
@@ -88,9 +88,9 @@ describe('TabManager', function () {
 
     });
 
-    describe('at last step', function () {
+    describe('at last step', () => {
 
-      it('should not step forward', function () {
+      it('should not step forward', () => {
 
         var tabManager = new TabManager();
 
@@ -110,9 +110,9 @@ describe('TabManager', function () {
 
   });
 
-  describe('stepBackwards', function () {
+  describe('stepBackwards', () => {
 
-    it('should step backwards', function () {
+    it('should step backwards', () => {
 
       var tabManager = new TabManager();
 
@@ -128,9 +128,9 @@ describe('TabManager', function () {
 
     });
 
-    describe('at first step', function () {
+    describe('at first step', () => {
 
-      it('should not step backwards', function () {
+      it('should not step backwards', () => {
 
         var tabManager = new TabManager();
 
@@ -148,9 +148,9 @@ describe('TabManager', function () {
 
   });
 
-  describe('goToStep', function () {
+  describe('goToStep', () => {
 
-    it('should set current step', function () {
+    it('should set current step', () => {
 
       var tabManager = new TabManager();
 
@@ -164,7 +164,7 @@ describe('TabManager', function () {
 
     });
 
-    it('should return the step name', function () {
+    it('should return the step name', () => {
 
       var tabManager = new TabManager();
 
@@ -176,7 +176,7 @@ describe('TabManager', function () {
 
     });
 
-    it('should throw if step is not defined', function () {
+    it('should throw if step is not defined', () => {
 
       var tabManager = new TabManager();
 
@@ -190,9 +190,9 @@ describe('TabManager', function () {
 
   });
 
-  describe('isLastStep', function () {
+  describe('isLastStep', () => {
 
-    it('should return true if given step is last', function () {
+    it('should return true if given step is last', () => {
 
       var tabManager = new TabManager();
 
@@ -206,9 +206,9 @@ describe('TabManager', function () {
 
   });
 
-  describe('isFirstStep', function () {
+  describe('isFirstStep', () => {
 
-    it('should return true if given step is first', function () {
+    it('should return true if given step is first', () => {
 
       var tabManager = new TabManager();
 

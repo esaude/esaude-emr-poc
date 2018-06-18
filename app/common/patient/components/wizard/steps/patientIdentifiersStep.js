@@ -35,7 +35,7 @@
 
       vm.patientWizard.setCurrentStep(vm);
 
-      getIdentifierTypes().then(function (identifierTypes) {
+      getIdentifierTypes().then(identifierTypes => {
         vm.patientIdentifierTypes = identifierTypes;
       });
     }
@@ -59,15 +59,15 @@
     function listRequiredIdentifiers() {
       if (!_.isEmpty(vm.patient.identifiers)) {
         //set identifier fieldName
-        _.forEach(vm.patient.identifiers, function (identifier) {
+        _.forEach(vm.patient.identifiers, identifier => {
           identifier.fieldName = identifier.identifierType.display.trim().replace(/[^a-zA-Z0-9]/g, '');
         });
         return;
       }
 
-      getIdentifierTypes().then(function (identifierTypes) {
+      getIdentifierTypes().then(identifierTypes => {
         vm.patientIdentifierTypes = identifierTypes;
-        _.forEach(identifierTypes, function (value) {
+        _.forEach(identifierTypes, value => {
           if (value.required) {
             var fieldName = value.name.trim().replace(/[^a-zA-Z0-9]/g, '');
             vm.patient.identifiers.push({
@@ -91,9 +91,7 @@
 
       if (patientIdentifierType !== null) {
         //validate already contained
-        var found = _.find(vm.patient.identifiers, function (chr) {
-          return chr.identifierType && chr.identifierType.display === patientIdentifierType.display;
-        });
+        var found = _.find(vm.patient.identifiers, chr => chr.identifierType && chr.identifierType.display === patientIdentifierType.display);
 
         if (!found) {
           patientIdentifier.identifierType = patientIdentifierType;
@@ -106,7 +104,7 @@
     }
 
     function setPreferredId(identifier) {
-      angular.forEach(vm.patient.identifiers, function (p) {
+      angular.forEach(vm.patient.identifiers, p => {
         if (p.identifierType.uuid !== identifier.identifierType.uuid) {
           p.preferred = false; //set them all to false
         }

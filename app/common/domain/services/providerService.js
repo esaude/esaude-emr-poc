@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -18,10 +18,8 @@
 
     function getProviders() {
       return $http
-        .get("/openmrs/ws/rest/v1/provider").then(function (response) {
-          return response.data.results;
-        })
-        .catch(function (err) {
+        .get("/openmrs/ws/rest/v1/provider").then(response => response.data.results)
+        .catch(err => {
           $log.error('XHR Failed for getProviders: ' + error.data.error.message);
           return $q.reject(err);
         });

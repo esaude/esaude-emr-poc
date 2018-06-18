@@ -1,10 +1,10 @@
-describe('VisitHeaderController', function () {
+describe('VisitHeaderController', () => {
 
   var $componentController, $q, $rootScope, visitService;
 
   beforeEach(module('poc.common.visit'));
 
-  beforeEach(inject(function (_$componentController_, _$q_, _$rootScope_, _visitService_) {
+  beforeEach(inject((_$componentController_, _$q_, _$rootScope_, _visitService_) => {
     $q = _$q_;
     $componentController = _$componentController_;
     $rootScope = _$rootScope_;
@@ -43,17 +43,13 @@ describe('VisitHeaderController', function () {
     }
   };
 
-  describe('$onChanges', function () {
+  describe('$onChanges', () => {
 
-    beforeEach(function () {
-      spyOn(visitService, 'getVisitHeader').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve(visitHeader);
-        });
-      });
+    beforeEach(() => {
+      spyOn(visitService, 'getVisitHeader').and.callFake(() => $q(resolve => resolve(visitHeader)));
     });
 
-    it('should set visit header properties', function () {
+    it('should set visit header properties', () => {
 
       var ctrl = $componentController('visitHeader');
 
@@ -65,7 +61,7 @@ describe('VisitHeaderController', function () {
 
     });
 
-    it('should set flag for successful loading', function () {
+    it('should set flag for successful loading', () => {
 
       var ctrl = $componentController('visitHeader');
 
@@ -77,7 +73,7 @@ describe('VisitHeaderController', function () {
 
     });
 
-    it('should update the consultation message', function () {
+    it('should update the consultation message', () => {
 
       var ctrl = $componentController('visitHeader');
 
@@ -90,7 +86,7 @@ describe('VisitHeaderController', function () {
 
     });
 
-    it('should update the pharmacy message', function () {
+    it('should update the pharmacy message', () => {
 
       var ctrl = $componentController('visitHeader');
 
@@ -103,7 +99,7 @@ describe('VisitHeaderController', function () {
 
     });
 
-    it('should update the last visit message', function () {
+    it('should update the last visit message', () => {
 
       var ctrl = $componentController('visitHeader');
 
@@ -117,9 +113,9 @@ describe('VisitHeaderController', function () {
 
   });
 
-  describe('isInThePast', function () {
+  describe('isInThePast', () => {
 
-    it('should tell if given date is in the past', function () {
+    it('should tell if given date is in the past', () => {
 
       var ctrl = $componentController('visitHeader');
 
@@ -131,17 +127,13 @@ describe('VisitHeaderController', function () {
 
   });
 
-  describe('loadVisitHeader', function () {
+  describe('loadVisitHeader', () => {
 
-    beforeEach(function () {
-      spyOn(visitService, 'getVisitHeader').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve(visitHeader);
-        });
-      });
+    beforeEach(() => {
+      spyOn(visitService, 'getVisitHeader').and.callFake(() => $q(resolve => resolve(visitHeader)));
     });
 
-    it('should load the visit header', function () {
+    it('should load the visit header', () => {
 
       var ctrl = $componentController('visitHeader');
 

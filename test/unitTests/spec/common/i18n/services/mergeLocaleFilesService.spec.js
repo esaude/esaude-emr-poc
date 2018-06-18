@@ -1,6 +1,6 @@
 'use strict';
 
-describe('mergeLocaleFilesService', function () {
+describe('mergeLocaleFilesService', () => {
 
   var mergeLocaleFilesService, mergeService;
   var _$http;
@@ -39,6 +39,7 @@ describe('mergeLocaleFilesService', function () {
 
   it('return both base, custom locales when shouldMerge is false', () => {
 
+
     $httpBackend.expectGET('/poc_config/openmrs/i18n/common/locale_en.json').respond(baseFile);
 
     $httpBackend.expectGET('/poc_config/openmrs/i18n/clinical/locale_en.json').respond(customFile);
@@ -57,5 +58,4 @@ describe('mergeLocaleFilesService', function () {
     expect(res).toEqual([baseFile, customFile]);
 
   });
-
 });

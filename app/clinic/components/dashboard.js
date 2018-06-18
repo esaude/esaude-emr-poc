@@ -25,7 +25,7 @@
     vm.reload = reload;
 
     function $onInit() {
-      visitService.getTodaysVisit(vm.patient.uuid).then(function (visitToday) {
+      visitService.getTodaysVisit(vm.patient.uuid).then(visitToday => {
         if (visitToday) {
           vm.hasVisitToday = true;
           vm.todayVisit = visitToday;
@@ -34,7 +34,7 @@
         }
       });
 
-      alertService.get(vm.patient.uuid).then(function (response) {
+      alertService.get(vm.patient.uuid).then(response => {
         vm.flags = response.data.flags;
       });
 
@@ -48,12 +48,12 @@
     function checkLabOrderPrivilege() {
       var privilegeCheckPromises = [];
       var privilegesToCheck = ['Write Test Order', 'Read Test Order', 'Edit Test Order'];
-      privilegesToCheck.forEach(function (privilege) {
+      privilegesToCheck.forEach(privilege => {
         privilegeCheckPromises.push(authorizationService.hasPrivilege(privilege));
       });
-      $q.all(privilegeCheckPromises).then(function (privileges) {
+      $q.all(privilegeCheckPromises).then(privileges => {
         var grantAccess = true;
-        privileges.forEach(function (privilege) {
+        privileges.forEach(privilege => {
           if (!privilege) {
             grantAccess = false;
           }

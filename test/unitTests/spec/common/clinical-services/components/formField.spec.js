@@ -1,19 +1,19 @@
-describe('formField', function () {
+describe('formField', () => {
 
   var $componentController, $q, $rootScope, conceptService;
 
   beforeEach(module('poc.common.clinicalservices'));
 
-  beforeEach(inject(function (_$componentController_, _$q_, _$rootScope_, _conceptService_) {
+  beforeEach(inject((_$componentController_, _$q_, _$rootScope_, _conceptService_) => {
     $componentController = _$componentController_;
     $q = _$q_;
     $rootScope = _$rootScope_;
     conceptService = _conceptService_;
   }));
 
-  describe('$onInit', function () {
+  describe('$onInit', () => {
 
-    it('$watch if formWizard submitted', function () {
+    it('$watch if formWizard submitted', () => {
 
       var formParts = {};
       var $scope = $rootScope.$new(true);
@@ -28,7 +28,7 @@ describe('formField', function () {
 
     });
 
-    it('$watch field validity', function () {
+    it('$watch field validity', () => {
 
       var formParts = {};
       var $scope = $rootScope.$new(true);
@@ -43,7 +43,7 @@ describe('formField', function () {
 
     });
 
-    it('$watch formParts', function () {
+    it('$watch formParts', () => {
 
       var formParts = {};
       var $scope = $rootScope.$new(true);
@@ -60,11 +60,11 @@ describe('formField', function () {
 
   });
 
-  describe('onBlurSearchBySource', function () {
+  describe('onBlurSearchBySource', () => {
 
-    describe('no results found', function () {
+    describe('no results found', () => {
 
-      it('should reset model value', function () {
+      it('should reset model value', () => {
 
         var formParts = {};
         var ctrl = $componentController('formField', {$scope: $rootScope.$new(true)}, {field: {id: 1}, formParts: formParts, fieldUuid: '1234'});
@@ -80,7 +80,7 @@ describe('formField', function () {
 
       });
 
-      it('should reset no results flag', function () {
+      it('should reset no results flag', () => {
 
         var formParts = {};
         var ctrl = $componentController('formField', {$scope: $rootScope.$new(true)}, {field: {id: 1}, formParts: formParts, fieldUuid: '1234'});
@@ -100,15 +100,11 @@ describe('formField', function () {
 
   });
 
-  describe('searchBySource', function () {
+  describe('searchBySource', () => {
 
-    it('should search for concepts by concept source', function () {
+    it('should search for concepts by concept source', () => {
 
-      spyOn(conceptService, 'searchBySource').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve([]);
-        });
-      });
+      spyOn(conceptService, 'searchBySource').and.callFake(() => $q(resolve => resolve([])));
 
       var formParts = {};
       var ctrl = $componentController('formField', {$scope: $rootScope.$new(true)}, {field: {id: 1}, formParts: formParts, fieldUuid: '1234'});
@@ -119,19 +115,15 @@ describe('formField', function () {
 
     });
 
-    it('should filter search result values', function () {
+    it('should filter search result values', () => {
 
-      spyOn(conceptService, 'searchBySource').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve([{display: 'Malária falciparum congênita'}, {display: 'Operador de Máquina de Colar Peles para Malas e Marroquinaria'}]);
-        });
-      });
+      spyOn(conceptService, 'searchBySource').and.callFake(() => $q(resolve => resolve([{display: 'Malária falciparum congênita'}, {display: 'Operador de Máquina de Colar Peles para Malas e Marroquinaria'}])));
 
       var formParts = {};
       var ctrl = $componentController('formField', {$scope: $rootScope.$new(true)}, {field: {id: 1}, formParts: formParts, fieldUuid: '1234'});
 
       var results;
-      ctrl.searchBySource('Malár').then(function (concepts) {
+      ctrl.searchBySource('Malár').then(concepts => {
         results = concepts;
       });
 

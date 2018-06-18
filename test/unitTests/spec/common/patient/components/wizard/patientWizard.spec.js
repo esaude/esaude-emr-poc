@@ -1,21 +1,19 @@
-describe('patientWizard', function () {
+describe('patientWizard', () => {
 
   var $componentController, patientService, $q, $rootScope, sessionService, TabManager;
 
-  beforeEach(module('common.patient', function ($provide, $translateProvider, $urlRouterProvider) {
+  beforeEach(module('common.patient', ($provide, $translateProvider, $urlRouterProvider) => {
     // Mock translate asynchronous loader
-    $provide.factory('mergeLocaleFilesService', function ($q) {
-      return function () {
-        var deferred = $q.defer();
-        deferred.resolve({});
-        return deferred.promise;
-      };
+    $provide.factory('mergeLocaleFilesService', $q => () => {
+      var deferred = $q.defer();
+      deferred.resolve({});
+      return deferred.promise;
     });
     $translateProvider.useLoader('mergeLocaleFilesService');
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function (_$componentController_, _patientService_, _$q_, _$rootScope_, _sessionService_, _TabManager_) {
+  beforeEach(inject((_$componentController_, _patientService_, _$q_, _$rootScope_, _sessionService_, _TabManager_) => {
     $componentController = _$componentController_;
     patientService = _patientService_;
     $q = _$q_;
@@ -24,17 +22,15 @@ describe('patientWizard', function () {
     TabManager = _TabManager_;
   }));
 
-  describe('$onInit', function () {
+  describe('$onInit', () => {
 
-    describe('existing patient', function () {
+    describe('existing patient', () => {
 
-      beforeEach(function () {
-        spyOn(patientService, 'getOpenMRSPatient').and.callFake(function () {
-          return $q.resolve({});
-        });
+      beforeEach(() => {
+        spyOn(patientService, 'getOpenMRSPatient').and.callFake(() => $q.resolve({}));
       });
 
-      it('should load existing OpenMRS patient', function () {
+      it('should load existing OpenMRS patient', () => {
 
         var patient = {uuid: 'b54dfb5d-9e54-4d28-ad67-b3673cefaad2'};
 
@@ -46,7 +42,7 @@ describe('patientWizard', function () {
 
       });
 
-      it('should set state prefix', function () {
+      it('should set state prefix', () => {
 
         var patient = {uuid: 'b54dfb5d-9e54-4d28-ad67-b3673cefaad2'};
 
@@ -58,7 +54,7 @@ describe('patientWizard', function () {
 
       });
 
-      it('should set header text', function () {
+      it('should set header text', () => {
 
         var patient = {uuid: 'b54dfb5d-9e54-4d28-ad67-b3673cefaad2'};
 
@@ -74,9 +70,9 @@ describe('patientWizard', function () {
 
   });
 
-  describe('changeStep', function () {
+  describe('changeStep', () => {
 
-    it('should show error message when form is not valid and the user goes to next step', function () {
+    it('should show error message when form is not valid and the user goes to next step', () => {
 
       var form = { $valid: false };
       var step = "name";
@@ -94,7 +90,7 @@ describe('patientWizard', function () {
 
     });
 
-    it('should allow the user to go to a previous step even when the form is invalid', function () {
+    it('should allow the user to go to a previous step even when the form is invalid', () => {
 
       var form = { $valid: false };
       var step = "identifier";
@@ -111,7 +107,7 @@ describe('patientWizard', function () {
 
     });
 
-    it('should allow the user to go to a next step when the form is valid', function () {
+    it('should allow the user to go to a next step when the form is valid', () => {
 
       var form = { $valid: true };
       var step = "name";
@@ -128,7 +124,7 @@ describe('patientWizard', function () {
 
     });
 
-    it('should not allow the user to jump steps', function () {
+    it('should not allow the user to jump steps', () => {
 
       var form = { $valid: true };
       var step = "gender";
@@ -145,7 +141,7 @@ describe('patientWizard', function () {
 
     });
 
-    it('should notify the user when jumping steps', function () {
+    it('should notify the user when jumping steps', () => {
 
       var form = { $valid: true };
       var step = "gender";
@@ -164,17 +160,15 @@ describe('patientWizard', function () {
 
   });
 
-  describe('save', function () {
+  describe('save', () => {
 
-    describe('existing patient', function () {
+    describe('existing patient', () => {
 
-      it('should update the patient', function () {
+      it('should update the patient', () => {
 
         var patient = {uuid: 'b54dfb5d-9e54-4d28-ad67-b3673cefaad2'};
 
-        spyOn(patientService, 'updatePatientProfile').and.callFake(function () {
-          return $q.resolve({});
-        });
+        spyOn(patientService, 'updatePatientProfile').and.callFake(() => $q.resolve({}));
 
         var ctrl = $componentController('patientWizard', null, {TabManager, patient});
 
@@ -188,15 +182,13 @@ describe('patientWizard', function () {
 
     });
 
-    describe('new patient', function () {
+    describe('new patient', () => {
 
-      it('should create the patient', function () {
+      it('should create the patient', () => {
 
         var patient = {};
 
-        spyOn(patientService, 'createPatientProfile').and.callFake(function () {
-          return $q.resolve({});
-        });
+        spyOn(patientService, 'createPatientProfile').and.callFake(() => $q.resolve({}));
 
         var ctrl = $componentController('patientWizard', null, {TabManager, patient});
 
@@ -212,11 +204,11 @@ describe('patientWizard', function () {
 
   });
 
-  describe('stepForward', function () {
+  describe('stepForward', () => {
 
-    describe('valid form', function () {
+    describe('valid form', () => {
 
-      it('should go to next step', function () {
+      it('should go to next step', () => {
 
         var patient = {};
         var form = {$valid: true};
@@ -234,7 +226,7 @@ describe('patientWizard', function () {
 
       });
 
-      it('should hide messages', function () {
+      it('should hide messages', () => {
 
         var patient = {};
         var form = {$valid: true};
@@ -255,9 +247,9 @@ describe('patientWizard', function () {
     });
 
 
-    describe('invalid form', function () {
+    describe('invalid form', () => {
 
-      it('should show messages', function () {
+      it('should show messages', () => {
 
         var patient = {};
         var form = {$valid: false};
@@ -279,11 +271,11 @@ describe('patientWizard', function () {
 
   });
 
-  describe('linkCancel', function () {
+  describe('linkCancel', () => {
 
-    describe('editing patient', function () {
+    describe('editing patient', () => {
 
-      it('should navigate to given return state', function () {
+      it('should navigate to given return state', () => {
 
         var patient = {uuid: 'b54dfb5d-9e54-4d28-ad67-b3673cefaad2'};
         var $state = jasmine.createSpyObj('$state', ['go']);
@@ -301,9 +293,9 @@ describe('patientWizard', function () {
 
     });
 
-    describe('creating patient', function () {
+    describe('creating patient', () => {
 
-      it('should navigate to search patient state', function () {
+      it('should navigate to search patient state', () => {
 
         var $state = jasmine.createSpyObj('$state', ['go']);
         var ctrl = $componentController('patientWizard', {$state});

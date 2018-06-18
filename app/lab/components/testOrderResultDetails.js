@@ -30,15 +30,15 @@
       var changedItem = angular.copy(vm.testOrderResult.items[index]);
 
       testOrderResultService.saveTestResultItem(vm.testOrderResult, _.merge({}, changedItem, {value: result}))
-        .then(function (testResultItem) {
+        .then(testResultItem => {
           changedItem.uuid = testResultItem.uuid;
           changedItem.value = testResultItem.value;
           notifier.success(translateFilter('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
         })
-        .catch(function (error) {
+        .catch(error => {
           notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
         })
-        .finally(function () {
+        .finally(() => {
           vm.testOrderResult.items[index] = changedItem;
         });
     }
@@ -47,9 +47,7 @@
       var value = testOrderItem.value;
       var orderConcept = testOrderItem.testOrderResult.concept;
       if (orderConcept && (orderConcept.datatype.display === 'Coded')) {
-        var answer = orderConcept.answers.find(function (a) {
-          return a.uuid === testOrderItem.value;
-        });
+        var answer = orderConcept.answers.find(a => a.uuid === testOrderItem.value);
         if (answer) {
           value = answer.display;
         }
@@ -59,11 +57,11 @@
 
     function removeTestResultItem(item) {
       testOrderResultService.removeTestResultItem(vm.testOrderResult, item)
-        .then(function () {
+        .then(() => {
           vm.reloadTestOrderResult();
           notifier.success(translateFilter('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
         })
-        .catch(function (error) {
+        .catch(error => {
           notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
         });
 

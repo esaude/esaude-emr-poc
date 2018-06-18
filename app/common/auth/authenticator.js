@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -17,12 +17,12 @@
 
     function authenticateUser() {
       return sessionService.getSession()
-        .then(function (session) {
+        .then(session => {
           if (!session.authenticated) {
             return $q.reject();
           }
         })
-        .catch(function (error) {
+        .catch(error => {
           $rootScope.$broadcast('event:auth-loginRequired', 'LOGIN_LABEL_LOGIN_ERROR_MESSAGE_KEY');
           return $q.reject('LOGIN_LABEL_LOGIN_ERROR_MESSAGE_KEY');
         });

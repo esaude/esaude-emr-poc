@@ -1,10 +1,10 @@
-describe('CheckInController', function () {
+describe('CheckInController', () => {
 
   var $componentController, $rootScope, visitService, notifier, $q;
 
   beforeEach(module('poc.common.visit'));
 
-  beforeEach(inject(function (_$componentController_, _visitService_, _$rootScope_, _$q_, _notifier_) {
+  beforeEach(inject((_$componentController_, _visitService_, _$rootScope_, _$q_, _notifier_) => {
     $componentController = _$componentController_;
     visitService = _visitService_;
     $rootScope = _$rootScope_;
@@ -12,19 +12,15 @@ describe('CheckInController', function () {
     notifier = _notifier_;
   }));
 
-  beforeEach(function () {
+  beforeEach(() => {
 
   });
 
-  describe('$onChanges', function () {
+  describe('$onChanges', () => {
 
-    it('should load visit for today', function () {
+    it('should load visit for today', () => {
       var visit = { patient: { uuid: '7401f469-60ee-4cfa-afab-c1e89e2944e4' } };
-      spyOn(visitService, 'getTodaysVisit').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve(visit);
-        });
-      });
+      spyOn(visitService, 'getTodaysVisit').and.callFake(() => $q(resolve => resolve(visit)));
       var ctrl = $componentController('checkIn');
       ctrl.$onChanges({ patient: { currentValue: { uuid: '7401f469-60ee-4cfa-afab-c1e89e2944e4' } } });
       $rootScope.$apply();
@@ -32,17 +28,13 @@ describe('CheckInController', function () {
     });
   });
 
-  describe('checkIn', function () {
+  describe('checkIn', () => {
 
-    it('should check-in the patient', function () {
+    it('should check-in the patient', () => {
 
       var visit = {};
 
-      spyOn(visitService, 'checkInPatient').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve(visit);
-        });
-      });
+      spyOn(visitService, 'checkInPatient').and.callFake(() => $q(resolve => resolve(visit)));
 
       var ctrl = $componentController('checkIn');
 
@@ -52,18 +44,14 @@ describe('CheckInController', function () {
 
     });
 
-    it('should update the day\'s visit', function () {
+    it('should update the day\'s visit', () => {
 
       var visit = {};
 
-      spyOn(visitService, 'checkInPatient').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve(visit);
-        });
-      });
+      spyOn(visitService, 'checkInPatient').and.callFake(() => $q(resolve => resolve(visit)));
 
       var ctrl = $componentController('checkIn', null, {
-        onCheckInChange: function () {
+        onCheckInChange: () => {
         }
       });
 
@@ -74,15 +62,11 @@ describe('CheckInController', function () {
 
     });
 
-    it('should call onCheckInChange binding', function () {
+    it('should call onCheckInChange binding', () => {
 
       var visit = {};
 
-      spyOn(visitService, 'checkInPatient').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve(visit);
-        });
-      });
+      spyOn(visitService, 'checkInPatient').and.callFake(() => $q(resolve => resolve(visit)));
 
       var ctrl = $componentController('checkIn', null, {onCheckInChange: jasmine.createSpy('onCheckInChange')});
 
@@ -95,17 +79,13 @@ describe('CheckInController', function () {
 
   });
 
-  describe('cancelCheckIn', function () {
+  describe('cancelCheckIn', () => {
 
-    it('should check-in the patient', function () {
+    it('should check-in the patient', () => {
 
       var visit = {};
 
-      spyOn(visitService, 'deleteVisit').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve(visit);
-        });
-      });
+      spyOn(visitService, 'deleteVisit').and.callFake(() => $q(resolve => resolve(visit)));
 
       var ctrl = $componentController('checkIn');
 
@@ -115,18 +95,14 @@ describe('CheckInController', function () {
 
     });
 
-    it('should update the day\'s visit', function () {
+    it('should update the day\'s visit', () => {
 
       var visit = {};
 
-      spyOn(visitService, 'deleteVisit').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve(visit);
-        });
-      });
+      spyOn(visitService, 'deleteVisit').and.callFake(() => $q(resolve => resolve(visit)));
 
       var ctrl = $componentController('checkIn', null, {
-        onCheckInChange: function () {
+        onCheckInChange: () => {
         }
       });
 
@@ -137,15 +113,11 @@ describe('CheckInController', function () {
 
     });
 
-    it('should call onCheckInChange binding', function () {
+    it('should call onCheckInChange binding', () => {
 
       var visit = {};
 
-      spyOn(visitService, 'deleteVisit').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve(visit);
-        });
-      });
+      spyOn(visitService, 'deleteVisit').and.callFake(() => $q(resolve => resolve(visit)));
 
       var ctrl = $componentController('checkIn', null, {onCheckInChange: jasmine.createSpy('onCheckInChange')});
 

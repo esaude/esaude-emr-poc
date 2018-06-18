@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -29,9 +29,7 @@
       return $http.post(Bahmni.Common.Constants.dispensationUrl, dispensation, {
         withCredentials:true,
         headers: {"Accept": "application/json", "Content-Type": "application/json"}
-      }).then(function (data) {
-        return data.data.uuid;
-      }).catch(function (error) {
+      }).then(data => data.data.uuid).catch(error => {
         $log.error('XHR Failed for createDispensation: ' + error.data.error.message);
         return $q.reject(error);
       });
@@ -51,9 +49,7 @@
           endDate: endDate
         },
         withCredentials: true
-      }).then(function (response) {
-        return response.data.results;
-      }).catch(function (error) {
+      }).then(response => response.data.results).catch(error => {
         $log.error('XHR Failed for getDispensation. ' + error.data);
         return $q.reject(error);
       });

@@ -1,15 +1,16 @@
-describe("merge functionality", function () {
+describe("merge functionality", () => {
 
     var master, mergeService;
 
     beforeEach(() => {
         module('bahmni.common.i18n');
+
         module($provide => {
             _$cookies = jasmine.createSpyObj('$cookies', ['get', 'put', 'remove']);
             $provide.value('$cookies', _$cookies);
         });
 
-        inject(function (_mergeService_) {
+        inject(_mergeService_ => {
             mergeService = _mergeService_;
         });
 
@@ -25,7 +26,7 @@ describe("merge functionality", function () {
         };
     });
 
-    it("should change a leaf value", function () {
+    it("should change a leaf value", () => {
         var result = mergeService.merge(master, {
             a: {
                 d: {
@@ -39,7 +40,7 @@ describe("merge functionality", function () {
         expect(result.a.d.f).toBe(master.a.d.f);
     });
 
-    it("should be able to remove a value", function () {
+    it("should be able to remove a value", () => {
         var result = mergeService.merge(master, {
             a: {
                 d: {
@@ -56,7 +57,7 @@ describe("merge functionality", function () {
     });
 
 
-    it("should be able to add a new node", function () {
+    it("should be able to add a new node", () => {
         var result = mergeService.merge(master, {
             x: {key: "something"}
         });
@@ -66,7 +67,7 @@ describe("merge functionality", function () {
         expect(result.x.key).toBe("something");
     });
 
-    it("should be able to remove a null node", function () {
+    it("should be able to remove a null node", () => {
         var result = mergeService.merge(master, {
             x: {key: "something"},
             a:{d: null, s:{}}
@@ -78,7 +79,7 @@ describe("merge functionality", function () {
         expect(result.x.key).toBe("something");
     });
 
-    it("should not throw an error for undefined parameter", function () {
+    it("should not throw an error for undefined parameter", () => {
         var result = mergeService.merge(master, undefined);
         expect(result.a.b).toBe(master.a.b);
         expect(result.a.c).toBe(master.a.c);

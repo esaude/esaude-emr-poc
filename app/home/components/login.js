@@ -47,17 +47,17 @@
 
       sessionService
         .loginUser(vm.loginUser.username, vm.loginUser.password)
-        .then(function () {
+        .then(() => {
           $location.path(landingPagePath).search({});
         })
-        .catch(function (error) {
+        .catch(error => {
             vm.errorMessageTranslateKey = error;
             return $q.reject(error);
         });
     }
 
     function redirectToLandingPageIfAlreadyAuthenticated() {
-      sessionService.getSession().then(function (session) {
+      sessionService.getSession().then(session => {
         if (session.authenticated) {
           $location.path(landingPagePath);
         }

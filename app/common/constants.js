@@ -1,7 +1,7 @@
 var Bahmni = Bahmni || {};
 Bahmni.Common = Bahmni.Common || {};
 
-(function(){
+(() => {
     var RESTWS = "/openmrs/ws/rest";
     var RESTWS_V1 = "/openmrs/ws/rest/v1";
     var EMRAPI = RESTWS + "/emrapi";

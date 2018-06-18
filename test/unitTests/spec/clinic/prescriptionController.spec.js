@@ -1,6 +1,6 @@
 'use strict';
 
-  describe('PrescriptionController', function () {
+  describe('PrescriptionController', () => {
 
   var $controller, controller, $http, $filter, $rootScope, $stateParams, observationsService, commonService,
     conceptService, localStorageService, notifier, drugService, prescriptionService, $q, providerService,
@@ -17,23 +17,21 @@
     }
   ];
 
-  beforeEach(module('clinic', function ($provide, $translateProvider, $urlRouterProvider) {
+  beforeEach(module('clinic', ($provide, $translateProvider, $urlRouterProvider) => {
     // Mock translate asynchronous loader
-    $provide.factory('mergeLocaleFilesService', function ($q) {
-      return function () {
-        var deferred = $q.defer();
-        deferred.resolve({});
-        return deferred.promise;
-      };
+    $provide.factory('mergeLocaleFilesService', $q => () => {
+      var deferred = $q.defer();
+      deferred.resolve({});
+      return deferred.promise;
     });
     $translateProvider.useLoader('mergeLocaleFilesService');
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function (_$controller_, _$httpBackend_, _$filter_, _$rootScope_, _$stateParams_,
-                              _observationsService_, _commonService_, _conceptService_, _localStorageService_,
-                              _notifier_, _drugService_, _prescriptionService_, _$q_,
-                              _providerService_, _sessionService_, _patientService_) {
+  beforeEach(inject((_$controller_, _$httpBackend_, _$filter_, _$rootScope_, _$stateParams_,
+                     _observationsService_, _commonService_, _conceptService_, _localStorageService_,
+                     _notifier_, _drugService_, _prescriptionService_, _$q_,
+                     _providerService_, _sessionService_, _patientService_) => {
 
     $controller = _$controller_;
     $http = _$httpBackend_;
@@ -53,12 +51,8 @@
     patientService = _patientService_;
   }));
 
-  beforeEach(function () {
-    spyOn(conceptService, 'getPrescriptionConvSetConcept').and.callFake(function () {
-      return $q(function (resolve) {
-        return resolve(drugPrescriptionConvSet);
-      });
-    });
+  beforeEach(() => {
+    spyOn(conceptService, 'getPrescriptionConvSetConcept').and.callFake(() => $q(resolve => resolve(drugPrescriptionConvSet)));
 
     var prescriptions = [{
       "prescriptionItems": [{
@@ -102,40 +96,20 @@
       "prescriptionDate": ""
     }];
 
-    spyOn(prescriptionService, 'getAllPrescriptions').and.callFake(function () {
-      return $q(function (resolve) {
-        return resolve(prescriptions);
-      });
-    });
+    spyOn(prescriptionService, 'getAllPrescriptions').and.callFake(() => $q(resolve => resolve(prescriptions)));
 
-    spyOn(conceptService, 'get').and.callFake(function () {
-      return $q(function (resolve) {
-        return resolve([]);
-      });
-    });
+    spyOn(conceptService, 'get').and.callFake(() => $q(resolve => resolve([])));
 
-    spyOn(providerService, 'getProviders').and.callFake(function () {
-      return $q(function (resolve) {
-        return resolve([]);
-      });
-    });
+    spyOn(providerService, 'getProviders').and.callFake(() => $q(resolve => resolve([])));
 
-    spyOn(sessionService, 'getCurrentProvider').and.callFake(function () {
-      return $q(function (resolve) {
-        return resolve([]);
-      });
-    });
+    spyOn(sessionService, 'getCurrentProvider').and.callFake(() => $q(resolve => resolve([])));
 
-    spyOn(patientService, 'getPatient').and.callFake(function () {
-      return $q(function (resolve) {
-        return resolve({});
-      });
-    });
+    spyOn(patientService, 'getPatient').and.callFake(() => $q(resolve => resolve({})));
   });
 
-  describe('activate', function () {
+  describe('activate', () => {
 
-    beforeEach(function () {
+    beforeEach(() => {
       controller = $controller('PrescriptionController', {
         $scope: {},
         conceptService: conceptService,
@@ -143,49 +117,49 @@
       });
     });
 
-    it('should load the patient', function () {
+    it('should load the patient', () => {
       $rootScope.$apply();
       expect(patientService.getPatient).toHaveBeenCalled();
     });
 
-    it('should load patientPrescriptions', function () {
+    it('should load patientPrescriptions', () => {
       $rootScope.$apply();
       expect(prescriptionService.getAllPrescriptions).toHaveBeenCalled();
     });
 
-    it('should set fieldModels', function () {
+    it('should set fieldModels', () => {
       $rootScope.$apply();
       expect(controller.fieldModels['dosingUnits'].model).toEqual(drugPrescriptionConvSet[0]);
     });
 
-    it('should load currentProvider', function () {
+    it('should load currentProvider', () => {
       $rootScope.$apply();
       expect(sessionService.getCurrentProvider).toHaveBeenCalled();
     });
 
   });
 
-  describe('removeAll', function () {
+  describe('removeAll', () => {
 
-    beforeEach(function () {
+    beforeEach(() => {
       controller = $controller('PrescriptionController', {
         $scope: {}
       });
     });
 
-    beforeEach(function () {
+    beforeEach(() => {
       controller.listedPrescriptions.push(1);
       controller.listedPrescriptions.push(2);
       controller.showNewPrescriptionsControlls = true;
     });
 
-    it('should remove all listed drugs', function () {
+    it('should remove all listed drugs', () => {
       expect(controller.listedPrescriptions.length).not.toBe(0);
       controller.removeAll();
       expect(controller.listedPrescriptions.length).toBe(0);
     });
 
-    it('should hide controls', function () {
+    it('should hide controls', () => {
       expect(controller.showNewPrescriptionsControlls).not.toBe(false);
       controller.removeAll();
       expect(controller.showNewPrescriptionsControlls).toBe(false);
@@ -193,15 +167,15 @@
 
   });
 
-  describe('refill', function () {
+  describe('refill', () => {
 
-    beforeEach(function () {
+    beforeEach(() => {
       controller = $controller('PrescriptionController', {
         $scope: {}
       });
     });
 
-    it('should add selected drug to current prescription', function () {
+    it('should add selected drug to current prescription', () => {
       var item = {drugOrder: {dosingInstructions: 'Empty stomach'}};
       controller.refill(item);
       expect(controller.listedPrescriptions).toContain(item);
@@ -209,29 +183,21 @@
 
   });
 
-  describe('checkDrugType', function () {
+  describe('checkDrugType', () => {
 
-    beforeEach(function () {
+    beforeEach(() => {
 
       spyOn(sessionService, 'getCurrentLocation').and.returnValue({
         uuid: "8d6c993e-c2cc-11de-8d13-0010c6dffd0f",
         display: "Local Desconhecido"
       });
 
-      spyOn(drugService, 'getDrugStock').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve([]);
-        });
-      });
+      spyOn(drugService, 'getDrugStock').and.callFake(() => $q(resolve => resolve([])));
     });
-    describe('drug is an ARV', function () {
-      beforeEach(function () {
+    describe('drug is an ARV', () => {
+      beforeEach(() => {
 
-        spyOn(drugService, 'isArvDrug').and.callFake(function () {
-          return $q(function (resolve) {
-            return resolve(true);
-          });
-        });
+        spyOn(drugService, 'isArvDrug').and.callFake(() => $q(resolve => resolve(true)));
 
         controller = $controller('PrescriptionController', {
           $scope: {}
@@ -239,7 +205,7 @@
         controller.prescriptionItem = {};
       });
 
-      it('should check a drug as ARV drug', function () {
+      it('should check a drug as ARV drug', () => {
         var drug = {"uuid": "9d7127f9-10e8-11e5-9009-0242ac110012"};
         controller.checkDrugType(drug);
         $rootScope.$apply();
@@ -248,14 +214,10 @@
       });
     });
 
-    describe('drug is not ARV', function () {
-      beforeEach(function () {
+    describe('drug is not ARV', () => {
+      beforeEach(() => {
 
-        spyOn(drugService, 'isArvDrug').and.callFake(function () {
-          return $q(function (resolve) {
-            return resolve(false);
-          });
-        });
+        spyOn(drugService, 'isArvDrug').and.callFake(() => $q(resolve => resolve(false)));
 
         controller = $controller('PrescriptionController', {
           $scope: {}
@@ -264,7 +226,7 @@
       });
 
 
-      it('should check a drug as ARV drug', function () {
+      it('should check a drug as ARV drug', () => {
         var drug = {"uuid": "9d7127f9-10e8-11e5-9009-0242ac110012"};
         controller.checkDrugType(drug);
         $rootScope.$apply();
@@ -275,28 +237,28 @@
 
   });
 
-  describe('add', function () {
+  describe('add', () => {
 
-    beforeEach(function () {
+    beforeEach(() => {
       controller = $controller('PrescriptionController', {
         $scope: {}
       });
 
-      spyOn(notifier, 'error').and.callFake(function () {
+      spyOn(notifier, 'error').and.callFake(() => {
 
       });
     });
 
     var form = {
       $valid: true,
-      $setPristine: function () {
+      $setPristine: () => {
       },
-      $setUntouched: function () {
+      $setUntouched: () => {
       }
     };
 
-    describe('form has validation errors', function () {
-      beforeEach(function () {
+    describe('form has validation errors', () => {
+      beforeEach(() => {
 
         controller = $controller('PrescriptionController', {
           $scope: {}
@@ -305,13 +267,13 @@
       });
       var formError = {
         $valid: false,
-        $setPristine: function () {
+        $setPristine: () => {
         },
-        $setUntouched: function () {
+        $setUntouched: () => {
         }
       };
 
-      it('should not add a drug order', function () {
+      it('should not add a drug order', () => {
         controller.add(formError.$valid,  formError);
         expect(controller.showMessages).toBe(true);
         });
@@ -320,32 +282,30 @@
   });
 
 
-  describe('cancelOrStop', function () {
+  describe('cancelOrStop', () => {
 
-    beforeEach(function () {
+    beforeEach(() => {
 
-      spyOn(prescriptionService, 'stopPrescriptionItem').and.callFake(function () {
-        return $q(function (resolve) {
-          resolve();
-        });
-      });
+      spyOn(prescriptionService, 'stopPrescriptionItem').and.callFake(() => $q(resolve => {
+        resolve();
+      }));
 
     });
 
-    it('should stop prescription item', function () {
+    it('should stop prescription item', () => {
 
       var item = {drugOrder: {action: 'NEW'}};
 
-      spyOn(notifier, 'success').and.callFake(function () {
+      spyOn(notifier, 'success').and.callFake(() => {
 
       });
 
       var form = {
         $valid: true,
-        $setPristine: function () {
+        $setPristine: () => {
 
         },
-        $setUntouched: function () {
+        $setUntouched: () => {
 
         }
       };
@@ -373,9 +333,9 @@
   });
 
 
-  describe('save', function () {
+  describe('save', () => {
 
-    beforeEach(function () {
+    beforeEach(() => {
 
       controller = $controller('PrescriptionController', {
         $scope: {},
@@ -383,10 +343,10 @@
         prescriptionService: prescriptionService
       });
 
-      spyOn(notifier, 'error').and.callFake(function () {
+      spyOn(notifier, 'error').and.callFake(() => {
       });
 
-      spyOn(notifier, 'success').and.callFake(function () {
+      spyOn(notifier, 'success').and.callFake(() => {
       });
 
       spyOn(sessionService, 'getCurrentLocation').and.returnValue({
@@ -398,22 +358,18 @@
 
     var form = {
       $valid: true,
-      $setPristine: function () {
+      $setPristine: () => {
       },
-      $setUntouched: function () {
+      $setUntouched: () => {
       },
       selectedProvider: {$invalid: false}
     };
 
-    describe('valid prescription', function () {
+    describe('valid prescription', () => {
 
-      beforeEach(function () {
+      beforeEach(() => {
 
-        spyOn(prescriptionService, 'create').and.callFake(function () {
-          return $q(function (resolve) {
-            return resolve([]);
-          });
-        });
+        spyOn(prescriptionService, 'create').and.callFake(() => $q(resolve => resolve([])));
 
         controller = $controller('PrescriptionController', {
           $scope: {},
@@ -452,7 +408,7 @@
         controller.showNewPrescriptionsControlls = null;
       });
 
-      it('should create a prescription', function () {
+      it('should create a prescription', () => {
         controller.save(form);
         $rootScope.$apply();
         expect(prescriptionService.create).toHaveBeenCalled();
@@ -460,14 +416,10 @@
       });
     });
 
-    describe('create prescription failed', function () {
-      beforeEach(function () {
+    describe('create prescription failed', () => {
+      beforeEach(() => {
 
-        spyOn(prescriptionService, 'create').and.callFake(function () {
-          return $q(function (resolve, reject) {
-            return reject({data: {error: {message: '[]'}}});
-          });
-        });
+        spyOn(prescriptionService, 'create').and.callFake(() => $q((resolve, reject) => reject({data: {error: {message: '[]'}}})));
 
         controller = $controller('PrescriptionController', {
           $scope: {},
@@ -506,14 +458,14 @@
         controller.showNewPrescriptionsControlls = null;
       });
 
-      it('should not create a prescription', function () {
+      it('should not create a prescription', () => {
         controller.save(form);
         $rootScope.$apply();
         expect(notifier.error).toHaveBeenCalled();
       });
     });
 
-    beforeEach(function () {
+    beforeEach(() => {
       controller.listedPrescriptions.push({
           "drugOrder": {
 
@@ -563,42 +515,42 @@
       controller.selectedProvider = { uuid: '123'};
     });
 
-    describe('invalid prescription', function () {
+    describe('invalid prescription', () => {
 
       var formWithInvalidProvider = {
         $valid: true,
-        $setPristine: function () {
+        $setPristine: () => {
         },
-        $setUntouched: function () {
+        $setUntouched: () => {
         },
         selectedProvider: {$invalid : true}
       };
 
-      it('should not create a prescription', function () {
+      it('should not create a prescription', () => {
         controller.save(formWithInvalidProvider);
       });
     });
 
-    describe('another active ARV prescription exists', function () {
+    describe('another active ARV prescription exists', () => {
       var form = {
         $valid: true,
-        $setPristine: function () {
+        $setPristine: () => {
         },
-        $setUntouched: function () {
+        $setUntouched: () => {
         },
         selectedProvider: {$invalid : false}
       };
 
 
 
-      it('should not create a prescription', function () {
+      it('should not create a prescription', () => {
         controller.save(form);
         expect(notifier.error).toHaveBeenCalled();
       });
     });
 
-    describe('at least one item in the new prescription exists in another active prescription', function () {
-      beforeEach(function () {
+    describe('at least one item in the new prescription exists in another active prescription', () => {
+      beforeEach(() => {
 
         controller = $controller('PrescriptionController', {
           $scope: {},
@@ -644,7 +596,7 @@
 
       });
 
-      it('should not create a prescription', function () {
+      it('should not create a prescription', () => {
         controller.save(form);
         expect(notifier.error).toHaveBeenCalled();
       });
@@ -652,9 +604,9 @@
 
   });
 
-  describe('cleanDrugIfUnchecked', function () {
+  describe('cleanDrugIfUnchecked', () => {
 
-    beforeEach(function () {
+    beforeEach(() => {
       controller = $controller('PrescriptionController', {
         $scope: {}
       });
@@ -669,24 +621,24 @@
         "arvPlan" : {}
         };
     });
-    it('should clean ARV fields', function () {
+    it('should clean ARV fields', () => {
       controller.cleanDrugIfUnchecked();
       expect(controller.prescriptionItem.arvPlan).toBe(null);
     });
 
     });
 
-    describe('checkItemIsRefillable', function () {
+    describe('checkItemIsRefillable', () => {
         var prescription = { prescriptionStatus: "EXPIRED"};
 
-        it('should return True for expired prescription status', function () {
+        it('should return True for expired prescription status', () => {
           expect(controller.checkItemIsRefillable(prescription)).toBe(true);
         });
     });
 
-    describe('checkActiveAndNewItemStatus', function () {
+    describe('checkActiveAndNewItemStatus', () => {
       var item = { status: "NEW"};
-      it('should return True for NEW Item status', function () {
+      it('should return True for NEW Item status', () => {
         expect(controller.checkActiveAndNewItemStatus(item)).toBe(true);
       });
     });

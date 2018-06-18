@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -53,7 +53,7 @@
     ////////////////
 
     function activate() {
-      programService.getAllPrograms().then(function (programs) {
+      programService.getAllPrograms().then(programs => {
         $scope.allPrograms = programs;
       });
       updateActiveProgramsList();
@@ -108,7 +108,7 @@
     }
 
     function updateActiveProgramsList() {
-      programService.getPatientPrograms($stateParams.patientUuid).then(function (programs) {
+      programService.getPatientPrograms($stateParams.patientUuid).then(programs => {
         $scope.patientAllPrograms = _.union(programs.activePrograms, programs.endedPrograms);
         $scope.activePrograms = programs.activePrograms;
         $scope.endedPrograms = programs.endedPrograms;
@@ -127,7 +127,7 @@
       updateActiveProgramsList();
       getAddProgramModal().modal('hide');
       getEditProgramStateModal().modal('hide');
-      getAddProgramStateModal().modal('hide');   
+      getAddProgramStateModal().modal('hide');
       notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
     }
 
@@ -172,9 +172,7 @@
     }
 
     function isThePatientAlreadyEnrolled() {
-      return _.map($scope.activePrograms, function (program) {
-        return program.program.uuid;
-      }).indexOf($scope.programSelected.uuid) > -1;
+      return _.map($scope.activePrograms, program => program.program.uuid).indexOf($scope.programSelected.uuid) > -1;
     }
 
     function isProgramSelected() {
@@ -199,9 +197,7 @@
     }
 
     function getCurrentState(states) {
-      return _.find(states, function (state) {
-        return state.endDate === null && !state.voided;
-      });
+      return _.find(states, state => state.endDate === null && !state.voided);
     }
 
     function getCurrentProgramState(states) {
@@ -210,9 +206,7 @@
 
     //must have at least one state and non voided
     function hasValidProgramStateToShow(states) {
-      return states.some(function (s) {
-        return !s.voided;
-      });
+      return states.some(s => !s.voided);
     }
 
     function initCurrentState(patientProgram) {
@@ -223,9 +217,7 @@
       var currentState = getCurrentState(patientProgram.states);
       var states = getStates(patientProgram.program);
       if (currentState) {
-        states = _.reject(states, function (state) {
-          return state.uuid === currentState.state.uuid;
-        });
+        states = _.reject(states, state => state.uuid === currentState.state.uuid);
       }
       return states;
     }
@@ -282,7 +274,7 @@
       var outcomeConceptUuid = patientProgram.outcome ? patientProgram.outcome.uuid : null;
       programService.editPatientProgram(patientProgram.uuid, dateEnrolled,
         dateCompleted, outcomeConceptUuid)
-        .then(function () {
+        .then(() => {
           updateActiveProgramsList();
         });
 
@@ -313,9 +305,7 @@
     }
 
     function getActiveProgramStates(patientProgram) {
-      return _.reject(patientProgram.states, function (st) {
-        return st.voided;
-      });
+      return _.reject(patientProgram.states, st => st.voided);
     }
 
     function canRemovePatientState(state) {
@@ -333,9 +323,9 @@
     function getWorkflowStates(program) {
       $scope.programWorkflowStates = [];
       if (program && program.allWorkflows.length) {
-        program.allWorkflows.forEach(function (workflow) {
+        program.allWorkflows.forEach(workflow => {
           if (!workflow.retired && workflow.states.length)
-            workflow.states.forEach(function (state) {
+            workflow.states.forEach(state => {
               if (!state.retired)
                 $scope.programWorkflowStates.push(state);
             });

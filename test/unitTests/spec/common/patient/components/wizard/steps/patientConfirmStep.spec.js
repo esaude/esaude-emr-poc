@@ -1,21 +1,19 @@
-describe('patientConfirmStep', function () {
+describe('patientConfirmStep', () => {
 
   var $componentController, patientService, $q, $rootScope, sessionService, configurationService;
 
-  beforeEach(module('common.patient', function ($provide, $translateProvider, $urlRouterProvider) {
+  beforeEach(module('common.patient', ($provide, $translateProvider, $urlRouterProvider) => {
     // Mock translate asynchronous loader
-    $provide.factory('mergeLocaleFilesService', function ($q) {
-      return function () {
-        var deferred = $q.defer();
-        deferred.resolve({});
-        return deferred.promise;
-      };
+    $provide.factory('mergeLocaleFilesService', $q => () => {
+      var deferred = $q.defer();
+      deferred.resolve({});
+      return deferred.promise;
     });
     $translateProvider.useLoader('mergeLocaleFilesService');
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function (_$componentController_, _patientService_, _$q_, _$rootScope_, _sessionService_, _configurationService_) {
+  beforeEach(inject((_$componentController_, _patientService_, _$q_, _$rootScope_, _sessionService_, _configurationService_) => {
     $componentController = _$componentController_;
     patientService = _patientService_;
     $q = _$q_;
@@ -24,20 +22,18 @@ describe('patientConfirmStep', function () {
     configurationService = _configurationService_;
   }));
 
-  describe('$onInit', function () {
+  describe('$onInit', () => {
 
-    beforeEach(function () {
-      spyOn(configurationService, 'getAddressLevels').and.callFake(function () {
-        return $q.resolve([
-          {name: "Pais", addressField: "country", required: true},
-          {name: "Provincia", addressField: "stateProvince", required: true}
-        ]);
-      });
+    beforeEach(() => {
+      spyOn(configurationService, 'getAddressLevels').and.callFake(() => $q.resolve([
+        {name: "Pais", addressField: "country", required: true},
+        {name: "Provincia", addressField: "stateProvince", required: true}
+      ]));
 
       spyOn(patientService, 'getPersonAttributesForStep').and.returnValue([1,2,3,4]);
     });
 
-    it('should set it self as wizard current step', function () {
+    it('should set it self as wizard current step', () => {
 
       var patientWizard = jasmine.createSpyObj('patientWizard', ['setCurrentStep']);
       var ctrl = $componentController('patientConfirmStep', null, {patientWizard: patientWizard});
@@ -49,7 +45,7 @@ describe('patientConfirmStep', function () {
       expect(patientWizard.setCurrentStep).toHaveBeenCalledWith(ctrl);
     });
 
-    it('should load addressLevels', function () {
+    it('should load addressLevels', () => {
 
       var patientWizard = jasmine.createSpyObj('patientWizard', ['setCurrentStep']);
       var ctrl = $componentController('patientConfirmStep', null, {patientWizard: patientWizard});
@@ -64,7 +60,7 @@ describe('patientConfirmStep', function () {
       ]);
     });
 
-    it('should get person attributes for testing step', function () {
+    it('should get person attributes for testing step', () => {
 
       var patientWizard = jasmine.createSpyObj('patientWizard', ['setCurrentStep']);
       var ctrl = $componentController('patientConfirmStep', null, {patientWizard: patientWizard});

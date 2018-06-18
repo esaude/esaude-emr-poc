@@ -1,20 +1,18 @@
-describe('DashboardController', function () {
+describe('DashboardController', () => {
   var $componentController, $q, controller, applicationService, $rootScope, consultationService, sessionService;
 
-  beforeEach(module('home', function ($provide, $translateProvider, $urlRouterProvider) {
-    $provide.factory('mergeLocaleFilesService', function ($q) {
-      return function () {
-        var deferred = $q.defer();
-        deferred.resolve({});
-        return deferred.promise;
-      };
+  beforeEach(module('home', ($provide, $translateProvider, $urlRouterProvider) => {
+    $provide.factory('mergeLocaleFilesService', $q => () => {
+      var deferred = $q.defer();
+      deferred.resolve({});
+      return deferred.promise;
     });
     $translateProvider.useLoader('mergeLocaleFilesService');
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function (_$componentController_, _$rootScope_, _applicationService_, _$httpBackend_,
-    _locationService_, _$window_, _$q_, _consultationService_, _sessionService_) {
+  beforeEach(inject((_$componentController_, _$rootScope_, _applicationService_, _$httpBackend_,
+                     _locationService_, _$window_, _$q_, _consultationService_, _sessionService_) => {
     $q = _$q_;
     $componentController = _$componentController_;
     applicationService = _applicationService_;
@@ -27,28 +25,20 @@ describe('DashboardController', function () {
 
   var weeklySummary = {};
 
-  beforeEach(function () {
+  beforeEach(() => {
 
-    spyOn(applicationService, 'getApps').and.callFake(function () {
-      return $q(function (resolve) {
-        return resolve(apps);
-      });
-    });
+    spyOn(applicationService, 'getApps').and.callFake(() => $q(resolve => resolve(apps)));
 
     spyOn(sessionService, 'getCurrentLocation').and.returnValue({
       name: 'Cahora Bassa',
       uuid: '7fc3f286-15b1-465e-9013-b72916f58b2d'
     });
 
-    spyOn(consultationService, 'getMonthlyConsultationSummary').and.callFake(function () {
-      return $q(function (resolve) {
-        return resolve({
-          startDate: moment('2017-10-31', 'YYYY-MM-DD'),
-          endDate: moment('2017-11-07', 'YYYY-MM-DD'),
-          summary: []
-        });
-      });
-    });
+    spyOn(consultationService, 'getMonthlyConsultationSummary').and.callFake(() => $q(resolve => resolve({
+      startDate: moment('2017-10-31', 'YYYY-MM-DD'),
+      endDate: moment('2017-11-07', 'YYYY-MM-DD'),
+      summary: []
+    })));
 
     controller = $componentController('dashboard');
 
@@ -98,17 +88,15 @@ describe('DashboardController', function () {
 
   });
 
-  it('should get the current location', function () {
+  it('should get the current location', () => {
     expect(sessionService.getCurrentLocation).toHaveBeenCalled();
   });
 
-  describe('$onInit', function () {
+  describe('$onInit', () => {
 
-    it('should correctly set the list of apps', function () {
+    it('should correctly set the list of apps', () => {
 
-      spyOn(consultationService, 'getWeeklyConsultationSummary').and.callFake(function () {
-        return $q.resolve(weeklySummary);
-      });
+      spyOn(consultationService, 'getWeeklyConsultationSummary').and.callFake(() => $q.resolve(weeklySummary));
 
       controller.$onInit();
 
@@ -119,11 +107,9 @@ describe('DashboardController', function () {
 
     });
 
-    it('should load the weekly consultation weeklySummary', function () {
+    it('should load the weekly consultation weeklySummary', () => {
 
-      spyOn(consultationService, 'getWeeklyConsultationSummary').and.callFake(function () {
-        return $q.resolve(weeklySummary);
-      });
+      spyOn(consultationService, 'getWeeklyConsultationSummary').and.callFake(() => $q.resolve(weeklySummary));
 
       controller.$onInit();
 
@@ -136,19 +122,17 @@ describe('DashboardController', function () {
 
     });
 
-    describe('failed to load consultations', function () {
+    describe('failed to load consultations', () => {
 
-      it('set consultation summary labels', function () {
+      it('set consultation summary labels', () => {
 
-        spyOn(consultationService, 'getWeeklyConsultationSummary').and.callFake(function () {
-          return $q.reject({
-            consultationSummary: {
-              startDate: moment('2018-05-30', 'YYYY-MM-DD'),
-              endDate: moment('2018-06-05', 'YYYY-MM-DD'),
-              summary: []
-            }
-          });
-        });
+        spyOn(consultationService, 'getWeeklyConsultationSummary').and.callFake(() => $q.reject({
+          consultationSummary: {
+            startDate: moment('2018-05-30', 'YYYY-MM-DD'),
+            endDate: moment('2018-06-05', 'YYYY-MM-DD'),
+            summary: []
+          }
+        }));
 
         controller.$onInit();
 
@@ -162,9 +146,9 @@ describe('DashboardController', function () {
 
   });
 
-  describe('onMonthlySummaryClick', function () {
+  describe('onMonthlySummaryClick', () => {
 
-    it('should load the weekly consultation weeklySummary', function () {
+    it('should load the weekly consultation weeklySummary', () => {
 
       controller.onMonthlySummaryClick();
 
@@ -176,13 +160,11 @@ describe('DashboardController', function () {
 
   });
 
-  describe('scheduledConsultations', function () {
+  describe('scheduledConsultations', () => {
 
-    it('should return the total number of scheduled consultations', function () {
+    it('should return the total number of scheduled consultations', () => {
 
-      spyOn(consultationService, 'getWeeklyConsultationSummary').and.callFake(function () {
-        return $q.resolve(weeklySummary);
-      });
+      spyOn(consultationService, 'getWeeklyConsultationSummary').and.callFake(() => $q.resolve(weeklySummary));
 
       controller.$onInit();
 
@@ -197,13 +179,11 @@ describe('DashboardController', function () {
   });
 
 
-  describe('checkedIn', function () {
+  describe('checkedIn', () => {
 
-    it('should return the total number of patients who checked in to scheduled consultations', function () {
+    it('should return the total number of patients who checked in to scheduled consultations', () => {
 
-      spyOn(consultationService, 'getWeeklyConsultationSummary').and.callFake(function () {
-        return $q.resolve(weeklySummary);
-      });
+      spyOn(consultationService, 'getWeeklyConsultationSummary').and.callFake(() => $q.resolve(weeklySummary));
 
       controller.$onInit();
 

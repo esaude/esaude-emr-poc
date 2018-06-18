@@ -49,7 +49,7 @@
 
     function loadData() {
       vm.currentLocation = sessionService.getCurrentLocation();
-      sessionService.getCurrentUser().then(function (currentUser) {
+      sessionService.getCurrentUser().then(currentUser => {
         vm.currentUser = currentUser;
       });
     }

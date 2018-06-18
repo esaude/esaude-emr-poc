@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -26,10 +26,8 @@
       };
 
       return $http.get(url, options)
-        .then(function (response) {
-          return response.data;
-        })
-        .catch(function (error) {
+        .then(response => response.data)
+        .catch(error => {
           $log.error('XHR Failed for search: ' + error.data.error.message);
           return $q.reject(error);
         });

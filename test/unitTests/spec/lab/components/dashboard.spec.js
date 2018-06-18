@@ -1,23 +1,21 @@
-describe('dashboardController', function () {
+describe('dashboardController', () => {
 
   var $componentController, $q, $state, patientService;
 
   beforeEach(module('lab'));
-  beforeEach(inject(function(_$componentController_, _patientService_, _$q_, _$state_) {
+  beforeEach(inject((_$componentController_, _patientService_, _$q_, _$state_) => {
     $componentController = _$componentController_;
     $q = _$q_;
     patientService = _patientService_;
     $state = _$state_;
   }));
 
-  describe('$onInit', function () {
+  describe('$onInit', () => {
 
-    it('should get the patient', function () {
-      spyOn(patientService, 'getPatient').and.callFake(function () {
-        return $q(function (resolve) {
-          resolve({});
-        });
-      });
+    it('should get the patient', () => {
+      spyOn(patientService, 'getPatient').and.callFake(() => $q(resolve => {
+        resolve({});
+      }));
 
       var ctrl = $componentController('dashboard');
       ctrl.$onInit();
@@ -26,9 +24,9 @@ describe('dashboardController', function () {
 
   });
 
-  describe('reload', function () {
+  describe('reload', () => {
 
-    it('should reload current state', function () {
+    it('should reload current state', () => {
 
       spyOn($state, 'reload');
 

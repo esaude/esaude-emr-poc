@@ -1,4 +1,4 @@
-describe('filaHistory', function () {
+describe('filaHistory', () => {
 
   var $componentController, controller, encounterService, patientService, dispensationService, $q, $rootScope, $http;
 
@@ -17,20 +17,18 @@ describe('filaHistory', function () {
     { dispensationItems: [3] }
   ];
 
-  beforeEach(module('pharmacy', function ($provide, $translateProvider, $urlRouterProvider) {
+  beforeEach(module('pharmacy', ($provide, $translateProvider, $urlRouterProvider) => {
     // Mock translate asynchronous loader
-    $provide.factory('mergeLocaleFilesService', function ($q) {
-      return function () {
-        var deferred = $q.defer();
-        deferred.resolve({});
-        return deferred.promise;
-      };
+    $provide.factory('mergeLocaleFilesService', $q => () => {
+      var deferred = $q.defer();
+      deferred.resolve({});
+      return deferred.promise;
     });
     $translateProvider.useLoader('mergeLocaleFilesService');
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function (_$componentController_, _dispensationService_, _$q_, _$rootScope_, $httpBackend, _patientService_) {
+  beforeEach(inject((_$componentController_, _dispensationService_, _$q_, _$rootScope_, $httpBackend, _patientService_) => {
     $componentController = _$componentController_;
     dispensationService = _dispensationService_;
     $q = _$q_;
@@ -39,25 +37,21 @@ describe('filaHistory', function () {
     patientService = _patientService_;
   }));
 
-  beforeEach(function () {
+  beforeEach(() => {
     encounterService = jasmine.createSpyObj('encounterService', ['getPatientPharmacyEncounters']);
     encounterService.getPatientPharmacyEncounters.and.returnValue({
-      then: function (fn) {
+      then: fn => {
         fn(encounters);
       }
     });
 
-    spyOn(patientService, 'printPatientARVPickupHistory').and.callFake(function () { });
+    spyOn(patientService, 'printPatientARVPickupHistory').and.callFake(() => { });
 
-    spyOn(dispensationService, 'getDispensation').and.callFake(function () {
-      return $q(function (resolve) {
-        return resolve(groupedDispensations);
-      });
-    });
+    spyOn(dispensationService, 'getDispensation').and.callFake(() => $q(resolve => resolve(groupedDispensations)));
 
   });
 
-  beforeEach(function () {
+  beforeEach(() => {
 
     $http.expectGET("/poc_config/openmrs/i18n/common/locale_pt.json").respond({});
 
@@ -66,9 +60,9 @@ describe('filaHistory', function () {
     $rootScope.$apply();
   });
 
-  describe('updateResults', function () {
+  describe('updateResults', () => {
 
-    it('should load dispensations', function () {
+    it('should load dispensations', () => {
 
       controller.updateResults();
 
@@ -80,9 +74,9 @@ describe('filaHistory', function () {
 
   });
 
-  describe('onStartDateChange', function () {
+  describe('onStartDateChange', () => {
 
-    it('should change end date to be one year from start date', function () {
+    it('should change end date to be one year from start date', () => {
       controller.startDate = moment('2017-10-18').toDate();
       controller.onStartDateChange();
       expect(controller.endDate).toEqual(moment('2018-10-18').toDate());
@@ -90,14 +84,14 @@ describe('filaHistory', function () {
 
   });
 
-  describe('onPrint', function () {
+  describe('onPrint', () => {
 
-    it('should print patient ARV pickup history report', function () {
+    it('should print patient ARV pickup history report', () => {
       controller.onPrint();
       expect(patientService.printPatientARVPickupHistory).toHaveBeenCalled();
     });
 
-    it('should not print when date range is more than one year', function () {
+    it('should not print when date range is more than one year', () => {
       controller.startDate = moment('2017-10-18').toDate();
       controller.endDate = moment('2018-11-18').toDate();
       controller.onPrint();

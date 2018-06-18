@@ -1,6 +1,6 @@
 'use strict';
 
-describe('LocationService', function () {
+describe('LocationService', () => {
 
   var locationService, $httpBackend, configurationService, $q, $rootScope;
 
@@ -21,7 +21,7 @@ describe('LocationService', function () {
   };
 
   beforeEach(module('bahmni.common.domain'));
-  beforeEach(inject(function (_$httpBackend_, _locationService_, _configurationService_, _$q_, _$rootScope_) {
+  beforeEach(inject((_$httpBackend_, _locationService_, _configurationService_, _$q_, _$rootScope_) => {
     $httpBackend = _$httpBackend_;
     locationService = _locationService_;
     configurationService = _configurationService_;
@@ -30,14 +30,14 @@ describe('LocationService', function () {
   }));
 
 
-  describe('getAllByTag', function () {
+  describe('getAllByTag', () => {
 
-    it('should get locations by tag', function() {
+    it('should get locations by tag', () => {
 
       $httpBackend.expectGET('/openmrs/ws/rest/v1/location?q=foo&s=byTags').respond({results: [1,2,3,4]});
 
       var results;
-      locationService.getAllByTag('foo').then(function (locations) {
+      locationService.getAllByTag('foo').then(locations => {
         results = locations;
       });
 
@@ -45,22 +45,22 @@ describe('LocationService', function () {
       expect(results).toEqual([1,2,3,4]);
     });
 
-    afterEach(function() {
+    afterEach(() => {
       $httpBackend.verifyNoOutstandingExpectation();
       $httpBackend.verifyNoOutstandingRequest();
     });
 
   });
 
-  describe('getLocationsByName', function () {
+  describe('getLocationsByName', () => {
 
     var representation = 'custom:uuid,display,attributes:(value,attributeType:(uuid,display))';
 
-    it('should get locations by name', function(){
+    it('should get locations by name', () => {
       $httpBackend.expectGET('/openmrs/ws/rest/v1/location?q=foo&v=' + representation).respond({results: [cs_macomia]});
 
       var results;
-      locationService.getLocationsByName('foo').then(function (locations) {
+      locationService.getLocationsByName('foo').then(locations => {
         results = locations;
       });
 
@@ -69,11 +69,11 @@ describe('LocationService', function () {
       expect(results[0].uuid).toEqual(cs_macomia.uuid);
     });
 
-    it('should set the code property on each loaded location', function () {
+    it('should set the code property on each loaded location', () => {
       $httpBackend.expectGET('/openmrs/ws/rest/v1/location?q=foo&v=' + representation).respond({results: [cs_macomia]});
 
       var results;
-      locationService.getLocationsByName('foo').then(function (locations) {
+      locationService.getLocationsByName('foo').then(locations => {
         results = locations;
       });
 
@@ -82,20 +82,18 @@ describe('LocationService', function () {
 
     });
 
-    afterEach(function() {
+    afterEach(() => {
       $httpBackend.verifyNoOutstandingExpectation();
       $httpBackend.verifyNoOutstandingRequest();
     });
 
   });
 
-  describe('getDefaultLocation', function () {
+  describe('getDefaultLocation', () => {
 
-    it('should load default location configuration', function () {
+    it('should load default location configuration', () => {
 
-      spyOn(configurationService, 'getDefaultLocation').and.callFake(function () {
-        return $q.resolve({value: 'Local Desconhecido'});
-      });
+      spyOn(configurationService, 'getDefaultLocation').and.callFake(() => $q.resolve({value: 'Local Desconhecido'}));
 
       locationService.getDefaultLocation();
 
@@ -103,18 +101,16 @@ describe('LocationService', function () {
 
     });
 
-    it('should load default location by its name', function () {
+    it('should load default location by its name', () => {
 
       var representation = 'custom:uuid,display,attributes:(value,attributeType:(uuid,display))';
 
       $httpBackend.expectGET('/openmrs/ws/rest/v1/location?q=CS+Macomia&v=' + representation).respond({results: [cs_macomia]});
 
-      spyOn(configurationService, 'getDefaultLocation').and.callFake(function () {
-        return $q.resolve({value: 'CS Macomia'});
-      });
+      spyOn(configurationService, 'getDefaultLocation').and.callFake(() => $q.resolve({value: 'CS Macomia'}));
 
       var location;
-      locationService.getDefaultLocation().then(function (l) {
+      locationService.getDefaultLocation().then(l => {
         location = l;
       });
 

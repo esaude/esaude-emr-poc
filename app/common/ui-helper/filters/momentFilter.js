@@ -1,4 +1,4 @@
-(function () {
+(() => {
 
     'use strict';
 
@@ -10,9 +10,7 @@
 
     angular
         .module("bahmni.common.uiHelper")
-        .filter("moment", function () {
-            return filter;
-        });
+        .filter("moment", () => filter);
 
     function filter(input, format) {
         if (moment.isMoment(input)) {

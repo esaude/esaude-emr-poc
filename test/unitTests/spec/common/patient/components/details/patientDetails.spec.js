@@ -1,15 +1,13 @@
-describe('patientDetails', function () {
+describe('patientDetails', () => {
 
   var $componentController, $q, patientService, reportService, $rootScope;
 
-  beforeEach(module('common.patient', function ($provide, $translateProvider, $urlRouterProvider) {
+  beforeEach(module('common.patient', ($provide, $translateProvider, $urlRouterProvider) => {
     // Mock translate asynchronous loader
-    $provide.factory('mergeLocaleFilesService', function ($q) {
-      return function () {
-        var deferred = $q.defer();
-        deferred.resolve({});
-        return deferred.promise;
-      };
+    $provide.factory('mergeLocaleFilesService', $q => () => {
+      var deferred = $q.defer();
+      deferred.resolve({});
+      return deferred.promise;
     });
 
     // Mock appService
@@ -18,9 +16,7 @@ describe('patientDetails', function () {
 
     appDescriptor.getConfigValue.and.returnValue({});
     appService.getAppDescriptor.and.returnValue(appDescriptor);
-    appService.getPatientConfiguration.and.returnValue({personAttributeTypes: [], customAttributeRows: function () {
-        return [[1, 2], [3, 4]];
-      }});
+    appService.getPatientConfiguration.and.returnValue({personAttributeTypes: [], customAttributeRows: () => [[1, 2], [3, 4]]});
 
     $provide.value('appService', appService);
 
@@ -28,7 +24,7 @@ describe('patientDetails', function () {
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function (_$componentController_, _patientService_, _$q_, _$rootScope_, _reportService_) {
+  beforeEach(inject((_$componentController_, _patientService_, _$q_, _$rootScope_, _reportService_) => {
     $componentController = _$componentController_;
     $q = _$q_;
     patientService = _patientService_;
@@ -36,17 +32,15 @@ describe('patientDetails', function () {
     reportService = _reportService_;
   }));
 
-  describe('$onInit', function () {
+  describe('$onInit', () => {
 
-    beforeEach(function () {
-      spyOn(patientService, 'getPatient').and.callFake(function () {
-        return $q(function (resolve) {
-          resolve({});
-        });
-      });
+    beforeEach(() => {
+      spyOn(patientService, 'getPatient').and.callFake(() => $q(resolve => {
+        resolve({});
+      }));
     });
 
-    it('should load the patient', function () {
+    it('should load the patient', () => {
       var ctrl = $componentController('patientDetails');
       ctrl.$onInit();
       $rootScope.$apply();
@@ -55,9 +49,9 @@ describe('patientDetails', function () {
 
   });
 
-  describe('linkDashboard', function () {
+  describe('linkDashboard', () => {
 
-    it('should navigate to dashboard', function () {
+    it('should navigate to dashboard', () => {
       var go = jasmine.createSpy('go');
 
       var ctrl = $componentController('patientDetails', {
@@ -77,9 +71,9 @@ describe('patientDetails', function () {
 
   });
 
-  describe('print', function () {
+  describe('print', () => {
 
-    it('should print the patient\'s daily hospital process', function () {
+    it('should print the patient\'s daily hospital process', () => {
       spyOn(reportService,'printPatientDailyHospitalProcess').and.stub();
       var ctrl = $componentController('patientDetails');
       ctrl.print();

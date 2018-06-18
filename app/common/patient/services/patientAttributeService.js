@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('common.patient')
-    .factory('patientAttributeService', ['$http', function ($http) {
+    .factory('patientAttributeService', ['$http', $http => {
 
     var urlMap;
 
-    var init = function(){
+    var init = () => {
         urlMap = {
             "personName" : Bahmni.Common.Constants.bahmniSearchUrl + "/personname",
             "personAttribute" : Bahmni.Common.Constants.bahmniSearchUrl + "/personattribute"
@@ -13,7 +13,7 @@ angular.module('common.patient')
     };
     init();
 
-    var search = function(fieldName, query, type){
+    var search = (fieldName, query, type) => {
         var url = urlMap[type];
         var queryWithoutTrailingSpaces = query.trimLeft();
 

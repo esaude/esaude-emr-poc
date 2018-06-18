@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -12,7 +12,7 @@
 
       // to prevent the browser from displaying a password pop-up in case of an authentication error
       $httpProvider.defaults.headers.common['Disable-WWW-Authenticate'] = 'true';
-      $urlRouterProvider.otherwise(function ($injector) {
+      $urlRouterProvider.otherwise($injector => {
         $injector.get('$state').go('search');
       });
 
@@ -24,9 +24,9 @@
           component: 'patientSearch',
           resolve: {
             initialization: 'initialization',
-            createPatient: function () { return false; },
-            showSchedule: function () { return true; },
-            scheduleType: function () { return 'drugPickup'; },
+            createPatient: () => false,
+            showSchedule: () => true,
+            scheduleType: () => 'drugPickup',
           },
           ncyBreadcrumb: {
             label: '{{\'APP_PHARMACY\' | translate}} /  {{\'SEARCH_PATIENT\' | translate}}'
@@ -37,7 +37,7 @@
           component: 'dashboard',
           resolve: {
             initialization: 'initialization',
-            patient: function ($stateParams, initialization, patientService) {
+            patient: ($stateParams, initialization, patientService) => {
               // initialization is needed here so this is resolved after it
               return patientService.getPatient($stateParams.patientUuid);
             }
