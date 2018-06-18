@@ -1,11 +1,11 @@
 'use strict';
 
-describe('pocAuthorize', function () {
+describe('pocAuthorize', () => {
 
   var $compile, $rootScope, $q, authorizationService;
 
-  beforeEach(module('authentication', 'templates', function ($provide) {
-    $provide.decorator('pocAuthorizeDirective', function pocAuthorizeDirectiveDecorator($delegate, authorizationService, $log) {
+  beforeEach(module('authentication', 'templates',  ($provide) => {
+    $provide.decorator('pocAuthorizeDirective', ($delegate, authorizationService, $log) => {
 
       $log.info('pocAuthorizeDirectiveDecorator: decorating pocAuthorizeDirective with authorization.');
 
