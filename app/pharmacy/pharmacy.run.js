@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -7,12 +7,10 @@
 
   /* @ngInject */
   function runPharmacy ($transitions, authorizationService) {
-    $transitions.onBefore({to: 'dashboard'}, function (transition) {
-      return authorizationService.hasRole(['POC: Pharmacist - Independent', 'POC: Pharmacist - Independent (Admin)']).then(function (hasRole) {
-        var target = hasRole ? 'dashboard.prescriptions' : 'dashboard.filaHistory';
-        return transition.router.stateService.target(target, {patientUuid: transition.params().patientUuid});
-      });
-    });
+    $transitions.onBefore({to: 'dashboard'}, transition => authorizationService.hasRole(['POC: Pharmacist - Independent', 'POC: Pharmacist - Independent (Admin)']).then(hasRole => {
+      var target = hasRole ? 'dashboard.prescriptions' : 'dashboard.filaHistory';
+      return transition.router.stateService.target(target, {patientUuid: transition.params().patientUuid});
+    }));
   }
 
 })();

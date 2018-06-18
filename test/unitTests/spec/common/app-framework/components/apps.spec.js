@@ -1,10 +1,10 @@
-describe('apps', function () {
+describe('apps', () => {
 
   var $componentController, $q, $rootScope, appService, applicationService;
 
   beforeEach(module('bahmni.common.appFramework'));
 
-  beforeEach(inject(function (_$componentController_, _$q_, _$rootScope_, _appService_, _applicationService_) {
+  beforeEach(inject((_$componentController_, _$q_, _$rootScope_, _appService_, _applicationService_) => {
     $componentController = _$componentController_;
     $q = _$q_;
     $rootScope = _$rootScope_;
@@ -12,21 +12,20 @@ describe('apps', function () {
     applicationService = _applicationService_;
   }));
 
-  describe('$onInit', function () {
+  describe('$onInit', () => {
 
-    beforeEach(function () {
+    beforeEach(() => {
 
       spyOn(appService, 'getAppDescriptor').and.returnValue({id: 'registration'});
 
-      spyOn(applicationService, 'getApps').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve([{active: false}, {active: true}, {active: true, id: 'registration'}]);
-        });
-      });
+      spyOn(applicationService, 'getApps').and.callFake(() => $q(resolve => resolve([{active: false}, {active: true}, {
+        active: true,
+        id: 'registration'
+      }])));
 
     });
 
-    it('should get current app', function () {
+    it('should get current app', () => {
 
       var ctrl = $componentController('apps');
 
@@ -36,7 +35,7 @@ describe('apps', function () {
 
     });
 
-    it('should get all active apps', function () {
+    it('should get all active apps', () => {
 
       var ctrl = $componentController('apps');
 
@@ -44,14 +43,12 @@ describe('apps', function () {
 
       $rootScope.$apply();
 
-      var allActive = ctrl.apps.every(function (a) {
-        return a.active;
-      });
+      var allActive = ctrl.apps.every(a => a.active);
       expect(allActive).toEqual(true);
 
     });
 
-    it('should get all apps different from current app', function () {
+    it('should get all apps different from current app', () => {
 
       var ctrl = $componentController('apps');
 

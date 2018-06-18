@@ -1,22 +1,20 @@
-describe('LabTestsController', function () {
+describe('LabTestsController', () => {
 
   var $componentController, $q, testOrderResultService, $rootScope, conceptService, orderService;
 
-  beforeEach(module('lab', function ($provide, $translateProvider, $urlRouterProvider) {
+  beforeEach(module('lab', ($provide, $translateProvider, $urlRouterProvider) => {
     // Mock translate asynchronous loader
-    $provide.factory('mergeLocaleFilesService', function ($q) {
-      return function () {
-        var deferred = $q.defer();
-        deferred.resolve({});
-        return deferred.promise;
-      };
+    $provide.factory('mergeLocaleFilesService', $q => () => {
+      var deferred = $q.defer();
+      deferred.resolve({});
+      return deferred.promise;
     });
     $translateProvider.useLoader('mergeLocaleFilesService');
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function (_$componentController_, _patientService_, _$q_, _testOrderResultService_, _$rootScope_,
-                              _orderService_, _conceptService_) {
+  beforeEach(inject((_$componentController_, _patientService_, _$q_, _testOrderResultService_, _$rootScope_,
+                     _orderService_, _conceptService_) => {
 
     $componentController = _$componentController_;
     $q = _$q_;
@@ -27,15 +25,11 @@ describe('LabTestsController', function () {
 
   }));
 
-  describe('$onInit', function () {
+  describe('$onInit', () => {
 
-    it('should load test orders for the patient', function () {
+    it('should load test orders for the patient', () => {
 
-      spyOn(testOrderResultService, 'getTestOrderResultsForPatient').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve([]);
-        });
-      });
+      spyOn(testOrderResultService, 'getTestOrderResultsForPatient').and.callFake(() => $q(resolve => resolve([])));
 
       var ctrl = $componentController('labTests');
 
@@ -45,27 +39,15 @@ describe('LabTestsController', function () {
 
     });
 
-    it('it should select the first loaded test order', function () {
+    it('it should select the first loaded test order', () => {
 
       var testOrders = [{items: []}];
 
-      spyOn(testOrderResultService, 'getTestOrderResultsForPatient').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve(testOrders);
-        });
-      });
+      spyOn(testOrderResultService, 'getTestOrderResultsForPatient').and.callFake(() => $q(resolve => resolve(testOrders)));
 
-      spyOn(orderService, 'getOrder').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve({});
-        });
-      });
+      spyOn(orderService, 'getOrder').and.callFake(() => $q(resolve => resolve({})));
 
-      spyOn(conceptService, 'getConcept').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve({});
-        });
-      });
+      spyOn(conceptService, 'getConcept').and.callFake(() => $q(resolve => resolve({})));
 
       var ctrl = $componentController('labTests');
 
@@ -79,23 +61,15 @@ describe('LabTestsController', function () {
   });
 
 
-  describe('selectTestOrder', function () {
+  describe('selectTestOrder', () => {
 
-    it('load test order item concepts', function () {
+    it('load test order item concepts', () => {
 
       var testOrder = {items: [{testOrder: {uuid: 'ccf79510-2408-4632-9045-1e74d66fff4a'}}]};
 
-      spyOn(orderService, 'getOrder').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve({concept: {uuid: '0132bbbb-9089-11e6-a98e-000c29db4475'}});
-        });
-      });
+      spyOn(orderService, 'getOrder').and.callFake(() => $q(resolve => resolve({concept: {uuid: '0132bbbb-9089-11e6-a98e-000c29db4475'}})));
 
-      spyOn(conceptService, 'getConcept').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve({});
-        });
-      });
+      spyOn(conceptService, 'getConcept').and.callFake(() => $q(resolve => resolve({})));
 
       var ctrl = $componentController('labTests');
 
@@ -106,21 +80,13 @@ describe('LabTestsController', function () {
 
     });
 
-    it('should assign the given test order to selected test order', function () {
+    it('should assign the given test order to selected test order', () => {
 
       var testOrder = {items: [{testOrder: {uuid: 'ccf79510-2408-4632-9045-1e74d66fff4a'}}]};
 
-      spyOn(orderService, 'getOrder').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve({concept: {uuid: '0132bbbb-9089-11e6-a98e-000c29db4475'}});
-        });
-      });
+      spyOn(orderService, 'getOrder').and.callFake(() => $q(resolve => resolve({concept: {uuid: '0132bbbb-9089-11e6-a98e-000c29db4475'}})));
 
-      spyOn(conceptService, 'getConcept').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve({});
-        });
-      });
+      spyOn(conceptService, 'getConcept').and.callFake(() => $q(resolve => resolve({})));
 
       var ctrl = $componentController('labTests');
 
@@ -131,21 +97,13 @@ describe('LabTestsController', function () {
 
     });
 
-    it('should mark as selected', function () {
+    it('should mark as selected', () => {
 
       var testOrder = {items: [{testOrder: {uuid: 'ccf79510-2408-4632-9045-1e74d66fff4a'}}]};
 
-      spyOn(orderService, 'getOrder').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve({concept: {uuid: '0132bbbb-9089-11e6-a98e-000c29db4475'}});
-        });
-      });
+      spyOn(orderService, 'getOrder').and.callFake(() => $q(resolve => resolve({concept: {uuid: '0132bbbb-9089-11e6-a98e-000c29db4475'}})));
 
-      spyOn(conceptService, 'getConcept').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve({});
-        });
-      });
+      spyOn(conceptService, 'getConcept').and.callFake(() => $q(resolve => resolve({})));
 
       var ctrl = $componentController('labTests');
 
@@ -156,23 +114,15 @@ describe('LabTestsController', function () {
 
     });
 
-    it('should mark others as not selected', function () {
+    it('should mark others as not selected', () => {
 
       var testOrder = {items: [{testOrder: {uuid: 'ccf79510-2408-4632-9045-1e74d66fff4a'}}]};
 
       var testOrder2 = {items: [{testOrder: {uuid: 'ccf79510-2408-4632-9045-1e74d66fff4a'}}]};
 
-      spyOn(orderService, 'getOrder').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve({concept: {uuid: '0132bbbb-9089-11e6-a98e-000c29db4475'}});
-        });
-      });
+      spyOn(orderService, 'getOrder').and.callFake(() => $q(resolve => resolve({concept: {uuid: '0132bbbb-9089-11e6-a98e-000c29db4475'}})));
 
-      spyOn(conceptService, 'getConcept').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve({});
-        });
-      });
+      spyOn(conceptService, 'getConcept').and.callFake(() => $q(resolve => resolve({})));
 
       var ctrl = $componentController('labTests');
 
@@ -187,15 +137,14 @@ describe('LabTestsController', function () {
   });
 
 
-  describe('reloadTestOrderResult', function () {
+  describe('reloadTestOrderResult', () => {
 
-    it('should load test result', function () {
+    it('should load test result', () => {
 
-      spyOn(testOrderResultService, 'getTestOrderResult').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve({uuid: '6a19b385-223f-45eb-8a8f-bf7b142ecde9', items: [{value: 1}]});
-        });
-      });
+      spyOn(testOrderResultService, 'getTestOrderResult').and.callFake(() => $q(resolve => resolve({
+        uuid: '6a19b385-223f-45eb-8a8f-bf7b142ecde9',
+        items: [{value: 1}]
+      })));
 
       var ctrl = $componentController('labTests');
 
@@ -205,28 +154,16 @@ describe('LabTestsController', function () {
 
     });
 
-    it('should load the loaded test result concepts', function () {
+    it('should load the loaded test result concepts', () => {
 
       var testOrderResult = {uuid: '6a19b385-223f-45eb-8a8f-bf7b142ecde9', items: []};
       var loaded = {uuid: '6a19b385-223f-45eb-8a8f-bf7b142ecde9', items: [{testOrder: {uuid: 'uuid'}, value: 1}]};
 
-      spyOn(orderService, 'getOrder').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve({concept: {uuid: '0132bbbb-9089-11e6-a98e-000c29db4475'}});
-        });
-      });
+      spyOn(orderService, 'getOrder').and.callFake(() => $q(resolve => resolve({concept: {uuid: '0132bbbb-9089-11e6-a98e-000c29db4475'}})));
 
-      spyOn(conceptService, 'getConcept').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve({});
-        });
-      });
+      spyOn(conceptService, 'getConcept').and.callFake(() => $q(resolve => resolve({})));
 
-      spyOn(testOrderResultService, 'getTestOrderResult').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve(loaded);
-        });
-      });
+      spyOn(testOrderResultService, 'getTestOrderResult').and.callFake(() => $q(resolve => resolve(loaded)));
 
       var ctrl = $componentController('labTests');
 
@@ -239,28 +176,16 @@ describe('LabTestsController', function () {
 
     });
 
-    it('should update the loaded test result', function () {
+    it('should update the loaded test result', () => {
 
       var testOrderResult = {uuid: '6a19b385-223f-45eb-8a8f-bf7b142ecde9', items: []};
       var loaded = {uuid: '6a19b385-223f-45eb-8a8f-bf7b142ecde9', items: [{testOrder: {uuid: 'uuid'}, value: 1}]};
 
-      spyOn(orderService, 'getOrder').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve({concept: {uuid: '0132bbbb-9089-11e6-a98e-000c29db4475'}});
-        });
-      });
+      spyOn(orderService, 'getOrder').and.callFake(() => $q(resolve => resolve({concept: {uuid: '0132bbbb-9089-11e6-a98e-000c29db4475'}})));
 
-      spyOn(conceptService, 'getConcept').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve({});
-        });
-      });
+      spyOn(conceptService, 'getConcept').and.callFake(() => $q(resolve => resolve({})));
 
-      spyOn(testOrderResultService, 'getTestOrderResult').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve(loaded);
-        });
-      });
+      spyOn(testOrderResultService, 'getTestOrderResult').and.callFake(() => $q(resolve => resolve(loaded)));
 
       var ctrl = $componentController('labTests');
 

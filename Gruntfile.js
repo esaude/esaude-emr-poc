@@ -27,7 +27,7 @@ module.exports = function (grunt) {
   var config = require('./grunt.conf')(grunt)
   grunt.initConfig(config);
 
-  grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
+  grunt.registerTask('serve', 'Compile then start a connect web server', (target) => {
     if (target === 'dist') {
       return grunt.task.run([
         'build',
@@ -45,7 +45,7 @@ module.exports = function (grunt) {
     ]);
   });
 
-  grunt.registerTask('server', 'DEPRECATED TASK. Use the "serve" task instead', function (target) {
+  grunt.registerTask('server', 'DEPRECATED TASK. Use the "serve" task instead', (target) => {
     grunt.log.warn('The `server` task has been deprecated. Use `grunt serve` to start a server.');
     grunt.task.run(['serve:' + target]);
   });
@@ -65,7 +65,7 @@ module.exports = function (grunt) {
     'karma'
   ]);
 
-  grunt.registerTask('build', 'Build the distributable', function(target) {
+  grunt.registerTask('build', 'Build the distributable', (target) => {
     var tasks = [
       'lint',
       'gitinfo',

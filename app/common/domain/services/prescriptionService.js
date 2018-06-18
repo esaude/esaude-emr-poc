@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -9,9 +9,7 @@
 
   function prescriptionService($http, $q, $log) {
 
-    var sortByEncounterDateTime = _.curryRight(_.sortBy, 2)(function (encounter) {
-      return encounter.encounterDatetime;
-    });
+    var sortByEncounterDateTime = _.curryRight(_.sortBy, 2)(encounter => encounter.encounterDatetime);
 
     return {
        create: create,
@@ -39,10 +37,10 @@
         },
 
         withCredentials: true
-      }).then(function (response) {
+      }).then(response => {
         var mapPrescription = _.curryRight(_.map)(prescriptionMapper);
         return _.flow([mapPrescription, sortByEncounterDateTime])(response.data.results);
-      }).catch(function (error) {
+      }).catch(error => {
         $log.error('XHR Failed for getPatientNonDispensedPrescriptions: ' + error.data.error.message);
         return $q.reject(error);
       });
@@ -58,9 +56,7 @@
       return $http.post(Bahmni.Common.Constants.prescriptionUrl, prescription, {
         withCredentials: true,
         headers: {"Accept": "application/json", "Content-Type": "application/json"}
-      }).then(function (response) {
-        return response.data;
-      }).catch(function (error) {
+      }).then(response => response.data).catch(error => {
         $log.error('XHR Failed for create: ' + error.data.error.message);
         return $q.reject(error);
       });
@@ -75,9 +71,7 @@
             v: "full"
           },
           withCredentials: true
-          }).then(function (response) {
-            return _.map(response.data.results, prescriptionMapper);
-          }).catch(function (error) {
+          }).then(response => _.map(response.data.results, prescriptionMapper)).catch(error => {
             $log.error('XHR Failed for getAllPrescription: ' + error.data.error.message);
             return $q.reject(error);
           });

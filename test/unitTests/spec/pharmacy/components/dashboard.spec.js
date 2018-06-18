@@ -1,22 +1,20 @@
-describe('dashboard', function () {
+describe('dashboard', () => {
 
   var $componentController, $state, patientService, visitService, $rootScope, authorizationService, $q;
 
-  beforeEach(module('pharmacy', function ($provide, $translateProvider, $urlRouterProvider) {
+  beforeEach(module('pharmacy', ($provide, $translateProvider, $urlRouterProvider) => {
     // Mock translate asynchronous loader
-    $provide.factory('mergeLocaleFilesService', function ($q) {
-      return function () {
-        var deferred = $q.defer();
-        deferred.resolve({});
-        return deferred.promise;
-      };
+    $provide.factory('mergeLocaleFilesService', $q => () => {
+      var deferred = $q.defer();
+      deferred.resolve({});
+      return deferred.promise;
     });
     $translateProvider.useLoader('mergeLocaleFilesService');
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function (_$componentController_, _$q_, _$rootScope_, _patientService_, _visitService_, _$state_,
-                              _authorizationService_) {
+  beforeEach(inject((_$componentController_, _$q_, _$rootScope_, _patientService_, _visitService_, _$state_,
+                     _authorizationService_) => {
     $componentController = _$componentController_;
     $q = _$q_;
     $rootScope = _$rootScope_;
@@ -26,25 +24,17 @@ describe('dashboard', function () {
     authorizationService = _authorizationService_;
   }));
 
-  describe('$onInit', function () {
+  describe('$onInit', () => {
 
-    beforeEach(function () {
+    beforeEach(() => {
 
-      spyOn(authorizationService, 'hasRole').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve(true);
-        });
-      });
+      spyOn(authorizationService, 'hasRole').and.callFake(() => $q(resolve => resolve(true)));
 
-      spyOn(patientService, 'getPatient').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve({});
-        });
-      });
+      spyOn(patientService, 'getPatient').and.callFake(() => $q(resolve => resolve({})));
 
     });
 
-    it('should check if user is independent pharmacist', function () {
+    it('should check if user is independent pharmacist', () => {
 
       var ctrl = $componentController('dashboard');
 
@@ -54,7 +44,7 @@ describe('dashboard', function () {
 
     });
 
-    it('should set independentPharmacist property', function () {
+    it('should set independentPharmacist property', () => {
 
       var ctrl = $componentController('dashboard');
 
@@ -69,9 +59,9 @@ describe('dashboard', function () {
   });
 
 
-  describe('reload', function () {
+  describe('reload', () => {
 
-    it('should reload current state', function () {
+    it('should reload current state', () => {
 
       spyOn($state, 'reload');
 

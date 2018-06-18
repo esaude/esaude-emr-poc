@@ -1,16 +1,16 @@
-describe('cancelDispensationItemModal', function () {
+describe('cancelDispensationItemModal', () => {
 
   var $componentController;
 
   beforeEach(module('pharmacy'));
 
-  beforeEach(inject(function (_$componentController_) {
+  beforeEach(inject(_$componentController_ => {
     $componentController = _$componentController_;
   }));
 
-  describe('ok', function () {
+  describe('ok', () => {
 
-    it('should call close binding', function () {
+    it('should call close binding', () => {
 
       var close = jasmine.createSpy('close');
 
@@ -25,9 +25,9 @@ describe('cancelDispensationItemModal', function () {
 
   });
 
-  describe('cancel', function () {
+  describe('cancel', () => {
 
-    it('should call dismiss binding', function () {
+    it('should call dismiss binding', () => {
 
       var dismiss = jasmine.createSpy('dismiss');
 

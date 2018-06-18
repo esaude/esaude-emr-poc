@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -32,9 +32,7 @@
 
       var inheritAppContext = (!opts.inherit) ? true : opts.inherit;
 
-      appDescriptor = new Bahmni.Common.AppFramework.AppDescriptor(appName, inheritAppContext, function () {
-        return currentUser;
-      });
+      appDescriptor = new Bahmni.Common.AppFramework.AppDescriptor(appName, inheritAppContext, () => currentUser);
 
       var loadCredentialsPromise = sessionService.loadCredentials();
       promises.push(loadCredentialsPromise);
@@ -48,15 +46,11 @@
       }
 
       var appLoader = $q.all(promises)
-        .then(function (results) {
+        .then(results => {
           currentUser = results[0];
         })
-        .then(function () {
-          return loadPatientAttributeTypes();
-        })
-        .then(function () {
-          return appDescriptor;
-        });
+        .then(() => loadPatientAttributeTypes())
+        .then(() => appDescriptor);
 
       return appLoader;
     }
@@ -68,12 +62,12 @@
     function loadDrugMapping(appDescriptor) {
       var deferrable = $q.defer();
       loadConfig(baseUrl + "/common/drugMapping.json").then(
-        function (result) {
+        result => {
           appDescriptor.setDrugMapping(result.data);
 
           deferrable.resolve(appDescriptor);
         },
-        function (error) {
+        error => {
           if (error.status !== 404) {
             deferrable.reject(error);
           } else {
@@ -87,13 +81,13 @@
     function loadDefinition(appDescriptor) {
       var deferrable = $q.defer();
       loadConfig(baseUrl + appDescriptor.contextPath + "/app.json").then(
-        function (result) {
+        result => {
           if (result.data.length > 0) {
             appDescriptor.setDefinition(result.data[0]);
           }
           deferrable.resolve(appDescriptor);
         },
-        function (error) {
+        error => {
           if (error.status !== 404) {
             deferrable.reject(error);
           } else {
@@ -108,10 +102,10 @@
     // TODO: move to patientService load only when needed.
     function loadPatientAttributeTypes() {
       return configurationService.getPatientAttributeTypes()
-        .then(function (patientAttributeTypes) {
+        .then(patientAttributeTypes => {
           pocPatientConfig = patientAttributeTypes;
         })
-        .catch(function () {
+        .catch(() => {
           $log.error('XHR Failed for loadPatientAttributeTypes: ' + error.data.error.message);
           return $q.reject(error);
         });

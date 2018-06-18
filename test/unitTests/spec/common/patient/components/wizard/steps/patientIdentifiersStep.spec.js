@@ -1,21 +1,19 @@
-describe('patientIdentifiersStep', function () {
+describe('patientIdentifiersStep', () => {
 
   var $componentController, patientService, $q, $rootScope, sessionService;
 
-  beforeEach(module('common.patient', function ($provide, $translateProvider, $urlRouterProvider) {
+  beforeEach(module('common.patient', ($provide, $translateProvider, $urlRouterProvider) => {
     // Mock translate asynchronous loader
-    $provide.factory('mergeLocaleFilesService', function ($q) {
-      return function () {
-        var deferred = $q.defer();
-        deferred.resolve({});
-        return deferred.promise;
-      };
+    $provide.factory('mergeLocaleFilesService', $q => () => {
+      var deferred = $q.defer();
+      deferred.resolve({});
+      return deferred.promise;
     });
     $translateProvider.useLoader('mergeLocaleFilesService');
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function (_$componentController_, _patientService_, _$q_, _$rootScope_, _sessionService_) {
+  beforeEach(inject((_$componentController_, _patientService_, _$q_, _$rootScope_, _sessionService_) => {
     $componentController = _$componentController_;
     patientService = _patientService_;
     $q = _$q_;
@@ -23,17 +21,15 @@ describe('patientIdentifiersStep', function () {
     sessionService = _sessionService_;
   }));
 
-  describe('$onInit', function () {
+  describe('$onInit', () => {
 
     var identifierTypes = [1, 2, 3];
 
-    beforeEach(function () {
-      spyOn(patientService, 'getIdentifierTypes').and.callFake(function () {
-        return $q.resolve(identifierTypes);
-      });
+    beforeEach(() => {
+      spyOn(patientService, 'getIdentifierTypes').and.callFake(() => $q.resolve(identifierTypes));
     });
 
-    it('should load patient identifier types', function () {
+    it('should load patient identifier types', () => {
 
       var patientWizard = jasmine.createSpyObj('patientWizard', ['setCurrentStep']);
       var ctrl = $componentController('patientIdentifiersStep', null, {patientWizard: patientWizard});
@@ -45,7 +41,7 @@ describe('patientIdentifiersStep', function () {
       expect(ctrl.patientIdentifierTypes).toBe(identifierTypes);
     });
 
-    it('should set it self as wizard current step', function () {
+    it('should set it self as wizard current step', () => {
 
       var patientWizard = jasmine.createSpyObj('patientWizard', ['setCurrentStep']);
       var ctrl = $componentController('patientIdentifiersStep', null, {patientWizard: patientWizard});
@@ -57,9 +53,9 @@ describe('patientIdentifiersStep', function () {
 
   });
 
-  describe('addNewIdentifier', function () {
+  describe('addNewIdentifier', () => {
 
-    it('should create a new blank identifier', function () {
+    it('should create a new blank identifier', () => {
 
       spyOn(sessionService, 'getCurrentLocation').and.returnValue({uuid: ''});
 

@@ -1,25 +1,21 @@
-describe('routes', function () {
+describe('routes', () => {
 
   var patientService, $location, $rootScope, clinicalServicesService, $state;
 
-  beforeEach(module('vitals', function ($provide, $translateProvider) {
+  beforeEach(module('vitals', ($provide, $translateProvider) => {
     // Mock translate asynchronous loader
-    $provide.factory('mergeLocaleFilesService', function ($q) {
-      return function () {
-        var deferred = $q.defer();
-        deferred.resolve({});
-        return deferred.promise;
-      };
+    $provide.factory('mergeLocaleFilesService', $q => () => {
+      var deferred = $q.defer();
+      deferred.resolve({});
+      return deferred.promise;
     });
     $translateProvider.useLoader('mergeLocaleFilesService');
 
     // Mock initialization because it is to be removed.
-    $provide.factory('initialization', function ($q) {
-      return $q.resolve({});
-    });
+    $provide.factory('initialization', $q => $q.resolve({}));
   }));
 
-  beforeEach(inject(function(_$location_, _$rootScope_, _$state_,  _patientService_, _clinicalServicesService_) {
+  beforeEach(inject((_$location_, _$rootScope_, _$state_, _patientService_, _clinicalServicesService_) => {
     patientService = _patientService_;
     $location = _$location_;
     $rootScope = _$rootScope_;
@@ -27,11 +23,11 @@ describe('routes', function () {
     $state = _$state_;
   }));
 
-  describe('dashboard', function () {
+  describe('dashboard', () => {
 
     var patient = {uuid: '05358ef6-06ba-49aa-95f5-3daee8378f2d'};
 
-    beforeEach(function () {
+    beforeEach(() => {
 
       spyOn(patientService, 'getPatient');
 
@@ -39,7 +35,7 @@ describe('routes', function () {
 
     });
 
-    it('should load the patient', function () {
+    it('should load the patient', () => {
 
       $location.url(`/dashboard/${patient.uuid}`);
 
@@ -49,7 +45,7 @@ describe('routes', function () {
 
     });
 
-    it('should redirect to clinical services', function () {
+    it('should redirect to clinical services', () => {
 
       $location.url(`/dashboard/${patient.uuid}`);
 
@@ -61,11 +57,11 @@ describe('routes', function () {
 
   });
 
-  describe('clinicalservices', function () {
+  describe('clinicalservices', () => {
 
     var patient = {uuid: '05358ef6-06ba-49aa-95f5-3daee8378f2d'};
 
-    beforeEach(function () {
+    beforeEach(() => {
 
       spyOn(patientService, 'getPatient');
 
@@ -73,7 +69,7 @@ describe('routes', function () {
 
     });
 
-    it('should initialize clinical services for current module', function () {
+    it('should initialize clinical services for current module', () => {
 
       $location.url(`/dashboard/${patient.uuid}/clinicalservices`);
 

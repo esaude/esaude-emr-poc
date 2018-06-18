@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -43,35 +43,23 @@
         }
       };
 
-      openMRSPatientProfile.patient.identifiers = _.map(patient.identifiers, function (identifier) {
-        return {
-          uuid: identifier.uuid,
-          identifier: identifier.identifier,
-          identifierType: identifier.identifierType.uuid,
-          preferred: identifier.preferred,
-          voided: identifier.voided
-        };
-      });
+      openMRSPatientProfile.patient.identifiers = _.map(patient.identifiers, identifier => ({
+        uuid: identifier.uuid,
+        identifier: identifier.identifier,
+        identifierType: identifier.identifierType.uuid,
+        preferred: identifier.preferred,
+        voided: identifier.voided
+      }));
 
       // Identifiers not in given patient
-      var voidedIdentifiers = openMRSPatient.identifiers.filter(function (i) {
-        return !patient.identifiers.find(function (pi) {
-          return i.uuid === pi.uuid;
-        });
-      });
+      var voidedIdentifiers = openMRSPatient.identifiers.filter(i => !patient.identifiers.find(pi => i.uuid === pi.uuid));
 
       // Identifiers not in openMRS patient
-      var addedIdentifiers = patient.identifiers.filter(function (i) {
-        return !openMRSPatient.identifiers.find(function (pi) {
-          return i.uuid === pi.uuid;
-        });
-      });
+      var addedIdentifiers = patient.identifiers.filter(i => !openMRSPatient.identifiers.find(pi => i.uuid === pi.uuid));
 
       // Identifiers in given patient that were modified
-      var changedIdentifiers = patient.identifiers.filter(function (actualId) {
-        var oldId = openMRSPatient.identifiers.find(function (oldIdentifier) {
-          return actualId.identifierType.uuid === oldIdentifier.identifierType.uuid;
-        });
+      var changedIdentifiers = patient.identifiers.filter(actualId => {
+        var oldId = openMRSPatient.identifiers.find(oldIdentifier => actualId.identifierType.uuid === oldIdentifier.identifierType.uuid);
         return oldId && (oldId.identifier !== actualId.identifier || oldId.preferred !== actualId.preferred);
       });
 
@@ -97,15 +85,13 @@
 
     function getMrsAttributes(openMRSPatient, patient, patientAttributeTypes) {
       var attributes = [];
-      patientAttributeTypes.forEach(function (attributeType) {
+      patientAttributeTypes.forEach(attributeType => {
         var attr = {
           attributeType: {
             uuid: attributeType.uuid
           }
         };
-        var savedAttribute = openMRSPatient.person.attributes.filter(function (attribute) {
-          return attributeType.uuid === attribute.attributeType.uuid;
-        })[0];
+        var savedAttribute = openMRSPatient.person.attributes.filter(attribute => attributeType.uuid === attribute.attributeType.uuid)[0];
 
         if (savedAttribute) {
           attr.uuid = savedAttribute.uuid;

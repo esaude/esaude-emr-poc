@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -72,7 +72,7 @@
     }
 
     function mapAttributes(patient, attributes) {
-      attributes.forEach(function (attribute) {
+      attributes.forEach(attribute => {
         addAttributeToPatient(patient, attribute);
       });
     }

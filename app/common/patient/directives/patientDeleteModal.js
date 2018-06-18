@@ -49,9 +49,9 @@
 
     function getDeathConcepts() {
       return conceptService.getDeathConcepts()
-        .then(function (deathConcepts) {
+        .then(deathConcepts => {
           vm.deathConcepts = deathConcepts;
-        }).catch(function (error) {
+        }).catch(error => {
           notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
         });
     }
@@ -59,13 +59,13 @@
     function getPatientEncounters() {
       //TODO: refactor getEncountersOfPatient
       return encounterService.getEncountersOfPatient(vm.resolve.patient.uuid)
-        .then(function (response) {
+        .then(response => {
           if (response.data.results.length) {
             vm.hasConsultations = true;
             vm.data.dead = true;
           }
         })
-        .catch(function (error) {
+        .catch(error => {
           notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
         });
     }

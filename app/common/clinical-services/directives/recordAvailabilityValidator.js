@@ -1,5 +1,5 @@
 // TODO: only used in registration
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -23,14 +23,14 @@
         ngModel.$setValidity('available', bool);
       }
 
-      ngModel.$parsers.push(function (value) {
+      ngModel.$parsers.push(value => {
         if (!value || value.length === 0)
           return;
 
         setAsAvailable(false);
 
         $http.get('/openmrs' + url, {params:{q: value}})
-          .success(function (data) {
+          .success(data => {
             if (!_.isEmpty(data.results)) {
               setAsAvailable(false);
             } else {

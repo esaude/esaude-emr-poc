@@ -39,11 +39,9 @@
       vm.patientWizard.setCurrentStep(vm);
 
       configurationService.getAddressLevels()
-        .then(function (addressLevels) {
+        .then(addressLevels => {
           vm.addressLevels = addressLevels.slice(0).reverse();
-          addressLevelsNamesInDescendingOrder = vm.addressLevels.map(function (addressLevel) {
-            return addressLevel.addressField;
-          });
+          addressLevelsNamesInDescendingOrder = vm.addressLevels.map(addressLevel => addressLevel.addressField);
         });
     }
 
@@ -58,7 +56,7 @@
     function addressFieldSelected(addressFieldName, $item) {
       var parentFields = addressLevelsNamesInDescendingOrder.slice(addressLevelsNamesInDescendingOrder.indexOf(addressFieldName) + 1);
       var parent = $item.parent;
-      parentFields.forEach(function (parentField) {
+      parentFields.forEach(parentField => {
         if (!parent) return;
         vm.patient.address[parentField] = parent.name;
 
@@ -76,7 +74,7 @@
     function clearFields(addressFieldName) {
       if (_.includes(autocompletedFields, addressFieldName)) {
         var childFields = autocompletedFields.slice(0, autocompletedFields.indexOf(addressFieldName));
-        childFields.forEach(function (childField) {
+        childFields.forEach(childField => {
           vm.patient.address[childField] = "";
         });
       }

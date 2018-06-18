@@ -27,7 +27,7 @@
 
     function getVisitHistory() {
       return visitService.getVisitHistoryForPatient(vm.patient)
-        .then(function (visitHistory) {
+        .then(visitHistory => {
           vm.visitHistory = visitHistory;
         });
     }

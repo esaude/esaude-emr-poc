@@ -42,7 +42,7 @@
 
 
         visitService.getTodaysVisit(currentPatient.uuid)
-          .then(function (todaysVisit) {
+          .then(todaysVisit => {
             patientCheckedIn = todaysVisit !== null;
             return initServices(currentPatient);
           });
@@ -53,10 +53,10 @@
 
       return clinicalServicesService
         .getClinicalServiceWithEncountersForPatient(patient)
-        .then(function (clinicalServices) {
+        .then(clinicalServices => {
           services = clinicalServices;
         })
-        .catch(function () {
+        .catch(() => {
           notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ACTION'));
         });
     }
@@ -97,9 +97,7 @@
         canAdd = true;
         if (service.hasEntryToday) {
           if (service.markedOn) {
-            var foundMark = _.find(service.lastEncounterForService.obs, function (o) {
-              return o.concept.uuid === service.markedOn;
-            });
+            var foundMark = _.find(service.lastEncounterForService.obs, o => o.concept.uuid === service.markedOn);
             if (foundMark) canAdd = false;
           } else {
             canAdd = false;
@@ -120,7 +118,7 @@
     }
 
     function deleteClinicalService(service, encounterUuid) {
-      clinicalServicesService.deleteService(service.id, encounterUuid).then(function () {
+      clinicalServicesService.deleteService(service.id, encounterUuid).then(() => {
 
         _.remove(service.encountersForService, {
             uuid: encounterUuid
@@ -130,7 +128,7 @@
         if (_.isEmpty(service.encountersForService)) {
           $state.reload();
         }
-      }).catch(function() {
+      }).catch(() => {
         notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ACTION'));
       });
     }

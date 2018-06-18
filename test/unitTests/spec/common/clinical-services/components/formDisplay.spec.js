@@ -1,10 +1,10 @@
-describe('formDisplay', function () {
+describe('formDisplay', () => {
 
   var $componentController, $q, clinicalServicesService, patientService, $rootScope;
 
   beforeEach(module('poc.common.clinicalservices'));
 
-  beforeEach(inject(function (_$componentController_, _clinicalServicesService_, _patientService_, _$q_, _$rootScope_) {
+  beforeEach(inject((_$componentController_, _clinicalServicesService_, _patientService_, _$q_, _$rootScope_) => {
     $componentController = _$componentController_;
     clinicalServicesService = _clinicalServicesService_;
     patientService = _patientService_;
@@ -12,25 +12,17 @@ describe('formDisplay', function () {
     $rootScope = _$rootScope_;
   }));
 
-  describe('$onInit', function () {
+  describe('$onInit', () => {
 
-    beforeEach(function () {
+    beforeEach(() => {
       spyOn(clinicalServicesService, 'getFormLayouts').and.returnValue({});
 
-      spyOn(clinicalServicesService, 'getFormData').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve({});
-        });
-      });
+      spyOn(clinicalServicesService, 'getFormData').and.callFake(() => $q(resolve => resolve({})));
 
-      spyOn(patientService, 'getPatient').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve({});
-        });
-      });
+      spyOn(patientService, 'getPatient').and.callFake(() => $q(resolve => resolve({})));
     });
 
-    it('should get form layouts', function () {
+    it('should get form layouts', () => {
 
       var ctrl = $componentController('formDisplay');
 
@@ -40,7 +32,7 @@ describe('formDisplay', function () {
       expect(clinicalServicesService.getFormLayouts).toHaveBeenCalled();
     });
 
-    it('should get the patient', function () {
+    it('should get the patient', () => {
 
       var ctrl = $componentController('formDisplay');
 
@@ -51,7 +43,7 @@ describe('formDisplay', function () {
     });
 
 
-    it('should get form data', function () {
+    it('should get form data', () => {
 
       var ctrl = $componentController('formDisplay');
 

@@ -1,18 +1,18 @@
 'use strict';
-describe('pocConfirmDialog', function () {
+describe('pocConfirmDialog', () => {
 
   var $compile, $document, $rootScope, element, message, ngDialog, onConfirm, onCancel;
 
   beforeEach(module('bahmni.common.uiHelper', 'templates'));
 
-  beforeEach(inject(function (_$compile_, _$document_, _$rootScope_, _ngDialog_) {
+  beforeEach(inject((_$compile_, _$document_, _$rootScope_, _ngDialog_) => {
     $compile = _$compile_;
     $rootScope = _$rootScope_;
     $document = _$document_;
     ngDialog = _ngDialog_;
   }));
 
-  beforeEach(function () {
+  beforeEach(() => {
     message = 'Are you sure?';
     onConfirm = jasmine.createSpy('onConfirm');
     onCancel = jasmine.createSpy('onCancel');
@@ -27,10 +27,10 @@ describe('pocConfirmDialog', function () {
     $rootScope.$digest();
   });
 
-  xdescribe('clicked', function () {
+  xdescribe('clicked', () => {
 
     // TODO: for some reason the dialog is not appended to body
-    it('should show a modal dialog', function () {
+    it('should show a modal dialog', () => {
 
       element.click();
 

@@ -1,20 +1,18 @@
 'use strict';
 
 angular.module('application')
-    .factory('adminConfigService', ['$http', function ($http) {
-        
+    .factory('adminConfigService', ['$http', $http => {
+
         var baseOpenMRSRESTURL = "/openmrs/ws/rest/v1";
 
-        var get = function (query) {
-            return $http.get(baseOpenMRSRESTURL + "/systemsetting", {
-                method: "GET",
-                params: {
-                    q: query,
-                    v: "full"
-                     },
-                withCredentials: true
-            });
-        };
+        var get = query => $http.get(baseOpenMRSRESTURL + "/systemsetting", {
+          method: "GET",
+          params: {
+            q: query,
+            v: "full"
+          },
+          withCredentials: true
+        });
 
         return {
             get : get

@@ -1,11 +1,11 @@
 'use strict';
-describe('ClinicalServiceDirectiveController', function () {
+describe('ClinicalServiceDirectiveController', () => {
 
   var $componentController, $q, $rootScope, controller, visitService, patientService, visit;
 
   beforeEach(module('poc.common.clinicalservices'));
 
-  beforeEach(inject(function (_$componentController_, _$q_, _$rootScope_, _visitService_, _patientService_) {
+  beforeEach(inject((_$componentController_, _$q_, _$rootScope_, _visitService_, _patientService_) => {
     $componentController = _$componentController_;
     $q = _$q_;
     $rootScope = _$rootScope_;
@@ -13,33 +13,25 @@ describe('ClinicalServiceDirectiveController', function () {
     patientService = _patientService_;
   }));
 
-  beforeEach(function () {
+  beforeEach(() => {
     controller = $componentController('clinicalServices');
   });
 
-  beforeEach(function () {
-    spyOn(visitService, 'getTodaysVisit').and.callFake(function () {
-      return $q(function (resolve) {
-        return resolve(visit);
-      });
-    });
-    spyOn(patientService, 'getPatient').and.callFake(function () {
-      return $q(function (resolve) {
-        return resolve({});
-      });
-    });
+  beforeEach(() => {
+    spyOn(visitService, 'getTodaysVisit').and.callFake(() => $q(resolve => resolve(visit)));
+    spyOn(patientService, 'getPatient').and.callFake(() => $q(resolve => resolve({})));
   });
 
-  describe('checkActionConstraints', function () {
+  describe('checkActionConstraints', () => {
 
-    beforeEach(function () {
+    beforeEach(() => {
       visit = {};
       controller.$onInit();
     });
 
-    describe('requireCheckIn', function () {
+    describe('requireCheckIn', () => {
 
-      it('should return whether the patient is checked-in', function () {
+      it('should return whether the patient is checked-in', () => {
         var service = {actionConstraints: {requireCheckIn: true}};
         $rootScope.$apply();
         expect(controller.checkActionConstraints(service)).toEqual(true);
@@ -47,9 +39,9 @@ describe('ClinicalServiceDirectiveController', function () {
 
     });
 
-    describe('no constraints', function () {
+    describe('no constraints', () => {
 
-      it('should return true', function () {
+      it('should return true', () => {
         var service = {actionConstraints: {}};
         $rootScope.$apply();
         expect(controller.checkActionConstraints(service)).toEqual(true);

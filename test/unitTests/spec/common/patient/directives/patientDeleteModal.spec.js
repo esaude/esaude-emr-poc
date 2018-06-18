@@ -1,9 +1,9 @@
-describe('patientDeleteModalController', function () {
+describe('patientDeleteModalController', () => {
 
   var $componentController, $q, $state, $rootScope, conceptService, encounterService;
 
   beforeEach(module('common.patient'));
-  beforeEach(inject(function(_$componentController_, _$q_, _$state_, _$rootScope_, _conceptService_, _encounterService_) {
+  beforeEach(inject((_$componentController_, _$q_, _$state_, _$rootScope_, _conceptService_, _encounterService_) => {
     $componentController = _$componentController_;
     $q = _$q_;
     $state = _$state_;
@@ -12,25 +12,17 @@ describe('patientDeleteModalController', function () {
     encounterService = _encounterService_;
   }));
 
-  describe('$onInit', function () {
+  describe('$onInit', () => {
 
-    beforeEach(function () {
+    beforeEach(() => {
 
-      spyOn(conceptService, 'getDeathConcepts').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve({});
-        });
-      });
+      spyOn(conceptService, 'getDeathConcepts').and.callFake(() => $q(resolve => resolve({})));
 
-      spyOn(encounterService, 'getEncountersOfPatient').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve({data: {results: [1]}});
-        });
-      });
+      spyOn(encounterService, 'getEncountersOfPatient').and.callFake(() => $q(resolve => resolve({data: {results: [1]}})));
 
     });
 
-    it('should load death reason concepts', function () {
+    it('should load death reason concepts', () => {
 
       var ctrl = $componentController('patientDeleteModal', null, {resolve: {patient: {uuid: 'uuid'}}});
 
@@ -40,7 +32,7 @@ describe('patientDeleteModalController', function () {
 
     });
 
-    it('should load patient consultations', function () {
+    it('should load patient consultations', () => {
 
       var ctrl = $componentController('patientDeleteModal', null, {resolve: {patient: {uuid: 'uuid'}}});
 
@@ -50,9 +42,9 @@ describe('patientDeleteModalController', function () {
 
     });
 
-    describe('patient with consultations', function () {
+    describe('patient with consultations', () => {
 
-      it('should set has consultations flag', function () {
+      it('should set has consultations flag', () => {
 
         var ctrl = $componentController('patientDeleteModal', null, {resolve: {patient: {uuid: 'uuid'}}});
 
@@ -64,7 +56,7 @@ describe('patientDeleteModalController', function () {
 
       });
 
-      it('should set dead flag', function () {
+      it('should set dead flag', () => {
 
         var ctrl = $componentController('patientDeleteModal', null, {resolve: {patient: {uuid: 'uuid'}}});
 
@@ -80,9 +72,9 @@ describe('patientDeleteModalController', function () {
 
   });
 
-  describe('ok', function () {
+  describe('ok', () => {
 
-    it('should call close binding', function () {
+    it('should call close binding', () => {
 
       var close = jasmine.createSpy('close');
       var ctrl = $componentController('patientDeleteModal', null, {close: close});
@@ -95,9 +87,9 @@ describe('patientDeleteModalController', function () {
 
   });
 
-  describe('cancel', function () {
+  describe('cancel', () => {
 
-    it('should call dismiss binding', function () {
+    it('should call dismiss binding', () => {
 
       var dismiss = jasmine.createSpy('dismiss');
       var ctrl = $componentController('patientDeleteModal', null, {close: dismiss});

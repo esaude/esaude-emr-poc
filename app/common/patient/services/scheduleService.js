@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -20,56 +20,42 @@
 
     function getCurrentProviderSchedule() {
       return sessionService.getCurrentProvider()
-        .then(function (currentProvider) {
+        .then(currentProvider => {
           var params = {providerUuid: currentProvider.uuid};
           return cohortService.evaluateCohort(Bahmni.Common.Constants.cohortMarkedForConsultationAndCheckedInUuid, params);
         })
-        .then(function (members) {
-          return $q.all(members.map(function (m) {
-            return getLastConsultationAndVisit(m);
-          }));
-        });
+        .then(members => $q.all(members.map(m => getLastConsultationAndVisit(m))));
     }
 
     function getDrugPickupSchedule() {
       return cohortService.evaluateCohort(Bahmni.Common.Constants.markedForPickupDrugsToday)
-        .then(function (members) {
-          return $q.all(members.map(function (m) {
-            return getLastPickup(m);
-          }));
-        });
+        .then(members => $q.all(members.map(m => getLastPickup(m))));
     }
 
     function getPatientSchedule() {
       return cohortService.evaluateCohort(Bahmni.Common.Constants.cohortMarkedForConsultationUuid)
-        .then(function (members) {
-          return $q.all(members.map(function (m) {
-            return getLastConsultationAndVisit(m);
-          }));
-        });
+        .then(members => $q.all(members.map(m => getLastConsultationAndVisit(m))));
     }
 
     function getLastPickup(member) {
       return encounterService
         .getEncountersForPatientByEncounterType(member.uuid, Bahmni.Common.Constants.dispensationEncounterTypeUuid)
-        .then(function (encounters) {
+        .then(encounters => {
           member.lastEncounter = _.maxBy(encounters, 'encounterDatetime');
         });
     }
 
     function getLastConsultationAndVisit(member) {
       return observationsService.getObs(member.uuid, Bahmni.Common.Constants.nextConsultationDateUuid)
-        .then(function (obs) {
+        .then(obs => {
           var nonRetired = commonService.filterRetired(obs);
           member.scheduledInfo = _.maxBy(nonRetired, 'encounter.encounterDatetime');
         })
-        .then(function () {
-          return visitService.search({
-            patient: member.uuid,
-            v: 'custom:(visitType,startDatetime,stopDatetime,uuid,encounters)'
-          });
-        })
-        .then(function (visits) {
+        .then(() => visitService.search({
+          patient: member.uuid,
+          v: 'custom:(visitType,startDatetime,stopDatetime,uuid,encounters)'
+        }))
+        .then(visits => {
           member.lastVisit = _.maxBy(visits, 'startDatetime');
           return member;
         });

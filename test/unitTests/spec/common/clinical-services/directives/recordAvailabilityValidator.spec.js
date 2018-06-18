@@ -1,16 +1,16 @@
-describe('recordAvailabilityValidator', function () {
+describe('recordAvailabilityValidator', () => {
 
   var $rootScope, $compile, $httpBackend, form;
 
   beforeEach(module('poc.common.clinicalservices'));
 
-  beforeEach(inject(function (_$rootScope_, _$compile_, _$httpBackend_) {
+  beforeEach(inject((_$rootScope_, _$compile_, _$httpBackend_) => {
     $rootScope = _$rootScope_;
     $compile = _$compile_;
     $httpBackend = _$httpBackend_;
   }));
 
-  beforeEach(function () {
+  beforeEach(() => {
     var $scope  = $rootScope.$new(true);
     var element = angular.element(
       '<form name="form">' +
@@ -22,9 +22,9 @@ describe('recordAvailabilityValidator', function () {
     form = $scope.form;
   });
 
-  describe('validation', function () {
+  describe('validation', () => {
 
-    it('should do a GET to the given url', function () {
+    it('should do a GET to the given url', () => {
 
       $httpBackend.expectGET('/openmrs/some/endpoint/?q=val').respond({results: []});
 
@@ -33,7 +33,7 @@ describe('recordAvailabilityValidator', function () {
       $rootScope.$apply();
     });
 
-    it('should set validity to true if no results found', function () {
+    it('should set validity to true if no results found', () => {
 
       $httpBackend.expectGET('/openmrs/some/endpoint/?q=val').respond({results: []});
 
@@ -47,7 +47,7 @@ describe('recordAvailabilityValidator', function () {
 
     });
 
-    it('should set validity to false if results found', function () {
+    it('should set validity to false if results found', () => {
 
       $httpBackend.expectGET('/openmrs/some/endpoint/?q=val').respond({results: [1,2,3,4]});
 

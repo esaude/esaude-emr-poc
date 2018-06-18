@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -27,18 +27,14 @@
       return $http.post(OPENMRS_TEST_URL, testOrder, {
         withCredentials: true,
         headers: { "Accept": "application/json", "Content-Type": "application/json" }
-      }).then(function (response) {
-        return response.data;
-      }).catch(function (error) {
+      }).then(response => response.data).catch(error => {
         $log.error('XHR Failed for create: ' + error.data.error.message);
         return $q.reject(error);
       });
     }
 
     function getTestOrdersByPatientUuid(patientUuid) {
-      return $http.get(OPENMRS_TEST_URL + "?patient=" + patientUuid, CONFIG).then(function (response) {
-        return response.data.results;
-      });
+      return $http.get(OPENMRS_TEST_URL + "?patient=" + patientUuid, CONFIG).then(response => response.data.results);
     }
 
     function deleteTestOrder(encounterUuid, testUuid) {

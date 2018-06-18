@@ -28,7 +28,7 @@
 
     function $onInit() {
       sexualPartnersService.getFormData()
-        .then(function (formData) {
+        .then(formData => {
           vm.relationshipToPatient = formData.relationshipToPatient;
           vm.hivStatus = formData.hivStatus;
         });

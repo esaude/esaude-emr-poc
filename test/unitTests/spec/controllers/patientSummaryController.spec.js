@@ -1,4 +1,4 @@
-xdescribe('Controller: PatientSummaryController', function() {
+xdescribe('Controller: PatientSummaryController', () => {
   var scope, q, controller,  applicationService, $window,
     stateParams, $httpBackend, locationService, encounterService, $rootScope,
     observationsService, commonService;
@@ -7,7 +7,7 @@ xdescribe('Controller: PatientSummaryController', function() {
   //TODO: Review clinic module bower dependencies invocation
   beforeEach(module('clinic'));
 
-  beforeEach(function() {
+  beforeEach(() => {
     // mock $window
     $window = {
       location: {
@@ -15,13 +15,13 @@ xdescribe('Controller: PatientSummaryController', function() {
       }
     };
 
-    module(function($provide) {
+    module($provide => {
       $provide.value('$window', $window);
     });
   });
 
-  beforeEach(inject(function($controller, $rootScope, _applicationService_, $q,
-                             $stateParams, encounterService, _observationsService_,  _commonService_) {
+  beforeEach(inject(($controller, $rootScope, _applicationService_, $q,
+                     $stateParams, encounterService, _observationsService_, _commonService_) => {
     q = $q;
     scope = $rootScope.$new();
     controller = $controller;
@@ -32,7 +32,7 @@ xdescribe('Controller: PatientSummaryController', function() {
 
   }));
 
-  it('should have all patient data initialized ', function() {
+  it('should have all patient data initialized ', () => {
     var patientFixture = window.__fixtures__['patient'];
 
     //TODO: Refine test with spy

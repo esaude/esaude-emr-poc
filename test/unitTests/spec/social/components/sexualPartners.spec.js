@@ -1,21 +1,19 @@
-describe('SexualPartnersController', function () {
+describe('SexualPartnersController', () => {
 
   var $componentController, $q, $rootScope, sexualPartnersService, visitService;
 
-  beforeEach(module('social', function ($provide, $translateProvider, $urlRouterProvider) {
+  beforeEach(module('social', ($provide, $translateProvider, $urlRouterProvider) => {
     // Mock translate asynchronous loader
-    $provide.factory('mergeLocaleFilesService', function ($q) {
-      return function () {
-        var deferred = $q.defer();
-        deferred.resolve({});
-        return deferred.promise;
-      };
+    $provide.factory('mergeLocaleFilesService', $q => () => {
+      var deferred = $q.defer();
+      deferred.resolve({});
+      return deferred.promise;
     });
     $translateProvider.useLoader('mergeLocaleFilesService');
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function (_$componentController_, _$q_, _$rootScope_, _sexualPartnersService_, _visitService_) {
+  beforeEach(inject((_$componentController_, _$q_, _$rootScope_, _sexualPartnersService_, _visitService_) => {
 
     $componentController = _$componentController_;
     $q = _$q_;
@@ -24,25 +22,17 @@ describe('SexualPartnersController', function () {
     visitService = _visitService_;
   }));
 
-  describe('$onInit', function () {
+  describe('$onInit', () => {
 
-    beforeEach(function () {
+    beforeEach(() => {
 
-      spyOn(sexualPartnersService, 'getSexualPartners').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve([1,2,3]);
-        });
-      });
+      spyOn(sexualPartnersService, 'getSexualPartners').and.callFake(() => $q(resolve => resolve([1, 2, 3])));
 
-      spyOn(visitService, 'getTodaysVisit').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve({});
-        });
-      });
+      spyOn(visitService, 'getTodaysVisit').and.callFake(() => $q(resolve => resolve({})));
 
     });
 
-    it('should load sexual partners', function () {
+    it('should load sexual partners', () => {
 
       var ctrl = $componentController('sexualPartners', null, {patient: {uuid: 'uuid', age: {years: 27}}});
 
@@ -56,9 +46,9 @@ describe('SexualPartnersController', function () {
 
   });
 
-  describe('addAnother', function () {
+  describe('addAnother', () => {
 
-    it('should set flag for displaying sexual partners form', function () {
+    it('should set flag for displaying sexual partners form', () => {
 
       var ctrl = $componentController('sexualPartners');
 
@@ -72,15 +62,11 @@ describe('SexualPartnersController', function () {
 
   });
 
-  describe('removePartner', function () {
+  describe('removePartner', () => {
 
-    it('should delete sexual partner', function () {
+    it('should delete sexual partner', () => {
 
-      spyOn(sexualPartnersService, 'removeSexualPartner').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve();
-        });
-      });
+      spyOn(sexualPartnersService, 'removeSexualPartner').and.callFake(() => $q(resolve => resolve()));
 
       var ctrl = $componentController('sexualPartners');
 
@@ -90,13 +76,9 @@ describe('SexualPartnersController', function () {
 
     });
 
-    it('should remove sexual partner from list', function () {
+    it('should remove sexual partner from list', () => {
 
-      spyOn(sexualPartnersService, 'removeSexualPartner').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve();
-        });
-      });
+      spyOn(sexualPartnersService, 'removeSexualPartner').and.callFake(() => $q(resolve => resolve()));
 
       var ctrl = $componentController('sexualPartners');
 
@@ -112,15 +94,11 @@ describe('SexualPartnersController', function () {
 
   });
 
-  describe('savePartner', function () {
+  describe('savePartner', () => {
 
-    it('should save sexual partner', function () {
+    it('should save sexual partner', () => {
 
-      spyOn(sexualPartnersService, 'saveSexualPartner').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve({});
-        });
-      });
+      spyOn(sexualPartnersService, 'saveSexualPartner').and.callFake(() => $q(resolve => resolve({})));
 
       var ctrl = $componentController('sexualPartners');
 
@@ -130,13 +108,9 @@ describe('SexualPartnersController', function () {
 
     });
 
-    it('should create newPartner object', function () {
+    it('should create newPartner object', () => {
 
-      spyOn(sexualPartnersService, 'saveSexualPartner').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve({});
-        });
-      });
+      spyOn(sexualPartnersService, 'saveSexualPartner').and.callFake(() => $q(resolve => resolve({})));
 
       var ctrl = $componentController('sexualPartners');
 
@@ -149,13 +123,9 @@ describe('SexualPartnersController', function () {
 
     });
 
-    it('should add sexual partner to list', function () {
+    it('should add sexual partner to list', () => {
 
-      spyOn(sexualPartnersService, 'saveSexualPartner').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve({name: 'Malocy'});
-        });
-      });
+      spyOn(sexualPartnersService, 'saveSexualPartner').and.callFake(() => $q(resolve => resolve({name: 'Malocy'})));
 
       var ctrl = $componentController('sexualPartners');
 
@@ -168,13 +138,9 @@ describe('SexualPartnersController', function () {
 
     });
 
-    it('should remove flag for displaying sexual partners form', function () {
+    it('should remove flag for displaying sexual partners form', () => {
 
-      spyOn(sexualPartnersService, 'saveSexualPartner').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve({name: 'Malocy'});
-        });
-      });
+      spyOn(sexualPartnersService, 'saveSexualPartner').and.callFake(() => $q(resolve => resolve({name: 'Malocy'})));
 
       var ctrl = $componentController('sexualPartners');
 

@@ -51,21 +51,21 @@
     activate();
 
     function activate() {
-      providerService.getProviders().then(function (providers) {
+      providerService.getProviders().then(providers => {
         vm.providers = providers;
       });
-      testProfileService.getTestProfiles().then(function (testProfiles) {
+      testProfileService.getTestProfiles().then(testProfiles => {
         vm.profiles = testProfiles;
       });
-      testService.getTests().then(function (tests) {
+      testService.getTests().then(tests => {
         vm.tests = tests;
         translateTests(vm.tests);
       });
-      sessionService.getCurrentProvider().then(function (provider) {
+      sessionService.getCurrentProvider().then(provider => {
         providerUuid = provider.uuid;
       });
       loadExistingTestOrders();
-      visitService.getTodaysVisit(patientUuid).then(function (visit) {
+      visitService.getTodaysVisit(patientUuid).then(visit => {
         if (visit != null) {
           vm.patientCheckedIn = true;
         }
@@ -73,16 +73,16 @@
     }
 
     function translateTests(tests) {
-      tests.forEach(function (test) {
+      tests.forEach(test => {
         test.translatedDisplay = $filter('translate')(test.display);
       });
 
     }
 
     function loadExistingTestOrders() {
-      testOrderService.getTestOrdersByPatientUuid(patientUuid).then(function (testOrders) {
+      testOrderService.getTestOrdersByPatientUuid(patientUuid).then(testOrders => {
         vm.existingTestOrders = testOrders;
-        vm.existingTestOrders.forEach(function (testOrder) {
+        vm.existingTestOrders.forEach(testOrder => {
           translateTests(testOrder.testOrderItems);
         });
       });
@@ -106,7 +106,7 @@
     function addTestProfile() {
       if (vm.selectedProfile && vm.selectedProfile.name) {
         var testUuids = vm.selectedProfile.tests;
-        testUuids.forEach(function (uuid) {
+        testUuids.forEach(uuid => {
           var test = getTestByUuid(uuid);
           if (test != null) {
             var alreadyContainsTest = vm.selectedTests.indexOf(test) !== -1;
@@ -127,7 +127,7 @@
 
     function getTestByUuid(uuid) {
       var foundTest = null;
-      vm.tests.forEach(function (test) {
+      vm.tests.forEach(test => {
         if (test.testOrder.uuid === uuid) {
           foundTest = test;
         }
@@ -169,7 +169,7 @@
           dateCreation: date,
           testOrderItems: []
         };
-        vm.selectedTests.forEach(function (test) {
+        vm.selectedTests.forEach(test => {
           testOrder.testOrderItems.push({
             testOrder: {
               type: "testorder",
@@ -178,11 +178,11 @@
             category: { uuid: test.category.uuid }
           });
         });
-        testOrderService.create(testOrder).then(function (data) {
+        testOrderService.create(testOrder).then(data => {
           notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
           loadExistingTestOrders();
           resetForm();
-        }).catch(function (error) {
+        }).catch(error => {
           notifier.error(error.data.error.message.replace('[', '').replace(']', ''));
         });
 
@@ -197,7 +197,7 @@
     }
 
     function deleteTest(test) {
-      testOrderService.deleteTestOrder(vm.testOrderInDetail.encounter.uuid, test.testOrder.uuid).then(function (data) {
+      testOrderService.deleteTestOrder(vm.testOrderInDetail.encounter.uuid, test.testOrder.uuid).then(data => {
         vm.testsOfSelectedRequest.splice(vm.testsOfSelectedRequest.indexOf(test), 1);
 
         //if we remove the last test of the lab order the lab order is also removed, we need to update lab orders list to reflect this

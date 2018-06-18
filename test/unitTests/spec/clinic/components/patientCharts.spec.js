@@ -1,20 +1,18 @@
-describe('patientCharts', function() {
+describe('patientCharts', () => {
 
   var $componentController, $q, $rootScope, encounterService, patientService;
 
-  beforeEach(module('clinic', function ($provide, $translateProvider, $urlRouterProvider) {
-    $provide.factory('mergeLocaleFilesService', function ($q) {
-      return function () {
-        var deferred = $q.defer();
-        deferred.resolve({});
-        return deferred.promise;
-      };
+  beforeEach(module('clinic', ($provide, $translateProvider, $urlRouterProvider) => {
+    $provide.factory('mergeLocaleFilesService', $q => () => {
+      var deferred = $q.defer();
+      deferred.resolve({});
+      return deferred.promise;
     });
     $translateProvider.useLoader('mergeLocaleFilesService');
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function(_$componentController_, _$q_, _$rootScope_, _encounterService_, _patientService_) {
+  beforeEach(inject((_$componentController_, _$q_, _$rootScope_, _encounterService_, _patientService_) => {
     $componentController = _$componentController_;
     $q = _$q_;
     encounterService = _encounterService_;
@@ -22,9 +20,9 @@ describe('patientCharts', function() {
     $rootScope = _$rootScope_;
   }));
 
-  describe('$onInit', function () {
+  describe('$onInit', () => {
 
-    it('should load the patient', function () {
+    it('should load the patient', () => {
 
       spyOn(patientService, 'getPatient').and.returnValue($q.resolve({}));
 
@@ -37,7 +35,7 @@ describe('patientCharts', function() {
     });
 
 
-    it('should load patient lab encounters', function () {
+    it('should load patient lab encounters', () => {
 
       spyOn(patientService, 'getPatient').and.returnValue($q.resolve({}));
 

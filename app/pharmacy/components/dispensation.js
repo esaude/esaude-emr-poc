@@ -33,7 +33,7 @@
     vm.updatePickup = updatePickup;
 
     function $onInit() {
-      getCurrentUser().then(function (user) {
+      getCurrentUser().then(user => {
         currentUser = user;
         return initPrescriptions();
       });
@@ -41,9 +41,9 @@
 
 
     function initPrescriptions() {
-      return getPatientNonDispensedPrescriptions(vm.patient).then(function (prescriptions) {
+      return getPatientNonDispensedPrescriptions(vm.patient).then(prescriptions => {
         vm.prescriptions = prescriptions;
-        vm.prescriptions.slice(1).forEach(function (p) {
+        vm.prescriptions.slice(1).forEach(p => {
           p.hidden = true;
         });
       });
@@ -84,7 +84,7 @@
 
 
     function toggleVisibility(prescription) {
-      vm.prescriptions.forEach(function (p) {
+      vm.prescriptions.forEach(p => {
         if (p === prescription) {
           p.hidden = !p.hidden;
         } else {
@@ -137,16 +137,14 @@
 
     function dispense() {
       //--- TODO: this should be inside dispensationService
-      var items = vm.selectedPrescriptionItems.map(function (i) {
-        return {
-          orderUuid: i.drugOrder.uuid,
-          quantityToDispense: i.quantity ? i.quantity : i.drugOrder.quantity,
-          quantityDispensed: i.drugPickedUp,
-          dateOfNextPickUp: i.nextPickupDate,
-          regimeUuid: (i.regime) ? i.regime.uuid : null,
-          prescriptionUuid: i.prescription.prescriptionEncounter.uuid
-        };
-      });
+      var items = vm.selectedPrescriptionItems.map(i => ({
+        orderUuid: i.drugOrder.uuid,
+        quantityToDispense: i.quantity ? i.quantity : i.drugOrder.quantity,
+        quantityDispensed: i.drugPickedUp,
+        dateOfNextPickUp: i.nextPickupDate,
+        regimeUuid: (i.regime) ? i.regime.uuid : null,
+        prescriptionUuid: i.prescription.prescriptionEncounter.uuid
+      }));
 
       var dispensation = {
         providerUuid: currentUser.person.uuid,
@@ -155,11 +153,11 @@
         dispensationItems: items
       };
       //---
-      dispensationService.createDispensation(dispensation).then(function (dispensationUUID) {
+      dispensationService.createDispensation(dispensation).then(dispensationUUID => {
         notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
         vm.selectedPrescriptionItems = [];
         initPrescriptions();
-      }).catch(function (error) {
+      }).catch(error => {
         notifier.error(error.data.error.message.replace('[','').replace(']',''));
       });
     }

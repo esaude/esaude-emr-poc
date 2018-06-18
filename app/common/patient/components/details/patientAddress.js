@@ -22,7 +22,7 @@
 
     function $onInit() {
       configurationService.getAddressLevels()
-        .then(function (addressLevels) {
+        .then(addressLevels => {
           vm.addressLevels = addressLevels;
         });
     }

@@ -1,21 +1,19 @@
-describe('login', function () {
+describe('login', () => {
 
   var $rootScope, $q, $componentController, $location, sessionService, stateParams, mockLocaleService, $httpBackend,
     $window;
 
-  beforeEach(module('home', function ($provide, $translateProvider, $urlRouterProvider) {
-    $provide.factory('mergeLocaleFilesService', function ($q) {
-      return function () {
-        var deferred = $q.defer();
-        deferred.resolve({});
-        return deferred.promise;
-      };
+  beforeEach(module('home', ($provide, $translateProvider, $urlRouterProvider) => {
+    $provide.factory('mergeLocaleFilesService', $q => () => {
+      var deferred = $q.defer();
+      deferred.resolve({});
+      return deferred.promise;
     });
     $translateProvider.useLoader('mergeLocaleFilesService');
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function (_$componentController_, _$rootScope_, _$location_, _sessionService_, _$q_, $stateParams, localeService, _$httpBackend_) {
+  beforeEach(inject((_$componentController_, _$rootScope_, _$location_, _sessionService_, _$q_, $stateParams, localeService, _$httpBackend_) => {
     $rootScope = _$rootScope_;
     $q = _$q_;
     $location = _$location_;
@@ -26,9 +24,9 @@ describe('login', function () {
     $httpBackend = _$httpBackend_;
   }));
 
-  beforeEach(function () {
+  beforeEach(() => {
     // mock sessionService.loginUser
-    spyOn(sessionService, 'loginUser').and.callFake(function (testUser) {
+    spyOn(sessionService, 'loginUser').and.callFake(testUser => {
       var defer = $q.defer();
 
       if (testUser === 'testSuccessUser') {
@@ -41,18 +39,16 @@ describe('login', function () {
     });
 
     // mock sessionService.getSession
-    spyOn(sessionService, 'getSession').and.callFake(function () {
-      return {
-        then: function (callback) {
-          var data = {};
-          data.authenticated = false;
-          callback(data);
-        }
-      };
-    });
+    spyOn(sessionService, 'getSession').and.callFake(() => ({
+      then: callback => {
+        var data = {};
+        data.authenticated = false;
+        callback(data);
+      }
+    }));
 
     // mock localService
-    spyOn(mockLocaleService, 'allowedLocalesList').and.callFake(function () {
+    spyOn(mockLocaleService, 'allowedLocalesList').and.callFake(() => {
       var defer = $q.defer();
 
       defer.resolve({
@@ -62,20 +58,16 @@ describe('login', function () {
       return defer.promise;
     });
 
-    spyOn(sessionService, 'setLocale').and.callFake(function () {
-      return $q(function (resolve) {
-        return resolve();
-      });
-    });
+    spyOn(sessionService, 'setLocale').and.callFake(() => $q(resolve => resolve()));
 
     $location.path('/login');
     spyOn($location, 'path').and.callThrough();
   });
 
 
-  describe('$onInit', function () {
+  describe('$onInit', () => {
 
-    it('should set selected locale on session', function () {
+    it('should set selected locale on session', () => {
 
       var ctrl = $componentController('login');
 
@@ -84,10 +76,10 @@ describe('login', function () {
       expect(sessionService.setLocale).toHaveBeenCalled();
     });
 
-    it('should redirect to the landing page if we are already logged in', function () {
+    it('should redirect to the landing page if we are already logged in', () => {
       // mock sessionService.getSession
       sessionService.getSession.and.returnValue({
-        then: function (callback) {
+        then: callback => {
           var data = {};
           data.authenticated = true;
           callback(data);
@@ -106,7 +98,7 @@ describe('login', function () {
       expect($location.path).toHaveBeenCalledWith('/dashboard');
     });
 
-    it('should show session expired message if indicated by state', function () {
+    it('should show session expired message if indicated by state', () => {
       stateParams.showLoginMessage = 'LOGIN_LABEL_LOGIN_ERROR_MESSAGE_KEY';
 
       // construct controller
@@ -119,9 +111,9 @@ describe('login', function () {
 
   });
 
-  describe('login', function () {
+  describe('login', () => {
 
-    it('should redirect the user to the landing page on successful login', function () {
+    it('should redirect the user to the landing page on successful login', () => {
       // construct controller
       var ctrl = $componentController('login');
 
@@ -141,7 +133,7 @@ describe('login', function () {
       expect($location.path).toHaveBeenCalledWith('/dashboard');
     });
 
-    it('should stay on page and set $scope.errorMessage on invalid user/pass', function () {
+    it('should stay on page and set $scope.errorMessage on invalid user/pass', () => {
 
       var ctrl = $componentController('login');
 

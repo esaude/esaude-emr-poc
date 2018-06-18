@@ -25,10 +25,10 @@
 
     function $onInit() {
       getPatient($stateParams.patientUuid)
-        .then(function (patient) {
+        .then(patient => {
           vm.patient = patient;
         })
-        .catch(function () {
+        .catch(() => {
           notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
         });
     }

@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -9,9 +9,7 @@
 
   /* @ngInject */
   function runClinical ($transitions) {
-    $transitions.onBefore({to: 'dashboard'}, function (transition) {
-      return transition.router.stateService.target('dashboard.summary', {patientUuid: transition.params().patientUuid});
-    });
+    $transitions.onBefore({to: 'dashboard'}, transition => transition.router.stateService.target('dashboard.summary', {patientUuid: transition.params().patientUuid}));
   }
 
 })();

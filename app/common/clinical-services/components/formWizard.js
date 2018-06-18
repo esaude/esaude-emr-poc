@@ -55,7 +55,7 @@
     vm.updateCurrentFormPart = updateCurrentFormPart;
     vm.getPreviousEncounter = getPreviousEncounter;
 
-    $transitions.onSuccess({}, function (trasition) {
+    $transitions.onSuccess({}, trasition => {
       if (trasition.to().name.split('.')[0] === $state.current.name.split('.')[0]) {
         setCurrentFormPart();
       }
@@ -80,7 +80,7 @@
       var deferred = $q.defer();
       vm.previousEncounter = deferred.promise;
 
-      $q.all([getPatient, getFormData, getTodaysVisit]).then(function (results) {
+      $q.all([getPatient, getFormData, getTodaysVisit]).then(results => {
         var patient = results[0];
         var formData = results[1];
         var visitToday = results[2];
@@ -110,22 +110,16 @@
     }
 
     function canSave() {
-      var all = vm.formInfo.parts.map(function (p) {
-        return p.fields;
-      }).reduce(function (acc, curr) {
-        return acc.concat(curr);
-      }).length;
+      var all = vm.formInfo.parts.map(p => p.fields).reduce((acc, curr) => acc.concat(curr)).length;
 
       var visited = Object.values(formFields).length;
 
-      return visited === all && Object.values(formFields).every(function (f) { return f.valid; });
+      return visited === all && Object.values(formFields).every(f => f.valid);
     }
 
     function setCurrentFormPart() {
       var currentSref = $state.current.url.replace("/", ".");
-      vm.currentFormPart = _.find(vm.formInfo.parts, function (formPart) {
-        return formPart.sref === currentSref;
-      });
+      vm.currentFormPart = _.find(vm.formInfo.parts, formPart => formPart.sref === currentSref);
     }
 
     function getPreviousEncounter(formData, serviceEncounter) {
@@ -158,9 +152,7 @@
 
     function updateCurrentFormPart(nextSref, validity) {
       if (validity) {
-        vm.currentFormPart = _.find(vm.formInfo.parts, function (formPart) {
-          return formPart.sref === nextSref;
-        });
+        vm.currentFormPart = _.find(vm.formInfo.parts, formPart => formPart.sref === nextSref);
         vm.submitted = false;
         $state.go(vm.formInfo.sufix + nextSref);
       } else {

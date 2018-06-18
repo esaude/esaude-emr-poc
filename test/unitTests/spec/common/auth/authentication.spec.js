@@ -1,14 +1,14 @@
 'use strict';
 
-describe("Authentication", function () {
+describe("Authentication", () => {
     var currentUserCookie, userService, $cookies, $q, scope;
 
     beforeEach(module('authentication'));
-    beforeEach(module(function ($provide) {
+    beforeEach(module($provide => {
         currentUserCookie = {};
         $cookies = jasmine.createSpyObj('$cookies', ['get']);
         $q = jasmine.createSpyObj('$q', ['defer']);
-        $cookies.get.and.callFake(function (cookieName) {
+        $cookies.get.and.callFake(cookieName => {
             if (cookieName == Bahmni.Common.Constants.currentUser) {
                 return currentUserCookie;
             }
@@ -19,13 +19,13 @@ describe("Authentication", function () {
         var providers = {};
 
         var getUserPromise = specUtil.createServicePromise('getUser');
-        getUserPromise.then = function (successFn) {
+        getUserPromise.then = successFn => {
             successFn(userResponse);
             return getUserPromise;
         };
 
         var getProviderForUserPromise = specUtil.createServicePromise('getProviderForUser');
-        getProviderForUserPromise.then = function (successFn) {
+        getProviderForUserPromise.then = successFn => {
            successFn(providers);
            return getProviderForUserPromise;
         };
@@ -39,8 +39,8 @@ describe("Authentication", function () {
     }));
 
 
-    describe("Should aouthenticate", function () {
-      it("login must occur with success", inject(['sessionService', '$rootScope', function (sessionService, $rootScope ) {
+    describe("Should aouthenticate", () => {
+      it("login must occur with success", inject(['sessionService', '$rootScope', (sessionService, $rootScope) => {
         var deferrable = jasmine.createSpyObj('deferrable', ['reject', 'promise']);
         $q.defer.and.returnValue(deferrable);
         sessionService.loadCredentials();
