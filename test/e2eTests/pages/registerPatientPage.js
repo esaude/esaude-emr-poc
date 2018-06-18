@@ -16,7 +16,7 @@ class RegisterPatientPage extends Page {
       nextStep: { css: '#next-step' },
       cancel: locate('button').find('span').withText('Cancel'),
       addIdentifier: locate('button').find('span').withText(this.translate('REGISTRATION_ADD_IDENTIFIER')),
-      removeIdentifier: locate('button').withAttr({class: 'btn btn-danger btn-lg'}),
+      removeIdentifier: locate('button').withAttr({ class: 'btn btn-danger btn-lg' }),
       confirm: { css: '#confirm' },
     };
 
@@ -67,6 +67,46 @@ class RegisterPatientPage extends Page {
     this.I.seeElement(this.tabs.testing);
     this.I.see('NID (SERVICO TARV)');
   }
+
+  fillIdentifierForm(patient) {
+    this.I.fillField(this.fields.nid, patient.identifiers[0].identifier3);
+  }
+
+  fillNameForm(patient) {
+    this.I.fillField(this.fields.givenName, patient.person.names[0].givenName);
+    this.I.fillField(this.fields.familyName, patient.person.names[0].familyName);
+  }
+
+  selectGender(patient) {
+    this.I.click(patient.person.gender == 'F' ? this.translate('COMMON_MALE') : this.translate('COMMON_MALE'));
+  }
+
+  fillBirthDateForm(patient) {
+    this.I.click(this.fields.birthDate);
+    this.I.fillField(this.fields.birthDate, patient.person.birthdate);
+    this.I.click('Done');
+  }
+
+  fillContactForm(patient) {
+    this.I.fillField(this.fields.street, patient.contacts.street);
+    this.I.fillField(this.fields.cell, patient.contacts.cell);
+    this.I.fillField(this.fields.neighborhood, patient.contacts.neighborhood);
+    this.I.fillField(this.fields.locality, patient.contacts.locality);
+    this.I.fillField(this.fields.administrativePost, patient.contacts.administrativePost);
+    this.I.fillField(this.fields.district, patient.contacts.district);
+    this.I.fillField(this.fields.province, patient.contacts.province);
+    this.I.fillField(this.fields.country, patient.contacts.country);
+  }
+
+  selectProvenience(patient) {
+    this.I.selectOption(this.fields.provenience, patient.contacts.provenience);
+  }
+
+  clickNext(seconds = 5) {
+    this.I.click(this.buttons.nextStep);
+    this.I.waitForInvisible('#overlay', seconds);
+  }
+
 }
 
 module.exports = new RegisterPatientPage();

@@ -175,10 +175,8 @@ Scenario('Validate Identifiers', (I, RegisterPatientPage) => {
   I.see(RegisterPatientPage.translate('PATIENT_INFO_IDENTIFIER_ERROR_EXISTING'));
 })
 
-Scenario('Register a patient', (I, Data, RegisterPatientPage) => {
+Scenario('Register a patient', (I, Data, RegisterPatientPage, RegistrationDashboardPage) => {
   const patient = Data.patients.patient3;
-  const nextStepButton = RegisterPatientPage.buttons.nextStep;
-  const fields = RegisterPatientPage.fields;
 
   I.say(`${LOG_TAG} login`);
   let dashboardPage = I.login();
@@ -194,61 +192,54 @@ Scenario('Register a patient', (I, Data, RegisterPatientPage) => {
 
   validateRequiredFields(I, RegisterPatientPage, 'Identifier', 1);
   I.say(`${LOG_TAG} Fill in the NID identifier and move to Name tab`);
-  I.fillField(fields.nid, patient.identifiers[0].identifier3);
+  RegisterPatientPage.fillIdentifierForm(patient);
   I.waitForInvisible('#overlay', 5);
-  I.click(nextStepButton);
-  I.waitForInvisible('#overlay', 5);
+  RegisterPatientPage.clickNext();
 
   validateRequiredFields(I, RegisterPatientPage, 'Names', 2);
   I.say(`${LOG_TAG} Fill in givenName and familyName and move to Gender tab`);
-  I.fillField(fields.givenName, patient.person.names[0].givenName);
-  I.fillField(fields.familyName, patient.person.names[0].familyName);
-  I.click(nextStepButton);
-  I.waitForInvisible('#overlay', 10);
+  RegisterPatientPage.fillNameForm(patient);
+  RegisterPatientPage.clickNext(10);
 
   validateRequiredFields(I, RegisterPatientPage, 'Gender', 1);
   I.say(`${LOG_TAG} Select the gender and move to Age tab`);
-  I.click(patient.person.gender == 'F' ? RegisterPatientPage.translate('COMMON_MALE') : RegisterPatientPage.translate('COMMON_MALE'));
-  I.click(nextStepButton);
-  I.waitForInvisible('#overlay', 5);
+  RegisterPatientPage.selectGender(patient);
+  RegisterPatientPage.clickNext();
 
   validateRequiredFields(I, RegisterPatientPage, 'Birth Date', 1);
   I.say(`${LOG_TAG} Fill in the birth date and move to Address tab`);
-  I.click(fields.birthDate);
-  I.fillField(fields.birthDate, patient.person.birthdate);
-  I.click('Done');
-  I.click(nextStepButton);
-  I.waitForInvisible('#overlay', 5);
+  RegisterPatientPage.fillBirthDateForm(patient);
+  RegisterPatientPage.clickNext();
 
   validateRequiredFields(I, RegisterPatientPage, 'Address', 4);
   I.say(`${LOG_TAG} Fill in the address and move to Contacts tab`);
-  I.fillField(fields.street, patient.contacts.street);
-  I.fillField(fields.cell, patient.contacts.cell);
-  I.fillField(fields.neighborhood, patient.contacts.neighborhood);
-  I.fillField(fields.locality, patient.contacts.locality);
-  I.fillField(fields.administrativePost, patient.contacts.administrativePost);
-  I.fillField(fields.district, patient.contacts.district);
-  I.fillField(fields.province, patient.contacts.province);
-  I.fillField(fields.country, patient.contacts.country);
-  I.click(nextStepButton);
-  I.waitForInvisible('#overlay', 5);
+  RegisterPatientPage.fillContactForm(patient);
+  RegisterPatientPage.clickNext();
 
   validateRequiredFields(I, RegisterPatientPage, 'Provenience', 1);
   I.say(`${LOG_TAG} Select a provenience and move to Testing tab`);
-  I.selectOption(fields.provenience, patient.contacts.provenience);
-  I.waitForInvisible('#overlay', 5);
+  RegisterPatientPage.selectProvenience(patient);
+  RegisterPatientPage.clickNext();
 
   I.say(`${LOG_TAG} Ignore the testing and move to confirmation page`);
-  I.click(nextStepButton);
-  I.waitForInvisible('#overlay', 5);
+  RegisterPatientPage.clickNext();
 
   I.say(`${LOG_TAG} Scroll down and confirm patient registration`);
-  I.click(nextStepButton);
   I.scrollPageToBottom();
   I.click(RegisterPatientPage.buttons.confirm);
   I.waitForInvisible('#overlay', 5);
 
   I.see(RegisterPatientPage.translate('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
+  I.wait(1);
+
+  I.say(`${LOG_TAG} Make sure the registration dashboard page loaded`);
+  RegistrationDashboardPage.isLoaded();
+
+  // TODO: This could be a component or a method in the page class
+  // to verify the loaded patient information
+  I.see(patient.identifiers[0].identifier3);
+  I.see(patient.person.names[0].givenName);
+  I.see(patient.person.names[0].familyName);
 })
 
 // Clicks the next button without filling required fields
