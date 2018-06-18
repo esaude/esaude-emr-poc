@@ -2,59 +2,60 @@
 
 describe('mergeLocaleFilesService', () => {
 
-    var mergeLocaleFilesService, mergeService;
-    var _$http;
-    var baseFile = {"KEY1" : "This is base key"};
-    var customFile = {"KEY1" : "This is custom key"};
+  var mergeLocaleFilesService, mergeService;
+  var _$http;
+  var baseFile = {"KEY1": "This is base key"};
+  var customFile = {"KEY1": "This is custom key"}, $rootScope, $httpBackend;
 
-    beforeEach(() => {
-        module('bahmni.common.i18n');
-        module($provide => {
-            _$http = jasmine.createSpyObj('$http', ['get']);
-            $provide.value('$http', _$http);
-            $provide.value('$q', Q);
-            $provide.value('mergeService', mergeService);
-        });
+  beforeEach(module('bahmni.common.i18n'));
 
-        mergeService = jasmine.createSpyObj('mergeService', ['merge']);
-        inject(_mergeLocaleFilesService_ => {
-            mergeLocaleFilesService = _mergeLocaleFilesService_;
-        });
+  beforeEach(inject((_mergeLocaleFilesService_, _$rootScope_, _mergeService_, _$httpBackend_) => {
+    mergeLocaleFilesService = _mergeLocaleFilesService_;
+    $rootScope = _$rootScope_;
+    mergeService = _mergeService_;
+    $httpBackend = _$httpBackend_;
+  }));
+
+  it('merge when both base, custom configs are there', () => {
+
+    $httpBackend.expectGET('/poc_config/openmrs/i18n/common/locale_en.json').respond(baseFile);
+
+    $httpBackend.expectGET('/poc_config/openmrs/i18n/clinical/locale_en.json').respond(customFile);
+
+    spyOn(mergeService, 'merge').and.returnValue(customFile);
+
+    var res;
+    mergeLocaleFilesService({app: 'clinical', shouldMerge: true, key: 'en'}).then(response => {
+      res = response;
     });
 
-    it('merge when both base, custom configs are there', done => {
-        _$http.get.and.callFake(param => {
-            if(param.indexOf('poc_config') != -1)
-                return specUtil.createFakePromise(customFile);
-            else
-                return specUtil.createFakePromise(baseFile);
-        });
+    $rootScope.$apply();
 
-        mergeService.merge.and.callFake(() => customFile);
+    $httpBackend.flush();
 
-        var promise = mergeLocaleFilesService({app: 'clinical', shouldMerge: true, key: 'en'});
+    expect(res).toEqual(customFile);
 
-        promise.then(response => {
-            expect(response.data.data).toEqual(customFile);
-            done();
-        });
+  });
+
+  it('return both base, custom locales when shouldMerge is false', () => {
+
+
+    $httpBackend.expectGET('/poc_config/openmrs/i18n/common/locale_en.json').respond(baseFile);
+
+    $httpBackend.expectGET('/poc_config/openmrs/i18n/clinical/locale_en.json').respond(customFile);
+
+    spyOn(mergeService, 'merge').and.returnValue(customFile);
+
+    var res;
+    mergeLocaleFilesService({app: 'clinical', shouldMerge: false, key: 'en'}).then(response => {
+      res = response;
     });
 
-    it('return both base, custom locales when shouldMerge is false', done => {
-        _$http.get.and.callFake(param => {
-            if(param.indexOf('poc_config') != -1)
-                return specUtil.createFakePromise(customFile);
-            else
-                return specUtil.createFakePromise(baseFile);
-        });
+    $rootScope.$apply();
 
-        mergeService.merge.and.callFake(() => customFile);
+    $httpBackend.flush();
 
-        var promise = mergeLocaleFilesService({app: 'clinical', shouldMerge: false, key: 'en'});
+    expect(res).toEqual([baseFile, customFile]);
 
-        promise.then(response => {
-            expect(response.data.data).toEqual([ customFile, customFile ]);
-            done();
-        });
-    });
+  });
 });

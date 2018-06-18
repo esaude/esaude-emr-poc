@@ -1,8 +1,10 @@
 describe("merge functionality", () => {
 
     var master, mergeService;
+
     beforeEach(() => {
-        module('bahmni.common.appFramework');
+        module('bahmni.common.i18n');
+
         module($provide => {
             _$cookies = jasmine.createSpyObj('$cookies', ['get', 'put', 'remove']);
             $provide.value('$cookies', _$cookies);
