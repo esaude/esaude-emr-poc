@@ -39,8 +39,8 @@ Scenario('Validate tab sequence', (I, RegisterPatientPage) => {
   I.say(`${LOG_TAG} Click on the New Patient button`);
   registrationPage.clickNewPatienButton();
 
-  I.say(`${LOG_TAG} Make sure the new patient page is loaded`);
-  RegisterPatientPage.verifyNewPatientPage();
+  I.say(`${LOG_TAG} Make sure the register patient page is loaded`);
+  RegisterPatientPage.isLoaded();
 
   const tabSequenseMessage = RegisterPatientPage.translate('FOLLOW_SEQUENCE_OF_TABS');
 
@@ -70,12 +70,12 @@ Scenario('Validate Identifiers', (I, RegisterPatientPage) => {
     NIDTARV: {
       label: 'NID (SERVICO TARV)',
       format: 'PPDDUUSS/AA/NNNNN',
-      values: ["QWERTY", "PPDDUUSS/AA/NNNNN", "11223344/AA/12345"],
+      values: ['PPDDUUSS/AA/NNNNN', '11223344011012345', '11223344/AA/12345', '99999999/99/123456', '99999999/99/12345'],
     },
     BI: {
       label: 'BILHETE DE IDENTIDADE (BI)',
       format: '000000000X',
-      values: [],
+      values: ['ABCDEFGHIJKL', '123456789123', 'A123456789', '123456789x', '123456789X'],
     },
     ATS: {
       label: 'CODIGO ATS/UATS',
@@ -109,7 +109,7 @@ Scenario('Validate Identifiers', (I, RegisterPatientPage) => {
     },
     NCC: {
       label: 'NUMERO CANCRO CERVICAL',
-      format: 'NNNNNN/20__',
+      format: 'NNNNNN/20_ _',
       values: [],
     },
     PCR: {
@@ -128,25 +128,51 @@ Scenario('Validate Identifiers', (I, RegisterPatientPage) => {
   I.say(`${LOG_TAG} Click on the New Patient button`);
   registrationPage.clickNewPatienButton();
 
-  I.say(`${LOG_TAG} Make sure the new patient page is loaded`);
-  RegisterPatientPage.verifyNewPatientPage();
+  I.say(`${LOG_TAG} Make sure the register patient page is loaded`);
+  RegisterPatientPage.isLoaded();
+
+  validateIdentifier(I, RegisterPatientPage, identifierTypes.NIDTARV);
 
   addIdentifier(I, RegisterPatientPage, identifierTypes.BI);
+  validateIdentifier(I, RegisterPatientPage, identifierTypes.BI);
+  I.click(RegisterPatientPage.buttons.removeIdentifier);
+
   addIdentifier(I, RegisterPatientPage, identifierTypes.ATS);
+  validateIdentifier(I, RegisterPatientPage, identifierTypes.ATS);
+  I.click(RegisterPatientPage.buttons.removeIdentifier);
+
   addIdentifier(I, RegisterPatientPage, identifierTypes.ITS);
+  validateIdentifier(I, RegisterPatientPage, identifierTypes.ITS);
+  I.click(RegisterPatientPage.buttons.removeIdentifier);
+
   addIdentifier(I, RegisterPatientPage, identifierTypes.PTVMATERN);
+  validateIdentifier(I, RegisterPatientPage, identifierTypes.PTVMATERN);
+  I.click(RegisterPatientPage.buttons.removeIdentifier);
+
   addIdentifier(I, RegisterPatientPage, identifierTypes.PTVPRE);
+  validateIdentifier(I, RegisterPatientPage, identifierTypes.PTVPRE);
+  I.click(RegisterPatientPage.buttons.removeIdentifier);
+
   addIdentifier(I, RegisterPatientPage, identifierTypes.NIDCCR);
+  validateIdentifier(I, RegisterPatientPage, identifierTypes.NIDCCR);
+  I.click(RegisterPatientPage.buttons.removeIdentifier);
+
   addIdentifier(I, RegisterPatientPage, identifierTypes.NIT);
+  validateIdentifier(I, RegisterPatientPage, identifierTypes.NIT);
+  I.click(RegisterPatientPage.buttons.removeIdentifier);
+
   addIdentifier(I, RegisterPatientPage, identifierTypes.NCC);
+  validateIdentifier(I, RegisterPatientPage, identifierTypes.NCC);
+  I.click(RegisterPatientPage.buttons.removeIdentifier);
+
   addIdentifier(I, RegisterPatientPage, identifierTypes.PCR);
+  validateIdentifier(I, RegisterPatientPage, identifierTypes.PCR);
+  I.click(RegisterPatientPage.buttons.removeIdentifier);
 
   I.say(`${LOG_TAG} Try to add an already added identifier`);
   addIdentifier(I, RegisterPatientPage, identifierTypes.BI);
+  addIdentifier(I, RegisterPatientPage, identifierTypes.BI);
   I.see(RegisterPatientPage.translate('PATIENT_INFO_IDENTIFIER_ERROR_EXISTING'));
-  // I.wait(5);
-  // I.click(RegisterPatientPage.buttons.removeIdentifier);
-
 })
 
 Scenario('Register a patient', (I, Data, RegisterPatientPage) => {
@@ -163,8 +189,8 @@ Scenario('Register a patient', (I, Data, RegisterPatientPage) => {
   I.say(`${LOG_TAG} Click on the New Patient button`);
   registrationPage.clickNewPatienButton();
 
-  I.say(`${LOG_TAG} Make sure the new patient page is loaded`);
-  RegisterPatientPage.verifyNewPatientPage();
+  I.say(`${LOG_TAG} Make sure the register patient page is loaded`);
+  RegisterPatientPage.isLoaded();
 
   validateRequiredFields(I, RegisterPatientPage, 'Identifier', 1);
   I.say(`${LOG_TAG} Fill in the NID identifier and move to Name tab`);
@@ -239,4 +265,33 @@ const addIdentifier = (I, RegisterPatientPage, identifier) => {
   I.say(`${LOG_TAG} Adding ${identifier.label} identifier`);
   I.click(RegisterPatientPage.buttons.addIdentifier)
   I.selectOption(RegisterPatientPage.fields.identifierType, identifier.label);
+  I.wait(1);
+}
+
+const validateIdentifier = (I, RegisterPatientPage, identifier) => {
+  const inputField = locate('input').withAttr({ placeholder: identifier.format });
+  const helpButton = locate('button').withAttr({ 'uib-popover': identifier.format });
+  I.say(`${LOG_TAG} Validating ${identifier.label} identifier`);
+  I.seeElement(inputField);
+  if (identifier.format != "") {
+    I.click(helpButton);
+    I.seeElement(locate('div').withText(identifier.format));
+    I.click(helpButton);
+  }
+
+  for (var i = 0; i < identifier.values.length; i++) {
+    I.fillField(inputField, identifier.values[i]);
+    I.waitForInvisible('#overlay', 5);
+
+    // Prevent from going to the next page
+    if (i < identifier.values.length - 1) {
+      I.click(RegisterPatientPage.buttons.nextStep)
+      I.see(RegisterPatientPage.translate('ERROR_INVALID_FORMAT'));
+    }
+
+    // Add a valid identifier to remove the error message
+    // Make sure the last value is always the valid one
+    I.fillField(inputField, identifier.values[identifier.values.length - 1]);
+  }
+  I.wait(1);
 }

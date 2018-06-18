@@ -16,8 +16,7 @@ class RegisterPatientPage extends Page {
       nextStep: { css: '#next-step' },
       cancel: locate('button').find('span').withText('Cancel'),
       addIdentifier: locate('button').find('span').withText(this.translate('REGISTRATION_ADD_IDENTIFIER')),
-      removeIdentifier: locate('button').find('span').withText(this.translate('REMOVE')),
-      help: locate('button').find('span').withText(this.translate('HELP')),
+      removeIdentifier: locate('button').withAttr({class: 'btn btn-danger btn-lg'}),
       confirm: { css: '#confirm' },
     };
 
@@ -56,8 +55,9 @@ class RegisterPatientPage extends Page {
     };
   }
 
-  // Verify if the expected elements are in the page
-  verifyNewPatientPage() {
+  // Check additional elements
+  isLoaded() {
+    super.isLoaded();
     this.I.seeElement(this.tabs.identifiers);
     this.I.seeElement(this.tabs.name);
     this.I.seeElement(this.tabs.gender);
