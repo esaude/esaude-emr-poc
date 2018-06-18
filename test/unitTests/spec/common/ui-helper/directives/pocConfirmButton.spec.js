@@ -1,15 +1,15 @@
-describe('pocConfirmButton', function () {
+describe('pocConfirmButton', () => {
 
   var element, onConfirm, onCancel, $compile, $rootScope;
 
   beforeEach(module('bahmni.common.uiHelper', 'templates'));
 
-  beforeEach(inject(function (_$compile_, _$rootScope_) {
+  beforeEach(inject((_$compile_, _$rootScope_) => {
     $compile = _$compile_;
     $rootScope = _$rootScope_;
   }));
 
-  beforeEach(function () {
+  beforeEach(() => {
     onConfirm = jasmine.createSpy();
     onCancel = jasmine.createSpy();
 
@@ -23,7 +23,7 @@ describe('pocConfirmButton', function () {
   });
 
 
-  it('should show a button with given class and transcluded content', function () {
+  it('should show a button with given class and transcluded content', () => {
 
     var button = element.find('button#button');
 
@@ -33,16 +33,16 @@ describe('pocConfirmButton', function () {
 
   });
 
-  describe('clicked', function () {
+  describe('clicked', () => {
 
     var button, confirmation;
 
-    beforeEach(function () {
+    beforeEach(() => {
       button = element.find('button#button');
       confirmation = element.find('.confirmation');
     });
 
-    it('should show confirm and cancel buttons', function () {
+    it('should show confirm and cancel buttons', () => {
 
       expect(confirmation.hasClass('ng-hide')).toBe(true);
 
@@ -52,16 +52,16 @@ describe('pocConfirmButton', function () {
 
     });
 
-    describe('confirmed', function () {
+    describe('confirmed', () => {
 
       var confirmBtn;
 
-      beforeEach(function () {
+      beforeEach(() => {
         confirmBtn = confirmation.find('.btn-danger');
         button.click();
       });
 
-      it('should call on-confirm binding', function () {
+      it('should call on-confirm binding', () => {
 
         confirmBtn.click();
 
@@ -72,16 +72,16 @@ describe('pocConfirmButton', function () {
     });
 
 
-    describe('canceled', function () {
+    describe('canceled', () => {
 
       var cancelBtn;
 
-      beforeEach(function () {
+      beforeEach(() => {
         cancelBtn = confirmation.find('.btn-warning');
         button.click();
       });
 
-      it('should call on-cancel binding', function () {
+      it('should call on-cancel binding', () => {
 
         cancelBtn.click();
 
@@ -89,7 +89,7 @@ describe('pocConfirmButton', function () {
 
       });
 
-      it('should hide confirm and cancel buttons', function () {
+      it('should hide confirm and cancel buttons', () => {
 
         expect(confirmation.hasClass('ng-hide')).toBe(false);
 
@@ -99,7 +99,7 @@ describe('pocConfirmButton', function () {
 
       });
 
-      it('should hide confirm and cancel buttons', function () {
+      it('should hide confirm and cancel buttons', () => {
 
         expect(confirmation.hasClass('ng-hide')).toBe(false);
 

@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -27,10 +27,8 @@
 
     function createObs(obs) {
       return $http.post(OPENMRS_OBS_REST_URL, obs)
-        .then(function (response) {
-          return response.data;
-        })
-        .catch(function (error) {
+        .then(response => response.data)
+        .catch(error => {
           $log.error('XHR Failed for createObs: ' + error.data.error.message);
           return $q.reject(error);
         });
@@ -38,10 +36,8 @@
 
     function deleteObs(obs) {
       return $http.delete(OPENMRS_OBS_REST_URL + '/' + obs.uuid)
-        .then(function () {
-          return null;
-        })
-        .catch(function (error) {
+        .then(() => null)
+        .catch(error => {
           $log.error('XHR Failed for deleteObs: ' + error.data.error.message);
           return $q.reject(error);
         });
@@ -65,9 +61,7 @@
           v: "custom:(uuid,display,encounter:(encounterDatetime,encounterType,provider:(display,uuid)),voided,concept:(uuid,name),obsDatetime,value,groupMembers:(uuid,concept:(uuid,name),obsDatetime,value))"
         },
         withCredentials: true
-      }).then(function (response) {
-        return response.data.results;
-      }).catch(function (error) {
+      }).then(response => response.data.results).catch(error => {
         $log.error('XHR Failed for getObs: ' + error.data.error.message);
         return $q.reject(error);
       });
@@ -75,46 +69,38 @@
 
     function getLastValueForConcept(patientUUID, concept, representation) {
       return getObs(patientUUID, concept)
-        .then(function (obs) {
+        .then(obs => {
 
           var nonRetired = filterRetiredObs(obs);
 
           if (!_.isEmpty(nonRetired)) {
             var last = _.maxBy(nonRetired, 'obsDatetime');
             if (last.value.datatype && last.value.datatype.display === "Coded") {
-              return _.find(concept.answers, function (answer) {
-                return answer.uuid === last.value.uuid;
-              });
+              return _.find(concept.answers, answer => answer.uuid === last.value.uuid);
             }
 
             if (representation === "full") return last;
-            
+
             return last.value;
           }
         })
-        .catch(function (error) {
+        .catch(error => {
           $log.error('XHR Failed for getLastValueForConcept: ' + error.data.error.message);
           return $q.reject(error);
         });
     }
 
     function filterRetiredObs(observations) {
-      return _.filter(observations, function (obs) {
-        return !obs.voided;
-      });
+      return _.filter(observations, obs => !obs.voided);
     }
 
     function filterByList(obsList, concepts) {
-      var filtered = _.filter(obsList, function (data) {
-        return _.includes(concepts, data.concept.uuid);
-      });
+      var filtered = _.filter(obsList, data => _.includes(concepts, data.concept.uuid));
       //find inside groups
       if (_.isEmpty(filtered)) {
-        _.forEach(obsList, function (data) {
+        _.forEach(obsList, data => {
           if (data.groupMembers !== null) {
-            var groupFiltered = _.filter(data.groupMembers, function (member) {
-              return _.includes(concepts, member.concept.uuid);
-            });
+            var groupFiltered = _.filter(data.groupMembers, member => _.includes(concepts, member.concept.uuid));
             if (!_.isEmpty(groupFiltered)) {
               filtered = _.union(filtered, groupFiltered);
             }
@@ -139,10 +125,8 @@
         v: representation
       };
       return $http.get(OPENMRS_OBS_REST_URL, {params: params})
-        .then(function (response) {
-          return response.data.results[0];
-        })
-        .catch(function (error) {
+        .then(response => response.data.results[0])
+        .catch(error => {
           $log.error('XHR Failed for getLastPatientObs: ' + error.data.error.message);
           return $q.reject(error);
         });

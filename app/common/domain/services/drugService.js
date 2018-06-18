@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -19,9 +19,7 @@
         params: {
           regime : regime.uuid
         }
-      }).then(function (response){
-        return _.map(response.data.results, 'drugItem.drug');
-      }).catch(function (error) {
+      }).then(response => _.map(response.data.results, 'drugItem.drug')).catch(error => {
         $log.error('XHR Failed for getDrugsOfRegimen: ' + error.data.error.message);
         return $q.reject(error);
     });
@@ -29,10 +27,8 @@
 
   function isArvDrug(drug) {
      return $http.get(Bahmni.Common.Constants.arvDrugUrl +'/'+ drug.uuid)
-        .then(function (response) {
-          return true;
-        })
-        .catch(function(error){
+        .then(response => true)
+        .catch(error => {
           $log.error('XHR Failed for isArvDrug: ' + error.data.error.message);
           return $q.reject();
       });
@@ -45,9 +41,7 @@
         drug : drug.uuid,
         location : location.uuid
       }
-    }).then(function (response){
-      return response.data;
-    }).catch(function (error) {
+    }).then(response => response.data).catch(error => {
       $log.error('XHR Failed for getDrugStock: ' + error.data.error.message);
       return $q.reject(error);
   });

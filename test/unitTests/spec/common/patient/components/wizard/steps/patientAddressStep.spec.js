@@ -1,21 +1,19 @@
-describe('patientAddressStep', function () {
+describe('patientAddressStep', () => {
 
   var $componentController, configurationService, $q, $rootScope, addressAttributeService;
 
-  beforeEach(module('common.patient', function ($provide, $translateProvider, $urlRouterProvider) {
+  beforeEach(module('common.patient', ($provide, $translateProvider, $urlRouterProvider) => {
     // Mock translate asynchronous loader
-    $provide.factory('mergeLocaleFilesService', function ($q) {
-      return function () {
-        var deferred = $q.defer();
-        deferred.resolve({});
-        return deferred.promise;
-      };
+    $provide.factory('mergeLocaleFilesService', $q => () => {
+      var deferred = $q.defer();
+      deferred.resolve({});
+      return deferred.promise;
     });
     $translateProvider.useLoader('mergeLocaleFilesService');
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function (_$componentController_, _configurationService_, _$q_, _$rootScope_, _addressAttributeService_) {
+  beforeEach(inject((_$componentController_, _configurationService_, _$q_, _$rootScope_, _addressAttributeService_) => {
     $componentController = _$componentController_;
     configurationService = _configurationService_;
     $q = _$q_;
@@ -23,18 +21,16 @@ describe('patientAddressStep', function () {
     addressAttributeService = _addressAttributeService_;
   }));
 
-  describe('$onInit', function () {
+  describe('$onInit', () => {
 
-    beforeEach(function () {
-      spyOn(configurationService, 'getAddressLevels').and.callFake(function () {
-        return $q.resolve([
-          {name: "Pais", addressField: "country", required: true},
-          {name: "Provincia", addressField: "stateProvince", required: true}
-        ]);
-      });
+    beforeEach(() => {
+      spyOn(configurationService, 'getAddressLevels').and.callFake(() => $q.resolve([
+        {name: "Pais", addressField: "country", required: true},
+        {name: "Provincia", addressField: "stateProvince", required: true}
+      ]));
     });
 
-    it('should load addressLevels and reverse the order', function () {
+    it('should load addressLevels and reverse the order', () => {
 
       var patientWizard = jasmine.createSpyObj('patientWizard', ['setCurrentStep']);
       var ctrl = $componentController('patientAddressStep', null, {patientWizard});
@@ -49,7 +45,7 @@ describe('patientAddressStep', function () {
       ]);
     });
 
-    it('should set it self as wizard current step', function () {
+    it('should set it self as wizard current step', () => {
 
       var patientWizard = jasmine.createSpyObj('patientWizard', ['setCurrentStep']);
       var ctrl = $componentController('patientAddressStep', null, {patientWizard});
@@ -61,20 +57,18 @@ describe('patientAddressStep', function () {
 
   });
 
-  describe('addressFieldSelected', function () {
+  describe('addressFieldSelected', () => {
 
     var addressLevels = [
       {name: "Pais", addressField: "country", required: true},
       {name: "Provincia", addressField: "stateProvince", required: true}
     ];
 
-    beforeEach(function () {
-      spyOn(configurationService, 'getAddressLevels').and.callFake(function () {
-        return $q.resolve(addressLevels);
-      });
+    beforeEach(() => {
+      spyOn(configurationService, 'getAddressLevels').and.callFake(() => $q.resolve(addressLevels));
     });
 
-    it('should set the values of the address hierarchy parent fields', function () {
+    it('should set the values of the address hierarchy parent fields', () => {
 
       var patient = {address: {}};
       var patientWizard = jasmine.createSpyObj('patientWizard', ['setCurrentStep']);
@@ -92,9 +86,9 @@ describe('patientAddressStep', function () {
 
   });
 
-  describe('getAddressEntryList', function () {
+  describe('getAddressEntryList', () => {
 
-    it('should search in address hierarchy', function () {
+    it('should search in address hierarchy', () => {
 
       spyOn(addressAttributeService, 'search');
 
@@ -111,20 +105,18 @@ describe('patientAddressStep', function () {
 
   });
 
-  describe('clearFields', function () {
+  describe('clearFields', () => {
 
     var addressLevels = [
       {name: "Pais", addressField: "country", required: true},
       {name: "Provincia", addressField: "stateProvince", required: true}
     ];
 
-    beforeEach(function () {
-      spyOn(configurationService, 'getAddressLevels').and.callFake(function () {
-        return $q.resolve(addressLevels);
-      });
+    beforeEach(() => {
+      spyOn(configurationService, 'getAddressLevels').and.callFake(() => $q.resolve(addressLevels));
     });
 
-    it('should clear address hierarchy child fields', function () {
+    it('should clear address hierarchy child fields', () => {
 
       var patient = {address: {}};
       var patientWizard = jasmine.createSpyObj('patientWizard', ['setCurrentStep']);

@@ -1,9 +1,9 @@
-describe('testOrderListController', function () {
+describe('testOrderListController', () => {
 
   var $componentController, $q;
 
   beforeEach(module('lab'));
-  beforeEach(inject(function(_$componentController_, _patientService_, _$q_) {
+  beforeEach(inject((_$componentController_, _patientService_, _$q_) => {
     $componentController = _$componentController_;
     $q = _$q_;
   }));

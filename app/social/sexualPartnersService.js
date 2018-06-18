@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -32,13 +32,11 @@
 
     function getFormData() {
       return $q.all([getRelationshipToPatient(), getHivStatus()])
-        .then(function (result) {
-          return {
-            relationshipToPatient: result[0],
-            hivStatus: result[1]
-          };
-        })
-        .catch(function (error) {
+        .then(result => ({
+          relationshipToPatient: result[0],
+          hivStatus: result[1]
+        }))
+        .catch(error => {
           $log.error('XHR Failed for getFormData: ' + error.data.error.message);
           return $q.reject(error);
         });
@@ -46,12 +44,12 @@
 
     function getSexualPartners(patient) {
       return getPatientSexualPartnerEncounters(patient, 'custom:(uuid,display,obs:(uuid,display,concept,groupMembers:(uuid,display,value,concept:(uuid,display,answers)))')
-        .then(function (encounters) {
+        .then(encounters => {
           var allObs = _.flatMap(encounters, 'obs');
           var partnerObs = _.filter(allObs, {concept: {uuid: SEXUAL_PARTNER_INFORMATION_CONCEPT_UUID}});
           return partnerObs.map(mapSexualPartner);
         })
-        .catch(function (error) {
+        .catch(error => {
           $log.error('XHR Failed for getSexualPartners: ' + error.data.error.message);
           return $q.reject(error);
         });
@@ -63,7 +61,7 @@
 
     function saveSexualPartner(patient, sexualPartner) {
 
-      return visitService.getTodaysVisit(patient.uuid).then(function (visit) {
+      return visitService.getTodaysVisit(patient.uuid).then(visit => {
 
           if (!visit) {
             return $q.reject({data: {error: {message: 'patient has not checked-in.'}}});
@@ -79,11 +77,11 @@
             return observationsService.createObs(obs);
           }
         })
-        .then(function (obs) {
+        .then(obs => {
           sexualPartner.uuid = obs.uuid;
           return sexualPartner;
         })
-        .catch(function (error) {
+        .catch(error => {
           $log.error('XHR Failed for saveSexualPartner: ' + error.data.error.message);
           return $q.reject(error);
         });
@@ -94,18 +92,14 @@
     }
 
     function findSexualPartnerEncounter(encounters) {
-      return encounters.find(function (e) {
-        return !e.voided && (e.encounterType.uuid === SEXUAL_PARTNER_ENCOUNTER_TYPE_UUID);
-      });
+      return encounters.find(e => !e.voided && (e.encounterType.uuid === SEXUAL_PARTNER_ENCOUNTER_TYPE_UUID));
     }
 
     function createSexualPartnerEncounterWithObs(encounter) {
       encounter.encounterType = {uuid: SEXUAL_PARTNER_ENCOUNTER_TYPE_UUID};
       encounter.patient = {uuid: encounter.patient.uuid};
       return encounterService.create(encounter)
-        .then(function (encounter) {
-          return encounter.obs[0];
-        });
+        .then(encounter => encounter.obs[0]);
     }
 
     function mapEncounter(visit, patient, sexualPartner) {

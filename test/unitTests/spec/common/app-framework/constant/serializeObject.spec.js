@@ -1,30 +1,30 @@
-describe("dateSerializerService", function () {
+describe("dateSerializerService", () => {
 
     var serializeObject;
 
     beforeEach(module("bahmni.common.appFramework"));
 
-    beforeEach(inject(function (_serializeObject_) {
+    beforeEach(inject(_serializeObject_ => {
         serializeObject = _serializeObject_;
     }));
 
-    describe("serialize()", function () {
-        it("should serialize empty object", function () {
+    describe("serialize()", () => {
+        it("should serialize empty object", () => {
             var obj = serializeObject({});
             expect(obj).toEqual({});
         });
 
-        it("should serialize null object", function () {
+        it("should serialize null object", () => {
             var obj = serializeObject(null);
             expect(obj).toEqual(null);
         });
 
-        it("should serialize date", function () {
+        it("should serialize date", () => {
             var obj = serializeObject({ date: moment('18/04/2018 10:30:12', 'DD/MM/YYYY HH:mm:ss').toDate() });
             expect(obj).toEqual({ date: '2018-04-18T10:30:12' });
         });
 
-        it("should serialize date on nested object", function () {
+        it("should serialize date on nested object", () => {
             var objectToSerialize = {
                 code: "CODE_01",
                 person: {
@@ -42,7 +42,7 @@ describe("dateSerializerService", function () {
             });
         });
 
-        it("should deep neste object", function () {
+        it("should deep neste object", () => {
             var objectToSerialize = {
                 level1: {
                     level2: {
@@ -64,12 +64,12 @@ describe("dateSerializerService", function () {
             });
         });
 
-        it("should support moment", function () {
+        it("should support moment", () => {
             var obj = serializeObject({ date: moment('18/04/2018 10:30:12', 'DD/MM/YYYY HH:mm:ss') });
             expect(obj).toEqual({ date: '2018-04-18T10:30:12' });
         });
 
-        it("should not have problems with ciclic dependencies", function () {
+        it("should not have problems with ciclic dependencies", () => {
             var objToSerialize = {
                 date: moment('18/04/2018 10:30:12', 'DD/MM/YYYY HH:mm:ss')
             };
@@ -78,7 +78,7 @@ describe("dateSerializerService", function () {
             expect(obj.date).toEqual('2018-04-18T10:30:12');
         });
 
-        it("should not change original object", function () {
+        it("should not change original object", () => {
             var original = { date: moment('18/04/2018 10:30:12', 'DD/MM/YYYY HH:mm:ss') };
             var obj = serializeObject(original);
             expect(original).toEqual({ date: moment('18/04/2018 10:30:12', 'DD/MM/YYYY HH:mm:ss') });

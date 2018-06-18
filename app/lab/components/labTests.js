@@ -26,13 +26,13 @@
 
     function $onInit() {
       testOrderResultService.getTestOrderResultsForPatient({uuid: $stateParams.patientUuid})
-        .then(function (testOrders) {
+        .then(testOrders => {
           if (testOrders.length > 0) {
             vm.testOrderResults = testOrders;
             selectTestOrderResult(testOrders[0]);
           }
         })
-        .catch(function () {
+        .catch(() => {
           notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
         });
     }
@@ -43,10 +43,10 @@
       }
 
       loadOrderItemConcepts(testOrder)
-        .then(function () {
+        .then(() => {
           vm.selectedTestOrder = testOrder;
           vm.selectedTestOrder.selected = true;
-          vm.testOrderResults.forEach(function (o) {
+          vm.testOrderResults.forEach(o => {
             if (o !== vm.selectedTestOrder) {
               o.selected = false;
             }
@@ -59,7 +59,7 @@
       var i = vm.testOrderResults.indexOf(testOrderResult);
 
       testOrderResultService.getTestOrderResult(testOrderResult.uuid)
-        .then(function (reloadedTestOrderResult) {
+        .then(reloadedTestOrderResult => {
           vm.testOrderResults[i] = reloadedTestOrderResult;
           selectTestOrderResult(vm.testOrderResults[i]);
         });
@@ -78,18 +78,14 @@
      * @returns {Promise[]}
      */
     function loadOrderItemConcepts(testOrder) {
-      var loadConcept = testOrder.items.map(function (i) {
-        return getOrder(i.testOrder.uuid)
-          .then(function (order) {
-            return getConcept(order.concept.uuid);
-          })
-          .then(function (concept) {
-            i.testOrder.concept = concept;
-            return concept;
-          });
-      });
+      var loadConcept = testOrder.items.map(i => getOrder(i.testOrder.uuid)
+        .then(order => getConcept(order.concept.uuid))
+        .then(concept => {
+          i.testOrder.concept = concept;
+          return concept;
+        }));
       return $q.all(loadConcept)
-        .catch(function (error) {
+        .catch(error => {
           notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
         });
     }

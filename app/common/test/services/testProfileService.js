@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -19,10 +19,8 @@
 
     function getTestProfiles() {
       return $http.get(TEST_PROFILE_FILE)
-        .then(function (response) {
-          return response.data.testProfiles;
-        })
-        .catch(function (error) {
+        .then(response => response.data.testProfiles)
+        .catch(error => {
           $log.error("The async call has fail to: " + TEST_PROFILE_FILE);
         });
     }

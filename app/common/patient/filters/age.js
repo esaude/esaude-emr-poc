@@ -1,8 +1,6 @@
 angular.module('common.patient')
-.filter('age', function() {
-	return function(age) {
-		if(age.years) return age.years + " y";
-		if(age.months) return age.months + " m";
-		return age.days + " d";
-	};
+.filter('age', () => age => {
+  if (age.years) return age.years + " y";
+  if (age.months) return age.months + " m";
+  return age.days + " d";
 });

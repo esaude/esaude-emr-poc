@@ -56,9 +56,7 @@
         },
         tooltips: {
           // Show scheduled before checkins
-          itemSort: function compare(a, b) {
-            return b.datasetIndex - a.datasetIndex;
-          }
+          itemSort: (a, b) => b.datasetIndex - a.datasetIndex
         }
       }
     };
@@ -73,7 +71,7 @@
 
     function $onInit() {
       applicationService.getApps()
-        .then(function (apps) {
+        .then(apps => {
           vm.apps = apps;
         })
         .then(loadConsultationCharts);
@@ -88,13 +86,9 @@
     }
 
     function getConsultationsAndCheckedInCount(date, summary) {
-      var found = summary.find(function (s) {
-        return moment(s.consultationDate).isSame(date);
-      });
+      var found = summary.find(s => moment(s.consultationDate).isSame(date));
       if (found) {
-        var checkedIn = found.patientConsultations.filter(function (c) {
-          return c.checkInOnConsultationDate;
-        });
+        var checkedIn = found.patientConsultations.filter(c => c.checkInOnConsultationDate);
         return [checkedIn.length, found.patientConsultations.length];
       } else {
         return [0, 0];
@@ -105,13 +99,9 @@
 
       var dates = dateRange(consultationSummary.startDate, consultationSummary.endDate);
 
-      vm.consultationSummary.labels = dates.map(function (d) {
-        return d.format('D MMM');
-      });
+      vm.consultationSummary.labels = dates.map(d => d.format('D MMM'));
 
-      var data = dates.map(function (d) {
-        return getConsultationsAndCheckedInCount(d, consultationSummary.summary);
-      });
+      var data = dates.map(d => getConsultationsAndCheckedInCount(d, consultationSummary.summary));
 
       vm.consultationSummary.data = _.zip.apply(_, data); //transpose
 
@@ -120,9 +110,7 @@
     function handleError(errorData) {
       var dates = dateRange(errorData.consultationSummary.startDate, errorData.consultationSummary.endDate);
 
-      vm.consultationSummary.labels = dates.map(function (d) {
-        return d.format('D MMM');
-      });
+      vm.consultationSummary.labels = dates.map(d => d.format('D MMM'));
 
       notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ACTION'));
     }
@@ -135,9 +123,7 @@
     function dateRange(startDate, endDate) {
       var diff = endDate.diff(startDate, 'days') + 1;
       var range = new Array(diff).fill(0);
-      return range.map(function (curr, idx) {
-        return startDate.clone().add(idx, 'days');
-      });
+      return range.map((curr, idx) => startDate.clone().add(idx, 'days'));
     }
 
     function onMonthlySummaryClick() {

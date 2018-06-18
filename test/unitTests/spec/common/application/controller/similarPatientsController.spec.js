@@ -1,4 +1,4 @@
-describe("SimilarPatientsController", function () {
+describe("SimilarPatientsController", () => {
 
     var $controller, $rootScope, $location, controller, scope;
 
@@ -6,13 +6,13 @@ describe("SimilarPatientsController", function () {
 
     beforeEach(module("application"));
 
-    beforeEach(inject(function (_$controller_, _$rootScope_, _$location_) {
+    beforeEach(inject((_$controller_, _$rootScope_, _$location_) => {
         $controller = _$controller_;
         $rootScope = _$rootScope_;
         $location = _$location_;
     }));
 
-    beforeEach(function () {
+    beforeEach(() => {
         scope = { patient: patient };
 
         spyOn($location, 'url');
@@ -21,16 +21,16 @@ describe("SimilarPatientsController", function () {
         $rootScope.$apply();
     });
 
-    describe("activate", function () {
-        it("should set initial variables", function () {
+    describe("activate", () => {
+        it("should set initial variables", () => {
             expect(controller.patient).toEqual(patient);
             expect(controller.similarPatients).toEqual([]);
         });
     });
 
-    describe("loadPatientToDashboard", function() {
+    describe("loadPatientToDashboard", () => {
 
-        it("should load dashboard", function() {
+        it("should load dashboard", () => {
             expect(controller.patient).toEqual(patient);
             controller.loadPatientToDashboard();
             expect($rootScope.patient).toEqual(patient);

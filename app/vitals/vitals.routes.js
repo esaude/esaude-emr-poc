@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -12,7 +12,7 @@
 
     // to prevent the browser from displaying a password pop-up in case of an authentication error
     $httpProvider.defaults.headers.common['Disable-WWW-Authenticate'] = 'true';
-    $urlRouterProvider.otherwise(function ($injector) {
+    $urlRouterProvider.otherwise($injector => {
       $injector.get('$state').go('search');
     });
 
@@ -24,8 +24,8 @@
         component: 'patientSearch',
         resolve: {
           initialization: 'initialization',
-          createPatient: function () { return false; },
-          showSchedule: function () { return false; },
+          createPatient: () => false,
+          showSchedule: () => false,
         },
         ncyBreadcrumb: {
           label: '{{\'APP_VITALS\' | translate}} /  {{\'SEARCH_PATIENT\' | translate}}'
@@ -36,7 +36,7 @@
         component: 'dashboard',
         resolve: {
           initialization: 'initialization',
-          patient: function (initialization, $stateParams, patientService) {
+          patient: (initialization, $stateParams, patientService) => {
             // We need initialization to always resolve first
             return patientService.getPatient($stateParams.patientUuid);
           }
@@ -51,7 +51,7 @@
         component: 'clinicalServices',
         resolve: {
           initialization: 'initialization',
-          clinicalServicesService: function (initialization, clinicalServicesService, $stateParams) {
+          clinicalServicesService: (initialization, clinicalServicesService, $stateParams) => {
             // We need initialization to always resolve first
             return clinicalServicesService.init('vitals', $stateParams.patientUuid);
           }

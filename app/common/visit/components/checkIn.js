@@ -28,7 +28,7 @@
       var patient = changesObj.patient.currentValue;
       if (patient && patient.uuid) {
         visitService.getTodaysVisit(patient.uuid)
-          .then(function (todaysLastVisit) {
+          .then(todaysLastVisit => {
             if (todaysLastVisit != null) {
               vm.todayVisit = todaysLastVisit;
             }
@@ -38,22 +38,22 @@
 
     function checkIn() {
       visitService.checkInPatient(vm.patient)
-        .then(function (visit) {
+        .then(visit => {
           vm.todayVisit = visit;
           vm.onCheckInChange();
         })
-        .catch(function () {
+        .catch(() => {
           notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
         });
     }
 
     function cancelCheckIn() {
       visitService.deleteVisit(vm.todayVisit)
-        .then(function () {
+        .then(() => {
           vm.todayVisit = null;
           vm.onCheckInChange();
         })
-        .catch(function (errorMsg) {
+        .catch(errorMsg => {
           notifier.error(errorMsg);
         });
     }

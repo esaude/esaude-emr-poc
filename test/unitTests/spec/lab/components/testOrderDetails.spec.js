@@ -1,21 +1,19 @@
-describe('TestOrderDetailsController', function () {
+describe('TestOrderDetailsController', () => {
 
   var $componentController, $q, $rootScope, testOrderResultService;
 
-  beforeEach(module('lab', function ($provide, $translateProvider, $urlRouterProvider) {
+  beforeEach(module('lab', ($provide, $translateProvider, $urlRouterProvider) => {
     // Mock translate asynchronous loader
-    $provide.factory('mergeLocaleFilesService', function ($q) {
-      return function () {
-        var deferred = $q.defer();
-        deferred.resolve({});
-        return deferred.promise;
-      };
+    $provide.factory('mergeLocaleFilesService', $q => () => {
+      var deferred = $q.defer();
+      deferred.resolve({});
+      return deferred.promise;
     });
     $translateProvider.useLoader('mergeLocaleFilesService');
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function (_$componentController_, _patientService_, _$q_, _$rootScope_, _testOrderResultService_) {
+  beforeEach(inject((_$componentController_, _patientService_, _$q_, _$rootScope_, _testOrderResultService_) => {
     $componentController = _$componentController_;
     $q = _$q_;
     testOrderResultService = _testOrderResultService_;
@@ -23,17 +21,16 @@ describe('TestOrderDetailsController', function () {
   }));
 
 
-  describe('saveTestResultItem', function () {
+  describe('saveTestResultItem', () => {
 
-    beforeEach(function () {
-      spyOn(testOrderResultService, 'saveTestResultItem').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve({uuid: 'new', value: 0.1});
-        });
-      });
+    beforeEach(() => {
+      spyOn(testOrderResultService, 'saveTestResultItem').and.callFake(() => $q(resolve => resolve({
+        uuid: 'new',
+        value: 0.1
+      })));
     });
 
-    it('should save the given test result item', function () {
+    it('should save the given test result item', () => {
 
       var ctrl = $componentController('testOrderResultDetails', null, {testOrderResult: {items: []}});
 
@@ -43,7 +40,7 @@ describe('TestOrderDetailsController', function () {
 
     });
 
-    it('should set the result value', function () {
+    it('should set the result value', () => {
 
       var item = {value: ''};
       var testResult = {items: [item]};
@@ -57,7 +54,7 @@ describe('TestOrderDetailsController', function () {
 
     });
 
-    it('should update the result uuid', function () {
+    it('should update the result uuid', () => {
 
       var item = {value: ''};
       var testResult = {items: [item]};
@@ -71,7 +68,7 @@ describe('TestOrderDetailsController', function () {
 
     });
 
-    it('should update the item', function () {
+    it('should update the item', () => {
 
       var item = {value: ''};
       var testResult = {items: [item]};
@@ -88,9 +85,9 @@ describe('TestOrderDetailsController', function () {
 
   });
 
-  describe('getTestOrderItemValue', function () {
+  describe('getTestOrderItemValue', () => {
 
-    it('should return the test order item value', function () {
+    it('should return the test order item value', () => {
 
       var ctrl = $componentController('testOrderResultDetails');
 
@@ -100,9 +97,9 @@ describe('TestOrderDetailsController', function () {
 
     });
 
-    describe('coded datatype concept', function () {
+    describe('coded datatype concept', () => {
 
-      it('should return the name from one of the possible answers', function () {
+      it('should return the name from one of the possible answers', () => {
 
         var ctrl = $componentController('testOrderResultDetails');
 
@@ -127,17 +124,13 @@ describe('TestOrderDetailsController', function () {
 
   });
 
-  describe('removeTestResultItem', function () {
+  describe('removeTestResultItem', () => {
 
-    beforeEach(function () {
-      spyOn(testOrderResultService, 'removeTestResultItem').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve({});
-        });
-      });
+    beforeEach(() => {
+      spyOn(testOrderResultService, 'removeTestResultItem').and.callFake(() => $q(resolve => resolve({})));
     });
 
-    it('should delete the test order result item value', function () {
+    it('should delete the test order result item value', () => {
 
       var item = {value: ''};
       var testResult = {items: [item]};
@@ -151,7 +144,7 @@ describe('TestOrderDetailsController', function () {
     });
 
 
-    it('call the test reload test order result binding', function () {
+    it('call the test reload test order result binding', () => {
 
       var item = {value: 777};
       var testResult = {items: [item]};

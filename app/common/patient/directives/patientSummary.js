@@ -1,13 +1,13 @@
 'use strict';
 
-angular.module('common.patient').directive('patientSummary', function() {
-    var link = function($scope, elem, attrs) {
+angular.module('common.patient').directive('patientSummary', () => {
+    var link = ($scope, elem, attrs) => {
         $scope.showPatientDetails = false;
-        $scope.togglePatientDetails = function() {
+        $scope.togglePatientDetails = () => {
             $scope.showPatientDetails = !$scope.showPatientDetails;
         };
 
-        $scope.onImageClick = function() {
+        $scope.onImageClick = () => {
             if($scope.onImageClickHandler) {
                 $scope.onImageClickHandler();
             }

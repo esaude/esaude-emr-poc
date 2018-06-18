@@ -5,13 +5,13 @@ Bahmni.Registration.customValidator = {
   "date": {}
 };
 
-describe('ValidationUtil', function () {
+describe('ValidationUtil', () => {
   var date = new Date();
 
   var ValidationUtil = Bahmni.Common.Util.ValidationUtil;
   var customValidator = Bahmni.Registration.customValidator;
   var complexObject, objectConfiguration;
-  beforeEach(function () {
+  beforeEach(() => {
     complexObject = {
       "name": "don joe",
       "age": {days: 7},
@@ -30,7 +30,7 @@ describe('ValidationUtil', function () {
   });
 
   //TODO: Check issue with Dates units
-  it("should call the custom validators", function () {
+  it("should call the custom validators", () => {
     customValidator["age.days"] = jasmine.createSpyObj('age.days', ['method']);
     customValidator["age.days"].method.and.returnValue(true);
     customValidator["name"] = jasmine.createSpyObj('name', ['method']);
@@ -43,7 +43,7 @@ describe('ValidationUtil', function () {
     //expect(customValidator["date"].method).toHaveBeenCalledWith("date", date, undefined);
   });
 
-  it("should return the error message when the predicate fails", function () {
+  it("should return the error message when the predicate fails", () => {
     customValidator["Telephone Number"] = jasmine.createSpyObj('Telephone Number', ['method']);
     customValidator["Telephone Number"].method.and.returnValue(false);
     customValidator["Telephone Number"].errorMessage = "Invalid Telephone Number";
@@ -52,7 +52,7 @@ describe('ValidationUtil', function () {
     expect(msg).toEqual("Invalid Telephone Number");
   });
 
-  it("should return nothing when the custom validator is not present", function () {
+  it("should return nothing when the custom validator is not present", () => {
     customValidator = undefined;
     var msg = ValidationUtil.validate(complexObject, objectConfiguration);
     expect(msg).toEqual('');

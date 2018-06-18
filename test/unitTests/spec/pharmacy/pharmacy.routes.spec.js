@@ -1,25 +1,21 @@
-describe('pharmacy.routes', function () {
+describe('pharmacy.routes', () => {
 
   var patientService, $location, $rootScope, $state, authorizationService, $q, $httpBackend;
 
-  beforeEach(module('pharmacy', function ($provide, $translateProvider) {
+  beforeEach(module('pharmacy', ($provide, $translateProvider) => {
     // Mock translate asynchronous loader
-    $provide.factory('mergeLocaleFilesService', function ($q) {
-      return function () {
-        var deferred = $q.defer();
-        deferred.resolve({});
-        return deferred.promise;
-      };
+    $provide.factory('mergeLocaleFilesService', $q => () => {
+      var deferred = $q.defer();
+      deferred.resolve({});
+      return deferred.promise;
     });
     $translateProvider.useLoader('mergeLocaleFilesService');
 
     // Mock initialization because it is to be removed.
-    $provide.factory('initialization', function ($q) {
-      return $q.resolve({});
-    });
+    $provide.factory('initialization', $q => $q.resolve({}));
   }));
 
-  beforeEach(inject(function(_$location_, _$rootScope_, _$state_, _patientService_, _authorizationService_, _$q_, _$httpBackend_) {
+  beforeEach(inject((_$location_, _$rootScope_, _$state_, _patientService_, _authorizationService_, _$q_, _$httpBackend_) => {
     patientService = _patientService_;
     $location = _$location_;
     $rootScope = _$rootScope_;
@@ -29,19 +25,17 @@ describe('pharmacy.routes', function () {
     $httpBackend = _$httpBackend_;
   }));
 
-  describe('dashboard', function () {
+  describe('dashboard', () => {
 
     var patient = {uuid: '05358ef6-06ba-49aa-95f5-3daee8378f2d'};
 
-    beforeEach(function () {
+    beforeEach(() => {
       spyOn(patientService, 'getPatient');
     });
 
-    it('should load the patient', function () {
+    it('should load the patient', () => {
 
-      spyOn(authorizationService, 'hasRole').and.callFake(function () {
-        return $q.resolve(false);
-      });
+      spyOn(authorizationService, 'hasRole').and.callFake(() => $q.resolve(false));
 
       $location.url(`/dashboard/${patient.uuid}`);
 
@@ -51,13 +45,11 @@ describe('pharmacy.routes', function () {
 
     });
 
-    describe('redirect', function () {
+    describe('redirect', () => {
 
-      it('should check if user has independent pharmacist role', function () {
+      it('should check if user has independent pharmacist role', () => {
 
-        spyOn(authorizationService, 'hasRole').and.callFake(function () {
-          return $q.resolve(false);
-        });
+        spyOn(authorizationService, 'hasRole').and.callFake(() => $q.resolve(false));
 
         $location.url(`/dashboard/${patient.uuid}`);
 
@@ -67,14 +59,12 @@ describe('pharmacy.routes', function () {
           .toHaveBeenCalledWith(['POC: Pharmacist - Independent', 'POC: Pharmacist - Independent (Admin)']);
       });
 
-      it('should redirect to prescriptions for independent pharmacists', function () {
+      it('should redirect to prescriptions for independent pharmacists', () => {
 
         // TODO just remove after refactoring prescription
         $httpBackend.expectGET('views/patient-simplified-prescriptions.html').respond('');
 
-        spyOn(authorizationService, 'hasRole').and.callFake(function () {
-          return $q.resolve(true);
-        });
+        spyOn(authorizationService, 'hasRole').and.callFake(() => $q.resolve(true));
 
         $location.url(`/dashboard/${patient.uuid}`);
 
@@ -86,11 +76,9 @@ describe('pharmacy.routes', function () {
 
       });
 
-      it('should redirect to FILA History for independent pharmacists', function () {
+      it('should redirect to FILA History for independent pharmacists', () => {
 
-        spyOn(authorizationService, 'hasRole').and.callFake(function () {
-          return $q.resolve(false);
-        });
+        spyOn(authorizationService, 'hasRole').and.callFake(() => $q.resolve(false));
 
         $location.url(`/dashboard/${patient.uuid}`);
 

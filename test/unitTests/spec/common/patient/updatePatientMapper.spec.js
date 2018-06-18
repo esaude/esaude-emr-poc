@@ -1,19 +1,19 @@
-describe('updatePatientMapper', function () {
+describe('updatePatientMapper', () => {
 
   var updatePatientMapper;
 
   beforeEach(module('common.patient'));
 
-  beforeEach(inject(function (_updatePatientMapper_) {
+  beforeEach(inject(_updatePatientMapper_ => {
     updatePatientMapper = _updatePatientMapper_;
   }));
 
-  describe('map', function () {
+  describe('map', () => {
 
 
-    describe('changed identifiers', function () {
+    describe('changed identifiers', () => {
 
-      it('should map changed identifiers string', function () {
+      it('should map changed identifiers string', () => {
 
         var patientAttributeTypes2 = [];
         var openMRSPatient = {
@@ -33,7 +33,7 @@ describe('updatePatientMapper', function () {
         expect(mapped.changedIdentifiers).toContain(jasmine.objectContaining({identifier: 'ZYX'}));
       });
 
-      it('should map changed preferred identifier', function () {
+      it('should map changed preferred identifier', () => {
 
         var patientAttributeTypes2 = [];
         var openMRSPatient = {

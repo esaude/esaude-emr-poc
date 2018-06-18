@@ -1,9 +1,9 @@
-describe('patientHeaderController', function () {
+describe('patientHeaderController', () => {
 
   var $componentController, $q, $state, $uibModal;
 
   beforeEach(module('common.patient'));
-  beforeEach(inject(function(_$componentController_, _$q_, _$state_, _$uibModal_) {
+  beforeEach(inject((_$componentController_, _$q_, _$state_, _$uibModal_) => {
     $componentController = _$componentController_;
     $q = _$q_;
     $state = _$state_;
@@ -11,17 +11,13 @@ describe('patientHeaderController', function () {
   }));
 
 
-  describe('openPatientDeleteModal', function () {
+  describe('openPatientDeleteModal', () => {
 
-    it('should open a modal', function () {
+    it('should open a modal', () => {
 
-      spyOn($uibModal, 'open').and.callFake(function () {
-        return {
-          result: $q(function (resolve) {
-            return resolve({});
-          })
-        };
-      });
+      spyOn($uibModal, 'open').and.callFake(() => ({
+        result: $q(resolve => resolve({}))
+      }));
 
       var ctrl = $componentController('patientHeader');
 

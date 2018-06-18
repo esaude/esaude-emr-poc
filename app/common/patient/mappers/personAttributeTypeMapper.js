@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -13,7 +13,7 @@
     };
 
     function map(openMrsPersonAttributeTypes) {
-      var pocPersonAttributeTypes = openMrsPersonAttributeTypes.map(function(mrsAttributeType) {
+      var pocPersonAttributeTypes = openMrsPersonAttributeTypes.map(mrsAttributeType => {
 
         var attributeType = {
           uuid: mrsAttributeType.uuid,
@@ -26,12 +26,10 @@
         };
 
         if (mrsAttributeType.concept && mrsAttributeType.concept.answers) {
-          attributeType.answers = mrsAttributeType.concept.answers.map(function(mrsAnswer) {
-            return {
-              description: mrsAnswer.display,
-              conceptId: mrsAnswer.uuid
-            };
-          });
+          attributeType.answers = mrsAttributeType.concept.answers.map(mrsAnswer => ({
+            description: mrsAnswer.display,
+            conceptId: mrsAnswer.uuid
+          }));
         }
 
         return attributeType;
@@ -41,9 +39,7 @@
     }
 
     function isRequired(mrsAttributeType) {
-      var element = _.find(mandatoryPersonAttributes, function (m) {
-        return m === mrsAttributeType.name;
-      });
+      var element = _.find(mandatoryPersonAttributes, m => m === mrsAttributeType.name);
       return !!element;
     }
   }

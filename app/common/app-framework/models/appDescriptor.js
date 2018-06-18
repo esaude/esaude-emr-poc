@@ -16,28 +16,26 @@ Bahmni.Common.AppFramework.AppDescriptor = function (context, inheritContext, re
 
     var self = this;
 
-    this.setFormLayout = function (formLayout) {
+    this.setFormLayout = formLayout => {
         self.formLayout = formLayout || [];
     };
 
-    this.setClinicalServices = function (clinicalServices) {
+    this.setClinicalServices = clinicalServices => {
         self.clinicalServices = clinicalServices || [];
     };
 
-    this.setDrugMapping = function (drugMapping) {
+    this.setDrugMapping = drugMapping => {
         self.drugMapping = drugMapping || [];
     };
 
-    this.setDefinition = function(instance) {
+    this.setDefinition = instance => {
         self.instanceOf = instance.instanceOf;
         self.id = instance.id;
         self.description = instance.description;
         self.contextModel = instance.contextModel;
         if (instance.extensionPoints) {
-            instance.extensionPoints.forEach(function(iep) {
-                var existing = self.extensionPoints.filter(function(ep) {
-                    return ep.id == iep.id;
-                });
+            instance.extensionPoints.forEach(iep => {
+                var existing = self.extensionPoints.filter(ep => ep.id == iep.id);
                 if (existing.length === 0) {
                     self.extensionPoints.push(iep);
                 }
@@ -56,31 +54,21 @@ Bahmni.Common.AppFramework.AppDescriptor = function (context, inheritContext, re
         }
     };
 
-    this.getExtensions = function (extPointId, type) {
+    this.getExtensions = (extPointId, type) => {
         var currentUser = retrieveUserCallback();
         if (currentUser && self.extensions) {
             var extnType = type || 'all';
-            var userPrivileges = currentUser.privileges.map(function (priv) {
-                return priv.retired ? "" : priv.name;
-            });
-            var appsExtns = self.extensions.filter(function (extn) {
-                return ((extnType==='all') || (extn.type===extnType)) && (extn.extensionPointId === extPointId) && (!extn.requiredPrivilege || (userPrivileges.indexOf(extn.requiredPrivilege) >= 0));
-            });
-            appsExtns.sort(function(extn1, extn2) {
-                return extn1.order - extn2.order;
-            });
+            var userPrivileges = currentUser.privileges.map(priv => priv.retired ? "" : priv.name);
+            var appsExtns = self.extensions.filter(extn => ((extnType === 'all') || (extn.type === extnType)) && (extn.extensionPointId === extPointId) && (!extn.requiredPrivilege || (userPrivileges.indexOf(extn.requiredPrivilege) >= 0)));
+            appsExtns.sort((extn1, extn2) => extn1.order - extn2.order);
             return appsExtns;
         }
     };
 
-    this.getId = function() {
-        return self.id;
-    };
+    this.getId = () => self.id;
 
-    this.getConfig = function(configName) {
-        var cfgList = self.configs.filter(function(cfg) {
-            return cfg.name == configName;
-        });
+    this.getConfig = configName => {
+        var cfgList = self.configs.filter(cfg => cfg.name == configName);
         return (cfgList.length > 0) ? cfgList[0] : null;
     };
 
@@ -96,7 +84,7 @@ Bahmni.Common.AppFramework.AppDescriptor = function (context, inheritContext, re
             checkQueryParams = useQueryParams || false,
             queryParameters = this.parseQueryParams();
         if (matches) {
-            matches.forEach(function(el) {
+            matches.forEach(el => {
                 var key = el.replace("{{",'').replace("}}",'');
                 var value = options[key];
                 if (!value && (checkQueryParams===true)) {
@@ -108,12 +96,12 @@ Bahmni.Common.AppFramework.AppDescriptor = function (context, inheritContext, re
         return replacedString.trim();
     };
 
-    this.parseQueryParams = function(locationSearchString) {
+    this.parseQueryParams = locationSearchString => {
         var urlParams;
         var match,
             pl     = /\+/g,  // Regex for replacing addition symbol with a space
             search = /([^&=]+)=?([^&]*)/g,
-            decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+            decode = s => decodeURIComponent(s.replace(pl, " ")),
             queryString  = locationSearchString || window.location.search.substring(1);
 
         urlParams = {};
@@ -134,15 +122,9 @@ Bahmni.Common.AppFramework.AppDescriptor = function (context, inheritContext, re
     //     return self.pageConfigs[pageName];
     // };
 
-    this.getFormLayout = function () {
-        return self.formLayout;
-    };
+    this.getFormLayout = () => self.formLayout;
 
-    this.getDrugMapping = function () {
-        return self.drugMapping;
-    };
+    this.getDrugMapping = () => self.drugMapping;
 
-    this.getClinicalServices = function () {
-        return self.clinicalServices;
-    };
+    this.getClinicalServices = () => self.clinicalServices;
 };

@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -29,7 +29,7 @@
     function loadUser() {
       var currentUser = $cookies.get(Bahmni.Common.Constants.currentUser);
 
-      return userService.getUser(currentUser).success(function (data) {
+      return userService.getUser(currentUser).success(data => {
         $rootScope.currentUser = data.results[0];
       });
     }

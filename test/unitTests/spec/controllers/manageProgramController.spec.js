@@ -1,6 +1,6 @@
 'use strict';
 
-describe("ManageProgramController", function () {
+describe("ManageProgramController", () => {
 
   var $controller, $rootScope, $q, programService;
 
@@ -9,32 +9,24 @@ describe("ManageProgramController", function () {
 
   beforeEach(module('bahmni.common.uicontrols.programmanagment'));
 
-  beforeEach(inject(function (_$controller_, _$rootScope_, _$q_, _programService_) {
+  beforeEach(inject((_$controller_, _$rootScope_, _$q_, _programService_) => {
     $controller = _$controller_;
     $rootScope = _$rootScope_;
     $q = _$q_;
     programService = _programService_;
   }));
 
-  describe('activate', function () {
+  describe('activate', () => {
 
-    beforeEach(function () {
+    beforeEach(() => {
 
-      spyOn(programService, 'getAllPrograms').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve(PROGRAMS);
-        });
-      });
+      spyOn(programService, 'getAllPrograms').and.callFake(() => $q(resolve => resolve(PROGRAMS)));
 
-      spyOn(programService, 'getPatientPrograms').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve([]);
-        });
-      });
+      spyOn(programService, 'getPatientPrograms').and.callFake(() => $q(resolve => resolve([])));
 
     });
 
-    it('should load all programs', function () {
+    it('should load all programs', () => {
 
       var ctrl = $controller('ManageProgramController', { $scope: {} });
 
@@ -42,7 +34,7 @@ describe("ManageProgramController", function () {
 
     });
 
-    it('should initialize data and load all programs', function () {
+    it('should initialize data and load all programs', () => {
 
       var scope = {};
       var ctrl = $controller('ManageProgramController', { $scope: scope });
@@ -55,9 +47,9 @@ describe("ManageProgramController", function () {
 
   });
 
-  describe('resetProgramFields', function () {
+  describe('resetProgramFields', () => {
 
-    it('should reset selected state', function () {
+    it('should reset selected state', () => {
 
       var scope = { programEdited: { programEdited: '' } };
       var ctrl = $controller('ManageProgramController', { $scope: scope });
@@ -67,7 +59,7 @@ describe("ManageProgramController", function () {
       expect(scope.programEdited.selectedState).toEqual(null);
 
     });
-    it('should reset start date', function () {
+    it('should reset start date', () => {
 
       var scope = { programEdited: { startDate: new Date() } };
       var ctrl = $controller('ManageProgramController', { $scope: scope });
@@ -78,7 +70,7 @@ describe("ManageProgramController", function () {
 
     });
 
-    it('should reset program selected', function () {
+    it('should reset program selected', () => {
 
       var scope = { programSelected: { x: 'y' } };
       var ctrl = $controller('ManageProgramController', { $scope: scope });
@@ -89,7 +81,7 @@ describe("ManageProgramController", function () {
 
     });
 
-    it('should reset selected workflow state', function () {
+    it('should reset selected workflow state', () => {
 
       var scope = { workflowStateSelected: { x: 'y' } };
       var ctrl = $controller('ManageProgramController', { $scope: scope });
@@ -102,8 +94,8 @@ describe("ManageProgramController", function () {
 
   });
 
-  describe('setProgramSelected', function () {
-    it('should set the selected program and state', function () {
+  describe('setProgramSelected', () => {
+    it('should set the selected program and state', () => {
       var scope = {};
       var patientProgram = {
         program: {
@@ -121,7 +113,7 @@ describe("ManageProgramController", function () {
       expect(scope.getCurrentProgramState(patientProgram.program.allWorkflows[0].states).uuid).toEqual('UUID4');
     });
 
-    it('should not allow completion date for arv treatment', function () {
+    it('should not allow completion date for arv treatment', () => {
       var ARV_TREATMENT_PROGRAM_UUID = 'efe2481f-9e75-4515-8d5a-86bfde2b5ad3';
       var scope = {};
       var patientProgram = {
@@ -134,7 +126,7 @@ describe("ManageProgramController", function () {
       expect(scope.allowCompletionDate).toBe(false);
     });
 
-    it('should allow completion date for any other program besides arv treatment', function () {
+    it('should allow completion date for any other program besides arv treatment', () => {
       var scope = {};
       var patientProgram = {
         program: {
@@ -147,22 +139,22 @@ describe("ManageProgramController", function () {
     });
   });
 
-  describe('hasPatientEnrolledToSomePrograms', function () {
-    it('should be false when programs list is empty', function () {
+  describe('hasPatientEnrolledToSomePrograms', () => {
+    it('should be false when programs list is empty', () => {
       var scope = { activePrograms: [] };
       var ctrl = $controller('ManageProgramController', { $scope: scope });
       expect(scope.hasPatientEnrolledToSomePrograms()).toBeFalsy();
     });
 
-    it('should be true when programs list is not empty', function () {
+    it('should be true when programs list is not empty', () => {
       var scope = { activePrograms: ["PRG1"] };
       var ctrl = $controller('ManageProgramController', { $scope: scope });
       expect(scope.hasPatientEnrolledToSomePrograms()).toBeTruthy();
     });
   });
 
-  describe('hasPatientAnyPastPrograms', function () {
-    it('should be true when ended programs list is not empty', function () {
+  describe('hasPatientAnyPastPrograms', () => {
+    it('should be true when ended programs list is not empty', () => {
       var scope = { endedPrograms: ["PRG1"] };
       var ctrl = $controller('ManageProgramController', { $scope: scope });
       expect(scope.hasPatientAnyPastPrograms()).toBeTruthy();

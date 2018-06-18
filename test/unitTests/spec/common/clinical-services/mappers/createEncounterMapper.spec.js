@@ -1,12 +1,12 @@
 'use strict';
 
-describe('createEncounterMapper', function () {
+describe('createEncounterMapper', () => {
 
   var createEncounterMapper, formPayload, formParts, patient, location, provider, jan312018;
 
   beforeEach(module('poc.common.clinicalservices'));
 
-  beforeEach(inject(function (_createEncounterMapper_) {
+  beforeEach(inject(_createEncounterMapper_ => {
     createEncounterMapper = _createEncounterMapper_;
     jan312018 = new Date(2018, 0, 31);
     formPayload = {
@@ -45,9 +45,9 @@ describe('createEncounterMapper', function () {
     location = '7fc3f286-15b1-465e-9013-b72916f58b2d';
   }));
 
-  describe('mapFromFormPayload', function () {
+  describe('mapFromFormPayload', () => {
 
-    it('should format date and datetime datatypes', function () {
+    it('should format date and datetime datatypes', () => {
 
       var encounter = createEncounterMapper.mapFromFormPayload(formPayload, formParts, patient, location, provider);
 

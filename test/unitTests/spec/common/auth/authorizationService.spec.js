@@ -1,6 +1,6 @@
 'use strict';
 
-describe('authorizationService', function () {
+describe('authorizationService', () => {
 
   var authorizationService, sessionService, $q, $rootScope, $log;
 
@@ -19,7 +19,7 @@ describe('authorizationService', function () {
 
   beforeEach(module('authentication'));
 
-  beforeEach(inject(function (_authorizationService_, _sessionService_, _$q_, _$rootScope_, _$log_) {
+  beforeEach(inject((_authorizationService_, _sessionService_, _$q_, _$rootScope_, _$log_) => {
     authorizationService = _authorizationService_;
     sessionService = _sessionService_;
     $q = _$q_;
@@ -27,23 +27,19 @@ describe('authorizationService', function () {
     $log = _$log_;
   }));
 
-  describe('hasRole', function () {
+  describe('hasRole', () => {
 
-    describe('session available', function () {
+    describe('session available', () => {
 
-      beforeEach(function () {
-        spyOn(sessionService, 'getSession').and.callFake(function () {
-          return $q(function (resolve) {
-            return resolve(session);
-          });
-        });
+      beforeEach(() => {
+        spyOn(sessionService, 'getSession').and.callFake(() => $q(resolve => resolve(session)));
       });
 
-      it('should check if logged user has role', function () {
+      it('should check if logged user has role', () => {
 
         var hasRole;
 
-        authorizationService.hasRole(['Data Manager']).then(function (v) {
+        authorizationService.hasRole(['Data Manager']).then(v => {
           hasRole = v;
         });
 
@@ -53,22 +49,18 @@ describe('authorizationService', function () {
       });
     });
 
-    describe('error getting session', function () {
+    describe('error getting session', () => {
 
-      beforeEach(function () {
-        spyOn(sessionService, 'getSession').and.callFake(function () {
-          return $q(function (resolve, reject) {
-            return reject({data: {error: {message: ''}}});
-          });
-        });
-        spyOn($log, 'error').and.callFake(function () {});
+      beforeEach(() => {
+        spyOn(sessionService, 'getSession').and.callFake(() => $q((resolve, reject) => reject({data: {error: {message: ''}}})));
+        spyOn($log, 'error').and.callFake(() => {});
       });
 
-      it('should log error cause', function () {
+      it('should log error cause', () => {
 
         var hasRole;
 
-        authorizationService.hasRole(['Data Manager']).then(function (v) {
+        authorizationService.hasRole(['Data Manager']).then(v => {
           hasRole = v;
         });
 
@@ -82,23 +74,19 @@ describe('authorizationService', function () {
 
   });
 
-  describe('hasPrivilege', function () {
+  describe('hasPrivilege', () => {
 
-    describe('session available', function () {
+    describe('session available', () => {
 
-      beforeEach(function () {
-        spyOn(sessionService, 'getSession').and.callFake(function () {
-          return $q(function (resolve) {
-            return resolve(session);
-          });
-        });
+      beforeEach(() => {
+        spyOn(sessionService, 'getSession').and.callFake(() => $q(resolve => resolve(session)));
       });
 
-      it('should check if logged user has privilege', function () {
+      it('should check if logged user has privilege', () => {
 
         var hasPrivilege;
 
-        authorizationService.hasPrivilege('Patient Dashboard - View Visits Section').then(function (v) {
+        authorizationService.hasPrivilege('Patient Dashboard - View Visits Section').then(v => {
           hasPrivilege = v;
         });
 
@@ -108,22 +96,18 @@ describe('authorizationService', function () {
       });
     });
 
-    describe('error getting session', function () {
+    describe('error getting session', () => {
 
-      beforeEach(function () {
-        spyOn(sessionService, 'getSession').and.callFake(function () {
-          return $q(function (resolve, reject) {
-            return reject({data: {error: {message: ''}}});
-          });
-        });
-        spyOn($log, 'error').and.callFake(function () {});
+      beforeEach(() => {
+        spyOn(sessionService, 'getSession').and.callFake(() => $q((resolve, reject) => reject({data: {error: {message: ''}}})));
+        spyOn($log, 'error').and.callFake(() => {});
       });
 
-      it('should log error cause', function () {
+      it('should log error cause', () => {
 
         var hasPrivilege;
 
-        authorizationService.hasPrivilege('Delete Relationships').then(function (v) {
+        authorizationService.hasPrivilege('Delete Relationships').then(v => {
           hasPrivilege = v;
         });
 
@@ -137,24 +121,20 @@ describe('authorizationService', function () {
 
   });
 
-  describe('authorizeApps', function () {
+  describe('authorizeApps', () => {
 
     var apps = [{roles: ['Data Manager']}, {roles: ['Clinical Research Manager']}, {name: 'APP_REGISTRATION'}];
 
-    beforeEach(function () {
-      spyOn(sessionService, 'getSession').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve(session);
-        });
-      });
+    beforeEach(() => {
+      spyOn(sessionService, 'getSession').and.callFake(() => $q(resolve => resolve(session)));
     });
 
 
-    it('should return apps which logged user is authorized', function () {
+    it('should return apps which logged user is authorized', () => {
 
       var authApps;
 
-      authorizationService.authorizeApps(apps).then(function (apps) {
+      authorizationService.authorizeApps(apps).then(apps => {
         authApps = apps;
       });
 
@@ -164,11 +144,11 @@ describe('authorizationService', function () {
 
     });
 
-    it('should return apps with no role defined', function () {
+    it('should return apps with no role defined', () => {
 
       var authApps;
 
-      authorizationService.authorizeApps(apps).then(function (apps) {
+      authorizationService.authorizeApps(apps).then(apps => {
         authApps = apps;
       });
 
@@ -179,23 +159,19 @@ describe('authorizationService', function () {
 
   });
 
-  describe('authorizeClinicalServices', function () {
+  describe('authorizeClinicalServices', () => {
 
     var clinicalServices = [{privilege: 'Vital'}, {privilege: 'Anamnesis'}];
 
-    beforeEach(function () {
-      spyOn(sessionService, 'getSession').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve(session);
-        });
-      });
+    beforeEach(() => {
+      spyOn(sessionService, 'getSession').and.callFake(() => $q(resolve => resolve(session)));
     });
 
-    it('should return clinical services for which logged user has at least one of privileges', function () {
+    it('should return clinical services for which logged user has at least one of privileges', () => {
 
       var authClinicalServices;
 
-      authorizationService.authorizeClinicalServices(clinicalServices).then(function (services) {
+      authorizationService.authorizeClinicalServices(clinicalServices).then(services => {
         authClinicalServices = services;
       });
 

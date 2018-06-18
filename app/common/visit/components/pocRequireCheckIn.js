@@ -36,7 +36,7 @@
     function $onChanges(changesObj) {
       if (changesObj.patient && changesObj.patient.currentValue.uuid) {
         // TODO: might be necessary to cache this call
-        visitService.getTodaysVisit(changesObj.patient.currentValue.uuid).then(function (visitToday) {
+        visitService.getTodaysVisit(changesObj.patient.currentValue.uuid).then(visitToday => {
           vm.checkedIn = visitToday !== null;
         });
       }

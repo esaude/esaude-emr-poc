@@ -42,7 +42,7 @@
         return;
       }
 
-      patientService.search(vm.searchText, patientRepresentation).then(function (patients) {
+      patientService.search(vm.searchText, patientRepresentation).then(patients => {
         vm.results = mapPatient(patients);
         vm.displayed = vm.results;
         vm.noResultsMessage = vm.results.length === 0 ? "SEARCH_PATIENT_NO_RESULT" : null;
@@ -62,7 +62,7 @@
       vm.searchText = cleanCode;
 
       patientService.search(cleanCode)
-        .then(function (patients) {
+        .then(patients => {
           if (patients.length) {
             var patient = openmrsPatientMapper.map(patients[0]);
             // Auto select the patient if the attribute is set
@@ -73,7 +73,7 @@
             notifier.info(translateFilter('SEARCH_PATIENT_NO_RESULT'));
           }
         })
-        .catch(function (data) {
+        .catch(data => {
           notifier.error(translateFilter('COMMON_SEARCH_PATIENT_ERROR'));
         });
 
@@ -105,9 +105,9 @@
     }
 
     function findLastDateOfNextConsultation() {
-      _.forEach(vm.results, function (result) {
+      _.forEach(vm.results, result => {
         observationsService.getObs(result.uuid, 'e1dae630-1d5f-11e0-b929-000c29ad1d07')
-          .then(function (obs) {
+          .then(obs => {
             //skip if doesn't have next consultation
             if (_.isEmpty(obs)) return;
 
