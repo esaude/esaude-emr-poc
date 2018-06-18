@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -33,13 +33,13 @@
     function  loadUser() {
       var currentUser = $cookies.get(Bahmni.Common.Constants.currentUser);
 
-      return userService.getUser(currentUser).success(function(data) {
+      return userService.getUser(currentUser).success(data => {
         $rootScope.currentUser = data.results[0];
       });
     }
 
     function  loadProvider() {
-      return sessionService.loadProviders($rootScope.currentUser).success(function (data) {
+      return sessionService.loadProviders($rootScope.currentUser).success(data => {
         var providerUuid = (data.results.length > 0) ? data.results[0].uuid : undefined;
         $rootScope.currentProvider = {uuid: providerUuid};
       });

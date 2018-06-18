@@ -1,4 +1,4 @@
-(function () {
+(() => {
     'use strict';
 
     angular
@@ -28,7 +28,7 @@
             } else if (moment.isMoment(obj)) {
                 return obj.format(DATETIME_FORMAT);
             } else {
-                angular.forEach(obj, function (value, index) {
+                angular.forEach(obj, (value, index) => {
                     var formatedValue = serialize(value, visitedObjects);
                     if (formatedValue !== null) {
                         obj[index] = formatedValue;
@@ -40,9 +40,7 @@
     }
 
     function isVisited(obj, visitedObjects) {
-        var result = visitedObjects.find(function (o) {
-            return o === obj;
-        });
+        var result = visitedObjects.find(o => o === obj);
         return typeof result !== 'undefined';
     }
 

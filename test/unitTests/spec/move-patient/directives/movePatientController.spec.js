@@ -1,12 +1,12 @@
 'use strict';
 
-describe('MovePatientController', function () {
+describe('MovePatientController', () => {
 
   var $controller, $q, $rootScope, appService, applicationService, ngDialog;
 
   beforeEach(module('movepatient'));
 
-  beforeEach(inject(function (_$controller_, _$q_, _$rootScope_, _applicationService_, _appService_, _ngDialog_) {
+  beforeEach(inject((_$controller_, _$q_, _$rootScope_, _applicationService_, _appService_, _ngDialog_) => {
     $controller = _$controller_;
     $q = _$q_;
     $rootScope = _$rootScope_;
@@ -15,22 +15,16 @@ describe('MovePatientController', function () {
     ngDialog = _ngDialog_;
   }));
 
-  beforeEach(function () {
-    spyOn(applicationService, 'getApps').and.callFake(function () {
-      return $q(function (resolve) {
-        return resolve([]);
-      });
-    });
+  beforeEach(() => {
+    spyOn(applicationService, 'getApps').and.callFake(() => $q(resolve => resolve([])));
     spyOn(appService, 'getAppDescriptor').and.returnValue({
-      getId: function () {
-        return 1;
-      }
+      getId: () => 1
     });
   });
 
-  describe('showDialog', function () {
+  describe('showDialog', () => {
 
-    it('should show dialog', function () {
+    it('should show dialog', () => {
 
       spyOn(ngDialog, 'open');
 
@@ -44,6 +38,6 @@ describe('MovePatientController', function () {
 
     });
 
-  })
+  });
 
 });

@@ -1,6 +1,6 @@
 'use strict';
 
-describe('programService', function () {
+describe('programService', () => {
 
     var rootScope, mockBackend;
 
@@ -14,34 +14,30 @@ describe('programService', function () {
     var mockAppService = jasmine.createSpyObj('appDescriptor', ['getAppDescriptor']);
     mockAppService.getAppDescriptor.and.returnValue(mockAppDescriptor);
 
-    beforeEach(function () {
+    beforeEach(() => {
         appService.getAppDescriptor.and.returnValue({
-            getConfig: function () {
-                return {
-                    program: ""
-                }
-            },
-            getConfigValue: function () {
-                return {
-                    mandatoryProgramAttributes: ""
-                }
-            }
+            getConfig: () => ({
+              program: ""
+            }),
+            getConfigValue: () => ({
+              mandatoryProgramAttributes: ""
+            })
         });
 
         module('bahmni.common.domain');
         module('bahmni.common.uicontrols.programmanagment');
-        module(function ($provide) {
+        module($provide => {
             $provide.value('appService', appService);
         });
 
-        inject(function (_$rootScope_, _programService_, $httpBackend) {
+        inject((_$rootScope_, _programService_, $httpBackend) => {
             rootScope = _$rootScope_;
             programService = _programService_;
-            mockBackend = $httpBackend
+            mockBackend = $httpBackend;
         });
     });
 
-    it('should fetch all programs from backend and filter programs containing retired workflows and outcomes', function () {
+    it('should fetch all programs from backend and filter programs containing retired workflows and outcomes', () => {
         var allPrograms = [
             {
                 "uuid": "someProgram1Uuid",
@@ -103,7 +99,7 @@ describe('programService', function () {
 
         mockBackend.expectGET('/openmrs/ws/rest/v1/program?v=default').respond({results: allPrograms});
 
-        programService.getAllPrograms().then(function (response) {
+        programService.getAllPrograms().then(response => {
             expect(response.length).toBe(1);
             expect(response[0].allWorkflows[0].states.length).toBe(1);
         });
@@ -111,7 +107,7 @@ describe('programService', function () {
         mockBackend.flush();
     });
 
-    it("should group all programs into active/ended programs and sort them according to their dateEnrolled/dateCompleted respectively", function () {
+    it("should group all programs into active/ended programs and sort them according to their dateEnrolled/dateCompleted respectively", () => {
         var patientUuid = "somePatientUuid";
 
         var today = DateUtil.endOfToday();
@@ -251,7 +247,7 @@ describe('programService', function () {
 
         mockBackend.whenGET('/openmrs/ws/rest/v1/programenrollment?patient=somePatientUuid&v=full').respond(data.data);
 
-        programService.getPatientPrograms(patientUuid).then(function (response) {
+        programService.getPatientPrograms(patientUuid).then(response => {
 
             expect(response.activePrograms[0].display).toEqual("End Fever Program");
             expect(response.endedPrograms[0].display).toEqual("End TB Program");
@@ -261,7 +257,7 @@ describe('programService', function () {
 
     });
 
-    it('should enroll patient to a program', function () {
+    it('should enroll patient to a program', () => {
         var patientUuid = "somePatientUuid";
         var programUuid = "someProgramUuid";
         var dateEnrolled = "Fri Dec 11 2015 12:04:23 GMT+0530 (IST)";
@@ -277,7 +273,7 @@ describe('programService', function () {
             required: false
         }];
 
-        mockBackend.whenPOST('/openmrs/ws/rest/v1/programenrollment').respond(function (method, url, data) {
+        mockBackend.whenPOST('/openmrs/ws/rest/v1/programenrollment').respond((method, url, data) => {
             expect(method).toEqual('POST');
             data = JSON.parse(data);
             expect(url).toEqual(Bahmni.Common.Constants.programEnrollPatientUrl);
@@ -297,13 +293,13 @@ describe('programService', function () {
 
     });
 
-    it('should delete patient state', function () {
+    it('should delete patient state', () => {
         var patientProgramUuid = "somePatientProgramUuid";
         var patientStateUuid = "someStateUuid";
-        programService.deletePatientState(patientProgramUuid, patientStateUuid).success(function (response) {
+        programService.deletePatientState(patientProgramUuid, patientStateUuid).success(response => {
             expect(response.reason).toEqual("User deleted the state.");
         });
-        mockBackend.when('DELETE', '/openmrs/ws/rest/v1/programenrollment/somePatientProgramUuid/state/someStateUuid').respond(function (method, url) {
+        mockBackend.when('DELETE', '/openmrs/ws/rest/v1/programenrollment/somePatientProgramUuid/state/someStateUuid').respond((method, url) => {
             expect(url).toEqual(Bahmni.Common.Constants.programEnrollPatientUrl + "/" + patientProgramUuid + "/state/" + patientStateUuid);
             return [200, {"reason": "User deleted the state."}, {}];
 
@@ -313,11 +309,11 @@ describe('programService', function () {
 
     });
 
-    it('test savePatientProgram', function () {
+    it('test savePatientProgram', () => {
         var patientProgramUuid = "somePatientProgramUuid";
         var content = "SampleContent";
 
-        mockBackend.whenPOST('/openmrs/ws/rest/v1/programenrollment/somePatientProgramUuid').respond(function (method, url, data) {
+        mockBackend.whenPOST('/openmrs/ws/rest/v1/programenrollment/somePatientProgramUuid').respond((method, url, data) => {
             expect(url).toEqual(Bahmni.Common.Constants.programEnrollPatientUrl + "/" + patientProgramUuid);
             expect(JSON.parse(data).states[0].state.uuid).toEqual(content);
             return [200, {}, {}];

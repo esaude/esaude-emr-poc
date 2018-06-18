@@ -1,6 +1,6 @@
 'use strict';
 
-describe('clinicalServicesService', function () {
+describe('clinicalServicesService', () => {
 
   var $http, $q, stateProviderMock, clinicalServicesService, clinicalServicesFormMapper, visitService, encounterService,
     $rootScope, patientService;
@@ -57,17 +57,17 @@ describe('clinicalServicesService', function () {
     ]
   }];
 
-  beforeEach(function () {
-    module('poc.common.clinicalservices', function ($stateProvider, $urlRouterProvider) {
+  beforeEach(() => {
+    module('poc.common.clinicalservices', ($stateProvider, $urlRouterProvider) => {
       stateProviderMock = $stateProvider;
-      spyOn(stateProviderMock, 'state').and.callFake(function () {
+      spyOn(stateProviderMock, 'state').and.callFake(() => {
       });
       $urlRouterProvider.deferIntercept();
     });
   });
 
-  beforeEach(inject(function (_$httpBackend_, _$q_, _clinicalServicesService_, _clinicalServicesFormMapper_,
-                              _visitService_, _encounterService_, _$rootScope_, _patientService_) {
+  beforeEach(inject((_$httpBackend_, _$q_, _clinicalServicesService_, _clinicalServicesFormMapper_,
+                     _visitService_, _encounterService_, _$rootScope_, _patientService_) => {
     $http = _$httpBackend_;
     $rootScope = _$rootScope_;
     clinicalServicesService = _clinicalServicesService_;
@@ -78,7 +78,7 @@ describe('clinicalServicesService', function () {
     patientService = _patientService_;
   }));
 
-  describe('init', function () {
+  describe('init', () => {
 
     var module = 'foo';
     var patient = {
@@ -87,29 +87,25 @@ describe('clinicalServicesService', function () {
       age: {years: 24}
     };
 
-    beforeEach(function () {
+    beforeEach(() => {
       $http.expectGET('/poc_config/openmrs/apps/' + module + '/clinicalServices.json').respond(clinicalServices);
       $http.expectGET('/poc_config/openmrs/apps/common/formLayout.json').respond(formLayouts);
 
-      spyOn(patientService, 'getPatient').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve(patient);
-        });
-      });
+      spyOn(patientService, 'getPatient').and.callFake(() => $q(resolve => resolve(patient)));
     });
 
-    it('should load clinical services for specified module', function () {
+    it('should load clinical services for specified module', () => {
       clinicalServicesService.init(module);
       $http.flush();
-      expect()
+      expect();
     });
 
-    it('should load form layouts', function () {
+    it('should load form layouts', () => {
       clinicalServicesService.init(module);
       $http.flush();
     });
 
-    it('should register form main state', function () {
+    it('should register form main state', () => {
       clinicalServicesService.init(module);
       $http.flush();
 
@@ -118,7 +114,7 @@ describe('clinicalServicesService', function () {
       }));
     });
 
-    it('should register form inner states', function () {
+    it('should register form inner states', () => {
       clinicalServicesService.init(module);
       $http.flush();
 
@@ -127,7 +123,7 @@ describe('clinicalServicesService', function () {
       }));
     });
 
-    it('should register form confirm state', function () {
+    it('should register form confirm state', () => {
       clinicalServicesService.init(module);
       $http.flush();
 
@@ -136,7 +132,7 @@ describe('clinicalServicesService', function () {
       }));
     });
 
-    it('should register form display state', function () {
+    it('should register form display state', () => {
       clinicalServicesService.init(module);
       $http.flush();
 
@@ -145,14 +141,14 @@ describe('clinicalServicesService', function () {
       }));
     });
 
-    afterEach(function () {
+    afterEach(() => {
       $http.verifyNoOutstandingExpectation();
       $http.verifyNoOutstandingRequest();
     });
 
   });
 
-  describe('getFormData', function () {
+  describe('getFormData', () => {
 
     var module = 'foo';
 
@@ -177,40 +173,28 @@ describe('clinicalServicesService', function () {
 
     var lastEncounterForService = encounters[1];
 
-    beforeEach(function () {
+    beforeEach(() => {
       $http.expectGET('/poc_config/openmrs/apps/' + module + '/clinicalServices.json').respond(clinicalServices);
       $http.expectGET('/poc_config/openmrs/apps/common/formLayout.json').respond(formLayouts);
-      spyOn(patientService, 'getPatient').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve(patient);
-        });
-      });
+      spyOn(patientService, 'getPatient').and.callFake(() => $q(resolve => resolve(patient)));
       clinicalServicesService.init(module, patientUuid);
       $http.flush();
     });
 
-    beforeEach(function () {
+    beforeEach(() => {
       spyOn(clinicalServicesFormMapper, 'map').and.returnValue({});
-      spyOn(visitService, 'getTodaysVisit').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve({});
-        });
-      });
-      spyOn(encounterService, 'getEncountersForPatientByEncounterType').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve(encounters);
-        });
-      });
+      spyOn(visitService, 'getTodaysVisit').and.callFake(() => $q(resolve => resolve({})));
+      spyOn(encounterService, 'getEncountersForPatientByEncounterType').and.callFake(() => $q(resolve => resolve(encounters)));
     });
 
 
-    describe('there is a form entry for the service today', function () {
+    describe('there is a form entry for the service today', () => {
 
-      beforeEach(function () {
+      beforeEach(() => {
         spyOn(Bahmni.Common.Util.DateUtil, 'diffInDaysRegardlessOfTime').and.returnValue(0);
       });
 
-      it('should load form data from the last encounter', function () {
+      it('should load form data from the last encounter', () => {
 
         // Challenge: refactor clinicalServicesService.getFormData to make only one call to /form endpoint!
         $http.expectGET('/openmrs/ws/rest/v1/form/' + clinicalService.formId + "?v=custom:(encounterType:(uuid))").respond(form);
@@ -226,21 +210,21 @@ describe('clinicalServicesService', function () {
 
     });
 
-    describe('deleteService: rest call using GET method to POC module that performs the logic of voiding OBS', function () {
+    describe('deleteService: rest call using GET method to POC module that performs the logic of voiding OBS', () => {
 
       var openmrsUrl = "/openmrs/ws/rest/v1/clinicalservice";
       var response = [];
 
       var requestDetails = {clinicalservice: "clinicalServiceUuid", encounter: "encounterUuid"};
 
-      beforeEach(function () {
+      beforeEach(() => {
         $http.expectGET(openmrsUrl + '?clinicalservice=' + requestDetails.clinicalservice + '&encounter=' + requestDetails.encounter)
         .respond(response);
       });
 
-      it('should call end service url in delete clinical service service', function () {
+      it('should call end service url in delete clinical service service', () => {
         var resolve;
-        clinicalServicesService.deleteService(requestDetails.clinicalservice, requestDetails.encounter).then(function (response) {
+        clinicalServicesService.deleteService(requestDetails.clinicalservice, requestDetails.encounter).then(response => {
           resolve = response;
         });
 
@@ -249,7 +233,7 @@ describe('clinicalServicesService', function () {
       });
     });
 
-    afterEach(function () {
+    afterEach(() => {
       $http.verifyNoOutstandingExpectation();
       $http.verifyNoOutstandingRequest();
     });
@@ -261,7 +245,7 @@ describe('clinicalServicesService', function () {
 
 
 
-  describe('init with contraints', function () {
+  describe('init with contraints', () => {
 
     var module = 'foo';
     var patient = {
@@ -270,7 +254,7 @@ describe('clinicalServicesService', function () {
       age: {years: 24}
     };
 
-    beforeEach(function () {
+    beforeEach(() => {
 
       var formLayout = [{
         "id": "001",
@@ -287,7 +271,7 @@ describe('clinicalServicesService', function () {
             "nextSref": ".extra",
             "flexNextSref": {
                 "gender": {
-                  "M": ".confirm", 
+                  "M": ".confirm",
                   "F": ".pregnancy"
               }
             },
@@ -332,24 +316,20 @@ describe('clinicalServicesService', function () {
       $http.expectGET('/poc_config/openmrs/apps/' + module + '/clinicalServices.json').respond(clinicalService);
       $http.expectGET('/poc_config/openmrs/apps/common/formLayout.json').respond(formLayout);
 
-      spyOn(patientService, 'getPatient').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve(patient);
-        });
-      });
+      spyOn(patientService, 'getPatient').and.callFake(() => $q(resolve => resolve(patient)));
     });
 
-    it('should register form inner states with gender constraint', function () {
+    it('should register form inner states with gender constraint', () => {
       clinicalServicesService.init(module);
       $http.flush();
 
       expect(stateProviderMock.state).toHaveBeenCalledWith('anamnesis_a_adult.reference', jasmine.objectContaining({
         url: '/reference'
       }));
-      
+
     });
 
-    afterEach(function () {
+    afterEach(() => {
       $http.verifyNoOutstandingExpectation();
       $http.verifyNoOutstandingRequest();
     });
@@ -362,12 +342,12 @@ describe('clinicalServicesService', function () {
 
 
 
-  describe('getCsWithEncountersForPatient', function () {
+  describe('getCsWithEncountersForPatient', () => {
 
       var deferred;
 
       var patient = {uuid: '5dc89638-b0cd-4390-bf10-ad07ed97965b'};
-      var encounterType = {uuid: "adultFolowup"}
+      var encounterType = {uuid: "adultFolowup"};
 
       var representation = 'custom:(uuid,encounterDatetime,obs:(value,concept:(display,uuid,mappings:(' +
               'conceptReferenceTerm:(conceptSource:(display,uuid))))),provider:(display))';
@@ -377,22 +357,14 @@ describe('clinicalServicesService', function () {
 
       var service = {markedOn: "poc-mapping-vitals"};
 
-      beforeEach(function () {
+      beforeEach(() => {
         deferred = $q.defer();
 
-        spyOn(visitService, 'getTodaysVisit').and.callFake(function () {
-          return $q(function (resolve) {
-            return resolve({});
-          });
-        });
-        spyOn(encounterService, 'getEncountersForPatientByEncounterType').and.callFake(function () {
-          return $q(function (resolve) {
-            return resolve(encounters);
-          });
-        });
+        spyOn(visitService, 'getTodaysVisit').and.callFake(() => $q(resolve => resolve({})));
+        spyOn(encounterService, 'getEncountersForPatientByEncounterType').and.callFake(() => $q(resolve => resolve(encounters)));
       });
 
-      it('should get a response from getCsWithEncountersForPatient, with existing service', function () {
+      it('should get a response from getCsWithEncountersForPatient, with existing service', () => {
 
           var returnedValue = null;
 
@@ -403,7 +375,7 @@ describe('clinicalServicesService', function () {
           expect(returnedValue).toBeDefined();
       });
 
-      it('should get a response from getCsWithEncountersForPatient, without existing service', function () {
+      it('should get a response from getCsWithEncountersForPatient, without existing service', () => {
 
           var returnedValue = null;
 
@@ -413,7 +385,7 @@ describe('clinicalServicesService', function () {
 
           expect(returnedValue).toBeDefined();
       });
-      afterEach(function () {
+      afterEach(() => {
         $http.verifyNoOutstandingExpectation();
         $http.verifyNoOutstandingRequest();
       });

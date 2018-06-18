@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -44,15 +44,13 @@
 
       var filteredObs = filterObsWithoutGroups(encounter.obs);
 
-      Object.getOwnPropertyNames(formPayload.form.fields).forEach(function (formFieldUUID) {
+      Object.getOwnPropertyNames(formPayload.form.fields).forEach(formFieldUUID => {
 
         var formField = formPayload.form.fields[formFieldUUID];
 
-        var obs = filteredObs.filter(function (obs) {
-          return formField.field.concept.uuid === obs.concept.uuid;
-        });
+        var obs = filteredObs.filter(obs => formField.field.concept.uuid === obs.concept.uuid);
 
-        obs.forEach(function (obs) {
+        obs.forEach(obs => {
 
           if (formField.field.selectMultiple) {
 
@@ -124,7 +122,7 @@
       // obs value originated.
       // Even with this workaround depending on the order of the obs its possible that the values are associated with
       // the wrong field.
-      var alreadyUsed = Object.getOwnPropertyNames(allFields).find(function (f) {
+      var alreadyUsed = Object.getOwnPropertyNames(allFields).find(f => {
         var formField = allFields[f];
         if (formField.value) {
           return formField.value.uuid === obs.value.uuid;
@@ -138,19 +136,15 @@
 
     function isSearchBySourceField(clinicalService, formFieldUUID) {
       var found = clinicalService.formLayout.parts
-        .reduce(function (acc, curr) {
-          return acc.concat(curr.fields);
-        }, [])
-        .find(function (f) {
-          return f.id === formFieldUUID;
-        });
+        .reduce((acc, curr) => acc.concat(curr.fields), [])
+        .find(f => f.id === formFieldUUID);
       return found && angular.isDefined(found.searchBySource);
     }
 
     function createFormFields(formFields) {
       var fields = {};
 
-      _.forEach(formFields, function (formField) {
+      _.forEach(formFields, formField => {
         fields[formField.uuid] = {};
         fields[formField.uuid].field = {};
         fields[formField.uuid].field.name = formField.field.display;
@@ -172,7 +166,7 @@
 
     function filterObsWithoutGroups(observations) {
       var plainObs = [];
-      _.forEach(observations, function (obs) {
+      _.forEach(observations, obs => {
         if (obs.groupMembers) {
           plainObs = _.union(plainObs, obs.groupMembers);
         } else {
@@ -183,15 +177,11 @@
     }
 
     function filterOnlyConceptFields(fields) {
-      return _.pickBy(fields, function (o) {
-        return o.field.concept;
-      });
+      return _.pickBy(fields, o => o.field.concept);
     }
 
     function realValueOfField(conceptAnswers, obsValue) {
-      return _.find(conceptAnswers, function (answer) {
-        return answer.uuid === obsValue.uuid;
-      });
+      return _.find(conceptAnswers, answer => answer.uuid === obsValue.uuid);
     }
 
 

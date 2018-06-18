@@ -102,9 +102,7 @@
         for (var key in vm.fieldModels) {
           var fieldModel = vm.fieldModels[key];
           var members = angular.copy(setMembers);
-          fieldModel.model = _.find(members, function (element) {
-            return element.uuid === fieldModel.uuid;
-          });
+          fieldModel.model = _.find(members, element => element.uuid === fieldModel.uuid);
         }
         return true;
       }
@@ -112,30 +110,28 @@
       //also get the available regimens here for later
       function loadAllRegimes() {
         //also get the available regimens here for later
-        return conceptService.get(Bahmni.Common.Constants.arvRegimensConvSet).then(function (result) {
+        return conceptService.get(Bahmni.Common.Constants.arvRegimensConvSet).then(result => {
           vm.allRegimes = result.data;
         });
       }
 
       conceptService.getPrescriptionConvSetConcept()
         .then(setFieldModels)
-        .then(function (z) {
-          return patientService.getPatient($stateParams.patientUuid)
-        })
-        .then(function (p) {
+        .then(z => patientService.getPatient($stateParams.patientUuid))
+        .then(p => {
           patient = p;
           return loadSavedPrescriptions(patient);
         })
         .then(loadAllRegimes())
         .then(getCurrentProvider)
-        .then(function (currentProvider) {
+        .then(currentProvider => {
           vm.selectedProvider = currentProvider;
         })
-        .catch(function () {
+        .catch(() => {
           notifier.error($filter('translate')('COMMON_ERROR'));
         });
 
-      getProviders().then(function (providers) {
+      getProviders().then(providers => {
         vm.providers = providers;
       });
     }
@@ -152,9 +148,7 @@
       }
 
       //avoid duplication of drugs
-      var sameOrderItem = _.find(vm.listedPrescriptions, function (item) {
-        return item.drugOrder.drug.uuid === vm.prescriptionItem.drugOrder.drug.uuid;
-      });
+      var sameOrderItem = _.find(vm.listedPrescriptions, item => item.drugOrder.drug.uuid === vm.prescriptionItem.drugOrder.drug.uuid);
 
       if (sameOrderItem) {
         notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ITEM_ALREADY_IN_LIST'));
@@ -189,7 +183,7 @@
       if(!vm.prescriptionItem.drugOrder || vm.prescriptionItem.drugOrder.drug ){
         //check if drug is ARV
 
-        drugService.isArvDrug(drug).then(function (isArv) {
+        drugService.isArvDrug(drug).then(isArv => {
           if (isArv) {
             vm.prescriptionItem.isArv = true;
             vm.prescriptionItem.drugOrder = null;
@@ -238,9 +232,7 @@
       //compare new and old regimen
       if (!_.isUndefined(vm.prescriptionItem.currentRegimen) && vm.prescriptionItem.currentRegimen.uuid !== regimen.uuid) {
         //pervent change regimen if ARV item is selected
-        var selectedArvItem = _.find(vm.listedPrescriptions, function (item) {
-          return item.isArv === true;
-        });
+        var selectedArvItem = _.find(vm.listedPrescriptions, item => item.isArv === true);
         if (selectedArvItem) {
           notifier.error($filter('translate')('CLINIC_MESSAGE_ERROR_CANNOT_CHANGE_REGIMEN'));
           vm.prescriptionItem.regime = vm.prescriptionItem.currentRegimen;
@@ -288,15 +280,11 @@
 
         }
       })
-        .then(function (response) {
-          return response.data.results.map(function (drug) {
-            return drug;
-          });
-        });
+        .then(response => response.data.results.map(drug => drug));
     }
     function getProviders() {
       return providerService.getProviders()
-        .catch(function () {
+        .catch(() => {
           notifier.error($filter('translate')('COMMON_ERROR'));
         });
     }
@@ -308,9 +296,7 @@
 
     function initTherapeuticLine() {
       //use regimen of already selected ARV line as the default one
-      var selectedArvItem = _.find(vm.listedPrescriptions, function (item) {
-        return item.isArv === true;
-      });
+      var selectedArvItem = _.find(vm.listedPrescriptions, item => item.isArv === true);
 
       if (selectedArvItem) {
         vm.prescriptionItem.therapeuticLine = selectedArvItem.therapeuticLine;
@@ -322,12 +308,10 @@
 
       //get the last therapeutic line
       observationsService.getObs(patientUuid, Bahmni.Common.Constants.drugPrescriptionConvSet.therapeuticLine.uuid)
-        .then(function (obs) {
+        .then(obs => {
           if (_.isEmpty(obs)) {
             vm.prescriptionItem.therapeuticLine = _.find(vm.fieldModels.therapeuticLine.model.answers,
-              function (answer) {
-                return answer.uuid === Bahmni.Common.Constants.therapeuticLineQuestion.firstLine;
-              });
+              answer => answer.uuid === Bahmni.Common.Constants.therapeuticLineQuestion.firstLine);
           } else {
             var nonRetired = commonService.filterRetired(obs);
             var maxObs = _.maxBy(nonRetired, 'obsDatetime');
@@ -398,7 +382,7 @@
         prescription.prescriptionDate = vm.prescriptionDate;
       }
 
-      _.forEach(vm.listedPrescriptions, function (element) {
+      _.forEach(vm.listedPrescriptions, element => {
 
         var prescriptionItem = {
 
@@ -420,7 +404,7 @@
           arvPlan:  (element.isArv && element.arvPlan ) ? element.arvPlan: null,
           interruptionReason: (element.isArv && element.interruptedReason ) ? element.interruptedReason : null
         };
-        prescription.changeReason = (element.isArv && element.changeReason ) ? element.changeReason : null;        
+        prescription.changeReason = (element.isArv && element.changeReason ) ? element.changeReason : null;
         prescription.prescriptionItems.push(prescriptionItem);
       });
 
@@ -428,7 +412,7 @@
       if(validateCreatePrescription(form, prescription)){
 
         prescriptionService.create(prescription)
-          .then(function () {
+          .then(() => {
             notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
             vm.listedPrescriptions = [];
             resetSelectedProvider();
@@ -436,12 +420,12 @@
             getProviderAndPrescriptionDateModal().modal('hide');
             loadSavedPrescriptions(patient);
           })
-          .catch(function (error) {
+          .catch(error => {
             notifier.error(error.data.error.message.replace('[','').replace(']',''));
           });
       }
       else{
-        resetSelectedProvider()
+        resetSelectedProvider();
       }
     }
 
@@ -472,10 +456,10 @@
 
     function hasActiveArvPrescriptionForNewArvItem(prescription){
       var exists = false;
-      _.forEach(prescription.prescriptionItems, function (newPrescriptionItem) {
+      _.forEach(prescription.prescriptionItems, newPrescriptionItem => {
         if(newPrescriptionItem.regime){
-          _.forEach(vm.existingPrescriptions, function (existingPrescription) {
-            _.forEach(existingPrescription.prescriptionItems, function (prescriptionItem) {
+          _.forEach(vm.existingPrescriptions, existingPrescription => {
+            _.forEach(existingPrescription.prescriptionItems, prescriptionItem => {
               if(isActiveARVItem(prescriptionItem)){
                 exists = true;
               }
@@ -492,9 +476,9 @@
 
     function getDuplicatedExistingActivePrescriptionItems(prescription) {
       var hasDuplicated = [];
-      _.forEach(prescription.prescriptionItems, function (newPrescriptionItem) {
-        _.forEach(vm.existingPrescriptions, function (existingPrescription) {
-          _.forEach(existingPrescription.prescriptionItems, function (prescriptionItem) {
+      _.forEach(prescription.prescriptionItems, newPrescriptionItem => {
+        _.forEach(vm.existingPrescriptions, existingPrescription => {
+          _.forEach(existingPrescription.prescriptionItems, prescriptionItem => {
             if( prescriptionItem.status != 'FINALIZED' &&  prescriptionItem.status != 'EXPIRED' &&  prescriptionItem.status != 'INTERRUPTED' ){
               if(newPrescriptionItem.drugOrder.drug.uuid === prescriptionItem.drugOrder.drug.uuid){
                 hasDuplicated.push(prescriptionItem);
@@ -530,14 +514,14 @@
       var reason = (item.drugOrder.action ==='NEW') ? vm.cancelationReasonTyped : vm.cancelationReasonSelected.uuid;
 
       prescriptionService.stopPrescriptionItem(item.drugOrder, reason)
-        .then(function () {
+        .then(() => {
           notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
           vm.listedPrescriptions = [];
           closeCancellationModal(form);
           isPrescriptionControl();
           loadSavedPrescriptions(patient);
         })
-        .catch(function () {
+        .catch(() => {
           notifier.error($filter('translate')('COMMON_MESSAGE_COULD_NOT_CANCEL_PRESCRIPTION_ITEM'));
         });
     }
@@ -558,7 +542,7 @@
     }
 
     function loadSavedPrescriptions(patient) {
-      return prescriptionService.getAllPrescriptions(patient).then(function (patientPrescriptions) {
+      return prescriptionService.getAllPrescriptions(patient).then(patientPrescriptions => {
         vm.existingPrescriptions = _.sortBy(patientPrescriptions, ['prescriptionStatus','prescriptionDate'],['asc','desc']);
         vm.setPrescritpionItemStatus(vm.existingPrescriptions);
       });
@@ -566,14 +550,12 @@
 
     function hasActivePrescription(prescriptions){
 
-      return _.find(prescriptions, function (prescription) {
-        return prescription.prescriptionStatus === true;
-      });
+      return _.find(prescriptions, prescription => prescription.prescriptionStatus === true);
     }
 
     function setPrescritpionItemStatus(prescriptions){
-      _.forEach(prescriptions, function (prescription) {
-        _.forEach(prescription.prescriptionItems, function (item) {
+      _.forEach(prescriptions, prescription => {
+        _.forEach(prescription.prescriptionItems, item => {
           item.statusStranslate = getStatusStranslate(item);
           item.interruptible = isItemInterruptible(item);
           item.cancellable = (item.interruptible || item.status === 'NEW') && item.status != 'EXPIRED';
@@ -613,16 +595,14 @@
       else if (therapeuticLine.uuid === Bahmni.Common.Constants.therapeuticLineQuestion.thirdLine) {
         regimenGroupTLine = regimenGroupAge.thirdLine;
       }
-      return _.find(allRegimes.setMembers, function (member) {
-        return member.uuid === regimenGroupTLine;
-      });
+      return _.find(allRegimes.setMembers, member => member.uuid === regimenGroupTLine);
     }
 
     function initRegimes(filteredRegimes) {
       vm.regimes = filteredRegimes;
       //get the last regimen
       observationsService.getObs(patientUuid, Bahmni.Common.Constants.arvConceptUuid)
-        .then(function (obs) {
+        .then(obs => {
           var nonRetired = commonService.filterRetired(obs);
           var maxObs = _.maxBy(nonRetired, 'obsDatetime');
 
@@ -643,7 +623,7 @@
     function initArvPlans(){
 
       observationsService.getObs(patientUuid, Bahmni.Common.Constants.drugPrescriptionConvSet.artPlan.uuid)
-        .then(function (obs) {
+        .then(obs => {
           var nonRetired = commonService.filterRetired(obs);
           var maxObs = _.maxBy(nonRetired, 'obsDatetime');
 
@@ -664,15 +644,13 @@
     }
 
     function getDrugsOfRegimen(regime) {
-      drugService.getDrugsOfRegimen(regime).then( function (drugs) {
+      drugService.getDrugsOfRegimen(regime).then(drugs => {
         vm.arvDrugs = drugs;
       });
     }
 
     function swapObsToConceptAnswer(obs, conceptAnswers) {
-      return _.find(conceptAnswers, function (answer) {
-        return obs === answer.uuid;
-      });
+      return _.find(conceptAnswers, answer => obs === answer.uuid);
     }
 
     function getCancellationModal() {
@@ -684,11 +662,11 @@
     }
 
     function verifyDrugAvailability(drug){
-      drugService.getDrugStock(drug,sessionService.getCurrentLocation()).then(function(data){
+      drugService.getDrugStock(drug,sessionService.getCurrentLocation()).then(data => {
         if(_.isEmpty(data.results)){
          notifier.warning($filter('translate')('COMMON_MESSAGE_DRUG_WITHOUT_STOCK_AVAILABILITY'));;
         }
-      }).catch(function () {
+      }).catch(() => {
         notifier.error($filter('translate')('COMMON_MESSAGE_EXCEPTION_REQUESTING_DRUG_STOCK_AVAILABILITY'));
       });
     }

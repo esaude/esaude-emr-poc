@@ -1,12 +1,12 @@
-describe('patientService', function () {
+describe('patientService', () => {
 
   var patientService, $httpBackend, $rootScope, openmrsPatientMapper, reportService, prescriptionService,
     updatePatientMapper, appService;
 
   beforeEach(module('common.patient'));
 
-  beforeEach(inject(function (_patientService_, _prescriptionService_, _reportService_, _$rootScope_,
-                              _$httpBackend_, _openmrsPatientMapper_, _updatePatientMapper_, _appService_) {
+  beforeEach(inject((_patientService_, _prescriptionService_, _reportService_, _$rootScope_,
+                     _$httpBackend_, _openmrsPatientMapper_, _updatePatientMapper_, _appService_) => {
     patientService = _patientService_;
     prescriptionService = _prescriptionService_;
     reportService = _reportService_;
@@ -17,7 +17,7 @@ describe('patientService', function () {
     appService = _appService_;
   }));
 
-  it("should fetch the the specific patient by name ", function () {
+  it("should fetch the the specific patient by name ", () => {
 
     var query = 'mal';
 
@@ -32,18 +32,18 @@ describe('patientService', function () {
   });
 
 
-  describe('printPatientARVPickupHistory', function () {
+  describe('printPatientARVPickupHistory', () => {
 
     var year = 2017;
     var patientUUID = '';
     var pickups = [];
 
-    it('should print the report', function () {
+    it('should print the report', () => {
 
       spyOn(openmrsPatientMapper, 'map').and.returnValue({});
 
 
-      spyOn(reportService, 'printPatientARVPickupHistory').and.callFake(function () { });
+      spyOn(reportService, 'printPatientARVPickupHistory').and.callFake(() => { });
 
       $httpBackend.expectGET('/openmrs/ws/rest/v1/patient/2017?v=full')
         .respond({});
@@ -54,15 +54,15 @@ describe('patientService', function () {
       expect(reportService.printPatientARVPickupHistory).toHaveBeenCalled();
     });
 
-    afterEach(function () {
+    afterEach(() => {
       $httpBackend.verifyNoOutstandingExpectation();
       $httpBackend.verifyNoOutstandingRequest();
     });
   });
 
-  describe('update', function () {
+  describe('update', () => {
 
-    beforeEach(function () {
+    beforeEach(() => {
       spyOn(appService, 'getPatientConfiguration').and.returnValue({personAttributeTypes: []});
     });
 
@@ -74,9 +74,9 @@ describe('patientService', function () {
 
     var patient = {uuid: 'e2bc2a32-1d5f-11e0-b929-000c29ad1d07', identifiers: [identifier]};
 
-    describe('identifiers changed', function () {
+    describe('identifiers changed', () => {
 
-      it('should patient patient and update identifiers', function () {
+      it('should patient patient and update identifiers', () => {
 
         var patientJson = {
           patient: patient,
@@ -94,7 +94,7 @@ describe('patientService', function () {
           .respond(identifier2);
 
         var patientProfile = {};
-        patientService.updatePatientProfile(patient, openMRSPatient).then(function (updatedPatientProfile) {
+        patientService.updatePatientProfile(patient, openMRSPatient).then(updatedPatientProfile => {
           patientProfile = updatedPatientProfile;
         });
 
@@ -108,9 +108,9 @@ describe('patientService', function () {
 
     });
 
-    describe('identifiers voided', function () {
+    describe('identifiers voided', () => {
 
-      it('should update patient and void identifiers', function () {
+      it('should update patient and void identifiers', () => {
 
         var patientJson = {
           patient: patient,
@@ -128,7 +128,7 @@ describe('patientService', function () {
           .respond({});
 
         var patientProfile = {};
-        patientService.updatePatientProfile(patient, openMRSPatient).then(function (updatedPatientProfile) {
+        patientService.updatePatientProfile(patient, openMRSPatient).then(updatedPatientProfile => {
           patientProfile = updatedPatientProfile;
         });
 
@@ -138,9 +138,9 @@ describe('patientService', function () {
 
     });
 
-    describe('identifiers added', function () {
+    describe('identifiers added', () => {
 
-      it('should update patient and create identifiers', function () {
+      it('should update patient and create identifiers', () => {
 
         var patientJson = {
           patient: patient,
@@ -158,7 +158,7 @@ describe('patientService', function () {
           .respond({});
 
         var patientProfile = {};
-        patientService.updatePatientProfile(patient, openMRSPatient).then(function (updatedPatientProfile) {
+        patientService.updatePatientProfile(patient, openMRSPatient).then(updatedPatientProfile => {
           patientProfile = updatedPatientProfile;
         });
 
@@ -169,16 +169,16 @@ describe('patientService', function () {
     });
 
 
-    afterEach(function () {
+    afterEach(() => {
       $httpBackend.verifyNoOutstandingExpectation();
       $httpBackend.verifyNoOutstandingRequest();
     });
 
   });
 
-  describe('getPersonAttributesForStep', function () {
+  describe('getPersonAttributesForStep', () => {
 
-    it('should return person attributes required in given patient step', function () {
+    it('should return person attributes required in given patient step', () => {
 
       spyOn(appService, 'getPatientConfiguration').and.returnValue([
         {uuid: "d82b0cf4-26cc-11e8-bdc0-2b5ea141f82e", sortWeight: 1, name: "Alcunha", description: "Patient's nick name", format: "java.lang.String"},

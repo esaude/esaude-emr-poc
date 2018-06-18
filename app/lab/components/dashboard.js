@@ -23,7 +23,7 @@
 
 
     function $onInit() {
-      patientService.getPatient($stateParams.patientUuid).then(function (patient) {
+      patientService.getPatient($stateParams.patientUuid).then(patient => {
         vm.patient = patient;
       });
     }

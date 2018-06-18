@@ -1,35 +1,31 @@
 'use strict';
 
-describe('authenticator', function () {
+describe('authenticator', () => {
 
   var authenticator, $rootScope, $q, sessionService;
 
   beforeEach(module('authentication'));
 
-  beforeEach(inject(function (_authenticator_, _$rootScope_, _$q_, _sessionService_) {
+  beforeEach(inject((_authenticator_, _$rootScope_, _$q_, _sessionService_) => {
     authenticator = _authenticator_;
     $rootScope = _$rootScope_;
     $q = _$q_;
     sessionService = _sessionService_;
   }));
 
-  describe('authenticateUser', function () {
+  describe('authenticateUser', () => {
 
-    beforeEach(function () {
+    beforeEach(() => {
       spyOn($rootScope, '$broadcast').and.callThrough();
     });
 
-    describe('user not authenticated', function () {
+    describe('user not authenticated', () => {
 
-      beforeEach(function () {
-        spyOn(sessionService, 'getSession').and.callFake(function () {
-          return $q(function (resolve) {
-            return resolve({authenticated: false});
-          });
-        });
+      beforeEach(() => {
+        spyOn(sessionService, 'getSession').and.callFake(() => $q(resolve => resolve({authenticated: false})));
       });
 
-      it('should broadcast event signaling required login', function () {
+      it('should broadcast event signaling required login', () => {
 
         authenticator.authenticateUser();
 
@@ -39,17 +35,13 @@ describe('authenticator', function () {
 
     });
 
-    describe('authentication error', function () {
+    describe('authentication error', () => {
 
-      beforeEach(function () {
-        spyOn(sessionService, 'getSession').and.callFake(function () {
-          return $q(function (resolve, reject) {
-            return reject({authenticated: true});
-          });
-        });
+      beforeEach(() => {
+        spyOn(sessionService, 'getSession').and.callFake(() => $q((resolve, reject) => reject({authenticated: true})));
       });
 
-      it('should broadcast event signaling required login', function () {
+      it('should broadcast event signaling required login', () => {
 
         authenticator.authenticateUser();
 

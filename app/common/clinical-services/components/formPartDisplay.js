@@ -30,7 +30,7 @@
     vm.$onInit = onInit;
 
     function onInit() {
-      $scope.$watch('vm.payload', function (value) {
+      $scope.$watch('vm.payload', value => {
         if (value) {
           vm.payload = value;
           // This makes the directive re-render itself. Needed when vm.payload is loaded asynchronously.
@@ -55,10 +55,8 @@
     }
 
     function isTrueFalseQuestion(question) {
-      var found = _.find(question, function (answer) {
-        return answer.uuid === "e1d81b62-1d5f-11e0-b929-000c29ad1d07" ||
-          answer.uuid === "e1d81c70-1d5f-11e0-b929-000c29ad1d07";
-      });
+      var found = _.find(question, answer => answer.uuid === "e1d81b62-1d5f-11e0-b929-000c29ad1d07" ||
+        answer.uuid === "e1d81c70-1d5f-11e0-b929-000c29ad1d07");
       return angular.isDefined(found);
     }
 

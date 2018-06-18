@@ -48,10 +48,10 @@
         vm.headerText = "PATIENT_INFO_EDIT";
 
         patientService.getOpenMRSPatient(vm.patient.uuid)
-          .then(function (patient) {
+          .then(patient => {
             vm.openMRSPatient = patient;
           })
-          .catch(function () {
+          .catch(() => {
             notifier.error(translateFilter('COMMON_COULD_NOT_LOAD_PATIENT'));
             $state.go($stateParams.returnState);
           });
@@ -90,22 +90,22 @@
 
     function create() {
       patientService.createPatientProfile(vm.patient)
-        .then(function (patientProfile) {
+        .then(patientProfile => {
           notifier.success(translateFilter('COMMON_PATIENT_CREATED'));
           $state.go('dashboard', {patientUuid: patientProfile.patient.uuid});
         })
-        .catch(function () {
+        .catch(() => {
           notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
         });
     }
 
     function update() {
       patientService.updatePatientProfile(vm.patient, vm.openMRSPatient)
-        .then(function () {
+        .then(() => {
           notifier.success(translateFilter('COMMON_PATIENT_UPDATED'));
           $state.go($stateParams.returnState, {patientUuid: vm.patient.uuid});
         })
-        .catch(function () {
+        .catch(() => {
           notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
         });
     }

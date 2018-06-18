@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -15,7 +15,7 @@
     ////////////////
 
     function initApp() {
-      return appService.initApp('home', {'app': true, 'extension': true, 'service': false})
+      return appService.initApp('home', {'app': true, 'extension': true, 'service': false});
     }
   }
 

@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -27,10 +27,8 @@
         cache: true
       };
       return $http.get(Bahmni.Common.Constants.locationUrl, config)
-        .then(function (response) {
-          return response.data.results;
-        })
-        .catch(function (error) {
+        .then(response => response.data.results)
+        .catch(error => {
           $log.error('XHR Failed for getAllByTag: ' + error.data.error.message);
           return $q.reject(error);
         });
@@ -43,16 +41,14 @@
         withCredentials: false
       };
       return $http.get(Bahmni.Common.Constants.locationUrl, config)
-        .then(function (response) {
-          response.data.results.forEach(function (l) {
-            var healthFacilityCode = l.attributes.find(function (attr) {
-              return attr.attributeType.uuid === HEALTH_FACILITY_CODE_ATTR_TYPE;
-            });
+        .then(response => {
+          response.data.results.forEach(l => {
+            var healthFacilityCode = l.attributes.find(attr => attr.attributeType.uuid === HEALTH_FACILITY_CODE_ATTR_TYPE);
             l.code = healthFacilityCode ? healthFacilityCode.value : "";
           });
           return response.data.results;
         })
-        .catch(function (error) {
+        .catch(error => {
           $log.error('XHR Failed for getLocationsByName: ' + error.data.error.message);
           return $q.reject(error);
         });
@@ -60,22 +56,22 @@
 
     function getDefaultLocation() {
       return configurationService.getDefaultLocation()
-        .then(function (defaultLocation) {
+        .then(defaultLocation => {
           if (defaultLocation) {
             return getLocationsByName(defaultLocation.value);
           } else {
             return $q.reject('LOGIN_LABEL_LOGIN_ERROR_NO_DEFAULT_LOCATION');
           }
         })
-        .then(function (locations) {
+        .then(locations => {
           var location = locations[0];
           if (location) {
             return location;
           } else {
-            return $q.reject('LOGIN_LABEL_LOGIN_ERROR_INVALID_DEFAULT_LOCATION')
+            return $q.reject('LOGIN_LABEL_LOGIN_ERROR_INVALID_DEFAULT_LOCATION');
           }
         })
-        .catch(function (error) {
+        .catch(error => {
           $log.error('XHR Failed for getDefaultLocation: ' + (error.data && error.data.error.message || error));
           return $q.reject(error);
         });

@@ -1,8 +1,8 @@
-(function () {
+(() => {
   'use strict';
 
   angular
-    .module('patient.details')
+    .module('common.patient')
     .filter('valueofothers', valueofothers);
 
   function valueofothers(dateFilter) {

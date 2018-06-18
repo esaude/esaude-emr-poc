@@ -24,7 +24,7 @@
 
     function $onInit() {
       var independentPharmacistRoles = ['POC: Pharmacist - Independent', 'POC: Pharmacist - Independent (Admin)'];
-      authorizationService.hasRole(independentPharmacistRoles).then(function (hasRole) {
+      authorizationService.hasRole(independentPharmacistRoles).then(hasRole => {
         vm.independentPharmacist = hasRole;
       });
     }

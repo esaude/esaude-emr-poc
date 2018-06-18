@@ -1,6 +1,6 @@
 'use strict';
 
-describe('sessionService', function () {
+describe('sessionService', () => {
 
   var SESSION_RESOURCE_PATH = '/openmrs/ws/rest/v1/session';
 
@@ -10,8 +10,8 @@ describe('sessionService', function () {
 
   beforeEach(module('authentication'));
 
-  beforeEach(inject(function (_sessionService_, _$httpBackend_, _$cookies_, _$rootScope_, _localStorageService_,
-                              _userService_, _$q_, _$log_, _locationService_) {
+  beforeEach(inject((_sessionService_, _$httpBackend_, _$cookies_, _$rootScope_, _localStorageService_,
+                     _userService_, _$q_, _$log_, _locationService_) => {
     sessionService = _sessionService_;
     $httpBackend = _$httpBackend_;
     $cookies = _$cookies_;
@@ -23,21 +23,21 @@ describe('sessionService', function () {
     locationService = _locationService_;
   }));
 
-  describe('loginUser', function () {
+  describe('loginUser', () => {
 
     var loginRequest;
     var user = {username: 'username', uuid: '85a05c5e-1e3d-11e0-acca-000c29d83bf2'};
 
-    beforeEach(function () {
+    beforeEach(() => {
       loginRequest = $httpBackend.expectGET(SESSION_RESOURCE_PATH);
       $cookies.remove(CURRENT_USER_COOKIE_KEY);
     });
 
-    describe('user authenticated', function () {
+    describe('user authenticated', () => {
 
       var location = {uuid: "8d6c993e-c2cc-11de-8d13-0010c6dffd0f", display: "Local Desconhecido", code: "1020612"};
 
-      beforeEach(function () {
+      beforeEach(() => {
         loginRequest.respond({authenticated: true});
         // TODO: use mock instead of expectGET after refactoring userService.
         $httpBackend.expectGET('/openmrs/ws/rest/v1/user?username='
@@ -49,13 +49,9 @@ describe('sessionService', function () {
           .respond({results: [{uuid: '7c59c517-bfd1-487d-a76f-0b90cd975fd1', display: ''}]});
       });
 
-      it('should save authenticated user in cookie', function () {
+      it('should save authenticated user in cookie', () => {
 
-        spyOn(locationService, 'getDefaultLocation').and.callFake(function () {
-          return $q(function (resolve) {
-            return resolve(location);
-          });
-        });
+        spyOn(locationService, 'getDefaultLocation').and.callFake(() => $q(resolve => resolve(location)));
 
         sessionService.loginUser(user.username, '');
 
@@ -63,12 +59,8 @@ describe('sessionService', function () {
         expect($cookies.get(CURRENT_USER_COOKIE_KEY)).toEqual(user.username);
       });
 
-      it('should save current location in cookie', function () {
-        spyOn(locationService, 'getDefaultLocation').and.callFake(function () {
-          return $q(function (resolve) {
-            return resolve(location);
-          });
-        });
+      it('should save current location in cookie', () => {
+        spyOn(locationService, 'getDefaultLocation').and.callFake(() => $q(resolve => resolve(location)));
 
         spyOn(localStorageService.cookie, 'set');
 
@@ -79,22 +71,18 @@ describe('sessionService', function () {
         expect(localStorageService.cookie.set).toHaveBeenCalledWith('emr.location', params, 7);
       });
 
-      describe('cannot load default location', function () {
+      describe('cannot load default location', () => {
 
-        beforeEach(function () {
-          spyOn(locationService, 'getDefaultLocation').and.callFake(function () {
-            return $q(function (resolve, reject) {
-              return reject('LOGIN_LABEL_LOGIN_ERROR_NO_DEFAULT_LOCATION');
-            });
-          });
+        beforeEach(() => {
+          spyOn(locationService, 'getDefaultLocation').and.callFake(() => $q((resolve, reject) => reject('LOGIN_LABEL_LOGIN_ERROR_NO_DEFAULT_LOCATION')));
 
           spyOn($rootScope, '$broadcast').and.callThrough();
         });
 
 
-        it('should broadcast login required', function () {
+        it('should broadcast login required', () => {
           var err;
-          sessionService.loginUser(user.username, '').catch(function (error) {
+          sessionService.loginUser(user.username, '').catch(error => {
             err = error;
           });
           $httpBackend.flush();
@@ -108,13 +96,13 @@ describe('sessionService', function () {
 
     });
 
-    describe('user not authenticated', function () {
+    describe('user not authenticated', () => {
 
-      beforeEach(function () {
+      beforeEach(() => {
         loginRequest.respond({authenticated: false});
       });
 
-      it('should not save unauthenticated user in cookie', function () {
+      it('should not save unauthenticated user in cookie', () => {
 
         sessionService.loginUser(user.username, '');
 
@@ -125,21 +113,21 @@ describe('sessionService', function () {
 
     });
 
-    afterEach(function() {
+    afterEach(() => {
       $httpBackend.verifyNoOutstandingExpectation();
       $httpBackend.verifyNoOutstandingRequest();
     });
 
   });
 
-  describe('destroy', function () {
+  describe('destroy', () => {
 
-    beforeEach(function () {
+    beforeEach(() => {
       $httpBackend.expectDELETE(SESSION_RESOURCE_PATH)
         .respond(null);
     });
 
-    it('should remove current user from cookie', function () {
+    it('should remove current user from cookie', () => {
 
       $cookies.put(CURRENT_USER_COOKIE_KEY, 'currentUser');
 
@@ -150,7 +138,7 @@ describe('sessionService', function () {
 
     });
 
-    it('should remove current user from $rootScope', function () {
+    it('should remove current user from $rootScope', () => {
 
       $rootScope.currentUser = {};
 
@@ -160,7 +148,7 @@ describe('sessionService', function () {
       expect($rootScope.currentUser).toBeNull();
     });
 
-    it('should remove emr.location from localStorage', function () {
+    it('should remove emr.location from localStorage', () => {
 
       localStorageService.cookie.set('emr.location', 'location');
 
@@ -171,7 +159,7 @@ describe('sessionService', function () {
 
     });
 
-    it('should broadcast logout event', function () {
+    it('should broadcast logout event', () => {
 
       spyOn($rootScope, '$broadcast').and.callThrough();
 
@@ -183,33 +171,29 @@ describe('sessionService', function () {
 
     });
 
-    afterEach(function() {
+    afterEach(() => {
       $httpBackend.verifyNoOutstandingExpectation();
       $httpBackend.verifyNoOutstandingRequest();
     });
 
   });
 
-  describe('getCurrentUser', function () {
+  describe('getCurrentUser', () => {
 
     var mockUser = { username: 'Malocy' };
 
-    beforeEach(function () {
+    beforeEach(() => {
     });
 
-    it('should load logged in user details', function () {
+    it('should load logged in user details', () => {
 
       spyOn($cookies, 'get').and.returnValue(mockUser.username);
 
-      spyOn(userService, 'getUser').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve({data: {results: [mockUser]}});
-        });
-      });
+      spyOn(userService, 'getUser').and.callFake(() => $q(resolve => resolve({data: {results: [mockUser]}})));
 
       var user;
 
-      sessionService.getCurrentUser().then(function (currentUser) {
+      sessionService.getCurrentUser().then(currentUser => {
         user = currentUser;
       });
 
@@ -217,22 +201,18 @@ describe('sessionService', function () {
       expect(user).toEqual(mockUser);
     });
 
-    describe('failed to get logged in user details', function () {
+    describe('failed to get logged in user details', () => {
 
-      beforeEach(function () {
+      beforeEach(() => {
         spyOn($cookies, 'get').and.returnValue(mockUser.username);
 
-        spyOn($log, 'error').and.callFake(function () {
+        spyOn($log, 'error').and.callFake(() => {
         });
       });
 
-      it('should log error message', function () {
+      it('should log error message', () => {
 
-        spyOn(userService, 'getUser').and.callFake(function () {
-          return $q(function (resolve, reject) {
-            return reject({data: {error: {message: ''}}});
-          });
-        });
+        spyOn(userService, 'getUser').and.callFake(() => $q((resolve, reject) => reject({data: {error: {message: ''}}})));
 
         sessionService.getCurrentUser();
         $rootScope.$apply();
@@ -240,15 +220,15 @@ describe('sessionService', function () {
       });
     });
 
-    describe('user not logged in', function () {
+    describe('user not logged in', () => {
 
-      it('should return nothing', function () {
+      it('should return nothing', () => {
 
         spyOn($cookies, 'get').and.returnValue(null);
 
         var user;
 
-        sessionService.getCurrentUser().then(function (currentUser) {
+        sessionService.getCurrentUser().then(currentUser => {
           user = currentUser;
         });
 
@@ -259,69 +239,65 @@ describe('sessionService', function () {
     });
   });
 
-  describe('getCurrentProvider', function () {
+  describe('getCurrentProvider', () => {
     var mockUser = {username: 'Malocy'};
     var mockProvider = {display: '21-6 - Generic Provider'};
 
-    beforeEach(function () {
+    beforeEach(() => {
       $httpBackend
         .expectGET('/openmrs/ws/rest/v1/provider')
         .respond({results: [mockProvider]});
 
-      spyOn(userService, 'getUser').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve({data: {results: [mockUser]}});
-        });
-      });
+      spyOn(userService, 'getUser').and.callFake(() => $q(resolve => resolve({data: {results: [mockUser]}})));
 
       spyOn($cookies, 'get').and.returnValue(mockUser.username);
     });
 
-    it('should load provider details for logged in user', function () {
+    it('should load provider details for logged in user', () => {
       var provider;
 
-      sessionService.getCurrentProvider().then(function (currentProvider) {
+      sessionService.getCurrentProvider().then(currentProvider => {
         provider = currentProvider;
       });
 
       $httpBackend.flush();
-      expect(provider).toEqual(mockProvider)
+      expect(provider).toEqual(mockProvider);
     });
 
-    afterEach(function () {
+    afterEach(() => {
       $httpBackend.verifyNoOutstandingExpectation();
       $httpBackend.verifyNoOutstandingRequest();
     });
 
   });
 
-  describe('setLocale', function () {
+  describe('setLocale', () => {
 
     var locale = 'pt_MZ';
 
-    beforeEach(function () {
+    beforeEach(() => {
       $httpBackend
         .expectPOST('/openmrs/ws/rest/v1/session', {locale: locale})
         .respond();
     });
 
-    it('should set set selected locale', function () {
+    it('should set set selected locale', () => {
       sessionService.setLocale(locale);
       $httpBackend.flush();
     });
 
-    afterEach(function () {
+    afterEach(() => {
       $httpBackend.verifyNoOutstandingExpectation();
       $httpBackend.verifyNoOutstandingRequest();
     });
 
   });
 
-  describe('loadCredentials', function () {
+  describe('loadCredentials', () => {
 
-    describe('no current user', function () {
+    describe('no current user', () => {
 
-      it('should destroy current session', function () {
+      it('should destroy current session', () => {
 
         spyOn($cookies, 'get').and.returnValue(null);
 
@@ -335,7 +311,7 @@ describe('sessionService', function () {
       });
 
 
-      it('should broadcast login required event', function () {
+      it('should broadcast login required event', () => {
 
         spyOn($cookies, 'get').and.returnValue(null);
 
@@ -355,7 +331,7 @@ describe('sessionService', function () {
 
     });
 
-    afterEach(function () {
+    afterEach(() => {
       $httpBackend.verifyNoOutstandingExpectation();
       $httpBackend.verifyNoOutstandingRequest();
     });

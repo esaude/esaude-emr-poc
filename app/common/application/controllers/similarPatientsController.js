@@ -21,7 +21,7 @@
 
     function refresh() {
       var query = vm.patient.givenName + ' ' + vm.patient.familyName;
-      patientService.search(query).then(function (patients) {
+      patientService.search(query).then(patients => {
         vm.similarPatients = openmrsPatientMapper.mapPatient(patients);
       });
     }

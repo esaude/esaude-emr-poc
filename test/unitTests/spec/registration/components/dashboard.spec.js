@@ -1,21 +1,19 @@
-describe('DashboardController', function () {
+describe('DashboardController', () => {
 
   var $componentController, $state, patientService, visitService, $rootScope, $q;
 
-  beforeEach(module('registration', function ($provide, $translateProvider, $urlRouterProvider) {
+  beforeEach(module('registration', ($provide, $translateProvider, $urlRouterProvider) => {
     // Mock translate asynchronous loader
-    $provide.factory('mergeLocaleFilesService', function ($q) {
-      return function () {
-        var deferred = $q.defer();
-        deferred.resolve({});
-        return deferred.promise;
-      };
+    $provide.factory('mergeLocaleFilesService', $q => () => {
+      var deferred = $q.defer();
+      deferred.resolve({});
+      return deferred.promise;
     });
     $translateProvider.useLoader('mergeLocaleFilesService');
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function (_$componentController_, _$q_, _$rootScope_, _patientService_, _visitService_, _$state_) {
+  beforeEach(inject((_$componentController_, _$q_, _$rootScope_, _patientService_, _visitService_, _$state_) => {
     $componentController = _$componentController_;
     $q = _$q_;
     $rootScope = _$rootScope_;
@@ -24,9 +22,9 @@ describe('DashboardController', function () {
     $state = _$state_;
   }));
 
-  describe('reload', function () {
+  describe('reload', () => {
 
-    it('should reload current state', function () {
+    it('should reload current state', () => {
 
       spyOn($state, 'reload');
 

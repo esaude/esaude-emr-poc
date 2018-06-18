@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -20,9 +20,7 @@
     return { getTests: getTests };
 
     function getTests() {
-      return $http.get(OPENMRS_TEST_URL, CONFIG).then(function (response) {
-        return response.data.results;
-      });
+      return $http.get(OPENMRS_TEST_URL, CONFIG).then(response => response.data.results);
     }
 
   }

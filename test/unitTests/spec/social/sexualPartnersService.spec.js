@@ -1,22 +1,20 @@
-describe('sexualPartnersService', function () {
+describe('sexualPartnersService', () => {
 
   var $q, $rootScope, service, conceptService, encounterService, observationsService, visitService;
 
-  beforeEach(module('social', function ($provide, $translateProvider, $urlRouterProvider) {
+  beforeEach(module('social', ($provide, $translateProvider, $urlRouterProvider) => {
     // Mock translate asynchronous loader
-    $provide.factory('mergeLocaleFilesService', function ($q) {
-      return function () {
-        var deferred = $q.defer();
-        deferred.resolve({});
-        return deferred.promise;
-      };
+    $provide.factory('mergeLocaleFilesService', $q => () => {
+      var deferred = $q.defer();
+      deferred.resolve({});
+      return deferred.promise;
     });
     $translateProvider.useLoader('mergeLocaleFilesService');
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function (_$q_, _$rootScope_, _sexualPartnersService_, _conceptService_, _encounterService_,
-                              _observationsService_, _visitService_) {
+  beforeEach(inject((_$q_, _$rootScope_, _sexualPartnersService_, _conceptService_, _encounterService_,
+                     _observationsService_, _visitService_) => {
     $q = _$q_;
     $rootScope = _$rootScope_;
     service = _sexualPartnersService_;
@@ -26,15 +24,11 @@ describe('sexualPartnersService', function () {
     visitService = _visitService_;
   }));
 
-  describe('getFormData', function () {
+  describe('getFormData', () => {
 
-    it('should load relationship to patient concept', function () {
+    it('should load relationship to patient concept', () => {
 
-      spyOn(conceptService, 'getConcept').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve();
-        });
-      });
+      spyOn(conceptService, 'getConcept').and.callFake(() => $q(resolve => resolve()));
 
       service.getFormData();
 
@@ -42,13 +36,9 @@ describe('sexualPartnersService', function () {
 
     });
 
-    it('should load hiv status concept', function () {
+    it('should load hiv status concept', () => {
 
-      spyOn(conceptService, 'getConcept').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve();
-        });
-      });
+      spyOn(conceptService, 'getConcept').and.callFake(() => $q(resolve => resolve()));
 
       service.getFormData();
 
@@ -58,15 +48,11 @@ describe('sexualPartnersService', function () {
 
   });
 
-  describe('getSexualPartners', function () {
+  describe('getSexualPartners', () => {
 
-    it('should load Sexual Partner encounters', function () {
+    it('should load Sexual Partner encounters', () => {
 
-      spyOn(encounterService, 'getEncountersForPatientByEncounterType').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve([encounter]);
-        });
-      });
+      spyOn(encounterService, 'getEncountersForPatientByEncounterType').and.callFake(() => $q(resolve => resolve([encounter])));
 
       service.getSexualPartners({uuid: '98288a2a-8c08-4deb-bb66-a111f1018de5'});
 
@@ -74,16 +60,12 @@ describe('sexualPartnersService', function () {
 
     });
 
-    it('should resolve sexual partners', function () {
+    it('should resolve sexual partners', () => {
 
-      spyOn(encounterService, 'getEncountersForPatientByEncounterType').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve([encounter]);
-        });
-      });
+      spyOn(encounterService, 'getEncountersForPatientByEncounterType').and.callFake(() => $q(resolve => resolve([encounter])));
 
       var partners = [];
-      service.getSexualPartners({uuid: '98288a2a-8c08-4deb-bb66-a111f1018de5'}).then(function (loaded) {
+      service.getSexualPartners({uuid: '98288a2a-8c08-4deb-bb66-a111f1018de5'}).then(loaded => {
         partners = loaded;
       });
 
@@ -94,13 +76,13 @@ describe('sexualPartnersService', function () {
       expect(partners[0].relationship.display).toEqual('PARCEIRO');
       expect(partners[0].hivStatus.display).toEqual('SEM INFORMACAO');
 
-    })
+    });
 
   });
 
-  describe('removeSexualPartner', function () {
+  describe('removeSexualPartner', () => {
 
-    it('should delete sexual partner observation', function () {
+    it('should delete sexual partner observation', () => {
 
       spyOn(observationsService, 'deleteObs');
 
@@ -112,22 +94,14 @@ describe('sexualPartnersService', function () {
 
   });
 
-  describe('saveSexualPartner', function () {
-    describe('first Sexual Partner encounter from visit', function () {
+  describe('saveSexualPartner', () => {
+    describe('first Sexual Partner encounter from visit', () => {
 
-      it('should create an encounter with obs', function () {
+      it('should create an encounter with obs', () => {
 
-        spyOn(visitService, 'getTodaysVisit').and.callFake(function () {
-          return $q(function (resolve) {
-            return resolve({encounters:[]});
-          })
-        });
+        spyOn(visitService, 'getTodaysVisit').and.callFake(() => $q(resolve => resolve({encounters: []})));
 
-        spyOn(encounterService, 'create').and.callFake(function () {
-          return $q(function (resolve) {
-            return resolve({obs: [{uuid: '1063cbd9-df94-45df-becb-e30d15c13f52'}]});
-          })
-        });
+        spyOn(encounterService, 'create').and.callFake(() => $q(resolve => resolve({obs: [{uuid: '1063cbd9-df94-45df-becb-e30d15c13f52'}]})));
 
         service.saveSexualPartner({uuid: '98288a2a-8c08-4deb-bb66-a111f1018de5'}, {
           name: 'Dominga Derouen',
@@ -142,22 +116,19 @@ describe('sexualPartnersService', function () {
 
     });
 
-    describe('existing Sexual Partner encounter from visit', function () {
+    describe('existing Sexual Partner encounter from visit', () => {
 
 
-      it('should create an obs for the existing encounter', function () {
+      it('should create an obs for the existing encounter', () => {
 
-        spyOn(visitService, 'getTodaysVisit').and.callFake(function () {
-          return $q(function (resolve) {
-            return resolve({encounters:[{encounterType:{uuid:'fc72477b-90a5-4222-a43d-efe10f0ad342'}, voided: false}]});
-          })
-        });
+        spyOn(visitService, 'getTodaysVisit').and.callFake(() => $q(resolve => resolve({
+          encounters: [{
+            encounterType: {uuid: 'fc72477b-90a5-4222-a43d-efe10f0ad342'},
+            voided: false
+          }]
+        })));
 
-        spyOn(observationsService, 'createObs').and.callFake(function () {
-          return $q(function (resolve) {
-            return resolve({})
-          });
-        });
+        spyOn(observationsService, 'createObs').and.callFake(() => $q(resolve => resolve({})));
 
         service.saveSexualPartner({uuid: '98288a2a-8c08-4deb-bb66-a111f1018de5'}, {
           name: 'Dominga Derouen',

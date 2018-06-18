@@ -1,6 +1,5 @@
 <ul class="list-group content-border-margin-regular">
-  <li class="list-group-item"
-      ng-repeat="patientAttribute in vm.filterPersonAttributesForCurrStep('other')">
+  <li class="list-group-item" ng-repeat="patientAttribute in vm.personAttributes">
     <b>{{patientAttribute.name}}: </b> {{patientAttribute | valueofothers:vm.patient}}
   </li>
 </ul>

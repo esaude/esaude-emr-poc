@@ -1,25 +1,21 @@
-describe('pocRequireCheckIn', function () {
+describe('pocRequireCheckIn', () => {
 
   var $componentController, $q, $rootScope, visitService;
 
   beforeEach(module('poc.common.visit'));
 
-  beforeEach(inject(function (_$componentController_, _$q_, _$rootScope_, _visitService_) {
+  beforeEach(inject((_$componentController_, _$q_, _$rootScope_, _visitService_) => {
     $q = _$q_;
     $componentController = _$componentController_;
     $rootScope = _$rootScope_;
     visitService = _visitService_;
   }));
 
-  describe('$onChanges', function () {
+  describe('$onChanges', () => {
 
-    it('should load patients current visit', function () {
+    it('should load patients current visit', () => {
 
-      spyOn(visitService, 'getTodaysVisit').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve({});
-        });
-      });
+      spyOn(visitService, 'getTodaysVisit').and.callFake(() => $q(resolve => resolve({})));
 
       var ctrl = $componentController('pocRequireCheckIn');
 
@@ -29,13 +25,9 @@ describe('pocRequireCheckIn', function () {
 
     });
 
-    it('should set flag indicating patient checked-in', function () {
+    it('should set flag indicating patient checked-in', () => {
 
-      spyOn(visitService, 'getTodaysVisit').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve({});
-        });
-      });
+      spyOn(visitService, 'getTodaysVisit').and.callFake(() => $q(resolve => resolve({})));
 
       var ctrl = $componentController('pocRequireCheckIn');
 
@@ -52,9 +44,9 @@ describe('pocRequireCheckIn', function () {
   });
 
 
-  describe('$onInit', function () {
+  describe('$onInit', () => {
 
-    it('should not set show messages if no message is provided', function () {
+    it('should not set show messages if no message is provided', () => {
 
       var ctrl = $componentController('pocRequireCheckIn');
 
@@ -64,7 +56,7 @@ describe('pocRequireCheckIn', function () {
 
     });
 
-    it('should set show messages if message is provided', function () {
+    it('should set show messages if message is provided', () => {
 
       var ctrl = $componentController('pocRequireCheckIn', null, {message: 'PLEASE_CHECK_IN'});
 
@@ -74,6 +66,6 @@ describe('pocRequireCheckIn', function () {
 
     });
 
-  })
+  });
 
 });

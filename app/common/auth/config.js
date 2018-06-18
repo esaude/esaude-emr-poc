@@ -21,7 +21,7 @@
    * @param $httpProvider
    */
   function interceptor($httpProvider) {
-    var interceptor = ['$rootScope', '$q', function ($rootScope, $q) {
+    var interceptor = ['$rootScope', '$q', ($rootScope, $q) => {
       function success(response) {
         return response;
       }
@@ -54,7 +54,7 @@
     var directive = $delegate[0];
 
     function link(scope, element, attrs) {
-      authorizationService.hasPrivilege(scope.privilege).then(function (hasPrivilege) {
+      authorizationService.hasPrivilege(scope.privilege).then(hasPrivilege => {
         scope.authorized = hasPrivilege;
       });
     }
@@ -62,7 +62,7 @@
     directive.compile = function () {
       return function (scope, element, attrs) {
         link.apply(this, arguments);
-      }
+      };
     };
 
     delete directive.link;

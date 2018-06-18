@@ -1,6 +1,6 @@
 'use strict';
 
-describe('dashboard', function () {
+describe('dashboard', () => {
   var scope, $rootScope, $q, $componentController, controller, patientService, visitService, authorizationService,
     $state,
     alertService, patient;
@@ -10,23 +10,21 @@ describe('dashboard', function () {
   var visit1 = {patient: {uuid: "3951a5f8-cdce-4421-bfe3-cfdd701168d0"}};
   var getTodaysVisitParams = {
     "3951a5f8-cdce-4421-bfe3-cfdd701168d0": visit1
-  }
+  };
 
-  beforeEach(module('clinic', function ($provide, $translateProvider, $urlRouterProvider) {
+  beforeEach(module('clinic', ($provide, $translateProvider, $urlRouterProvider) => {
     // Mock translate asynchronous loader
-    $provide.factory('mergeLocaleFilesService', function ($q) {
-      return function () {
-        var deferred = $q.defer();
-        deferred.resolve({});
-        return deferred.promise;
-      };
+    $provide.factory('mergeLocaleFilesService', $q => () => {
+      var deferred = $q.defer();
+      deferred.resolve({});
+      return deferred.promise;
     });
     $translateProvider.useLoader('mergeLocaleFilesService');
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function (_$componentController_, _$rootScope_, _patientService_, _$q_, _$state_, _visitService_,
-                              _authorizationService_, _alertService_) {
+  beforeEach(inject((_$componentController_, _$rootScope_, _patientService_, _$q_, _$state_, _visitService_,
+                     _authorizationService_, _alertService_) => {
     scope = _$rootScope_.$new();
     $rootScope = _$rootScope_;
     $componentController = _$componentController_;
@@ -38,35 +36,19 @@ describe('dashboard', function () {
     alertService = _alertService_;
 
     patient = {uuid: "UUID_1"};
-    spyOn(patientService, 'getPatient').and.callFake(function () {
-      return $q(function (resolve) {
-        return resolve(patient);
-      });
-    });
+    spyOn(patientService, 'getPatient').and.callFake(() => $q(resolve => resolve(patient)));
 
-    spyOn(alertService, 'get').and.callFake(function () {
-      return $q(function (resolve) {
-        return resolve({data: {flags: FLAGS}});
-      });
-    });
+    spyOn(alertService, 'get').and.callFake(() => $q(resolve => resolve({data: {flags: FLAGS}})));
 
-    spyOn(visitService, 'getTodaysVisit').and.callFake(function (patientUuid) {
-      return $q(function (resolve) {
-        return resolve(getTodaysVisitParams[patientUuid]);
-      });
-    });
+    spyOn(visitService, 'getTodaysVisit').and.callFake(patientUuid => $q(resolve => resolve(getTodaysVisitParams[patientUuid])));
 
   }));
 
-  describe('$onInit', function () {
+  describe('$onInit', () => {
 
-    it('should retrieve necessary data', function () {
+    it('should retrieve necessary data', () => {
 
-      spyOn(authorizationService, 'hasPrivilege').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve(true);
-        });
-      });
+      spyOn(authorizationService, 'hasPrivilege').and.callFake(() => $q(resolve => resolve(true)));
 
       controller = $componentController('dashboard', null, {patient: patient});
 
@@ -80,13 +62,9 @@ describe('dashboard', function () {
       expect(controller.hasLabOrderPrivilege).toEqual(true);
     });
 
-    it('should mark accordingly when no privilege', function () {
+    it('should mark accordingly when no privilege', () => {
 
-      spyOn(authorizationService, 'hasPrivilege').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve(false);
-        });
-      });
+      spyOn(authorizationService, 'hasPrivilege').and.callFake(() => $q(resolve => resolve(false)));
 
       controller = $componentController('dashboard', null, {patient: {uuid: 'OTHER_UUID'}});
 
@@ -97,13 +75,9 @@ describe('dashboard', function () {
       expect(controller.hasLabOrderPrivilege).toEqual(false);
     });
 
-    it('should load last visit', function () {
+    it('should load last visit', () => {
 
-      spyOn(authorizationService, 'hasPrivilege').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve(true);
-        });
-      });
+      spyOn(authorizationService, 'hasPrivilege').and.callFake(() => $q(resolve => resolve(true)));
 
       controller = $componentController('dashboard', null, {patient: {uuid: "3951a5f8-cdce-4421-bfe3-cfdd701168d0"}});
 
@@ -115,12 +89,8 @@ describe('dashboard', function () {
       expect(controller.todayVisit).toEqual(visit1);
     });
 
-    it('should not load last visit', function () {
-      spyOn(authorizationService, 'hasPrivilege').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve(true);
-        });
-      });
+    it('should not load last visit', () => {
+      spyOn(authorizationService, 'hasPrivilege').and.callFake(() => $q(resolve => resolve(true)));
 
       controller = $componentController('dashboard', null, {patient: {uuid: 'OUTRO_UUID'}});
 
@@ -133,9 +103,9 @@ describe('dashboard', function () {
 
   });
 
-  describe('reload', function () {
+  describe('reload', () => {
 
-    it('should reload current state', function () {
+    it('should reload current state', () => {
 
       spyOn($state, 'reload');
 

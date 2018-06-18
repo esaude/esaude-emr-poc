@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -40,14 +40,12 @@
     }
 
     function filterOnlyConceptFields(fields) {
-      return _.pickBy(fields, function (o) {
-        return o.field.concept;
-      });
+      return _.pickBy(fields, o => o.field.concept);
     }
 
     function flattenFields(formParts) {
       var flatten = [];
-      _.forEach(formParts, function (part) {
+      _.forEach(formParts, part => {
         var fields = _.map(part.fields, "id");
         flatten = _.union(flatten, fields);
       });
@@ -67,20 +65,16 @@
             groupMembers: []
 
           };
-          _.forEach(field.field.concept.setMembers, function (member) {
-            var memberFieldUuid = _.findKey(fields, function (data) {
-              return data.field.concept.uuid === member.uuid;
-            });
-            var removedMemberField = _.remove(flattenFields, function (data) {
-              return data === memberFieldUuid;
-            });
+          _.forEach(field.field.concept.setMembers, member => {
+            var memberFieldUuid = _.findKey(fields, data => data.field.concept.uuid === member.uuid);
+            var removedMemberField = _.remove(flattenFields, data => data === memberFieldUuid);
             //set the member if removed
             if (!_.isEmpty(removedMemberField)) {
               var memberField = fields[removedMemberField[0]];
               if (typeof memberField.value !== 'undefined' && memberField.value !== null) {
                 //to accomodate multiple select
                 if (memberField.field.selectMultiple) {
-                  _.forEach(memberField.field.concept.answers, function (answer) {
+                  _.forEach(memberField.field.concept.answers, answer => {
                     var answerValue = memberField.value[answer.uuid];
                     if (answerValue !== 'undefined' && answerValue != null) {
                       obs.groupMembers.push({
@@ -136,12 +130,12 @@
 
     function createNonObsGroups(fields, flattenFields, person) {
       var obs = [];
-      _.forEach(flattenFields, function (field) {
+      _.forEach(flattenFields, field => {
         var formField = fields[field];
         if (typeof formField.value !== 'undefined' && formField.value != null) {
           //to accomodate multiple select
           if (formField.field.selectMultiple) {
-            _.forEach(formField.field.concept.answers, function (answer) {
+            _.forEach(formField.field.concept.answers, answer => {
               var answerValue = formField.value[answer.uuid];
               if (answerValue !== 'undefined' && answerValue != null) {
                 obs.push({

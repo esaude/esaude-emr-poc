@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -10,7 +10,7 @@
 
     // to prevent the browser from displaying a password pop-up in case of an authentication error
     $httpProvider.defaults.headers.common['Disable-WWW-Authenticate'] = 'true';
-    $urlRouterProvider.otherwise(function ($injector) {
+    $urlRouterProvider.otherwise($injector => {
       $injector.get('$state').go('search');
     });
 
@@ -22,9 +22,9 @@
         component: 'patientSearch',
         resolve: {
           initialization: 'initialization',
-          createPatient: function () { return false },
-          showSchedule: function () { return true },
-          scheduleType: function () { return 'currentProvider' },
+          createPatient: () => false,
+          showSchedule: () => true,
+          scheduleType: () => 'currentProvider',
         },
         ncyBreadcrumb: {
           label: '{{\'APP_CLINIC\' | translate}} /  {{\'SEARCH_PATIENT\' | translate}}'
@@ -35,7 +35,7 @@
         component: 'dashboard',
         resolve: {
           initialization: 'initialization',
-          patient: function ($stateParams, initialization, patientService) {
+          patient: ($stateParams, initialization, patientService) => {
             // initialization should resolve first because of openmrs patient mapper needs to load patient attributes
             // config
             return patientService.getPatient($stateParams.patientUuid);
@@ -96,9 +96,7 @@
           skip: true
         },
         resolve: {
-          clinicalServicesService: function (clinicalServicesService, $stateParams) {
-            return clinicalServicesService.init('clinical', $stateParams.patientUuid);
-          }
+          clinicalServicesService: (clinicalServicesService, $stateParams) => clinicalServicesService.init('clinical', $stateParams.patientUuid)
         }
       })
       .state('dashboard.current', {

@@ -1,4 +1,4 @@
-describe('TestOrderItemFormController', function () {
+describe('TestOrderItemFormController', () => {
 
   var $componentController, $q, testOrderItem;
 
@@ -22,14 +22,14 @@ describe('TestOrderItemFormController', function () {
   };
 
   beforeEach(module('lab'));
-  beforeEach(inject(function (_$componentController_, _patientService_, _$q_) {
+  beforeEach(inject((_$componentController_, _patientService_, _$q_) => {
     $componentController = _$componentController_;
     $q = _$q_;
   }));
 
-  describe('$onChanges', function () {
+  describe('$onChanges', () => {
 
-    it('should clone the test order item', function () {
+    it('should clone the test order item', () => {
 
       var ctrl = $componentController('testOrderResultItemForm');
 
@@ -40,7 +40,7 @@ describe('TestOrderItemFormController', function () {
 
     });
 
-    it('should cast numeric datatype to number', function () {
+    it('should cast numeric datatype to number', () => {
 
       var ctrl = $componentController('testOrderResultItemForm');
 
@@ -52,9 +52,9 @@ describe('TestOrderItemFormController', function () {
 
   });
 
-  describe('isNumeric', function () {
+  describe('isNumeric', () => {
 
-    it('should return true if the test result item concept is of Numeric datatype', function () {
+    it('should return true if the test result item concept is of Numeric datatype', () => {
 
       var ctrl = $componentController('testOrderResultItemForm');
 
@@ -66,9 +66,9 @@ describe('TestOrderItemFormController', function () {
 
   });
 
-  describe('hasError', function () {
+  describe('hasError', () => {
 
-    it('should return true if the form is in focus, dirty and not valid', function () {
+    it('should return true if the form is in focus, dirty and not valid', () => {
 
       var ctrl = $componentController('testOrderResultItemForm');
 
@@ -80,9 +80,9 @@ describe('TestOrderItemFormController', function () {
 
   });
 
-  describe('hasSuccess', function () {
+  describe('hasSuccess', () => {
 
-    it('should return true if the form is in focus, dirty and valid', function () {
+    it('should return true if the form is in focus, dirty and valid', () => {
 
       var ctrl = $componentController('testOrderResultItemForm');
 
@@ -95,9 +95,9 @@ describe('TestOrderItemFormController', function () {
 
   });
 
-  describe('isInvalid', function () {
+  describe('isInvalid', () => {
 
-    it('should return true if the form is dirty, and not valid', function () {
+    it('should return true if the form is dirty, and not valid', () => {
 
       var ctrl = $componentController('testOrderResultItemForm');
 
@@ -109,9 +109,9 @@ describe('TestOrderItemFormController', function () {
 
   });
 
-  describe('onFocus', function () {
+  describe('onFocus', () => {
 
-    it('should add flag indicating that the form is focused', function () {
+    it('should add flag indicating that the form is focused', () => {
 
       var ctrl = $componentController('testOrderResultItemForm');
 
@@ -123,7 +123,7 @@ describe('TestOrderItemFormController', function () {
 
     });
 
-    it('should show buttons', function () {
+    it('should show buttons', () => {
 
       var ctrl = $componentController('testOrderResultItemForm');
 
@@ -137,9 +137,9 @@ describe('TestOrderItemFormController', function () {
 
   });
 
-  describe('onBlur', function () {
+  describe('onBlur', () => {
 
-    it('should remove flag indicating that the form is focused', function () {
+    it('should remove flag indicating that the form is focused', () => {
 
       var ctrl = $componentController('testOrderResultItemForm', null, {
         item: {
@@ -156,9 +156,9 @@ describe('TestOrderItemFormController', function () {
 
     });
 
-    describe('form is not valid', function () {
+    describe('form is not valid', () => {
 
-      it('should reset the value', function () {
+      it('should reset the value', () => {
 
         var ctrl = $componentController('testOrderResultItemForm', null, {
           item: {
@@ -169,13 +169,13 @@ describe('TestOrderItemFormController', function () {
 
         ctrl.$item.value = 3;
 
-        ctrl.onBlur({$invalid: true, $setPristine: function () {}});
+        ctrl.onBlur({$invalid: true, $setPristine: () => {}});
 
         expect(ctrl.$item.value).toBe(2);
 
       });
 
-      it('should is should set form to pristine state', function () {
+      it('should is should set form to pristine state', () => {
 
         var ctrl = $componentController('testOrderResultItemForm', null, {
           item: {
@@ -194,7 +194,7 @@ describe('TestOrderItemFormController', function () {
 
       });
 
-      it('should hide buttons', function () {
+      it('should hide buttons', () => {
 
         var item = {
           testOrder: {concept: {datatype: {display: 'Numeric'}}},

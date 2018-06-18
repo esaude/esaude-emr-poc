@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -27,7 +27,7 @@
 
     function findExistingObs(nObservations, oObservations, bObservations) {
       //find new things to add, comparing to old
-      _.forEach(nObservations, function (newObs) {
+      _.forEach(nObservations, newObs => {
         //brand new obs
         var obs = {
           person: newObs.person,
@@ -35,9 +35,7 @@
           concept: newObs.concept
         };
         //find existing
-        var foundObs = _.find(oObservations, function (oldObs) {
-          return oldObs.concept.uuid === newObs.concept;
-        });
+        var foundObs = _.find(oObservations, oldObs => oldObs.concept.uuid === newObs.concept);
         if (foundObs) {
           obs.uuid = foundObs.uuid;
           //must loock for menber if obs is a group

@@ -1,28 +1,28 @@
 'use strict';
 
-describe('dispensationService', function () {
+describe('dispensationService', () => {
 
   var dispensationService, $httpBackend;
 
-  beforeEach(module('bahmni.common.domain', function ($provide) {
+  beforeEach(module('bahmni.common.domain', $provide => {
     // Mock initialization
-    $provide.factory('initialization', function () {});
+    $provide.factory('initialization', () => {});
     // Mock appService
     var appService = jasmine.createSpyObj('appService', ['initApp']);
     appService.initApp.and.returnValue({
-      then: function (fn) {}
+      then: fn => {}
     });
     $provide.value('appService', appService);
   }));
 
-  beforeEach(inject(function (_dispensationService_, _$httpBackend_) {
+  beforeEach(inject((_dispensationService_, _$httpBackend_) => {
     dispensationService = _dispensationService_;
     $httpBackend = _$httpBackend_;
   }));
 
-  describe('createDispensation', function () {
+  describe('createDispensation', () => {
 
-    it('should create dispensation', function () {
+    it('should create dispensation', () => {
       $httpBackend.expectPOST('/openmrs/ws/rest/v1/dispensation?v=full')
         .respond({});
     });

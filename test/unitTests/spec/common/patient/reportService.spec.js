@@ -1,8 +1,8 @@
 'use strict';
 
-describe('reportService', function () {
+describe('reportService', () => {
 
-  var PATIENT_ARV_PICKUP_HISTORY_TEMPLATE = "../patient-details/views/patient-arv-pickup-history-report.html";
+  var PATIENT_ARV_PICKUP_HISTORY_TEMPLATE = "../common/patient/views/patient-arv-pickup-history-report.html";
 
   var reportService, $rootScope, $compile, $timeout, $http, $log, $q;
 
@@ -11,26 +11,20 @@ describe('reportService', function () {
   beforeEach(module('common.patient'));
 
   // Provide $compile and $timeout mocks
-  beforeEach(function () {
+  beforeEach(() => {
     element = {
-      html: jasmine.createSpy('html').and.callFake(function () {
-        return "<div>Malocy Landon</div>";
-      })
+      html: jasmine.createSpy('html').and.callFake(() => "<div>Malocy Landon</div>")
     };
 
-    linkFn = jasmine.createSpy().and.callFake(function () {
-      return element;
-    });
+    linkFn = jasmine.createSpy().and.callFake(() => element);
 
-    module(function ($provide) {
-      $provide.value('$compile', jasmine.createSpy().and.callFake(function () {
-        return linkFn;
-      }));
+    module($provide => {
+      $provide.value('$compile', jasmine.createSpy().and.callFake(() => linkFn));
     });
   });
 
-  beforeEach(inject(function (_reportService_, _$httpBackend_, _$rootScope_, _$compile_, _$log_,
-    _$q_, _$timeout_) {
+  beforeEach(inject((_reportService_, _$httpBackend_, _$rootScope_, _$compile_, _$log_,
+                     _$q_, _$timeout_) => {
     reportService = _reportService_;
     $http = _$httpBackend_;
     $rootScope = _$rootScope_;
@@ -40,15 +34,15 @@ describe('reportService', function () {
     $q = _$q_;
   }));
 
-  describe('generate patient ARV pickup history report', function () {
+  describe('generate patient ARV pickup history report', () => {
 
     var loadTemplate;
 
-    beforeEach(function () {
+    beforeEach(() => {
       loadTemplate = $http.expectGET(PATIENT_ARV_PICKUP_HISTORY_TEMPLATE);
     });
 
-    it('should generate report', function () {
+    it('should generate report', () => {
       var patient = {
         fullName: "Malocy Landon",
         dispensations: [],
@@ -77,7 +71,7 @@ describe('reportService', function () {
       expect(element.html).toHaveBeenCalled();
     });
 
-    it('should cancel report generation if load fails', function () {
+    it('should cancel report generation if load fails', () => {
       var patient = {
         fullName: "Malocy Landon",
         dispensations: [],
@@ -111,7 +105,7 @@ describe('reportService', function () {
     });
   });
 
-  afterEach(function () {
+  afterEach(() => {
     $http.verifyNoOutstandingExpectation();
     $http.verifyNoOutstandingRequest();
   });

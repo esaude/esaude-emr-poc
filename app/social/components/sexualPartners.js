@@ -36,10 +36,10 @@
 
     function $onInit() {
       sexualPartnersService.getSexualPartners(vm.patient)
-        .then(function (partners) {
+        .then(partners => {
           vm.partners = partners;
         })
-        .catch(function () {
+        .catch(() => {
           notifier.error(translateFilter('COMMON_ERROR'));
         });
     }
@@ -50,22 +50,22 @@
 
     function removePartner(partner) {
       sexualPartnersService.removeSexualPartner(partner)
-        .then(function () {
+        .then(() => {
           vm.partners.splice(vm.partners.indexOf(partner),1);
         })
-        .catch(function () {
+        .catch(() => {
           notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
         });
     }
 
     function savePartner(partner) {
       sexualPartnersService.saveSexualPartner(vm.patient, partner)
-        .then(function (partner) {
+        .then(partner => {
           vm.partners.push(partner);
           vm.newPartner = {};
           vm.add = false;
         })
-        .catch(function () {
+        .catch(() => {
           notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
         });
     }

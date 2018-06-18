@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -18,10 +18,8 @@
 
     function getOrder(uuid) {
       return $http.get('/openmrs/ws/rest/v1/order/' + uuid)
-        .then(function (response) {
-          return response.data;
-        })
-        .catch(function (error) {
+        .then(response => response.data)
+        .catch(error => {
           $log.error('XHR failed for getOrder: ' + error.data.error.message);
           return $q.reject(error);
         });

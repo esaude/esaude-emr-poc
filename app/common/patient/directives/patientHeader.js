@@ -43,41 +43,39 @@
       var modalInstance = $uibModal.open({
         component: 'patientDeleteModal',
         resolve: {
-          patient: function () {
-            return vm.patient;
-          }
+          patient: () => vm.patient
         }
       });
 
       modalInstance.result
-        .then(function (deleteData) {
+        .then(deleteData => {
           if (deleteData.dead) {
             return deceasedPatient(deleteData.deathDate, deleteData.causeOfDeath);
           } else {
             return deletePatient(deleteData.deleteReason);
           }
         })
-        .then(function () {
+        .then(() => {
           notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
         });
     }
 
     function deceasedPatient(date, causeOfDeath) {
       return patientService.updatePerson(vm.patient.uuid, {dead: true, deathDate: date, causeOfDeath: causeOfDeath})
-        .then(function () {
+        .then(() => {
           vm.onPatientDeceased(vm.patient);
         })
-        .catch(function (error) {
+        .catch(error => {
           notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ACTION'));
         });
     }
 
     function deletePatient(reason) {
       return patientService.voidPatient(vm.patient.uuid, reason)
-        .then(function () {
+        .then(() => {
           linkSearch();
         })
-        .catch(function (error) {
+        .catch(error => {
           notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ACTION'));
         });
     }

@@ -4,7 +4,7 @@ angular.module('common.patient')
     .factory('age', [function () {
         var dateUtil = Bahmni.Common.Util.DateUtil;
 
-        var fromBirthDate = function (birthDate) {
+        var fromBirthDate = birthDate => {
             var today = dateUtil.now();
             var period = dateUtil.diffInYearsMonthsDays(birthDate, today);
             return create(period.years, period.months, period.days);
@@ -23,7 +23,7 @@ angular.module('common.patient')
             };
         };
 
-        var calculateBirthDate = function (age) {
+        var calculateBirthDate = age => {
             var birthDate = dateUtil.now();
             birthDate = dateUtil.subtractYears(birthDate, age.years);
             birthDate = dateUtil.subtractMonths(birthDate, age.months);
@@ -35,6 +35,6 @@ angular.module('common.patient')
             fromBirthDate: fromBirthDate,
             create: create,
             calculateBirthDate: calculateBirthDate
-        }
+        };
     }]
 );

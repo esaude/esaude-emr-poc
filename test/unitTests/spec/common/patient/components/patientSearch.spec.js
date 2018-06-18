@@ -1,33 +1,31 @@
 'use strict';
 
-describe('PatientSearchController', function () {
+describe('PatientSearchController', () => {
 
   var $componentController, $q, $compile, $rootScope, $state, ctrl, openmrsPatientMapper, patientService, notifier;
 
-  beforeEach(module('barcodeListener', function ($provide) {
+  beforeEach(module('barcodeListener', $provide => {
 
     // Prevent the real barcodeListener to be linked, otherwise it will complain about prefix not being a string.
     // This is because AngularJS creates a different scope from the one provided to this directive's linking function.
-    $provide.factory('barcodeListenerDirective', function () {
-      return {
-        restrict: 'EA',
-        scope: {
-          onScan: '=',
-          prefix: '@',
-          length: '@',
-          scanDuration: '@?'
-        },
-        link: function() {
-        }
-      };
-    });
+    $provide.factory('barcodeListenerDirective', () => ({
+      restrict: 'EA',
+      scope: {
+        onScan: '=',
+        prefix: '@',
+        length: '@',
+        scanDuration: '@?'
+      },
+      link: () => {
+      }
+    }));
 
   }));
 
   beforeEach(module('common.patient'));
 
-  beforeEach(inject(function (_$componentController_, _$q_, _$compile_, _$rootScope_, _$state_, _openmrsPatientMapper_,
-                              _patientService_, _notifier_) {
+  beforeEach(inject((_$componentController_, _$q_, _$compile_, _$rootScope_, _$state_, _openmrsPatientMapper_,
+                     _patientService_, _notifier_) => {
     $componentController = _$componentController_;
     $q = _$q_;
     $compile = _$compile_;
@@ -38,23 +36,19 @@ describe('PatientSearchController', function () {
     notifier = _notifier_;
   }));
 
-  beforeEach(function () {
+  beforeEach(() => {
     ctrl = $componentController('patientSearch');
   });
 
-  describe('change', function () {
+  describe('change', () => {
 
     var results = [];
 
-    beforeEach(function () {
-      spyOn(patientService, 'search').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve(results);
-        })
-      })
+    beforeEach(() => {
+      spyOn(patientService, 'search').and.callFake(() => $q(resolve => resolve(results)));
     });
 
-    it("should search for patients", function () {
+    it("should search for patients", () => {
 
       ctrl.searchText = 'Mal';
       ctrl.change();
@@ -66,26 +60,22 @@ describe('PatientSearchController', function () {
     });
   });
 
-  describe('barcodeHandler', function () {
+  describe('barcodeHandler', () => {
 
     var testPatient = {
       uuid: '11111111/11/11111',
     };
 
-    beforeEach(function () {
+    beforeEach(() => {
 
-      spyOn(openmrsPatientMapper, 'map').and.callFake(function () {
-        return testPatient
-      });
+      spyOn(openmrsPatientMapper, 'map').and.callFake(() => testPatient);
 
       spyOn(ctrl, 'onPatientSelect');
     });
 
-    it("should automatically select patient after search", function () {
+    it("should automatically select patient after search", () => {
 
-      spyOn(patientService, 'search').and.callFake(function () {
-        return $q.resolve([testPatient]);
-      });
+      spyOn(patientService, 'search').and.callFake(() => $q.resolve([testPatient]));
 
       // Add the bard code listener element with auto select set to true
       const autoSelect = true;
@@ -103,11 +93,9 @@ describe('PatientSearchController', function () {
       expect(ctrl.onPatientSelect).toHaveBeenCalled();
     });
 
-    it("should not automatically select patient after search", function () {
+    it("should not automatically select patient after search", () => {
 
-      spyOn(patientService, 'search').and.callFake(function () {
-        return $q.resolve([testPatient]);
-      });
+      spyOn(patientService, 'search').and.callFake(() => $q.resolve([testPatient]));
 
       // Add the bard code listener element with auto select set to false
       const autoSelect = false;
@@ -125,11 +113,9 @@ describe('PatientSearchController', function () {
       expect(ctrl.onPatientSelect).toHaveBeenCalled();
     });
 
-    it('should set search text to scanned barcode', function () {
+    it('should set search text to scanned barcode', () => {
 
-      spyOn(patientService, 'search').and.callFake(function () {
-        return $q.resolve([testPatient]);
-      });
+      spyOn(patientService, 'search').and.callFake(() => $q.resolve([testPatient]));
 
       ctrl.barcodeHandler(testPatient.uuid);
 
@@ -139,11 +125,9 @@ describe('PatientSearchController', function () {
 
     });
 
-    it('should inform if no patients found', function () {
+    it('should inform if no patients found', () => {
 
-      spyOn(patientService, 'search').and.callFake(function () {
-        return $q.resolve([]);
-      });
+      spyOn(patientService, 'search').and.callFake(() => $q.resolve([]));
 
       spyOn(notifier, 'info');
 
@@ -156,9 +140,9 @@ describe('PatientSearchController', function () {
     });
   });
 
-  describe('linkDashboard', function () {
+  describe('linkDashboard', () => {
 
-    it('should go to dashboard', function () {
+    it('should go to dashboard', () => {
 
       spyOn($state, 'go');
 
@@ -171,9 +155,9 @@ describe('PatientSearchController', function () {
 
   });
 
-  describe('linkPatientNew', function () {
+  describe('linkPatientNew', () => {
 
-    it('should go to new patient identifiers', function () {
+    it('should go to new patient identifiers', () => {
 
       spyOn($state, 'go');
 

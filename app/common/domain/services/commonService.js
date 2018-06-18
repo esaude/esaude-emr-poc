@@ -4,65 +4,43 @@ angular.module('bahmni.common.domain')
     .service('commonService', ['encounterService', 'observationsService',
         function (encounterService, observationsService) {
 
-    this.filterRetired = function (entities) {
-        return _.filter(entities, function (entity) {
-            return !entity.voided;
-        });
-    };
+    this.filterRetired = entities => _.filter(entities, entity => !entity.voided);
 
-    this.filterLast = function (entities) {
-        return _.filter(entities, function (entity) {
-            return !entity.voided;
-        });
-    };
+    this.filterLast = entities => _.filter(entities, entity => !entity.voided);
 
-    this.filterReverse = function (data) {
+    this.filterReverse = data => {
         var results = getResultThenCompatible(data);
         var nonRetired = encounterService.filterRetiredEncoounters(results);
-        
+
         return _.values(nonRetired).reverse();
     };
 
-    this.filterGroupReverse = function (data) {
+    this.filterGroupReverse = data => {
         var results = getResultThenCompatible(data);
         var nonRetired = encounterService.filterRetiredEncoounters(results);
-        var grouped = _.groupBy(nonRetired, function (element) {
-            return Bahmni.Common.Util.DateUtil.getDateWithoutTime(element.encounterDatetime);
-        });
-        
+        var grouped = _.groupBy(nonRetired, element => Bahmni.Common.Util.DateUtil.getDateWithoutTime(element.encounterDatetime));
+
         return _.values(grouped).reverse();
     };
 
-    this.findInList = function (list, attribute, value) {
-        return _.find(list, function (e) {
-            return e[attribute] === value;
-        })
-    };
+    this.findInList = (list, attribute, value) => _.find(list, e => e[attribute] === value);
 
-    this.filterGroupReverseFollowupObs = function (concepts, results) {
+    this.filterGroupReverseFollowupObs = (concepts, results) => {
         var nonRetired = encounterService.filterRetiredEncoounters(results);
 
         //TODO: Fix null referece
-        _.forEach(nonRetired, function (encounter) {
+        _.forEach(nonRetired, encounter => {
                 encounter.obs = observationsService.filterByList(encounter.obs, concepts);
         });
 
-        var filtered = _.filter(nonRetired, function (encounter) {
-            return !_.isEmpty(encounter.obs);
-        });
+        var filtered = _.filter(nonRetired, encounter => !_.isEmpty(encounter.obs));
 
         return filtered.reverse();
     };
 
-    this.deferPatient = function (patient) {
-      return patient;
-    };
+    this.deferPatient = patient => patient;
 
-    this.findByMemberConcept = function (group, uuid) {
-        return _.find(group, function (member) {
-            return member.concept.uuid === uuid;
-        });
-    }
+    this.findByMemberConcept = (group, uuid) => _.find(group, member => member.concept.uuid === uuid);
 
     function getResultThenCompatible(data) {
         if (data.results) {

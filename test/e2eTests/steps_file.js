@@ -10,18 +10,18 @@ module.exports = function() {
     login: function(userInfo) {
       // Default to the admin user
       if(!userInfo) {
-        userInfo = require('./data.js').users.admin
+        userInfo = require('./data.js').users.admin;
       }
 
       // Create the login page object
-      const loginPage = require('./pages/loginPage')
-      loginPage._init()
+      const loginPage = require('./pages/loginPage');
+      loginPage._init();
 
       // Login and return the dashboard page
-      const loginStatus = loginPage.login(userInfo)
-      const dashboardPage = loginStatus.successful()
-      return dashboardPage
+      const loginStatus = loginPage.login(userInfo);
+      const dashboardPage = loginStatus.successful();
+      return dashboardPage;
     },
 
   });
-}
+};

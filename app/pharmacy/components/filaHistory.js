@@ -57,12 +57,12 @@
       var getDispensation = dispensationService.getDispensation(vm.patient.uuid,
         moment(vm.startDate).format('DD-MM-YYYY'),
         moment(vm.endDate).format('DD-MM-YYYY'));
-      $q.all([getDispensation]).then(function (values) {
+      $q.all([getDispensation]).then(values => {
         vm.groupedDispensations = values[0];
         var dispensations = [];
-        vm.groupedDispensations.forEach(function (groupedDispensation) {
-          groupedDispensation.dispensationItems.forEach(function (dispensationItem) {
-            dispensations.push(dispensationItem)
+        vm.groupedDispensations.forEach(groupedDispensation => {
+          groupedDispensation.dispensationItems.forEach(dispensationItem => {
+            dispensations.push(dispensationItem);
           });
         });
         vm.displayedPickups = dispensations;

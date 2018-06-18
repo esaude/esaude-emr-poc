@@ -15,7 +15,7 @@ Poc.Patient.Constants = {
 
 Poc.Patient.Constants.Errors = {};
 
-(function () {
+(() => {
   'use strict';
 
   angular

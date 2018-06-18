@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -20,9 +20,7 @@
       var config = {
         params: params
       };
-      return $http.get(Bahmni.Common.Constants.cohortUrl + "/" + cohortUuid, config).then(function (response) {
-        return response.data.members;
-      }).catch(function (error) {
+      return $http.get(Bahmni.Common.Constants.cohortUrl + "/" + cohortUuid, config).then(response => response.data.members).catch(error => {
         $log.error('XHR Failed for evaluateCohort: ' + error.data.error.message);
         return $q.reject(error);
       });

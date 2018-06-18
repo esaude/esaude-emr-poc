@@ -46,7 +46,7 @@ Scenario('Validate tab sequence', (I, RegisterPatientPage) => {
 
   I.say(`${LOG_TAG} Validating tab sequence`);
 
-  I.click(RegisterPatientPage.tabs.name)
+  I.click(RegisterPatientPage.tabs.name);
   I.see(RegisterPatientPage.translate('ERROR_REQUIRED'));
 
   I.click(RegisterPatientPage.tabs.gender);
@@ -263,7 +263,7 @@ const validateRequiredFields = (I, RegisterPatientPage, step, numOfVisibleElemen
 
 const addIdentifier = (I, RegisterPatientPage, identifier) => {
   I.say(`${LOG_TAG} Adding ${identifier.label} identifier`);
-  I.click(RegisterPatientPage.buttons.addIdentifier)
+  I.click(RegisterPatientPage.buttons.addIdentifier);
   I.selectOption(RegisterPatientPage.fields.identifierType, identifier.label);
   I.wait(1);
 }
@@ -285,7 +285,7 @@ const validateIdentifier = (I, RegisterPatientPage, identifier) => {
 
     // Prevent from going to the next page
     if (i < identifier.values.length - 1) {
-      I.click(RegisterPatientPage.buttons.nextStep)
+      I.click(RegisterPatientPage.buttons.nextStep);
       I.see(RegisterPatientPage.translate('ERROR_INVALID_FORMAT'));
     }
 

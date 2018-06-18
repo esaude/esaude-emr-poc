@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -22,7 +22,7 @@
 
     function getMonthlyConsultationSummary(location) {
       return getPatientConsultationSummary(location, true, CONSULTATION_SUMMARY_REPRESENTATION)
-        .then(function (summaries) {
+        .then(summaries => {
           //we will allways have a first result even when there are no consultations
           return {
             startDate: moment(summaries[0].startDate),
@@ -30,7 +30,7 @@
             summary: summaries
           };
         })
-        .catch(function (error) {
+        .catch(error => {
           error.data.consultationSummary = consultationSummary;
           return $q.reject(error.data);
         });
@@ -39,7 +39,7 @@
 
     function getWeeklyConsultationSummary(location) {
       return getPatientConsultationSummary(location, false, CONSULTATION_SUMMARY_REPRESENTATION)
-        .then(function (summaries) {
+        .then(summaries => {
           //we will allways have a first result even when there are no consultations
           return {
             startDate: moment(summaries[0].startDate),
@@ -47,7 +47,7 @@
             summary: summaries
           };
         })
-        .catch(function (error) {
+        .catch(error => {
           error.data.consultationSummary = consultationSummary;
           return $q.reject(error.data);
         });
@@ -61,10 +61,8 @@
           v: representation
         }
       };
-      return $http.get('/openmrs/ws/rest/v1/patientconsultationsummary', config).then(function (response) {
-        return response.data.results;
-      })
-        .catch(function (error) {
+      return $http.get('/openmrs/ws/rest/v1/patientconsultationsummary', config).then(response => response.data.results)
+        .catch(error => {
           $log.error('XHR Failed for getPatientConsultationSummary. ' + error.data.error.message);
           return $q.reject(error);
         });

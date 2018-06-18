@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('bahmni.common.uiHelper')
-    .directive('myAutocomplete', function ($parse) {
-        var link = function (scope, element, attrs, ngModelCtrl) {
+    .directive('myAutocomplete', $parse => {
+        var link = (scope, element, attrs, ngModelCtrl) => {
             var ngModel = $parse(attrs.ngModel);
             var source = scope.source();
             var responseMap = scope.responseMap();
@@ -11,14 +11,14 @@ angular.module('bahmni.common.uiHelper')
             element.autocomplete({
                 autofocus: true,
                 minLength: 2,
-                source: function (request, response) {
-                    source(attrs.id, request.term, attrs.itemType).success(function (data) {
+                source: (request, response) => {
+                    source(attrs.id, request.term, attrs.itemType).success(data => {
                         var results = responseMap ? responseMap(data) : data;
                         response(results);
                     });
                 },
-                select: function (event, ui) {
-                    scope.$apply(function (scope) {
+                select: (event, ui) => {
+                    scope.$apply(scope => {
                         ngModelCtrl.$setViewValue(ui.item.value);
                         scope.$eval(attrs.ngChange);
                         if (onSelect != null) {
@@ -27,7 +27,7 @@ angular.module('bahmni.common.uiHelper')
                     });
                     return true;
                 },
-                search: function (event) {
+                search: event => {
                     var searchTerm = $.trim(element.val());
                     if (searchTerm.length < 2) {
                         event.preventDefault();
@@ -43,18 +43,20 @@ angular.module('bahmni.common.uiHelper')
                 responseMap: '&',
                 onSelect: '&'
             }
-        }
+        };
     })
-    .directive('patternValidate', function () {
-        return function ($scope, element, attrs) {
-            var addPatternToElement = function () {
-                if($scope.fieldValidation && $scope.fieldValidation[attrs.id]){
-                    element.attr({"pattern": $scope.fieldValidation[attrs.id].pattern, "title": $scope.fieldValidation[attrs.id].errorMessage, "type": "text"});
-                }
-            };
-
-            $scope.$watch(attrs.patternValidate, function () {
-                addPatternToElement();
-            });
+    .directive('patternValidate', () => ($scope, element, attrs) => {
+      var addPatternToElement = () => {
+        if ($scope.fieldValidation && $scope.fieldValidation[attrs.id]) {
+          element.attr({
+            "pattern": $scope.fieldValidation[attrs.id].pattern,
+            "title": $scope.fieldValidation[attrs.id].errorMessage,
+            "type": "text"
+          });
         }
+      };
+
+      $scope.$watch(attrs.patternValidate, () => {
+        addPatternToElement();
+      });
     });

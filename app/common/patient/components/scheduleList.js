@@ -41,7 +41,7 @@
         getSchedule = scheduleService.getPatientSchedule();
       }
 
-      getSchedule.then(function (patients) {
+      getSchedule.then(patients => {
         vm.patients = patients;
       });
     }

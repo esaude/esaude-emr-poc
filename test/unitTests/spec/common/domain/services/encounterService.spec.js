@@ -1,22 +1,22 @@
-describe('encounterService', function () {
+describe('encounterService', () => {
 
   var $httpBackend, encounterService;
 
   beforeEach(module('bahmni.common.domain'));
 
-  beforeEach(inject(function (_$httpBackend_, _encounterService_) {
+  beforeEach(inject((_$httpBackend_, _encounterService_) => {
     $httpBackend = _$httpBackend_;
     encounterService = _encounterService_;
   }));
 
-  describe('create', function () {
+  describe('create', () => {
 
-    it('should create an encounter', function () {
+    it('should create an encounter', () => {
 
       $httpBackend.expectPOST('/openmrs/ws/rest/v1/encounter', {}).respond({});
 
       var encounter;
-      encounterService.create({}).then(function (created) {
+      encounterService.create({}).then(created => {
         encounter = created;
       });
 
@@ -27,9 +27,9 @@ describe('encounterService', function () {
     });
   });
 
-  describe('get', function () {
+  describe('get', () => {
 
-    it('should get encounter by encounter type and representation', function () {
+    it('should get encounter by encounter type and representation', () => {
 
       var patient = "aaa-bbb-ccc";
       var encounterType = "ccc-aaa-bbb";
@@ -38,7 +38,7 @@ describe('encounterService', function () {
         .respond({ results: ENCOUNTER });
 
       var encounter;
-      encounterService.getEncountersForEncounterType(patient, encounterType).then(function (created) {
+      encounterService.getEncountersForEncounterType(patient, encounterType).then(created => {
         encounter = created;
       });
 
@@ -48,7 +48,7 @@ describe('encounterService', function () {
 
     });
 
-    it('should get encounter by encounter type', function () {
+    it('should get encounter by encounter type', () => {
 
       var patient = "aaa-bbb-ccc";
       var encounterType = "ccc-aaa-bbb";
@@ -57,7 +57,7 @@ describe('encounterService', function () {
         .respond({ results: ENCOUNTER });
 
       var encounter;
-      encounterService.getEncountersForEncounterType(patient, encounterType, "default").then(function (created) {
+      encounterService.getEncountersForEncounterType(patient, encounterType, "default").then(created => {
         encounter = created;
       });
 

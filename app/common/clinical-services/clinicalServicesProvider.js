@@ -59,12 +59,12 @@
         var getPatient = patientService.getPatient(patientUuid);
 
         return $q.all([service.loadClinicalServices(), loadFormLayouts(), getPatient])
-          .then(function (result) {
+          .then(result => {
             _clinicalServices = result[0];
             var formLayouts = result[1];
             _currentPatient = result[2];
 
-            _clinicalServices = _.filter(_clinicalServices, function (cs) {
+            _clinicalServices = _.filter(_clinicalServices, cs => {
               if (cs.constraints.minAge &&
                 _currentPatient.age.years < cs.constraints.minAge) {
                 return false;
@@ -74,11 +74,9 @@
 
             });
 
-            _clinicalServices.forEach(function (cs) {
+            _clinicalServices.forEach(cs => {
 
-              cs.formLayout = formLayouts.filter(function (f) {
-                return cs.id === f.id;
-              })[0];
+              cs.formLayout = formLayouts.filter(f => cs.id === f.id)[0];
             });
             registerRoutes($state, _clinicalServices, _currentPatient);
             return service;
@@ -93,9 +91,7 @@
           },
           withCredentials: true
         };
-        return $http.get('/openmrs/ws/rest/v1/clinicalservice', data).then(function (response) {
-          return response.data;
-        }).catch(function (error) {
+        return $http.get('/openmrs/ws/rest/v1/clinicalservice', data).then(response => response.data).catch(error => {
           $log.error('XHR Failed for deleteService: ' + error.data.error.message);
           return $q.reject(error);
         });
@@ -111,15 +107,11 @@
           return $q.reject();
         }
 
-        return getForm(cs.formId, representation).then(function (form) {
-          return form.encounterType;
-        });
+        return getForm(cs.formId, representation).then(form => form.encounterType);
       }
 
       function findClinicalService(clinicalService) {
-        var found = _clinicalServices.filter(function (cs) {
-          return cs.id === clinicalService.id;
-        })[0];
+        var found = _clinicalServices.filter(cs => cs.id === clinicalService.id)[0];
 
         if (!found) {
           $log.error('Clinical found ' + found + ' not found for module ' + _currentModule + '.');
@@ -149,17 +141,15 @@
         var representation = "custom:(description,display,encounterType,uuid,formFields:(uuid,required," +
           "field:(uuid,selectMultiple,fieldType:(display),concept:(answers,set,setMembers,uuid,datatype:(display)))))";
 
-        return getClinicalServicesWithEncountersForPatient(patient, cs).then(function (service) {
-          return getForm(service.formId, representation).then(function (form) {
-            if (service.hasEntryToday && !encounter) {
-              encounter = service.lastEncounterForService;
-            }
-            service.form = form;
-            var formPayload = clinicalServicesFormMapper.map(service, encounter);
-            formPayload.service = service;
-            return formPayload;
-          });
-        });
+        return getClinicalServicesWithEncountersForPatient(patient, cs).then(service => getForm(service.formId, representation).then(form => {
+          if (service.hasEntryToday && !encounter) {
+            encounter = service.lastEncounterForService;
+          }
+          service.form = form;
+          var formPayload = clinicalServicesFormMapper.map(service, encounter);
+          formPayload.service = service;
+          return formPayload;
+        }));
       }
 
       /**
@@ -183,10 +173,8 @@
        */
       function loadClinicalServices() {
         return $http.get("/poc_config/openmrs/apps/" + _currentModule + "/clinicalServices.json")
-          .then(function (response) {
-            return response.data;
-          })
-          .catch(function (error) {
+          .then(response => response.data)
+          .catch(error => {
             $log.error('XHR Failed for loadClinicalServices: ' + error.data);
             return $q.reject(error);
           });
@@ -194,10 +182,8 @@
 
       function loadFormLayouts() {
         return $http.get('/poc_config/openmrs/apps/common/formLayout.json')
-          .then(function (response) {
-            return response.data;
-          })
-          .catch(function (error) {
+          .then(response => response.data)
+          .catch(error => {
             $log.error('XHR Failed for loadFormLayouts. ' + error.data);
             return $q.reject(error);
           });
@@ -211,12 +197,10 @@
         if (representation) {
           config.params = {
             v: representation
-          }
+          };
         }
 
-        return $http.get("/openmrs/ws/rest/v1/form" + "/" + uuid, config).then(function (response) {
-          return response.data;
-        });
+        return $http.get("/openmrs/ws/rest/v1/form" + "/" + uuid, config).then(response => response.data);
       }
 
       /**
@@ -232,12 +216,10 @@
           return getCsWithEncountersForPatient(patient, service);
         }
 
-        var getAll = _clinicalServices.map(function (cs) {
-          return getCsWithEncountersForPatient(patient, cs);
-        });
+        var getAll = _clinicalServices.map(cs => getCsWithEncountersForPatient(patient, cs));
 
         return $q.all(getAll)
-          .catch(function (error) {
+          .catch(error => {
             $log.error('XHR Failed for getClinicalServicesWithEncountersForPatient: ' + error.data.error.message);
             return $q.reject(error);
           });
@@ -253,7 +235,7 @@
 
         var getTodaysVisit = visitService.getTodaysVisit(patient.uuid);
 
-        return $q.all([getTodaysVisit, getServiceFormEncounterType(service)]).then(function (result) {
+        return $q.all([getTodaysVisit, getServiceFormEncounterType(service)]).then(result => {
 
           var todayVisit = result[0];
           var encounterType = result[1];
@@ -262,13 +244,11 @@
           var representation = 'custom:(uuid,encounterDatetime,obs:(value,concept:(display,uuid,mappings:(' +
             'conceptReferenceTerm:(conceptSource:(display,uuid)))),groupMembers:(uuid,concept:(uuid,name),obsDatetime,value)),provider:(display))';
           return encounterService.getEncountersForPatientByEncounterType(patient.uuid, encounterType.uuid, representation)
-            .then(function (encounters) {
+            .then(encounters => {
 
             if (service.markedOn) {
-              service.encountersForService = _.filter(encounters, function (e) {
-                var foundObs = _.find(e.obs, function (o) {
-                  return o.concept.uuid === service.markedOn;
-                });
+              service.encountersForService = _.filter(encounters, e => {
+                var foundObs = _.find(e.obs, o => o.concept.uuid === service.markedOn);
                 if (!_.isUndefined(foundObs)) {
                   e.markedOnDate = foundObs.value;
                   return true;
@@ -310,7 +290,7 @@
     }
 
     function registerRoutes($state, clinicalServices, patient) {
-      clinicalServices.forEach(function (service) {
+      clinicalServices.forEach(service => {
 
         var formLayout = service.formLayout;
 
@@ -335,7 +315,7 @@
           $stateProvider.state(formLayout.sufix, state);
         }
         //filter form parts by gender
-        formLayout.parts = _.filter(formLayout.parts, function (part) {
+        formLayout.parts = _.filter(formLayout.parts, part => {
           if (!part.constraints) {
             return true;
           } else if (part.constraints.gender === patient.gender) {
@@ -346,7 +326,7 @@
         });
 
         //create inner states
-        formLayout.parts.forEach(function (part) {
+        formLayout.parts.forEach(part => {
           if (part.flexNextSref) {
             if (part.flexNextSref.gender) {
               part.nextSref = part.flexNextSref.gender[patient.gender];

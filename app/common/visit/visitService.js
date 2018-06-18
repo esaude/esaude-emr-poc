@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -14,9 +14,7 @@
 
     var HEIGHT_CM = "e1e2e934-1d5f-11e0-b929-000c29ad1d07";
 
-    var sortByVisitStartDateTime = _.curryRight(_.sortBy, 2)(function (visit) {
-      return new Date(visit.startDatetime);
-    });
+    var sortByVisitStartDateTime = _.curryRight(_.sortBy, 2)(visit => new Date(visit.startDatetime));
 
     var service = {
       create: create,
@@ -36,9 +34,7 @@
       return $http.post(Bahmni.Common.Constants.checkinUrl, checkin, {
         withCredentials: true,
         headers: { "Accept": "application/json", "Content-Type": "application/json" }
-      }).then(function (response) {
-        return response.data;
-      }).catch(function (error) {
+      }).then(response => response.data).catch(error => {
         $log.error('XHR Failed for create: ' + error.data.error.message);
         return $q.reject(error);
       });
@@ -61,13 +57,11 @@
 
     function deleteVisit(visit) {
       return $http.delete(Bahmni.Common.Constants.visitUrl + '/' + visit.uuid, {params: {purge: true}})
-        .then(function (response) {
-          return response.data;
-        })
-        .catch(function (error) {
+        .then(response => response.data)
+        .catch(error => {
           $log.error('XHR Failed for delete: ' + error.data.error.message);
           return $q.reject(error.data.error.message.replace('[','').replace(']',''));
-        })
+        });
     }
 
     function getPatientLastVisit(patient) {
@@ -77,7 +71,7 @@
       }
       var parameters = { patient: patient.uuid, voided: false, mostRecentOnly: true, v: "custom:(visitType:(name),startDatetime,stopDatetime,uuid)" };
       return search(parameters)
-        .then(function (visits) {
+        .then(visits => {
           if (visits.length > 0) {
             return visits[0];
           }
@@ -89,13 +83,13 @@
       if (patientUUID) {
         var parameters = { patient: patientUUID, voided: false, mostRecentOnly: true, currentDateOnly: true, v: "full" };
         return search(parameters)
-          .then(function (visits) {
+          .then(visits => {
             if (visits.length > 0) {
               return visits[0];
             }
             return null;
           })
-          .catch(function (error) {
+          .catch(error => {
             $log.error('XHR Failed for getTodaysVisit: ' + error.data.error.message);
             return $q.reject(error);
           });
@@ -109,7 +103,7 @@
       var getHeightCM = observationsService.getLastPatientObs(patient, { uuid: HEIGHT_CM }, 'custom:(uuid,display,value,obsDatetime)');
       var getWeightKg = observationsService.getLastPatientObs(patient, { uuid: WEIGHT_KG }, 'custom:(uuid,display,value)');
       return $q.all([getHeightCM, getWeightKg])
-        .then(function (result) {
+        .then(result => {
           var heightCMObs = result[0];
           var weightKgObs = result[1];
           if (!heightCMObs || !weightKgObs) {
@@ -129,7 +123,7 @@
 
       var getConsultations =
         encounterService.getPatientFollowupEncounters(patient, 'custom:encounterDatetime,provider:(display),obs:(uuid,value,concept:(uuid,display))')
-          .then(function (followupEncounters) {
+          .then(followupEncounters => {
             var last = followupEncounters[0];
             if (last) {
               visitHeader.lastConsultation = followupEncounters[0];
@@ -139,7 +133,7 @@
 
       var getPharmacyEncounters =
         encounterService.getPatientPharmacyEncounters(patient, 'custom:encounterDatetime,provider:(display),obs:(uuid,value,concept:(uuid,display))')
-          .then(function (filaEncounters) {
+          .then(filaEncounters => {
             var last = filaEncounters[0];
             if (last) {
               visitHeader.lastPharmacy = last;
@@ -148,21 +142,19 @@
           });
 
       var getLastBmi = getPatientLastBMI(patient)
-        .then(function (lastBmi) {
+        .then(lastBmi => {
           visitHeader.lastBmi = lastBmi;
         });
 
 
 
-      var getLastVisit = getPatientLastVisit(patient).then(function (lastVisit) {
+      var getLastVisit = getPatientLastVisit(patient).then(lastVisit => {
         visitHeader.lastVisit = lastVisit;
       });
 
       return $q.all([getPharmacyEncounters, getConsultations, getLastBmi, getLastVisit])
-        .then(function () {
-          return visitHeader;
-        })
-        .catch(function (error) {
+        .then(() => visitHeader)
+        .catch(error => {
           $log.error('XHR Failed for getVisitHeader: ' + error.data.error.message);
           return $q.reject(error);
         });
@@ -173,19 +165,15 @@
         params: params,
         withCredentials: true
       })
-        .then(function (response) {
-          return response.data.results;
-        })
-        .catch(function (error) {
+        .then(response => response.data.results)
+        .catch(error => {
           $log.error('XHR Failed for search: ' + error.data.error.message);
           return $q.reject(error);
         });
     }
 
     function getVisitHistoryForPatient(patient) {
-      return encounterService.getEncountersOfPatient(patient.uuid).then(function (response) {
-        return commonService.filterGroupReverse(response.data);
-      });
+      return encounterService.getEncountersOfPatient(patient.uuid).then(response => commonService.filterGroupReverse(response.data));
     }
 
   }

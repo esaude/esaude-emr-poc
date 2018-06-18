@@ -1,12 +1,10 @@
 'use strict';
 
-Bahmni.Common.Util.ValidationUtil = (function () {
+Bahmni.Common.Util.ValidationUtil = (() => {
 
-  var isAcceptableType = function (propertyToCheck) {
-    return _.includes(["string", "boolean", "number", "object"], typeof propertyToCheck);
-  };
+  var isAcceptableType = propertyToCheck => _.includes(["string", "boolean", "number", "object"], typeof propertyToCheck);
 
-  var flattenObject = function (ob) {
+  var flattenObject = ob => {
     var toReturn = {};
     for (var i in ob) {
       if (!ob.hasOwnProperty(i) || !isAcceptableType(ob[i])) {
@@ -29,13 +27,13 @@ Bahmni.Common.Util.ValidationUtil = (function () {
 
   //This will work only for patient attributes, since we are passing concept behind the attribute.
   //To have a generic one, we need to remove the concept dependency.. And concept will be null for non concept fields
-  var validate = function (complexObject, objectConfiguration) {
+  var validate = (complexObject, objectConfiguration) => {
     var allCustomValidators = Bahmni.Registration.customValidator;
     if(!allCustomValidators) return;
 
     var dataArray = flattenObject(complexObject);
     var errorMessages = [];
-    _.every(dataArray,function(value,field){
+    _.every(dataArray, (value, field) => {
       var isValid=true;
       var fieldSpecificValidator = allCustomValidators[field];
       if (!fieldSpecificValidator) return isValid;

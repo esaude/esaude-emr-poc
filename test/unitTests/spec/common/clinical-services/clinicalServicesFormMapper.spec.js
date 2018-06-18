@@ -1,12 +1,12 @@
 'use strict';
 
-describe('formRequestMapper', function () {
+describe('formRequestMapper', () => {
 
   var clinicalServicesFormMapper;
 
   beforeEach(module('poc.common.clinicalservices'));
 
-  beforeEach(inject(function (_clinicalServicesFormMapper_) {
+  beforeEach(inject(_clinicalServicesFormMapper_ => {
     clinicalServicesFormMapper = _clinicalServicesFormMapper_;
   }));
 
@@ -49,11 +49,11 @@ describe('formRequestMapper', function () {
     },
   };
 
-  describe('map', function () {
+  describe('map', () => {
 
-    describe('without encounter', function () {
+    describe('without encounter', () => {
 
-      it('should map from OpenMRS Form', function () {
+      it('should map from OpenMRS Form', () => {
 
         clinicalService.form.formFields = [heightField];
 
@@ -91,9 +91,9 @@ describe('formRequestMapper', function () {
     });
 
 
-    describe('with encounter', function () {
+    describe('with encounter', () => {
 
-      describe('field with normal concept', function () {
+      describe('field with normal concept', () => {
 
         var encounter = {
           obs: [
@@ -106,9 +106,9 @@ describe('formRequestMapper', function () {
           ]
         };
 
-        describe('without answers', function () {
+        describe('without answers', () => {
 
-          it('should fill form field values with value from encounter observations', function () {
+          it('should fill form field values with value from encounter observations', () => {
 
             heightField.field.concept.answers = [];
             clinicalService.form.formFields = [heightField];
@@ -148,11 +148,11 @@ describe('formRequestMapper', function () {
 
         });
 
-        describe('with answers', function () {
+        describe('with answers', () => {
 
 
 
-          it('should fill form field values with value from encounter observations', function () {
+          it('should fill form field values with value from encounter observations', () => {
 
             heightField.field.concept.answers = [
               {uuid: "e1e2e934-1d5f-11e0-b929-000c29ad1d07"}
@@ -196,7 +196,7 @@ describe('formRequestMapper', function () {
 
       });
 
-      describe('field with select multiple concept', function () {
+      describe('field with select multiple concept', () => {
 
         var selectMultipleField = {
           required: false,
@@ -375,9 +375,9 @@ describe('formRequestMapper', function () {
           ]
         };
 
-        describe('with answers', function () {
+        describe('with answers', () => {
 
-          it('should fill form field values with value from encounter observations', function () {
+          it('should fill form field values with value from encounter observations', () => {
 
             clinicalService.form.formFields = [selectMultipleField];
 
@@ -419,9 +419,9 @@ describe('formRequestMapper', function () {
 
         });
 
-        describe('without answers', function () {
+        describe('without answers', () => {
 
-          it('should fill form field values with value from encounter observations', function () {
+          it('should fill form field values with value from encounter observations', () => {
 
             selectMultipleField.field.concept.answers = [];
             clinicalService.form.formFields = [selectMultipleField];
@@ -465,7 +465,7 @@ describe('formRequestMapper', function () {
 
       });
 
-      describe('field with coded concept datatype', function () {
+      describe('field with coded concept datatype', () => {
 
         var codedField = {
           uuid: "e29399fa-1d5f-11e0-b929-000c29ad1d07",
@@ -500,9 +500,9 @@ describe('formRequestMapper', function () {
           ]
         };
 
-        describe('with answers', function () {
+        describe('with answers', () => {
 
-          it('should fill form field values with value from encounter observations', function () {
+          it('should fill form field values with value from encounter observations', () => {
 
             codedField.field.concept.answers = [
               {uuid: "e1d9055e-1d5f-11e0-b929-000c29ad1d07"},
@@ -548,15 +548,15 @@ describe('formRequestMapper', function () {
 
         });
 
-        describe('without answers', function () {
+        describe('without answers', () => {
 
-          beforeEach(function () {
+          beforeEach(() => {
             clinicalService.formLayout.parts = [];
           });
 
-          describe('searchBySource', function () {
+          describe('searchBySource', () => {
 
-            it('should fill form field values with value from encounter observations', function () {
+            it('should fill form field values with value from encounter observations', () => {
 
               clinicalService.formLayout.parts = [
                 {
@@ -604,9 +604,9 @@ describe('formRequestMapper', function () {
 
           });
 
-          describe('not searchBySource', function () {
+          describe('not searchBySource', () => {
 
-            it('should fill form field values with value from encounter observations', function () {
+            it('should fill form field values with value from encounter observations', () => {
 
               codedField.field.concept.answers = [
                 {uuid: "e1d9055e-1d5f-11e0-b929-000c29ad1d07"},

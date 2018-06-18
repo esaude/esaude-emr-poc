@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -12,7 +12,7 @@
     $stateProvider
       .state('mvp', {
         url: '/mvp/:patientUuid'
-      })
+      });
   }
 
 })();

@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -14,10 +14,10 @@
     return directive;
 
     function link(scope, element, attrs) {
-      element.bind('click', function () {
-        scope.$apply(function () {
+      element.bind('click', () => {
+        scope.$apply(() => {
           sessionService.destroy().then(
-            function () {
+            () => {
               $window.location = "../home/index.html#/login";
             }
           );

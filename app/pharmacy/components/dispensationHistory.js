@@ -45,9 +45,9 @@
 
       var observations = [];
 
-      _.forEach(encounters, function (encounter) {
+      _.forEach(encounters, encounter => {
 
-        _.forEach(encounter.obs, function (observation) {
+        _.forEach(encounter.obs, observation => {
 
           if(observation.groupMembers){
             var filteredGroupMembers = filterActiveOrders(observation.groupMembers) ;
@@ -69,7 +69,7 @@
     function filterActiveOrders(groupMembers) {
 
       var activeMembers = [];
-      _.forEach(groupMembers, function (member) {
+      _.forEach(groupMembers, member => {
         if(member.order.voided === false){
           activeMembers.push(member);
         }
@@ -79,37 +79,33 @@
 
     function initPickUpHistory(){
 
-      encounterService.getEncountersForEncounterType(vm.patient.uuid, pharmacyEncounterTypeUuid).then(function (encounters) {
+      encounterService.getEncountersForEncounterType(vm.patient.uuid, pharmacyEncounterTypeUuid).then(encounters => {
         vm.pickups = prepareObservations(commonService.filterReverse(encounters));
       });
     }
 
     function valueOfField(conceptUuid, members) {
 
-      return _.find(members, function (member) {
-        return member.concept.uuid === conceptUuid;
-      });
+      return _.find(members, member => member.concept.uuid === conceptUuid);
     }
 
     function cancelDispensationItem(order){
       var cancelDispensationItemModal = $uibModal.open({
         component: 'cancelDispensationItemModal',
         resolve: {
-          dispensationItem: function () {
-            return order;
-          }
+          dispensationItem: () => order
         }
       });
 
       cancelDispensationItemModal.result
-        .then(function (reason) {
+        .then(reason => {
           // Don't chain so that reject is not mistaken with modal cancel
           dispensationService.cancelDispensationItem(order.uuid, reason)
-            .then(function () {
+            .then(() => {
               notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
               initPickUpHistory();
             })
-            .catch(function (error) {
+            .catch(error => {
               notifier.error(error.data.error.message.replace('[','').replace(']',''));
             });
         });

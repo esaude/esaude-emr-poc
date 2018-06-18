@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -39,10 +39,8 @@
         }
       };
       return $http.get(OPENMRS_PATIENT_URL, config)
-        .then(function (response) {
-          return response.data.results;
-        })
-        .catch(function (error) {
+        .then(response => response.data.results)
+        .catch(error => {
           $log.error('XHR Failed for search: ' + error.data.error.message);
           return $q.reject(error);
         });
@@ -53,10 +51,8 @@
         method: "GET",
         params: { v: "full" },
         withCredentials: true
-      }).then(function (response) {
-        return response.data.results;
-      })
-        .catch(function (error) {
+      }).then(response => response.data.results)
+        .catch(error => {
           $log.error('XHR Failed for getIdentifierTypes: ' + error.data.error.message);
           return $q.reject(error);
         });
@@ -83,9 +79,7 @@
     }
 
     function deletePatientIdentifier(patient, identifier) {
-      return $http.delete(OPENMRS_PATIENT_URL + patient.uuid + "/identifier/" + identifier.uuid).then(function (response) {
-        return response.data;
-      }).catch(function (error) {
+      return $http.delete(OPENMRS_PATIENT_URL + patient.uuid + "/identifier/" + identifier.uuid).then(response => response.data).catch(error => {
         $log.error('XHR Failed for deletePatientIdentifier: ' + error.data.error.message);
         return $q.reject(error);
       });
@@ -93,9 +87,7 @@
 
     function updatePatientIdentifier(patientUuid, identifier) {
       var data = {uuid: identifier.uuid, identifier: identifier.identifier, preferred: identifier.preferred};
-      return $http.post(OPENMRS_PATIENT_URL + patientUuid + "/identifier/" + identifier.uuid, data).then(function (response) {
-        return response.data;
-      }).catch(function (error) {
+      return $http.post(OPENMRS_PATIENT_URL + patientUuid + "/identifier/" + identifier.uuid, data).then(response => response.data).catch(error => {
         $log.error('XHR Failed for updatePatientIdentifier: ' + error.data.error.message);
         return $q.reject(error);
       });
@@ -104,9 +96,7 @@
     function createPatientIdentifier(patient, identifier) {
       delete identifier.selectedIdentifierType;
       delete identifier.fieldName;
-      return $http.post(OPENMRS_PATIENT_URL + patient.uuid + "/identifier/", identifier).then(function (response) {
-        return response.data;
-      }).catch(function (error) {
+      return $http.post(OPENMRS_PATIENT_URL + patient.uuid + "/identifier/", identifier).then(response => response.data).catch(error => {
         $log.error('XHR Failed for createPatientIdentifier: ' + error.data.error.message);
         return $q.reject(error);
       });
@@ -120,10 +110,8 @@
       }
       var patientJson = new Bahmni.Registration.CreatePatientRequestMapper(moment()).mapFromPatient(appService.getPatientConfiguration(), patient);
       return $http.post(BASE_OPENMRS_REST_URL + "/patientprofile", patientJson)
-        .then(function (response) {
-          return response.data;
-        })
-        .catch(function (error) {
+        .then(response => response.data)
+        .catch(error => {
           $log.error('XHR Failed for createPatientProfile: ' + error.data.error.message);
           return $q.reject(error);
         });
@@ -136,41 +124,25 @@
       var updatedPatientProfile = {};
 
       return $http.post(BASE_OPENMRS_REST_URL + "/patientprofile/" + openMRSPatient.uuid, patientJson.patient)
-        .then(function (response) {
+        .then(response => {
           updatedPatientProfile = response.data;
-        }).then(function () {
-          return $q.all(patientJson.addedIdentifiers.map(function (i) {
-            return createPatientIdentifier(patient, i);
-          }))
-        }).then(function () {
-          return $q.all(patientJson.voidedIdentifiers.map(function (i) {
-            return deletePatientIdentifier(openMRSPatient, i);
-          }));
-        }).then(function () {
-          return $q.all(patientJson.changedIdentifiers.map(function (i) {
-            return updatePatientIdentifier(openMRSPatient.uuid, i);
-          }));
-        }).then(function (updatedIdentifiers) {
-          updatedPatientProfile.patient.identifiers.forEach(function (old) {
-            var novo = updatedIdentifiers.find(function (i) {
-              return old.uuid === i.uuid;
-            });
+        }).then(() => $q.all(patientJson.addedIdentifiers.map(i => createPatientIdentifier(patient, i)))).then(() => $q.all(patientJson.voidedIdentifiers.map(i => deletePatientIdentifier(openMRSPatient, i)))).then(() => $q.all(patientJson.changedIdentifiers.map(i => updatePatientIdentifier(openMRSPatient.uuid, i)))).then(updatedIdentifiers => {
+          updatedPatientProfile.patient.identifiers.forEach(old => {
+            var novo = updatedIdentifiers.find(i => old.uuid === i.uuid);
             if (novo) {
               old.identifier = novo.identifier;
               old.preferred = novo.preferred;
             }
           });
           return updatedPatientProfile;
-        }).catch(function (error) {
+        }).catch(error => {
           $log.error('XHR Failed for updatePatientProfile: ' + error.data.error.message);
           return $q.reject();
         });
     }
 
     function getOpenMRSPatient(patientUUID) {
-      return get(patientUUID).then(function (response) {
-        return response.data;
-      }).catch(function (error) {
+      return get(patientUUID).then(response => response.data).catch(error => {
         $log.error('XHR Failed for getOpenMRSPatient: ' + error.data.error.message);
         return $q.reject(error);
       });
@@ -182,9 +154,7 @@
      * @returns {Promise}
      */
     function getPatient(patientUuid, representation) {
-      return get(patientUuid, representation).then(function (response) {
-        return openmrsPatientMapper.map(response.data);
-      }).catch(function (error) {
+      return get(patientUuid, representation).then(response => openmrsPatientMapper.map(response.data)).catch(error => {
         $log.error('XHR Failed for getPatient: ' + error.data.error.message);
         return $q.reject(error);
       });
@@ -199,7 +169,7 @@
      */
     function printPatientARVPickupHistory(patientUuid, groupedDispensations, startDate, endDate) {
       var _getPatient = getPatient(patientUuid);
-      $q.all([_getPatient]).then(function (values) {
+      $q.all([_getPatient]).then(values => {
         var patient = values[0];
         patient.dispensations = groupedDispensations;
         patient.startDate = startDate;
@@ -210,10 +180,10 @@
 
     function updatePerson(personUuid, patientState) {
       return $http.post(BASE_OPENMRS_REST_URL + "/person/" + personUuid, patientState)
-        .then(function (response) {
+        .then(response => {
           $log.info('XHR Succed for updatePerson. ' + response);
         })
-        .catch(function (error) {
+        .catch(error => {
           $log.error('XHR Failed for updatePerson. ' + error.data.error.message);
           return $q.reject(error);
         });
@@ -221,10 +191,10 @@
 
     function voidPatient(patientUuid, reason) {
       return $http.delete(OPENMRS_PATIENT_URL + patientUuid + "?reason=" + reason)
-        .then(function (response) {
+        .then(response => {
           $log.info('XHR Succed for voidPatient. ');
         })
-        .catch(function (error) {
+        .catch(error => {
           $log.error('XHR Failed for voidPatient. ' + error.data.error.message);
           return $q.reject(error);
         });

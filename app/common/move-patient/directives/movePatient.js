@@ -21,7 +21,7 @@
     return directive;
 
     function link(scope, element) {
-      element.click(function () {
+      element.click(() => {
         if (scope.vm.patientUuid) {
           scope.vm.showDialog();
         }

@@ -1,21 +1,19 @@
-describe('SexualPartnerFormController', function () {
+describe('SexualPartnerFormController', () => {
 
   var $componentController, $q, $rootScope, sexualPartnersService;
 
-  beforeEach(module('social', function ($provide, $translateProvider, $urlRouterProvider) {
+  beforeEach(module('social', ($provide, $translateProvider, $urlRouterProvider) => {
     // Mock translate asynchronous loader
-    $provide.factory('mergeLocaleFilesService', function ($q) {
-      return function () {
-        var deferred = $q.defer();
-        deferred.resolve({});
-        return deferred.promise;
-      };
+    $provide.factory('mergeLocaleFilesService', $q => () => {
+      var deferred = $q.defer();
+      deferred.resolve({});
+      return deferred.promise;
     });
     $translateProvider.useLoader('mergeLocaleFilesService');
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function (_$componentController_, _$q_, _$rootScope_, _sexualPartnersService_) {
+  beforeEach(inject((_$componentController_, _$q_, _$rootScope_, _sexualPartnersService_) => {
 
     $componentController = _$componentController_;
     $q = _$q_;
@@ -23,15 +21,14 @@ describe('SexualPartnerFormController', function () {
     sexualPartnersService = _sexualPartnersService_;
   }));
 
-  describe('$onInit', function () {
+  describe('$onInit', () => {
 
-    it('should load form data', function () {
+    it('should load form data', () => {
 
-      spyOn(sexualPartnersService, 'getFormData').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve({relationshipToPatient: 'relationshipToPatient', hivStatus: 'hivStatus'});
-        });
-      });
+      spyOn(sexualPartnersService, 'getFormData').and.callFake(() => $q(resolve => resolve({
+        relationshipToPatient: 'relationshipToPatient',
+        hivStatus: 'hivStatus'
+      })));
 
       var ctrl = $componentController('sexualPartnerForm');
 
@@ -46,12 +43,12 @@ describe('SexualPartnerFormController', function () {
 
   });
 
-  describe('submit', function () {
+  describe('submit', () => {
 
-    it('should call onSubmit binding', function () {
+    it('should call onSubmit binding', () => {
 
       var spy = jasmine.createSpy('onSubmit');
-      var ctrl = $componentController('sexualPartnerForm', null, {onSubmit: spy})
+      var ctrl = $componentController('sexualPartnerForm', null, {onSubmit: spy});
 
       ctrl.submit({$valid: true});
 
@@ -59,7 +56,7 @@ describe('SexualPartnerFormController', function () {
 
     });
 
-    it('should set form submitted to false', function () {
+    it('should set form submitted to false', () => {
 
       var spy = jasmine.createSpy('onSubmit');
       var ctrl = $componentController('sexualPartnerForm', null, {onSubmit: spy});

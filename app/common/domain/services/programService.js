@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -22,9 +22,9 @@
     ////////////////
 
     function getAllPrograms() {
-      return $http.get(Bahmni.Common.Constants.programUrl, {params: {v: 'default'}}).then(function (data) {
+      return $http.get(Bahmni.Common.Constants.programUrl, {params: {v: 'default'}}).then(data => {
         var allPrograms = filterRetiredPrograms(data.data.results);
-        _.forEach(allPrograms, function (program) {
+        _.forEach(allPrograms, program => {
           program.allWorkflows = filterRetiredWorkflowsAndStates(program.allWorkflows);
           if (program.outcomesConcept) {
             program.outcomesConcept.answers = filterRetiredOutcomes(program.outcomesConcept.answers);
@@ -49,11 +49,9 @@
             state:stateUuid,
             startDate:dateEnrolled
           }
-        ]
+        ];
       }
-      return $http.post(req.url, req.content).then(function (response) {
-        return response;
-      }).catch(function (error) {
+      return $http.post(req.url, req.content).then(response => response).catch(error => {
         $log.error('XHR Failed for enrollPatientToAProgram: ' + error.data.error.message);
         return $q.reject(error);
       });
@@ -67,9 +65,7 @@
           patient: patientUuid
         }
       };
-      return $http.get(req.url, {params: req.params}).then(function(data) {
-        return groupPrograms(data.data.results);
-      });
+      return $http.get(req.url, {params: req.params}).then(data => groupPrograms(data.data.results));
     }
 
     function groupPrograms (patientPrograms) {
@@ -78,7 +74,7 @@
       var groupedPrograms = {};
       if (patientPrograms) {
         var filteredPrograms = filterRetiredPrograms(patientPrograms);
-        _.forEach(filteredPrograms, function (program) {
+        _.forEach(filteredPrograms, program => {
           program.dateEnrolled = Bahmni.Common.Util.DateUtil.parseServerDateToDate(program.dateEnrolled);
           program.program.allWorkflows = filterRetiredWorkflowsAndStates(program.program.allWorkflows);
           if (program.dateCompleted) {
@@ -87,34 +83,26 @@
             activePrograms.push(program);
           }
         });
-        groupedPrograms.activePrograms =  _.sortBy(activePrograms, function(program){ return moment(program.dateEnrolled).toDate() }).reverse();
-        groupedPrograms.endedPrograms = _.sortBy(endedPrograms, function(program){ return moment(program.dateCompleted).toDate() }).reverse();
+        groupedPrograms.activePrograms =  _.sortBy(activePrograms, program => moment(program.dateEnrolled).toDate()).reverse();
+        groupedPrograms.endedPrograms = _.sortBy(endedPrograms, program => moment(program.dateCompleted).toDate()).reverse();
       }
       return groupedPrograms;
     }
 
     function filterRetiredPrograms (programs) {
-      return _.filter(programs, function (program) {
-        return !program.retired;
-      });
+      return _.filter(programs, program => !program.retired);
     }
 
     function filterRetiredWorkflowsAndStates (workflows) {
-      var allWorkflows = _.filter(workflows, function (workflow) {
-        return !workflow.retired;
-      });
-      _.forEach(allWorkflows, function (workflow) {
-        workflow.states = _.filter(workflow.states, function (state) {
-          return !state.retired
-        })
+      var allWorkflows = _.filter(workflows, workflow => !workflow.retired);
+      _.forEach(allWorkflows, workflow => {
+        workflow.states = _.filter(workflow.states, state => !state.retired);
       });
       return allWorkflows;
     }
 
     function filterRetiredOutcomes (outcomes) {
-      return _.filter(outcomes, function (outcome) {
-        return !outcome.retired;
-      })
+      return _.filter(outcomes, outcome => !outcome.retired);
     }
 
     function constructStatesPayload (stateUuid, onDate, currProgramStateUuid){

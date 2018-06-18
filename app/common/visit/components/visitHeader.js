@@ -52,14 +52,14 @@
 
     function loadVisitHeader(patient) {
       visitService.getVisitHeader(patient)
-        .then(function (visitHeader) {
+        .then(visitHeader => {
           vm.loadFailed = false;
           _.assign(vm, visitHeader);
           updateConsultationMessages();
           updatePharmacyMessages();
           updateLastVisitMessage();
         })
-        .catch(function (error) {
+        .catch(error => {
           vm.loadFailed = true;
           notifier.error($filter('translate')('COMMON_VISIT_HEADER_ERROR'));
         });
@@ -71,7 +71,7 @@
         var formatedStopDate = moment(vm.lastVisit.stopDatetime).utcOffset('+0200').format(DATETIME_FORMAT);
         vm.lastVisitMessage = vm.lastVisit.visitType.name + ' ' + translateFilter('COMMON_FROM') + ' '
         + formatedStartDate + ' ' + translateFilter('COMMON_TO') + ' '
-        + formatedStopDate
+        + formatedStopDate;
     }
     }
 

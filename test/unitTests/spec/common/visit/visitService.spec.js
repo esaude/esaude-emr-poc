@@ -1,6 +1,6 @@
 'use strict';
 
-describe('visitService', function () {
+describe('visitService', () => {
 
   var FIRST_CONSULTATION_VISIT_TYPE_UUID = "64a510a1-fbf4-465f-acd2-cd37bc321cee";
 
@@ -11,8 +11,8 @@ describe('visitService', function () {
 
   beforeEach(module('poc.common.visit'));
 
-  beforeEach(inject(function (_visitService_, $httpBackend, _$log_, _$q_, _$rootScope_, _commonService_,
-    _sessionService_, _encounterService_, _observationsService_, _appService_) {
+  beforeEach(inject((_visitService_, $httpBackend, _$log_, _$q_, _$rootScope_, _commonService_,
+                     _sessionService_, _encounterService_, _observationsService_, _appService_) => {
     visitService = _visitService_;
     $http = $httpBackend;
     $log = _$log_;
@@ -25,20 +25,20 @@ describe('visitService', function () {
     appService = _appService_;
   }));
 
-  describe('search', function () {
+  describe('search', () => {
 
     var uuid = "9e23a1bb-0615-4066-97b6-db309c9c6447";
     var parameters = { patient: uuid, includeInactive: false, v: "custom:(uuid)" };
     var response = { results: [1, 2, 3] };
 
-    beforeEach(function () {
+    beforeEach(() => {
       $http.expectGET("/openmrs/ws/rest/v1/pocvisit" + '?patient=' + parameters.patient + '&includeInactive=' + parameters.includeInactive
         + '&v=' + parameters.v).respond(response);
     });
 
-    it('should call search url in registration visit service', function () {
+    it('should call search url in registration visit service', () => {
       var resolve = {};
-      visitService.search(parameters).then(function (visits) {
+      visitService.search(parameters).then(visits => {
         resolve = visits;
       });
 
@@ -46,44 +46,44 @@ describe('visitService', function () {
       expect(resolve).toEqual(response.results);
     });
 
-    afterEach(function () {
+    afterEach(() => {
       $http.verifyNoOutstandingExpectation();
       $http.verifyNoOutstandingRequest();
     });
 
   });
 
-  describe('create', function () {
+  describe('create', () => {
 
     var visitDetails = { patientUuid: "uuid" };
 
-    beforeEach(function () {
+    beforeEach(() => {
       $http.expectPOST("/openmrs/ws/rest/v1/checkin").respond({});
     });
 
-    it('should call end visit url', function () {
+    it('should call end visit url', () => {
       var resolve;
-      visitService.create(visitDetails).then(function (response) {
+      visitService.create(visitDetails).then(response => {
         resolve = response;
       });
 
       $http.flush();
     });
 
-    afterEach(function () {
+    afterEach(() => {
       $http.verifyNoOutstandingExpectation();
       $http.verifyNoOutstandingRequest();
     });
 
   });
 
-  describe('getTodaysVisit', function () {
+  describe('getTodaysVisit', () => {
 
-    it('should return null when empty array is returned by back-end', function () {
+    it('should return null when empty array is returned by back-end', () => {
       $http.expectGET("/openmrs/ws/rest/v1/pocvisit?currentDateOnly=true&mostRecentOnly=true&patient=UUID_1&v=full&voided=false")
         .respond({ results: [] });
       var foundVisit;
-      visitService.getTodaysVisit("UUID_1").then(function (visit) {
+      visitService.getTodaysVisit("UUID_1").then(visit => {
         foundVisit = visit;
       });
       $rootScope.$apply();
@@ -91,12 +91,12 @@ describe('visitService', function () {
       expect(foundVisit).toBeNull();
     });
 
-    it('should return first ocurrent when visits are returned by back-end', function () {
+    it('should return first ocurrent when visits are returned by back-end', () => {
       var visit = { patient: { uuid: "UUID_1" } };
       $http.expectGET("/openmrs/ws/rest/v1/pocvisit?currentDateOnly=true&mostRecentOnly=true&patient=UUID_1&v=full&voided=false")
         .respond({ results: [visit] });
       var foundVisit;
-      visitService.getTodaysVisit("UUID_1").then(function (todayVisit) {
+      visitService.getTodaysVisit("UUID_1").then(todayVisit => {
         foundVisit = todayVisit;
       });
       $rootScope.$apply();
@@ -104,11 +104,11 @@ describe('visitService', function () {
       expect(foundVisit).toEqual(visit);
     });
 
-    it('should reject if no patient uuid', function () {
+    it('should reject if no patient uuid', () => {
 
       var err = {};
 
-      visitService.getTodaysVisit().catch(function (error) {
+      visitService.getTodaysVisit().catch(error => {
         err = error;
       });
 
@@ -120,23 +120,21 @@ describe('visitService', function () {
 
   });
 
-  describe('checkInPatient', function () {
+  describe('checkInPatient', () => {
 
     var uuid = "9e23a1bb-0615-4066-97b6-db309c9c6447";
     var parameters = { patient: uuid, includeInactive: false, v: "full" };
     var csPebane = { uuid: 'e2b37662-1d5f-11e0-b929-000c29ad1d07' };
 
-    describe('first visit', function () {
+    describe('first visit', () => {
 
-      it('should create a visit with first consultation type', function () {
+      it('should create a visit with first consultation type', () => {
 
-        spyOn(sessionService, 'getCurrentLocation').and.callFake(function () {
-          return csPebane;
-        });
+        spyOn(sessionService, 'getCurrentLocation').and.callFake(() => csPebane);
 
         jasmine.clock().mockDate(moment('18/04/2018 10:30:00', 'DD/MM/YYYY HH:mm:ss').toDate());
 
-        spyOn(appService, 'getAppDescriptor').and.callFake(function () {
+        spyOn(appService, 'getAppDescriptor').and.callFake(() => {
           var spyObj = jasmine.createSpyObj('appDescriptor', ['getConfigValue']);
           spyObj.getConfigValue.and.returnValue([{ uuid: FIRST_CONSULTATION_VISIT_TYPE_UUID, occurOn: 'first' }]);
           return spyObj;
@@ -150,7 +148,7 @@ describe('visitService', function () {
         $http.expectPOST('/openmrs/ws/rest/v1/checkin', visitData).respond({});
 
         var created = {};
-        visitService.checkInPatient({ uuid: uuid }).then(function (visit) {
+        visitService.checkInPatient({ uuid: uuid }).then(visit => {
           created = visit;
         });
 
@@ -159,19 +157,17 @@ describe('visitService', function () {
 
     });
 
-    describe('follow-up visit', function () {
+    describe('follow-up visit', () => {
 
-      it('should create a visit with follow-up consultation type', function () {
+      it('should create a visit with follow-up consultation type', () => {
 
-        spyOn(sessionService, 'getCurrentLocation').and.callFake(function () {
-          return csPebane;
-        });
+        spyOn(sessionService, 'getCurrentLocation').and.callFake(() => csPebane);
 
         jasmine.clock().mockDate(moment('18/04/2018 10:30:00', 'DD/MM/YYYY HH:mm:ss').toDate());
 
         var visits = [{ voided: false }];
 
-        spyOn(appService, 'getAppDescriptor').and.callFake(function () {
+        spyOn(appService, 'getAppDescriptor').and.callFake(() => {
           var spyObj = jasmine.createSpyObj('appDescriptor', ['getConfigValue']);
           spyObj.getConfigValue.and.returnValue([{ uuid: FOLLOW_UP_CONSULTATION_VISIT_TYPE_UUID, occurOn: 'following' }]);
           return spyObj;
@@ -185,7 +181,7 @@ describe('visitService', function () {
         $http.expectPOST('/openmrs/ws/rest/v1/checkin', visitData).respond({});
 
         var created = {};
-        visitService.checkInPatient({ uuid: uuid }).then(function (visit) {
+        visitService.checkInPatient({ uuid: uuid }).then(visit => {
           created = visit;
         });
 
@@ -195,16 +191,14 @@ describe('visitService', function () {
 
     });
 
-    describe('no current location', function () {
+    describe('no current location', () => {
 
-      it('should not create a visit', function () {
+      it('should not create a visit', () => {
 
-        spyOn(sessionService, 'getCurrentLocation').and.callFake(function () {
-          return null;
-        });
+        spyOn(sessionService, 'getCurrentLocation').and.callFake(() => null);
 
         var created = {};
-        visitService.checkInPatient({ uuid: uuid }).then(function (visit) {
+        visitService.checkInPatient({ uuid: uuid }).then(visit => {
           created = visit;
         });
 
@@ -212,49 +206,33 @@ describe('visitService', function () {
 
     });
 
-    afterEach(function () {
+    afterEach(() => {
       $http.verifyNoOutstandingExpectation();
       $http.verifyNoOutstandingRequest();
     });
 
   });
 
-  describe('getVisitHeader', function () {
+  describe('getVisitHeader', () => {
 
     var patient = { uuid: '7401f469-60ee-4cfa-afab-c1e89e2944e4' };
 
-    beforeEach(function () {
+    beforeEach(() => {
 
-      spyOn(encounterService, 'getPatientFollowupEncounters').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve([]);
-        })
-      });
+      spyOn(encounterService, 'getPatientFollowupEncounters').and.callFake(() => $q(resolve => resolve([])));
 
-      spyOn(encounterService, 'getPatientPharmacyEncounters').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve([]);
-        })
-      });
+      spyOn(encounterService, 'getPatientPharmacyEncounters').and.callFake(() => $q(resolve => resolve([])));
 
-      spyOn(visitService, 'getPatientLastVisit').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve(null);
-        })
-      });
+      spyOn(visitService, 'getPatientLastVisit').and.callFake(() => $q(resolve => resolve(null)));
 
       $http.expectGET("/openmrs/ws/rest/v1/pocvisit?mostRecentOnly=true&patient=7401f469-60ee-4cfa-afab-c1e89e2944e4&v=custom:(visitType:(name),startDatetime,stopDatetime,uuid)&voided=false")
         .respond({ results: [] });
 
     });
 
-    it('should load patient followup encounters', function () {
+    it('should load patient followup encounters', () => {
 
-      spyOn(observationsService, 'getLastPatientObs').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve();
-        });
-      });
+      spyOn(observationsService, 'getLastPatientObs').and.callFake(() => $q(resolve => resolve()));
 
       visitService.getVisitHeader(patient);
 
@@ -265,13 +243,9 @@ describe('visitService', function () {
 
     });
 
-    it('should load patient pharmacy encounters', function () {
+    it('should load patient pharmacy encounters', () => {
 
-      spyOn(observationsService, 'getLastPatientObs').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve();
-        });
-      });
+      spyOn(observationsService, 'getLastPatientObs').and.callFake(() => $q(resolve => resolve()));
 
       visitService.getVisitHeader(patient);
 
@@ -281,23 +255,19 @@ describe('visitService', function () {
 
     });
 
-    describe('patient\'s BMI', function () {
+    describe('patient\'s BMI', () => {
 
-      it('should load patient last registered BMI', function () {
+      it('should load patient last registered BMI', () => {
 
-        var getHeight = $q(function (resolve) {
-          return resolve({ value: 181 });
-        });
+        var getHeight = $q(resolve => resolve({value: 181}));
 
-        var getWeight = $q(function (resolve) {
-          return resolve({ value: 71 });
-        });
+        var getWeight = $q(resolve => resolve({value: 71}));
 
         spyOn(observationsService, 'getLastPatientObs').and.returnValues(getHeight, getWeight);
 
         var header;
 
-        visitService.getVisitHeader(patient).then(function (visitHeader) {
+        visitService.getVisitHeader(patient).then(visitHeader => {
           header = visitHeader;
         });
 
@@ -309,18 +279,14 @@ describe('visitService', function () {
 
       });
 
-      describe('no vitals', function () {
+      describe('no vitals', () => {
 
-        it('should return null', function () {
+        it('should return null', () => {
 
-          spyOn(observationsService, 'getLastPatientObs').and.callFake(function () {
-            return $q(function (resolve) {
-              return resolve();
-            });
-          });
+          spyOn(observationsService, 'getLastPatientObs').and.callFake(() => $q(resolve => resolve()));
 
           var header;
-          visitService.getVisitHeader(patient).then(function (visitHeader) {
+          visitService.getVisitHeader(patient).then(visitHeader => {
             header = visitHeader;
           });
 
@@ -335,13 +301,9 @@ describe('visitService', function () {
 
     });
 
-    it('should load the patient\'s last visit', function () {
+    it('should load the patient\'s last visit', () => {
 
-      spyOn(observationsService, 'getLastPatientObs').and.callFake(function () {
-        return $q(function (resolve) {
-          return resolve();
-        });
-      });
+      spyOn(observationsService, 'getLastPatientObs').and.callFake(() => $q(resolve => resolve()));
 
       visitService.getVisitHeader(patient);
 
@@ -349,7 +311,7 @@ describe('visitService', function () {
 
     });
 
-    afterEach(function () {
+    afterEach(() => {
       $http.verifyNoOutstandingExpectation();
       $http.verifyNoOutstandingRequest();
     });
@@ -357,18 +319,18 @@ describe('visitService', function () {
 
   });
 
-  describe('deleteVisit', function () {
+  describe('deleteVisit', () => {
 
-    beforeEach(function () {
+    beforeEach(() => {
       $http.expectDELETE("/openmrs/ws/rest/v1/pocvisit/1234?purge=true").respond(null);
     });
 
-    it('should call end visit url in registration visit service', function () {
+    it('should call end visit url in registration visit service', () => {
       visitService.deleteVisit({uuid: '1234'});
       $http.flush();
     });
 
-    afterEach(function () {
+    afterEach(() => {
       $http.verifyNoOutstandingExpectation();
       $http.verifyNoOutstandingRequest();
     });

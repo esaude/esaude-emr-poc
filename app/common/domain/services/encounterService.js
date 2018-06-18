@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular.module('bahmni.common.domain')
@@ -18,9 +18,7 @@
 
     var NEXT_PICKUP_DATE_CONCEPT_UUID = "e1e2efd8-1d5f-11e0-b929-000c29ad1d07";
 
-    var sortByEncounterDateTime = _.curryRight(_.sortBy, 2)(function (encounter) {
-      return new Date(encounter.encounterDatetime);
-    });
+    var sortByEncounterDateTime = _.curryRight(_.sortBy, 2)(encounter => new Date(encounter.encounterDatetime));
 
     return {
       create: create,
@@ -56,9 +54,7 @@
 
     function create(encounter) {
       return $http.post(Bahmni.Common.Constants.encounterUrl, encounter)
-        .then(function (response) {
-          return response.data;
-        }).catch(function (error) {
+        .then(response => response.data).catch(error => {
           $log.error('XHR Failed for create: ' + error.data.error.message);
           return $q.reject();
         });
@@ -66,10 +62,8 @@
 
     function update(encounter) {
       return $http.post(Bahmni.Common.Constants.encounterUrl + "/" + encounter.uuid, encounter)
-        .then(function (response) {
-          return response.data;
-        })
-        .catch(function (error) {
+        .then(response => response.data)
+        .catch(error => {
           $log.error('XHR Failed for update: ' + error.data.error.message);
           return $q.reject(error);
         });
@@ -84,7 +78,7 @@
     function stripExtraConceptInfo(obs) {
       obs.concept = { uuid: obs.concept.uuid, name: obs.concept.name, dataType: obs.concept.dataType };
       obs.groupMembers = obs.groupMembers || [];
-      obs.groupMembers.forEach(function (groupMember) {
+      obs.groupMembers.forEach(groupMember => {
         stripExtraConceptInfo(groupMember);
       });
     }
@@ -123,11 +117,11 @@
         withCredentials: true
       };
 
-      $http.get(Bahmni.Common.Constants.visitUrl, options).success(function (data) {
+      $http.get(Bahmni.Common.Constants.visitUrl, options).success(data => {
         var encounters = [];
         if (data.results.length > 0) {
           encounters = data.results[0].encounters;
-          encounters.forEach(function (enc) {
+          encounters.forEach(enc => {
             if (typeof enc.encounterDatetime == 'string') {
               enc.encounterDatetime = Bahmni.Common.Util.DateUtil.parse(enc.encounterDatetime);
             }
@@ -135,7 +129,7 @@
           });
         }
         deferredEncounters.resolve(encounters);
-      }).error(function (e) {
+      }).error(e => {
         deferredEncounters.reject(e);
       });
       return deferredEncounters.promise;
@@ -169,9 +163,7 @@
           v: v
         },
         withCredentials: true
-      }).then(function (response) {
-        return response.data.results;
-      }).catch(function (error) {
+      }).then(response => response.data.results).catch(error => {
         $log.error('XHR Failed for getEncountersForEncounterType. ' + error.data.error.message);
         return $q.reject(error);
       });
@@ -194,13 +186,11 @@
       };
 
       if (representation) {
-        config.params.v = representation
+        config.params.v = representation;
       }
 
       return $http.get(Bahmni.Common.Constants.encounterUrl, config)
-        .then(function (response) {
-          return _.flow([filterRetiredEncounters, sortByEncounterDateTime, _.reverse])(response.data.results);
-        }).catch(function (error) {
+        .then(response => _.flow([filterRetiredEncounters, sortByEncounterDateTime, _.reverse])(response.data.results)).catch(error => {
           $log.error('XHR Failed for getEncountersForPatientByEncounterType: ' + error.data.error.message);
           return $q.reject();
         });
@@ -226,10 +216,10 @@
      */
     function getPatientChildFollowupEncounters(patientUUID, representation) {
       return getEncountersForPatientByEncounterType(patientUUID, CHILD_FOLLOWUP_ENCOUNTER_TYPE_UUID, representation)
-        .catch(function (error) {
+        .catch(error => {
           $log.error('XHR Failed for getPatientChildFollowupEncounters: ' + error.data.error.message);
           return $q.reject(error);
-        })
+        });
     }
 
 
@@ -240,10 +230,10 @@
      */
     function getPatientAdultFollowupEncounters(patientUUID, representation) {
       return getEncountersForPatientByEncounterType(patientUUID, ADULT_FOLLOWUP_ENCOUNTER_TYPE_UUID, representation)
-        .catch(function (error) {
+        .catch(error => {
           $log.error('XHR Failed for getPatientAdultFollowupEncounters: ' + error.data.error.message);
           return $q.reject(error);
-        })
+        });
     }
 
 
@@ -254,7 +244,7 @@
      */
     function getPatientPharmacyEncounters(patient, representation) {
       return getEncountersForPatientByEncounterType(patient.uuid, PHARMACY_ENCOUNTER_TYPE_UUID, representation)
-        .catch(function (error) {
+        .catch(error => {
           $log.error('XHR Failed for getPatientPharmacyEncounters: ' + error.data.error.message);
           return $q.reject(error);
         });
@@ -271,9 +261,7 @@
     }
 
     function filterRetiredEncounters(encounters) {
-      return _.filter(encounters, function (encounter) {
-        return !encounter.voided;
-      });
+      return _.filter(encounters, encounter => !encounter.voided);
     }
   }
 

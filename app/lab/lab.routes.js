@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -12,7 +12,7 @@
 
     // to prevent the browser from displaying a password pop-up in case of an authentication error
     $httpProvider.defaults.headers.common['Disable-WWW-Authenticate'] = 'true';
-    $urlRouterProvider.otherwise(function ($injector) {
+    $urlRouterProvider.otherwise($injector => {
       $injector.get('$state').go('search');
     });
 
@@ -27,8 +27,8 @@
         },
         resolve: {
           initialization: 'initialization',
-          createPatient: function () { return false },
-          showSchedule: function () { return false },
+          createPatient: () => false,
+          showSchedule: () => false,
         }
       })
       .state('dashboard', {

@@ -1,11 +1,11 @@
-describe('conceptService', function () {
+describe('conceptService', () => {
 
   var conceptService, appService, $http, $q, $log, $rootScope;
 
   beforeEach(module('bahmni.common.domain'));
 
-  beforeEach(inject(function (_conceptService_, _appService_, _$q_, _$rootScope_,
-                              _$httpBackend_) {
+  beforeEach(inject((_conceptService_, _appService_, _$q_, _$rootScope_,
+                     _$httpBackend_) => {
 
     conceptService = _conceptService_;
     appService = _appService_;
@@ -14,7 +14,7 @@ describe('conceptService', function () {
     $http = _$httpBackend_;
   }));
 
-  it('should fetch the death concept by uuid', function () {
+  it('should fetch the death concept by uuid', () => {
 
     var query = '/openmrs/ws/rest/v1/systemsetting?q=concept.causeOfDeath&v=custom:value';
 
@@ -27,7 +27,7 @@ describe('conceptService', function () {
     $http.verifyNoOutstandingRequest();
   });
 
-  describe('searchBySource', function () {
+  describe('searchBySource', () => {
 
     var results = [
       {
@@ -59,7 +59,7 @@ describe('conceptService', function () {
       }
     ];
 
-    it('should search for concepts and filter by mapping source', function () {
+    it('should search for concepts and filter by mapping source', () => {
 
       var term = 'tuber';
       var source = 'ICD10';
@@ -69,7 +69,7 @@ describe('conceptService', function () {
         .respond({results: results});
 
       var result;
-      conceptService.searchBySource(term, source).then(function (concepts) {
+      conceptService.searchBySource(term, source).then(concepts => {
         result = concepts;
       });
 
@@ -80,7 +80,7 @@ describe('conceptService', function () {
 
     });
 
-    afterEach(function () {
+    afterEach(() => {
       $http.verifyNoOutstandingExpectation();
       $http.verifyNoOutstandingRequest();
     });

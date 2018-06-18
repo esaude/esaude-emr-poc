@@ -6,7 +6,6 @@ angular
     'common.patient',
     'movepatient',
     'ngMessages',
-    'patient.details',
     'common.prescription',
     'common.test',
     'smart-table',

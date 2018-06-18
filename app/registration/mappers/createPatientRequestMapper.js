@@ -42,25 +42,23 @@ Bahmni.Registration.CreatePatientRequestMapper = (function () {
         return  openMRSPatient;
     };
 
-    CreatePatientRequestMapper.prototype.setImage = function (patient, openMRSPatient) {
+    CreatePatientRequestMapper.prototype.setImage = (patient, openMRSPatient) => {
         if (patient.getImageData()) {
-            openMRSPatient.image = patient.getImageData()
+            openMRSPatient.image = patient.getImageData();
         }
     };
 
-    CreatePatientRequestMapper.prototype.getMrsAttributes = function (patient, patientAttributeTypes) {
-        return patientAttributeTypes.map(function (result) {
-            var attribute = {
-                attributeType: {
-                    uuid: result.uuid
-                }
-            };
-            setAttributeValue(result, attribute, patient[result.name]);
-            return  attribute;
-        })
-    };
+    CreatePatientRequestMapper.prototype.getMrsAttributes = (patient, patientAttributeTypes) => patientAttributeTypes.map(result => {
+      var attribute = {
+        attributeType: {
+          uuid: result.uuid
+        }
+      };
+      setAttributeValue(result, attribute, patient[result.name]);
+      return attribute;
+    });
 
-    var setIdentifiers = function (patient) {
+    var setIdentifiers = patient => {
         var identifiers = [];
         for (var i in patient.identifiers) {
             var patientIdentifier = patient.identifiers[i];
@@ -78,7 +76,7 @@ Bahmni.Registration.CreatePatientRequestMapper = (function () {
         return identifiers;
     };
 
-  var setAttributeValue = function (attributeType, attr, value) {
+  var setAttributeValue = (attributeType, attr, value) => {
     if (attributeType.format === "org.openmrs.Concept") {
       attr.hydratedObject = value;
     }
@@ -91,7 +89,7 @@ Bahmni.Registration.CreatePatientRequestMapper = (function () {
     }
   };
 
-    CreatePatientRequestMapper.prototype.getBirthdate = function (birthdate, age) {
+    CreatePatientRequestMapper.prototype.getBirthdate = (birthdate, age) => {
         var patientAge;
         if (birthdate) {
               patientAge = birthdate;

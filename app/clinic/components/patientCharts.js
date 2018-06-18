@@ -92,7 +92,7 @@
 
     function $onInit() {
       getPatient(patientUuid)
-        .then(function (patient) {
+        .then(patient => {
           currentPatient = patient;
         })
         .then(initLabChart)
@@ -120,7 +120,7 @@
 
       var encounterTypeUuid = (currentPatient.age.years >= 15) ? adultFollowupEncounterUuid : childFollowupEncounterUuid;
 
-      return encounterService.getEncountersForEncounterType(patientUuid, encounterTypeUuid, "default").then(function (encounters) {
+      return encounterService.getEncountersForEncounterType(patientUuid, encounterTypeUuid, "default").then(encounters => {
         filterObs(encounters, concepts, series, chart);
       });
     }
@@ -137,7 +137,7 @@
       ];
       var chart = vm.charts.CD4labResults;
 
-      encounterService.getEncountersForEncounterType(patientUuid, labEncounterUuid, "default").then(function (encounters) {
+      encounterService.getEncountersForEncounterType(patientUuid, labEncounterUuid, "default").then(encounters => {
         filterObs(encounters, concepts, series, chart);
       });
     }
@@ -154,7 +154,7 @@
       ];
       var chart = vm.charts.labResults;
 
-      return encounterService.getEncountersForEncounterType(patientUuid, labEncounterUuid, "default").then(function (encounters) {
+      return encounterService.getEncountersForEncounterType(patientUuid, labEncounterUuid, "default").then(encounters => {
         filterObs(encounters, concepts, series, chart);
       });
     }
@@ -165,24 +165,20 @@
 
       var sliced = _.slice(nonRetired, 0, 9);
 
-      _.forEach(sliced, function (encounter) {
+      _.forEach(sliced, encounter => {
         encounter.obs = observationsService.filterByList(encounter.obs, concepts);
       });
-      var filtered = _.filter(sliced, function (encounter) {
-        return !_.isEmpty(encounter.obs);
-      });
+      var filtered = _.filter(sliced, encounter => !_.isEmpty(encounter.obs));
       createChartData(filtered, concepts, series, chart);
     }
 
     function createChartData(encounters, concepts, series, chart) {
       var data = [];
 
-      _.forEach(encounters, function (encounter) {
+      _.forEach(encounters, encounter => {
         chart.labels.push($filter('date')(encounter.encounterDatetime, "MMM d, y"));
-        _.forEach(concepts, function (concept, key) {
-          var found = _.find(encounter.obs, function (obs) {
-            return obs.concept.uuid === concept;
-          });
+        _.forEach(concepts, (concept, key) => {
+          var found = _.find(encounter.obs, obs => obs.concept.uuid === concept);
           if (!data[key]) data[key] = [];
           data[key].push((found) ? found.value : null);
         });
@@ -195,7 +191,7 @@
     function getPatient(patientUUID) {
       return patientService
         .getPatient(patientUUID)
-        .catch(function () {
+        .catch(() => {
           notifier.error($filter('translate')('COMMON_ERROR'));
         });
     }

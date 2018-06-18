@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   angular
@@ -19,9 +19,7 @@
       templateUrl: '/common/application/views/breadcrumb.html'
     });
 
-    $httpProvider.defaults.transformRequest.unshift(function (data) {
-      return serializeObject(data);
-    });
+    $httpProvider.defaults.transformRequest.unshift(data => serializeObject(data));
 
     //set default timezone to Maputo
     moment.tz.add("Africa/Maputo|LMT CAT|-2a.k -20|01|-2GJea.k|26e5");
@@ -49,9 +47,7 @@
     var getApps = $delegate.getApps;
 
     function getAuthorizedApps() {
-      return getApps().then(function (applications) {
-        return authorizationService.authorizeApps(applications);
-      });
+      return getApps().then(applications => authorizationService.authorizeApps(applications));
     }
 
     $delegate.getApps = getAuthorizedApps;

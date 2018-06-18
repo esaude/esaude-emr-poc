@@ -21,7 +21,7 @@
     vm.observations = [];
 
     function $onInit() {
-      processLastObs()
+      processLastObs();
     }
 
     function processLastObs() {
@@ -34,8 +34,8 @@
         {label: "CLINIC_CURRENT_WHO_STAGE", uuid: "e1e53c02-1d5f-11e0-b929-000c29ad1d07"}
       ];
 
-      _.forEach(configObservations, function (observation) {
-        observationsService.getLastValueForConcept(vm.patient.uuid, observation.uuid, "full").then(function (data) {
+      _.forEach(configObservations, observation => {
+        observationsService.getLastValueForConcept(vm.patient.uuid, observation.uuid, "full").then(data => {
           if (!_.isUndefined(data)) {
             if (_.isObject(data.value)) {
               observation.value = data.value.display;
@@ -46,7 +46,7 @@
             vm.observations.push(observation);
           }
         });
-      })
+      });
     }
   }
 

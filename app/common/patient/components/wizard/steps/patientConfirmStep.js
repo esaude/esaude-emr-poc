@@ -32,7 +32,7 @@
       vm.patientWizard.setCurrentStep(vm);
 
       configurationService.getAddressLevels()
-        .then(function (addressLevels) {
+        .then(addressLevels => {
           vm.addressLevels = addressLevels;
         });
 

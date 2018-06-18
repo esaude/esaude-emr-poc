@@ -10,11 +10,9 @@ Bahmni.Common.Util.DateUtil = {
     //     return moment(dateFrom).diff(moment(dateTo), 'seconds');
     // },
 
-    isInvalid: function(date){
-        return date == "Invalid Date";
-    },
+    isInvalid: date => date == "Invalid Date",
 
-    diffInDaysRegardlessOfTime: function(dateFrom, dateTo) {
+    diffInDaysRegardlessOfTime: (dateFrom, dateTo) => {
         var from = new Date(dateFrom);
         var to = new Date(dateTo);
         from.setHours(0,0,0,0);
@@ -22,30 +20,20 @@ Bahmni.Common.Util.DateUtil = {
         return Math.floor((to - from) / (60 * 1000 * 60 * 24));
     },
 
-    addSeconds: function (date, seconds) {
-        return moment(date).add(seconds, 'seconds').toDate();
-    },
-    addDays: function (date, days) {
-        return moment(date).add(days, 'day').toDate();
-    },
-    addMonths: function (date, months) {
-        return moment(date).add(months, 'month').toDate();
-    },
-    addYears: function (date, years) {
-        return moment(date).add(years, 'year').toDate();
-    },
+    addSeconds: (date, seconds) => moment(date).add(seconds, 'seconds').toDate(),
+    addDays: (date, days) => moment(date).add(days, 'day').toDate(),
+    addMonths: (date, months) => moment(date).add(months, 'month').toDate(),
+    addYears: (date, years) => moment(date).add(years, 'year').toDate(),
 
-    subtractSeconds: function (date, seconds) {
-        return moment(date).subtract(seconds, 'seconds').toDate();
-    },
+    subtractSeconds: (date, seconds) => moment(date).subtract(seconds, 'seconds').toDate(),
     subtractDays: function (date, days) {
-        return this.addDays(date, -1 * days)
+        return this.addDays(date, -1 * days);
     },
     subtractMonths: function (date, months) {
-        return this.addMonths(date, -1 * months)
+        return this.addMonths(date, -1 * months);
     },
     subtractYears: function (date, years) {
-        return this.addYears(date, -1 * years)
+        return this.addYears(date, -1 * years);
     },
 
     createDays: function (startDate, endDate) {
@@ -63,30 +51,28 @@ Bahmni.Common.Util.DateUtil = {
         return this.diffInDays(this.getDate(referenceDate), this.getDate(date))  + 1;
     },
 
-    getDateWithoutTime: function(datetime){
-        return datetime?moment(datetime).format("YYYY-MM-DD"):null;
-    },
+    getDateWithoutTime: datetime => datetime ? moment(datetime).format("YYYY-MM-DD") : null,
 
-    getDateInMonthsAndYears : function (date, format){
+    getDateInMonthsAndYears : (date, format) => {
         var format = format || "MMM YY";
         var dateRepresentation = isNaN(Number(date)) ? date : Number(date);
         if(!moment(dateRepresentation).isValid()) return date;
         return dateRepresentation ? moment(dateRepresentation).format(format) : null;
     },
 
-    formatDateWithTime: function (datetime) {
+    formatDateWithTime: datetime => {
         var dateRepresentation = isNaN(Number(datetime)) ? datetime : Number(datetime);
         if(!moment(dateRepresentation).isValid()) return datetime;
         return dateRepresentation ? moment(dateRepresentation).format("DD MMM YY h:mm a") : null;
     },
 
-    formatDateWithoutTime: function(date) {
+    formatDateWithoutTime: date => {
         var dateRepresentation = isNaN(Number(date)) ? date : Number(date);
         if(!moment(dateRepresentation).isValid()) return date;
         return dateRepresentation ? moment(dateRepresentation).format("DD MMM YY") : null;
     },
 
-    formatTime: function(date) {
+    formatTime: date => {
         var dateRepresentation = isNaN(Number(date)) ? date : Number(date);
         if(!moment(dateRepresentation).isValid()) return date;
         return dateRepresentation ? moment(dateRepresentation).format("h:mm a") : null;
@@ -96,17 +82,11 @@ Bahmni.Common.Util.DateUtil = {
         return moment(this.parse(dateTime)).toDate();
     },
 
-    parse: function(dateString){
-        return dateString ? moment(dateString).toDate() : null;
-    },
+    parse: dateString => dateString ? moment(dateString).toDate() : null,
 
-    parseDatetime: function(dateTimeString){
-        return dateTimeString ? moment(dateTimeString) : null;
-    },
+    parseDatetime: dateTimeString => dateTimeString ? moment(dateTimeString) : null,
 
-    now: function(){
-        return new Date();
-    },
+    now: () => new Date(),
 
     today: function(){
         return this.getDate(this.now());
@@ -115,13 +95,9 @@ Bahmni.Common.Util.DateUtil = {
         return moment(this.parse(this.now())).endOf('day').toDate();
     },
 
-    getDateWithoutHours: function(dateString){
-        return moment(dateString).toDate().setHours(0,0,0,0);
-    },
+    getDateWithoutHours: dateString => moment(dateString).toDate().setHours(0, 0, 0, 0),
 
-    getDateTimeWithoutSeconds :function (dateString){
-        return moment(dateString).toDate().setSeconds(0,0);
-    },
+    getDateTimeWithoutSeconds : dateString => moment(dateString).toDate().setSeconds(0, 0),
 
     isSameDateTime: function(date1, date2) {
         if(date1 == null || date2 == null) {
@@ -132,13 +108,9 @@ Bahmni.Common.Util.DateUtil = {
         return dateOne.getTime() == dateTwo.getTime();
     },
 
-    isBeforeDate: function(date1, date2){
-      return moment(date1).isBefore(moment(date2));
-    },
+    isBeforeDate: (date1, date2) => moment(date1).isBefore(moment(date2)),
 
-    isAfterDate: function(date1, date2){
-      return moment(date1).isAfter(moment(date2));
-    },
+    isAfterDate: (date1, date2) => moment(date1).isAfter(moment(date2)),
 
     isSameDate: function(date1, date2) {
         if(date1 == null || date2 == null) {
@@ -200,12 +172,15 @@ Bahmni.Common.Util.DateUtil = {
         };
     },
 
-    convertToUnits: function (minutes) {
+    convertToUnits: minutes => {
         var allUnits = {"Years": 365 * 24 * 60, "Months": 30 * 24 * 60, "Weeks": 7 * 24 * 60, "Days": 24 * 60, "Hours": 60, "Minutes": 1};
 
-        var durationRepresentation = function (value, unitName, unitValueInMinutes) {
-            return {"value": value, "unitName": unitName, "unitValueInMinutes": unitValueInMinutes, "allUnits": allUnits };
-        };
+        var durationRepresentation = (value, unitName, unitValueInMinutes) => ({
+          "value": value,
+          "unitName": unitName,
+          "unitValueInMinutes": unitValueInMinutes,
+          "allUnits": allUnits
+        });
 
         for (var unitName in  allUnits) {
             var unitValueInMinutes = allUnits[unitName];
@@ -243,25 +218,15 @@ Bahmni.Common.Util.DateUtil = {
         return to;
     },
 
-    getDateInDatabaseFormat: function (date) {
-        return moment(date).format('YYYY-MM-DD HH:mm:ss');
-    },
+    getDateInDatabaseFormat: date => moment(date).format('YYYY-MM-DD HH:mm:ss'),
 
-    parseLongDateToServerFormat: function(longDate){
-        return longDate ? moment(longDate).format("YYYY-MM-DDTHH:mm:ss.SSS") : null;
-    },
+    parseLongDateToServerFormat: longDate => longDate ? moment(longDate).format("YYYY-MM-DDTHH:mm:ss.SSS") : null,
 
-    parseServerDateToDate: function(longDate){
-        return longDate ? moment(longDate,"YYYY-MM-DDTHH:mm:ss.SSS").toDate() : null;
-    },
+    parseServerDateToDate: longDate => longDate ? moment(longDate, "YYYY-MM-DDTHH:mm:ss.SSS").toDate() : null,
 
-    removeOffset: function(dateString){
-        return _.replace(dateString, '+0000', '');
-    },
+    removeOffset: dateString => _.replace(dateString, '+0000', ''),
 
-    pad: function (number) {
-        return number > 9 ? number.toString() : "0" + number.toString();
-    },
+    pad: number => number > 9 ? number.toString() : "0" + number.toString(),
 
     getDateStr: function (date) {
         return date ? this.pad(date.getDate()) + "-" + this.pad(date.getMonth() + 1) + "-" + date.getFullYear() : "";
