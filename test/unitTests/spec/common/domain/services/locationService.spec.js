@@ -107,7 +107,7 @@ describe('LocationService', () => {
 
       $httpBackend.expectGET('/openmrs/ws/rest/v1/location?q=CS+Macomia&v=' + representation).respond({results: [cs_macomia]});
 
-      spyOn(configurationService, 'getDefaultLocation').and.callFake(() => $q.resolve({value: 'CS Macomia'}));
+      spyOn(configurationService, 'getDefaultLocation').and.callFake(() => $q.resolve('CS Macomia'));
 
       var location;
       locationService.getDefaultLocation().then(l => {
