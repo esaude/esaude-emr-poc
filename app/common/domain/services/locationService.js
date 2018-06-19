@@ -58,7 +58,7 @@
       return configurationService.getDefaultLocation()
         .then(defaultLocation => {
           if (defaultLocation) {
-            return getLocationsByName(defaultLocation.value);
+            return getLocationsByName(defaultLocation);
           } else {
             return $q.reject('LOGIN_LABEL_LOGIN_ERROR_NO_DEFAULT_LOCATION');
           }
