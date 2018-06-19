@@ -22,14 +22,14 @@ After(async (I, Apis, Data) => {
 
     I.say(`${LOG_TAG} Deleting patients with identifier ${identifier}`);
     if (patients.length) {
-      patients.forEach(async v => await Apis.patient.delete(v));
+      patients.forEach(async patient => await Apis.patient.delete(patient));
     }
   };
 
   await cleanUpPatient(Data.patients.patient3);
 });
 
-Scenario('Validate tab sequence', (I, RegisterPatientPage) => {
+Scenario('Validate tab sequence', (I) => {
   I.say(`${LOG_TAG} login`);
   let dashboardPage = I.login();
 
@@ -37,35 +37,32 @@ Scenario('Validate tab sequence', (I, RegisterPatientPage) => {
   const registrationPage = dashboardPage.navigateToRegistrationPage();
 
   I.say(`${LOG_TAG} Click on the New Patient button`);
-  registrationPage.clickNewPatienButton();
+  const registerPatientPage = registrationPage.clickNewPatienButton();
 
-  I.say(`${LOG_TAG} Make sure the register patient page is loaded`);
-  RegisterPatientPage.isLoaded();
-
-  const tabSequenseMessage = RegisterPatientPage.translate('FOLLOW_SEQUENCE_OF_TABS');
+  const tabSequenseMessage = registerPatientPage.translate('FOLLOW_SEQUENCE_OF_TABS');
 
   I.say(`${LOG_TAG} Validating tab sequence`);
 
-  I.click(RegisterPatientPage.tabs.name);
-  I.see(RegisterPatientPage.translate('ERROR_REQUIRED'));
+  I.click(registerPatientPage.tabs.name);
+  I.see(registerPatientPage.translate('ERROR_REQUIRED'));
 
-  I.click(RegisterPatientPage.tabs.gender);
+  I.click(registerPatientPage.tabs.gender);
   I.see(tabSequenseMessage);
 
-  I.click(RegisterPatientPage.tabs.age);
+  I.click(registerPatientPage.tabs.age);
   I.see(tabSequenseMessage);
 
-  I.click(RegisterPatientPage.tabs.address);
+  I.click(registerPatientPage.tabs.address);
   I.see(tabSequenseMessage);
 
-  I.click(RegisterPatientPage.tabs.contacts);
+  I.click(registerPatientPage.tabs.contacts);
   I.see(tabSequenseMessage);
 
-  I.click(RegisterPatientPage.tabs.testing)
+  I.click(registerPatientPage.tabs.testing)
   I.see(tabSequenseMessage);
 })
 
-Scenario('Validate Identifiers', (I, RegisterPatientPage) => {
+Scenario('Validate Identifiers', (I) => {
   const identifierTypes = {
     NIDTARV: {
       label: 'NID (SERVICO TARV)',
@@ -126,56 +123,53 @@ Scenario('Validate Identifiers', (I, RegisterPatientPage) => {
   const registrationPage = dashboardPage.navigateToRegistrationPage();
 
   I.say(`${LOG_TAG} Click on the New Patient button`);
-  registrationPage.clickNewPatienButton();
+  const registerPatientPage = registrationPage.clickNewPatienButton();
 
-  I.say(`${LOG_TAG} Make sure the register patient page is loaded`);
-  RegisterPatientPage.isLoaded();
+  validateIdentifier(I, registerPatientPage, identifierTypes.NIDTARV);
 
-  validateIdentifier(I, RegisterPatientPage, identifierTypes.NIDTARV);
+  addIdentifier(I, registerPatientPage, identifierTypes.BI);
+  validateIdentifier(I, registerPatientPage, identifierTypes.BI);
+  I.click(registerPatientPage.buttons.removeIdentifier);
 
-  addIdentifier(I, RegisterPatientPage, identifierTypes.BI);
-  validateIdentifier(I, RegisterPatientPage, identifierTypes.BI);
-  I.click(RegisterPatientPage.buttons.removeIdentifier);
+  addIdentifier(I, registerPatientPage, identifierTypes.ATS);
+  validateIdentifier(I, registerPatientPage, identifierTypes.ATS);
+  I.click(registerPatientPage.buttons.removeIdentifier);
 
-  addIdentifier(I, RegisterPatientPage, identifierTypes.ATS);
-  validateIdentifier(I, RegisterPatientPage, identifierTypes.ATS);
-  I.click(RegisterPatientPage.buttons.removeIdentifier);
+  addIdentifier(I, registerPatientPage, identifierTypes.ITS);
+  validateIdentifier(I, registerPatientPage, identifierTypes.ITS);
+  I.click(registerPatientPage.buttons.removeIdentifier);
 
-  addIdentifier(I, RegisterPatientPage, identifierTypes.ITS);
-  validateIdentifier(I, RegisterPatientPage, identifierTypes.ITS);
-  I.click(RegisterPatientPage.buttons.removeIdentifier);
+  addIdentifier(I, registerPatientPage, identifierTypes.PTVMATERN);
+  validateIdentifier(I, registerPatientPage, identifierTypes.PTVMATERN);
+  I.click(registerPatientPage.buttons.removeIdentifier);
 
-  addIdentifier(I, RegisterPatientPage, identifierTypes.PTVMATERN);
-  validateIdentifier(I, RegisterPatientPage, identifierTypes.PTVMATERN);
-  I.click(RegisterPatientPage.buttons.removeIdentifier);
+  addIdentifier(I, registerPatientPage, identifierTypes.PTVPRE);
+  validateIdentifier(I, registerPatientPage, identifierTypes.PTVPRE);
+  I.click(registerPatientPage.buttons.removeIdentifier);
 
-  addIdentifier(I, RegisterPatientPage, identifierTypes.PTVPRE);
-  validateIdentifier(I, RegisterPatientPage, identifierTypes.PTVPRE);
-  I.click(RegisterPatientPage.buttons.removeIdentifier);
+  addIdentifier(I, registerPatientPage, identifierTypes.NIDCCR);
+  validateIdentifier(I, registerPatientPage, identifierTypes.NIDCCR);
+  I.click(registerPatientPage.buttons.removeIdentifier);
 
-  addIdentifier(I, RegisterPatientPage, identifierTypes.NIDCCR);
-  validateIdentifier(I, RegisterPatientPage, identifierTypes.NIDCCR);
-  I.click(RegisterPatientPage.buttons.removeIdentifier);
+  addIdentifier(I, registerPatientPage, identifierTypes.NIT);
+  validateIdentifier(I, registerPatientPage, identifierTypes.NIT);
+  I.click(registerPatientPage.buttons.removeIdentifier);
 
-  addIdentifier(I, RegisterPatientPage, identifierTypes.NIT);
-  validateIdentifier(I, RegisterPatientPage, identifierTypes.NIT);
-  I.click(RegisterPatientPage.buttons.removeIdentifier);
+  addIdentifier(I, registerPatientPage, identifierTypes.NCC);
+  validateIdentifier(I, registerPatientPage, identifierTypes.NCC);
+  I.click(registerPatientPage.buttons.removeIdentifier);
 
-  addIdentifier(I, RegisterPatientPage, identifierTypes.NCC);
-  validateIdentifier(I, RegisterPatientPage, identifierTypes.NCC);
-  I.click(RegisterPatientPage.buttons.removeIdentifier);
-
-  addIdentifier(I, RegisterPatientPage, identifierTypes.PCR);
-  validateIdentifier(I, RegisterPatientPage, identifierTypes.PCR);
-  I.click(RegisterPatientPage.buttons.removeIdentifier);
+  addIdentifier(I, registerPatientPage, identifierTypes.PCR);
+  validateIdentifier(I, registerPatientPage, identifierTypes.PCR);
+  I.click(registerPatientPage.buttons.removeIdentifier);
 
   I.say(`${LOG_TAG} Try to add an already added identifier`);
-  addIdentifier(I, RegisterPatientPage, identifierTypes.BI);
-  addIdentifier(I, RegisterPatientPage, identifierTypes.BI);
-  I.see(RegisterPatientPage.translate('PATIENT_INFO_IDENTIFIER_ERROR_EXISTING'));
+  addIdentifier(I, registerPatientPage, identifierTypes.BI);
+  addIdentifier(I, registerPatientPage, identifierTypes.BI);
+  I.see(registerPatientPage.translate('PATIENT_INFO_IDENTIFIER_ERROR_EXISTING'));
 })
 
-Scenario('Register a patient', (I, Data, RegisterPatientPage, RegistrationDashboardPage) => {
+Scenario('Register a patient', (I, Data, RegistrationDashboardPage) => {
   const patient = Data.patients.patient3;
 
   I.say(`${LOG_TAG} login`);
@@ -185,51 +179,48 @@ Scenario('Register a patient', (I, Data, RegisterPatientPage, RegistrationDashbo
   const registrationPage = dashboardPage.navigateToRegistrationPage();
 
   I.say(`${LOG_TAG} Click on the New Patient button`);
-  registrationPage.clickNewPatienButton();
+  const registerPatientPage = registrationPage.clickNewPatienButton();
 
-  I.say(`${LOG_TAG} Make sure the register patient page is loaded`);
-  RegisterPatientPage.isLoaded();
-
-  validateRequiredFields(I, RegisterPatientPage, 'Identifier', 1);
+  validateRequiredFields(I, registerPatientPage, 'Identifier', 1);
   I.say(`${LOG_TAG} Fill in the NID identifier and move to Name tab`);
-  RegisterPatientPage.fillIdentifierForm(patient);
+  registerPatientPage.fillIdentifierForm(patient);
   I.waitForInvisible('#overlay', 5);
-  RegisterPatientPage.clickNext();
+  registerPatientPage.clickNext();
 
-  validateRequiredFields(I, RegisterPatientPage, 'Names', 2);
+  validateRequiredFields(I, registerPatientPage, 'Names', 2);
   I.say(`${LOG_TAG} Fill in givenName and familyName and move to Gender tab`);
-  RegisterPatientPage.fillNameForm(patient);
-  RegisterPatientPage.clickNext(10);
+  registerPatientPage.fillNameForm(patient);
+  registerPatientPage.clickNext(10);
 
-  validateRequiredFields(I, RegisterPatientPage, 'Gender', 1);
+  validateRequiredFields(I, registerPatientPage, 'Gender', 1);
   I.say(`${LOG_TAG} Select the gender and move to Age tab`);
-  RegisterPatientPage.selectGender(patient);
-  RegisterPatientPage.clickNext();
+  registerPatientPage.selectGender(patient);
+  registerPatientPage.clickNext();
 
-  validateRequiredFields(I, RegisterPatientPage, 'Birth Date', 1);
+  validateRequiredFields(I, registerPatientPage, 'Birth Date', 1);
   I.say(`${LOG_TAG} Fill in the birth date and move to Address tab`);
-  RegisterPatientPage.fillBirthDateForm(patient);
-  RegisterPatientPage.clickNext();
+  registerPatientPage.fillBirthDateForm(patient);
+  registerPatientPage.clickNext();
 
-  validateRequiredFields(I, RegisterPatientPage, 'Address', 4);
+  validateRequiredFields(I, registerPatientPage, 'Address', 4);
   I.say(`${LOG_TAG} Fill in the address and move to Contacts tab`);
-  RegisterPatientPage.fillContactForm(patient);
-  RegisterPatientPage.clickNext();
+  registerPatientPage.fillContactForm(patient);
+  registerPatientPage.clickNext();
 
-  validateRequiredFields(I, RegisterPatientPage, 'Provenience', 1);
+  validateRequiredFields(I, registerPatientPage, 'Provenience', 1);
   I.say(`${LOG_TAG} Select a provenience and move to Testing tab`);
-  RegisterPatientPage.selectProvenience(patient);
-  RegisterPatientPage.clickNext();
+  registerPatientPage.selectProvenience(patient);
+  registerPatientPage.clickNext();
 
   I.say(`${LOG_TAG} Ignore the testing and move to confirmation page`);
-  RegisterPatientPage.clickNext();
+  registerPatientPage.clickNext();
 
   I.say(`${LOG_TAG} Scroll down and confirm patient registration`);
   I.scrollPageToBottom();
-  I.click(RegisterPatientPage.buttons.confirm);
+  I.click(registerPatientPage.buttons.confirm);
   I.waitForInvisible('#overlay', 5);
 
-  I.see(RegisterPatientPage.translate('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
+  I.see(registerPatientPage.translate('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
   I.wait(1);
 
   I.say(`${LOG_TAG} Make sure the registration dashboard page loaded`);
@@ -246,7 +237,7 @@ Scenario('Register a patient', (I, Data, RegisterPatientPage, RegistrationDashbo
 const validateRequiredFields = (I, RegisterPatientPage, step, numOfVisibleElements) => {
   const errorMessageElement = '[ng-message="required"]';
 
-  I.say(`${LOG_TAG} Try to skip the ` + step);
+  I.say(`${LOG_TAG} Try to skip the ${step}`);
   I.click(RegisterPatientPage.buttons.nextStep);
   // TODO: Find a way to check the required message is for a certain field
   I.seeNumberOfVisibleElements(errorMessageElement, numOfVisibleElements);
@@ -262,8 +253,10 @@ const addIdentifier = (I, RegisterPatientPage, identifier) => {
 const validateIdentifier = (I, RegisterPatientPage, identifier) => {
   const inputField = locate('input').withAttr({ placeholder: identifier.format });
   const helpButton = locate('button').withAttr({ 'uib-popover': identifier.format });
+
   I.say(`${LOG_TAG} Validating ${identifier.label} identifier`);
   I.seeElement(inputField);
+
   if (identifier.format != "") {
     I.click(helpButton);
     I.seeElement(locate('div').withText(identifier.format));
