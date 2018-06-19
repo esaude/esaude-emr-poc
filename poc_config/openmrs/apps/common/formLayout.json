@@ -51,7 +51,10 @@
           {
             "name": "No de conviventes",
             "label": "COMMON_NO_OF_HOUSE_HOLDERS",
-            "id": "e2a0b5fe-1d5f-11e0-b929-000c29ad1d07"
+            "id": "e2a0b5fe-1d5f-11e0-b929-000c29ad1d07",
+            "constraints": {
+              "min": "0"
+            }
           }
         ]
       },
@@ -65,17 +68,26 @@
           {
             "name": "No de filhos",
             "label": "COMMON_NO_OF_CHILDREN",
-            "id": "e2a0b248-1d5f-11e0-b929-000c29ad1d07"
+            "id": "e2a0b248-1d5f-11e0-b929-000c29ad1d07",
+            "constraints": {
+              "min": "0"
+            }
           },
           {
             "name": "No de filhos testados",
             "label": "COMMON_NO_OF_TESTED_CHILDREN",
-            "id": "e2a0a8e8-1d5f-11e0-b929-000c29ad1d07"
+            "id": "e2a0a8e8-1d5f-11e0-b929-000c29ad1d07",
+            "constraints": {
+              "min": "0"
+            }
           },
           {
             "name": "No de filhos HIV+",
             "label": "COMMON_NO_OF_HIV_P_CHILDREN",
-            "id": "e2a0abc2-1d5f-11e0-b929-000c29ad1d07"
+            "id": "e2a0abc2-1d5f-11e0-b929-000c29ad1d07",
+            "constraints": {
+              "min": "0"
+            }
           }
         ]
       },
