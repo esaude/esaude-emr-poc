@@ -10,6 +10,8 @@ class ClinicDashboardPage extends Page {
         element: '[ng-app="clinic"]',
         urlPart: '/clinic/#/dashboard',
       },
+
+      components: ['tabs']
     });
 
     this.tabs = {
@@ -18,12 +20,7 @@ class ClinicDashboardPage extends Page {
   }
 
   clickConsultationTab() {
-    this.I.waitForElement(this.tabs.consultation);
-    this.I.click(this.tabs.consultation);
-
-    this.I.say(`${LOG_TAG} waiting for consultation tab to load`);
-    this.I.waitForInvisible('#overlay', 5);
-    this.I.wait(1);
+    this.clickTab(this.tabs.consultation)
   }
 
   clickAddVitals() {

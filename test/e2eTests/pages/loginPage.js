@@ -20,7 +20,8 @@ class LoginPage extends Page {
 
   // Logs the user in
   login(userInfo) {
-    this.I.amOnPage('/home/index.html#/login');
+    this.I.amOnPage('/home/index.html#/login')
+    this.I.selectOption('#locale', 'Português');
     this.I.fillField(this.fields.username, userInfo.username);
     this.I.fillField(this.fields.password, userInfo.password);
     this.I.click(this.loginButton);

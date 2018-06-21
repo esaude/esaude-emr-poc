@@ -44,6 +44,7 @@ Scenario('Validate tab sequence', (I) => {
   I.say(`${LOG_TAG} Validating tab sequence`);
 
   I.click(registerPatientPage.tabs.name);
+
   I.see(registerPatientPage.translate('ERROR_REQUIRED'));
 
   I.click(registerPatientPage.tabs.gender);

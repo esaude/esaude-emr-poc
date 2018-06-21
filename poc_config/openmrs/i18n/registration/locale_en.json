@@ -40,6 +40,8 @@
     "COMMON_PROGRAM_ENROLLMENT_ERROR_NO_STATE_TO_CHANGE": "Please select a state to change.",
     "COMMON_PROGRAM_ENROLLMENT_ERROR_NO_STATE_START_DATE": "Please select the state's start date.",
     "COMMON_PROGRAM_ENROLLMENT_DATE_NOT_IN_FUTURE": "Enrollment date should not be in future",
+    "COMMON_PROGRAM_COMPLETION_ERROR_FIVE_YEARS_OR_YOUNGER": "Patient must be aged 5 years old or younger",
+    "COMMON_PROGRAM_COMPLETION_ERROR_YOUNGER_THAN_EIGHTEEN_MONTHS": "Patient must be aged younger than 18 months old",
     "COMMON_PROGRAM_COMPLETION_DATE_NOT_IN_FUTURE": "Program completion date cannot be in future",
     "COMMON_VISIT_HISTORY_TITLE": "Visit History",
     "COMMON_CLINIC_SERVICES_TITLE": "Clinical Services",

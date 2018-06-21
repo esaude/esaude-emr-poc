@@ -22,6 +22,5 @@ module.exports = function() {
       const dashboardPage = loginStatus.successful();
       return dashboardPage;
     },
-
   });
 };
