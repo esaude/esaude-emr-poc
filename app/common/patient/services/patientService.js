@@ -7,7 +7,7 @@
 
   /* @ngInject */
   function patientService($http, $rootScope, appService, openmrsPatientMapper, $q, $log, reportService, updatePatientMapper,
-                          additionalPatientAttributes) {
+    additionalPatientAttributes) {
 
     var OPENMRS_URL = Poc.Patient.Constants.openmrsUrl;
 
@@ -66,7 +66,7 @@
     function get(uuid, representation) {
       return $http.get(OPENMRS_PATIENT_URL + uuid, {
         method: "GET",
-        params: {v: representation || "full"},
+        params: { v: representation || "full" },
         withCredentials: true
       });
     }
@@ -86,7 +86,7 @@
     }
 
     function updatePatientIdentifier(patientUuid, identifier) {
-      var data = {uuid: identifier.uuid, identifier: identifier.identifier, preferred: identifier.preferred};
+      var data = { uuid: identifier.uuid, identifier: identifier.identifier, preferred: identifier.preferred };
       return $http.post(OPENMRS_PATIENT_URL + patientUuid + "/identifier/" + identifier.uuid, data).then(response => response.data).catch(error => {
         $log.error('XHR Failed for updatePatientIdentifier: ' + error.data.error.message);
         return $q.reject(error);
@@ -105,16 +105,27 @@
     function createPatientProfile(patient) {
       // TODO validation does not work, missing Bahmni.Regsitration.customValidators
       var errMsg = Bahmni.Common.Util.ValidationUtil.validate(patient, appService.getPatientConfiguration());
-      if(errMsg){
+      if (errMsg) {
         return $q.reject(errMsg);
       }
-      var patientJson = new Bahmni.Registration.CreatePatientRequestMapper(moment()).mapFromPatient(appService.getPatientConfiguration(), patient);
-      return $http.post(BASE_OPENMRS_REST_URL + "/patientprofile", patientJson)
-        .then(response => response.data)
-        .catch(error => {
-          $log.error('XHR Failed for createPatientProfile: ' + error.data.error.message);
-          return $q.reject(error);
-        });
+      var nid = getPatientNid(patient);
+      return search(nid.identifier).then(patients => {
+        if (patients.length === 0) {
+          var patientJson = new Bahmni.Registration.CreatePatientRequestMapper(moment()).mapFromPatient(appService.getPatientConfiguration(), patient);
+          return $http.post(BASE_OPENMRS_REST_URL + "/patientprofile", patientJson)
+            .then(response => response.data);
+        } else {
+          return $q.reject("PATIENT_WITH_SAME_NID_EXISTS");
+        }
+      });
+
+    }
+
+    function getPatientNid(patient) {
+      var nid = patient.identifiers.find(identifier => {
+        return identifier.identifierType.uuid === "e2b966d0-1d5f-11e0-b929-000c29ad1d07";
+      });
+      return nid;
     }
 
     function updatePatientProfile(patient, openMRSPatient) {
@@ -200,7 +211,7 @@
         });
     }
 
-    function getPersonAttributesForStep (step) {
+    function getPersonAttributesForStep(step) {
       var attributes = appService.getPatientConfiguration();
       var stepConfigAttrs = additionalPatientAttributes[step];
       if (!stepConfigAttrs) {

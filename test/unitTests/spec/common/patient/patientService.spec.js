@@ -6,7 +6,7 @@ describe('patientService', () => {
   beforeEach(module('common.patient'));
 
   beforeEach(inject((_patientService_, _prescriptionService_, _reportService_, _$rootScope_,
-                     _$httpBackend_, _openmrsPatientMapper_, _updatePatientMapper_, _appService_) => {
+    _$httpBackend_, _openmrsPatientMapper_, _updatePatientMapper_, _appService_) => {
     patientService = _patientService_;
     prescriptionService = _prescriptionService_;
     reportService = _reportService_;
@@ -63,16 +63,16 @@ describe('patientService', () => {
   describe('update', () => {
 
     beforeEach(() => {
-      spyOn(appService, 'getPatientConfiguration').and.returnValue({personAttributeTypes: []});
+      spyOn(appService, 'getPatientConfiguration').and.returnValue({ personAttributeTypes: [] });
     });
 
-    var openMRSPatient = {uuid: 'e2bc2a32-1d5f-11e0-b929-000c29ad1d07'};
+    var openMRSPatient = { uuid: 'e2bc2a32-1d5f-11e0-b929-000c29ad1d07' };
 
-    var identifier = {uuid: '84047c69-1e50-431e-88d9-b8bc58799079', identifier: '123456789X', preferred: true};
+    var identifier = { uuid: '84047c69-1e50-431e-88d9-b8bc58799079', identifier: '123456789X', preferred: true };
 
-    var identifier2 = {uuid: '84047c69-1e50-431e-88d9-b8bc58799079', identifier: '123456789Z', preferred: false};
+    var identifier2 = { uuid: '84047c69-1e50-431e-88d9-b8bc58799079', identifier: '123456789Z', preferred: false };
 
-    var patient = {uuid: 'e2bc2a32-1d5f-11e0-b929-000c29ad1d07', identifiers: [identifier]};
+    var patient = { uuid: 'e2bc2a32-1d5f-11e0-b929-000c29ad1d07', identifiers: [identifier] };
 
     describe('identifiers changed', () => {
 
@@ -88,7 +88,7 @@ describe('patientService', () => {
         spyOn(updatePatientMapper, 'map').and.returnValue(patientJson);
 
         $httpBackend.expectPOST('/openmrs/ws/rest/v1/patientprofile/' + openMRSPatient.uuid, patientJson.patient)
-          .respond({patient: patient});
+          .respond({ patient: patient });
 
         $httpBackend.expectPOST('/openmrs/ws/rest/v1/patient/' + openMRSPatient.uuid + '/identifier/' + identifier.uuid)
           .respond(identifier2);
@@ -122,7 +122,7 @@ describe('patientService', () => {
         spyOn(updatePatientMapper, 'map').and.returnValue(patientJson);
 
         $httpBackend.expectPOST('/openmrs/ws/rest/v1/patientprofile/' + openMRSPatient.uuid, patientJson.patient)
-          .respond({patient: patient});
+          .respond({ patient: patient });
 
         $httpBackend.expectDELETE('/openmrs/ws/rest/v1/patient/' + openMRSPatient.uuid + '/identifier/' + identifier.uuid)
           .respond({});
@@ -152,7 +152,7 @@ describe('patientService', () => {
         spyOn(updatePatientMapper, 'map').and.returnValue(patientJson);
 
         $httpBackend.expectPOST('/openmrs/ws/rest/v1/patientprofile/' + openMRSPatient.uuid, patientJson.patient)
-          .respond({patient: patient});
+          .respond({ patient: patient });
 
         $httpBackend.expectPOST('/openmrs/ws/rest/v1/patient/' + openMRSPatient.uuid + '/identifier/', identifier2)
           .respond({});
@@ -176,22 +176,40 @@ describe('patientService', () => {
 
   });
 
-  describe('getPersonAttributesForStep', () => {
+  describe('createPatientProfile', () => {
 
-    it('should return person attributes required in given patient step', () => {
+    var patientToCreate = {
+      identifiers: [
+        {
+          identifier: "12345678/12/12345",
+          identifierType: { uuid: "e2b966d0-1d5f-11e0-b929-000c29ad1d07" }
+        }]
+    }
+
+    it('should not create patient when NID already exist', () => {
 
       spyOn(appService, 'getPatientConfiguration').and.returnValue([
-        {uuid: "d82b0cf4-26cc-11e8-bdc0-2b5ea141f82e", sortWeight: 1, name: "Alcunha", description: "Patient's nick name", format: "java.lang.String"},
-        {uuid: "d10628a7-ba75-4495-840b-bf6f1c44fd2d", sortWeight: 2, name: "Proveniência", description: "", format: "org.openmrs.Concept"},
+        { uuid: "d82b0cf4-26cc-11e8-bdc0-2b5ea141f82e", sortWeight: 1, name: "Alcunha", description: "Patient's nick name", format: "java.lang.String" },
+        { uuid: "d10628a7-ba75-4495-840b-bf6f1c44fd2d", sortWeight: 2, name: "Proveniência", description: "", format: "org.openmrs.Concept" },
       ]);
 
-      var attributesForStep = patientService.getPersonAttributesForStep('name');
+      $httpBackend.expectGET('/openmrs/ws/rest/v1/patient/?identifier=12345678%2F12%2F12345&q=12345678%2F12%2F12345&v=full')
+        .respond({ results: [{ uuid: "UUID_1" }] });
 
-      expect(attributesForStep.length).toEqual(1);
-      expect(attributesForStep).toContain(jasmine.objectContaining({name: 'Alcunha'}));
+      var error;
+      patientService.createPatientProfile(patientToCreate).catch(e => {
+        error = e;
+      });
 
+      $httpBackend.flush();
+
+      expect(error).toEqual("PATIENT_WITH_SAME_NID_EXISTS");
     });
 
+    afterEach(() => {
+      $httpBackend.verifyNoOutstandingExpectation();
+      $httpBackend.verifyNoOutstandingRequest();
+    });
   });
 
 });

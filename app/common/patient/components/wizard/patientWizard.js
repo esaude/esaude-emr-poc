@@ -14,7 +14,7 @@
 
   /* @ngInject */
   function PatientWizardController($rootScope, $scope, $stateParams, $location, $state, patient, patientService,
-                                   appService, openmrsPatientMapper, notifier, TabManager, translateFilter) {
+    appService, openmrsPatientMapper, notifier, TabManager, translateFilter) {
 
     var tabManager;
 
@@ -82,7 +82,7 @@
 
     function linkCancel() {
       if (updating) {
-        $state.go($stateParams.returnState, {patientUuid: vm.patient.uuid});
+        $state.go($stateParams.returnState, { patientUuid: vm.patient.uuid });
       } else {
         $state.go('search');
       }
@@ -92,10 +92,14 @@
       patientService.createPatientProfile(vm.patient)
         .then(patientProfile => {
           notifier.success(translateFilter('COMMON_PATIENT_CREATED'));
-          $state.go('dashboard', {patientUuid: patientProfile.patient.uuid});
+          $state.go('dashboard', { patientUuid: patientProfile.patient.uuid });
         })
-        .catch(() => {
-          notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
+        .catch(error => {
+          if (typeof error === "string") {
+            notifier.error(translateFilter(error));
+          } else {
+            notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
+          }
         });
     }
 
@@ -103,7 +107,7 @@
       patientService.updatePatientProfile(vm.patient, vm.openMRSPatient)
         .then(() => {
           notifier.success(translateFilter('COMMON_PATIENT_UPDATED'));
-          $state.go($stateParams.returnState, {patientUuid: vm.patient.uuid});
+          $state.go($stateParams.returnState, { patientUuid: vm.patient.uuid });
         })
         .catch(() => {
           notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
@@ -118,7 +122,7 @@
       }
     }
 
-    function changeStep (toStepName) {
+    function changeStep(toStepName) {
       var currentStepName = currentStep.getName();
 
       var stepingForward = tabManager.isStepingForward(currentStepName, toStepName);
