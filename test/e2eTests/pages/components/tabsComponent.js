@@ -1,6 +1,6 @@
-const Component = require('./component')
+const Component = require('./component');
 
-const LOG_TAG = '[TabsComponent]'
+const LOG_TAG = '[TabsComponent]';
 
 class TabsComponent extends Component {
   /** Clicks the given tab element  */

@@ -1,4 +1,4 @@
-const Page = require('./page')
+const Page = require('./page');
 
 const LOG_TAG = '[RegistrationDashboardPage]';
 
@@ -38,11 +38,11 @@ class RegistrationDashboardPage extends Page {
       FIVE_YEARS_OR_YOUNGER: 'COMMON_PROGRAM_COMPLETION_ERROR_FIVE_YEARS_OR_YOUNGER',
       LESS_THAN_18_MONTHS: 'COMMON_PROGRAM_COMPLETION_ERROR_YOUNGER_THAN_EIGHTEEN_MONTHS',
       NOT_IN_FUTURE: 'COMMON_PROGRAM_ENROLLMENT_DATE_NOT_IN_FUTURE'
-    }
+    };
   }
 
   clickProgramsTab() {
-    this.clickTab(this.tabs.programs)
+    this.clickTab(this.tabs.programs);
   }
 
   enrollInProgram(programType, state, admissionDate) {
@@ -72,7 +72,7 @@ class RegistrationDashboardPage extends Page {
   }
 
   selectProgramType(programTypeKey) {
-    const programText = this.translate(programTypeKey)
+    const programText = this.translate(programTypeKey);
     this.I.say(`${LOG_TAG} Selecting program type ${programText}`);
     const selectElement = '[ng-model="$parent.programSelected"]';
     const optionLabel = programText;
@@ -84,7 +84,7 @@ class RegistrationDashboardPage extends Page {
       return;
     }
 
-    const stateText = this.translate(programStateKey)
+    const stateText = this.translate(programStateKey);
     this.I.say(`${LOG_TAG} Selecting program state ${stateText}`);
     const selectElement = '[ng-model="$parent.workflowStateSelected"]';
     const optionLabel = stateText;
@@ -122,10 +122,10 @@ class RegistrationDashboardPage extends Page {
 
   verifySuccessfulProgramEnrollment() {
     this.I.say(`${LOG_TAG} verify the success toast popped up`);
-    const successElement = '.toast-success'
+    const successElement = '.toast-success';
     this.I.waitForElement(successElement, 10);
 
-    this.I.say(`${LOG_TAG} Wait for the modal to dissappear`)
+    this.I.say(`${LOG_TAG} Wait for the modal to dissappear`);
     const modal = '#addProgramModal';
     this.I.waitForInvisible(modal);
     this.I.wait(1);
@@ -138,14 +138,14 @@ class RegistrationDashboardPage extends Page {
   verifyModalAlert(alertKey) {
     const alertText = this.translate(alertKey);
     this.I.say(`${LOG_TAG} verify the alert '${alertText}' popped up on the modal`);
-    const alertElement = '#addProgramModal .alert strong'
+    const alertElement = '#addProgramModal .alert strong';
     this.I.waitForElement(alertElement, 10);
-    this.I.see(alertText, alertElement)
+    this.I.see(alertText, alertElement);
   }
 
   closeEnrollInProgramModal() {
     this.I.say(`${LOG_TAG} closing the enroll in program modal`);
-    const closeElement = '#addProgramModal .close'
+    const closeElement = '#addProgramModal .close';
     this.I.click(closeElement);
 
     const modal = '#addProgramModal';
