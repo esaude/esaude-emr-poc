@@ -17,27 +17,27 @@ class RegistrationDashboardPage extends Page {
     };
 
     this.programs = {
-      SERVICE_TAVR_CHECKUP: 'COMMON_PROGRAM_TITLE_SERVICE_TAVR_CHECKUP',
-      SERVICE_TAVR_TREATMENT: 'COMMON_PROGRAM_TITLE_SERVICE_TAVR_TREATMENT',
-      TUBERCULOSIS: 'COMMON_PROGRAM_TITLE_TUBERCULOSIS',
-      CCU: 'COMMON_PROGRAM_TITLE_CCU',
-      CCR: 'COMMON_PROGRAM_TITLE_CCR',
-      PTV_ETV: 'COMMON_PROGRAM_TITLE_PTV_ETV',
-      MOBILE_CLINIC: 'COMMON_PROGRAM_TITLE_MOBILE_CLINIC',
+      SERVICE_TAVR_CHECKUP: this.translate('COMMON_PROGRAM_TITLE_SERVICE_TAVR_CHECKUP'),
+      SERVICE_TAVR_TREATMENT: this.translate('COMMON_PROGRAM_TITLE_SERVICE_TAVR_TREATMENT'),
+      TUBERCULOSIS: this.translate('COMMON_PROGRAM_TITLE_TUBERCULOSIS'),
+      CCU: this.translate('COMMON_PROGRAM_TITLE_CCU'),
+      CCR: this.translate('COMMON_PROGRAM_TITLE_CCR'),
+      PTV_ETV: this.translate('COMMON_PROGRAM_TITLE_PTV_ETV'),
+      MOBILE_CLINIC: this.translate('COMMON_PROGRAM_TITLE_MOBILE_CLINIC'),
     };
 
     this.states = {
-      ACTIVO_NO_PROGRAMA: 'COMMON_PROGRAM_STATE_ACTIVE_ON_PROGRAM',
-      DELIVERED: 'COMMON_PROGRAM_STATE_DELIVERED',
+      ACTIVO_NO_PROGRAMA: this.translate('COMMON_PROGRAM_STATE_ACTIVE_ON_PROGRAM'),
+      DELIVERED: this.translate('COMMON_PROGRAM_STATE_DELIVERED'),
     };
 
     this.alerts = {
-      NO_PROGRAM: 'COMMON_PROGRAM_ENROLLMENT_ERROR_NO_PROGRAM',
-      NO_ADMISSION_DATE: 'COMMON_PROGRAM_ENROLLMENT_ERROR_NO_ADMISSION_DATE',
-      ALREADY_ENROLLED: 'COMMON_PROGRAM_ENROLLMENT_ERROR_ALREADY_ENROLLED',
-      FIVE_YEARS_OR_YOUNGER: 'COMMON_PROGRAM_COMPLETION_ERROR_FIVE_YEARS_OR_YOUNGER',
-      LESS_THAN_18_MONTHS: 'COMMON_PROGRAM_COMPLETION_ERROR_YOUNGER_THAN_EIGHTEEN_MONTHS',
-      NOT_IN_FUTURE: 'COMMON_PROGRAM_ENROLLMENT_DATE_NOT_IN_FUTURE'
+      NO_PROGRAM: this.translate('COMMON_PROGRAM_ENROLLMENT_ERROR_NO_PROGRAM'),
+      NO_ADMISSION_DATE: this.translate('COMMON_PROGRAM_ENROLLMENT_ERROR_NO_ADMISSION_DATE'),
+      ALREADY_ENROLLED: this.translate('COMMON_PROGRAM_ENROLLMENT_ERROR_ALREADY_ENROLLED'),
+      FIVE_YEARS_OR_YOUNGER: this.translate('COMMON_PROGRAM_COMPLETION_ERROR_FIVE_YEARS_OR_YOUNGER'),
+      LESS_THAN_18_MONTHS: this.translate('COMMON_PROGRAM_COMPLETION_ERROR_YOUNGER_THAN_EIGHTEEN_MONTHS'),
+      NOT_IN_FUTURE: this.translate('COMMON_PROGRAM_ENROLLMENT_DATE_NOT_IN_FUTURE'),
     };
   }
 
@@ -71,23 +71,21 @@ class RegistrationDashboardPage extends Page {
     this.I.wait(1);
   }
 
-  selectProgramType(programTypeKey) {
-    const programText = this.translate(programTypeKey);
-    this.I.say(`${LOG_TAG} Selecting program type ${programText}`);
+  selectProgramType(programType) {
+    this.I.say(`${LOG_TAG} Selecting program type ${programType}`);
     const selectElement = '[ng-model="$parent.programSelected"]';
-    const optionLabel = programText;
+    const optionLabel = programType;
     this._selectOptionInDropDown(selectElement, optionLabel);
   }
 
-  selectState(programStateKey) {
-    if(!programStateKey) {
+  selectState(programState) {
+    if(!programState) {
       return;
     }
 
-    const stateText = this.translate(programStateKey);
-    this.I.say(`${LOG_TAG} Selecting program state ${stateText}`);
+    this.I.say(`${LOG_TAG} Selecting program state ${programState}`);
     const selectElement = '[ng-model="$parent.workflowStateSelected"]';
-    const optionLabel = stateText;
+    const optionLabel = programState;
     this._selectOptionInDropDown(selectElement, optionLabel);
   }
 
@@ -135,12 +133,11 @@ class RegistrationDashboardPage extends Page {
     this.I.click(closeToastElement);
   }
 
-  verifyModalAlert(alertKey) {
-    const alertText = this.translate(alertKey);
-    this.I.say(`${LOG_TAG} verify the alert '${alertText}' popped up on the modal`);
+  verifyModalAlert(alert) {
+    this.I.say(`${LOG_TAG} verify the alert '${alert}' popped up on the modal`);
     const alertElement = '#addProgramModal .alert strong';
     this.I.waitForElement(alertElement, 10);
-    this.I.see(alertText, alertElement);
+    this.I.see(alert, alertElement);
   }
 
   closeEnrollInProgramModal() {
