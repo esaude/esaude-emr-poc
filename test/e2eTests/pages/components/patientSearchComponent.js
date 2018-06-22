@@ -12,7 +12,7 @@ class PatientSearchComponent extends Component {
     this.I.waitForElement('barcode-listener');
     
     // Update auto selection
-    this.I.executeScript(() => $('barcode-listener').data('auto-select', false));
+    this.I.executeScript(() => angular.element('barcode-listener').data('auto-select', false));
   }
 
   // Searches in the registration search box
@@ -38,7 +38,7 @@ class PatientSearchComponent extends Component {
     this.I.executeScript((patientId) => {
       try {
         // Get the div that displays the patient's id
-        const patientIdElement = $(`td.patient-identifier:contains('${patientId}')`);
+        const patientIdElement = angular.element(`td.patient-identifier:contains('${patientId}')`);
         
         // Get the row element containing the patient id because
         // it's the element we need to click to navigate to the patient's page
@@ -47,10 +47,13 @@ class PatientSearchComponent extends Component {
         // Click it
         patientRow.click();
       } catch(e) {
-        console.log(`Unable to find patient with id ${patientId}. Error: ${e}`);
+        $log.log(`Unable to find patient with id ${patientId}. Error: ${e}`);
       }
       
     }, patientId);
+
+    this.I.say(`${LOG_TAG} wait for next page to load`);
+    this.I.wait(2);
   }
 
   // Clears the search box

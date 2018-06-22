@@ -10,6 +10,7 @@ class TabsComponent extends Component {
     this.I.click(tabElement);
 
     this.I.say(`${LOG_TAG} waiting for tab to load`);
+    this.I.wait(1);
     this.I.waitForInvisible('#overlay', 5);
     this.I.wait(1);
   }

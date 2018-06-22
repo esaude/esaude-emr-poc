@@ -46,6 +46,7 @@ class RegistrationDashboardPage extends Page {
   }
 
   enrollInProgram(programType, state, admissionDate) {
+    // eslint-disable-next-line angular/json-functions
     this.I.say(`${LOG_TAG} enrolling patient in program with the following data` +
         JSON.stringify({
             programType,
