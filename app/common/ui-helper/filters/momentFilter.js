@@ -13,14 +13,18 @@
         .filter("moment", () => filter);
 
     function filter(input, format) {
-        if (moment.isMoment(input)) {
+        var momentInput = input;
+        if (typeof input === 'string') {
+            momentInput = moment(input);
+        }
+        if (moment.isMoment(momentInput)) {
             var customFormat = customFormats[format];
             if (customFormat) {
                 format = customFormat;
             } else if (!format) {
                 format = 'DD/MM/YYYY';
             }
-            return input.format(format);
+            return momentInput.format(format);
         }
         throw OBJECT_IS_NOT_A_MOMENT + input;
     }
