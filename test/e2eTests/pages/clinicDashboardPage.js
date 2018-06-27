@@ -20,7 +20,7 @@ class ClinicDashboardPage extends Page {
   }
 
   clickConsultationTab() {
-    this.clickTab(this.tabs.consultation)
+    this.clickTab(this.tabs.consultation);
   }
 
   clickAddVitals() {
