@@ -103,11 +103,6 @@
     }
 
     function createPatientProfile(patient) {
-      // TODO validation does not work, missing Bahmni.Regsitration.customValidators
-      var errMsg = Bahmni.Common.Util.ValidationUtil.validate(patient, appService.getPatientConfiguration());
-      if (errMsg) {
-        return $q.reject(errMsg);
-      }
       var nid = getPatientNid(patient);
       return search(nid.identifier).then(patients => {
         if (patients.length === 0) {
