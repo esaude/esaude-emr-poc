@@ -11,7 +11,7 @@
       'authentication',
       'bahmni.common.uiHelper',
       'ncy-angular-breadcrumb',
-      'ui.bootstrap'
+      'ui.bootstrap',
     ]);
 
 })();
