@@ -123,7 +123,7 @@
 
     function getPatientNid(patient) {
       var nid = patient.identifiers.find(identifier => {
-        return identifier.identifierType.uuid === "e2b966d0-1d5f-11e0-b929-000c29ad1d07";
+        return identifier.identifierType.uuid === Bahmni.Common.Constants.identifierTypesUuids.nid;
       });
       return nid;
     }
