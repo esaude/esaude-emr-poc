@@ -4,10 +4,6 @@
 
     var OBJECT_IS_NOT_A_MOMENT = "Object is not a moment ";
 
-    var customFormats = {
-        'short': 'DD/MM/YYYY HH:mm'
-    };
-
     angular
         .module("bahmni.common.uiHelper")
         .filter("moment", (momentFormat) => {
