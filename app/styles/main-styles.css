@@ -185,10 +185,13 @@ input[type=radio]:checked + label::before {
   width: 100%;
 }
 
-.footer .version {
+.footer p {
   color: #337ABA;
-  font-weight: bold;
   margin: 0 25px;
+}
+
+.footer .version {
+  font-weight: bold;
 }
 
 p.capitalize {
