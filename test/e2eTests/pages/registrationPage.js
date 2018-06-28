@@ -20,9 +20,14 @@ class RegistrationPage extends Page {
     this.I.waitForElement(this.newPatientButton);
     this.I.click(this.newPatientButton);
 
-    this.I.say(`${LOG_TAG} waiting for registration dashboard page to load`);
+    this.I.say(`${LOG_TAG} waiting for the register patient page to load`);
     this.I.waitForInvisible('#overlay', 5);
     this.I.wait(1);
+
+    const registerPatientPage = require('./registerPatientPage');
+    registerPatientPage._init();
+    registerPatientPage.isLoaded();
+    return registerPatientPage;
   }
 }
 

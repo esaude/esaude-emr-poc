@@ -1,9 +1,8 @@
 <poc-authorize privilege="'Write Drug Prescription'" display-info="true">
-<div class="row content-border-margin-regular">
-  <div class="col-sm-5">
-
-    <div>
-      <form name="prescriptionForm" class="form-horizontal" autocomplete="off">
+  <div class="row content-border-margin-regular">
+    <div class="col-sm-5">
+      <div>
+        <form name="prescriptionForm" class="form-horizontal" autocomplete="off">
 
           <div class="panel panel-primary panel-marginless-sides" ng-if="vm.retrospectiveMode">
             <div class="panel-heading">
@@ -69,15 +68,15 @@
             </div>
           </div>
 
-        <arv-regimen ng-if="vm.regimen.isArv"
-                     patient="vm.patient"
-                     regimen="vm.regimen"
-                     prescription-conv-set="vm.prescriptionConvSet"
-                     disabled="vm.listedPrescriptions.length"
-                     on-therapeutic-line-change="vm.onTherapeuticLineChange(therapeuticLine);"
-                     on-art-plan-change="vm.onArtPlanChange(artPlan);"
-                     on-drug-regimen-change="vm.onDrugRegimenChange(drugRegimen);">
-        </arv-regimen>
+          <arv-regimen ng-if="vm.regimen.isArv"
+                       patient="vm.patient"
+                       regimen="vm.regimen"
+                       prescription-conv-set="vm.prescriptionConvSet"
+                       disabled="vm.listedPrescriptions.length"
+                       on-therapeutic-line-change="vm.onTherapeuticLineChange(therapeuticLine);"
+                       on-art-plan-change="vm.onArtPlanChange(artPlan);"
+                       on-drug-regimen-change="vm.onDrugRegimenChange(drugRegimen);">
+          </arv-regimen>
 
           <div class="panel panel-primary panel-marginless-sides">
             <div class="panel-heading">
@@ -255,12 +254,11 @@
               </button>
             </div>
           </div>
-      </form>
+        </form>
+      </div>
     </div>
-  </div>
 
-  <div class="col-sm-7">
-
+    <div class="col-sm-7">
       <div class="panel panel-primary panel-marginless-sides">
         <div class="panel-heading">
           <h3 class="panel-title">{{'CLINIC_PRESCRIPTION_NEW'| translate}}</h3>
@@ -268,16 +266,14 @@
         <div class="list-group">
           <div class="list-group-item list-group-item-success" ng-repeat="item in vm.listedPrescriptions">
             <span>
-                <strong>{{item.drugOrder.drug.display}}</strong>
-                 <span ng-if="item.regime">
-                  <strong ng-if="item.regime">
-                        ({{item.regime.display}}
-                  </strong> : {{item.therapeuticLine.display}})-
-                </span>
-                {{item.drugOrder.dose}}
-                {{item.drugOrder.doseUnits.display}}, {{item.drugOrder.frequency.display}},
-                {{item.drugOrder.route.display}} - {{item.drugOrder.duration}}
-                {{item.drugOrder.durationUnits.display}}, {{item.drugOrder.dosingInstructions.display}}
+              <strong>{{item.drugOrder.drug.display}}</strong>
+              <span ng-if="item.regime">
+               <strong ng-if="item.regime">({{item.regime.display}}</strong> : {{item.therapeuticLine.display}})-
+            </span>
+              {{item.drugOrder.dose}}
+              {{item.drugOrder.doseUnits.display}}, {{item.drugOrder.frequency.display}},
+              {{item.drugOrder.route.display}} - {{item.drugOrder.duration}}
+              {{item.drugOrder.durationUnits.display}}, {{item.drugOrder.dosingInstructions.display}}
             </span>
             <span ng-if="item.regime && item.arvPlan">
                 <strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN'| translate}}:</strong> {{item.arvPlan.display}}
@@ -292,19 +288,17 @@
                 <strong>{{'CLINIC_PRESCRIPTION_ARV_CHANGE_FOR'| translate}}:</strong> {{item.changeReason.display}}
             </span>
             <span>
-                <button type="button" class="close btn-lg content-border-margin-regular-sides"
-                        ng-click="vm.remove(item)">
-                    <span class="glyphicon glyphicon-remove-circle"></span>
-                </button>
-                <button type="button" class="close btn-lg content-border-margin-regular-sides"
-                        ng-click="vm.edit(item)">
-                    <span class="glyphicon glyphicon-pencil"></span>
-                </button>
+              <button type="button" class="close btn-lg content-border-margin-regular-sides"
+                      ng-click="vm.remove(item)">
+                <span class="glyphicon glyphicon-remove-circle"></span>
+              </button>
+              <button type="button" class="close btn-lg content-border-margin-regular-sides"
+                      ng-click="vm.edit(item)">
+                <span class="glyphicon glyphicon-pencil"></span>
+              </button>
             </span>
           </div>
-
         </div>
-
 
         <div class="panel-footer go-to-right" ng-show="vm.showNewPrescriptionsControlls">
           <poc-confirm-button class="btn btn-danger btn-lg" on-confirm="vm.removeAll()"
@@ -321,76 +315,69 @@
         </div>
       </div>
 
-    <poc-authorize privilege="'Read Drug Prescription'">
-      <div class="panel panel-primary panel-marginless-sides">
-        <div class="panel-heading">
-          <h3 class="panel-title">{{'CLINIC_PRESCRIPTION_PRESCRIBED'| translate}}</h3>
-        </div>
-        <div class="list-group" ng-repeat="existingPrescription in vm.existingPrescriptions">
-          <div class="bg-info content-border-padding-li">
-            {{'CLINIC_PATIENT_PRESCRIBED' | translate}} {{'COMMON_ON' | translate}}
-            {{existingPrescription.prescriptionDate | date}}
+      <poc-authorize privilege="'Read Drug Prescription'">
+        <div class="panel panel-primary panel-marginless-sides">
+          <div class="panel-heading">
+            <h3 class="panel-title">{{'CLINIC_PRESCRIPTION_PRESCRIBED'| translate}}</h3>
           </div>
-          <div class="list-group-item" ng-repeat="item in existingPrescription.prescriptionItems">
-           <span>
-              <strong>{{item.drugOrder.drug.display}}</strong>
+          <div class="list-group" ng-repeat="existingPrescription in vm.existingPrescriptions">
+            <div class="bg-info content-border-padding-li">
+              {{'CLINIC_PATIENT_PRESCRIBED' | translate}} {{'COMMON_ON' | translate}}
+              {{existingPrescription.prescriptionDate | date}}
+            </div>
+            <div class="list-group-item" ng-repeat="item in existingPrescription.prescriptionItems">
+                <span>
+                  <strong>{{item.drugOrder.drug.display}}</strong>
+                  <span ng-if="item.regime">
+                    <strong ng-if="item.regime">({{item.regime.display}}</strong> : {{item.therapeuticLine.display}})-
+                  </span>
+                  {{item.drugOrder.dose}} {{item.drugOrder.doseUnits.display}}, {{item.drugOrder.frequency.display}},
+                  {{item.drugOrder.route.display}} - {{item.drugOrder.duration}} {{item.drugOrder.durationUnits.display}},
+                  {{item.dosingInstructions}}
+                </span>
               <span ng-if="item.regime">
-              <strong ng-if="item.regime">
-              ({{item.regime.display}}
-              </strong> : {{item.therapeuticLine.display}})-
-              </span>
-              {{item.drugOrder.dose}}
-              {{item.drugOrder.doseUnits.display}}, {{item.drugOrder.frequency.display}},
-              {{item.drugOrder.route.display}} - {{item.drugOrder.duration}}
-              {{item.drugOrder.durationUnits.display}}, {{item.dosingInstructions}}
-            </span>
-            <span ng-if="item.regime">
-            (<strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN'| translate}}:</strong> {{item.arvPlan.display}})
-          </span>
-            <span ng-if="item.isProphilaxy">
-              <strong>{{'CLINIC_PRESCRIPTION_PROPHYLAXIS_PLAN'| translate}}:</strong> {{item.prophilaxyPlan.display}}
-          </span>
-            <span ng-if="item.regime && item.interruptionReason">
-            <strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN_INTERRUPDED_FOR'| translate}}:</strong> {{item.interruptionReason.display}}
-          </span>
-            <span ng-if="item.regime && existingPrescription.changeReason">
-            <strong>{{'CLINIC_PRESCRIPTION_ARV_CHANGE_FOR'| translate}}:</strong> {{existingPrescription.changeReason.display}}
-          </span>
-            <span style="color:green;" ng-hide="!vm.checkActiveAndNewItemStatus(item)">
-            <strong>
-              {{item.statusStranslate | translate}}
-            </strong>
-          </span>
-            <span style="color:orange;" ng-hide="vm.checkActiveAndNewItemStatus(item)">
-            <strong>
-              {{item.statusStranslate | translate}}
-            </strong>
-          </span>
-            <span>
-            <poc-authorize privilege="'Delete Drug Prescription'">
-              <button type="button" class="close btn-lg content-border-margin-regular-sides"
-                      ng-click="vm.cancelOrStop(item)" ng-hide="!item.cancellable">
-              <span class="glyphicon glyphicon-trash" ng-hide="item.status != 'NEW' "></span>
-              <span class="glyphicon glyphicon-floppy-remove" ng-hide="!item.interruptible"></span>
-              <span class="button-label" ng-hide="item.status != 'NEW' ">{{'CANCEL' | translate}}</span>
-              <span class="button-label" ng-hide="!item.interruptible">{{'DISCONTINUE' | translate}}</span>
-            </button>
-            </poc-authorize>
-            <poc-authorize privilege="'Write Drug Prescription'">
-              <button type="button" class="close btn-lg content-border-margin-regular-sides"
-                      ng-click="vm.refill(item)" ng-hide="!vm.checkItemIsRefillable(existingPrescription)">
-                <span class="glyphicon glyphicon-repeat"></span>
-                <span class="button-label">{{'REFILL' | translate}}</span>
-              </button>
-            </poc-authorize>
-          </span>
+                  (<strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN'| translate}}:</strong>{{item.arvPlan.display}})
+                </span>
+              <span ng-if="item.isProphilaxy">
+                  <strong>{{'CLINIC_PRESCRIPTION_PROPHYLAXIS_PLAN'| translate}}:</strong> {{item.prophilaxyPlan.display}}
+                </span>
+              <span ng-if="item.regime && item.interruptionReason">
+                  <strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN_INTERRUPDED_FOR'| translate}}:</strong> {{item.interruptionReason.display}}
+                </span>
+              <span ng-if="item.regime && existingPrescription.changeReason">
+                  <strong>{{'CLINIC_PRESCRIPTION_ARV_CHANGE_FOR'| translate}}:</strong> {{existingPrescription.changeReason.display}}
+                </span>
+              <span style="color:green;" ng-hide="!vm.checkActiveAndNewItemStatus(item)">
+                  <strong>{{item.statusStranslate | translate}}</strong>
+                </span>
+              <span style="color:orange;" ng-hide="vm.checkActiveAndNewItemStatus(item)">
+                  <strong>
+                    {{item.statusStranslate | translate}}
+                  </strong>
+                </span>
+              <poc-authorize privilege="'Delete Drug Prescription'">
+                <button type="button" class="close btn-lg content-border-margin-regular-sides"
+                        ng-click="vm.cancelOrStop(item)" ng-hide="!item.cancellable">
+                  <span class="glyphicon glyphicon-trash" ng-hide="item.status != 'NEW' "></span>
+                  <span class="glyphicon glyphicon-floppy-remove" ng-hide="!item.interruptible"></span>
+                  <span class="button-label" ng-hide="item.status != 'NEW' ">{{'CANCEL' | translate}}</span>
+                  <span class="button-label" ng-hide="!item.interruptible">{{'DISCONTINUE' | translate}}</span>
+                </button>
+              </poc-authorize>
+              <poc-authorize privilege="'Write Drug Prescription'">
+                <button type="button" class="close btn-lg content-border-margin-regular-sides"
+                        ng-click="vm.refill(item)" ng-hide="!vm.checkItemIsRefillable(existingPrescription)">
+                  <span class="glyphicon glyphicon-repeat"></span>
+                  <span class="button-label">{{'REFILL' | translate}}</span>
+                </button>
+              </poc-authorize>
+            </div>
           </div>
         </div>
-      </div>
-    </poc-authorize>
+      </poc-authorize>
 
+    </div>
 
   </div>
-</div>
 
 </poc-authorize>

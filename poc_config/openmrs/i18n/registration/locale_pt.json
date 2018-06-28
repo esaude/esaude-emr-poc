@@ -93,5 +93,6 @@
     "VITALS_LAST_VISIT": "Última Visita",
     "VITALS_LAST_HEIGHT": "Última altura",
     "VITALS_LAST_BMI": "Último IMC",
-    "EDIT": "Editar"
+    "EDIT": "Editar",
+    "PATIENT_WITH_SAME_NID_EXISTS": "Já existe um paciente com o mesmo NID"
 }

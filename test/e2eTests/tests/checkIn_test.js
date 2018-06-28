@@ -11,7 +11,7 @@ let Patient1 = null;
 
 Before(async (I, Apis, Data) => {
   I.say(`${LOG_TAG} Creating patient one`);
-  Patient1 = await Apis.patient.create(Data.users.patient1);
+  Patient1 = await Apis.patient.create(Data.patients.patient1);
 });
 
 After(async (I, Apis, Data) => {
@@ -43,7 +43,7 @@ After(async (I, Apis, Data) => {
 
   // If this test passed then a visit or encounter was created
   // If so, it needs to be deleted so the patient can be cleaned up
-  // Since the visit/encounter was not created with Apis it needs to be cleaned manually 
+  // Since the visit/encounter was not created with Apis it needs to be cleaned manually
   await cleanUpPatientEncounter(Patient1);
   await cleanUpPatientVisit(Patient1);
 });
@@ -59,7 +59,7 @@ Scenario('Check in through registration dashbaord', async (I, Apis, Data, Regist
   registrationPage.disableAutoSelect();
 
   I.say(`${LOG_TAG} Search for patient 1's identifier`);
-  registrationPage.searchForPatientByIdAndSelect(Data.users.patient1);
+  registrationPage.searchForPatientByIdAndSelect(Data.patients.patient1);
 
   I.say(`${LOG_TAG} Make sure the registration dashboard page is loaded`);
   RegistrationDashboardPage.isLoaded();
@@ -82,7 +82,7 @@ Scenario('Add vitals through clinic dashboard', async (I, Apis, ClinicDashboardP
   clinicPage.disableAutoSelect();
 
   I.say(`${LOG_TAG} Search for patient 1's identifier`);
-  clinicPage.searchForPatientByIdAndSelect(Data.users.patient1);
+  clinicPage.searchForPatientByIdAndSelect(Data.patients.patient1);
 
   I.say(`${LOG_TAG} Make sure the clinic dashboard page is loaded`);
   ClinicDashboardPage.isLoaded();
@@ -128,7 +128,7 @@ Scenario('Check in through pharmacy dashboard', async (I, Apis, Data, PharmacyDa
   pharmacyPage.disableAutoSelect();
 
   I.say(`${LOG_TAG} Search for patient 1's identifier`);
-  pharmacyPage.searchForPatientByIdAndSelect(Data.users.patient1);
+  pharmacyPage.searchForPatientByIdAndSelect(Data.patients.patient1);
 
   I.say(`${LOG_TAG} Make sure the pharmacy dashboard page loaded`);
   PharmacyDashboardPage.isLoaded();
