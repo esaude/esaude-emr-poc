@@ -30,7 +30,7 @@ describe('patientOtherStep', () => {
     it('should set it self as wizard current step', () => {
 
       var patientWizard = jasmine.createSpyObj('patientWizard', ['setCurrentStep']);
-      var ctrl = $componentController('patientOtherStep', null, {patientWizard: patientWizard});
+      var ctrl = $componentController('patientOtherStep', null, {patientWizard});
 
       ctrl.$onInit();
 
@@ -40,7 +40,7 @@ describe('patientOtherStep', () => {
     it('should get person attributes for others step', () => {
 
       var patientWizard = jasmine.createSpyObj('patientWizard', ['setCurrentStep']);
-      var ctrl = $componentController('patientHIVTestStep', null, {patientWizard: patientWizard});
+      var ctrl = $componentController('patientOtherStep', null, {patientWizard});
 
       ctrl.$onInit();
 
