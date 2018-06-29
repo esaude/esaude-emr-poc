@@ -75,7 +75,7 @@
   },
   "scripts": {
     "test": "grunt test",
-    "e2e": "./node_modules/.bin/codeceptjs run --steps --reporter mochawesome",
+    "e2e": "./node_modules/.bin/codeceptjs run --steps",
     "wd:start": "node node_modules/protractor/bin/webdriver-manager update && node node_modules/protractor/bin/webdriver-manager start --standalone",
     "create-version": "npm --no-git-tag-version version",
     "publish-version": "git tag $(node -e \"console.log(require('./package.json').version);\") && git push --tags"
