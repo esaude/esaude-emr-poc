@@ -6,6 +6,7 @@
 // 'test/spec/{,*/}*.js'
 // use this if you want to recursively match all subfolders:
 // 'test/spec/**/*.js'
+/* eslint-disable angular/module-getter */
 module.exports = function (grunt) {
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
@@ -24,7 +25,7 @@ module.exports = function (grunt) {
   });
 
   // Define the configuration for all the tasks
-  var config = require('./grunt.conf')(grunt)
+  var config = require('./grunt.conf')(grunt);
   grunt.initConfig(config);
 
   grunt.registerTask('serve', 'Compile then start a connect web server', (target) => {

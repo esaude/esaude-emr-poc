@@ -78,7 +78,8 @@
     "e2e": "./node_modules/.bin/codeceptjs run --steps",
     "wd:start": "node node_modules/protractor/bin/webdriver-manager update && node node_modules/protractor/bin/webdriver-manager start --standalone",
     "create-version": "npm --no-git-tag-version version",
-    "publish-version": "git tag $(node -e \"console.log(require('./package.json').version);\") && git push --tags"
+    "publish-version": "git tag $(node -e \"console.log(require('./package.json').version);\") && git push --tags",
+    "lint": "./node_modules/.bin/eslint ."
   },
   "repository": {
     "type": "git",
