@@ -364,6 +364,7 @@
     "COMMON_PATIENT_SEARCH_ERROR": "There was an error searching for the patient.",
     "COMMON_PATIENT_CREATED": "Patient created with success.",
     "COMMON_COULD_NOT_LOAD_PATIENT": "Could not load patient, please try again.",
-    "COMMON_PATIENT_UPDATED": "Patient updated with success."
-
+    "COMMON_PATIENT_UPDATED": "Patient updated with success.",
+    "COMMON_UNAUTHORIZED": "You don't have permissions to view this page",
+    "COMMON_PRESS_HOME_TO_GO_BACK": "Press the <i class='glyphicon glyphicon-home'></i> button to go back home."
 }

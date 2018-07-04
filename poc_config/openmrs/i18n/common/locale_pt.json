@@ -358,5 +358,7 @@
     "COMMON_SEARCH_PATIENT_ERROR": "Ocorreu um erro ao pesquisar o paciente.",
     "COMMON_PATIENT_CREATED": "O paciente foi criado com sucesso.",
     "COMMON_COULD_NOT_LOAD_PATIENT": "Não foi possível carregar os dados do paciente, por favor tente novamente.",
-    "COMMON_PATIENT_UPDATED": "O paciente foi atualizado com sucesso."
+    "COMMON_PATIENT_UPDATED": "O paciente foi atualizado com sucesso.",
+    "COMMON_UNAUTHORIZED": "Não tem permissões para visualizar esta página",
+    "COMMON_PRESS_HOME_TO_GO_BACK": "Clique no botão <i class='glyphicon glyphicon-home'></i> para voltar."
 }
