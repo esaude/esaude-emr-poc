@@ -15,7 +15,7 @@
     ////////////////
 
     function initApp() {
-      return appService.initApp('clinical', {'app': true, 'extension' : true, 'service': true });
+      return appService.initApp('clinic', {'app': true, 'extension' : true, 'service': true });
     }
 
     function loadUser () {

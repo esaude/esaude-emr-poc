@@ -5,14 +5,14 @@
     .module('authentication')
     .factory('authorizationService', authorizationService);
 
-  authorizationService.$inject = ['sessionService', '$q', '$log'];
-
+  /* @ngInject */
   function authorizationService(sessionService, $q, $log) {
     var service = {
-      hasRole: hasRole,
-      hasPrivilege: hasPrivilege,
       authorizeApps: authorizeApps,
-      authorizeClinicalServices: authorizeClinicalServices
+      authorizeClinicalServices: authorizeClinicalServices,
+      isUserAuthorizedForApp: isUserAuthorizedForApp,
+      hasRole: hasRole,
+      hasPrivilege: hasPrivilege
     };
     return service;
 
@@ -52,6 +52,17 @@
           $log.error('Could not check user privilege: ' + error.data.error.message);
           return $q.reject();
         });
+    }
+
+    /**
+     * User is authorized to use an app if it has one of the roles defined for app in /common/application/resources/app.json
+     * @param {Array} apps
+     * @param {String} appId
+     * @returns {Promise}
+     */
+    function isUserAuthorizedForApp(apps, appId) {
+      return authorizeApps(apps)
+        .then(authorizedApps => authorizedApps.map(a => a.id).includes(appId));
     }
 
     /**

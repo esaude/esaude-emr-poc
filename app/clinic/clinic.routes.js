@@ -14,14 +14,23 @@
       $injector.get('$state').go('search');
     });
 
-    $bahmniTranslateProvider.init({ app: 'clinical', shouldMerge: true });
+    const CLINIC_APP_ID = 'clinic';
+
+    $bahmniTranslateProvider.init({ app: CLINIC_APP_ID, shouldMerge: true });
 
     $stateProvider
+      .state('root', {
+        abstract: true,
+        data: {authorization: CLINIC_APP_ID},
+        resolve: {
+          initialization: 'initialization',
+        }
+      })
       .state('search', {
         url: '/search',
         component: 'patientSearch',
+        parent: 'root',
         resolve: {
-          initialization: 'initialization',
           createPatient: () => false,
           showSchedule: () => true,
           scheduleType: () => 'currentProvider',
@@ -33,8 +42,8 @@
       .state('dashboard', {
         url: '/dashboard/:patientUuid',
         component: 'dashboard',
+        parent: 'root',
         resolve: {
-          initialization: 'initialization',
           patient: ($stateParams, initialization, patientService) => {
             // initialization should resolve first because of openmrs patient mapper needs to load patient attributes
             // config
@@ -96,7 +105,7 @@
           skip: true
         },
         resolve: {
-          clinicalServicesService: (clinicalServicesService, $stateParams) => clinicalServicesService.init('clinical', $stateParams.patientUuid)
+          clinicalServicesService: (clinicalServicesService, $stateParams) => clinicalServicesService.init(CLINIC_APP_ID, $stateParams.patientUuid)
         }
       })
       .state('dashboard.current', {
@@ -114,9 +123,7 @@
         params: {
           returnState: null
         },
-        resolve: {
-          initialization: 'initialization'
-        },
+        parent: 'root',
         ncyBreadcrumb: {
           label: '{{\'PATIENT_DETAILS\' | translate }}',
           parent: 'dashboard'

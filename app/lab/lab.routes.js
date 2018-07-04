@@ -16,17 +16,25 @@
       $injector.get('$state').go('search');
     });
 
-    $bahmniTranslateProvider.init({ app: 'lab', shouldMerge: true });
+    const LAB_APP_ID = 'lab';
+    $bahmniTranslateProvider.init({ app: LAB_APP_ID, shouldMerge: true });
 
     $stateProvider
+      .state('root', {
+        abstract: true,
+        data: {authorization: LAB_APP_ID},
+        resolve: {
+          initialization: 'initialization',
+        }
+      })
       .state('search', {
         url: '/search',
         component: 'patientSearch',
         ncyBreadcrumb: {
           label: '{{\'APP_LAB\' | translate}} /  {{\'SEARCH_PATIENT\' | translate}}'
         },
+        parent: 'root',
         resolve: {
-          initialization: 'initialization',
           createPatient: () => false,
           showSchedule: () => false,
         }
@@ -34,6 +42,7 @@
       .state('dashboard', {
         url: '/dashboard/:patientUuid',
         component: 'dashboard',
+        parent: 'root',
         ncyBreadcrumb: {
           label: '{{\'COMMON_DASHBOARD\' | translate}}',
           parent: 'search'
@@ -73,9 +82,7 @@
         params: {
           returnState: null
         },
-        resolve: {
-          initialization: 'initialization'
-        }
+        parent: 'root',
       });
   }
 })();
