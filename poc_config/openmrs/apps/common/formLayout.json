@@ -162,7 +162,11 @@
           {
             "name": "Idade",
             "label": "COMMON_AGE",
-            "id": "e2a1b008-1d5f-11e0-b929-000c29ad1d07"
+            "id": "e2a1b008-1d5f-11e0-b929-000c29ad1d07",
+            "constraints": {
+              "min": "0",
+              "pattern": "\\d+"
+            }
           },
           {
             "name": "Viva",
@@ -215,7 +219,11 @@
           {
             "name": "Idade",
             "label": "COMMON_AGE",
-            "id": "e2a0d8b8-1d5f-11e0-b929-000c29ad1d07"
+            "id": "e2a0d8b8-1d5f-11e0-b929-000c29ad1d07",
+            "constraints": {
+              "min": "0",
+              "pattern": "\\d+"
+            }
           },
           {
             "name": "Vivo",
