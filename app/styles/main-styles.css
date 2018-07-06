@@ -438,3 +438,11 @@ p.capitalize {
   opacity: .5;
 }
 /**/
+
+.poc-wizard-step-current {
+  background-color: #00BC8C;
+}
+
+.poc-wizard-step-inconsistent {
+  background-color: red;
+}

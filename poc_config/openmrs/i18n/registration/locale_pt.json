@@ -30,7 +30,7 @@
     "COMMON_PROGRAM_ENROLLMENT_COMPLETION_DATE": "Data de Saída",
     "COMMON_PROGRAM_ENROLLMENT_EDIT": "Editar Programa",
     "COMMON_PROGRAM_ENROLLMENT_STATE_EDIT": "Editar Estado do Programa",
-    "COMMON_PROGRAM_ENROLLMENT_STATE_ADD": "Adicionar Estado do Programa",    
+    "COMMON_PROGRAM_ENROLLMENT_STATE_ADD": "Adicionar Estado do Programa",
     "COMMON_PROGRAM_ENROLLMENT_STATE_CHANGE": "Mudar para",
     "COMMON_PROGRAM_ENROLLMENT_ERROR_NO_ADMISSION_DATE": "Por favor, escolha a data de admissão.",
     "COMMON_PROGRAM_ENROLLMENT_ERROR_NO_PROGRAM": "Por favor, escolha um programa.",
@@ -96,5 +96,6 @@
     "VITALS_LAST_HEIGHT": "Última altura",
     "VITALS_LAST_BMI": "Último IMC",
     "EDIT": "Editar",
-    "PATIENT_WITH_SAME_NID_EXISTS": "Já existe um paciente com o mesmo NID"
+    "PATIENT_WITH_SAME_NID_EXISTS": "Já existe um paciente com o mesmo NID",
+    "SOME_STEPS_HAVE_VALIDATION_PROBLEMS_CLICK_OK_TO_GO_TO_FIRST_INVALID_STEP": "Alguns passos possuem erros de validação, clique SIM para visitar o primeiro passo com problemas"
 }
