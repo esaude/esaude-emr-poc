@@ -29,24 +29,31 @@ I18n.prototype.loadTranslations = function () {
   var llTranslations = {};
   var locale;
   var dirs = fs.readdirSync(this.options.directory);
-  var obj = {};
   for (var i in dirs) {
     var name = this.options.directory + dirs[i];
 
     if (fs.statSync(name).isDirectory()) {
       var files = fs.readdirSync(name);
-      files.forEach(function (file) {
+      files.forEach((file) => {
 
         try {
           locale = path.basename(file).split('.').shift();
           if (locale.includes("pt")) {
-            obj = Object.assign(obj, JSON.parse(fs.readFileSync(self.getDirectoryPath(dirs[i], locale))));
-            translations[locale] = obj;
+            // Get the file's translations
+            const filePath = self.getDirectoryPath(dirs[i], locale);
+            const fileJson = fs.readFileSync(filePath);
+            const fileTranslations = JSON.parse(fileJson); // eslint-disable-line angular/json-functions
+
+            // Update our saved dictionary of translations
+            let existingTranslations = translations[locale] || {};
+            translations[locale] = Object.assign(existingTranslations, fileTranslations);
             llTranslations[locale.split('_')[0]] = locale;
           }
 
         } catch (err) {
+          // eslint-disable-next-line angular/log
           console.log(err);
+          throw err;
         }
       });
     } else {

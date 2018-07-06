@@ -72,7 +72,7 @@ module.exports = {
       return {
         person: user.person.uuid,
         identifier: user.systemId
-      }
+      };
     },
   },
 

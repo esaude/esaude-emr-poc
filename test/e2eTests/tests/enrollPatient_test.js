@@ -40,7 +40,7 @@ Scenario('Successfully enroll patient in program', (I, Data, RegistrationDashboa
 
     I.say(`${LOG_TAG} Verify successful enrollment`);
     RegistrationDashboardPage.verifySuccessfulProgramEnrollment();
-  }
+  };
 
   const enrollInProgram_VerifyAlert_CloseModal = (enrollmentData) => {
     const programType = enrollmentData.programType;
@@ -58,7 +58,7 @@ Scenario('Successfully enroll patient in program', (I, Data, RegistrationDashboa
 
     I.say(`${LOG_TAG} closing program enrollment modal`);
     RegistrationDashboardPage.closeEnrollInProgramModal();
-  }
+  };
 
   I.say(`${LOG_TAG} login`);
   let dashboardPage = I.login();
@@ -93,7 +93,7 @@ Scenario('Successfully enroll patient in program', (I, Data, RegistrationDashboa
     I.say(`${LOG_TAG} Verify the alert popped up with ${RegistrationDashboardPage.alerts.NO_PROGRAM}`);
     RegistrationDashboardPage.verifyModalAlert(RegistrationDashboardPage.alerts.NO_PROGRAM);
 
-    const programType = RegistrationDashboardPage.programs.CCU
+    const programType = RegistrationDashboardPage.programs.CCU;
 
     I.say(`${LOG_TAG} Select program type ${programType}`);
     RegistrationDashboardPage.selectProgramType(programType);
