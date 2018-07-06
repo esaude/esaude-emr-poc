@@ -151,7 +151,7 @@
 
           if (angular.isDefined(model.value)) {
 
-            if (angular.isDefined(model.value[answer.uuid])) {
+            if (angular.isDefined(model.value[answer.uuid]) && model.value[answer.uuid] != 'undefined') {
 
               vm.fieldModel.value = _.find(whoStages, stage => stage.uuid === model.field.concept.uuid);
 
