@@ -37,7 +37,9 @@ Poc.Patient.Constants.Errors = {};
       ]
     })
     .constant('mandatoryPersonAttributes', [
-      'Proveniência'
+      'Proveniência',
+      'Data do teste HIV',
+      'Tipo de teste HIV',
     ])
     .constant('patientRepresentation',
       'custom:(uuid,identifiers:(uuid,display,identifier,preferred,identifierType:(uuid,display,required,formatDescription)),person:(auditInfo,birthdate,birthdateEstimated,gender,preferredAddress,preferredName,attributes:(value,attributeType:(name,format))');
