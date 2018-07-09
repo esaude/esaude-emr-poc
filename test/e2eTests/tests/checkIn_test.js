@@ -102,6 +102,7 @@ Scenario('Add vitals through clinic dashboard', async (I, Apis, ClinicDashboardP
     cardiacFrequency: '108',
     respiratoryRate: '16',
   };
+  // eslint-disable-next-line angular/json-functions
   I.say(`${LOG_TAG} Using form data ${JSON.stringify(formData, null, 2)}`);
 
   I.say(`${LOG_TAG} Fill in the vitals form`);

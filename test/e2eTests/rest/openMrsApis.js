@@ -1,8 +1,8 @@
-const assert = require('assert')
-const querystring = require('querystring') 
+const assert = require('assert');
+const querystring = require('querystring'); 
 
-const APIMANAGER_LOGTAG = '[ApiManager]'
-const API_LOGTAG = '[Api]'
+const APIMANAGER_LOGTAG = '[ApiManager]';
+const API_LOGTAG = '[Api]';
 
 // ApiManager holds on to each Api. An instance of Api manager can be passed
 // into a test if that test needs to manipulate data on the server
@@ -11,7 +11,7 @@ const API_LOGTAG = '[Api]'
 //    https://psbrandt.io/openmrs-contrib-apidocs/
 class ApiManager {
   _init() {
-    this.I = actor()
+    this.I = actor();
 
     // An array of information about resources that
     // we need to clean up when a test ends.
@@ -21,146 +21,147 @@ class ApiManager {
     //   api: ...,
     //   resource: ...,
     // }
-    this.resourcesToCleanUp = []
+    this.resourcesToCleanUp = [];
 
     // Create the APIs
-    this._createApis()
+    this._createApis();
   }
 
   // Remove all objects that were created during testing
   async cleanUp() {
-    this.I.say(`${APIMANAGER_LOGTAG} Cleaning up ${this.resourcesToCleanUp.length} resources`)
+    this.I.say(`${APIMANAGER_LOGTAG} Cleaning up ${this.resourcesToCleanUp.length} resources`);
 
     // Fix for #618: https://github.com/esaude/esaude-emr-poc/issues/618
     // Delete objects in the reverse order they were created
     while(this.resourcesToCleanUp.length > 0) {
       // Get info about the most recently created resource
-      const index = this.resourcesToCleanUp.length - 1
-      const resourceData = this.resourcesToCleanUp[index]
+      const index = this.resourcesToCleanUp.length - 1;
+      const resourceData = this.resourcesToCleanUp[index];
 
       // Delete the created resource
       // Calling this will indirectly call _onApiDeletedResource
       // which will remove this resource from our collection
       // of resources to clean
-      const api = resourceData.api
-      const resource = resourceData.resource
-      await api.delete(resource)
+      const api = resourceData.api;
+      const resource = resourceData.resource;
+      await api.delete(resource);
     }
 
     assert.equal(this.resourcesToCleanUp.length, 0,
-      `${APIMANAGER_LOGTAG} Failed to clean up ${this.resourcesToCleanUp.length} resources after test`)
+      `${APIMANAGER_LOGTAG} Failed to clean up ${this.resourcesToCleanUp.length} resources after test`);
   }
 
   // Create the apis
   _createApis() {
-    this.I.say(`${APIMANAGER_LOGTAG} Creating APIs`)
+    this.I.say(`${APIMANAGER_LOGTAG} Creating APIs`);
 
     // Creates and returns an instance of Api with the specified name and callbacks
-    const createApi = apiName => new Api(apiName, this._onApiCreatedResource.bind(this), this._onApiDeletedResource.bind(this))
+    const createApi = apiName => new Api(apiName, this._onApiCreatedResource.bind(this), this._onApiDeletedResource.bind(this));
 
     //--------------
     // List APIs here
     //--------------
-    this.encounter = createApi('encounter')
-    this.patient = createApi('patient')
-    this.person = createApi('person')
-    this.programEnrollment = createApi('programenrollment')
-    this.program = createApi('program')
-    this.provider = createApi('provider')
-    this.user = createApi('user')
-    this.visit = createApi('visit')
+    this.encounter = createApi('encounter');
+    this.patient = createApi('patient');
+    this.person = createApi('person');
+    this.programEnrollment = createApi('programenrollment');
+    this.program = createApi('program');
+    this.provider = createApi('provider');
+    this.user = createApi('user');
+    this.visit = createApi('visit');
   }
 
   // Callback executed each time an API creates a new resource
   _onApiCreatedResource(api, createdResource) {
-    this.I.say(`${APIMANAGER_LOGTAG} Saving resource created by ${api.url}`)
+    this.I.say(`${APIMANAGER_LOGTAG} Saving resource created by ${api.url}`);
 
     this.resourcesToCleanUp .push({
       api,
       resource: createdResource,
-    })
+    });
   }
 
   // Callback executed each time an API deletes a new resource
   _onApiDeletedResource(api, deletedResource) {
-    this.I.say(`${APIMANAGER_LOGTAG} Resource delete by ${api.url}, removing from our clean up collection`)
+    this.I.say(`${APIMANAGER_LOGTAG} Resource delete by ${api.url}, removing from our clean up collection`);
 
     // When a resource is deleted remove it from our list of created objects
-    this.resourcesToCleanUp = this.resourcesToCleanUp.filter(data => data.api != api || data.resource.uuid != deletedResource.uuid)
+    this.resourcesToCleanUp = this.resourcesToCleanUp.filter(data => data.api != api || data.resource.uuid != deletedResource.uuid);
   }
 }
 
 // This class contains methods that are used to send requests to
 // a specific Api. Each Api is contained in the ApiManager class.
+/* eslint-disable angular/json-functions */
 class Api {
   constructor(apiName, onCreate, onDelete) {
-    this.name = apiName
-    this.url = `/${apiName}`
-    this.I = actor()
+    this.name = apiName;
+    this.url = `/${apiName}`;
+    this.I = actor();
 
-    this.onCreate = onCreate
-    this.onDelete = onDelete
+    this.onCreate = onCreate;
+    this.onDelete = onDelete;
   }
 
   async getAll(options) {
-    const query = querystring.stringify(options)
-    const response = await this.I.sendGetRequest(`${this.url}?${query}`)
+    const query = querystring.stringify(options);
+    const response = await this.I.sendGetRequest(`${this.url}?${query}`);
 
     assert.equal(response.statusCode, 200,
-      `${API_LOGTAG} get all ${this.url} request failed ${JSON.stringify(response, null, 2)}`)
+      `${API_LOGTAG} get all ${this.url} request failed ${JSON.stringify(response, null, 2)}`);
 
-    this.I.say(`${API_LOGTAG} ${this.url} get all successful ${JSON.stringify(response.body, null, 2)}`)
+    this.I.say(`${API_LOGTAG} ${this.url} get all successful ${JSON.stringify(response.body, null, 2)}`);
 
-    return response.body.results
+    return response.body.results;
   }
 
   async get(id) {
-    const response = await this.I.sendGetRequest(`${this.url}/${id}`)
+    const response = await this.I.sendGetRequest(`${this.url}/${id}`);
 
     assert.equal(response.statusCode, 200,
-      `${API_LOGTAG} get ${this.url} by id request failed ${JSON.stringify(response, null, 2)}`)
+      `${API_LOGTAG} get ${this.url} by id request failed ${JSON.stringify(response, null, 2)}`);
 
-    this.validate(response.body)
+    this.validate(response.body);
 
-    this.I.say(`${API_LOGTAG} ${this.url} get by id successful ${JSON.stringify(response.body, null, 2)}`)
+    this.I.say(`${API_LOGTAG} ${this.url} get by id successful ${JSON.stringify(response.body, null, 2)}`);
 
-    return response.body
+    return response.body;
   }
 
   async create(json) {
-    const response = await this.I.sendPostRequest(this.url, JSON.stringify(json))
+    const response = await this.I.sendPostRequest(this.url, JSON.stringify(json));
     
     assert.equal(response.statusCode, 201,
-      `${API_LOGTAG} create ${this.url} request failed ${JSON.stringify(response, null, 2)}`)
+      `${API_LOGTAG} create ${this.url} request failed ${JSON.stringify(response, null, 2)}`);
 
-    this.validate(response.body)
+    this.validate(response.body);
 
-    this.I.say(`${API_LOGTAG} ${this.url} create successful ${JSON.stringify(response.body, null, 2)}`)
+    this.I.say(`${API_LOGTAG} ${this.url} create successful ${JSON.stringify(response.body, null, 2)}`);
 
     // When a new resource is created save it so we can delete it
     // before the test is over
     if(response.statusCode == 201)
-      this.onCreate(this, response.body)
+      this.onCreate(this, response.body);
 
-    return response.body
+    return response.body;
   }
 
   async delete(json) {
-    const response = await this.I.sendDeleteRequest(`${this.url}/${json.uuid}?purge`)
+    const response = await this.I.sendDeleteRequest(`${this.url}/${json.uuid}?purge`);
 
     assert.equal(response.statusCode, 204,
-      `${API_LOGTAG} delete ${this.url} request failed ${JSON.stringify(response, null, 2)}`)
+      `${API_LOGTAG} delete ${this.url} request failed ${JSON.stringify(response, null, 2)}`);
 
     // Let the listener know we deleted a resource
     if(response.statusCode == 204)
-      this.onDelete(this, json)
+      this.onDelete(this, json);
 
-    this.I.say(`${API_LOGTAG} ${this.url} delete successful`)
+    this.I.say(`${API_LOGTAG} ${this.url} delete successful`);
   }
 
   validate(body) {
-    assert.ok(body, `${API_LOGTAG} ${this.url} object invalid`)
-    assert.ok(body.uuid, `${API_LOGTAG} ${this.url} invalid`)
+    assert.ok(body, `${API_LOGTAG} ${this.url} object invalid`);
+    assert.ok(body.uuid, `${API_LOGTAG} ${this.url} invalid`);
   }
 }
 
@@ -169,11 +170,11 @@ class Api {
 // Each Api stores the data is creates so it knows what to delete when api.cleanUp is called.
 // If a new instanc of ApiManager was created we would lose our reference to the old ApiManager
 // and any data that it's Apis created.
-const APIMANAGER_KEY = Symbol.for("esaude.e2e.ApiManager")
-var globalSymbols = Object.getOwnPropertySymbols(global)
-var hasApiManager = (globalSymbols.indexOf(APIMANAGER_KEY) > -1)
+const APIMANAGER_KEY = Symbol.for("esaude.e2e.ApiManager");
+var globalSymbols = Object.getOwnPropertySymbols(global);
+var hasApiManager = (globalSymbols.indexOf(APIMANAGER_KEY) > -1);
 if(!hasApiManager) {
-  global[APIMANAGER_KEY] = new ApiManager()
+  global[APIMANAGER_KEY] = new ApiManager();
 }
 
-module.exports = global[APIMANAGER_KEY]
+module.exports = global[APIMANAGER_KEY];
