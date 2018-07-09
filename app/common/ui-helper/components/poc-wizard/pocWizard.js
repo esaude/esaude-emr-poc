@@ -21,7 +21,6 @@
 
     var vm = this;
     vm.stepControllers = [];
-    vm.currentStep = null;
 
     vm.$onInit = $onInit;
     vm.addStep = addStep;
