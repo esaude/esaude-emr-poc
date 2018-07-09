@@ -21,6 +21,7 @@
     "COMMON_HEADER_MENU_SUPPORT": "Support",
     "COMMON_HEADER_MENU_LOGOUT": "Log out",
     "COMMON_PROGRAM_ENROLLMENT_TITLE": "Program Enrollment",
+    "COMMON_PROGRAM_NO_PROGRAMS": "The patient was not enrolled to any program.",
     "COMMON_PROGRAM_NAME": "Program",
     "COMMON_PROGRAM_ENROLLMENT_NO_STATE": "No state",
     "COMMON_PROGRAM_ENROLLMENT_ENROLLED_ON": "enrolled on",
