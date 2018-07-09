@@ -81,7 +81,7 @@
       "roles": ["POC: Clinician"]
     },
     {
-      "id": "report",
+      "id": "reports",
       "name": "APP_REPORTS",
       "url": "/reports",
       "logo": "images/report.png",
