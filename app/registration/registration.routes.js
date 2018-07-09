@@ -17,14 +17,22 @@
       $injector.get('$state').go('search');
     });
 
-    $bahmniTranslateProvider.init({app: 'registration', shouldMerge: true});
+    const REGISTRATION_APP_ID = 'registration';
+    $bahmniTranslateProvider.init({app: REGISTRATION_APP_ID, shouldMerge: true});
 
     $stateProvider
+      .state('root', {
+        abstract: true,
+        data: {authorization: REGISTRATION_APP_ID},
+        resolve: {
+          initialization: 'initialization',
+        }
+      })
       .state('search', {
         url: '/search',
         component: 'patientSearch',
+        parent: 'root',
         resolve: {
-          initialization: 'initialization',
           showSchedule: () => true,
           createPatient: () => true,
         },
@@ -35,8 +43,8 @@
       .state('dashboard', {
         url: '/dashboard/:patientUuid',
         component: 'dashboard',
+        parent: 'root',
         resolve: {
-          initialization: 'initialization',
           patient: (initialization, $stateParams, patientService) => patientService.getPatient($stateParams.patientUuid)
         },
         ncyBreadcrumb: {
@@ -72,7 +80,7 @@
           skip: true
         },
         resolve: {
-          clinicalServicesService: (clinicalServicesService, patient) => clinicalServicesService.init('registration', patient.uuid)
+          clinicalServicesService: (clinicalServicesService, patient) => clinicalServicesService.init(REGISTRATION_APP_ID, patient.uuid)
         }
       })
       // TODO move newpatient and editpatient routes to common.patient modules after route based authorization is done.
@@ -80,9 +88,9 @@
         url: '/patient/new',
         component: 'patientWizard',
         resolve: {
-          initialization: 'initialization',
           patient: patient => patient.create()
         },
+        parent: 'root',
         ncyBreadcrumb: {
           label: '{{\'PATIENT_INFO_NEW\' | translate}}',
           parent: 'search'
@@ -154,8 +162,8 @@
         params: {
           returnState: null
         },
+        parent: 'root',
         resolve: {
-          initialization: 'initialization',
           patient: (initialization, $stateParams, patientService, patientRepresentation) => {
             // We need initialization to always resolve first';
             return patientService.getPatient($stateParams.patientUuid, patientRepresentation);
@@ -221,6 +229,7 @@
       .state('detailpatient', {
         url: '/patient/detail/:patientUuid',
         component: 'patientDetails',
+        parent: 'root',
         ncyBreadcrumb: {
           label: '{{\'PATIENT_DETAILS\' | translate }}',
           parent: 'dashboard'
@@ -228,9 +237,6 @@
         params: {
           returnState: null
         },
-        resolve: {
-          initialization: 'initialization'
-        }
       });
   }
 })();

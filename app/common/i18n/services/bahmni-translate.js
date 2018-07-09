@@ -26,7 +26,7 @@ angular.module('bahmni.common.i18n')
 
 function $bahmniTranslateProvider($translateProvider){
     this.init = options => {
-        var preferredLanguage = window.localStorage["NG_TRANSLATE_LANG_KEY"] || "en";
+        var preferredLanguage = window.localStorage["NG_TRANSLATE_LANG_KEY"] || "pt";
         $translateProvider.useLoader('mergeLocaleFilesService', options);
         $translateProvider.useSanitizeValueStrategy('escaped');
         $translateProvider.preferredLanguage(preferredLanguage);
