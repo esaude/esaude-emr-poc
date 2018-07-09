@@ -16,13 +16,13 @@
         $injector.get('$state').go('dashboard');
       });
 
-      const REPORTS_MODULE_ID = 'reports';
-      $bahmniTranslateProvider.init({app: REPORTS_MODULE_ID, shouldMerge: true});
+      const REPORTS_APP_ID = 'reports';
+      $bahmniTranslateProvider.init({app: REPORTS_APP_ID, shouldMerge: true});
 
       $stateProvider
         .state('root', {
           abstract: true,
-          data: {authorization: REPORTS_MODULE_ID},
+          data: {authorization: REPORTS_APP_ID},
         })
         .state('dashboard', {
           url: '/dashboard',
