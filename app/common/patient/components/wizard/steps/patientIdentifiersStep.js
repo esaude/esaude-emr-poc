@@ -16,7 +16,7 @@
     });
 
   /* @ngInject */
-  function PatientIdentifiersStepController(sessionService, patientService, notifier) {
+  function PatientIdentifiersStepController(notifier, patientService, sessionService, translateFilter) {
 
     var vm = this;
 
@@ -98,7 +98,7 @@
 
         } else {
           patientIdentifier.selectedIdentifierType = undefined;
-          notifier.error($filter('translate')('PATIENT_INFO_IDENTIFIER_ERROR_EXISTING'));
+          notifier.error(translateFilter('PATIENT_INFO_IDENTIFIER_ERROR_EXISTING'));
         }
       }
     }
