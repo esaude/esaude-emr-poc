@@ -20,7 +20,7 @@ const addPages = (include) => {
     // We only care about .js files
     // and we don't care about the abstract base class in page.js
     if(!pagePath.endsWith('.js') || pagePath.endsWith('page.js'))
-      return
+      return;
 
     // Ex: registrationPage.js
     const pageFilename = path.basename(pagePath);
@@ -34,10 +34,10 @@ const addPages = (include) => {
     // After this line config.include will contain a property like...
     // Ex: RegistrationPage: ./test/e2eTests/pages/registrationPage.js
     include[pageName] = `./${TestDir}/pages/${pageFilename}`;
-  })
+  });
 
   return include;
-}
+};
 
 module.exports.config = {
   tests: `./${TestDir}/**/*_test.js`,
@@ -79,4 +79,4 @@ module.exports.config = {
     },
   },
   name: 'esaude-emr-poc',
-}
+};

@@ -208,6 +208,8 @@ p.capitalize {
 .navbar {
   min-height: 80px;
   padding: 0;
+  border-radius: 0;
+  margin-bottom: 0;
 }
 
 .navbar .navbar-brand {
@@ -438,3 +440,19 @@ p.capitalize {
   opacity: .5;
 }
 /**/
+
+
+unauthorized {
+  margin-top: 20px; /* compensate for missing breadcrumb */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+unauthorized i.glyphicon-lock {
+  margin-bottom: 20px;
+}
+
+unauthorized i.glyphicon-lock::before {
+  font-size: 70px;
+}

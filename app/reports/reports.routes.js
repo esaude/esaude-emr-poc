@@ -16,15 +16,21 @@
         $injector.get('$state').go('dashboard');
       });
 
-      $bahmniTranslateProvider.init({app: 'reports', shouldMerge: true});
+      const REPORTS_APP_ID = 'reports';
+      $bahmniTranslateProvider.init({app: REPORTS_APP_ID, shouldMerge: true});
 
       $stateProvider
+        .state('root', {
+          abstract: true,
+          data: {authorization: REPORTS_APP_ID},
+        })
         .state('dashboard', {
           url: '/dashboard',
           component: 'dashboard',
           ncyBreadcrumb: {
             label: '{{\'APP_REPORTS\' | translate}} /  {{\'DASHBOARD\' | translate}}'
-          }
+          },
+          parent: 'root',
         });
 
     }

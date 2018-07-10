@@ -181,4 +181,41 @@ describe('authorizationService', () => {
     });
 
   });
+
+  describe('isUserAuthorizedForApp', () => {
+
+    beforeEach(() => {
+      spyOn(sessionService, 'getSession').and.callFake(() => $q(resolve => resolve(session)));
+    });
+
+    it('should return true if user has role authorized for using app', () => {
+
+      const apps = [{id: 'reports', roles: ['Data Manager']}, {roles: ['Clinical Research Manager']}, {name: 'APP_REGISTRATION'}];
+
+      let authorized;
+      authorizationService.isUserAuthorizedForApp(apps, 'reports').then(isAuthorized => {
+        authorized = isAuthorized;
+      });
+
+      $rootScope.$apply();
+
+      expect(authorized).toBe(true);
+    });
+
+    it('should return false if user has no role authorized for using app', () => {
+
+      const apps = [{id: 'reports', roles: ['Data Manager']}, {id: 'clinic',roles: ['Clinical Research Manager']}, {name: 'APP_REGISTRATION'}];
+
+      let authorized;
+      authorizationService.isUserAuthorizedForApp(apps, 'clinic').then(isAuthorized => {
+        authorized = isAuthorized;
+      });
+
+      $rootScope.$apply();
+
+      expect(authorized).toBe(false);
+    });
+
+  });
+
 });

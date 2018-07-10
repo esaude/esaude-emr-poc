@@ -58,9 +58,9 @@ Scenario('Validate tab sequence', (I) => {
   I.click(registerPatientPage.tabs.contacts);
   I.see(tabSequenseMessage);
 
-  I.click(registerPatientPage.tabs.testing)
+  I.click(registerPatientPage.tabs.testing);
   I.see(tabSequenseMessage);
-})
+});
 
 Scenario('Validate Identifiers', (I) => {
   const identifierTypes = {
@@ -167,7 +167,7 @@ Scenario('Validate Identifiers', (I) => {
   addIdentifier(I, registerPatientPage, identifierTypes.BI);
   addIdentifier(I, registerPatientPage, identifierTypes.BI);
   I.see(registerPatientPage.translate('PATIENT_INFO_IDENTIFIER_ERROR_EXISTING'));
-})
+});
 
 Scenario('Register a patient', (I, Data, RegistrationDashboardPage) => {
   const patient = Data.patients.patient3;
@@ -231,7 +231,7 @@ Scenario('Register a patient', (I, Data, RegistrationDashboardPage) => {
   I.see(patient.identifiers[0].identifier3);
   I.see(patient.person.names[0].givenName);
   I.see(patient.person.names[0].familyName);
-})
+});
 
 // Clicks the next button without filling required fields
 const validateRequiredFields = (I, RegisterPatientPage, step, numOfVisibleElements) => {
@@ -241,14 +241,14 @@ const validateRequiredFields = (I, RegisterPatientPage, step, numOfVisibleElemen
   I.click(RegisterPatientPage.buttons.nextStep);
   // TODO: Find a way to check the required message is for a certain field
   I.seeNumberOfVisibleElements(errorMessageElement, numOfVisibleElements);
-}
+};
 
 const addIdentifier = (I, RegisterPatientPage, identifier) => {
   I.say(`${LOG_TAG} Adding ${identifier.label} identifier`);
   I.click(RegisterPatientPage.buttons.addIdentifier);
   I.selectOption(RegisterPatientPage.fields.identifierType, identifier.label);
   I.wait(1);
-}
+};
 
 const validateIdentifier = (I, RegisterPatientPage, identifier) => {
   const inputField = locate('input').withAttr({ placeholder: identifier.format });
@@ -278,4 +278,4 @@ const validateIdentifier = (I, RegisterPatientPage, identifier) => {
     I.fillField(inputField, identifier.values[identifier.values.length - 1]);
   }
   I.wait(1);
-}
+};
