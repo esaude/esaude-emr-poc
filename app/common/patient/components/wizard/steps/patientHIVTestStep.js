@@ -31,6 +31,7 @@
     function $onInit() {
       vm.patientWizard.setCurrentStep(vm);
       vm.patientAttributes = patientService.getPersonAttributesForStep('testing');
+      vm.datepickerOptions = {minDate: moment(vm.patient.birthdate).toDate(), maxDate: moment().toDate()};
     }
 
     function getName() {

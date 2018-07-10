@@ -44,7 +44,7 @@
     <input class="form-control" id="{{vm.attribute.name}}" type="text" uib-datepicker-popup
            ng-model="vm.person[vm.attribute.name]" ng-focus="focused=true" is-open="focused"
            name="{{vm.attribute.name}}"
-           datepicker-options="patientCommon.birthDatepickerOptions" ng-disabled="isReadOnly(attribute.name)"
+           datepicker-options="vm.datepickerOptions" ng-disabled="isReadOnly(attribute.name)"
            ng-required="{{vm.attribute.required}}"/>
   </div>
 </div>
