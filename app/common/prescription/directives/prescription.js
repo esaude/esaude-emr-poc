@@ -89,7 +89,6 @@
     vm.setPrescritpionItemStatus = setPrescritpionItemStatus;
     vm.checkActiveAndNewItemStatus = checkActiveAndNewItemStatus;
     vm.checkItemIsRefillable = checkItemIsRefillable;
-    vm.verifyDrugAvailability = verifyDrugAvailability;
 
     activate();
 
@@ -661,14 +660,16 @@
       return angular.element('#addProviderAndPrescriptionDateModel');
     }
 
-    function verifyDrugAvailability(drug){
-      drugService.getDrugStock(drug,sessionService.getCurrentLocation()).then(data => {
-        if(_.isEmpty(data.results)){
-         notifier.warning($filter('translate')('COMMON_MESSAGE_DRUG_WITHOUT_STOCK_AVAILABILITY'));;
-        }
-      }).catch(() => {
-        notifier.error($filter('translate')('COMMON_MESSAGE_EXCEPTION_REQUESTING_DRUG_STOCK_AVAILABILITY'));
-      });
+    function verifyDrugAvailability(drug) {
+      drugService.getDrugStock(drug, sessionService.getCurrentLocation())
+        .then(drugStock => {
+          if (_.isEmpty(drugStock)) {
+            notifier.warning($filter('translate')('COMMON_MESSAGE_DRUG_WITHOUT_STOCK_AVAILABILITY'));
+          }
+        })
+        .catch(() => {
+          notifier.error($filter('translate')('COMMON_MESSAGE_EXCEPTION_REQUESTING_DRUG_STOCK_AVAILABILITY'));
+        });
     }
   }
 

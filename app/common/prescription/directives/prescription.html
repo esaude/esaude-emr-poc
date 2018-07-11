@@ -96,20 +96,29 @@
                 </div>
               </div>
               <div class="form-group form-group-lg"
-                   ng-class="{'has-error': prescriptionForm.arvDrug.$invalid && vm.showMessages}"
+                   ng-class="{'has-error': prescriptionForm.arvDrug.$error.drugAvailable
+                                           || prescriptionForm.arvDrug.$invalid && vm.showMessages}"
                    ng-show="vm.prescriptionItem.isArv">
                 <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_DRUG'| translate}}:<span
                   class="asterick">*</span></label>
                 <div class="col-sm-9">
-                  <div ng-messages for="prescriptionForm.arvDrug.$error"
-                       ng-show="vm.showMessages">
+                  <div ng-messages for="prescriptionForm.arvDrug.$error">
+                    <span class="label label-danger" ng-message="drugAvailable">
+                      {{'COMMON_MESSAGE_DRUG_WITHOUT_STOCK_AVAILABILITY' | translate}}
+                    </span>
+                  </div>
+                  <div ng-messages for="prescriptionForm.arvDrug.$error" ng-show="vm.showMessages">
                     <div ng-messages-include="../common/application/views/error-messages.html"></div>
                   </div>
                   <select name="arvDrug" class="form-control" ng-model="vm.prescriptionItem.drugOrder.drug"
                           ng-options="arvDrug.display for arvDrug in vm.arvDrugs track by arvDrug.uuid"
-                          ng-change="vm.verifyDrugAvailability(vm.prescriptionItem.drugOrder.drug)" required>
+                          drug-availability-validator required>
                     <option></option>
                   </select>
+                  <div class="info">
+                    <img width="20px" src="../../images/loader.gif"
+                         ng-show="prescriptionForm.arvDrug.$pending.drugAvailable">
+                  </div>
                 </div>
               </div>
               <div class="form-group form-group-lg"
