@@ -248,14 +248,14 @@ describe('clinicalServicesService', () => {
     var openmrsUrl = "/openmrs/ws/rest/v1/clinicalservice";
     var response = [];
 
-    $httpBackend.expectPOST(openmrsUrl, {}).respond(response);
+    $http.expectPOST(openmrsUrl, {}).respond(response);
     
     var resolve;
     clinicalServicesService.updateService("001", encounter).then(response => {
       resolve = response;
     });
 
-    $httpBackend.flush();
+    $http.flush();
     expect(resolve).toEqual(response);
 
     });
