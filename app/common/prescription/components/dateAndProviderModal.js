@@ -25,9 +25,15 @@
     vm.showMessages = false;
     vm.selectedProvider = null;
 
+    vm.$onInit = $onInit;
     vm.ok = ok;
     vm.cancel = cancel;
     vm.searchProviders = searchProviders;
+
+    function $onInit() {
+      vm.selectedProvider = vm.resolve.selectedProvider;
+      vm.prescriptionDate = vm.resolve.prescriptionDate;
+    }
 
     function ok(form) {
 
@@ -44,7 +50,7 @@
     }
 
     function searchProviders(term) {
-      return providerService.getProviders(term)
+      return providerService.getProviders(term, {ignoreLoadingBar: true})
         .catch(() => {
           notifier.error($filter('translate')('COMMON_ERROR'));
         });

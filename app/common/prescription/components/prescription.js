@@ -192,32 +192,24 @@
 
 
     function openPrescriptionDateAndProviderModal() {
-      var modalInstance = $uibModal.open({component: 'dateAndProviderModal'});
+      const modalInstance = $uibModal.open({
+        component: 'dateAndProviderModal',
+        resolve: {
+          prescriptionDate: () => vm.prescriptionDate,
+          selectedProvider: () => vm.selectedProvider,
+        }
+      });
       return modalInstance.result;
     }
 
     function refill(item) {
-      var refill = $q.resolve();
-      var item = angular.copy(item);
-
-      if (vm.retrospectiveMode) {
-        refill = openPrescriptionDateAndProviderModal()
-          .then(({date, provider}) => {
-            vm.selectedProvider = provider;
-            vm.prescriptionDate = date;
-          });
-          // Do nothing if modal closed
+      const i = angular.copy(item);
+      i.drugOrder.dosingInstructions = {uuid: i.drugOrder.dosingInstructions};
+      if (i.regime) {
+        i.isArv = true;
       }
-
-      refill
-        .then(() => {
-          item.drugOrder.dosingInstructions = {uuid: item.drugOrder.dosingInstructions};
-          if (item.regime) {
-            item.isArv = true;
-          }
-          vm.listedPrescriptions.push(item);
-          vm.showNewPrescriptionsControlls = true;
-        });
+      vm.listedPrescriptions.push(i);
+      vm.showNewPrescriptionsControlls = true;
     }
 
 
@@ -236,8 +228,24 @@
       resetForm(form);
     }
 
-    function save(form) {
+    function save() {
 
+      let setDateAndProvider = $q.resolve();
+
+      if (vm.retrospectiveMode && (!vm.prescriptionDate || vm.selectedProvider.display === '')) {
+        setDateAndProvider = openPrescriptionDateAndProviderModal()
+          .then(({date, provider}) => {
+            vm.selectedProvider = provider;
+            vm.prescriptionDate = date;
+          });
+        // Do nothing if modal closed
+      }
+
+      setDateAndProvider
+        .then(() => _save());
+    }
+
+    function _save() {
       var prescription = {
         patient: {uuid: vm.patient.uuid},
         provider: {uuid: vm.selectedProvider && vm.selectedProvider.uuid},
@@ -274,7 +282,7 @@
       });
 
 
-      if(validateCreatePrescription(form, prescription)){
+      if(validateCreatePrescription(prescription)){
 
         prescriptionService.create(prescription)
           .then(() => {
@@ -299,12 +307,7 @@
       }
     }
 
-    function validateCreatePrescription(form, prescription){
-
-      if(form.selectedProvider && form.selectedProvider.$invalid)
-      {
-        return false;
-      }
+    function validateCreatePrescription(prescription) {
 
       if(hasActiveArvPrescriptionForNewArvItem(prescription)){
         notifier.error($filter('translate')('COMMON_MESSAGE_COULD_NOT_CREATE_ARV_PRESCRIPTION_BECAUSE_EXISTS_AN_ACTIVE_ARV_PRESCRIPTION'));
