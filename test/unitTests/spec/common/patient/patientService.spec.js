@@ -1,14 +1,13 @@
 describe('patientService', () => {
 
-  var patientService, $httpBackend, $rootScope, openmrsPatientMapper, reportService, prescriptionService,
+  var patientService, $httpBackend, $rootScope, openmrsPatientMapper, reportService,
     updatePatientMapper, appService;
 
   beforeEach(module('common.patient'));
 
-  beforeEach(inject((_patientService_, _prescriptionService_, _reportService_, _$rootScope_,
-    _$httpBackend_, _openmrsPatientMapper_, _updatePatientMapper_, _appService_) => {
+  beforeEach(inject((_patientService_, _reportService_, _$rootScope_,
+                     _$httpBackend_, _openmrsPatientMapper_, _updatePatientMapper_, _appService_) => {
     patientService = _patientService_;
-    prescriptionService = _prescriptionService_;
     reportService = _reportService_;
     $rootScope = _$rootScope_;
     $httpBackend = _$httpBackend_;
@@ -184,7 +183,7 @@ describe('patientService', () => {
           identifier: "12345678/12/12345",
           identifierType: { uuid: "e2b966d0-1d5f-11e0-b929-000c29ad1d07" }
         }]
-    }
+    };
 
     it('should not create patient when NID already exist', () => {
 

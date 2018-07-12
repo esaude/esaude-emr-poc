@@ -57,8 +57,11 @@
           }
         })
         .state('dashboard.prescriptions', {
-          url: '/prescription',
-          templateUrl: 'views/patient-simplified-prescriptions.html',
+          component: 'prescription',
+          resolve: {
+            patient: ($stateParams, initialization, patientService) => patientService.getPatient($stateParams.patientUuid),
+            retrospectiveMode: () => true
+          },
           ncyBreadcrumb: {
             label: '{{\'CLINIC_PATIENT_PRESCRIPTIONS\' | translate}}',
             parent: 'dashboard',

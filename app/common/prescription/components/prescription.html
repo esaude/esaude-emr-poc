@@ -1,7 +1,6 @@
 <poc-authorize privilege="'Write Drug Prescription'" display-info="true">
-  <div class="row content-border-margin-regular" ng-init="vm.selectedProvider = null">
+  <div class="row content-border-margin-regular">
     <div class="col-sm-5">
-
       <div>
         <form name="prescriptionForm" class="form-horizontal" autocomplete="off">
 
@@ -46,7 +45,7 @@
                       <div ng-messages-include="../common/application/views/error-messages.html"></div>
                     </div>
                     <input name="selectedProvider"
-                           uib-typeahead="p as p.display for p in vm.providers | filter:vm.selectedProvider"
+                           uib-typeahead="p as p.display for p in vm.searchProviders($viewValue)"
                            type="text"
                            ng-model="vm.selectedProvider"
                            id="provider" class="form-control keyboard-in" required/>
@@ -60,14 +59,25 @@
               <div class="list-group-item list-group-item-success">
                 <checkbox largest
                           name="drugType"
-                          ng-model="vm.prescriptionItem.isArv"
-                          ng-change="vm.cleanDrugIfUnchecked()">
+                          ng-model="vm.regimen.isArv"
+                          ng-change="vm.cleanDrugIfUnchecked()"
+                          ng-disabled="vm.listedPrescriptions.length">
                 </checkbox>
                 {{'COMMON_MESSAGE_QUESTION_CREATE_ARV_PRESCRIPTION_ITEM' | translate}}
               </div>
             </div>
           </div>
-          <div ng-include src="'../common/prescription/views/prescription-arv.html'"></div>
+
+          <arv-regimen ng-if="vm.regimen.isArv"
+                       patient="vm.patient"
+                       regimen="vm.regimen"
+                       prescription-conv-set="vm.prescriptionConvSet"
+                       disabled="vm.listedPrescriptions.length"
+                       on-therapeutic-line-change="vm.onTherapeuticLineChange(therapeuticLine);"
+                       on-art-plan-change="vm.onArtPlanChange(artPlan);"
+                       on-drug-regimen-change="vm.onDrugRegimenChange(drugRegimen);">
+          </arv-regimen>
+
           <div class="panel panel-primary panel-marginless-sides">
             <div class="panel-heading">
               <h3 class="panel-title">{{'CLINIC_PRESCRIPTION_DRUG'| translate}}</h3>
@@ -76,7 +86,7 @@
 
               <div class="form-group form-group-lg"
                    ng-class="{'has-error': prescriptionForm.drug.$invalid && vm.showMessages}"
-                   ng-show="!vm.prescriptionItem.isArv">
+                   ng-show="!vm.regimen.isArv">
                 <label class="col-sm-3 control-label">
                   {{'CLINIC_PRESCRIPTION_DRUG'| translate}}:<span class="asterick">*</span>
                 </label>
@@ -97,7 +107,7 @@
               </div>
               <div class="form-group form-group-lg"
                    ng-class="{'has-error': prescriptionForm.arvDrug.$invalid && vm.showMessages}"
-                   ng-show="vm.prescriptionItem.isArv">
+                   ng-show="vm.regimen.isArv">
                 <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_DRUG'| translate}}:<span
                   class="asterick">*</span></label>
                 <div class="col-sm-9">
@@ -141,7 +151,7 @@
                     <div ng-messages-include="../common/application/views/error-messages.html"></div>
                   </div>
                   <select name="dosingUnits" class="form-control" ng-model="vm.prescriptionItem.drugOrder.doseUnits"
-                          ng-options="unit.display for unit in vm.fieldModels.dosingUnits.model.answers track by unit.uuid"
+                          ng-options="unit.display for unit in vm.prescriptionConvSet.dosingUnits.answers track by unit.uuid"
                           required>
                     <option></option>
                   </select>
@@ -158,7 +168,7 @@
                   </div>
                   <select name="dosgeFrequency" class="form-control"
                           ng-model="vm.prescriptionItem.drugOrder.frequency"
-                          ng-options="frequency.display for frequency in vm.fieldModels.dosgeFrequency.model.answers track by frequency.uuid"
+                          ng-options="frequency.display for frequency in vm.prescriptionConvSet.dosgeFrequency.answers track by frequency.uuid"
                           required>
                     <option></option>
                   </select>
@@ -174,7 +184,7 @@
                     <div ng-messages-include="../common/application/views/error-messages.html"></div>
                   </div>
                   <select name="drugRoute" class="form-control" ng-model="vm.prescriptionItem.drugOrder.route"
-                          ng-options="route.display for route in vm.fieldModels.drugRoute.model.answers track by route.uuid"
+                          ng-options="route.display for route in vm.prescriptionConvSet.drugRoute.answers track by route.uuid"
                           required>
                     <option></option>
                   </select>
@@ -206,7 +216,7 @@
                   </div>
                   <select name="durationUnits" class="form-control"
                           ng-model="vm.prescriptionItem.drugOrder.durationUnits"
-                          ng-options="durationUnit.display for durationUnit in vm.fieldModels.durationUnits.model.answers track by durationUnit.uuid"
+                          ng-options="durationUnit.display for durationUnit in vm.prescriptionConvSet.durationUnits.answers track by durationUnit.uuid"
                           required>
                     <option></option>
                   </select>
@@ -223,7 +233,7 @@
                   </div>
                   <select name="dosingInstructions" class="form-control"
                           ng-model="vm.prescriptionItem.drugOrder.dosingInstructions"
-                          ng-options="instruction.display for instruction in vm.fieldModels.dosingInstructions.model.answers track by instruction.uuid"
+                          ng-options="instruction.display for instruction in vm.prescriptionConvSet.dosingInstructions.answers track by instruction.uuid"
                           required>
                     <option></option>
                   </select>
@@ -238,7 +248,7 @@
                 <span class="button-label">{{'CLEAR' | translate}}</span>
               </button>
               <button class="btn btn-primary btn-lg" type="button"
-                      ng-click="vm.add(prescriptionForm.$valid, prescriptionForm)">
+                      ng-click="vm.add(prescriptionForm)">
                 <span class="glyphicon glyphicon-plus"></span>
                 <span class="button-label">{{'ADD' | translate}}</span>
               </button>
@@ -249,7 +259,6 @@
     </div>
 
     <div class="col-sm-7">
-
       <div class="panel panel-primary panel-marginless-sides">
         <div class="panel-heading">
           <h3 class="panel-title">{{'CLINIC_PRESCRIPTION_NEW'| translate}}</h3>
@@ -257,16 +266,14 @@
         <div class="list-group">
           <div class="list-group-item list-group-item-success" ng-repeat="item in vm.listedPrescriptions">
             <span>
-                <strong>{{item.drugOrder.drug.display}}</strong>
-                 <span ng-if="item.regime">
-                  <strong ng-if="item.regime">
-                        ({{item.regime.display}}
-                  </strong> : {{item.therapeuticLine.display}})-
-                </span>
-                {{item.drugOrder.dose}}
-                {{item.drugOrder.doseUnits.display}}, {{item.drugOrder.frequency.display}},
-                {{item.drugOrder.route.display}} - {{item.drugOrder.duration}}
-                {{item.drugOrder.durationUnits.display}}, {{item.drugOrder.dosingInstructions.display}}
+              <strong>{{item.drugOrder.drug.display}}</strong>
+              <span ng-if="item.regime">
+               <strong ng-if="item.regime">({{item.regime.display}}</strong> : {{item.therapeuticLine.display}})-
+            </span>
+              {{item.drugOrder.dose}}
+              {{item.drugOrder.doseUnits.display}}, {{item.drugOrder.frequency.display}},
+              {{item.drugOrder.route.display}} - {{item.drugOrder.duration}}
+              {{item.drugOrder.durationUnits.display}}, {{item.drugOrder.dosingInstructions.display}}
             </span>
             <span ng-if="item.regime && item.arvPlan">
                 <strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN'| translate}}:</strong> {{item.arvPlan.display}}
@@ -281,19 +288,17 @@
                 <strong>{{'CLINIC_PRESCRIPTION_ARV_CHANGE_FOR'| translate}}:</strong> {{item.changeReason.display}}
             </span>
             <span>
-                <button type="button" class="close btn-lg content-border-margin-regular-sides"
-                        ng-click="vm.remove(item)">
-                    <span class="glyphicon glyphicon-remove-circle"></span>
-                </button>
-                <button type="button" class="close btn-lg content-border-margin-regular-sides"
-                        ng-click="vm.edit(item)">
-                    <span class="glyphicon glyphicon-pencil"></span>
-                </button>
+              <button type="button" class="close btn-lg content-border-margin-regular-sides"
+                      ng-click="vm.remove(item)">
+                <span class="glyphicon glyphicon-remove-circle"></span>
+              </button>
+              <button type="button" class="close btn-lg content-border-margin-regular-sides"
+                      ng-click="vm.edit(item)">
+                <span class="glyphicon glyphicon-pencil"></span>
+              </button>
             </span>
           </div>
-
         </div>
-
 
         <div class="panel-footer go-to-right" ng-show="vm.showNewPrescriptionsControlls">
           <poc-confirm-button class="btn btn-danger btn-lg" on-confirm="vm.removeAll()"
@@ -302,13 +307,7 @@
             <span class="button-label">{{'REMOVE_ALL' | translate}}</span>
           </poc-confirm-button>
           <span ng-if="!vm.removingItems">
-          <button class="btn btn-primary btn-lg" type="button" ng-click="vm.save(prescriptionForm)"
-                  ng-hide="!vm.selectedProvider.uuid">
-            <span class="glyphicon glyphicon-floppy-disk"></span>
-            <span class="button-label">{{'SAVE' | translate}}</span>
-          </button>
-          <button class="btn btn-primary btn-lg" type="button" ng-click="vm.save(prescriptionForm)" data-toggle="modal"
-                  data-target="#addProviderAndPrescriptionDateModel" ng-hide="vm.selectedProvider.uuid">
+          <button class="btn btn-primary btn-lg" type="button" ng-click="vm.save(prescriptionForm)">
             <span class="glyphicon glyphicon-floppy-disk"></span>
             <span class="button-label">{{'SAVE' | translate}}</span>
           </button>
@@ -317,7 +316,7 @@
       </div>
 
       <poc-authorize privilege="'Read Drug Prescription'">
-        <div class="panel panel-primary panel-marginless-sides" ng-init="vm.initPrescriptions()">
+        <div class="panel panel-primary panel-marginless-sides">
           <div class="panel-heading">
             <h3 class="panel-title">{{'CLINIC_PRESCRIPTION_PRESCRIBED'| translate}}</h3>
           </div>
@@ -327,70 +326,58 @@
               {{existingPrescription.prescriptionDate | date}}
             </div>
             <div class="list-group-item" ng-repeat="item in existingPrescription.prescriptionItems">
-           <span>
-              <strong>{{item.drugOrder.drug.display}}</strong>
+                <span>
+                  <strong>{{item.drugOrder.drug.display}}</strong>
+                  <span ng-if="item.regime">
+                    <strong ng-if="item.regime">({{item.regime.display}}</strong> : {{item.therapeuticLine.display}})-
+                  </span>
+                  {{item.drugOrder.dose}} {{item.drugOrder.doseUnits.display}}, {{item.drugOrder.frequency.display}},
+                  {{item.drugOrder.route.display}} - {{item.drugOrder.duration}} {{item.drugOrder.durationUnits.display}},
+                  {{item.dosingInstructions}}
+                </span>
               <span ng-if="item.regime">
-              <strong ng-if="item.regime">
-              ({{item.regime.display}}
-              </strong> : {{item.therapeuticLine.display}})-
-              </span>
-              {{item.drugOrder.dose}}
-              {{item.drugOrder.doseUnits.display}}, {{item.drugOrder.frequency.display}},
-              {{item.drugOrder.route.display}} - {{item.drugOrder.duration}}
-              {{item.drugOrder.durationUnits.display}}, {{item.dosingInstructions}}
-            </span>
-              <span ng-if="item.regime">
-            (<strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN'| translate}}:</strong> {{item.arvPlan.display}})
-          </span>
+                  (<strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN'| translate}}:</strong>{{item.arvPlan.display}})
+                </span>
               <span ng-if="item.isProphilaxy">
-              <strong>{{'CLINIC_PRESCRIPTION_PROPHYLAXIS_PLAN'| translate}}:</strong> {{item.prophilaxyPlan.display}}
-          </span>
+                  <strong>{{'CLINIC_PRESCRIPTION_PROPHYLAXIS_PLAN'| translate}}:</strong> {{item.prophilaxyPlan.display}}
+                </span>
               <span ng-if="item.regime && item.interruptionReason">
-            <strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN_INTERRUPDED_FOR'| translate}}:</strong> {{item.interruptionReason.display}}
-          </span>
+                  <strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN_INTERRUPDED_FOR'| translate}}:</strong> {{item.interruptionReason.display}}
+                </span>
               <span ng-if="item.regime && existingPrescription.changeReason">
-            <strong>{{'CLINIC_PRESCRIPTION_ARV_CHANGE_FOR'| translate}}:</strong> {{existingPrescription.changeReason.display}}
-          </span>
+                  <strong>{{'CLINIC_PRESCRIPTION_ARV_CHANGE_FOR'| translate}}:</strong> {{existingPrescription.changeReason.display}}
+                </span>
               <span style="color:green;" ng-hide="!vm.checkActiveAndNewItemStatus(item)">
-            <strong>
-              {{item.statusStranslate | translate}}
-            </strong>
-          </span>
+                  <strong>{{item.statusStranslate | translate}}</strong>
+                </span>
               <span style="color:orange;" ng-hide="vm.checkActiveAndNewItemStatus(item)">
-            <strong>
-              {{item.statusStranslate | translate}}
-            </strong>
-          </span>
-              <span>
-            <poc-authorize privilege="'Delete Drug Prescription'">
-              <button type="button" class="close btn-lg content-border-margin-regular-sides"
-                      ng-click="vm.setPrescriptionItemToCancel(item)" data-toggle="modal"
-                      data-target="#cancelPrescriptionModal" ng-hide="!item.cancellable">
-              <span class="glyphicon glyphicon-trash" ng-hide="item.status != 'NEW' "></span>
-              <span class="glyphicon glyphicon-floppy-remove" ng-hide="!item.interruptible"></span>
-              <span class="button-label" ng-hide="item.status != 'NEW' ">{{'CANCEL' | translate}}</span>
-              <span class="button-label" ng-hide="!item.interruptible">{{'DISCONTINUE' | translate}}</span>
-            </button>
-            </poc-authorize>
-            <poc-authorize privilege="'Write Drug Prescription'">
-              <button type="button" class="close btn-lg content-border-margin-regular-sides"
-                      ng-click="vm.refill(item)" ng-hide="!vm.checkItemIsRefillable(existingPrescription)">
-                <span class="glyphicon glyphicon-repeat"></span>
-                <span class="button-label">{{'REFILL' | translate}}</span>
-              </button>
-            </poc-authorize>
-          </span>
+                  <strong>
+                    {{item.statusStranslate | translate}}
+                  </strong>
+                </span>
+              <poc-authorize privilege="'Delete Drug Prescription'">
+                <button type="button" class="close btn-lg content-border-margin-regular-sides"
+                        ng-click="vm.cancelOrStop(item)" ng-hide="!item.cancellable">
+                  <span class="glyphicon glyphicon-trash" ng-hide="item.status != 'NEW' "></span>
+                  <span class="glyphicon glyphicon-floppy-remove" ng-hide="!item.interruptible"></span>
+                  <span class="button-label" ng-hide="item.status != 'NEW' ">{{'CANCEL' | translate}}</span>
+                  <span class="button-label" ng-hide="!item.interruptible">{{'DISCONTINUE' | translate}}</span>
+                </button>
+              </poc-authorize>
+              <poc-authorize privilege="'Write Drug Prescription'">
+                <button type="button" class="close btn-lg content-border-margin-regular-sides"
+                        ng-click="vm.refill(item)" ng-hide="!vm.checkItemIsRefillable(existingPrescription)">
+                  <span class="glyphicon glyphicon-repeat"></span>
+                  <span class="button-label">{{'REFILL' | translate}}</span>
+                </button>
+              </poc-authorize>
             </div>
           </div>
         </div>
       </poc-authorize>
 
-
     </div>
+
   </div>
 
 </poc-authorize>
-
-<!-- modal dialogs -->
-<div ng-include src="'../common/prescription/views/cancel-prescription.html'"></div>
-<div ng-include src="'../common/prescription/views/modal-provider-and-prescription-date.html'"></div>

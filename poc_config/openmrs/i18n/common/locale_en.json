@@ -308,7 +308,7 @@
     "COMMON_MESSAGE_ERROR_EXISTIS_ACTIVE_PRESCRIPTION_FOR_ENTERED_ITEM": "There is already a prescription for the item {{EXISTING_ITEM}}. Dispense completely before creating a new one.",
     "COMMON_MESSAGE_ERROR_EXISTIS_ACTIVE_PRESCRIPTIONS_FOR_ENTERED_ITEMS": "There is already a prescription(s) for the item(s) {{EXISTING_ITEM}}. Dispense completely before creating a new one.",
     "COMMON_MESSAGE_ERROR_ENTER_PROVIDER_THEN_PRESS_SAVE_BUTTON": "Enter the provider and press the button to save the prescription",
-    "COMMON_MESSAGE_QUESTION_CREATE_ARV_PRESCRIPTION_ITEM": "Create ARV prescription item?",
+    "COMMON_MESSAGE_QUESTION_CREATE_ARV_PRESCRIPTION_ITEM": "Create ARV prescription?",
     "HELP": "Help",
     "NEXT_STEP": "Next",
     "PREVIOUS_STEP": "Back",

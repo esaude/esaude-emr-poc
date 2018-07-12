@@ -6,7 +6,6 @@ describe('pharmacy.routes', () => {
 
   let patientService, $location, $rootScope, $state, authorizationService, $q, $httpBackend, applicationService, sessionService;
 
-
   beforeEach(module('pharmacy', ($provide, $translateProvider) => {
     // Mock translate asynchronous loader
     $provide.factory('mergeLocaleFilesService', $q => () => {
@@ -88,14 +87,9 @@ describe('pharmacy.routes', () => {
 
       it('should redirect to prescriptions for independent pharmacists', () => {
 
-        // TODO just remove after refactoring prescription
-        $httpBackend.expectGET('views/patient-simplified-prescriptions.html').respond('');
-
         spyOn(authorizationService, 'hasRole').and.callFake(() => $q.resolve(true));
 
         $location.url(`/dashboard/${patient.uuid}`);
-
-        $httpBackend.flush();
 
         $rootScope.$apply();
 
