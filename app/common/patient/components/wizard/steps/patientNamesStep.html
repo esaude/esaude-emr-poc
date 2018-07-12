@@ -20,7 +20,7 @@
                  ng-model="vm.patient.givenName"
                  placeholder="{{'PATIENT_INFO_NAME_PLACEHOLDER' | translate}}" title="Enter patient's first name."
                  my-autocomplete source="vm.getAutoCompleteList" response-map="vm.getDataResults"
-                 data-item-type="personName" ng-pattern="/^[a-zÀ-ú ,.'-]+$/i" ng-maxlength="50"
+                 data-item-type="personName" ng-pattern="/^[a-zÀ-ú ,.'-]+$/i" ng-maxlength="50" maxlength="50"
                  required>
         </div>
       </div>
@@ -37,7 +37,7 @@
           <input type="text" class="form-control keyboard-in" id="patientSurname" name="patientSurname"
                  ng-model="vm.patient.familyName"
                  placeholder="{{'PATIENT_INFO_SURNAME_PLACEHOLDER' | translate}}" title="Enter patient's last name."
-                 ng-pattern="/^[a-zÀ-ú ,.'-]+$/i" ng-maxlength="50" required>
+                 ng-pattern="/^[a-zÀ-ú ,.'-]+$/i" ng-maxlength="50" maxlength="50" required>
         </div>
       </div>
 
