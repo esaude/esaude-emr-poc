@@ -248,7 +248,7 @@ describe('clinicalServicesService', () => {
     var openmrsUrl = "/openmrs/ws/rest/v1/clinicalservice";
     var response = [];
 
-    $http.expectPOST(openmrsUrl, {}).respond(response);
+    $http.expectPOST(openmrsUrl+ "/" +encounter.uuid, encounter).respond(response);
     
     var resolve;
     clinicalServicesService.updateService("001", encounter).then(response => {
