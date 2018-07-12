@@ -240,10 +240,26 @@ describe('clinicalServicesService', () => {
 
   });
 
+  describe('updateService: rest call using GET method to POC module that performs the logic of updating OBS wich consists in void the previous one and insert de newer', () => {
 
+    it('should update an encounter', () => {
+  
+    var encounter = {uuid:  "123"};
+    var openmrsUrl = "/openmrs/ws/rest/v1/clinicalservice";
+    var response = [];
 
+    $httpBackend.expectPOST(openmrsUrl, {}).respond(response);
+    
+    var resolve;
+    clinicalServicesService.updateService("001", encounter).then(response => {
+      resolve = response;
+    });
 
+    $httpBackend.flush();
+    expect(resolve).toEqual(response);
 
+    });
+  });
 
   describe('init with contraints', () => {
 
