@@ -274,7 +274,7 @@ describe('prescription', () => {
         display: "Local Desconhecido"
       });
 
-      spyOn(drugService, 'getDrugStock').and.callFake(() => $q(resolve => resolve([])));
+      spyOn(drugService, 'isDrugAvailable').and.returnValue($q.resolve(false));
 
     });
 
