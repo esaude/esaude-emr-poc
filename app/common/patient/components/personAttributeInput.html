@@ -3,13 +3,13 @@
   <div data-ng-switch-when="java.lang.String">
         <span data-ng-switch="isAutoComplete(attribute.name)">
             <input class="form-control keyboard-in" data-ng-switch-when="true" name="{{vm.attribute.name}}"
-                   type="text" id="{{vm.attribute.name}}" ng-maxlength="50"
+                   type="text" id="{{vm.attribute.name}}" ng-maxlength="50" maxlength="50"
                    ng-model="vm.person[vm.attribute.name]" data-item-type="personAttribute"
                    my-autocomplete source="getAutoCompleteList" response-map="getDataResults"
                    ng-disabled="isReadOnly(vm.attribute.name)" ng-required="{{vm.attribute.required}}">
 
             <input class="form-control keyboard-in" data-ng-switch-default name="{{vm.attribute.name}}"
-                   type="text" pattern-validate id="{{vm.attribute.name}}" ng-maxlength="50"
+                   type="text" pattern-validate id="{{vm.attribute.name}}" ng-maxlength="50" maxlength="50"
                    ng-model="vm.person[vm.attribute.name]" data-item-type="personAttribute"
                    ng-disabled="isReadOnly(attribute.name)" ng-required="{{vm.attribute.required}}">
         </span>
@@ -44,7 +44,7 @@
     <input class="form-control" id="{{vm.attribute.name}}" type="text" uib-datepicker-popup
            ng-model="vm.person[vm.attribute.name]" ng-focus="focused=true" is-open="focused"
            name="{{vm.attribute.name}}"
-           datepicker-options="patientCommon.birthDatepickerOptions" ng-disabled="isReadOnly(attribute.name)"
+           datepicker-options="vm.datepickerOptions" ng-disabled="isReadOnly(attribute.name)"
            ng-required="{{vm.attribute.required}}"/>
   </div>
 </div>

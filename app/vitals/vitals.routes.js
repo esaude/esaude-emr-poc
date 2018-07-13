@@ -16,14 +16,22 @@
       $injector.get('$state').go('search');
     });
 
-    $bahmniTranslateProvider.init({app: 'vitals', shouldMerge: true});
+    const VITALS_APP_ID = 'vitals';
+    $bahmniTranslateProvider.init({app: VITALS_APP_ID, shouldMerge: true});
 
     $stateProvider
+      .state('root', {
+        abstract: true,
+        data: {authorization: VITALS_APP_ID},
+        resolve: {
+          initialization: 'initialization',
+        }
+      })
       .state('search', {
         url: '/search',
         component: 'patientSearch',
+        parent: 'root',
         resolve: {
-          initialization: 'initialization',
           createPatient: () => false,
           showSchedule: () => false,
         },
@@ -34,8 +42,8 @@
       .state('dashboard', {
         url: '/dashboard/:patientUuid',
         component: 'dashboard',
+        parent: 'root',
         resolve: {
-          initialization: 'initialization',
           patient: (initialization, $stateParams, patientService) => {
             // We need initialization to always resolve first
             return patientService.getPatient($stateParams.patientUuid);
@@ -50,7 +58,6 @@
         url: '/clinicalservices',
         component: 'clinicalServices',
         resolve: {
-          initialization: 'initialization',
           clinicalServicesService: (initialization, clinicalServicesService, $stateParams) => {
             // We need initialization to always resolve first
             return clinicalServicesService.init('vitals', $stateParams.patientUuid);
@@ -71,9 +78,7 @@
         params: {
           returnState: null
         },
-        resolve: {
-          initialization: 'initialization'
-        }
+        parent: 'root',
       });
 
   }

@@ -1,0 +1,198 @@
+<div class="panel panel-primary panel-marginless-sides">
+
+  <div class="panel-heading">
+    <h3 class="panel-title">{{'CLINIC_PRESCRIPTION_CURRENT_REGIMEN'| translate}}</h3>
+  </div>
+
+  <div class="panel-body">
+    <div ng-form="form" class="form-horizontal">
+      <!-- Therapeutic Line elements -->
+      <div class="form-group form-group-lg"
+           ng-class="{'has-error': form.therapeuticLine.$invalid && vm.showMessages}">
+        <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_THERAPEUTIC_LINE'| translate}}:<span
+          class="asterick">*</span></label>
+        <div ng-show="!vm.isTheraupeuticLineEdit">
+          <div class="col-sm-7 default-border-bottom">
+            <label class="control-label">{{vm.$regimen.therapeuticLine.display}}</label>
+          </div>
+          <div class="col-sm-2">
+            <button class="btn btn-default btn-lg" type="button" ng-click="vm.isTheraupeuticLineEdit = true" ng-disabled="vm.disabled">
+              <span class="glyphicon glyphicon-pencil"></span>
+            </button>
+          </div>
+        </div>
+        <!-- edit mode -->
+        <div ng-show="vm.isTheraupeuticLineEdit">
+          <div class="col-sm-7">
+            <div ng-messages for="form.therapeuticLine.$error" ng-show="vm.showMessages"></div>
+            <select name="therapeuticLine" class="form-control" ng-model="vm.$regimen.therapeuticLine"
+                    ng-options="line.display for line in vm.prescriptionConvSet.therapeuticLine.answers"
+                    ng-change="vm.onTherapeuticLineChange(vm.$regimen.therapeuticLine);">
+              <option></option>
+            </select>
+          </div>
+          <div class="col-sm-2">
+            <button class="btn btn-warning btn-lg" type="button" ng-click="vm.isTheraupeuticLineEdit = false">
+              <span class="glyphicon glyphicon-minus-sign"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Regimen elements -->
+      <div class="form-group form-group-lg"
+           ng-class="{'has-error': form.regime.$invalid && vm.showMessages}">
+        <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_REGIMEN'| translate}}:<span
+          class="asterick">*</span></label>
+        <div ng-show="!vm.isDrugRegimenEdit">
+          <div class="col-sm-7 default-border-bottom">
+            <label class="control-label">{{vm.$regimen.drugRegimen.display}}<span
+              ng-if="!vm.$regimen.drugRegimen">N/A</span></label>
+          </div>
+          <div class="col-sm-2">
+            <button class="btn btn-default btn-lg" type="button" ng-click="vm.isDrugRegimenEdit = true" ng-disabled="vm.disabled">
+              <span class="glyphicon glyphicon-pencil"></span>
+            </button>
+          </div>
+        </div>
+        <!-- edit mode -->
+        <div ng-show="vm.isDrugRegimenEdit">
+          <div class="col-sm-7">
+            <div ng-messages for="form.regime.$error"
+                 ng-show="vm.showMessages">
+              <div ng-messages-include="../common/application/views/error-messages.html"></div>
+            </div>
+            <select name="regime" class="form-control" ng-model="vm.$regimen.drugRegimen"
+                    ng-options="regime.display for regime in vm.therapeuticLineRegimens.answers | orderBy:'display'"
+                    ng-change="vm._onDrugRegimenChange(vm.$regimen.drugRegimen);">
+              <option></option>
+            </select>
+          </div>
+          <div class="col-sm-2">
+            <button class="btn btn-warning btn-lg" type="button" ng-click="vm.isDrugRegimenEdit = false"
+                    ng-disabled="vm.isDrugRegimenEditCancel">
+              <span class="glyphicon glyphicon-minus-sign"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Regimen change reason elements -->
+      <div class="form-group form-group-lg"
+           ng-class="{'has-error': form.changeReason.$invalid && vm.showMessages}"
+           ng-show="vm.$regimen.isDrugRegimenChanged">
+        <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_ARV_CHANGE_REASON_REASON'| translate}}:<span
+          class="asterick">*</span></label>
+        <div ng-show="!vm.isDrugRegimenEdit">
+          <div class="col-sm-7 default-border-bottom">
+            <label class="control-label"><span ng-if="vm.$regimen.changeReason">{{vm.$regimen.changeReason.display}}</span><span
+              ng-if="!vm.$regimen.changeReason">N/A</span></label>
+          </div>
+          <div class="col-sm-2">
+            <button class="btn btn-default btn-lg" type="button" ng-click="vm.isDrugRegimenEdit = true" ng-disabled="vm.disabled">
+              <span class="glyphicon glyphicon-pencil"></span>
+            </button>
+          </div>
+        </div>
+        <!-- edit mode -->
+        <div ng-show="vm.isDrugRegimenEdit">
+          <div class="col-sm-7">
+            <div ng-messages for="form.changeReason.$error"
+                 ng-show="vm.showMessages">
+              <div ng-messages-include="../common/application/views/error-messages.html"></div>
+            </div>
+            <select name="changeReason" class="form-control" ng-model="vm.$regimen.changeReason"
+                    ng-options="reason.display for reason in vm.prescriptionConvSet.changeReason.answers | orderBy:'display'"
+                    ng-required="vm.$regimen.isPlanChanged"
+                    ng-change="vm.onDrugRegimenChangeReasonChange(vm.$regimen.changeReason);">
+              <option></option>
+            </select>
+          </div>
+          <div class="col-sm-2">
+            <button class="btn btn-warning btn-lg" type="button" ng-click="vm.isDrugRegimenEdit = false"
+                    ng-disabled="vm.$regimen.isDrugRegimenChanged">
+              <span class="glyphicon glyphicon-minus-sign"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ARV Plan elements -->
+      <div class="form-group form-group-lg"
+           ng-class="{'has-error': form.artPlan.$invalid && vm.showMessages}">
+        <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_ARV_PLAN'| translate}}:</label>
+        <div ng-show="!vm.isArvPlanEdit">
+          <div class="col-sm-7 default-border-bottom">
+            <label class="control-label"><span ng-if="vm.$regimen.artPlan">{{vm.$regimen.artPlan.display}}</span><span
+              ng-if="!vm.$regimen.artPlan">N/A</span></label>
+          </div>
+          <div class="col-sm-2">
+            <button class="btn btn-default btn-lg" type="button" ng-click="vm.isArvPlanEdit = true" ng-disabled="vm.disabled">
+              <span class="glyphicon glyphicon-pencil"></span>
+            </button>
+          </div>
+        </div>
+        <!-- edit mode -->
+        <div ng-show="vm.isArvPlanEdit">
+          <div class="col-sm-7">
+            <div ng-messages for="form.artPlan.$error"
+                 ng-show="vm.showMessages">
+              <div ng-messages-include="../common/application/views/error-messages.html"></div>
+            </div>
+            <select name="artPlan" class="form-control" ng-model="vm.$regimen.artPlan"
+                    ng-options="plan.display for plan in vm.prescriptionConvSet.artPlan.answers | orderBy:'display'"
+                    ng-change="vm.onArtPlanChange(vm.$regimen.artPlan);">
+              <option></option>
+            </select>
+          </div>
+          <div class="col-sm-2">
+            <button class="btn btn-warning btn-lg" type="button" ng-click="vm.isArvPlanEdit = false">
+              <span class="glyphicon glyphicon-minus-sign"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ARV Plan interrupting reason elements -->
+      <div class="form-group form-group-lg"
+           ng-class="{'has-error': form.interruptedReason.$invalid && vm.showMessages}"
+           ng-show="vm.$regimen.isPlanInterrupted">
+        <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_ARV_PLAN_INTERRUPDED_REASON'| translate}}:<span
+          class="asterick">*</span></label>
+        <div ng-show="!vm.isArtPlanInterruptedEdit">
+          <div class="col-sm-7 default-border-bottom">
+            <label class="control-label"><span ng-if="vm.$regimen.interruptedReason">{{vm.$regimen.interruptedReason.display}}</span><span
+              ng-if="!vm.$regimen.interruptedReason">N/A</span></label>
+          </div>
+          <div class="col-sm-2">
+            <button class="btn btn-default btn-lg" type="button" ng-click="vm.isArtPlanInterruptedEdit = true" ng-disabled="vm.disabled">
+              <span class="glyphicon glyphicon-pencil"></span>
+            </button>
+          </div>
+        </div>
+        <!-- edit mode -->
+        <div ng-show="vm.isArtPlanInterruptedEdit">
+          <div class="col-sm-7">
+            <div ng-messages for="form.interruptedReason.$error"
+                 ng-show="vm.showMessages">
+              <div ng-messages-include="../common/application/views/error-messages.html"></div>
+            </div>
+            <select name="interruptedReason" class="form-control" ng-model="vm.$regimen.interruptedReason"
+                    ng-options="reason.display for reason in vm.prescriptionConvSet.interruptedReason.answers | orderBy:'display'"
+                    ng-required="vm.isPlanInterrupted"
+                    ng-change="vm.isArtPlanInterruptedEdit = false; vm.isArvPlanEdit = false;">
+              <option></option>
+            </select>
+          </div>
+          <div class="col-sm-2">
+            <button class="btn btn-warning btn-lg" type="button" ng-click="vm.isArtPlanInterruptedEdit = false"
+                    ng-disabled="vm.$regimen.isPlanInterrupted">
+              <span class="glyphicon glyphicon-minus-sign"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

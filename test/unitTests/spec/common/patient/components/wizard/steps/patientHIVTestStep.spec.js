@@ -24,14 +24,17 @@ describe('patientHIVTestStep', () => {
 
   describe('$onInit', () => {
 
+    var patientWizard = jasmine.createSpyObj('patientWizard', ['setCurrentStep']);
+    var birthdate = new Date(1991, 2, 7);
+    var patient = {birthdate};
+
     beforeEach(() => {
       spyOn(patientService, 'getPersonAttributesForStep').and.returnValue([1,2,3,4]);
     });
 
     it('should set it self as wizard current step', () => {
 
-      var patientWizard = jasmine.createSpyObj('patientWizard', ['setCurrentStep']);
-      var ctrl = $componentController('patientHIVTestStep', null, {patientWizard: patientWizard});
+      var ctrl = $componentController('patientHIVTestStep', null, {patientWizard, patient});
 
       ctrl.$onInit();
 
@@ -42,12 +45,34 @@ describe('patientHIVTestStep', () => {
 
     it('should get person attributes for testing step', () => {
 
-      var patientWizard = jasmine.createSpyObj('patientWizard', ['setCurrentStep']);
-      var ctrl = $componentController('patientHIVTestStep', null, {patientWizard: patientWizard});
+      var ctrl = $componentController('patientHIVTestStep', null, {patientWizard, patient});
 
       ctrl.$onInit();
 
       expect(ctrl.patientAttributes).toEqual([1,2,3,4]);
+
+    });
+
+    it('should limit the test date to after patient birthdate', () => {
+
+      var ctrl = $componentController('patientHIVTestStep', null, {patientWizard, patient});
+
+      ctrl.$onInit();
+
+      expect(ctrl.datepickerOptions.minDate).toEqual(birthdate);
+
+    });
+
+    it('should limit the test date to before current date (inclusive)', () => {
+
+      var ctrl = $componentController('patientHIVTestStep', null, {patientWizard, patient});
+      var baseTime = new Date();
+
+      jasmine.clock().mockDate(baseTime);
+
+      ctrl.$onInit();
+
+      expect(ctrl.datepickerOptions.maxDate).toEqual(baseTime);
 
     });
 

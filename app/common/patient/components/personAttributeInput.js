@@ -6,7 +6,8 @@
     .component('personAttributeInput', {
       bindings: {
         person: '<',
-        attribute: '<'
+        attribute: '<',
+        datepickerOptions: '<',
       },
       controllerAs: 'vm',
       templateUrl: '../common/patient/components/personAttributeInput.html',

@@ -32,7 +32,7 @@
   <!-- build:js scripts/vendor.home.min.js -->
   <!-- bower:js -->
   <script src="../../bower_components/jquery/dist/jquery.min.js"></script>
-  <script src="../../bower_components/angular/angular.js"></script>
+  <script src="../../bower_components/angular/angular.min.js"></script>
   <script src='../../bower_components/angular-loading-bar/build/loading-bar.min.js'></script>
   <script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
   <script src="../../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
@@ -66,9 +66,9 @@
   <!-- build:js scripts/home.min.js -->
   <script src="../common/constants.js"></script>
 
-  <script src="../common/application/init.js"></script>
+  <script src="../common/application/application.module.js"></script>
   <script src="../common/application/constants.js"></script>
-  <script src="../common/application/config.js"></script>
+  <script src="../common/application/application.config.js"></script>
   <script src="../common/application/components/pocHeader.js"></script>
   <script src="../common/application/components/pocFooter.js"></script>
   <script src="../common/application/components/pocLayout.js"></script>
@@ -76,9 +76,10 @@
   <script src="../common/ui-helper/notifier.js"></script>
   <script src="../common/ui-helper/directives/pocConfirmDialog.js"></script>
 
-  <script src="../common/auth/init.js"></script>
-  <script src="../common/auth/config.js"></script>
-  <script src="../common/auth/run.js"></script>
+  <script src="../common/auth/auth.module.js"></script>
+  <script src="../common/auth/auth.config.js"></script>
+  <script src="../common/auth/auth.routes.js"></script>
+  <script src="../common/auth/auth.run.js"></script>
   <script src="../common/auth/user.js"></script>
   <script src="../common/auth/userService.js"></script>
   <script src="../common/auth/authenticator.js"></script>
@@ -87,7 +88,7 @@
   <script src="../common/auth/directives/logout.js"></script>
   <script src="../common/auth/directives/pocAuthorize.js"></script>
 
-  <script src="../common/prescription/init.js"></script>
+  <script src="../common/prescription/prescription.module.js"></script>
 
   <script src="../common/visit/visit.module.js"></script>
 

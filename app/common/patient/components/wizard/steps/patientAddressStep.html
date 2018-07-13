@@ -29,7 +29,8 @@
                    ng-change="vm.clearFields(addressLevel.addressField)"
                    ng-pattern="/^([a-zA-Z0-9\s]|[\)\(\'\/\-\.])*$/"
                    autocomplete="off"
-                   ng-maxlength="{{addressLevel.addressField === 'country' ? 50 : 255}}">
+                   ng-maxlength="{{addressLevel.addressField === 'country' ? 50 : 255}}"
+                   maxlength="{{addressLevel.addressField === 'country' ? 50 : 255}}">
           </div>
         </div>
 

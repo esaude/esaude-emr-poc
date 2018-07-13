@@ -1,0 +1,63 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+  </button>
+  <h4 class="modal-title" id="addProviderAndDateModelLabel">{{'COMMON_PRESCRIPTION' | translate}} </h4>
+</div>
+
+<form class="form-horizontal" name="form" novalidate>
+  <div class="modal-body content-border-margin">
+    <div class="form-horizontal">
+      <div class="form-group form-group-lg"
+           ng-class="{'has-error': form.prescriptionDate.$invalid && vm.showMessages}">
+        <label for="prescriptionDate" class="col-sm-3 control-label">
+          {{'PRESCRIPTION_DATE' | translate}}:<span class="asterick">*</span>
+        </label>
+        <div class="col-sm-9">
+          <div ng-messages for="form.prescriptionDate.$error"
+               ng-show="vm.showMessages">
+            <div ng-messages-include="../common/application/views/error-messages.html"></div>
+          </div>
+          <div class="input-group">
+            <input class="form-control keyboard-in" id="prescriptionDate" type="text" name="prescriptionDate"
+                   uib-datepicker-popup ng-focus="focused=true" is-open="focused" ng-model="vm.prescriptionDate"
+                   datepicker-options="vm.datepickerOptions"
+                   required>
+            <span class="input-group-addon">
+              <i class="glyphicon glyphicon-calendar"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="form-group form-group-lg"
+           ng-class="{'has-error': form.selectedProvider.$invalid && vm.showMessages}">
+        <label for="prescriptionDate" class="col-sm-3 control-label">
+          {{'COMMON_PROVIDER' | translate}}:<span class="asterick">*</span>
+        </label>
+        <div class="col-sm-9">
+          <div ng-messages for="form.selectedProvider.$error"
+               ng-show="vm.showMessages">
+            <div ng-messages-include="../common/application/views/error-messages.html"></div>
+          </div>
+          <input name="selectedProvider"
+                 uib-typeahead="p as p.display for p in vm.searchProviders($viewValue)"
+                 type="text"
+                 ng-model="vm.selectedProvider"
+                 id="provider" type="text" class="form-control keyboard-in" required autocomplete="off"/>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-warning btn-lg" ng-click="vm.cancel();">
+      <span class="glyphicon glyphicon-minus-sign"></span>
+      <span class="button-label">{{'CANCEL' | translate}}</span>
+    </button>
+    <poc-authorize privilege="'Write Drug Prescription'">
+      <button class="btn btn-primary btn-lg" type="submit" ng-click="vm.ok(form);" ng-disabled="!form.$valid">
+        <span class="glyphicon glyphicon-floppy-disk"></span>
+        <span class="button-label">{{'SAVE' | translate}}</span>
+      </button>
+    </poc-authorize>
+  </div>
+</form>
+

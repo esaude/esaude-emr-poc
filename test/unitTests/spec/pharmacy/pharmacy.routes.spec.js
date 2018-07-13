@@ -1,6 +1,10 @@
 describe('pharmacy.routes', () => {
 
-  var patientService, $location, $rootScope, $state, authorizationService, $q, $httpBackend;
+  const apps = [{id: 'pharmacy'}];
+
+  const PHARMACY_APP_ID = 'pharmacy';
+
+  let patientService, $location, $rootScope, $state, authorizationService, $q, $httpBackend, applicationService, sessionService;
 
   beforeEach(module('pharmacy', ($provide, $translateProvider) => {
     // Mock translate asynchronous loader
@@ -15,15 +19,37 @@ describe('pharmacy.routes', () => {
     $provide.factory('initialization', $q => $q.resolve({}));
   }));
 
-  beforeEach(inject((_$location_, _$rootScope_, _$state_, _patientService_, _authorizationService_, _$q_, _$httpBackend_) => {
+  beforeEach(inject((_$location_, _$rootScope_, _$state_, _patientService_, _authorizationService_, _$q_, _$httpBackend_,
+                     _applicationService_, _sessionService_) => {
     patientService = _patientService_;
     $location = _$location_;
     $rootScope = _$rootScope_;
     $state = _$state_;
-    authorizationService =_authorizationService_;
+    authorizationService = _authorizationService_;
     $q = _$q_;
     $httpBackend = _$httpBackend_;
+    applicationService = _applicationService_;
+    sessionService = _sessionService_;
   }));
+
+  beforeEach(() => {
+    spyOn(applicationService, 'getApps').and.returnValue($q.resolve(apps));
+    spyOn(authorizationService, 'isUserAuthorizedForApp').and.returnValue($q.resolve(true));
+  });
+
+  describe('root', () => {
+
+    it('should check if user is authorized to use pharmacy app', () => {
+
+      $location.url('/search');
+
+      $rootScope.$apply();
+
+      expect(authorizationService.isUserAuthorizedForApp).toHaveBeenCalledWith(apps, PHARMACY_APP_ID);
+
+    });
+
+  });
 
   describe('dashboard', () => {
 
@@ -61,14 +87,9 @@ describe('pharmacy.routes', () => {
 
       it('should redirect to prescriptions for independent pharmacists', () => {
 
-        // TODO just remove after refactoring prescription
-        $httpBackend.expectGET('views/patient-simplified-prescriptions.html').respond('');
-
         spyOn(authorizationService, 'hasRole').and.callFake(() => $q.resolve(true));
 
         $location.url(`/dashboard/${patient.uuid}`);
-
-        $httpBackend.flush();
 
         $rootScope.$apply();
 

@@ -16,14 +16,23 @@
         $injector.get('$state').go('search');
       });
 
-      $bahmniTranslateProvider.init({app: 'pharmacy', shouldMerge: true});
+
+      const PHARMACY_APP_ID = 'pharmacy';
+      $bahmniTranslateProvider.init({app: PHARMACY_APP_ID, shouldMerge: true});
 
       $stateProvider
+        .state('root', {
+          abstract: true,
+          data: {authorization: PHARMACY_APP_ID},
+          resolve: {
+            initialization: 'initialization',
+          }
+        })
         .state('search', {
           url: '/search',
           component: 'patientSearch',
+          parent: 'root',
           resolve: {
-            initialization: 'initialization',
             createPatient: () => false,
             showSchedule: () => true,
             scheduleType: () => 'drugPickup',
@@ -35,8 +44,8 @@
         .state('dashboard', {
           url: '/dashboard/:patientUuid',
           component: 'dashboard',
+          parent: 'root',
           resolve: {
-            initialization: 'initialization',
             patient: ($stateParams, initialization, patientService) => {
               // initialization is needed here so this is resolved after it
               return patientService.getPatient($stateParams.patientUuid);
@@ -48,8 +57,11 @@
           }
         })
         .state('dashboard.prescriptions', {
-          url: '/prescription',
-          templateUrl: 'views/patient-simplified-prescriptions.html',
+          component: 'prescription',
+          resolve: {
+            patient: ($stateParams, initialization, patientService) => patientService.getPatient($stateParams.patientUuid),
+            retrospectiveMode: () => true
+          },
           ncyBreadcrumb: {
             label: '{{\'CLINIC_PATIENT_PRESCRIPTIONS\' | translate}}',
             parent: 'dashboard',
@@ -89,9 +101,7 @@
           params: {
             returnState: null
           },
-          resolve: {
-            initialization: 'initialization'
-          },
+          parent: 'root',
           ncyBreadcrumb: {
             label: '{{\'PATIENT_DETAILS\' | translate }}',
             parent: 'dashboard'

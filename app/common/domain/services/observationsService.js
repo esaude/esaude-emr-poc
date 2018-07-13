@@ -124,6 +124,15 @@
         startIndex: 0,
         v: representation
       };
+
+      if (!params.patient) {
+        return $q.reject('No patient uuid');
+      }
+
+      if (!params.concept) {
+        return $q.reject('No concept uuid');
+      }
+
       return $http.get(OPENMRS_OBS_REST_URL, {params: params})
         .then(response => response.data.results[0])
         .catch(error => {

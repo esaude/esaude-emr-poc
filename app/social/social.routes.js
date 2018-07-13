@@ -16,17 +16,25 @@
       $injector.get('$state').go('search');
     });
 
-    $bahmniTranslateProvider.init({app: 'social', shouldMerge: true});
+    const SOCIAL_APP_ID = 'social';
+    $bahmniTranslateProvider.init({app: SOCIAL_APP_ID, shouldMerge: true});
 
     $stateProvider
+      .state('root', {
+        abstract: true,
+        data: {authorization: SOCIAL_APP_ID},
+        resolve: {
+          initialization: 'initialization',
+        }
+      })
       .state('search', {
         url: '/search',
         component: 'patientSearch',
         ncyBreadcrumb: {
           label: '{{\'APP_SOCIAL\' | translate}} /  {{\'SEARCH_PATIENT\' | translate}}'
         },
+        parent: 'root',
         resolve: {
-          initialization: 'initialization',
           createPatient: () => false,
           showSchedule: () => false,
         }
@@ -38,8 +46,8 @@
           label: '{{ \'COMMON_DASHBOARD\' | translate}}',
           parent: 'search'
         },
+        parent: 'root',
         resolve: {
-          initialization: 'initialization',
           patient: (initialization, $stateParams, patientService) => {
             // We need initialization to always resolve first
             return patientService.getPatient($stateParams.patientUuid);
@@ -54,7 +62,7 @@
           parent: 'dashboard'
         },
         resolve: {
-          clinicalServicesService: (clinicalServicesService, $stateParams) => clinicalServicesService.init('social', $stateParams.patientUuid)
+          clinicalServicesService: (clinicalServicesService, $stateParams) => clinicalServicesService.init(SOCIAL_APP_ID, $stateParams.patientUuid)
         }
       })
       .state('dashboard.partners', {
@@ -71,9 +79,7 @@
         params: {
           returnState: null
         },
-        resolve: {
-          initialization: 'initialization'
-        },
+        parent: 'root',
         ncyBreadcrumb: {
           label: '{{\'PATIENT_DETAILS\' | translate }}',
           parent: 'dashboard'
