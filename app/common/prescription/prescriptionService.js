@@ -9,7 +9,7 @@
                                drugPrescriptionConvSet, therapeuticLineQuestion, arvRegimensConvSet, regimenGroups,
                                arvConceptUuid, artInterruptedPlanUuid) {
 
-    var sortByEncounterDateTime = _.curryRight(_.sortBy, 2)(encounter => encounter.encounterDatetime);
+    const sortByEncounterDateTime = _.curryRight(_.sortBy, 2)(encounter => encounter.encounterDatetime);
 
     return {
       create: create,
@@ -27,7 +27,7 @@
      * @returns {Promise<Object>} Array of concepts mapped by key defined in drugPrescriptionConvSet constant.
      */
     function getPrescriptionConvSetConcept() {
-      var representation = 'custom:(uuid,display,setMembers:(uuid,display,answers:(uuid,display)))';
+      const representation = 'custom:(uuid,display,setMembers:(uuid,display,answers:(uuid,display)))';
       return conceptService.getConcept(prescriptionConvSetConceptUUID, representation)
         .then(concept => {
           return Object.keys(drugPrescriptionConvSet).reduce((acc, cur) => {
@@ -58,7 +58,7 @@
 
         withCredentials: true
       }).then(response => {
-        var mapPrescription = _.curryRight(_.map)(prescriptionMapper);
+        const mapPrescription = _.curryRight(_.map)(prescriptionMapper);
         return _.flow([mapPrescription, sortByEncounterDateTime])(response.data.results);
       }).catch(error => {
         $log.error('XHR Failed for getPatientNonDispensedPrescriptions: ' + error.data.error.message);
@@ -66,10 +66,12 @@
       });
     }
 
+    // TODO implement endpoint for current patient regimen
     function getPatientRegimen(patient) {
-      return $q.all([getPatientTherapeuticLine(patient), getPatientDrugRegimen(patient), getPatientArtPlan(patient)])
-        .then(([therapeuticLine, drugRegimen, artPlan]) => {
-          return {therapeuticLine, drugRegimen, artPlan};
+      return getAllPrescriptions(patient)
+        .then(prescriptions => {
+          const last = prescriptions[prescriptions.length -1];
+          return {therapeuticLine: last.therapeuticLine, drugRegimen: last.regime, artPlan: last.arvPlan};
         });
     }
 
@@ -90,7 +92,7 @@
     }
 
      function getAllPrescriptions(patient) {
-       var config = {params: {patient: patient.uuid, findAllPrescribed: true, v: "full"}};
+       const config = {params: {patient: patient.uuid, findAllPrescribed: true, v: "full"}};
        return $http.get(Bahmni.Common.Constants.prescriptionUrl, config)
          .then(response => _.map(response.data.results, prescriptionMapper))
          .catch(error => {
@@ -106,32 +108,8 @@
         });
      }
 
-    function getPatientArtPlan(patient) {
-      var prescriptionConvSet = {};
-      var representation = 'custom:(uuid,display,value)';
-      return getPrescriptionConvSetConcept()
-        .then(convSet => prescriptionConvSet = convSet)
-        .then(() => observationsService.getLastPatientObs(patient, drugPrescriptionConvSet.artPlan, representation))
-        .then(artPlan => prescriptionConvSet.artPlan.answers.find(a => a.uuid === artPlan.value.uuid));
-    }
-
-     function getPatientDrugRegimen(patient) {
-       var representation = 'custom:(uuid,display,value:(uuid,display))';
-       return observationsService.getLastPatientObs(patient, {uuid: arvConceptUuid}, representation)
-          .then(lastObs => lastObs.value);
-     }
-
-    function getPatientTherapeuticLine(patient) {
-      var representation = 'custom:(uuid,display,value)';
-      return observationsService.getLastPatientObs(patient, drugPrescriptionConvSet.therapeuticLine, representation)
-        .then(lastTherapeuticLine => {
-          return conceptService.getConcept(lastTherapeuticLine.value.uuid || therapeuticLineQuestion.firstLine, 'custom:(uuid,display)');
-        });
-
-    }
-
     function getRegimensByTherapeuticLine(patient, therapeuticLine) {
-      var representation = 'custom:(uuid,display,setMembers:(uuid,display,answers:(uuid,display))';
+      const representation = 'custom:(uuid,display,setMembers:(uuid,display,answers:(uuid,display))';
       return conceptService.getConcept(arvRegimensConvSet, representation)
         .then(concept => filterRegimes(concept.setMembers, therapeuticLine, patient));
     }
@@ -141,9 +119,9 @@
     }
 
     function filterRegimes(allRegimes, therapeuticLine, patient) {
-      var age = (patient.age.years >= 15) ? "adult" : "child";
-      var regimenGroupAge = regimenGroups[age];
-      var regimenGroupTLine = {};
+      const age = (patient.age.years >= 15) ? "adult" : "child";
+      const regimenGroupAge = regimenGroups[age];
+      let regimenGroupTLine = {};
 
       if (therapeuticLine.uuid === therapeuticLineQuestion.firstLine) {
         regimenGroupTLine = regimenGroupAge.firstLine;

@@ -76,14 +76,18 @@
 
       prescriptionService.getPatientRegimen(vm.patient)
         .then(regimen => {
-          vm.regimen = regimen;
-          loadDrugRegimenDrugs(regimen.drugRegimen);
+          setRegimen(regimen);
         })
         .catch(() => {
           notifier.error($filter('translate')('COMMON_ERROR'));
         });
 
       loadSavedPrescriptions(vm.patient);
+    }
+
+    function setRegimen(regimen) {
+      vm.regimen = regimen;
+      loadDrugRegimenDrugs(regimen.drugRegimen);
     }
 
     function add(form) {
@@ -202,12 +206,16 @@
       return modalInstance.result;
     }
 
-    function refill(item) {
+    function refill(prescription, item) {
       const i = angular.copy(item);
+      const regimen = {
+        drugRegimen: prescription.regime,
+        therapeuticLine: prescription.therapeuticLine,
+        artPlan: prescription.arvPlan,
+        isArv: !!prescription.arvPlan,
+      };
+      setRegimen(regimen);
       i.drugOrder.dosingInstructions = {uuid: i.drugOrder.dosingInstructions};
-      if (i.regime) {
-        i.isArv = true;
-      }
       vm.listedPrescriptions.push(i);
       vm.showNewPrescriptionsControlls = true;
     }
@@ -221,6 +229,7 @@
     function removeAll() {
       vm.listedPrescriptions = [];
       isPrescriptionControl();
+      vm.regimen = {};
     }
 
 
@@ -428,8 +437,14 @@
       return item.status === 'ACTIVE' || item.status === 'NEW';
     }
 
-    function checkItemIsRefillable(prescription){
-      return prescription.prescriptionStatus === 'FINALIZED' || prescription.prescriptionStatus === 'EXPIRED';
+    function checkItemIsRefillable(prescription, item) {
+      const contained = vm.listedPrescriptions.find((p) => p.drugOrder.drug.uuid === item.drugOrder.drug.uuid);
+      if (contained) {
+        return false;
+      }
+      const ended = prescription.prescriptionStatus === 'FINALIZED' || prescription.prescriptionStatus === 'EXPIRED';
+      const sameDrugRegimen = vm.regimen.drugRegimen && vm.regimen.drugRegimen.uuid === prescription.regime.uuid;
+      return vm.regimen.isArv ? ended && sameDrugRegimen : ended;
     }
 
     function verifyDrugAvailability(drug){

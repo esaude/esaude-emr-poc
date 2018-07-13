@@ -328,8 +328,8 @@
             <div class="list-group-item" ng-repeat="item in existingPrescription.prescriptionItems">
                 <span>
                   <strong>{{item.drugOrder.drug.display}}</strong>
-                  <span ng-if="item.regime">
-                    <strong ng-if="item.regime">({{item.regime.display}}</strong> : {{item.therapeuticLine.display}})-
+                  <span ng-if="existingPrescription.regime">
+                    (<strong>{{existingPrescription.regime.display}}</strong> : {{existingPrescription.therapeuticLine.display}})-
                   </span>
                   {{item.drugOrder.dose}} {{item.drugOrder.doseUnits.display}}, {{item.drugOrder.frequency.display}},
                   {{item.drugOrder.route.display}} - {{item.drugOrder.duration}} {{item.drugOrder.durationUnits.display}},
@@ -366,7 +366,7 @@
               </poc-authorize>
               <poc-authorize privilege="'Write Drug Prescription'">
                 <button type="button" class="close btn-lg content-border-margin-regular-sides"
-                        ng-click="vm.refill(item)" ng-hide="!vm.checkItemIsRefillable(existingPrescription)">
+                        ng-click="vm.refill(existingPrescription, item)" ng-hide="!vm.checkItemIsRefillable(existingPrescription, item)">
                   <span class="glyphicon glyphicon-repeat"></span>
                   <span class="button-label">{{'REFILL' | translate}}</span>
                 </button>

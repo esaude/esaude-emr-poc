@@ -195,6 +195,17 @@ describe('prescription', () => {
       expect(controller.showNewPrescriptionsControlls).toBe(false);
     });
 
+    it('should reset regimen', () => {
+      controller.regimen = {
+        drugRegimen: 'TDF+3TC+EFV',
+        therapeuticLine: 'PRIMEIRA LINHA',
+        artPlan: 'INICIAR',
+        isArv: true,
+      };
+      controller.removeAll();
+      expect(controller.regimen).toEqual({});
+    });
+
   });
 
   describe('refill', () => {
@@ -202,9 +213,25 @@ describe('prescription', () => {
     it('should add selected drug to current prescription', () => {
       const item = {drugOrder: {dosingInstructions: 'Empty stomach'}};
       controller = $componentController('prescription');
-      controller.refill(item);
-      $rootScope.$apply();
+      controller.refill({}, item);
       expect(controller.listedPrescriptions).toContain({drugOrder: {dosingInstructions: {uuid: 'Empty stomach'}}});
+    });
+
+    it('should set regimen to regimen of selected drug', () => {
+
+      const item = {drugOrder: {dosingInstructions: 'Empty stomach'}};
+      controller = $componentController('prescription');
+
+      const prescription = {regime: '(TDF+3TC+EFV', therapeuticLine: 'PRIMEIRA LINHA', arvPlan: 'INICIAR'};
+      controller.refill(prescription, item);
+
+      expect(controller.regimen).toEqual({
+        drugRegimen: prescription.regime,
+        therapeuticLine: prescription.therapeuticLine,
+        artPlan: prescription.arvPlan,
+        isArv: !!prescription.arvPlan,
+      });
+
     });
 
   });
@@ -705,10 +732,28 @@ describe('prescription', () => {
   });
 
   describe('checkItemIsRefillable', () => {
-    const prescription = {prescriptionStatus: "EXPIRED"};
+    const prescription = {prescriptionStatus: "EXPIRED", regime: {uuid: '3c6e46ec-b302-4769-b2e2-0bc55ef72b66'}};
+
+    describe('arv regimen', () => {
+
+      it('should return false if prescription has different drugRegimen', () => {
+        const controller = $componentController('prescription');
+        controller.regimen = {drugRegimen: {uuid: '3c6e46ec-b302-4769-b2e2-0bc55ef72b67'}, isArv: true};
+        expect(controller.checkItemIsRefillable(prescription, {})).toBe(false);
+      });
+
+    });
 
     it('should return True for expired prescription status', () => {
+      const controller = $componentController('prescription');
       expect(controller.checkItemIsRefillable(prescription)).toBe(true);
+    });
+
+    it('should return false if drug is already in prescription being built', () => {
+      const controller = $componentController('prescription');
+      const prescriptionItem = {drugOrder: {drug: {uuid: 'e1d83d4a-1d5f-11e0-b929-000c29ad1d07'}}};
+      controller.listedPrescriptions = [prescriptionItem];
+      expect(controller.checkItemIsRefillable(prescription, prescriptionItem)).toBe(false);
     });
   });
 
