@@ -98,5 +98,5 @@
     "VITALS_LAST_HEIGHT": "Last Height",
     "VITALS_LAST_BMI": "Last BMI",
     "EDIT": "Editar",
-    "PATIENT_WITH_SAME_NID_EXISTS": "Patient with same NID already exists"
+    "PATIENT_WITH_SAME_NID_EXISTS": "The provided NID {{nid}} is no longer available. Please use another one or check for duplicated patient."
 }

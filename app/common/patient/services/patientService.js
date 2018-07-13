@@ -6,7 +6,7 @@
     .factory('patientService', patientService);
 
   /* @ngInject */
-  function patientService($http, $rootScope, appService, openmrsPatientMapper, $q, $log, reportService, updatePatientMapper,
+  function patientService($http, appService, openmrsPatientMapper, $q, $log, reportService, updatePatientMapper,
     additionalPatientAttributes) {
 
     var OPENMRS_URL = Poc.Patient.Constants.openmrsUrl;
@@ -110,7 +110,10 @@
           return $http.post(BASE_OPENMRS_REST_URL + "/patientprofile", patientJson)
             .then(response => response.data);
         } else {
-          return $q.reject("PATIENT_WITH_SAME_NID_EXISTS");
+          return $q.reject({
+            errorType: "PATIENT_WITH_SAME_NID_EXISTS",
+            nid: nid.identifier
+          });
         }
       });
 
