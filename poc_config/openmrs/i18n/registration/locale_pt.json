@@ -97,5 +97,5 @@
     "VITALS_LAST_HEIGHT": "Última altura",
     "VITALS_LAST_BMI": "Último IMC",
     "EDIT": "Editar",
-    "PATIENT_WITH_SAME_NID_EXISTS": "Já existe um paciente com o mesmo NID"
+    "PATIENT_WITH_SAME_NID_EXISTS": "O NID informado {{nid}} já existe no sistema, por favor utilize outro ou verifique possivel duplicação de registo de paciente."
 }
