@@ -23,6 +23,7 @@
 
     var vm = this;
     vm.arvDrugs = [];
+    vm.drugAvailable = true;
     vm.existingPrescriptions = [];
     vm.prescriptionConvSet = {};
     vm.listedPrescriptions = [];
@@ -132,7 +133,7 @@
       if(!vm.prescriptionItem.drugOrder || vm.prescriptionItem.drugOrder.drug ){
         //check if drug is ARV
 
-        drugService.isArvDrug(drug).then(isArv => {
+        drugService.isArvDrug(drug, {ignoreLoadingBar: true}).then(isArv => {
           if (isArv) {
             vm.prescriptionItem.isArv = true;
             vm.prescriptionItem.drugOrder = null;
@@ -183,8 +184,8 @@
       return $http.get(Bahmni.Common.Constants.drugResourceUrl, {
         params: {
           q: request,
-          v: "full"
-
+          v: "full",
+          ignoreLoadingBar: true,
         }
       })
         .then(response => response.data.results.map(drug => drug));
@@ -365,6 +366,7 @@
           vm.prescriptionItem.arvPlan = null;
         }
       }
+      vm.drugAvailable = true;
     }
 
     function openCancelPrescriptionModal(item) {
@@ -429,14 +431,16 @@
       return prescription.prescriptionStatus === 'FINALIZED' || prescription.prescriptionStatus === 'EXPIRED';
     }
 
-    function verifyDrugAvailability(drug){
-      drugService.getDrugStock(drug,sessionService.getCurrentLocation()).then(data => {
-        if(_.isEmpty(data.results)){
-         notifier.warning($filter('translate')('COMMON_MESSAGE_DRUG_WITHOUT_STOCK_AVAILABILITY'));
-        }
-      }).catch(() => {
-        notifier.error($filter('translate')('COMMON_MESSAGE_EXCEPTION_REQUESTING_DRUG_STOCK_AVAILABILITY'));
-      });
+    function verifyDrugAvailability(drug) {
+      if (drug) {
+        vm.checkingAvailability = true;
+        drugService.isDrugAvailable(drug, {ignoreLoadingBar: true})
+          .then(available => vm.drugAvailable = available)
+          .catch(() => {
+            notifier.error($filter('translate')('COMMON_MESSAGE_EXCEPTION_REQUESTING_DRUG_STOCK_AVAILABILITY'));
+          })
+          .finally(() => vm.checkingAvailability = false);
+      }
     }
 
     function searchProviders(term) {
