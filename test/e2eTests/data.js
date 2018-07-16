@@ -135,7 +135,7 @@ module.exports = {
         {
           "identifier1": "12345678/22/987654",
           "identifier2": "452631256M",
-          "identifier3": "12345678/22/98789",
+          "identifier3": "12345678/22/98989",
           "alternativeIdentifier1": "12345",
           "alternativeIdentifier2": "234567",
           "preferred": true
@@ -163,11 +163,12 @@ module.exports = {
         reference: "",
         phoneNumber1: "845695235",
         phoneNumber2: "845625123",
-        provenience: "PROVEDOR PRIVADO",
+        provenience: "string:e1daca74-1d5f-11e0-b929-000c29ad1d07", // CLINICA MOVEL
       },
       tests: {
-        testType: "TESTE RÁPIDO HIV",
-        testDate: (new Date('2018-01-01')).toISOString(),
+        testType: "string:e1d800dc-1d5f-11e0-b929-000c29ad1d07", // TESTE RÁPIDO HIV
+        testDate: '01/01/1018',
+        testResult: "string:e1da2600-1d5f-11e0-b929-000c29ad1d07", // POSITIVO
       }
     },
   }

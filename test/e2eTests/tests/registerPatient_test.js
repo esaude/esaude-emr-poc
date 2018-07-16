@@ -212,22 +212,20 @@ Scenario('Register a patient', (I, Data, RegistrationDashboardPage) => {
   registerPatientPage.selectProvenience(patient);
   registerPatientPage.clickNext();
 
-  I.say(`${LOG_TAG} Ignore the testing and move to confirmation page`);
+  validateRequiredFields(I, registerPatientPage, 'HIV Test', 2);
+  I.say(`${LOG_TAG} Fill in the HIV test`);
+  registerPatientPage.fillHIVTestForm(patient);
   registerPatientPage.clickNext();
 
   I.say(`${LOG_TAG} Scroll down and confirm patient registration`);
   I.scrollPageToBottom();
   I.click(registerPatientPage.buttons.confirm);
-  I.waitForInvisible('#overlay', 5);
 
-  I.see(registerPatientPage.translate('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
-  I.wait(1);
+  I.say(`${LOG_TAG} verify the success toast popped up`);
+  I.waitForElement(registerPatientPage.elements.successElement, 10);
 
-  I.say(`${LOG_TAG} Make sure the registration dashboard page loaded`);
+  I.say(`${LOG_TAG} Make sure the registration dashboard page is loaded`);
   RegistrationDashboardPage.isLoaded();
-
-  // TODO: This could be a component or a method in the page class
-  // to verify the loaded patient information
   I.see(patient.identifiers[0].identifier3);
   I.see(patient.person.names[0].givenName);
   I.see(patient.person.names[0].familyName);
