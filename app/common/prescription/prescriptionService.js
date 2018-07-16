@@ -70,7 +70,8 @@
     function getPatientRegimen(patient) {
       return getAllPrescriptions(patient)
         .then(prescriptions => {
-          const last = prescriptions[prescriptions.length -1];
+          const artPrescriptions = prescriptions.filter(p => !!p.arvPlan);
+          const last = artPrescriptions[artPrescriptions.length -1];
           return {therapeuticLine: last.therapeuticLine, drugRegimen: last.regime, artPlan: last.arvPlan};
         });
     }

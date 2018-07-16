@@ -736,10 +736,13 @@ describe('prescription', () => {
 
     describe('arv regimen', () => {
 
-      it('should return false if prescription has different drugRegimen', () => {
+      it('should return false if prescription has different drugRegimen than existing prescription', () => {
+        const item = {drugOrder: {drug: {uuid: '3c6e46ec-b302-4769-b2e2-0bc55ef72b69'}}};
+        const newItem = {drugOrder: {drug: {uuid: '3c6e46ec-b302-4769-b2e2-0bc55ef72b68'}}};
         const controller = $componentController('prescription');
         controller.regimen = {drugRegimen: {uuid: '3c6e46ec-b302-4769-b2e2-0bc55ef72b67'}, isArv: true};
-        expect(controller.checkItemIsRefillable(prescription, {})).toBe(false);
+        controller.listedPrescriptions = [item];
+        expect(controller.checkItemIsRefillable(prescription, newItem)).toBe(false);
       });
 
     });

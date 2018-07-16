@@ -214,7 +214,9 @@
         artPlan: prescription.arvPlan,
         isArv: !!prescription.arvPlan,
       };
-      setRegimen(regimen);
+      if (prescription.arvPlan) {
+        setRegimen(regimen);
+      }
       i.drugOrder.dosingInstructions = {uuid: i.drugOrder.dosingInstructions};
       vm.listedPrescriptions.push(i);
       vm.showNewPrescriptionsControlls = true;
@@ -437,14 +439,21 @@
       return item.status === 'ACTIVE' || item.status === 'NEW';
     }
 
+    function isSameDrugRegimen(prescription) {
+      return vm.regimen.drugRegimen && vm.regimen.drugRegimen.uuid === prescription.regime.uuid;
+    }
+
     function checkItemIsRefillable(prescription, item) {
       const contained = vm.listedPrescriptions.find((p) => p.drugOrder.drug.uuid === item.drugOrder.drug.uuid);
       if (contained) {
         return false;
       }
       const ended = prescription.prescriptionStatus === 'FINALIZED' || prescription.prescriptionStatus === 'EXPIRED';
-      const sameDrugRegimen = vm.regimen.drugRegimen && vm.regimen.drugRegimen.uuid === prescription.regime.uuid;
-      return vm.regimen.isArv ? ended && sameDrugRegimen : ended;
+      if (prescription.regime && vm.listedPrescriptions.length) {
+          return ended && isSameDrugRegimen(prescription);
+      } else {
+        return ended;
+      }
     }
 
     function verifyDrugAvailability(drug){
