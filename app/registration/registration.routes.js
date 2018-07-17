@@ -96,62 +96,6 @@
           parent: 'search'
         }
       })
-      // .state('newpatient.name', {
-      //   url: '/name',
-      //   component: 'patientNamesStep',
-      //   ncyBreadcrumb: {
-      //     skip: true
-      //   }
-      // })
-      // .state('newpatient.gender', {
-      //   url: '/gender',
-      //   component: 'patientGenderStep',
-      //   ncyBreadcrumb: {
-      //     skip: true
-      //   }
-      // })
-      // .state('newpatient.age', {
-      //   url: '/age',
-      //   component: 'patientAgeStep',
-      //   ncyBreadcrumb: {
-      //     skip: true
-      //   }
-      // })
-      // .state('newpatient.address', {
-      //   url: '/address',
-      //   component: 'patientAddressStep',
-      //   ncyBreadcrumb: {
-      //     skip: true
-      //   }
-      // })
-      // .state('newpatient.other', {
-      //   url: '/other',
-      //   component: 'patientOtherStep',
-      //   ncyBreadcrumb: {
-      //     skip: true
-      //   }
-      // })
-      // .state('newpatient.identifier', {
-      //   url: '/identifier',
-      //   component: 'patientIdentifiersStep',
-      //   ncyBreadcrumb: {
-      //     skip: true
-      //   }
-      // })
-      // .state('newpatient.testing', {
-      //   url: '/testing',
-      //   component: 'patientHIVTestStep',
-      //   ncyBreadcrumb: {
-      //     skip: true
-      //   }
-      // })
-      // .state('newpatient.confirm', {
-      //   url: '/confirm',
-      //   component: 'patientConfirmStep',
-      //   ncyBreadcrumb: {
-      //     skip: true
-      //   }
-      // })
       .state('editpatient', {
         url: '/patient/edit/:patientUuid',
         component: 'patientWizard',

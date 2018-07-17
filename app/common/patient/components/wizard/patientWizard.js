@@ -14,11 +14,7 @@
 
   /* @ngInject */
   function PatientWizardController($stateParams, $state, patientService,
-    notifier, TabManager, translateFilter) {
-
-    var tabManager;
-
-    var currentStep;
+    notifier, translateFilter) {
 
     var updating = false;
 
@@ -51,16 +47,6 @@
             $state.go($stateParams.returnState);
           });
       }
-
-      tabManager = new TabManager();
-      tabManager.addStepDefinition('identifier');
-      tabManager.addStepDefinition('name');
-      tabManager.addStepDefinition('gender');
-      tabManager.addStepDefinition('age');
-      tabManager.addStepDefinition('address');
-      tabManager.addStepDefinition('other');
-      tabManager.addStepDefinition('testing');
-      tabManager.addStepDefinition('confirm');
     }
 
     function linkCancel() {
