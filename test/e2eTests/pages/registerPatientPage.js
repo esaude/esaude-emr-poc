@@ -45,13 +45,18 @@ class RegisterPatientPage extends Page {
       neighborhood: { css: '#address5' },
       cell: { css: '#address3' },
       street: { css: '#address1' },
-      provenience: { css: 'form select[id=Proveniência]' },
+      provenience: 'select[id="d10628a7-ba75-4495-840b-bf6f1c44fd2d"]',
       reference: { css: '#Ponto de Referência' },
       phone1: { css: '#Numero de Telefone 1' },
       phone2: { css: '#Numero de Telefone 2' },
-      hivTestDate: { css: '#Data do teste HIV' },
-      testType: { css: '#Tipo de teste HIV' },
-      testResult: { css: '#Resultado do Teste HIV' }
+      hivTestDate: 'input[id="46e79fce-ba89-4ec9-8f31-2dfd9318d415"',
+      hivTestType: 'select[id="ce778a93-66f9-4607-9d80-8794ed127674"]',
+      hivTestResult: 'select[id="31cb61f4-3d81-403d-94e9-64cce17a2a00"',
+    };
+
+    this.elements = {
+      summary: 'patient-confirm-step',
+      successElement: '.toast-success'
     };
   }
 
@@ -78,7 +83,8 @@ class RegisterPatientPage extends Page {
   }
 
   selectGender(patient) {
-    this.I.click(patient.person.gender == 'F' ? this.translate('COMMON_MALE') : this.translate('COMMON_MALE'));
+    const genderButton = `label[for="patientGender${patient.person.gender}"]`;
+    this.I.click(genderButton);
   }
 
   fillBirthDateForm(patient) {
@@ -100,6 +106,14 @@ class RegisterPatientPage extends Page {
 
   selectProvenience(patient) {
     this.I.selectOption(this.fields.provenience, patient.contacts.provenience);
+  }
+
+  fillHIVTestForm(patient) {
+    this.I.click(this.fields.hivTestDate);
+    this.I.fillField(this.fields.hivTestDate, patient.tests.testDate);
+    this.I.click('Done');
+    this.I.selectOption(this.fields.hivTestType, patient.tests.testType);
+    this.I.selectOption(this.fields.hivTestResult, patient.tests.testResult);
   }
 
   clickNext(seconds = 5) {
