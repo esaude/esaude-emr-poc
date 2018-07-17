@@ -123,7 +123,7 @@ Scenario('Attempt to delete a patient with encounter, then declare dead', async 
   const vitalsAdultFormPage = ClinicDashboardPage.clickAddVitals();
 
   I.say(`${LOG_TAG} Fill in the vitals form`);
-  vitalsAdultFormPage.fillForm(Data.clinicalData.vitals1);
+  vitalsAdultFormPage.fillForm(Data.clinicalData.vitals[0]);
 
   I.say(`${LOG_TAG} Click the next button`);
   vitalsAdultFormPage.clickNext();

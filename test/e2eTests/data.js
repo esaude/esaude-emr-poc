@@ -173,14 +173,16 @@ module.exports = {
     },
   },
   clinicalData: {
-    vitals1: {
-      temperature: '37',
-      weight: '60',
-      height: '152',
-      systolicBloodPressure: '110',
-      diastolicBloodPressure: '70',
-      cardiacFrequency: '108',
-      respiratoryRate: '16',
-    }
+    vitals: [
+      {
+        temperature: '37',
+        weight: '60',
+        height: '152',
+        systolicBloodPressure: '110',
+        diastolicBloodPressure: '70',
+        cardiacFrequency: '108',
+        respiratoryRate: '16',
+      }
+    ]
   }
 };
