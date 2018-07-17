@@ -77,14 +77,18 @@
 
       prescriptionService.getPatientRegimen(vm.patient)
         .then(regimen => {
-          vm.regimen = regimen;
-          loadDrugRegimenDrugs(regimen.drugRegimen);
+          setRegimen(regimen);
         })
         .catch(() => {
           notifier.error($filter('translate')('COMMON_ERROR'));
         });
 
       loadSavedPrescriptions(vm.patient);
+    }
+
+    function setRegimen(regimen) {
+      vm.regimen = regimen;
+      loadDrugRegimenDrugs(regimen.drugRegimen);
     }
 
     function add(form) {
@@ -193,32 +197,30 @@
 
 
     function openPrescriptionDateAndProviderModal() {
-      var modalInstance = $uibModal.open({component: 'dateAndProviderModal'});
+      const modalInstance = $uibModal.open({
+        component: 'dateAndProviderModal',
+        resolve: {
+          prescriptionDate: () => vm.prescriptionDate,
+          selectedProvider: () => vm.selectedProvider,
+        }
+      });
       return modalInstance.result;
     }
 
-    function refill(item) {
-      var refill = $q.resolve();
-      var item = angular.copy(item);
-
-      if (vm.retrospectiveMode) {
-        refill = openPrescriptionDateAndProviderModal()
-          .then(({date, provider}) => {
-            vm.selectedProvider = provider;
-            vm.prescriptionDate = date;
-          });
-          // Do nothing if modal closed
+    function refill(prescription, item) {
+      const i = angular.copy(item);
+      const regimen = {
+        drugRegimen: prescription.regime,
+        therapeuticLine: prescription.therapeuticLine,
+        artPlan: prescription.arvPlan,
+        isArv: !!prescription.arvPlan,
+      };
+      if (prescription.arvPlan) {
+        setRegimen(regimen);
       }
-
-      refill
-        .then(() => {
-          item.drugOrder.dosingInstructions = {uuid: item.drugOrder.dosingInstructions};
-          if (item.regime) {
-            item.isArv = true;
-          }
-          vm.listedPrescriptions.push(item);
-          vm.showNewPrescriptionsControlls = true;
-        });
+      i.drugOrder.dosingInstructions = {uuid: i.drugOrder.dosingInstructions};
+      vm.listedPrescriptions.push(i);
+      vm.showNewPrescriptionsControlls = true;
     }
 
 
@@ -230,6 +232,7 @@
     function removeAll() {
       vm.listedPrescriptions = [];
       isPrescriptionControl();
+      vm.regimen = {};
     }
 
 
@@ -237,8 +240,24 @@
       resetForm(form);
     }
 
-    function save(form) {
+    function save() {
 
+      let setDateAndProvider = $q.resolve();
+
+      if (vm.retrospectiveMode && (!vm.prescriptionDate || vm.selectedProvider.display === '')) {
+        setDateAndProvider = openPrescriptionDateAndProviderModal()
+          .then(({date, provider}) => {
+            vm.selectedProvider = provider;
+            vm.prescriptionDate = date;
+          });
+        // Do nothing if modal closed
+      }
+
+      setDateAndProvider
+        .then(() => _save());
+    }
+
+    function _save() {
       var prescription = {
         patient: {uuid: vm.patient.uuid},
         provider: {uuid: vm.selectedProvider && vm.selectedProvider.uuid},
@@ -275,7 +294,7 @@
       });
 
 
-      if(validateCreatePrescription(form, prescription)){
+      if(validateCreatePrescription(prescription)){
 
         prescriptionService.create(prescription)
           .then(() => {
@@ -300,12 +319,7 @@
       }
     }
 
-    function validateCreatePrescription(form, prescription){
-
-      if(form.selectedProvider && form.selectedProvider.$invalid)
-      {
-        return false;
-      }
+    function validateCreatePrescription(prescription) {
 
       if(hasActiveArvPrescriptionForNewArvItem(prescription)){
         notifier.error($filter('translate')('COMMON_MESSAGE_COULD_NOT_CREATE_ARV_PRESCRIPTION_BECAUSE_EXISTS_AN_ACTIVE_ARV_PRESCRIPTION'));
@@ -427,8 +441,21 @@
       return item.status === 'ACTIVE' || item.status === 'NEW';
     }
 
-    function checkItemIsRefillable(prescription){
-      return prescription.prescriptionStatus === 'FINALIZED' || prescription.prescriptionStatus === 'EXPIRED';
+    function isSameDrugRegimen(prescription) {
+      return vm.regimen.drugRegimen && vm.regimen.drugRegimen.uuid === prescription.regime.uuid;
+    }
+
+    function checkItemIsRefillable(prescription, item) {
+      const contained = vm.listedPrescriptions.find((p) => p.drugOrder.drug.uuid === item.drugOrder.drug.uuid);
+      if (contained) {
+        return false;
+      }
+      const ended = prescription.prescriptionStatus === 'FINALIZED' || prescription.prescriptionStatus === 'EXPIRED';
+      if (prescription.regime && vm.listedPrescriptions.length) {
+          return ended && isSameDrugRegimen(prescription);
+      } else {
+        return ended;
+      }
     }
 
     function verifyDrugAvailability(drug) {

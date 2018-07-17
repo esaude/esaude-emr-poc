@@ -40,9 +40,14 @@
           </div>
           <input name="selectedProvider"
                  uib-typeahead="p as p.display for p in vm.searchProviders($viewValue)"
-                 type="text"
+                 typeahead-loading="loading"
+                 typeahead-no-results="vm.typeahead.noResults"
                  ng-model="vm.selectedProvider"
                  id="provider" type="text" class="form-control keyboard-in" required autocomplete="off"/>
+          <div class="info">
+            <small class="text-muted" ng-if="vm.typeahead.noResults">{{ 'NO_RESULTS' | translate }}</small>
+            <img width="20px" src="../../images/loader.gif" ng-show="loading">
+          </div>
         </div>
       </div>
     </div>
