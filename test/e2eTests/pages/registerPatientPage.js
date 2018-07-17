@@ -83,8 +83,8 @@ class RegisterPatientPage extends Page {
   }
 
   selectGender(patient) {
-    const gender = patient.person.gender == 'F' ? 'label[for="patientGenderF"' : 'label[for="patientGenderM"';
-    this.I.click(gender);
+    const genderButton = `label[for="patientGender${patient.person.gender}"]`;
+    this.I.click(genderButton);
   }
 
   fillBirthDateForm(patient) {

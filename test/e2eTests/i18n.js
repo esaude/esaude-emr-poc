@@ -40,10 +40,10 @@ I18n.prototype.loadTranslations = function (locale) {
       files.forEach((file) => {
 
         try {
-          fileName = path.basename(file).split('.').shift();
+          localeInFilename = path.basename(file).split('.').shift();
 
           // Make sure to get the file for the selected locale
-          if (fileName == locale) {
+          if (localeInFilename == locale) {
             // Get the file's translations
             const filePath = self.getDirectoryPath(dirs[i], locale);
             const fileJson = fs.readFileSync(filePath);
