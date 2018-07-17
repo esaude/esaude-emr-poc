@@ -5,7 +5,8 @@
     .module('bahmni.common.uiHelper')
     .component('pocWizardStep', {
       bindings: {
-        title: '@'
+        title: '@',
+        form: '<'
       },
       require: {
         pocWizard: '^^pocWizard'
@@ -26,7 +27,14 @@
     vm.getClass = getClass;
 
     function $onInit() {
+      validateMandatoryAttributes();
       vm.pocWizard.addStep(vm);
+    }
+
+    function validateMandatoryAttributes() {
+      if (angular.isUndefined(vm.form)) {
+        throw "[pocWizardStep] form attribute is mandatory";
+      }
     }
 
     function getClass() {
