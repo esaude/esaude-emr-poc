@@ -19,6 +19,7 @@
 
     var TRYING_TO_STEP_FORWARD_ON_LAST_STEP = "Trying to step forward on last step";
     var TRYING_TO_STEP_BACK_ON_FIRST_STEP = "Trying to step back on first step";
+    var TRYING_TO_GO_TO_INVALID_STEP_WHEN_ALL_STEPS_ARE_VALID = "Trying to go to invalid step when all steps are valid";
 
     var vm = this;
     vm.stepControllers = [];
@@ -109,7 +110,11 @@
 
     function goToFirstInvalidStep() {
       var invalidStep = vm.stepControllers.find(step => !step.isFormValid());
-      setCurrentStep(invalidStep);
+      if (angular.isDefined(invalidStep)) {
+        setCurrentStep(invalidStep);
+      } else {
+        throw TRYING_TO_GO_TO_INVALID_STEP_WHEN_ALL_STEPS_ARE_VALID;
+      }
     }
 
     function save() {
