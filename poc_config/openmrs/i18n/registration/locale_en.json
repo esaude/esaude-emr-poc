@@ -99,5 +99,6 @@
     "VITALS_LAST_BMI": "Last BMI",
     "EDIT": "Editar",
     "PATIENT_WITH_SAME_NID_EXISTS": "Patient with same NID already exists",
-    "SOME_STEPS_HAVE_VALIDATION_PROBLEMS_CLICK_OK_TO_GO_TO_FIRST_INVALID_STEP": "Some steps have validation problems, click YES to go to the first one"
+    "SOME_STEPS_HAVE_VALIDATION_PROBLEMS_CLICK_OK_TO_GO_TO_FIRST_INVALID_STEP": "Some steps have validation problems, click YES to go to the first one",
+    "CONFIRMATION": "Confirmation"
 }

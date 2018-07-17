@@ -5,7 +5,9 @@
     .module('common.patient')
     .component('patientOtherStep', {
       bindings: {
-        patient: '<'
+        patient: '<',
+        form: '<',
+        showMessages: '<'
       },
       controller: PatientOtherStepController,
       controllerAs: 'vm',
@@ -20,26 +22,14 @@
 
     var vm = this;
 
-    var NAME = 'other';
-
     vm.patientAttributes = [];
 
     vm.$onInit = $onInit;
-    vm.getName = getName;
-    vm.shouldShowMessages = shouldShowMessages;
 
     function $onInit() {
-      vm.patientWizard.setCurrentStep(vm);
       vm.patientAttributes = patientService.getPersonAttributesForStep('other');
     }
 
-    function getName() {
-      return NAME;
-    }
-
-    function shouldShowMessages() {
-      return vm.patientWizard.showMessages;
-    }
   }
 
 })();

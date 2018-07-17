@@ -4,55 +4,58 @@
   </div>
 </div>
 
-<div class="row bg-info-border content-border border-rouded">
-  <div id="status-buttons" class="text-center">
-    <a ui-sref-active="active" ng-click="vm.changeStep('identifier');">
-      <span class="label label-primary">1</span> {{'PATIENT_INFO_IDENTIFIERS' | translate}}
-    </a>
-    <a ui-sref-active="active" ng-click="vm.changeStep('name');">
-      <span class="label label-primary">2</span>
-      {{'PATIENT_INFO_NAME' | translate}}
-    </a>
-    <a ui-sref-active="active" ng-click="vm.changeStep('gender');">
-      <span class="label label-primary">3</span> {{'PATIENT_INFO_GENDER' | translate}}
-    </a>
-    <a ui-sref-active="active" ng-click="vm.changeStep('age');">
-      <span class="label label-primary">4</span> {{'PATIENT_INFO_AGE' | translate}}
-    </a>
-    <a ui-sref-active="active" ng-click="vm.changeStep('address');">
-      <span class="label label-primary">5</span> {{'PATIENT_INFO_ADDRESS' | translate}}
-    </a>
-    <a ui-sref-active="active" ng-click="vm.changeStep('other');">
-      <span class="label label-primary">6</span> {{'PATIENT_INFO_OTHERS' | translate}}
-    </a>
-    <a ui-sref-active="active" ng-click="vm.changeStep('testing');">
-      <span class="label label-primary">7</span> {{'PATIENT_INFO_HIV_TEST' | translate}}
-    </a>
-  </div>
-</div>
+<poc-wizard on-show-message="vm.setShowMessage(showMessage)" on-save="vm.save()">
 
-<ui-view></ui-view>
+  <form name="vm.formIdentifiers" class="form-horizontal" novalidate>
+    <poc-wizard-step form="vm.formIdentifiers" title="{{'PATIENT_INFO_IDENTIFIERS' | translate}}">
+      <patient-identifiers-step patient="vm.patient" form="vm.formIdentifiers" show-messages="vm.showMessages" />
+    </poc-wizard-step>
+  </form>
+
+  <form name="vm.formNames" class="form-horizontal" novalidate>
+    <poc-wizard-step form="vm.formNames" title="{{'PATIENT_INFO_NAME' | translate}}">
+      <patient-names-step patient="vm.patient" form="vm.formNames" show-messages="vm.showMessages" />
+    </poc-wizard-step>
+  </form>
+
+  <form name="vm.formGender" class="form-horizontal" novalidate>
+    <poc-wizard-step form="vm.formGender" title="{{'PATIENT_INFO_GENDER' | translate}}">
+      <patient-gender-step patient="vm.patient" form="vm.formNames" show-messages="vm.showMessages" />
+    </poc-wizard-step>
+  </form>
+
+  <form name="vm.formAge" class="form-horizontal" novalidate>
+    <poc-wizard-step form="vm.formAge" title="{{'PATIENT_INFO_AGE' | translate}}">
+      <patient-age-step patient="vm.patient" form="vm.formAge" show-messages="vm.showMessages" />
+    </poc-wizard-step>
+  </form>
+
+  <form name="vm.formAddress" class="form-horizontal" novalidate>
+    <poc-wizard-step form="vm.formAddress" title="{{'PATIENT_INFO_ADDRESS' | translate}}">
+      <patient-address-step patient="vm.patient" form="vm.formAddress" show-messages="vm.showMessages" />
+    </poc-wizard-step>
+  </form>
+
+  <form name="vm.formOther" class="form-horizontal" novalidate>
+    <poc-wizard-step form="vm.formOther" title="{{'PATIENT_INFO_OTHERS' | translate}}">
+      <patient-other-step patient="vm.patient" form="vm.formOther" show-messages="vm.showMessages" />
+    </poc-wizard-step>
+  </form>
+
+  <form name="vm.formHiv" class="form-horizontal" novalidate>
+    <poc-wizard-step form="vm.formHiv" title="{{'PATIENT_INFO_HIV_TEST' | translate}}">
+      <patient-hiv-test-step patient="vm.patient" form="vm.formHiv" show-messages="vm.showMessages" />
+    </poc-wizard-step>
+  </form>
+
+  <form name="vm.formConfirmation" class="form-horizontal" novalidate>
+    <poc-wizard-step form="vm.formConfirmation" title="{{'CONFIRMATION' | translate}}">
+      <patient-confirm-step patient="vm.patient" />
+    </poc-wizard-step>
+  </form>
+</poc-wizard>
 
 <div class="row bg-info-border content-border border-rouded-bottom">
-
-  <div class="pull-right">
-
-    <button id="previous-step" type="button" class="btn btn-default btn-lg" ng-click="vm.stepBackwards();" ng-if="!vm.atFirstStep();">
-      <span class="glyphicon glyphicon glyphicon-step-backward"></span>
-      <span class="button-label">{{'PREVIOUS_STEP' | translate}}</span>
-    </button>
-
-    <button id="next-step" type="button" class="btn btn-default btn-lg" ng-click="vm.stepForward();" ng-if="!vm.atLastStep();">
-      <span class="glyphicon glyphicon glyphicon-step-forward"></span>
-      <span class="button-label">{{'NEXT_STEP' | translate}}</span>
-    </button>
-
-    <button id="confirm" type="button" class="btn btn-primary btn-lg" ng-click="vm.save();" ng-if="vm.atLastStep();">
-      <span class="glyphicon glyphicon-floppy-disk"></span>
-      <span class="button-label">{{'SAVE' | translate}}</span>
-    </button>
-
-  </div>
 
   <button type="button" class="btn btn-warning btn-lg" ng-click="vm.linkCancel();">
     <span class="glyphicon glyphicon-minus-sign"></span>

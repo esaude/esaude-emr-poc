@@ -8,7 +8,7 @@
   config.$inject = ['$urlRouterProvider', '$stateProvider', '$bahmniTranslateProvider', '$httpProvider'];
 
   /* @ngInject */
-  function config ($urlRouterProvider, $stateProvider, $bahmniTranslateProvider, $httpProvider) {
+  function config($urlRouterProvider, $stateProvider, $bahmniTranslateProvider, $httpProvider) {
 
     // to prevent the browser from displaying a password pop-up in case of an authentication error
     $httpProvider.defaults.headers.common['Disable-WWW-Authenticate'] = 'true';
@@ -18,12 +18,12 @@
     });
 
     const REGISTRATION_APP_ID = 'registration';
-    $bahmniTranslateProvider.init({app: REGISTRATION_APP_ID, shouldMerge: true});
+    $bahmniTranslateProvider.init({ app: REGISTRATION_APP_ID, shouldMerge: true });
 
     $stateProvider
       .state('root', {
         abstract: true,
-        data: {authorization: REGISTRATION_APP_ID},
+        data: { authorization: REGISTRATION_APP_ID },
         resolve: {
           initialization: 'initialization',
         }
@@ -96,62 +96,62 @@
           parent: 'search'
         }
       })
-      .state('newpatient.name', {
-        url: '/name',
-        component: 'patientNamesStep',
-        ncyBreadcrumb: {
-          skip: true
-        }
-      })
-      .state('newpatient.gender', {
-        url: '/gender',
-        component: 'patientGenderStep',
-        ncyBreadcrumb: {
-          skip: true
-        }
-      })
-      .state('newpatient.age', {
-        url: '/age',
-        component: 'patientAgeStep',
-        ncyBreadcrumb: {
-          skip: true
-        }
-      })
-      .state('newpatient.address', {
-        url: '/address',
-        component: 'patientAddressStep',
-        ncyBreadcrumb: {
-          skip: true
-        }
-      })
-      .state('newpatient.other', {
-        url: '/other',
-        component: 'patientOtherStep',
-        ncyBreadcrumb: {
-          skip: true
-        }
-      })
-      .state('newpatient.identifier', {
-        url: '/identifier',
-        component: 'patientIdentifiersStep',
-        ncyBreadcrumb: {
-          skip: true
-        }
-      })
-      .state('newpatient.testing', {
-        url: '/testing',
-        component: 'patientHIVTestStep',
-        ncyBreadcrumb: {
-          skip: true
-        }
-      })
-      .state('newpatient.confirm', {
-        url: '/confirm',
-        component: 'patientConfirmStep',
-        ncyBreadcrumb: {
-          skip: true
-        }
-      })
+      // .state('newpatient.name', {
+      //   url: '/name',
+      //   component: 'patientNamesStep',
+      //   ncyBreadcrumb: {
+      //     skip: true
+      //   }
+      // })
+      // .state('newpatient.gender', {
+      //   url: '/gender',
+      //   component: 'patientGenderStep',
+      //   ncyBreadcrumb: {
+      //     skip: true
+      //   }
+      // })
+      // .state('newpatient.age', {
+      //   url: '/age',
+      //   component: 'patientAgeStep',
+      //   ncyBreadcrumb: {
+      //     skip: true
+      //   }
+      // })
+      // .state('newpatient.address', {
+      //   url: '/address',
+      //   component: 'patientAddressStep',
+      //   ncyBreadcrumb: {
+      //     skip: true
+      //   }
+      // })
+      // .state('newpatient.other', {
+      //   url: '/other',
+      //   component: 'patientOtherStep',
+      //   ncyBreadcrumb: {
+      //     skip: true
+      //   }
+      // })
+      // .state('newpatient.identifier', {
+      //   url: '/identifier',
+      //   component: 'patientIdentifiersStep',
+      //   ncyBreadcrumb: {
+      //     skip: true
+      //   }
+      // })
+      // .state('newpatient.testing', {
+      //   url: '/testing',
+      //   component: 'patientHIVTestStep',
+      //   ncyBreadcrumb: {
+      //     skip: true
+      //   }
+      // })
+      // .state('newpatient.confirm', {
+      //   url: '/confirm',
+      //   component: 'patientConfirmStep',
+      //   ncyBreadcrumb: {
+      //     skip: true
+      //   }
+      // })
       .state('editpatient', {
         url: '/patient/edit/:patientUuid',
         component: 'patientWizard',
@@ -162,68 +162,11 @@
         params: {
           returnState: null
         },
-        parent: 'root',
         resolve: {
           patient: (initialization, $stateParams, patientService, patientRepresentation) => {
             // We need initialization to always resolve first';
             return patientService.getPatient($stateParams.patientUuid, patientRepresentation);
           }
-        }
-      })
-      .state('editpatient.name', {
-        url: '/name',
-        component: 'patientNamesStep',
-        ncyBreadcrumb: {
-          skip: true
-        }
-      })
-      .state('editpatient.gender', {
-        url: '/gender',
-        component: 'patientGenderStep',
-        ncyBreadcrumb: {
-          skip: true
-        }
-      })
-      .state('editpatient.age', {
-        url: '/age',
-        component: 'patientAgeStep',
-        ncyBreadcrumb: {
-          skip: true
-        }
-      })
-      .state('editpatient.address', {
-        url: '/address',
-        component: 'patientAddressStep',
-        ncyBreadcrumb: {
-          skip: true
-        }
-      })
-      .state('editpatient.other', {
-        url: '/other',
-        component: 'patientOtherStep',
-        ncyBreadcrumb: {
-          skip: true
-        }
-      })
-      .state('editpatient.identifier', {
-        url: '/identifier',
-        component: 'patientIdentifiersStep',
-        ncyBreadcrumb: {
-          skip: true
-        }
-      })
-      .state('editpatient.testing', {
-        url: '/testing',
-        component: 'patientHIVTestStep',
-        ncyBreadcrumb: {
-          skip: true
-        }
-      })
-      .state('editpatient.confirm', {
-        url: '/confirm',
-        component: 'patientConfirmStep',
-        ncyBreadcrumb: {
-          skip: true
         }
       })
       .state('detailpatient', {

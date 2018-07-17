@@ -5,7 +5,9 @@
     .module('common.patient')
     .component('patientIdentifiersStep', {
       bindings: {
-        patient: '<'
+        patient: '<',
+        form: '<',
+        showMessages: '<'
       },
       controller: PatientIdentifiersStepController,
       controllerAs: 'vm',
@@ -20,21 +22,14 @@
 
     var vm = this;
 
-    var NAME = 'identifier';
-
     vm.$onInit = $onInit;
     vm.addNewIdentifier = addNewIdentifier;
     vm.listRequiredIdentifiers = listRequiredIdentifiers;
     vm.removeIdentifier = removeIdentifier;
     vm.selectIdentifierType = selectIdentifierType;
     vm.setPreferredId = setPreferredId;
-    vm.getName = getName;
-    vm.shouldShowMessages = shouldShowMessages;
 
     function $onInit() {
-
-      vm.patientWizard.setCurrentStep(vm);
-
       getIdentifierTypes().then(identifierTypes => {
         vm.patientIdentifierTypes = identifierTypes;
       });
@@ -51,10 +46,8 @@
 
     function removeIdentifier(identifier) {
       vm.errorMessage = null;
-
       _.pull(vm.patient.identifiers, identifier);
     }
-
 
     function listRequiredIdentifiers() {
       if (!_.isEmpty(vm.patient.identifiers)) {
@@ -115,19 +108,12 @@
       var m = m || 9;
       var s = '';
       var r = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-      for (var i=0; i < m; i++) {
-        s += r.charAt(Math.floor(Math.random()*r.length));
+      for (var i = 0; i < m; i++) {
+        s += r.charAt(Math.floor(Math.random() * r.length));
       }
       return s;
     }
 
-    function getName() {
-      return NAME;
-    }
-
-    function shouldShowMessages() {
-      return vm.patientWizard.showMessages;
-    }
   }
 
 })();

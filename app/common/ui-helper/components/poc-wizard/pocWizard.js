@@ -5,7 +5,8 @@
     .module('bahmni.common.uiHelper')
     .component('pocWizard', {
       bindings: {
-        onSave: '&'
+        onSave: '&',
+        onShowMessage: '&'
       },
       controller: PocWizardController,
       controllerAs: 'vm',
@@ -45,6 +46,7 @@
     }
 
     function setCurrentStep(stepController) {
+      notifyShowMessageStatusChange(stepController.visited);
       clearCurrentStep();
       stepController.current = true;
       setPreviousStepsAsVisited(stepController);
@@ -81,11 +83,16 @@
           var indexOfCurrentStep = vm.stepControllers.indexOf(vm.getCurrentStep());
           setCurrentStep(vm.stepControllers[indexOfCurrentStep + 1]);
         } else {
-          $log.info("[pocWizard] I'm not going forward because the form of current step is invalid. Make sure we show a validation error to the user.");
+          $log.info("[pocWizard] I'm not steping forward because the form of current step is invalid. Make sure we show a validation error to the user.");
+          notifyShowMessageStatusChange(true);
         }
       } else {
         throw TRYING_TO_STEP_FORWARD_ON_LAST_STEP;
       }
+    }
+
+    function notifyShowMessageStatusChange(showMessage) {
+      vm.onShowMessage({ showMessage: showMessage });
     }
 
     function isFirstStep() {

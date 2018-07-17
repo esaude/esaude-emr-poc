@@ -5,7 +5,9 @@
     .module('common.patient')
     .component('patientNamesStep', {
       bindings: {
-        patient: '<'
+        patient: '<',
+        form: '<',
+        showMessages: '<'
       },
       controller: PatientNamesStepController,
       controllerAs: 'vm',
@@ -20,18 +22,13 @@
 
     var vm = this;
 
-    var NAME = 'name';
-
     vm.patientAttributes = [];
 
     vm.$onInit = $onInit;
     vm.getAutoCompleteList = getAutoCompleteList;
     vm.getDataResults = getDataResults;
-    vm.getName = getName;
-    vm.shouldShowMessages = shouldShowMessages;
 
     function $onInit() {
-      vm.patientWizard.setCurrentStep(vm);
       vm.patientAttributes = patientService.getPersonAttributesForStep('name');
     }
 
@@ -43,13 +40,6 @@
       return data.results;
     }
 
-    function getName() {
-      return NAME;
-    }
-
-    function shouldShowMessages() {
-      return vm.patientWizard.showMessages;
-    }
   }
 
 })();

@@ -5,7 +5,9 @@
     .module('common.patient')
     .component('patientGenderStep', {
       bindings: {
-        patient: '<'
+        patient: '<',
+        form: '<',
+        showMessages: '<'
       },
       controller: PatientGenderStepController,
       controllerAs: 'vm',
@@ -20,23 +22,11 @@
 
     var vm = this;
 
-    var NAME = 'gender';
-
     vm.$onInit = $onInit;
-    vm.getName = getName;
-    vm.shouldShowMessages = shouldShowMessages;
 
     function $onInit() {
-      vm.patientWizard.setCurrentStep(vm);
     }
 
-    function getName() {
-      return NAME;
-    }
-
-    function shouldShowMessages() {
-      return vm.patientWizard.showMessages;
-    }
   }
 
 })();
