@@ -202,7 +202,8 @@ describe('patientService', () => {
 
       $httpBackend.flush();
 
-      expect(error).toEqual("PATIENT_WITH_SAME_NID_EXISTS");
+      expect(error.errorType).toEqual("PATIENT_WITH_SAME_NID_EXISTS");
+      expect(error.nid).toEqual("12345678/12/12345");
     });
 
     afterEach(() => {

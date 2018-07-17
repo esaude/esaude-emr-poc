@@ -64,8 +64,8 @@
           $state.go('dashboard', { patientUuid: patientProfile.patient.uuid });
         })
         .catch(error => {
-          if (angular.isString(error)) {
-            notifier.error(translateFilter(error));
+          if (error.errorType) {
+            notifier.error(translateFilter(error.errorType, { nid: error.nid }));
           } else {
             notifier.error(translateFilter('COMMON_MESSAGE_ERROR_ACTION'));
           }

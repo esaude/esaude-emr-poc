@@ -12,6 +12,29 @@ describe('dateAndProviderModal', () => {
     encounterService = _encounterService_;
   }));
 
+  describe('$onInit', () => {
+
+    it('should set prescription date', () => {
+
+      const prescriptionDate = new Date();
+      const ctrl = $componentController('dateAndProviderModal', null, {resolve: {prescriptionDate}});
+
+      ctrl.$onInit();
+
+      expect(ctrl.prescriptionDate).toEqual(prescriptionDate);
+    });
+
+    it('should set selected provider', () => {
+
+      const selectedProvider = {display: '288-1 - Natalia Malheiro'};
+      const ctrl = $componentController('dateAndProviderModal', null, {resolve: {selectedProvider}});
+
+      ctrl.$onInit();
+
+      expect(ctrl.selectedProvider).toEqual(selectedProvider);
+    });
+
+  });
 
   describe('ok', () => {
 

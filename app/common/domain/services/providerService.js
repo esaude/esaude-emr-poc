@@ -16,9 +16,9 @@
 
     ////////////////
 
-    function getProviders(term) {
+    function getProviders(term, {ignoreLoadingBar = false} = {}) {
       return $http
-        .get("/openmrs/ws/rest/v1/provider",  {params: {q: term}})
+        .get("/openmrs/ws/rest/v1/provider",  {params: {q: term}, ignoreLoadingBar: ignoreLoadingBar})
         .then(response => response.data.results)
         .catch(err => {
           $log.error('XHR Failed for getProviders: ' + error.data.error.message);

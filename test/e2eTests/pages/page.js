@@ -1,5 +1,5 @@
 const Component = require('./components/component');
-const I18n = require('./../i18n');
+const translator = require('./../translator');
 
 // Represents a page on the POC website
 // A page can consist of multiple components
@@ -22,11 +22,6 @@ class Page {
     if (!this.options.components.includes('header')) {
       this.options.components.push('header');
     }
-
-    // Add translator
-    this.i18n = new I18n({
-      directory: __dirname + '/../../../poc_config/openmrs/i18n/'
-    });
   }
 
   _init() {
@@ -53,9 +48,9 @@ class Page {
     component.addToPage(this);
   }
 
-  // TODO: Set locale automatically
+  // Translate using the default locale
   translate(key) {
-    return this.i18n.t('locale_pt', key);
+    return translator.translate(key);
   }
 }
 
