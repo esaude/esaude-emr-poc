@@ -171,5 +171,16 @@ module.exports = {
         testResult: "string:e1da2600-1d5f-11e0-b929-000c29ad1d07", // POSITIVO
       }
     },
+  },
+  clinicalData: {
+    vitals1: {
+      temperature: '37',
+      weight: '60',
+      height: '152',
+      systolicBloodPressure: '110',
+      diastolicBloodPressure: '70',
+      cardiacFrequency: '108',
+      respiratoryRate: '16',
+    }
   }
 };

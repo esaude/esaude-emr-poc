@@ -11,7 +11,7 @@ class ClinicDashboardPage extends Page {
         urlPart: '/clinic/#/dashboard',
       },
 
-      components: ['tabs']
+      components: ['tabs', 'actions']
     });
 
     this.tabs = {
@@ -26,7 +26,7 @@ class ClinicDashboardPage extends Page {
   clickAddVitals() {
     const vitalsServiceId = '003';
     const addButton = `[data-qa-service-id="${vitalsServiceId}"] button[data-qa-type="add"]`;
-    
+
     this.I.say(`${LOG_TAG} Click the add button`);
     this.I.waitForElement(addButton, 5);
     this.I.click(addButton);
