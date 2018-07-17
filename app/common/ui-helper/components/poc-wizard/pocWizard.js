@@ -79,7 +79,7 @@
     function stepForward() {
       if (!isLastStep()) {
         //We only step forward if the current form is valid, else we stay put so the user can see the validation error on the screen
-        if (vm.getCurrentStep().form.$valid) {
+        if (vm.getCurrentStep().isFormValid()) {
           var indexOfCurrentStep = vm.stepControllers.indexOf(vm.getCurrentStep());
           setCurrentStep(vm.stepControllers[indexOfCurrentStep + 1]);
         } else {
@@ -104,11 +104,11 @@
     }
 
     function allStepsAreValid() {
-      return angular.isUndefined(vm.stepControllers.find(step => !step.form.$valid));
+      return angular.isUndefined(vm.stepControllers.find(step => !step.isFormValid()));
     }
 
     function goToFirstInvalidStep() {
-      var invalidStep = vm.stepControllers.find(step => !step.form.$valid);
+      var invalidStep = vm.stepControllers.find(step => !step.isFormValid());
       setCurrentStep(invalidStep);
     }
 

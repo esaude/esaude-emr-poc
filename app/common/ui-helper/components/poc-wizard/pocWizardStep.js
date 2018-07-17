@@ -18,22 +18,23 @@
     });
 
   /* @ngInject */
-  function PocWizardStep() {
+  function PocWizardStep($log) {
 
     var vm = this;
     vm.current = false;
     vm.visited = false;
     vm.$onInit = $onInit;
     vm.getClass = getClass;
+    vm.isFormValid = isFormValid;
 
     function $onInit() {
-      validateMandatoryAttributes();
+      warnPossibleMissingAttributes();
       vm.pocWizard.addStep(vm);
     }
 
-    function validateMandatoryAttributes() {
+    function warnPossibleMissingAttributes() {
       if (angular.isUndefined(vm.form)) {
-        throw "[pocWizardStep] form attribute is mandatory";
+        $log.warn("[pocWizardStep] no form defined for step " + vm.title);
       }
     }
 
@@ -41,10 +42,18 @@
       var clazz = "";
       if (vm.current) {
         clazz = "poc-wizard-step-current";
-      } else if (!vm.form.$valid && vm.visited) {
+      } else if (!isFormValid() && vm.visited) {
         clazz = "poc-wizard-step-inconsistent";
       }
       return clazz;
+    }
+
+    function isFormValid() {
+      var valid = true;
+      if (vm.form) {
+        valid = vm.form.$valid;
+      }
+      return valid;
     }
   }
 

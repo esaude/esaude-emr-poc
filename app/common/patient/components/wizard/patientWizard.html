@@ -48,11 +48,10 @@
     </poc-wizard-step>
   </form>
 
-  <form name="vm.formConfirmation" class="form-horizontal" novalidate>
-    <poc-wizard-step form="vm.formConfirmation" title="{{'CONFIRMATION' | translate}}">
-      <patient-confirm-step patient="vm.patient" />
-    </poc-wizard-step>
-  </form>
+  <poc-wizard-step title="{{'CONFIRMATION' | translate}}">
+    <patient-confirm-step patient="vm.patient" />
+  </poc-wizard-step>
+  
 </poc-wizard>
 
 <div class="row bg-info-border content-border border-rouded-bottom">
