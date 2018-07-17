@@ -163,7 +163,7 @@ describe('PatientSearchController', () => {
 
       ctrl.linkPatientNew();
 
-      expect($state.go).toHaveBeenCalledWith('newpatient.identifier');
+      expect($state.go).toHaveBeenCalledWith('newpatient');
 
     });
 

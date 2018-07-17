@@ -23,16 +23,6 @@ describe('patientAgeStep', () => {
 
   describe('$onInit', () => {
 
-    it('should set it self as wizard current step', () => {
-
-      var patientWizard = jasmine.createSpyObj('patientWizard', ['setCurrentStep']);
-      var ctrl = $componentController('patientAgeStep', null, {patientWizard: patientWizard});
-
-      ctrl.$onInit();
-
-      expect(patientWizard.setCurrentStep).toHaveBeenCalledWith(ctrl);
-    });
-
   });
 
 });

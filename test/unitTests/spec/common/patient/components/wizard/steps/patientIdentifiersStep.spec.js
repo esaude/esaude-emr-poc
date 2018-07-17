@@ -41,16 +41,6 @@ describe('patientIdentifiersStep', () => {
       expect(ctrl.patientIdentifierTypes).toBe(identifierTypes);
     });
 
-    it('should set it self as wizard current step', () => {
-
-      var patientWizard = jasmine.createSpyObj('patientWizard', ['setCurrentStep']);
-      var ctrl = $componentController('patientIdentifiersStep', null, {patientWizard: patientWizard});
-
-      ctrl.$onInit();
-
-      expect(patientWizard.setCurrentStep).toHaveBeenCalledWith(ctrl);
-    });
-
   });
 
   describe('addNewIdentifier', () => {

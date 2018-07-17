@@ -32,21 +32,6 @@ describe('dateAndProviderModal', () => {
 
     });
 
-    describe('form not valid', () => {
-
-      it('should show messages', () => {
-
-        var close = jasmine.createSpy('close');
-        var ctrl = $componentController('dateAndProviderModal', null, {close});
-
-        ctrl.ok({$valid: false});
-
-        expect(ctrl.showMessages).toEqual(true);
-
-      });
-
-    });
-
   });
 
   describe('cancel', () => {
