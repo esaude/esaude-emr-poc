@@ -1,6 +1,6 @@
 describe('patientGenderStep', () => {
 
-  var $componentController, patientService, $q, $rootScope, sessionService;
+  var $componentController;
 
   beforeEach(module('common.patient', ($provide, $translateProvider, $urlRouterProvider) => {
     // Mock translate asynchronous loader
@@ -13,16 +13,15 @@ describe('patientGenderStep', () => {
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject((_$componentController_, _patientService_, _$q_, _$rootScope_, _sessionService_) => {
+  beforeEach(inject((_$componentController_) => {
     $componentController = _$componentController_;
-    patientService = _patientService_;
-    $q = _$q_;
-    $rootScope = _$rootScope_;
-    sessionService = _sessionService_;
   }));
 
   describe('$onInit', () => {
-
+    it('show do nothing', () => {
+      var ctrl = $componentController('patientGenderStep', null, {});
+      ctrl.$onInit();
+    });
   });
 
 });
