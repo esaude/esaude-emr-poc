@@ -116,7 +116,7 @@
                         </div>
                       </div>
                       <input type="number" name="quantity" class="form-control keyboard-in" ng-model="item.quantity"
-                             ng-change="vm.updatePickup(item)" size="4" min="1" required>
+                             ng-change="vm.updatePickup(item)" ng-pattern="/^[0-9]*$/"  size="4" min="1" required>
                     </div>
                   </div>
                 </td>
