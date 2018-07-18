@@ -26,7 +26,7 @@
     vm.drugAvailable = true;
     vm.existingPrescriptions = [];
     vm.prescriptionConvSet = {};
-    vm.listedPrescriptions = [];
+    vm.prescription = {items: [], arvItems: []};
     vm.regimen = {};
     vm.prescriptionDate = null;
     vm.prescriptionItem = {};
@@ -39,7 +39,8 @@
     vm.add = add;
     vm.cancelOrStop = cancelOrStop;
     vm.checkDrugType = checkDrugType;
-    vm.cleanDrugIfUnchecked = cleanDrugIfUnchecked;
+    vm.isRegimenEditable = isRegimenEditable;
+    vm.onArvRegimenChange = onArvRegimenChange;
     vm.onDrugRegimenChange = onDrugRegimenChange;
     vm.edit = edit;
     vm.getDrugs = getDrugs;
@@ -75,19 +76,16 @@
       prescriptionService.getPrescriptionConvSetConcept()
         .then(c => vm.prescriptionConvSet = c);
 
-      prescriptionService.getPatientRegimen(vm.patient)
-        .then(regimen => {
-          setRegimen(regimen);
-        })
-        .catch(() => {
-          notifier.error($filter('translate')('COMMON_ERROR'));
-        });
-
       loadSavedPrescriptions(vm.patient);
+    }
+
+    function isRegimenEditable() {
+      return vm.prescription.items.length === 0 || angular.isUndefined(vm.prescription.regimen);
     }
 
     function setRegimen(regimen) {
       vm.regimen = regimen;
+      vm.regimen.isArv = !!regimen.artPlan;
       if (regimen.drugRegimen) {
         loadDrugRegimenDrugs(regimen.drugRegimen);
       }
@@ -104,13 +102,17 @@
       }
 
       //avoid duplication of drugs
-      var sameOrderItem = _.find(vm.listedPrescriptions, item => item.drugOrder.drug.uuid === vm.prescriptionItem.drugOrder.drug.uuid);
+      var sameOrderItem = _.find(vm.prescription.items, item => item.drugOrder.drug.uuid === vm.prescriptionItem.drugOrder.drug.uuid);
 
       if (sameOrderItem) {
         notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ITEM_ALREADY_IN_LIST'));
         return;
       }
-      vm.listedPrescriptions.push(vm.prescriptionItem);
+      if (vm.regimen.isArv) {
+        vm.prescription.arvItems.push(vm.prescriptionItem);
+        vm.prescription.regimen = vm.regimen;
+      }
+      vm.prescription.items.push(vm.prescriptionItem);
       resetForm(form);
       vm.showNewPrescriptionsControlls = true;
       vm.showMessages = false;
@@ -139,18 +141,22 @@
       if(!vm.prescriptionItem.drugOrder || vm.prescriptionItem.drugOrder.drug ){
         //check if drug is ARV
 
-        drugService.isArvDrug(drug, {ignoreLoadingBar: true}).then(isArv => {
-          if (isArv) {
-            vm.regimen.isArv = true;
-            // TODO load therapeuticline, drugRegimen and artPlan
-            vm.prescriptionItem.drugOrder = null;
-          } else {
-            vm.prescriptionItem.isArv = false;
-            vm.prescriptionItem.interruptedReason = {};
-            vm.prescriptionItem.isPlanInterrupted = false;
-            vm.prescriptionItem.arvPlan = {};
-          }
-        });
+        drugService.isArvDrug(drug, {ignoreLoadingBar: true})
+          .then(isArv => {
+            if (isArv) {
+              vm.regimen.isArv = true;
+              // TODO load therapeuticline, drugRegimen and artPlan
+              vm.prescriptionItem.drugOrder = null;
+            } else {
+              vm.prescriptionItem.isArv = false;
+              vm.prescriptionItem.interruptedReason = {};
+              vm.prescriptionItem.isPlanInterrupted = false;
+              vm.prescriptionItem.arvPlan = {};
+            }
+          })
+          .catch(() => {
+            notifier.error($filter('translate')('COMMON_ERROR'));
+          });
         verifyDrugAvailability(drug);
       }
     }
@@ -181,7 +187,7 @@
       if(item.regime){
         vm.prescriptionItem.isArv  = true;
       }
-      _.pull(vm.listedPrescriptions, item);
+      _.pull(vm.prescription.items, item);
       isPrescriptionControl();
     }
 
@@ -216,26 +222,30 @@
         drugRegimen: prescription.regime,
         therapeuticLine: prescription.therapeuticLine,
         artPlan: prescription.arvPlan,
-        isArv: !!prescription.arvPlan,
       };
       if (prescription.arvPlan) {
         setRegimen(regimen);
       }
       i.drugOrder.dosingInstructions = {uuid: i.drugOrder.dosingInstructions};
-      vm.listedPrescriptions.push(i);
+      vm.prescription.items.push(i);
       vm.showNewPrescriptionsControlls = true;
     }
 
 
     function remove(item) {
-      _.pull(vm.listedPrescriptions, item);
+      _.pull(vm.prescription.items, item);
+      _.pull(vm.prescription.arvItems, item);
+      if (vm.prescription.arvItems.length === 0) {
+        vm.prescription.regimen = null;
+      }
       isPrescriptionControl();
     }
 
     function removeAll() {
-      vm.listedPrescriptions = [];
-      isPrescriptionControl();
       vm.regimen = {};
+      vm.prescription.items = [];
+      vm.prescription.regimen = null;
+      isPrescriptionControl();
     }
 
 
@@ -265,14 +275,19 @@
         patient: {uuid: vm.patient.uuid},
         provider: {uuid: vm.selectedProvider && vm.selectedProvider.uuid},
         location: {uuid: sessionService.getCurrentLocation().uuid},
-        prescriptionItems: []
+        prescriptionItems: [],
+        regime: vm.prescription.regimen && {uuid: vm.prescription.regimen.drugRegimen.uuid},
+        therapeuticLine: vm.prescription.regimen && {uuid: vm.prescription.regimen.therapeuticLine.uuid},
+        arvPlan: vm.prescription.regimen && {uuid: vm.prescription.regimen.artPlan.uuid},
+        interruptionReason: vm.prescription.regimen && vm.prescription.regimen.interruptedReason && {uuid: vm.prescription.regimen.interruptedReason.uuid},
+        changeReason: vm.prescription.regimen && vm.prescription.regimen.interruptedReason && {uuid: vm.prescription.regimen.changeReason.uuid},
       };
 
       if (vm.retrospectiveMode) {
         prescription.prescriptionDate = vm.prescriptionDate;
       }
 
-      _.forEach(vm.listedPrescriptions, element => {
+      _.forEach(vm.prescription.items, element => {
         var prescriptionItem = {
           drugOrder: {
             type: "drugorder",
@@ -288,11 +303,6 @@
             drug: {uuid: element.drugOrder.drug.uuid}
           },
         };
-        prescription.regime = element.isArv ? element.regime : null;
-        prescription.therapeuticLine =  element.isArv ? element.therapeuticLine : null;
-        prescription.arvPlan =  (element.isArv && element.arvPlan) ? element.arvPlan : null;
-        prescription.interruptionReason = (element.isArv && element.interruptedReason) ? element.interruptedReason : null;
-        prescription.changeReason = (element.isArv && element.changeReason ) ? element.changeReason : null;
         prescription.prescriptionItems.push(prescriptionItem);
       });
 
@@ -302,7 +312,7 @@
         prescriptionService.create(prescription)
           .then(() => {
             notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
-            vm.listedPrescriptions = [];
+            vm.prescription.items = [];
             resetSelectedProvider();
             isPrescriptionControl();
             loadSavedPrescriptions(vm.patient);
@@ -372,16 +382,22 @@
       return hasDuplicated;
     }
 
-    function cleanDrugIfUnchecked(){
+    function loadPatientRegimen() {
+      prescriptionService.getPatientRegimen(vm.patient)
+        .then(regimen => {
+          setRegimen(regimen);
+        })
+        .catch(() => {
+          notifier.error($filter('translate')('COMMON_ERROR'));
+        });
+    }
 
-      if(!vm.prescriptionItem.isArv)
-      {
-        if(vm.prescriptionItem && vm.prescriptionItem.drugOrder){
-          vm.prescriptionItem.drugOrder.drug = null;
-          vm.prescriptionItem.therapeuticLine = null;
-          vm.prescriptionItem.regime = null;
-          vm.prescriptionItem.arvPlan = null;
-        }
+    function onArvRegimenChange() {
+      if (vm.regimen.isArv) {
+        loadPatientRegimen();
+      }
+      if (!vm.prescriptionItem.isArv && vm.prescriptionItem && vm.prescriptionItem.drugOrder) {
+        vm.prescriptionItem.drugOrder.drug = null;
       }
       vm.drugAvailable = true;
     }
@@ -400,7 +416,7 @@
       prescriptionService.stopPrescriptionItem(item.drugOrder, reason)
         .then(() => {
           notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
-          vm.listedPrescriptions = [];
+          vm.prescription.items = [];
           isPrescriptionControl();
           loadSavedPrescriptions(vm.patient);
         })
@@ -423,12 +439,13 @@
         form.$setPristine();
         form.$setUntouched();
       }
+      vm.regimen = {};
       vm.prescriptionItem = {};
     }
 
 
     function isPrescriptionControl() {
-      if (_.isEmpty(vm.listedPrescriptions)) {
+      if (_.isEmpty(vm.prescription.items)) {
         vm.showNewPrescriptionsControlls = false;
       }
     }
@@ -449,12 +466,12 @@
     }
 
     function checkItemIsRefillable(prescription, item) {
-      const contained = vm.listedPrescriptions.find((p) => p.drugOrder.drug.uuid === item.drugOrder.drug.uuid);
+      const contained = vm.prescription.items.find((p) => p.drugOrder.drug.uuid === item.drugOrder.drug.uuid);
       if (contained) {
         return false;
       }
       const ended = prescription.prescriptionStatus === 'FINALIZED' || prescription.prescriptionStatus === 'EXPIRED';
-      if (prescription.regime && vm.listedPrescriptions.length) {
+      if (prescription.regime && vm.prescription.items.length) {
           return ended && isSameDrugRegimen(prescription);
       } else {
         return ended;

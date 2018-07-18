@@ -66,8 +66,7 @@
                 <checkbox largest
                           name="drugType"
                           ng-model="vm.regimen.isArv"
-                          ng-change="vm.cleanDrugIfUnchecked()"
-                          ng-disabled="vm.listedPrescriptions.length">
+                          ng-change="vm.onArvRegimenChange()">
                 </checkbox>
                 {{'COMMON_MESSAGE_QUESTION_CREATE_ARV_PRESCRIPTION_ITEM' | translate}}
               </div>
@@ -78,7 +77,7 @@
                        patient="vm.patient"
                        regimen="vm.regimen"
                        prescription-conv-set="vm.prescriptionConvSet"
-                       disabled="vm.listedPrescriptions.length"
+                       disabled="!vm.isRegimenEditable()"
                        on-therapeutic-line-change="vm.onTherapeuticLineChange(therapeuticLine);"
                        on-art-plan-change="vm.onArtPlanChange(artPlan);"
                        on-drug-regimen-change="vm.onDrugRegimenChange(drugRegimen);">
@@ -286,7 +285,7 @@
           <h3 class="panel-title">{{'CLINIC_PRESCRIPTION_NEW'| translate}}</h3>
         </div>
         <div class="list-group">
-          <div class="list-group-item list-group-item-success" ng-repeat="item in vm.listedPrescriptions">
+          <div class="list-group-item list-group-item-success" ng-repeat="item in vm.prescription.items">
             <span>
               <strong>{{item.drugOrder.drug.display}}</strong>
               <span ng-if="item.regime">

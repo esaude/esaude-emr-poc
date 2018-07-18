@@ -21,20 +21,26 @@
   /* @ngInject */
   function ArvRegimen($q, notifier, prescriptionService, translateFilter) {
 
-    var vm = this;
+    const vm = this;
 
     vm.$regimen = {};
 
-    vm.$onInit = $onInit;
+    vm.$onChanges = $onChanges;
     vm._onTherapeuticLineChange = _onTherapeuticLineChange;
     vm._onArtPlanChange = _onArtPlanChange;
     vm._onDrugRegimenChange = _onDrugRegimenChange;
     vm.onDrugRegimenChangeReasonChange = onDrugRegimenChangeReasonChange;
 
-    function $onInit() {
-      vm.$regimen = angular.copy(vm.regimen);
+    function $onChanges(changesObj) {
+      const regimen = changesObj.regimen.currentValue;
+      if (regimen.therapeuticLine) {
+        vm.$regimen = angular.copy(regimen);
+        loadRegimensByTherapeuticLine(regimen.therapeuticLine);
+      }
+    }
 
-      prescriptionService.getRegimensByTherapeuticLine(vm.patient, vm.regimen.therapeuticLine)
+    function loadRegimensByTherapeuticLine(therapeuticLine) {
+      prescriptionService.getRegimensByTherapeuticLine(vm.patient, therapeuticLine)
         .then(therapeuticLineRegimens => {
           vm.therapeuticLineRegimens = therapeuticLineRegimens;
         })
@@ -72,7 +78,7 @@
     }
 
     function _onDrugRegimenChange(drugRegimen) {
-      var changed = drugRegimen.uuid !== vm.regimen.drugRegimen.uuid;
+      const changed = drugRegimen.uuid !== vm.regimen.drugRegimen.uuid;
       if (changed) {
         vm.isDrugRegimenEditCancel = true;
         vm.$regimen.isDrugRegimenChanged = true;
