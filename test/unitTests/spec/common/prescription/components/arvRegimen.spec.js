@@ -55,18 +55,6 @@ describe('arvRegimen', () => {
 
     });
 
-    it('should enable art plan edit mode if there is current no art plan for patient', () => {
-
-      var ctrl = $componentController('arvRegimen', null, {patient, regimen, onDrugRegimenChange});
-
-      ctrl.$onInit();
-
-      $rootScope.$apply();
-
-      expect(ctrl.isArvPlanEdit).toBe(true);
-
-    });
-
     it('should load regimen for patient current therapeutic line', () => {
 
       var ctrl = $componentController('arvRegimen', null, {patient, regimen, onDrugRegimenChange});

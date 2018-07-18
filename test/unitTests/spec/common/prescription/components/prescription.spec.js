@@ -112,7 +112,7 @@ describe('prescription', () => {
 
     spyOn(patientService, 'getPatient').and.callFake(() => $q(resolve => resolve({})));
 
-    spyOn(prescriptionService, 'getPatientRegimen').and.returnValue($q.resolve({}));
+    spyOn(prescriptionService, 'getPatientRegimen').and.returnValue($q.resolve({drugRegimen: {uuid: '9dc17c1b-7b6d-488e-a38d-505a7b65ec82'}}));
 
     spyOn(drugService, 'getDrugsOfRegimen').and.returnValue($q.resolve([]));
   });

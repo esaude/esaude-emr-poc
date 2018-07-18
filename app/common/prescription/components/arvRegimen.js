@@ -33,7 +33,6 @@
 
     function $onInit() {
       vm.$regimen = angular.copy(vm.regimen);
-      vm.isArvPlanEdit = !vm.regimen.artPlan;
 
       prescriptionService.getRegimensByTherapeuticLine(vm.patient, vm.regimen.therapeuticLine)
         .then(therapeuticLineRegimens => {

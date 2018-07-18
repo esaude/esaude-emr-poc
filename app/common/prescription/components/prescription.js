@@ -88,7 +88,9 @@
 
     function setRegimen(regimen) {
       vm.regimen = regimen;
-      loadDrugRegimenDrugs(regimen.drugRegimen);
+      if (regimen.drugRegimen) {
+        loadDrugRegimenDrugs(regimen.drugRegimen);
+      }
     }
 
     function add(form) {
