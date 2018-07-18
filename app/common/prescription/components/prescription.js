@@ -141,7 +141,8 @@
 
         drugService.isArvDrug(drug, {ignoreLoadingBar: true}).then(isArv => {
           if (isArv) {
-            vm.prescriptionItem.isArv = true;
+            vm.regimen.isArv = true;
+            // TODO load therapeuticline, drugRegimen and artPlan
             vm.prescriptionItem.drugOrder = null;
           } else {
             vm.prescriptionItem.isArv = false;
