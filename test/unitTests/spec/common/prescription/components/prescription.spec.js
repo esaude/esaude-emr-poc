@@ -460,7 +460,6 @@ describe('prescription', () => {
 
         controller = $componentController('prescription',null, {patient: {uuid: '9d674660-10e8-11e5-9009-0242ac110011'}});
 
-        controller.prescription.regimen
         controller.prescription.items.push({
           "drugOrder": {
 
