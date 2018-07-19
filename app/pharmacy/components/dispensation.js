@@ -13,7 +13,7 @@
     });
 
   /* @ngInject */
-  function DispensationController($filter, dispensationService, notifier, prescriptionService, sessionService) {
+  function DispensationController($filter, dispensationService, notifier, prescriptionService, sessionService, drugService) {
 
     var dateUtil = Bahmni.Common.Util.DateUtil;
 
@@ -76,13 +76,11 @@
       item.prescription = prescription;
       item.nextPickupDate = new Date();
       item.showNextPickupDate = true;
-      item.quantity = item.drugToPickUp;
+      item.quantity = dispensationService.getDefaultItemQuantityToDispense(item);
       updatePickupDate(item);
-
       vm.selectedPrescriptionItems = vm.selectedPrescriptionItems.concat([item]);
     }
-
-
+    
     function toggleVisibility(prescription) {
       vm.prescriptions.forEach(p => {
         if (p === prescription) {
