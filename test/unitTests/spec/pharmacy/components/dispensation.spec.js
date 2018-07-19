@@ -142,22 +142,6 @@ describe('dispensation', () => {
 
       expect(notifier.error).toHaveBeenCalled();
     });
-    
-    it('should select arv item with quantity to pickup > 30 (45) and sets as default quantiy 30 pills', () => {
-
-      var arvItem =  {drugToPickUp: 45, arv: true};
-      controller.select(prescription, arvItem);
-
-      expect(arvItem.quantity).toEqual(30);
-    });
-
-    it('should select non arv item with quantity to pickup > 30 (38) and sets as default quantity the total number of pills to pickup', () => {
-
-      var nonArvItem =  {drugToPickUp: 38, arv: false};
-      controller.select(prescription, nonArvItem);
-
-      expect(nonArvItem.quantity).toEqual(38);
-    });
 
     afterEach(() => {
       item.selected = false;

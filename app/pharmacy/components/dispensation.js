@@ -76,13 +76,9 @@
       item.prescription = prescription;
       item.nextPickupDate = new Date();
       item.showNextPickupDate = true;
-      item.quantity = getDefaultQuantityToDispense(item);
+      item.quantity = dispensationService.getDefaultItemQuantityToDispense(item);
       updatePickupDate(item);
       vm.selectedPrescriptionItems = vm.selectedPrescriptionItems.concat([item]);
-    }
-
-    function getDefaultQuantityToDispense(item){
-        return item.arv ? ((item.drugToPickUp > 30 ) ? 30 : item.drugToPickUp) : item.drugToPickUp; 
     }
     
     function toggleVisibility(prescription) {
