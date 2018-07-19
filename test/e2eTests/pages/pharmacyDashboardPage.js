@@ -5,5 +5,5 @@ module.exports = new Page({
     element: '[ng-app="pharmacy"]',
     urlPart: '/pharmacy/#/dashboard',
   },
-  components: ['patientSearch', 'checkIn'],
+  components: ['patientSearch', 'checkIn', 'actions'],
 });

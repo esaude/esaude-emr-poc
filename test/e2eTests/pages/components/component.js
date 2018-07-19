@@ -1,8 +1,10 @@
+const translator = require('./../../translator');
+
 // Represents a component of a page
 // Many of the POC pages consist of multiple components.
 // In many cases we want to test the same component on different pages.
 // This class, and its subclasses, allow us to encapsulate functions that
-// test a specific component so we don't have to rewrite them on each page. 
+// test a specific component so we don't have to rewrite them on each page.
 class Component {
   constructor() {
     this.I = actor();
@@ -14,7 +16,7 @@ class Component {
     return new ComponentClass();
   }
 
-  // Copy properties from this component to the page 
+  // Copy properties from this component to the page
   addToPage(page) {
     // Get all of the properties and functions on this component
     const componentProperties = Object.getOwnPropertyNames(this);
@@ -27,6 +29,10 @@ class Component {
 
     // Copy properties and functions on the component to the page
     propertiesAndFunctionsToCopy.forEach(p => page[p] = this[p]);
+  }
+
+  translate(key) {
+    return translator.translate(key);
   }
 }
 
