@@ -224,7 +224,7 @@
     function filterDate(obs) {
       if (obs.concept.uuid === "892a98b2-9c98-4813-b4e5-0b434d14404d"
         || obs.concept.uuid === "e1e2efd8-1d5f-11e0-b929-000c29ad1d07") {
-        return dateFilter(obs.value, "MMM d, y");
+        return dateFilter(obs.value);
       }
 
       return obs.value;

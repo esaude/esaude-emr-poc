@@ -207,8 +207,8 @@
 
         var editEncounter = updateEncounterMapper.mapFromFormPayload(openMRSEncounter, vm.formPayload.encounter);
 
-        encounterService.update(editEncounter).then(encounterSuccessCallback)
-          .catch(encounterErrorCallback);
+        clinicalServicesService.updateService(clinicalService.id, editEncounter).then(encounterSuccessCallback)
+        .catch(encounterErrorCallback);
       }
     }
 

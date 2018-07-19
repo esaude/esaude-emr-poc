@@ -8,7 +8,7 @@
         patient: '<'
       },
       controllerAs: 'vm',
-      templateUrl: '../common/patient/components/details//patientDeath.html',
+      templateUrl: '../common/patient/components/details/patientDeath.html',
     });
 
 })();

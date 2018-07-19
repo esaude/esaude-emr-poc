@@ -30,7 +30,8 @@
         getClinicalServiceWithEncountersForPatient: getClinicalServicesWithEncountersForPatient,
         getCurrentPatient: getCurrentPatient,
         loadClinicalServices: loadClinicalServices,
-        deleteService: deleteService
+        deleteService: deleteService,
+        updateService: updateService
       };
 
       return service;
@@ -93,6 +94,14 @@
         };
         return $http.get('/openmrs/ws/rest/v1/clinicalservice', data).then(response => response.data).catch(error => {
           $log.error('XHR Failed for deleteService: ' + error.data.error.message);
+          return $q.reject(error);
+        });
+      }
+
+      function updateService(service, encounter) {
+        encounter.serviceCode = service;
+        return $http.post( "/openmrs/ws/rest/v1/clinicalservice" + "/" + encounter.uuid, encounter).then(response => response.data).catch(error => {
+          $log.error('XHR Failed for updateService: ' + error.data.error.message);
           return $q.reject(error);
         });
       }
