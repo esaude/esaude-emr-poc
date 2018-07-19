@@ -23,9 +23,31 @@ describe('dispensationService', () => {
   describe('createDispensation', () => {
 
     it('should create dispensation', () => {
+      var arvItem =  {drugToPickUp: 45, arv: true};
       $httpBackend.expectPOST('/openmrs/ws/rest/v1/dispensation?v=full')
         .respond({});
     });
 
   });
+
+  describe('getDefaultItemQuantityToDispense', () => {
+
+    it('should  return quantity  equal to 30 as default quantity for ARV item', () => {
+
+      var arvItem =  {drugToPickUp: 45, arv: true};
+      var quantity = dispensationService.getDefaultItemQuantityToDispense(arvItem);
+      
+      expect(quantity).toEqual(30);
+    });
+
+    it('should  return quantity  equal to 45 as default quantity for non ARV item', () => {
+
+      var nonArvItem =  {drugToPickUp: 45, arv: false};
+      var quantity = dispensationService.getDefaultItemQuantityToDispense(nonArvItem);
+      
+      expect(quantity).toEqual(45);
+    });
+
+  });
+
 });
