@@ -10,7 +10,7 @@ class RegistrationDashboardPage extends Page {
         element: '[ui-sref="dashboard.program"]',
         urlPart: '/registration/#/dashboard',
       },
-      components: ['checkIn', 'tabs', 'actions'],
+      components: ['checkIn', 'tabs', 'actions', 'deletePatientModal'],
     });
     this.tabs = {
       programs: 'a[ui-sref="dashboard.program"]',

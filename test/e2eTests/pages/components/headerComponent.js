@@ -7,8 +7,8 @@ class HeaderComponent extends Component {
     super();
 
     this.dropdown = {
-      hamburgerButton: {css: '.dropdown-toggle'},
-      logoutButton: {css: 'a[log-out]'},
+      hamburgerButton: { css: '.dropdown-toggle' },
+      logoutButton: { css: 'a[log-out]' },
     };
 
     this.homeLink = '#home-link';
@@ -16,10 +16,10 @@ class HeaderComponent extends Component {
 
   clickHome() {
     this.I.waitForElement(this.homeLink);
-    
+
     this.I.say(`${LOG_TAG} Clicking on the home button`);
     this.I.click(this.homeLink);
-    
+
     this.I.wait(1);
 
     this.I.say(`${LOG_TAG} Clicking on the confirm button`);
@@ -29,6 +29,14 @@ class HeaderComponent extends Component {
     dashboardPage._init();
     dashboardPage.isLoaded();
     return dashboardPage;
+  }
+
+  verifySuccessToast(message = 'COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED') {
+    this.I.say(`${LOG_TAG} verify the success toast popped up`);
+    const successElement = '.toast-success';
+    this.I.waitForElement(successElement, 10);
+    this.I.see(this.translate(message), successElement);
+    this.I.wait(3);
   }
 
   // Logs the user out

@@ -172,6 +172,7 @@ module.exports = {
       }
     },
   },
+
   clinicalData: {
     vitals: [
       {
@@ -182,6 +183,19 @@ module.exports = {
         diastolicBloodPressure: '70',
         cardiacFrequency: '108',
         respiratoryRate: '16',
+      }
+    ]
+  },
+
+  deathData: {
+    details: [
+      {
+        reason: "TUBUCULOSE",
+        date: "01/01/2018"
+      },
+      {
+        reason: "HEPATITE",
+        date: "06/05/2018"
       }
     ]
   }

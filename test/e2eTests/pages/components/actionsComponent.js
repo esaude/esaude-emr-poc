@@ -6,7 +6,7 @@ class ActionsComponent extends Component {
   constructor() {
     super();
 
-    this.buttons = {
+    this.actionButtons = {
       back: { css: '#add_patient' },
       transferPatient: { css: '#transfer_patient' },
       viewPatient: { css: '#detail_patient' },
@@ -24,14 +24,14 @@ class ActionsComponent extends Component {
 
   // Will return to a page depending on the current dashboard page
   clickBackFromDashboard(returnPage) {
-    this._clickButton('back', this.buttons.back);
+    this._clickButton('back', this.actionButtons.back);
     returnPage.isLoaded();
   }
 
   // Pops up a dialog window with buttons to transfer the patient from
   // one app/module to another
   clickTransferPatientButton() {
-    this._clickButton('transfer', this.buttons.transferPatient);
+    this._clickButton('transfer', this.actionButtons.transferPatient);
 
     const dialogBox = '.ngdialog';
     this.I.say(`${LOG_TAG} verify the dialog popped up`);
@@ -41,7 +41,7 @@ class ActionsComponent extends Component {
 
   // Opens the patient details page
   clickViewPatientButton() {
-    this._clickButton('view', this.buttons.viewPatient);
+    this._clickButton('view', this.actionButtons.viewPatient);
     const patientDetailPage = require('./../patientDetailPage');
     patientDetailPage._init();
     patientDetailPage.isLoaded();
@@ -49,7 +49,7 @@ class ActionsComponent extends Component {
   }
 
   clickEditPatientButton() {
-    this._clickButton('edit', this.buttons.editPatient);
+    this._clickButton('edit', this.actionButtons.editPatient);
     const editPatientPage = require('./../editPatientPage');
     editPatientPage._init();
     editPatientPage.isLoaded();
@@ -57,45 +57,45 @@ class ActionsComponent extends Component {
   }
 
   clickDeletePatientButton() {
-    this._clickButton('delete', this.buttons.deletePatient);
-    const deletePatientModal = require('./../windows/deletePatientModal.js');
-    deletePatientModal._init();
-    deletePatientModal.hasPoppedUp();
-    return deletePatientModal;
+    this._clickButton('delete', this.actionButtons.deletePatient);
+    // const deletePatientModal = require('./../windows/deletePatientModal.js');
+    // deletePatientModal._init();
+    // deletePatientModal.hasPoppedUp();
+    // return deletePatientModal;
   }
 
   // Transfer Patient to the registration module
   transferToRegistrationModule() {
-    return this._transferTo(this.buttons.registration, 'registrationDashboardPage.js');
+    return this._transferTo(this.actionButtons.registration, 'registrationDashboardPage.js');
   }
 
   // Transfer Patient to the social module
   transferToSocialModule() {
-    return this._transferTo(this.buttons.social, 'socialDashboardPage.js');
+    return this._transferTo(this.actionButtons.social, 'socialDashboardPage.js');
   }
 
   // Transfer Patient to the vitals module
   transferToVitalsModule() {
-    return this._transferTo(this.buttons.vitals, 'vitalsDashboardPage.js');
+    return this._transferTo(this.actionButtons.vitals, 'vitalsDashboardPage.js');
   }
 
   // Transfer Patient to the clinic module
   transferToClinicModule() {
-    return this._transferTo(this.buttons.clinic, 'clinicDashboardPage.js');
+    return this._transferTo(this.actionButtons.clinic, 'clinicDashboardPage.js');
   }
 
   // Transfer Patient to the pharmacy module
   transferToPharmacyModule() {
-    return this._transferTo(this.buttons.pharmacy, 'pharmacyDashboardPage.js');
+    return this._transferTo(this.actionButtons.pharmacy, 'pharmacyDashboardPage.js');
   }
 
   // Transfer Patient to the lab module
   transferToLabModule() {
-    return this._transferTo(this.buttons.lab, 'labDashboardPage.js');
+    return this._transferTo(this.actionButtons.lab, 'labDashboardPage.js');
   }
   // Transfer Patient to the report module
   transferToReportsModule() {
-    return this._transferTo(this.buttons.report, 'reportsDashboardPage.js');
+    return this._transferTo(this.actionButtons.report, 'reportsDashboardPage.js');
   }
 
   _clickButton(buttonName, buttonElement) {

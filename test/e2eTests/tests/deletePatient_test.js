@@ -7,7 +7,7 @@ Feature('Delete Patient');
 
 const LOG_TAG = '[DeletePatientTests]';
 
-let Patient1 = null;
+let Patient = null;
 
 Before(async (I, Apis, Data) => {
   I.say(`${LOG_TAG} Creating patient to be deleted`);
@@ -47,24 +47,15 @@ After(async (I, Apis, Data) => {
 });
 
 Scenario('Successfully delete a patient', async (I, Apis, Data, RegistrationDashboardPage) => {
-  I.say(`${LOG_TAG} login`);
-  let dashboardPage = I.login();
+  const registrationPage = loginAndLoadPatientOnRegistrationDashboard(I, Data, RegistrationDashboardPage);
 
-  I.say(`${LOG_TAG} Navigate to the registration page`);
-  const registrationPage = dashboardPage.navigateToRegistrationPage();
+  RegistrationDashboardPage.clickDeletePatientButton();
+  RegistrationDashboardPage.deletePatientModalIsLoaded();
+  RegistrationDashboardPage.deletePatient('Testing patient deletion...');
+  RegistrationDashboardPage.verifySuccessToast();
 
-  I.say(`${LOG_TAG} Disable auto-select`);
-  registrationPage.disableAutoSelect();
-
-  I.say(`${LOG_TAG} Search for patient's identifier`);
-  registrationPage.searchForPatientByIdAndSelect(Data.patients.patient2);
-
-  I.say(`${LOG_TAG} Make sure the registration dashboard page is loaded`);
-  RegistrationDashboardPage.isLoaded();
-
-  const deletePatientModal = RegistrationDashboardPage.clickDeletePatientButton();
-  deletePatientModal.verifySaveButtonIsDisabled();
-  deletePatientModal.deletePatient('Testing patient deletion', registrationPage);
+  I.say(`${LOG_TAG} Return to registration page`);
+  registrationPage.isLoaded();
 
   I.say(`${LOG_TAG} Make sure the patient was actually deleted by searching by identifier`);
   registrationPage.search(Data.patients.patient2.identifiers[0].identifier);
@@ -75,29 +66,15 @@ Scenario('Successfully delete a patient', async (I, Apis, Data, RegistrationDash
 });
 
 Scenario('Declare a patient without encounters as dead', async (I, Apis, Data, RegistrationDashboardPage) => {
-  I.say(`${LOG_TAG} login`);
-  let dashboardPage = I.login();
+  loginAndLoadPatientOnRegistrationDashboard(I, Data, RegistrationDashboardPage);
 
-  I.say(`${LOG_TAG} Navigate to the registration page`);
-  const registrationPage = dashboardPage.navigateToRegistrationPage();
+  RegistrationDashboardPage.clickDeletePatientButton();
+  RegistrationDashboardPage.deletePatientModalIsLoaded();
+  RegistrationDashboardPage.checkIsDeadBox();
 
-  I.say(`${LOG_TAG} Disable auto-select`);
-  registrationPage.disableAutoSelect();
-
-  I.say(`${LOG_TAG} Search for patient 1's identifier`);
-  registrationPage.searchForPatientByIdAndSelect(Data.patients.patient2);
-
-  I.say(`${LOG_TAG} Make sure the registration dashboard page is loaded`);
-  RegistrationDashboardPage.isLoaded();
-
-  const deletePatientModal = RegistrationDashboardPage.clickDeletePatientButton();
-  deletePatientModal.setIsDead();
-  deletePatientModal.verifySaveButtonIsDisabled();
-
-  const deathDetails = getDeathDetails().details[0];
-  deletePatientModal.declareDead(deathDetails.reason, deathDetails.date);
-
-  verityPatientDeathDetails(I, deathDetails, RegistrationDashboardPage);
+  RegistrationDashboardPage.declarePatientAsDead(Data.deathData.details[0].reason, Data.deathData.details[0].date);
+  RegistrationDashboardPage.verifySuccessToast();
+  RegistrationDashboardPage.verifyPatientDeathDetails(Data.deathData.details[0]);
 });
 
 Scenario('Attempt to delete a patient with encounter, then declare dead', async (I, Apis, Data, ClinicDashboardPage) => {
@@ -131,38 +108,33 @@ Scenario('Attempt to delete a patient with encounter, then declare dead', async 
   I.say(`${LOG_TAG} Click the confirm button`);
   const clinicDashboardPage = vitalsAdultFormPage.clickConfirm();
 
-  const deletePatientModal = clinicDashboardPage.clickDeletePatientButton();
-  deletePatientModal.verifyDeletionImpossibility();
-  const deathDetails = getDeathDetails().details[1];
-  deletePatientModal.declareDead(deathDetails.reason, deathDetails.date);
+  clinicDashboardPage.clickTransferPatientButton();
+  const registrationDashboardPage = clinicDashboardPage.transferToRegistrationModule();
 
-  verityPatientDeathDetails(I, deathDetails, clinicDashboardPage);
+  registrationDashboardPage.clickDeletePatientButton();
+  registrationDashboardPage.deletePatientModalIsLoaded();
+  registrationDashboardPage.verifyRestrictionToDeletePatient();
+
+  registrationDashboardPage.declarePatientAsDead(Data.deathData.details[1].reason, Data.deathData.details[1].date);
+  registrationDashboardPage.verifySuccessToast();
+  registrationDashboardPage.verifyPatientDeathDetails(Data.deathData.details[1]);
 });
 
-const getDeathDetails = () => {
-  const deathDetails = {
-    details: [
-      {
-        reason: "TUBUCULOSE",
-        date: "01/01/2018"
-      },
-      {
-        reason: "HEPATITE",
-        date: "06/05/2018"
-      }
-    ]
-  };
-  return deathDetails;
-};
+const loginAndLoadPatientOnRegistrationDashboard = (I, Data, RegistrationDashboardPage) => {
+  I.say(`${LOG_TAG} login`);
+  let dashboardPage = I.login();
 
-const verityPatientDeathDetails = (I, deathDetails, page) => {
-  I.say(`${LOG_TAG} Verifying patient death details`);
-  const patientHeader = '.patientdeceased';
-  I.waitForElement(patientHeader, 10);
-  I.see(`${page.translate('PATIENT_IS_DEAD')} ${page.translate('COMMON_AT')}: ${deathDetails.date} ${page.translate('PATIENT_INFO_DEATH_REASON')}: ${deathDetails.reason}`);
+  I.say(`${LOG_TAG} Navigate to the registration page`);
+  const registrationPage = dashboardPage.navigateToRegistrationPage();
 
-  I.say(`${LOG_TAG} Verifying the edit and delete buttons are disabled`);
-  I.waitForElement('#delete_patient', 10);
-  // I.seeElement(locate('button').withAttr({ id: 'edit_patient', disabled: 'disabled' })); // There is a bug on the system... this should be disabled
-  I.seeElement(locate('button').withAttr({ id: 'delete_patient', disabled: 'disabled' }));
+  I.say(`${LOG_TAG} Disable auto-select`);
+  registrationPage.disableAutoSelect();
+
+  I.say(`${LOG_TAG} Search for patient's identifier`);
+  registrationPage.searchForPatientByIdAndSelect(Data.patients.patient2);
+
+  I.say(`${LOG_TAG} Make sure the registration dashboard page is loaded`);
+  RegistrationDashboardPage.isLoaded();
+
+  return registrationPage;
 };
