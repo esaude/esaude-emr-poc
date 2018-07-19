@@ -19,7 +19,7 @@ describe('pocWizard', () => {
 
   describe('addStep', () => {
 
-    it('infact adds the step', () => {
+    it('should infact add the step', () => {
       var ctrl = $componentController('pocWizard', null, { onShowMessage: () => { } });
       expect(ctrl.stepControllers.length).toBe(0);
       ctrl.$onInit();
@@ -27,14 +27,14 @@ describe('pocWizard', () => {
       expect(ctrl.stepControllers.length).toBe(1);
     });
 
-    it('set the step as current if its the first', () => {
+    it('should set the step as current if its the first', () => {
       var ctrl = $componentController('pocWizard', null, { onShowMessage: () => { } });
       ctrl.$onInit();
       ctrl.addStep({ current: false, visited: false });
       expect(ctrl.stepControllers[0].current).toBe(true);
     });
 
-    it('does not set as current when adding the second step', () => {
+    it('should not set as current when adding the second step', () => {
       var ctrl = $componentController('pocWizard', null, { onShowMessage: () => { } });
       ctrl.$onInit();
       ctrl.addStep({ title: "step1", current: false, visited: false });
@@ -45,7 +45,7 @@ describe('pocWizard', () => {
 
   describe('setCurrentStep', () => {
 
-    it('clears the previous current step', () => {
+    it('should clear the previous current step', () => {
       var ctrl = $componentController('pocWizard', null, { onShowMessage: () => { } });
       ctrl.$onInit();
       ctrl.addStep({ title: "step1", current: false, visited: false });
@@ -59,7 +59,7 @@ describe('pocWizard', () => {
 
   describe('stepBackwards', () => {
 
-    it('infact goes back one step', () => {
+    it('should infact go back one step', () => {
       var ctrl = $componentController('pocWizard', null, { onShowMessage: () => { } });
       ctrl.$onInit();
       ctrl.addStep({ title: "step1", current: false, visited: false });
@@ -70,7 +70,7 @@ describe('pocWizard', () => {
       expect(ctrl.getCurrentStep().title).toBe("step1");
     });
 
-    it('throws exeption when trying to go back on the first step', () => {
+    it('should throw exeption when trying to go back on the first step', () => {
       var ctrl = $componentController('pocWizard', null, { onShowMessage: () => { } });
       ctrl.$onInit();
       ctrl.addStep({ title: "step1", current: false, visited: false });
@@ -83,7 +83,7 @@ describe('pocWizard', () => {
 
   describe('stepForward', () => {
 
-    it('infact goes forward one step', () => {
+    it('should infact go forward one step', () => {
       var ctrl = $componentController('pocWizard', null, { onShowMessage: () => { } });
       ctrl.$onInit();
       ctrl.addStep({ title: "step1", current: false, visited: false, isFormValid: () => true });
@@ -93,7 +93,7 @@ describe('pocWizard', () => {
       expect(ctrl.getCurrentStep().title).toBe("step2");
     });
 
-    it('throws exeption when trying to go forward on the last step', () => {
+    it('should throw exeption when trying to go forward on the last step', () => {
       var ctrl = $componentController('pocWizard', null, { onShowMessage: () => { } });
       ctrl.$onInit();
       ctrl.addStep({ title: "step1", current: false, visited: false, isFormValid: () => true });
@@ -104,7 +104,7 @@ describe('pocWizard', () => {
       expect(ctrl.stepForward).toThrow("Trying to step forward on last step");
     });
 
-    it('does not go forward if form is not valid', () => {
+    it('should not go forward if form is not valid', () => {
       var ctrl = $componentController('pocWizard', null, { onShowMessage: () => { } });
       ctrl.$onInit();
       ctrl.addStep({ title: "step1", current: false, visited: false, isFormValid: () => false });
@@ -136,7 +136,7 @@ describe('pocWizard', () => {
 
   describe('goToFirstInvalidStep', () => {
 
-    it('works for single step', () => {
+    it('should work for single step', () => {
       var ctrl = $componentController('pocWizard', null, { onShowMessage: () => { } });
       ctrl.$onInit();
       ctrl.addStep({ title: "step1", current: false, visited: false, isFormValid: () => false });
@@ -144,7 +144,7 @@ describe('pocWizard', () => {
       expect(ctrl.getCurrentStep().title).toBe("step1");
     });
 
-    it('works for multiple steps', () => {
+    it('should work for multiple steps', () => {
       var ctrl = $componentController('pocWizard', null, { onShowMessage: () => { } });
       ctrl.$onInit();
       ctrl.addStep({ title: "step1", current: false, visited: false, isFormValid: () => true });
