@@ -5,14 +5,13 @@
     .module('common.patient')
     .component('patientAgeStep', {
       bindings: {
-        patient: '<'
+        patient: '<',
+        form: '<',
+        showMessages: '<'
       },
       controller: PatientAgeStepController,
       controllerAs: 'vm',
-      require: {
-        patientWizard: '^^',
-      },
-      templateUrl: '../common/patient/components/wizard/steps/patientAgeStep.html',
+      templateUrl: '../common/patient/components/wizard/steps/patientAgeStep.html'
     });
 
   /* @ngInject */
@@ -22,25 +21,13 @@
 
     var vm = this;
 
-    var NAME = 'age';
-
-    vm.birthDatepickerOptions = {maxDate: now};
+    vm.birthDatepickerOptions = { maxDate: now };
 
     vm.$onInit = $onInit;
-    vm.getName = getName;
-    vm.shouldShowMessages = shouldShowMessages;
 
     function $onInit() {
-      vm.patientWizard.setCurrentStep(vm);
     }
 
-    function getName() {
-      return NAME;
-    }
-
-    function shouldShowMessages() {
-      return vm.patientWizard.showMessages;
-    }
   }
 
 })();

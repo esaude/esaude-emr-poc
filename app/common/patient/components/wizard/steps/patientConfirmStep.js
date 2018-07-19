@@ -9,10 +9,7 @@
       },
       controller: PatientConfirmStepController,
       controllerAs: 'vm',
-      require: {
-        patientWizard: '^^',
-      },
-      templateUrl: '../common/patient/components/wizard/steps/patientConfirmStep.html',
+      templateUrl: '../common/patient/components/wizard/steps/patientConfirmStep.html'
     });
 
   /* @ngInject */
@@ -20,17 +17,12 @@
 
     var vm = this;
 
-    var NAME = 'confirm';
-
     vm.patientAttributes = [];
 
     vm.$onInit = $onInit;
     vm.filterPersonAttributesForCurrStep = getPersonAttributesForStep;
-    vm.getName = getName;
 
     function $onInit() {
-      vm.patientWizard.setCurrentStep(vm);
-
       configurationService.getAddressLevels()
         .then(addressLevels => {
           vm.addressLevels = addressLevels;
@@ -43,9 +35,6 @@
       return patientService.getPersonAttributesForStep(step);
     }
 
-    function getName() {
-      return NAME;
-    }
   }
 
 })();

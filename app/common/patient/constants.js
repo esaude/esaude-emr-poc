@@ -43,7 +43,7 @@ Poc.Patient.Constants.Errors = {};
     ])
     .constant('patientRepresentation',
       'custom:(uuid,dead,deathDate,causeOfDeath,identifiers:(uuid,display,identifier,preferred,' +
-              'identifierType:(uuid,display,required,formatDescription)),' +
+              'identifierType:(uuid,display,required,formatDescription,format)),' +
               'person:(auditInfo,birthdate,birthdateEstimated,gender,preferredAddress,preferredName,' +
                       'attributes:(value,attributeType:(name,format))');
 

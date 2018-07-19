@@ -98,5 +98,7 @@
     "VITALS_LAST_HEIGHT": "Last Height",
     "VITALS_LAST_BMI": "Last BMI",
     "EDIT": "Editar",
-    "PATIENT_WITH_SAME_NID_EXISTS": "The provided NID {{nid}} is no longer available. Please use another one or check for duplicated patient."
+    "PATIENT_WITH_SAME_NID_EXISTS": "The provided NID {{nid}} is no longer available. Please use another one or check for duplicated patient.",
+    "SOME_STEPS_HAVE_VALIDATION_PROBLEMS_CLICK_OK_TO_GO_TO_FIRST_INVALID_STEP": "Some steps have validation problems, click YES to go to the first one",
+    "CONFIRMATION": "Confirmation"
 }

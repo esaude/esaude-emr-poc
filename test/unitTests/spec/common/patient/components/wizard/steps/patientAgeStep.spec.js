@@ -1,6 +1,6 @@
 describe('patientAgeStep', () => {
 
-  var $componentController, patientService, $q, $rootScope, sessionService;
+  var $componentController, currentDate;
 
   beforeEach(module('common.patient', ($provide, $translateProvider, $urlRouterProvider) => {
     // Mock translate asynchronous loader
@@ -21,18 +21,17 @@ describe('patientAgeStep', () => {
     sessionService = _sessionService_;
   }));
 
+  beforeEach(() => {
+    currentDate = moment('2016-01-01');
+    jasmine.clock().mockDate(currentDate.toDate());
+  });
+
   describe('$onInit', () => {
-
-    it('should set it self as wizard current step', () => {
-
-      var patientWizard = jasmine.createSpyObj('patientWizard', ['setCurrentStep']);
-      var ctrl = $componentController('patientAgeStep', null, {patientWizard: patientWizard});
-
+    it('show set current date as max date', () => {
+      var ctrl = $componentController('patientAgeStep', null, {});
       ctrl.$onInit();
-
-      expect(patientWizard.setCurrentStep).toHaveBeenCalledWith(ctrl);
+      expect(ctrl.birthDatepickerOptions.maxDate).toEqual(currentDate.toDate());
     });
-
   });
 
 });

@@ -45,16 +45,6 @@ describe('patientAddressStep', () => {
       ]);
     });
 
-    it('should set it self as wizard current step', () => {
-
-      var patientWizard = jasmine.createSpyObj('patientWizard', ['setCurrentStep']);
-      var ctrl = $componentController('patientAddressStep', null, {patientWizard});
-
-      ctrl.$onInit();
-
-      expect(patientWizard.setCurrentStep).toHaveBeenCalledWith(ctrl);
-    });
-
   });
 
   describe('addressFieldSelected', () => {
