@@ -153,10 +153,8 @@
               vm.prescriptionItem.isPlanInterrupted = false;
               vm.prescriptionItem.arvPlan = {};
             }
-          })
-          .catch(() => {
-            notifier.error($filter('translate')('COMMON_ERROR'));
           });
+          // Don't handle error for non arv drugs
         verifyDrugAvailability(drug);
       }
     }
