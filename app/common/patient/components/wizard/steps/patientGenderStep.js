@@ -11,10 +11,7 @@
       },
       controller: PatientGenderStepController,
       controllerAs: 'vm',
-      require: {
-        patientWizard: '^^',
-      },
-      templateUrl: '../common/patient/components/wizard/steps/patientGenderStep.html',
+      templateUrl: '../common/patient/components/wizard/steps/patientGenderStep.html'
     });
 
   /* @ngInject */

@@ -9,10 +9,7 @@
       },
       controller: PatientConfirmStepController,
       controllerAs: 'vm',
-      require: {
-        patientWizard: '^^',
-      },
-      templateUrl: '../common/patient/components/wizard/steps/patientConfirmStep.html',
+      templateUrl: '../common/patient/components/wizard/steps/patientConfirmStep.html'
     });
 
   /* @ngInject */

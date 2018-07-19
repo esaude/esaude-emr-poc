@@ -11,10 +11,7 @@
       },
       controller: PatientAgeStepController,
       controllerAs: 'vm',
-      require: {
-        patientWizard: '^^',
-      },
-      templateUrl: '../common/patient/components/wizard/steps/patientAgeStep.html',
+      templateUrl: '../common/patient/components/wizard/steps/patientAgeStep.html'
     });
 
   /* @ngInject */

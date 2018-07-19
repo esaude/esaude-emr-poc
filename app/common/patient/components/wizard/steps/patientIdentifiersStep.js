@@ -11,10 +11,7 @@
       },
       controller: PatientIdentifiersStepController,
       controllerAs: 'vm',
-      require: {
-        patientWizard: '^^',
-      },
-      templateUrl: '../common/patient/components/wizard/steps/patientIdentifiersStep.html',
+      templateUrl: '../common/patient/components/wizard/steps/patientIdentifiersStep.html'
     });
 
   /* @ngInject */
