@@ -460,7 +460,7 @@
     }
 
     function isSameDrugRegimen(prescription) {
-      return vm.regimen.drugRegimen && vm.regimen.drugRegimen.uuid === prescription.regime.uuid;
+      return vm.prescription.regimen.drugRegimen.uuid === prescription.regime.uuid;
     }
 
     function checkItemIsRefillable(prescription, item) {
@@ -469,7 +469,7 @@
         return false;
       }
       const ended = prescription.prescriptionStatus === 'FINALIZED' || prescription.prescriptionStatus === 'EXPIRED';
-      if (prescription.regime && vm.prescription.items.length) {
+      if (prescription.regime && vm.prescription.regimen) {
           return ended && isSameDrugRegimen(prescription);
       } else {
         return ended;

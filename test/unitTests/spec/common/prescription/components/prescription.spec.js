@@ -791,7 +791,7 @@ describe('prescription', () => {
         const item = {drugOrder: {drug: {uuid: '3c6e46ec-b302-4769-b2e2-0bc55ef72b69'}}};
         const newItem = {drugOrder: {drug: {uuid: '3c6e46ec-b302-4769-b2e2-0bc55ef72b68'}}};
         const controller = $componentController('prescription');
-        controller.regimen = {drugRegimen: {uuid: '3c6e46ec-b302-4769-b2e2-0bc55ef72b67'}, isArv: true};
+        controller.prescription.regimen = {drugRegimen: {uuid: '3c6e46ec-b302-4769-b2e2-0bc55ef72b67'}, isArv: true};
         controller.prescription.items = [item];
         expect(controller.checkItemIsRefillable(prescription, newItem)).toBe(false);
       });
