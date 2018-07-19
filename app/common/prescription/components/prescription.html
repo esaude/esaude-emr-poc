@@ -288,25 +288,25 @@
           <div class="list-group-item list-group-item-success" ng-repeat="item in vm.prescription.items">
             <span>
               <strong>{{item.drugOrder.drug.display}}</strong>
-              <span ng-if="item.regime">
-               <strong ng-if="item.regime">({{item.regime.display}}</strong> : {{item.therapeuticLine.display}})-
+            <span ng-if="vm.prescription.regimen">
+               <strong>({{vm.prescription.regimen.drugRegimen.display}}</strong> : {{vm.prescription.regimen.therapeuticLine.display}})-
             </span>
               {{item.drugOrder.dose}}
               {{item.drugOrder.doseUnits.display}}, {{item.drugOrder.frequency.display}},
               {{item.drugOrder.route.display}} - {{item.drugOrder.duration}}
               {{item.drugOrder.durationUnits.display}}, {{item.drugOrder.dosingInstructions.display}}
             </span>
-            <span ng-if="item.regime && item.arvPlan">
-                <strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN'| translate}}:</strong> {{item.arvPlan.display}}
+            <span ng-if="vm.prescription.regimen && item.arvPlan">
+                <strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN'| translate}}:</strong> {{vm.prescription.regimen.arvPlan.display}}
             </span>
             <span ng-if="item.drugOrder.drug.isProphilaxy">
                 <strong>{{'CLINIC_PRESCRIPTION_PROPHYLAXIS_PLAN'| translate}}:</strong> {{item.prophilaxyPlan.display}}
             </span>
             <span ng-if="item.drugOrder.isPlanInterrupted && item.isArv">
-                <strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN_INTERRUPDED_FOR'| translate}}:</strong> {{item.interruptedReason.display}}
+                <strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN_INTERRUPDED_FOR'| translate}}:</strong> {{vm.prescription.regimen.interruptedReason.display}}
             </span>
             <span ng-if="item.drugOrder.changeReason">
-                <strong>{{'CLINIC_PRESCRIPTION_ARV_CHANGE_FOR'| translate}}:</strong> {{item.changeReason.display}}
+                <strong>{{'CLINIC_PRESCRIPTION_ARV_CHANGE_FOR'| translate}}:</strong> {{vm.prescription.regimen.changeReason.display}}
             </span>
             <span>
               <button type="button" class="close btn-lg content-border-margin-regular-sides"
@@ -356,16 +356,16 @@
                   {{item.drugOrder.route.display}} - {{item.drugOrder.duration}} {{item.drugOrder.durationUnits.display}},
                   {{item.dosingInstructions}}
                 </span>
-              <span ng-if="item.regime">
-                  (<strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN'| translate}}:</strong>{{item.arvPlan.display}})
+              <span ng-if="existingPrescription.regime">
+                  (<strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN'| translate}}:</strong>{{existingPrescription.arvPlan.display}})
                 </span>
               <span ng-if="item.isProphilaxy">
                   <strong>{{'CLINIC_PRESCRIPTION_PROPHYLAXIS_PLAN'| translate}}:</strong> {{item.prophilaxyPlan.display}}
                 </span>
-              <span ng-if="item.regime && item.interruptionReason">
-                  <strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN_INTERRUPDED_FOR'| translate}}:</strong> {{item.interruptionReason.display}}
+              <span ng-if="existingPrescription.regime && existingPrescription.interruptionReason">
+                  <strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN_INTERRUPDED_FOR'| translate}}:</strong> {{existingPrescription.interruptionReason.display}}
                 </span>
-              <span ng-if="item.regime && existingPrescription.changeReason">
+              <span ng-if="existingPrescription.regime && existingPrescription.changeReason">
                   <strong>{{'CLINIC_PRESCRIPTION_ARV_CHANGE_FOR'| translate}}:</strong> {{existingPrescription.changeReason.display}}
                 </span>
               <span style="color:green;" ng-hide="!vm.checkActiveAndNewItemStatus(item)">
