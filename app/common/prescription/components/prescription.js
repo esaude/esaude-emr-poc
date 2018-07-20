@@ -96,38 +96,38 @@
         vm.showMessages = true;
         return;
       }
+      _add(vm.prescriptionItem);
+      resetForm(form);
+      vm.showMessages = false;
+    }
 
-      if(!validateAddItem()){
+    function _add(prescriptionItem) {
+      if (!validateAddItem(prescriptionItem)) {
         return;
       }
-
       //avoid duplication of drugs
-      var sameOrderItem = _.find(vm.prescription.items, item => item.drugOrder.drug.uuid === vm.prescriptionItem.drugOrder.drug.uuid);
-
+      const sameOrderItem = _.find(vm.prescription.items, i => i.drugOrder.drug.uuid === prescriptionItem.drugOrder.drug.uuid);
       if (sameOrderItem) {
         notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ITEM_ALREADY_IN_LIST'));
         return;
       }
       if (vm.regimen.isArv) {
-        vm.prescription.arvItems.push(vm.prescriptionItem);
+        vm.prescription.arvItems.push(prescriptionItem);
         vm.prescription.regimen = vm.regimen;
       }
-      vm.prescription.items.push(vm.prescriptionItem);
-      resetForm(form);
+      vm.prescription.items.push(prescriptionItem);
       vm.showNewPrescriptionsControlls = true;
-      vm.showMessages = false;
     }
 
-    function validateAddItem() {
-
-      var prescription = {prescriptionItems: [vm.prescriptionItem]};
-      if (hasActiveArvPrescriptionForNewArvItem(prescription)) {
-        notifier.error($filter('translate')('COMMON_MESSAGE_COULD_NOT_ADD_ITEM_ARV_BECAUSE_EXISTS_AN_ACTIVE_ARV_PRESCRIPTION', {EXISTING_ITEM: vm.prescriptionItem.drugOrder.drug.display}));
+    function validateAddItem(prescriptionItem) {
+      const prescription = {regime: vm.regimen, prescriptionItems: [vm.prescriptionItem]};
+      if (hasActiveArvPrescription()) {
+        notifier.error($filter('translate')('COMMON_MESSAGE_COULD_NOT_ADD_ITEM_ARV_BECAUSE_EXISTS_AN_ACTIVE_ARV_PRESCRIPTION', {EXISTING_ITEM: prescriptionItem.drugOrder.drug.display}));
         return false;
       }
 
       if (!_.isEmpty(getDuplicatedExistingActivePrescriptionItems(prescription))) {
-        notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_EXISTIS_ACTIVE_PRESCRIPTION_FOR_ENTERED_ITEM', {EXISTING_ITEM: vm.prescriptionItem.drugOrder.drug.display}));
+        notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_EXISTIS_ACTIVE_PRESCRIPTION_FOR_ENTERED_ITEM', {EXISTING_ITEM: prescriptionItem.drugOrder.drug.display}));
         return false;
       }
       return true;
@@ -225,8 +225,7 @@
         setRegimen(regimen);
       }
       i.drugOrder.dosingInstructions = {uuid: i.drugOrder.dosingInstructions};
-      vm.prescription.items.push(i);
-      vm.showNewPrescriptionsControlls = true;
+      _add(i);
     }
 
 
@@ -331,12 +330,11 @@
     }
 
     function validateCreatePrescription(prescription) {
-
-      if(hasActiveArvPrescriptionForNewArvItem(prescription)){
+      if (hasActiveArvPrescription()) {
         notifier.error($filter('translate')('COMMON_MESSAGE_COULD_NOT_CREATE_ARV_PRESCRIPTION_BECAUSE_EXISTS_AN_ACTIVE_ARV_PRESCRIPTION'));
         return false;
       }
-      var duplicatedItems = getDuplicatedExistingActivePrescriptionItems(prescription);
+      const duplicatedItems = getDuplicatedExistingActivePrescriptionItems(prescription);
       if(!_.isEmpty(duplicatedItems)){
         notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_EXISTIS_ACTIVE_PRESCRIPTIONS_FOR_ENTERED_ITEMS', {EXISTING_ITEM: _.flatMap(duplicatedItems, 'drugOrder.drug.display').toString()}));
         return false;
@@ -344,24 +342,15 @@
       return true;
     }
 
-    function hasActiveArvPrescriptionForNewArvItem(prescription){
-      var exists = false;
-      _.forEach(prescription.prescriptionItems, newPrescriptionItem => {
-        if(newPrescriptionItem.regime){
-          _.forEach(vm.existingPrescriptions, existingPrescription => {
-            _.forEach(existingPrescription.prescriptionItems, prescriptionItem => {
-              if(isActiveARVItem(prescriptionItem)){
-                exists = true;
-              }
-            });
-          });
-        }
-      });
-      return exists;
+    function hasActiveArvPrescription() {
+      const existingArvPrescriptions = vm.existingPrescriptions.filter(p => p.regime);
+      const arvPrescriptionItems = _.flatMap(existingArvPrescriptions.map(p => p.prescriptionItems));
+      const active = arvPrescriptionItems.filter(isActivePrescriptionItem);
+      return active.length !== 0;
     }
 
-    function isActiveARVItem(item) {
-      return  item.regime && (item.status ==='NEW' || item.status ==='ACTIVE' ||item.status ==='FINALIZED');
+    function isActivePrescriptionItem(item) {
+      return item.status === 'NEW' || item.status === 'ACTIVE' || item.status === 'FINALIZED';
     }
 
     function getDuplicatedExistingActivePrescriptionItems(prescription) {
@@ -369,7 +358,7 @@
       _.forEach(prescription.prescriptionItems, newPrescriptionItem => {
         _.forEach(vm.existingPrescriptions, existingPrescription => {
           _.forEach(existingPrescription.prescriptionItems, prescriptionItem => {
-            if( prescriptionItem.status != 'FINALIZED' &&  prescriptionItem.status != 'EXPIRED' &&  prescriptionItem.status != 'INTERRUPTED' ){
+            if( prescriptionItem.status !== 'FINALIZED' &&  prescriptionItem.status !== 'EXPIRED' &&  prescriptionItem.status !== 'INTERRUPTED' ){
               if(newPrescriptionItem.drugOrder.drug.uuid === prescriptionItem.drugOrder.drug.uuid){
                 hasDuplicated.push(prescriptionItem);
               }
