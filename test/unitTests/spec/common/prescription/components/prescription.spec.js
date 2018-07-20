@@ -438,6 +438,18 @@ describe('prescription', () => {
   describe('save', () => {
 
     const patient = {uuid: 'ac465c58-68ef-4a19-88ae-c7f72e89a2b2'};
+    const regimen = {
+      therapeuticLine: {
+        uuid: "fdff0637-b36f-4dce-90c7-fe9f1ec586f0"
+      },
+      drugRegimen: {
+        uuid: '3c6e46ec-b302-4769-b2e2-0bc55ef72b67'
+      },
+      artPlan: {
+        uuid: '3c6e46ec-b302-4769-b2e2-0bc55ef72b67'
+      },
+      isArv: true
+    };
 
     beforeEach(() => {
 
@@ -455,44 +467,12 @@ describe('prescription', () => {
     describe('valid prescription', () => {
 
       beforeEach(() => {
-
         spyOn(prescriptionService, 'create').and.callFake(() => $q(resolve => resolve([])));
-
-        controller = $componentController('prescription',null, {patient: {uuid: '9d674660-10e8-11e5-9009-0242ac110011'}});
-
-        controller.prescription.items.push({
-          "drugOrder": {
-
-            "dosingInstructions": "Conforme indicado",
-            "dose": 1,
-            "doseUnits": {
-              "uuid": "9d674660-10e8-11e5-9009-0242ac110012"
-            },
-            "frequency": {
-              "uuid": "9d7127f9-10e8-11e5-9009-0242ac110012"
-            },
-            "route": {
-              "uuid": "9d6b861d-10e8-11e5-9009-0242ac110012"
-            },
-            "duration": 2,
-            "quantityUnits": {
-              "uuid": "9d6b861d-10e8-11e5-9009-0242ac110012"
-            },
-            "durationUnits": {
-              "uuid": "9d6b861d-10e8-11e5-9009-0242ac110012"
-            },
-            "drug": {
-              "uuid": "9d6b861d-10e8-11e5-9009-0242ac110012"
-            }
-          }
-        });
-        controller.prescriptionDate = new Date();
-        controller.selectedProvider = {uuid: '123'};
-        controller.showNewPrescriptionsControlls = null;
       });
 
       it('should create a prescription', () => {
         const ctrl = $componentController('prescription', null, {patient});
+        ctrl.prescription.regimen = regimen;
         ctrl.save();
         $rootScope.$apply();
         expect(prescriptionService.create).toHaveBeenCalled();
@@ -541,6 +521,8 @@ describe('prescription', () => {
           spyOn($uibModal, 'open').and.returnValue({result: $q.resolve({date, provider})});
 
           controller = $componentController('prescription', null, {retrospectiveMode, patient});
+
+          controller.prescription.regimen = regimen;
 
           controller.save();
 
@@ -592,6 +574,7 @@ describe('prescription', () => {
       });
 
       it('should not create a prescription', () => {
+        controller.prescription.regimen = regimen;
         controller.save();
         $rootScope.$apply();
         expect(notifier.error).toHaveBeenCalled();
@@ -683,6 +666,7 @@ describe('prescription', () => {
 
 
       it('should not create a prescription', () => {
+        controller.prescription.regimen = regimen;
         controller.save();
         $rootScope.$apply();
         expect(notifier.error).toHaveBeenCalled();
@@ -733,6 +717,7 @@ describe('prescription', () => {
       });
 
       it('should not create a prescription', () => {
+        controller.prescription.regimen = regimen;
         controller.save();
         $rootScope.$apply();
         expect(notifier.error).toHaveBeenCalled();
