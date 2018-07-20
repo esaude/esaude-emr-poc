@@ -121,7 +121,7 @@
 
     function validateAddItem(prescriptionItem) {
       const prescription = {regime: vm.regimen, prescriptionItems: [vm.prescriptionItem]};
-      if (hasActiveArvPrescription()) {
+      if (prescription.regime && hasActiveArvPrescription()) {
         notifier.error($filter('translate')('COMMON_MESSAGE_COULD_NOT_ADD_ITEM_ARV_BECAUSE_EXISTS_AN_ACTIVE_ARV_PRESCRIPTION', {EXISTING_ITEM: prescriptionItem.drugOrder.drug.display}));
         return false;
       }
@@ -330,7 +330,7 @@
     }
 
     function validateCreatePrescription(prescription) {
-      if (hasActiveArvPrescription()) {
+      if (prescription.regime && hasActiveArvPrescription()) {
         notifier.error($filter('translate')('COMMON_MESSAGE_COULD_NOT_CREATE_ARV_PRESCRIPTION_BECAUSE_EXISTS_AN_ACTIVE_ARV_PRESCRIPTION'));
         return false;
       }
