@@ -19,8 +19,9 @@
     ////////////////
 
     function map(openmrsPatient) {
-      var patient = patientModel.create(),
-        birthdate = parseDate(openmrsPatient.person.birthdate);
+      const patient = patientModel.create(),
+            birthdate = parseDate(openmrsPatient.person.birthdate);
+
       patient.givenName = openmrsPatient.person.preferredName.givenName;
       patient.middleName = openmrsPatient.person.preferredName.middleName;
       patient.familyName = openmrsPatient.person.preferredName.familyName;
@@ -32,11 +33,11 @@
       patient.age = birthdate ? age.fromBirthDate(openmrsPatient.person.birthdate) : null;
       patient.gender = openmrsPatient.person.gender;
       patient.address = mapAddress(openmrsPatient.person.preferredAddress);
-      patient.dead = openmrsPatient.person.dead,
-        patient.causeOfDeath = (openmrsPatient.person.dead === true) ? openmrsPatient.person.causeOfDeath : null,
-        patient.deathDate = (openmrsPatient.person.dead === true) ? openmrsPatient.person.deathDate : null,
-        //TODO: must get the identifier to display from openmrs configurations
-        patient.identifier = openmrsPatient.identifiers[0].identifier;
+      patient.dead = openmrsPatient.dead;
+      patient.causeOfDeath = (openmrsPatient.dead === true) ? openmrsPatient.causeOfDeath : null;
+      patient.deathDate = (openmrsPatient.dead === true) ? openmrsPatient.deathDate : null;
+      //TODO: must get the identifier to display from openmrs configurations
+      patient.identifier = openmrsPatient.identifiers[0].identifier;
       patient.identifierType = openmrsPatient.identifiers[0].identifierType.display;
       patient.image = Poc.Patient.Constants.patientImageURL + openmrsPatient.uuid + ".jpeg?q=" + new Date().toISOString();
       patient.registrationDate = parseDate(openmrsPatient.person.auditInfo.dateCreated);

@@ -13,11 +13,6 @@
   /* @ngInject */
   function pocConfirmDialog($rootScope, ngDialog) {
 
-    var ngDialogOptions = {
-      template: '../common/ui-helper/directives/pocConfirmDialog.html',
-      scope: $rootScope.$new()
-    };
-
     var directive = {
       bindToController: true,
       controller: ControllerName,
@@ -32,6 +27,12 @@
     return directive;
 
     function link(scope, element, attrs) {
+
+      var ngDialogOptions = {
+        template: '../common/ui-helper/directives/pocConfirmDialog.html',
+        scope: $rootScope.$new()
+      };
+
       scope.$watch(attrs.pocConfirmDialog, value => {
         ngDialogOptions.scope.message = value;
       });

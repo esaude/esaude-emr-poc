@@ -1,4 +1,4 @@
-describe('patientHIVTestStep', () => {
+describe('patientHivTestStep', () => {
 
   var $componentController, patientService, $q, $rootScope, sessionService, configurationService;
 
@@ -32,20 +32,9 @@ describe('patientHIVTestStep', () => {
       spyOn(patientService, 'getPersonAttributesForStep').and.returnValue([1,2,3,4]);
     });
 
-    it('should set it self as wizard current step', () => {
-
-      var ctrl = $componentController('patientHIVTestStep', null, {patientWizard, patient});
-
-      ctrl.$onInit();
-
-      $rootScope.$apply();
-
-      expect(patientWizard.setCurrentStep).toHaveBeenCalledWith(ctrl);
-    });
-
     it('should get person attributes for testing step', () => {
 
-      var ctrl = $componentController('patientHIVTestStep', null, {patientWizard, patient});
+      var ctrl = $componentController('patientHivTestStep', null, {patientWizard, patient});
 
       ctrl.$onInit();
 
@@ -55,7 +44,7 @@ describe('patientHIVTestStep', () => {
 
     it('should limit the test date to after patient birthdate', () => {
 
-      var ctrl = $componentController('patientHIVTestStep', null, {patientWizard, patient});
+      var ctrl = $componentController('patientHivTestStep', null, {patientWizard, patient});
 
       ctrl.$onInit();
 
@@ -65,7 +54,7 @@ describe('patientHIVTestStep', () => {
 
     it('should limit the test date to before current date (inclusive)', () => {
 
-      var ctrl = $componentController('patientHIVTestStep', null, {patientWizard, patient});
+      var ctrl = $componentController('patientHivTestStep', null, {patientWizard, patient});
       var baseTime = new Date();
 
       jasmine.clock().mockDate(baseTime);

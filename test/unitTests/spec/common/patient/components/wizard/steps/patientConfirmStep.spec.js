@@ -33,18 +33,6 @@ describe('patientConfirmStep', () => {
       spyOn(patientService, 'getPersonAttributesForStep').and.returnValue([1,2,3,4]);
     });
 
-    it('should set it self as wizard current step', () => {
-
-      var patientWizard = jasmine.createSpyObj('patientWizard', ['setCurrentStep']);
-      var ctrl = $componentController('patientConfirmStep', null, {patientWizard: patientWizard});
-
-      ctrl.$onInit();
-
-      $rootScope.$apply();
-
-      expect(patientWizard.setCurrentStep).toHaveBeenCalledWith(ctrl);
-    });
-
     it('should load addressLevels', () => {
 
       var patientWizard = jasmine.createSpyObj('patientWizard', ['setCurrentStep']);

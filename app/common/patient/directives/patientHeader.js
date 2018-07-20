@@ -33,7 +33,7 @@
 
 
     function linkPatientEdit() {
-      $state.go('editpatient.identifier', {
+      $state.go('editpatient', {
         patientUuid: vm.patient.uuid,
         returnState: $state.current
       });

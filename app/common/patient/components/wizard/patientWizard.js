@@ -13,11 +13,8 @@
     });
 
   /* @ngInject */
-  function PatientWizardController($stateParams, $state, patientService, notifier, TabManager, translateFilter) {
-
-    var tabManager;
-
-    var currentStep;
+  function PatientWizardController($stateParams, $state, patientService,
+    notifier, translateFilter) {
 
     var updating = false;
 
@@ -29,14 +26,9 @@
     vm.openMRSPatient = {};
 
     vm.$onInit = $onInit;
-    vm.changeStep = changeStep;
     vm.linkCancel = linkCancel;
     vm.save = save;
-    vm.stepForward = stepForward;
-    vm.stepBackwards = stepBackwards;
-    vm.setCurrentStep = setCurrentStep;
-    vm.atLastStep = atLastStep;
-    vm.atFirstStep = atFirstStep;
+    vm.setShowMessage = setShowMessage;
 
     function $onInit() {
 
@@ -55,28 +47,6 @@
             $state.go($stateParams.returnState);
           });
       }
-
-      tabManager = new TabManager();
-      tabManager.addStepDefinition('identifier');
-      tabManager.addStepDefinition('name');
-      tabManager.addStepDefinition('gender');
-      tabManager.addStepDefinition('age');
-      tabManager.addStepDefinition('address');
-      tabManager.addStepDefinition('other');
-      tabManager.addStepDefinition('testing');
-      tabManager.addStepDefinition('confirm');
-    }
-
-    // TODO handle navigating directly to a step that is not the first.
-    function setCurrentStep(s) {
-      if (!s.getName) {
-        throw new Error(`Step '${s.constructor.name}' should implement getName()`);
-      }
-      currentStep = s;
-    }
-
-    function getStepStateName(name) {
-      return `${vm.srefPrefix}.${name}`;
     }
 
     function linkCancel() {
@@ -121,41 +91,8 @@
       }
     }
 
-    function changeStep(toStepName) {
-      var currentStepName = currentStep.getName();
-
-      var stepingForward = tabManager.isStepingForward(currentStepName, toStepName);
-      var jumpingMoreThanOneTab = tabManager.isJumpingMoreThanOneTab(currentStepName, toStepName);
-
-      if (!stepingForward || (stepingForward && !jumpingMoreThanOneTab && currentStep.form.$valid)) {
-        vm.showMessages = false;
-        $state.go(getStepStateName(tabManager.goToStep(toStepName)));
-      } else if (stepingForward && jumpingMoreThanOneTab) {
-        notifier.warning("", translateFilter('FOLLOW_SEQUENCE_OF_TABS'));
-      } else {
-        vm.showMessages = true;
-      }
-    }
-
-    function stepForward() {
-      if (currentStep.form.$valid) {
-        vm.showMessages = false;
-        $state.go(getStepStateName(tabManager.stepForward()));
-      } else {
-        vm.showMessages = true;
-      }
-    }
-
-    function stepBackwards() {
-      $state.go(getStepStateName(tabManager.stepBackwards()));
-    }
-
-    function atLastStep() {
-      return currentStep && tabManager.isLastStep(currentStep.getName());
-    }
-
-    function atFirstStep() {
-      return currentStep && tabManager.isFirstStep(currentStep.getName());
+    function setShowMessage(showMessage) {
+      vm.showMessages = showMessage;
     }
 
   }

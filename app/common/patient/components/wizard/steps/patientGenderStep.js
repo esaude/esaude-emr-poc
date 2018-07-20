@@ -5,14 +5,13 @@
     .module('common.patient')
     .component('patientGenderStep', {
       bindings: {
-        patient: '<'
+        patient: '<',
+        form: '<',
+        showMessages: '<'
       },
       controller: PatientGenderStepController,
       controllerAs: 'vm',
-      require: {
-        patientWizard: '^^',
-      },
-      templateUrl: '../common/patient/components/wizard/steps/patientGenderStep.html',
+      templateUrl: '../common/patient/components/wizard/steps/patientGenderStep.html'
     });
 
   /* @ngInject */
@@ -20,23 +19,11 @@
 
     var vm = this;
 
-    var NAME = 'gender';
-
     vm.$onInit = $onInit;
-    vm.getName = getName;
-    vm.shouldShowMessages = shouldShowMessages;
 
     function $onInit() {
-      vm.patientWizard.setCurrentStep(vm);
     }
 
-    function getName() {
-      return NAME;
-    }
-
-    function shouldShowMessages() {
-      return vm.patientWizard.showMessages;
-    }
   }
 
 })();

@@ -13,7 +13,7 @@ describe('encounterService', () => {
 
     it('should create an encounter', () => {
 
-      $httpBackend.expectPOST('/openmrs/ws/rest/v1/encounter', {}).respond({});
+      $httpBackend.expectPOST('/openmrs/ws/rest/v1/poc-encounter', {}).respond({});
 
       var encounter;
       encounterService.create({}).then(created => {
@@ -53,7 +53,7 @@ describe('encounterService', () => {
       var patient = "aaa-bbb-ccc";
       var encounterType = "ccc-aaa-bbb";
       var ENCOUNTER = { uuid: "UUID_1" };
-      $httpBackend.expectGET('/openmrs/ws/rest/v1/encounter?encounterType=ccc-aaa-bbb&patient=aaa-bbb-ccc&v=custom:(uuid,encounterDatetime,provider,voided,obs:(uuid,concept:(uuid,name),obsDatetime,value,groupMembers:(uuid,concept:(uuid,name),obsDatetime,value)))')
+      $httpBackend.expectGET('/openmrs/ws/rest/v1/poc-encounter?encounterType=ccc-aaa-bbb&patient=aaa-bbb-ccc&v=custom:(uuid,encounterDatetime,provider,voided,obs:(uuid,concept:(uuid,name),obsDatetime,value,groupMembers:(uuid,concept:(uuid,name),obsDatetime,value)))')
         .respond({ results: ENCOUNTER });
 
       var encounter;

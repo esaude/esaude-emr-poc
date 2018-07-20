@@ -14,7 +14,8 @@
     return {
       createDispensation: createDispensation,
       cancelDispensationItem: cancelDispensationItem,
-      getDispensation: getDispensation
+      getDispensation: getDispensation,
+      getDefaultItemQuantityToDispense: getDefaultItemQuantityToDispense
     };
 
     ////////////////
@@ -55,6 +56,10 @@
       });
     }
 
+  }
+
+  function getDefaultItemQuantityToDispense(item){
+    return item.arv ? ((item.drugToPickUp > 30 ) ? 30 : item.drugToPickUp) : item.drugToPickUp; 
   }
 
 })();

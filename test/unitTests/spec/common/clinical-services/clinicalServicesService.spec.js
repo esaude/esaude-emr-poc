@@ -3,7 +3,7 @@
 describe('clinicalServicesService', () => {
 
   var $http, $q, stateProviderMock, clinicalServicesService, clinicalServicesFormMapper, visitService, encounterService,
-    $rootScope, patientService;
+    $rootScope, patientService, notifier;
 
   var patientUuid = "0000-0000";
 
@@ -67,7 +67,7 @@ describe('clinicalServicesService', () => {
   });
 
   beforeEach(inject((_$httpBackend_, _$q_, _clinicalServicesService_, _clinicalServicesFormMapper_,
-                     _visitService_, _encounterService_, _$rootScope_, _patientService_) => {
+                     _visitService_, _encounterService_, _$rootScope_, _patientService_, _notifier_) => {
     $http = _$httpBackend_;
     $rootScope = _$rootScope_;
     clinicalServicesService = _clinicalServicesService_;
@@ -76,6 +76,7 @@ describe('clinicalServicesService', () => {
     visitService = _visitService_;
     encounterService = _encounterService_;
     patientService = _patientService_;
+    notifier = _notifier_;
   }));
 
   describe('init', () => {
@@ -239,11 +240,78 @@ describe('clinicalServicesService', () => {
     });
 
   });
+  
+  describe('deleteService: rest call using GET method to POC module that performs the logic of voiding OBS, this is a scenario of fail to Delete', () => {
+    
+    var requestDetails = {clinicalservice: "clinicalServiceUuid", encounter: "encounterUuid"};
+    var error = {"error" :  {"message": ""}}; 
 
+    beforeEach(() => {
+      spyOn(notifier, 'error').and.callFake(() => {
+      });
+      var openmrsUrl = "/openmrs/ws/rest/v1/clinicalservice";
+      $http.expectGET(openmrsUrl + '?clinicalservice=' + requestDetails.clinicalservice + '&encounter=' + requestDetails.encounter)
+      .respond(400,error);
+    });
+    
+    it('should call end service url in delete clinical service service BUT having error in result', () => {
+            
+      var resultError = null;
+      clinicalServicesService.deleteService(requestDetails.clinicalservice, requestDetails.encounter)
+      .catch(err => resultError = err);
+      
+      $http.flush();
+      $rootScope.$digest();
+      expect(error).toEqual(resultError.data);
 
+    });
+  });
 
+  describe('updateService: rest call using GET method to POC module that performs the logic of updating OBS wich consists in void the previous one and insert de newer', () => {
 
+    it('should update an encounter', () => {
+  
+    var encounter = {uuid:  "123"};
+    var openmrsUrl = "/openmrs/ws/rest/v1/clinicalservice";
+    var response = [];
 
+    $http.expectPOST(openmrsUrl+ "/" +encounter.uuid, encounter).respond(response);
+    
+    var resolve;
+    clinicalServicesService.updateService("001", encounter).then(response => {
+      resolve = response;
+    });
+
+    $http.flush();
+    expect(resolve).toEqual(response);
+
+    });
+  });
+
+  describe('updateService: rest call using GET method to POC module that performs the logic of updating OBS wich consists in void the previous one and insert de newer', () => {
+
+    beforeEach(() => {
+      spyOn(notifier, 'error').and.callFake(() => {
+      });  
+    });
+    
+    it('should NOT update an encounter', () => {
+      
+      var openmrsUrl = "/openmrs/ws/rest/v1/clinicalservice";
+      var encounter =  {};
+      var error = {"error" :  {"message": ""}}; 
+                
+      $http.expectPOST(openmrsUrl+ "/" +encounter.uuid, encounter).respond(400,error);
+      
+      var resultError = null;
+      clinicalServicesService.updateService("001", encounter).catch(err => resultError = err);
+      
+      $http.flush();
+      $rootScope.$digest();
+      expect(error).toEqual(resultError.data);
+
+    });
+  });
 
   describe('init with contraints', () => {
 

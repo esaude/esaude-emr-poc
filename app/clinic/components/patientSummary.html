@@ -149,23 +149,26 @@
             </div>
         </div>
 
-        <div class="panel panel-primary panel-marginless-sides"
-               ng-click="showDivPharmacy=!showDivPharmacy">
-            <div class="panel-heading">
-                <span ng-class="{'glyphicon glyphicon-chevron-down': showDivPharmacy, 'glyphicon glyphicon-chevron-up': !showDivPharmacy}" class="pull-right"></span><h3 class="panel-title">{{'CLINIC_PATIENT_PHARMACY_ARV' | translate}}</h3>
-            </div>
-            <div class="list-group" ng-repeat="visit in vm.pickups" ng-hide="showDivPharmacy">
-                <div class="bg-info content-border-padding-li">
-                        {{'CLINIC_PATIENT_DISPENSED' | translate}} {{'COMMON_ON' | translate}} {{visit[0].encounterDatetime | date}}
-                </div>
-                <div ng-repeat="encounter in visit">
-                    <div ng-repeat="obs in encounter.obs" class="list-group-item">
-                          {{obs.concept.name.display}}:
-                            <span class="badge">{{vm.isObject(obs.value) ? obs.value.display : vm.filterDate(obs)}}</span>
-                    </div>
-                </div>
+      <div class="panel panel-primary panel-marginless-sides"
+           ng-click="showDivPharmacy=!showDivPharmacy">
+        <div class="panel-heading">
+          <span class="pull-right"
+                ng-class="{'glyphicon glyphicon-chevron-down': showDivPharmacy, 'glyphicon glyphicon-chevron-up': !showDivPharmacy}"></span>
+          <h3 class="panel-title">{{'CLINIC_PATIENT_PHARMACY_ARV' | translate}}</h3>
+        </div>
+        <div class="list-group" ng-repeat="visit in vm.pickups" ng-hide="showDivPharmacy">
+          <div class="bg-info content-border-padding-li">
+            {{'CLINIC_PATIENT_DISPENSED' | translate}} {{'COMMON_ON' | translate}}
+            {{visit[0].encounterDatetime | date}}
+          </div>
+          <div ng-repeat="encounter in visit">
+            <div ng-repeat="obs in encounter.obs | orderBy:'concept.name.display'" class="list-group-item">
+              {{obs.concept.name.display}}:
+              <span class="badge">{{vm.isObject(obs.value) ? obs.value.display : vm.filterDate(obs)}}</span>
             </div>
           </div>
+        </div>
+      </div>
 
           <div class="panel panel-primary panel-marginless-sides"
                ng-click="showDivPharmacyNew=!showDivPharmacyNew">

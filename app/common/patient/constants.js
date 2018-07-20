@@ -42,6 +42,9 @@ Poc.Patient.Constants.Errors = {};
       'Tipo de teste HIV',
     ])
     .constant('patientRepresentation',
-      'custom:(uuid,identifiers:(uuid,display,identifier,preferred,identifierType:(uuid,display,required,formatDescription)),person:(auditInfo,birthdate,birthdateEstimated,gender,preferredAddress,preferredName,attributes:(value,attributeType:(name,format))');
+      'custom:(uuid,dead,deathDate,causeOfDeath,identifiers:(uuid,display,identifier,preferred,' +
+              'identifierType:(uuid,display,required,formatDescription,format)),' +
+              'person:(auditInfo,birthdate,birthdateEstimated,gender,preferredAddress,preferredName,' +
+                      'attributes:(value,attributeType:(name,format))');
 
 })();

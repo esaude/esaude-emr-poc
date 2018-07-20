@@ -27,16 +27,6 @@ describe('patientNamesStep', () => {
       spyOn(patientService, 'getPersonAttributesForStep').and.returnValue([1,2,3,4]);
     });
 
-    it('should set it self as wizard current step', () => {
-
-      var patientWizard = jasmine.createSpyObj('patientWizard', ['setCurrentStep']);
-      var ctrl = $componentController('patientNamesStep', null, {patientWizard});
-
-      ctrl.$onInit();
-
-      expect(patientWizard.setCurrentStep).toHaveBeenCalledWith(ctrl);
-    });
-
     it('should get person attributes for names step', () => {
 
       var patientWizard = jasmine.createSpyObj('patientWizard', ['setCurrentStep']);

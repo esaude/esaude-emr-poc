@@ -84,7 +84,7 @@
     }
 
     function linkPatientNew() {
-      $state.go('newpatient.identifier');
+      $state.go('newpatient');
     }
 
     function onPatientSelect(patient) {
