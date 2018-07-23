@@ -10,7 +10,7 @@ class RegistrationDashboardPage extends Page {
         element: '[ui-sref="dashboard.program"]',
         urlPart: '/registration/#/dashboard',
       },
-      components: ['checkIn', 'tabs'],
+      components: ['checkIn', 'tabs', 'actions', 'deletePatientModal'],
     });
     this.tabs = {
       programs: 'a[ui-sref="dashboard.program"]',
@@ -47,11 +47,11 @@ class RegistrationDashboardPage extends Page {
 
   enrollInProgram(programType, state, admissionDate) {
     this.I.say(`${LOG_TAG} enrolling patient in program with the following data` +
-        JSON.stringify({ // eslint-disable-line angular/json-functions
-            programType,
-            state,
-            admissionDate,
-        }));
+      JSON.stringify({ // eslint-disable-line angular/json-functions
+        programType,
+        state,
+        admissionDate,
+      }));
 
     this.clickAddProgramButton();
     this.selectProgramType(programType);
@@ -62,7 +62,7 @@ class RegistrationDashboardPage extends Page {
 
   clickAddProgramButton() {
     const addProgramButton = `[data-target="#addProgramModal"]`;
-    
+
     this.I.say(`${LOG_TAG} Click the add program button`);
     this.I.waitForElement(addProgramButton, 5);
     this.I.click(addProgramButton);
@@ -79,7 +79,7 @@ class RegistrationDashboardPage extends Page {
   }
 
   selectState(programState) {
-    if(!programState) {
+    if (!programState) {
       return;
     }
 

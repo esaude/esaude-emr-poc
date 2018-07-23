@@ -1,6 +1,6 @@
 const Page = require('./page');
 
-class LoginPage extends Page {
+class DashboardPage extends Page {
 
   constructor() {
     super({
@@ -20,7 +20,7 @@ class LoginPage extends Page {
       vitals: {css: '#vitals'},
     };
 
-    
+
   }
 
   // Navigates to the clinic page
@@ -71,4 +71,4 @@ class LoginPage extends Page {
   }
 }
 
-module.exports = new LoginPage();
+module.exports = new DashboardPage();
