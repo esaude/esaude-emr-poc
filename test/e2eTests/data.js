@@ -91,7 +91,7 @@ module.exports = {
     patient1: {
       "identifiers": [
         {
-          "identifier": "30532063/03/33743",
+          "identifier": "30532063/03/33744",
           "identifierType": "e2b966d0-1d5f-11e0-b929-000c29ad1d07", // NID (SERVICO TARV)
           "location": "4c34a53f-b0c2-4315-9829-1a07f76e10a8", // Zumba
           "preferred": true
@@ -153,9 +153,9 @@ module.exports = {
       },
       contacts: {
         country: "Mocambique",
-        province: "Gaza",
-        district: "Chibuto",
-        administrativePost: "Chibuto Sede",
+        province: "Nampula",
+        district: "Erati",
+        administrativePost: "Alua",
         locality: "Sede",
         neighborhood: "Longuene",
         cell: "A",

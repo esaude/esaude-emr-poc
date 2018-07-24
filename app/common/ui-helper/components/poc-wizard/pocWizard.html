@@ -25,13 +25,13 @@
     </button>
 
     <!-- Save button for when all is OK -->
-    <button type="button" class="btn btn-primary btn-lg" ng-show="vm.isLastStep() && vm.allStepsAreValid()" ng-click="vm.save();">
+    <button id="confirm" type="button" class="btn btn-primary btn-lg" ng-show="vm.isLastStep() && vm.allStepsAreValid()" ng-click="vm.save();">
       <span class="glyphicon glyphicon-floppy-disk"></span>
       <span class="button-label">{{'SAVE' | translate}}</span>
     </button>
 
     <!-- Save button for when there is a validation problem on one of the steps -->
-    <button type="button" class="btn btn-primary btn-lg" ng-show="vm.isLastStep()  && !vm.allStepsAreValid()" poc-confirm-dialog="'{{ 'SOME_STEPS_HAVE_VALIDATION_PROBLEMS_CLICK_OK_TO_GO_TO_FIRST_INVALID_STEP' | translate}}'"
+    <button id="confirm" type="button" class="btn btn-primary btn-lg" ng-show="vm.isLastStep()  && !vm.allStepsAreValid()" poc-confirm-dialog="'{{ 'SOME_STEPS_HAVE_VALIDATION_PROBLEMS_CLICK_OK_TO_GO_TO_FIRST_INVALID_STEP' | translate}}'"
       on-confirm="vm.goToFirstInvalidStep()">
       <span class="glyphicon glyphicon-floppy-disk"></span>
       <span class="button-label">{{'SAVE' | translate}}</span>

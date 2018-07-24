@@ -8,7 +8,7 @@ class RegisterPatientPage extends Page {
     super({
       isLoaded: {
         element: '[id="status-buttons"]',
-        urlPart: 'registration/#/patient/new/identifier',
+        urlPart: 'registration/#/patient/new',
       },
     });
 
@@ -46,9 +46,9 @@ class RegisterPatientPage extends Page {
       cell: { css: '#address3' },
       street: { css: '#address1' },
       provenience: 'select[id="d10628a7-ba75-4495-840b-bf6f1c44fd2d"]',
-      reference: { css: '#Ponto de Referência' },
-      phone1: { css: '#Numero de Telefone 1' },
-      phone2: { css: '#Numero de Telefone 2' },
+      reference: 'input[id="e944813c-11b1-49f3-b9a5-9fbbd10beec2"',
+      phone1: 'input[id="e2e3fd64-1d5f-11e0-b929-000c29ad1d07"',
+      phone2: 'input[id="e6c97a9d-a77b-401f-b06e-81900e21ed1d"',
       hivTestDate: 'input[id="46e79fce-ba89-4ec9-8f31-2dfd9318d415"',
       hivTestType: 'select[id="ce778a93-66f9-4607-9d80-8794ed127674"]',
       hivTestResult: 'select[id="31cb61f4-3d81-403d-94e9-64cce17a2a00"',
@@ -99,9 +99,10 @@ class RegisterPatientPage extends Page {
     this.I.fillField(this.fields.neighborhood, patient.contacts.neighborhood);
     this.I.fillField(this.fields.locality, patient.contacts.locality);
     this.I.fillField(this.fields.administrativePost, patient.contacts.administrativePost);
-    this.I.fillField(this.fields.district, patient.contacts.district);
-    this.I.fillField(this.fields.province, patient.contacts.province);
-    this.I.fillField(this.fields.country, patient.contacts.country);
+
+    this.I.say(`${LOG_TAG} Populate district, province and country based on the typed administrative Post`);
+    const typeaheadMatch = `a[title="${patient.contacts.administrativePost}"]`;
+    this.I.click(typeaheadMatch);
   }
 
   selectProvenience(patient) {
@@ -119,6 +120,16 @@ class RegisterPatientPage extends Page {
   clickNext(seconds = 5) {
     this.I.click(this.buttons.nextStep);
     this.I.waitForInvisible('#overlay', seconds);
+  }
+
+  confirmPatientData(patient) {
+    this.I.see(patient.identifiers[0].identifier3);
+    this.I.see(patient.person.names[0].givenName);
+    this.I.see(patient.person.names[0].familyName);
+    this.I.see(patient.person.birthdate);
+    this.I.see(patient.contacts.district);
+    this.I.see(patient.contacts.province);
+    this.I.see(patient.contacts.country);
   }
 
 }

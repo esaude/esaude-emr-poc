@@ -29,145 +29,112 @@ After(async (I, Apis, Data) => {
   await cleanUpPatient(Data.patients.patient3);
 });
 
-Scenario('Validate tab sequence', (I) => {
-  I.say(`${LOG_TAG} login`);
-  let dashboardPage = I.login();
+// Scenario('Validate Identifiers', (I) => {
+//   const identifierTypes = {
+//     NIDTARV: {
+//       label: 'NID (SERVICO TARV)',
+//       format: 'PPDDUUSS/AA/NNNNN',
+//       values: ['PPDDUUSS/AA/NNNNN', '11223344011012345', '11223344/AA/12345', '99999999/99/123456', '99999999/99/12345'],
+//     },
+//     BI: {
+//       label: 'BILHETE DE IDENTIDADE (BI)',
+//       format: '000000000X',
+//       values: ['ABCDEFGHIJKL', '123456789123', 'A123456789', '123456789x', '123456789X'],
+//     },
+//     ATS: {
+//       label: 'CODIGO ATS/UATS',
+//       format: 'YY/####',
+//       values: [],
+//     },
+//     ITS: {
+//       label: 'CODIGO ITS',
+//       format: 'YY/####',
+//       values: [],
+//     },
+//     PTVMATERN: {
+//       label: 'CODIGO PTV (MATERNIDADE)',
+//       format: 'YY/####',
+//       values: [],
+//     },
+//     PTVPRE: {
+//       label: 'CODIGO PTV (PRE-NATAL)',
+//       format: 'YY/####',
+//       values: [],
+//     },
+//     NIDCCR: {
+//       label: 'NID (CCR)',
+//       format: 'YY/####CE',
+//       values: [],
+//     },
+//     NIT: {
+//       label: 'NIT (SECTOR DE TB)',
+//       format: '',
+//       values: [],
+//     },
+//     NCC: {
+//       label: 'NUMERO CANCRO CERVICAL',
+//       format: 'NNNNNN/20_ _',
+//       values: [],
+//     },
+//     PCR: {
+//       label: 'PCR (NUMERO DE REGISTO)',
+//       format: '',
+//       values: [],
+//     },
+//   };
 
-  I.say(`${LOG_TAG} Navigate to the registration page`);
-  const registrationPage = dashboardPage.navigateToRegistrationPage();
+//   I.say(`${LOG_TAG} login`);
+//   let dashboardPage = I.login();
 
-  I.say(`${LOG_TAG} Click on the New Patient button`);
-  const registerPatientPage = registrationPage.clickNewPatienButton();
+//   I.say(`${LOG_TAG} Navigate to the registration page`);
+//   const registrationPage = dashboardPage.navigateToRegistrationPage();
 
-  const tabSequenseMessage = registerPatientPage.translate('FOLLOW_SEQUENCE_OF_TABS');
+//   I.say(`${LOG_TAG} Click on the New Patient button`);
+//   const registerPatientPage = registrationPage.clickNewPatienButton();
 
-  I.say(`${LOG_TAG} Validating tab sequence`);
+//   validateIdentifier(I, registerPatientPage, identifierTypes.NIDTARV);
 
-  I.click(registerPatientPage.tabs.name);
-  I.see(registerPatientPage.translate('ERROR_REQUIRED'));
+//   addIdentifier(I, registerPatientPage, identifierTypes.BI);
+//   validateIdentifier(I, registerPatientPage, identifierTypes.BI);
+//   I.click(registerPatientPage.buttons.removeIdentifier);
 
-  I.click(registerPatientPage.tabs.gender);
-  I.see(tabSequenseMessage);
+//   addIdentifier(I, registerPatientPage, identifierTypes.ATS);
+//   validateIdentifier(I, registerPatientPage, identifierTypes.ATS);
+//   I.click(registerPatientPage.buttons.removeIdentifier);
 
-  I.click(registerPatientPage.tabs.age);
-  I.see(tabSequenseMessage);
+//   addIdentifier(I, registerPatientPage, identifierTypes.ITS);
+//   validateIdentifier(I, registerPatientPage, identifierTypes.ITS);
+//   I.click(registerPatientPage.buttons.removeIdentifier);
 
-  I.click(registerPatientPage.tabs.address);
-  I.see(tabSequenseMessage);
+//   addIdentifier(I, registerPatientPage, identifierTypes.PTVMATERN);
+//   validateIdentifier(I, registerPatientPage, identifierTypes.PTVMATERN);
+//   I.click(registerPatientPage.buttons.removeIdentifier);
 
-  I.click(registerPatientPage.tabs.contacts);
-  I.see(tabSequenseMessage);
+//   addIdentifier(I, registerPatientPage, identifierTypes.PTVPRE);
+//   validateIdentifier(I, registerPatientPage, identifierTypes.PTVPRE);
+//   I.click(registerPatientPage.buttons.removeIdentifier);
 
-  I.click(registerPatientPage.tabs.testing);
-  I.see(tabSequenseMessage);
-});
+//   addIdentifier(I, registerPatientPage, identifierTypes.NIDCCR);
+//   validateIdentifier(I, registerPatientPage, identifierTypes.NIDCCR);
+//   I.click(registerPatientPage.buttons.removeIdentifier);
 
-Scenario('Validate Identifiers', (I) => {
-  const identifierTypes = {
-    NIDTARV: {
-      label: 'NID (SERVICO TARV)',
-      format: 'PPDDUUSS/AA/NNNNN',
-      values: ['PPDDUUSS/AA/NNNNN', '11223344011012345', '11223344/AA/12345', '99999999/99/123456', '99999999/99/12345'],
-    },
-    BI: {
-      label: 'BILHETE DE IDENTIDADE (BI)',
-      format: '000000000X',
-      values: ['ABCDEFGHIJKL', '123456789123', 'A123456789', '123456789x', '123456789X'],
-    },
-    ATS: {
-      label: 'CODIGO ATS/UATS',
-      format: 'YY/####',
-      values: [],
-    },
-    ITS: {
-      label: 'CODIGO ITS',
-      format: 'YY/####',
-      values: [],
-    },
-    PTVMATERN: {
-      label: 'CODIGO PTV (MATERNIDADE)',
-      format: 'YY/####',
-      values: [],
-    },
-    PTVPRE: {
-      label: 'CODIGO PTV (PRE-NATAL)',
-      format: 'YY/####',
-      values: [],
-    },
-    NIDCCR: {
-      label: 'NID (CCR)',
-      format: 'YY/####CE',
-      values: [],
-    },
-    NIT: {
-      label: 'NIT (SECTOR DE TB)',
-      format: '',
-      values: [],
-    },
-    NCC: {
-      label: 'NUMERO CANCRO CERVICAL',
-      format: 'NNNNNN/20_ _',
-      values: [],
-    },
-    PCR: {
-      label: 'PCR (NUMERO DE REGISTO)',
-      format: '',
-      values: [],
-    },
-  };
+//   addIdentifier(I, registerPatientPage, identifierTypes.NIT);
+//   validateIdentifier(I, registerPatientPage, identifierTypes.NIT);
+//   I.click(registerPatientPage.buttons.removeIdentifier);
 
-  I.say(`${LOG_TAG} login`);
-  let dashboardPage = I.login();
+//   addIdentifier(I, registerPatientPage, identifierTypes.NCC);
+//   validateIdentifier(I, registerPatientPage, identifierTypes.NCC);
+//   I.click(registerPatientPage.buttons.removeIdentifier);
 
-  I.say(`${LOG_TAG} Navigate to the registration page`);
-  const registrationPage = dashboardPage.navigateToRegistrationPage();
+//   addIdentifier(I, registerPatientPage, identifierTypes.PCR);
+//   validateIdentifier(I, registerPatientPage, identifierTypes.PCR);
+//   I.click(registerPatientPage.buttons.removeIdentifier);
 
-  I.say(`${LOG_TAG} Click on the New Patient button`);
-  const registerPatientPage = registrationPage.clickNewPatienButton();
-
-  validateIdentifier(I, registerPatientPage, identifierTypes.NIDTARV);
-
-  addIdentifier(I, registerPatientPage, identifierTypes.BI);
-  validateIdentifier(I, registerPatientPage, identifierTypes.BI);
-  I.click(registerPatientPage.buttons.removeIdentifier);
-
-  addIdentifier(I, registerPatientPage, identifierTypes.ATS);
-  validateIdentifier(I, registerPatientPage, identifierTypes.ATS);
-  I.click(registerPatientPage.buttons.removeIdentifier);
-
-  addIdentifier(I, registerPatientPage, identifierTypes.ITS);
-  validateIdentifier(I, registerPatientPage, identifierTypes.ITS);
-  I.click(registerPatientPage.buttons.removeIdentifier);
-
-  addIdentifier(I, registerPatientPage, identifierTypes.PTVMATERN);
-  validateIdentifier(I, registerPatientPage, identifierTypes.PTVMATERN);
-  I.click(registerPatientPage.buttons.removeIdentifier);
-
-  addIdentifier(I, registerPatientPage, identifierTypes.PTVPRE);
-  validateIdentifier(I, registerPatientPage, identifierTypes.PTVPRE);
-  I.click(registerPatientPage.buttons.removeIdentifier);
-
-  addIdentifier(I, registerPatientPage, identifierTypes.NIDCCR);
-  validateIdentifier(I, registerPatientPage, identifierTypes.NIDCCR);
-  I.click(registerPatientPage.buttons.removeIdentifier);
-
-  addIdentifier(I, registerPatientPage, identifierTypes.NIT);
-  validateIdentifier(I, registerPatientPage, identifierTypes.NIT);
-  I.click(registerPatientPage.buttons.removeIdentifier);
-
-  addIdentifier(I, registerPatientPage, identifierTypes.NCC);
-  validateIdentifier(I, registerPatientPage, identifierTypes.NCC);
-  I.click(registerPatientPage.buttons.removeIdentifier);
-
-  addIdentifier(I, registerPatientPage, identifierTypes.PCR);
-  validateIdentifier(I, registerPatientPage, identifierTypes.PCR);
-  I.click(registerPatientPage.buttons.removeIdentifier);
-
-  I.say(`${LOG_TAG} Try to add an already added identifier`);
-  addIdentifier(I, registerPatientPage, identifierTypes.BI);
-  addIdentifier(I, registerPatientPage, identifierTypes.BI);
-  I.see(registerPatientPage.translate('PATIENT_INFO_IDENTIFIER_ERROR_EXISTING'));
-});
+//   I.say(`${LOG_TAG} Try to add an already added identifier`);
+//   addIdentifier(I, registerPatientPage, identifierTypes.BI);
+//   addIdentifier(I, registerPatientPage, identifierTypes.BI);
+//   I.see(registerPatientPage.translate('PATIENT_INFO_IDENTIFIER_ERROR_EXISTING'));
+// });
 
 Scenario('Register a patient', (I, Data, RegistrationDashboardPage) => {
   const patient = Data.patients.patient3;
@@ -217,12 +184,12 @@ Scenario('Register a patient', (I, Data, RegistrationDashboardPage) => {
   registerPatientPage.fillHIVTestForm(patient);
   registerPatientPage.clickNext();
 
-  I.say(`${LOG_TAG} Scroll down and confirm patient registration`);
+  I.say(`${LOG_TAG} Confirm patient data and scroll down to save the patient`);
+  registerPatientPage.confirmPatientData(patient);
   I.scrollPageToBottom();
   I.click(registerPatientPage.buttons.confirm);
 
-  I.say(`${LOG_TAG} verify the success toast popped up`);
-  I.waitForElement(registerPatientPage.elements.successElement, 10);
+  registerPatientPage.verifySuccessToast('COMMON_PATIENT_CREATED');
 
   I.say(`${LOG_TAG} Make sure the registration dashboard page is loaded`);
   RegistrationDashboardPage.isLoaded();
