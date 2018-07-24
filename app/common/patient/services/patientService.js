@@ -7,7 +7,7 @@
 
   /* @ngInject */
   function patientService($http, appService, openmrsPatientMapper, $q, $log, reportService, updatePatientMapper,
-    additionalPatientAttributes) {
+    additionalPatientAttributes, patientRepresentation) {
 
     var OPENMRS_URL = Poc.Patient.Constants.openmrsUrl;
 
@@ -162,7 +162,7 @@
      * @param {String} [representation] The resource representation.
      * @returns {Promise}
      */
-    function getPatient(patientUuid, representation) {
+    function getPatient(patientUuid, {representation = patientRepresentation} = {}) {
       return get(patientUuid, representation).then(response => openmrsPatientMapper.map(response.data)).catch(error => {
         $log.error('XHR Failed for getPatient: ' + error.data.error.message);
         return $q.reject(error);

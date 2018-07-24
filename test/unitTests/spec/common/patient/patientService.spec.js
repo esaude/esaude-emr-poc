@@ -1,12 +1,12 @@
 describe('patientService', () => {
 
   var patientService, $httpBackend, $rootScope, openmrsPatientMapper, reportService,
-    updatePatientMapper, appService;
+    updatePatientMapper, appService, patientRepresentation;
 
   beforeEach(module('common.patient'));
 
   beforeEach(inject((_patientService_, _reportService_, _$rootScope_,
-                     _$httpBackend_, _openmrsPatientMapper_, _updatePatientMapper_, _appService_) => {
+                     _$httpBackend_, _openmrsPatientMapper_, _updatePatientMapper_, _appService_, _patientRepresentation_) => {
     patientService = _patientService_;
     reportService = _reportService_;
     $rootScope = _$rootScope_;
@@ -14,6 +14,7 @@ describe('patientService', () => {
     openmrsPatientMapper = _openmrsPatientMapper_;
     updatePatientMapper = _updatePatientMapper_;
     appService = _appService_;
+    patientRepresentation = _patientRepresentation_;
   }));
 
   it("should fetch the the specific patient by name ", () => {
@@ -44,7 +45,7 @@ describe('patientService', () => {
 
       spyOn(reportService, 'printPatientARVPickupHistory').and.callFake(() => { });
 
-      $httpBackend.expectGET('/openmrs/ws/rest/v1/patient/2017?v=full')
+      $httpBackend.expectGET(`/openmrs/ws/rest/v1/patient/2017?v=${patientRepresentation}`)
         .respond({});
 
       patientService.printPatientARVPickupHistory(year, patientUUID, pickups);
