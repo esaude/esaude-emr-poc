@@ -82,6 +82,7 @@
       if (changed) {
         vm.isDrugRegimenEditCancel = true;
         vm.$regimen.isDrugRegimenChanged = true;
+        vm.onDrugRegimenChange({drugRegimen});
       } else {
         vm.isDrugRegimenEditCancel = false;
         vm.$regimen.isDrugRegimenChanged = false;

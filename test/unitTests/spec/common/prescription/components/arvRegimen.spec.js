@@ -147,11 +147,13 @@ describe('arvRegimen', () => {
 
   describe('_onDrugRegimenChange', () => {
 
+    const onDrugRegimenChange = jasmine.createSpy('onDrugRegimenChange');
+
     describe('regimen did change', () => {
 
       it('should disable drug regimen cancel edit mode', () => {
 
-        const ctrl = $componentController('arvRegimen', null, {patient, regimen});
+        const ctrl = $componentController('arvRegimen', null, {patient, regimen, onDrugRegimenChange});
 
         ctrl.isRegimenEditCancel = false;
         ctrl.regimen.drugRegimen = {uuid: "daf60844-9002-403f-bd93-3838149a9a5e"};
@@ -166,7 +168,7 @@ describe('arvRegimen', () => {
 
       it('should say that flag prescription for regimen change', () => {
 
-        const ctrl = $componentController('arvRegimen', null, {patient, regimen});
+        const ctrl = $componentController('arvRegimen', null, {patient, regimen, onDrugRegimenChange});
 
         ctrl.regimen.drugRegimen = {uuid: "daf60844-9002-403f-bd93-3838149a9a5e"};
 
@@ -175,6 +177,21 @@ describe('arvRegimen', () => {
         $rootScope.$apply();
 
         expect(ctrl.$regimen.isDrugRegimenChanged).toBe(true);
+
+      });
+
+      it('should call onDrugRegimenChange binding', () => {
+
+        const ctrl = $componentController('arvRegimen', null, {patient, regimen, onDrugRegimenChange});
+
+        ctrl.isRegimenEditCancel = true;
+
+        const drugRegimen = {uuid: "f808f602-bc43-4070-9390-c2ec3fd0bff3"};
+        ctrl._onDrugRegimenChange(drugRegimen);
+
+        $rootScope.$apply();
+
+        expect(onDrugRegimenChange).toHaveBeenCalledWith({drugRegimen});
 
       });
 
