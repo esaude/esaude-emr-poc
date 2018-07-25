@@ -330,7 +330,7 @@
     }
 
     function validateCreatePrescription(prescription) {
-      if (prescription.regime.isArv && hasActiveArvPrescription()) {
+      if (prescription.regime && prescription.regime.isArv && hasActiveArvPrescription()) {
         notifier.error($filter('translate')('COMMON_MESSAGE_COULD_NOT_CREATE_ARV_PRESCRIPTION_BECAUSE_EXISTS_AN_ACTIVE_ARV_PRESCRIPTION'));
         return false;
       }
