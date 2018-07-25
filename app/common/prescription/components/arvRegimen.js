@@ -33,7 +33,7 @@
 
     function $onChanges(changesObj) {
       const regimen = changesObj.regimen.currentValue;
-      if (regimen.therapeuticLine) {
+      if (regimen && regimen.therapeuticLine) {
         vm.$regimen = angular.copy(regimen);
         loadRegimensByTherapeuticLine(regimen.therapeuticLine);
       }
