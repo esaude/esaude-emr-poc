@@ -2,7 +2,7 @@
 
 describe('prescriptionService', () => {
 
-  var prescriptionService, encounterService, conceptService, appService, $http, $q, $log, $rootScope;
+  var prescriptionService, encounterService, conceptService, appService, $httpBackend, $q, $log, $rootScope;
 
   beforeEach(module('poc.common.prescription'));
 
@@ -14,7 +14,7 @@ describe('prescriptionService', () => {
     appService = _appService_;
     $q = _$q_;
     $rootScope = _$rootScope_;
-    $http = _$httpBackend_;
+    $httpBackend = _$httpBackend_;
   }));
 
   describe('getAllPrescriptions', () => {
@@ -35,19 +35,19 @@ describe('prescriptionService', () => {
 
       var loadedPrescriptions = {};
 
-      $http.expectGET('/openmrs/ws/rest/v1/prescription?findAllPrescribed=true&patient=' + patient.uuid + '&v=full').respond([]);
+      $httpBackend.expectGET('/openmrs/ws/rest/v1/prescription?findAllPrescribed=true&patient=' + patient.uuid + '&v=full').respond([]);
 
       prescriptionService.getAllPrescriptions(patient).then(prescriptions => {
         loadedPrescriptions = prescriptions;
       });
 
-      $http.flush();
+      $httpBackend.flush();
     });
 
 
     afterEach(() => {
-      $http.verifyNoOutstandingExpectation();
-      $http.verifyNoOutstandingRequest();
+      $httpBackend.verifyNoOutstandingExpectation();
+      $httpBackend.verifyNoOutstandingRequest();
     });
 
   });
@@ -59,7 +59,7 @@ describe('prescriptionService', () => {
     };
 
     beforeEach(() => {
-      $http.expectPOST('/openmrs/ws/rest/v1/prescription')
+      $httpBackend.expectPOST('/openmrs/ws/rest/v1/prescription')
         .respond(prescription);
     });
 
@@ -69,13 +69,42 @@ describe('prescriptionService', () => {
         created = p;
       });
 
-      $http.flush();
+      $httpBackend.flush();
       expect(created).toEqual(prescription);
     });
 
     afterEach(() => {
-      $http.verifyNoOutstandingExpectation();
-      $http.verifyNoOutstandingRequest();
+      $httpBackend.verifyNoOutstandingExpectation();
+      $httpBackend.verifyNoOutstandingRequest();
+    });
+
+  });
+
+  describe('getPatientRegimen', () => {
+
+    describe('patient with no art prescriptions', () => {
+
+      it('should load regimen with first therapeutic line', () => {
+
+        const patient = {uuid: '7551eff1-7da2-47ba-a4c9-cf6e4b20a572'};
+
+        $httpBackend.expectGET(`/openmrs/ws/rest/v1/prescription?findAllPrescribed=true&patient=${patient.uuid}&v=full`).respond([]);
+
+        const firstLine = {uuid: 'a6bbe1ac-5243-40e4-98cb-7d4a1467dfbe', display: 'PRIMEIRA LINHA'};
+        spyOn(conceptService, 'getConcept').and.returnValue($q.resolve(firstLine));
+
+        let regimen;
+        prescriptionService.getPatientRegimen(patient).then((r) => {
+          regimen = r;
+        });
+
+        $httpBackend.flush();
+        $rootScope.$apply();
+
+        expect(regimen).toEqual({therapeuticLine: firstLine});
+
+      });
+
     });
 
   });

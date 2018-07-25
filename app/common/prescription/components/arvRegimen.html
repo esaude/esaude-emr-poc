@@ -27,7 +27,7 @@
             <div ng-messages for="form.therapeuticLine.$error" ng-show="vm.showMessages"></div>
             <select name="therapeuticLine" class="form-control" ng-model="vm.$regimen.therapeuticLine"
                     ng-options="line.display for line in vm.prescriptionConvSet.therapeuticLine.answers"
-                    ng-change="vm.onTherapeuticLineChange(vm.$regimen.therapeuticLine);">
+                    ng-change="vm._onTherapeuticLineChange(vm.$regimen.therapeuticLine);">
               <option></option>
             </select>
           </div>
@@ -141,7 +141,7 @@
             </div>
             <select name="artPlan" class="form-control" ng-model="vm.$regimen.artPlan"
                     ng-options="plan.display for plan in vm.prescriptionConvSet.artPlan.answers | orderBy:'display'"
-                    ng-change="vm.onArtPlanChange(vm.$regimen.artPlan);">
+                    ng-change="vm._onArtPlanChange(vm.$regimen.artPlan);">
               <option></option>
             </select>
           </div>
