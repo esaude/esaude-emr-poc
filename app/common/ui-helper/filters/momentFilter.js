@@ -17,6 +17,6 @@
                     return momentInput.format(customFormat);
                 }
                 throw OBJECT_IS_NOT_A_MOMENT + input;
-            }
+            };
         });
 })();
