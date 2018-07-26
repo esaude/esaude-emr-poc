@@ -101,7 +101,7 @@ describe('prescriptionService', () => {
         $httpBackend.flush();
         $rootScope.$apply();
 
-        expect(regimen).toEqual({therapeuticLine: firstLine});
+        expect(regimen).toEqual({therapeuticLine: firstLine, regime: null, arvPlan: null});
 
       });
 

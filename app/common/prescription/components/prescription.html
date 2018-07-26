@@ -65,22 +65,24 @@
               <div class="list-group-item list-group-item-success">
                 <checkbox largest
                           name="drugType"
-                          ng-model="vm.regimen.isArv"
-                          ng-change="vm.onArvRegimenChange()">
+                          ng-model="vm.isArvPrescriptionItem"
+                          ng-change="vm.onIsArvPrescriptionItemChange()">
                 </checkbox>
                 {{'COMMON_MESSAGE_QUESTION_CREATE_ARV_PRESCRIPTION_ITEM' | translate}}
               </div>
             </div>
           </div>
 
-          <arv-regimen ng-if="vm.regimen.isArv"
+          <arv-regimen ng-if="vm.isArvPrescriptionItem"
                        patient="vm.patient"
-                       regimen="vm.regimen"
+                       therapeutic-line="vm.therapeuticLine"
+                       regime="vm.regime"
+                       arv-plan="vm.arvPlan"
                        prescription-conv-set="vm.prescriptionConvSet"
                        disabled="!vm.isRegimenEditable()"
                        on-therapeutic-line-change="vm.onTherapeuticLineChange(therapeuticLine);"
-                       on-art-plan-change="vm.onArtPlanChange(artPlan);"
-                       on-drug-regimen-change="vm.onDrugRegimenChange(drugRegimen);">
+                       on-art-plan-change="vm.onArtPlanChange(arvPlan, interruptionReason);"
+                       on-drug-regimen-change="vm.onDrugRegimenChange(drugRegimen, changeReason);">
           </arv-regimen>
 
           <div class="panel panel-primary panel-marginless-sides">
@@ -92,7 +94,7 @@
               <div class="form-group form-group-lg"
                    ng-class="{'has-error': prescriptionForm.drug.$invalid && vm.showMessages,
                               'has-warning': vm.prescriptionItem.drugOrder.drug && !vm.drugAvailable}"
-                   ng-show="!vm.regimen.isArv">
+                   ng-show="!vm.isArvPrescriptionItem">
                 <label class="col-sm-3 control-label">
                   {{'CLINIC_PRESCRIPTION_DRUG'| translate}}:<span class="asterick">*</span>
                 </label>
@@ -123,7 +125,7 @@
               <div class="form-group form-group-lg"
                    ng-class="{'has-error': prescriptionForm.arvDrug.$invalid && vm.showMessages,
                               'has-warning': vm.prescriptionItem.drugOrder.drug && !vm.drugAvailable}"
-                   ng-show="vm.regimen.isArv">
+                   ng-show="vm.isArvPrescriptionItem">
                 <label class="col-sm-3 control-label">{{'CLINIC_PRESCRIPTION_DRUG'| translate}}:<span
                   class="asterick">*</span></label>
                 <div class="col-sm-9">
@@ -288,25 +290,25 @@
           <div class="list-group-item list-group-item-success" ng-repeat="item in vm.prescription.items">
             <span>
               <strong>{{item.drugOrder.drug.display}}</strong>
-            <span ng-if="vm.prescription.regimen">
-               <strong>({{vm.prescription.regimen.drugRegimen.display}}</strong> : {{vm.prescription.regimen.therapeuticLine.display}})-
+            <span ng-if="vm.prescription.regime">
+               <strong>({{vm.prescription.regime.display}}</strong> : {{vm.prescription.regime.therapeuticLine.display}})-
             </span>
               {{item.drugOrder.dose}}
               {{item.drugOrder.doseUnits.display}}, {{item.drugOrder.frequency.display}},
               {{item.drugOrder.route.display}} - {{item.drugOrder.duration}}
               {{item.drugOrder.durationUnits.display}}, {{item.drugOrder.dosingInstructions.display}}
             </span>
-            <span ng-if="vm.prescription.regimen && item.arvPlan">
-                <strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN'| translate}}:</strong> {{vm.prescription.regimen.arvPlan.display}}
+            <span ng-if="vm.prescription.regime && item.arvPlan">
+                <strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN'| translate}}:</strong> {{vm.prescription.arvPlan.display}}
             </span>
             <span ng-if="item.drugOrder.drug.isProphilaxy">
                 <strong>{{'CLINIC_PRESCRIPTION_PROPHYLAXIS_PLAN'| translate}}:</strong> {{item.prophilaxyPlan.display}}
             </span>
             <span ng-if="item.drugOrder.isPlanInterrupted && item.isArv">
-                <strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN_INTERRUPDED_FOR'| translate}}:</strong> {{vm.prescription.regimen.interruptedReason.display}}
+                <strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN_INTERRUPDED_FOR'| translate}}:</strong> {{vm.prescription.interruptionReason.display}}
             </span>
             <span ng-if="item.drugOrder.changeReason">
-                <strong>{{'CLINIC_PRESCRIPTION_ARV_CHANGE_FOR'| translate}}:</strong> {{vm.prescription.regimen.changeReason.display}}
+                <strong>{{'CLINIC_PRESCRIPTION_ARV_CHANGE_FOR'| translate}}:</strong> {{vm.prescription.changeReason.display}}
             </span>
             <span>
               <button type="button" class="close btn-lg content-border-margin-regular-sides"
