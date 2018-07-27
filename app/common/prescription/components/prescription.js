@@ -495,7 +495,7 @@
     }
 
     function searchProviders(term) {
-      return providerService.getProviders(term)
+      return providerService.getProviders(term, {ignoreLoadingBar: true})
         .catch(() => {
           notifier.error($filter('translate')('COMMON_ERROR'));
         });
