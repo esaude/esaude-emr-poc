@@ -29,6 +29,8 @@
     vm.addressFieldSelected = addressFieldSelected;
     vm.getAddressEntryList = getAddressEntryList;
     vm.clearFields = clearFields;
+    vm.entryDisplay = entryDisplay;
+    vm.entryFormat = entryFormat;
 
     function $onInit() {
       configurationService.getAddressLevels()
@@ -50,6 +52,25 @@
       autocompletedFields = [];
       autocompletedFields.push(addressFieldName);
       autocompletedFields = autocompletedFields.concat(parentFields);
+    }
+
+    function entryDisplay(entry) {
+      if (angular.isString(entry)) {
+        return entry;
+      }
+      let display = '';
+      while (entry) {
+        display += entry.parent ? `${entry.name}, ` : entry.name;
+        entry = entry.parent;
+      }
+      return display;
+    }
+
+    function entryFormat(entry) {
+      if (!angular.isObject(entry)) {
+        return entry;
+      }
+      return entry.name;
     }
 
     function getAddressEntryList(addressFieldName, term) {

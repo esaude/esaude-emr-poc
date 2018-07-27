@@ -12,11 +12,16 @@
         <div ng-messages-include="../common/application/views/error-messages.html"></div>
       </div>
 
-      <input type="text" name="{{addressLevel.addressField}}" id="{{addressLevel.addressField}}" class="form-control keyboard-in"
-        ng-required="{{addressLevel.required}}" ng-model="vm.patient.address[addressLevel.addressField]" uib-typeahead="entry.name for entry in vm.getAddressEntryList(addressLevel.addressField, $viewValue)"
-        typeahead-on-select="vm.addressFieldSelected(addressLevel.addressField, $item)" ng-change="vm.clearFields(addressLevel.addressField)"
-        ng-pattern="/^([a-zA-Z0-9\s]|[\)\(\'\/\-\.])*$/" autocomplete="off" ng-maxlength="{{addressLevel.addressField === 'country' ? 50 : 255}}"
-        maxlength="{{addressLevel.addressField === 'country' ? 50 : 255}}">
+      <input type="text" name="{{addressLevel.addressField}}" id="{{addressLevel.addressField}}"
+             class="form-control keyboard-in"
+             ng-required="{{addressLevel.required}}" ng-model="vm.patient.address[addressLevel.addressField]"
+             uib-typeahead="entry as vm.entryDisplay(entry) for entry in vm.getAddressEntryList(addressLevel.addressField, $viewValue)"
+             typeahead-input-formatter="vm.entryFormat($model)"
+             typeahead-on-select="vm.addressFieldSelected(addressLevel.addressField, $item)"
+             ng-change="vm.clearFields(addressLevel.addressField)"
+             ng-pattern="/^([a-zA-Z0-9\s]|[\)\(\'\/\-\.])*$/" autocomplete="off"
+             ng-maxlength="{{addressLevel.addressField === 'country' ? 50 : 255}}"
+             maxlength="{{addressLevel.addressField === 'country' ? 50 : 255}}">
     </div>
   </div>
 
