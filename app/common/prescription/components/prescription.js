@@ -208,8 +208,8 @@
         params: {
           q: request,
           v: "full",
-          ignoreLoadingBar: true,
-        }
+        },
+        ignoreLoadingBar: true,
       })
         .then(response => response.data.results.map(drug => drug));
     }
