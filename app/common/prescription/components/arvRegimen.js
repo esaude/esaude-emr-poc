@@ -83,7 +83,7 @@
     }
 
     function _onDrugRegimenChange(drugRegimen) {
-      const changed = drugRegimen.uuid !== vm.regime.uuid;
+      const changed = vm.regime ? drugRegimen.uuid !== vm.regime.uuid : true;
       if (changed) {
         vm.isDrugRegimenEditCancel = true;
         vm.isDrugRegimenChanged = true;

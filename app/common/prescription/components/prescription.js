@@ -208,8 +208,8 @@
         params: {
           q: request,
           v: "full",
-          ignoreLoadingBar: true,
-        }
+        },
+        ignoreLoadingBar: true,
       })
         .then(response => response.data.results.map(drug => drug));
     }
@@ -495,7 +495,7 @@
     }
 
     function searchProviders(term) {
-      return providerService.getProviders(term)
+      return providerService.getProviders(term, {ignoreLoadingBar: true})
         .catch(() => {
           notifier.error($filter('translate')('COMMON_ERROR'));
         });
