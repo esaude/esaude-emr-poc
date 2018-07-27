@@ -215,25 +215,25 @@ describe('prescription', () => {
     it('should reset therapeuticLine', () => {
       ctrl.therapeuticLine = {display : 'PRIMEIRA LINHA'};
       ctrl.removeAll();
-      expect(ctrl.therapeuticLine).toEqual({});
+      expect(ctrl.therapeuticLine).toBeNull();
     });
 
     it('should reset arvPlan', () => {
       ctrl.arvPlan = {display : 'INICIAR'};
       ctrl.removeAll();
-      expect(ctrl.arvPlan).toEqual({});
+      expect(ctrl.arvPlan).toBeNull();
     });
 
     it('should reset regime change reason', () => {
       ctrl.changeReason = {display : 'MOTIVOS'};
       ctrl.removeAll();
-      expect(ctrl.changeReason).toEqual({});
+      expect(ctrl.changeReason).toBeNull();
     });
 
     it('should reset arv plan interrution reason', () => {
       ctrl.interruptionReason = {display : 'TOXICIDADE'};
       ctrl.removeAll();
-      expect(ctrl.interruptionReason).toEqual({});
+      expect(ctrl.interruptionReason).toBeNull();
     });
 
     it('should reset regime from prescription', () => {
@@ -245,25 +245,25 @@ describe('prescription', () => {
     it('should reset therapeuticLine from prescription', () => {
       ctrl.prescription.therapeuticLine = {display : 'PRIMEIRA LINHA'};
       ctrl.removeAll();
-      expect(ctrl.prescription.therapeuticLine).toEqual({});
+      expect(ctrl.prescription.therapeuticLine).toBeNull();
     });
 
     it('should reset arvPlan from prescription', () => {
       ctrl.arvPlan = {display : 'INICIAR'};
       ctrl.removeAll();
-      expect(ctrl.prescription.arvPlan).toEqual({});
+      expect(ctrl.prescription.arvPlan).toBeNull();
     });
 
     it('should reset regime change reason from prescription', () => {
       ctrl.changeReason = {display : 'MOTIVOS'};
       ctrl.removeAll();
-      expect(ctrl.prescription.changeReason).toEqual({});
+      expect(ctrl.prescription.changeReason).toBeNull();
     });
 
     it('should reset arv plan interrution reason from prescription', () => {
       ctrl.interruptionReason = {display : 'TOXICIDADE'};
       ctrl.removeAll();
-      expect(ctrl.prescription.interruptionReason).toEqual({});
+      expect(ctrl.prescription.interruptionReason).toBeNull();
     });
 
   });
@@ -800,20 +800,6 @@ describe('prescription', () => {
         "regime": {},
         "arvPlan": {}
       };
-
-    });
-
-    describe('arv regimen', () => {
-
-      it('should load patient regimen', () => {
-
-        ctrl.isArvPrescriptionItem = true;
-
-        ctrl.onIsArvPrescriptionItemChange();
-
-        expect(prescriptionService.getPatientRegimen).toHaveBeenCalled();
-
-      });
 
     });
 

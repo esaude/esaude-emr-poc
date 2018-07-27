@@ -377,20 +377,7 @@
       return hasDuplicated;
     }
 
-    function loadPatientRegimen() {
-      prescriptionService.getPatientRegimen(vm.patient)
-        .then(regimen => {
-          setArvRegimeFields(regimen.therapeuticLine, regimen.regime, regimen.arvPlan);
-        })
-        .catch(() => {
-          notifier.error($filter('translate')('COMMON_ERROR'));
-        });
-    }
-
     function onIsArvPrescriptionItemChange() {
-      if (vm.isArvPrescriptionItem) {
-        loadPatientRegimen();
-      }
       if (!vm.prescriptionItem.isArv && vm.prescriptionItem && vm.prescriptionItem.drugOrder) {
         vm.prescriptionItem.drugOrder.drug = null;
       }
@@ -431,10 +418,10 @@
 
     function resetArvRegimeFields(obj) {
       obj.regime = null;
-      obj.therapeuticLine = {};
-      obj.arvPlan = {};
-      obj.changeReason = {};
-      obj.interruptionReason = {};
+      obj.therapeuticLine = null;
+      obj.arvPlan = null;
+      obj.changeReason = null;
+      obj.interruptionReason = null;
       obj.isArvPrescriptionItem = false;
     }
 
