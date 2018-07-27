@@ -6,7 +6,9 @@
     .component('arvRegimen', {
       bindings: {
         patient: '<',
-        regimen: '<',
+        therapeuticLine: '<',
+        regime: '<',
+        arvPlan: '<',
         prescriptionConvSet: '<',
         disabled: '<',
         onTherapeuticLineChange: '&',
@@ -23,19 +25,21 @@
 
     const vm = this;
 
-    vm.$regimen = {};
-
     vm.$onChanges = $onChanges;
     vm._onTherapeuticLineChange = _onTherapeuticLineChange;
     vm._onArtPlanChange = _onArtPlanChange;
     vm._onDrugRegimenChange = _onDrugRegimenChange;
     vm.onDrugRegimenChangeReasonChange = onDrugRegimenChangeReasonChange;
+    vm.onArvPlanInterruptedReasonChange = onArvPlanInterruptedReasonChange;
 
     function $onChanges(changesObj) {
-      const regimen = changesObj.regimen.currentValue;
-      if (regimen.therapeuticLine) {
-        vm.$regimen = angular.copy(regimen);
-        loadRegimensByTherapeuticLine(regimen.therapeuticLine);
+      const therapeuticLineChanged = changesObj.therapeuticLine;
+      const regimeChanged = changesObj.regime;
+      if (therapeuticLineChanged && changesObj.therapeuticLine.currentValue) {
+        loadRegimensByTherapeuticLine(changesObj.therapeuticLine.currentValue);
+      }
+      if (regimeChanged && changesObj.regime.currentValue) {
+        vm.$regime = changesObj.regime.currentValue;
       }
     }
 
@@ -53,7 +57,7 @@
       prescriptionService.getRegimensByTherapeuticLine(vm.patient, therapeuticLine)
         .then(therapeuticLineRegimens => {
           vm.therapeuticLineRegimens = therapeuticLineRegimens;
-          vm.$regimen.drugRegimen = null;
+          vm.regime = null;
           vm.isTheraupeuticLineEdit = false;
           vm.isDrugRegimenEdit = true;
           vm.isDrugRegimenEditCancel = false;
@@ -64,35 +68,42 @@
       vm.onTherapeuticLineChange({therapeuticLine});
     }
 
-    function _onArtPlanChange(artPlan) {
-      if (prescriptionService.isArtPlanInterrupt({artPlan})) {
-        vm.$regimen.isPlanInterrupted = true;
+    function _onArtPlanChange(arvPlan) {
+      if (prescriptionService.isArtPlanInterrupt(arvPlan)) {
+        vm.isPlanInterrupted = true;
         vm.isArtPlanInterruptedEdit = true;
       } else {
         vm.isArvPlanEdit = false;
-        vm.$regimen.isPlanInterrupted = false;
+        vm.isPlanInterrupted = false;
         vm.isArtPlanInterruptedEdit = false;
-        vm.$regimen.interruptedReason = null;
+        vm.interruptedReason = null;
       }
-      vm.onArtPlanChange(artPlan);
+      const interruptionReason = vm.interruptedReason;
+      vm.onArtPlanChange({arvPlan, interruptionReason});
     }
 
     function _onDrugRegimenChange(drugRegimen) {
-      const changed = drugRegimen.uuid !== vm.regimen.drugRegimen.uuid;
+      const changed = drugRegimen.uuid !== vm.regime.uuid;
       if (changed) {
         vm.isDrugRegimenEditCancel = true;
-        vm.$regimen.isDrugRegimenChanged = true;
+        vm.isDrugRegimenChanged = true;
         vm.onDrugRegimenChange({drugRegimen});
       } else {
         vm.isDrugRegimenEditCancel = false;
-        vm.$regimen.isDrugRegimenChanged = false;
-        vm.$regimen.changeReason = null;
+        vm.isDrugRegimenChanged = false;
+        vm.changeReason = null;
       }
     }
 
     function onDrugRegimenChangeReasonChange(changeReason) {
       vm.isDrugRegimenEdit = false;
-      vm.onDrugRegimenChange({drugRegimen: vm.$regimen.drugRegimen, changeReason});
+      vm.onDrugRegimenChange({drugRegimen: vm.regime, changeReason});
+    }
+
+    function onArvPlanInterruptedReasonChange(interruptedReason) {
+      vm.isArtPlanInterruptedEdit = false;
+      vm.isArvPlanEdit = false;
+      vm.onArtPlanChange({arvPlan: vm.artPlan, interruptionReason: interruptedReason});
     }
   }
 

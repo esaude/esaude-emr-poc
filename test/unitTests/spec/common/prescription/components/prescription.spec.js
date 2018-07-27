@@ -2,7 +2,7 @@
 
 describe('prescription', () => {
 
-  let $componentController, controller, $http, $filter, $rootScope, $stateParams, observationsService, commonService,
+  let $componentController, ctrl, $http, $filter, $rootScope, $stateParams, observationsService, commonService,
     conceptService, localStorageService, notifier, drugService, prescriptionService, $q, providerService,
     sessionService, patientService, $uibModal;
 
@@ -120,23 +120,23 @@ describe('prescription', () => {
   describe('$onInit', () => {
 
     beforeEach(() => {
-      controller = $componentController('prescription', null, {patient: {uuid: 'uuid'}});
+      ctrl = $componentController('prescription', null, {patient: {uuid: 'uuid'}});
     });
 
     it('should load patientPrescriptions', () => {
-      controller.$onInit();
+      ctrl.$onInit();
       $rootScope.$apply();
       expect(prescriptionService.getAllPrescriptions).toHaveBeenCalled();
     });
 
     it('should load prescriptionConvSet', () => {
-      controller.$onInit();
+      ctrl.$onInit();
       $rootScope.$apply();
-      expect(controller.prescriptionConvSet).toEqual(drugPrescriptionConvSet);
+      expect(ctrl.prescriptionConvSet).toEqual(drugPrescriptionConvSet);
     });
 
     it('should load currentProvider', () => {
-      controller.$onInit();
+      ctrl.$onInit();
       $rootScope.$apply();
       expect(sessionService.getCurrentProvider).toHaveBeenCalled();
     });
@@ -145,11 +145,11 @@ describe('prescription', () => {
 
       it('should set selected provider', () => {
 
-        controller.$onInit();
+        ctrl.$onInit();
 
         $rootScope.$apply();
 
-        expect(controller.selectedProvider).toEqual(provider);
+        expect(ctrl.selectedProvider).toEqual(provider);
 
       });
 
@@ -166,13 +166,13 @@ describe('prescription', () => {
         const item = 1;
         const ctrl = $componentController('prescription');
 
-        ctrl.prescription.regimen = {therapeuticLine: {display: 'PRIMEIRA LINHA'}};
+        ctrl.prescription.regime = {therapeuticLine: {display: 'PRIMEIRA LINHA'}};
 
         ctrl.prescription.arvItems = [item];
 
         ctrl.remove(item);
 
-        expect(ctrl.prescription.regimen).toBeNull();
+        expect(ctrl.prescription.regime).toBeNull();
 
       });
 
@@ -183,49 +183,87 @@ describe('prescription', () => {
   describe('removeAll', () => {
 
     beforeEach(() => {
-      controller = $componentController('prescription', {
+      ctrl = $componentController('prescription', {
         $scope: {}
       });
     });
 
     beforeEach(() => {
-      controller.prescription.items.push(1);
-      controller.prescription.items.push(2);
-      controller.showNewPrescriptionsControlls = true;
+      ctrl.prescription.items.push(1);
+      ctrl.prescription.items.push(2);
+      ctrl.showNewPrescriptionsControlls = true;
     });
 
     it('should remove all listed drugs', () => {
-      expect(controller.prescription.items.length).not.toBe(0);
-      controller.removeAll();
-      expect(controller.prescription.items.length).toBe(0);
+      expect(ctrl.prescription.items.length).not.toBe(0);
+      ctrl.removeAll();
+      expect(ctrl.prescription.items.length).toBe(0);
     });
 
     it('should hide controls', () => {
-      expect(controller.showNewPrescriptionsControlls).not.toBe(false);
-      controller.removeAll();
-      expect(controller.showNewPrescriptionsControlls).toBe(false);
+      expect(ctrl.showNewPrescriptionsControlls).not.toBe(false);
+      ctrl.removeAll();
+      expect(ctrl.showNewPrescriptionsControlls).toBe(false);
     });
 
-    it('should reset regimen', () => {
-      controller.regimen = {
-        drugRegimen: 'TDF+3TC+EFV',
-        therapeuticLine: 'PRIMEIRA LINHA',
-        artPlan: 'INICIAR',
-        isArv: true,
-      };
-      controller.removeAll();
-      expect(controller.regimen).toEqual({});
+    it('should reset regime', () => {
+      ctrl.regime = {display: 'TDF+3TC+EFV'};
+      ctrl.removeAll();
+      expect(ctrl.regime).toBeNull();
     });
 
-    it('should reset prescription regimen', () => {
-      controller.prescription.regimen = {
-        drugRegimen: 'TDF+3TC+EFV',
-        therapeuticLine: 'PRIMEIRA LINHA',
-        artPlan: 'INICIAR',
-        isArv: true,
-      };
-      controller.removeAll();
-      expect(controller.prescription.regimen).toEqual(null);
+    it('should reset therapeuticLine', () => {
+      ctrl.therapeuticLine = {display : 'PRIMEIRA LINHA'};
+      ctrl.removeAll();
+      expect(ctrl.therapeuticLine).toEqual({});
+    });
+
+    it('should reset arvPlan', () => {
+      ctrl.arvPlan = {display : 'INICIAR'};
+      ctrl.removeAll();
+      expect(ctrl.arvPlan).toEqual({});
+    });
+
+    it('should reset regime change reason', () => {
+      ctrl.changeReason = {display : 'MOTIVOS'};
+      ctrl.removeAll();
+      expect(ctrl.changeReason).toEqual({});
+    });
+
+    it('should reset arv plan interrution reason', () => {
+      ctrl.interruptionReason = {display : 'TOXICIDADE'};
+      ctrl.removeAll();
+      expect(ctrl.interruptionReason).toEqual({});
+    });
+
+    it('should reset regime from prescription', () => {
+      ctrl.prescription.regime = {display: 'TDF+3TC+EFV'};
+      ctrl.removeAll();
+      expect(ctrl.prescription.regime).toBeNull();
+    });
+
+    it('should reset therapeuticLine from prescription', () => {
+      ctrl.prescription.therapeuticLine = {display : 'PRIMEIRA LINHA'};
+      ctrl.removeAll();
+      expect(ctrl.prescription.therapeuticLine).toEqual({});
+    });
+
+    it('should reset arvPlan from prescription', () => {
+      ctrl.arvPlan = {display : 'INICIAR'};
+      ctrl.removeAll();
+      expect(ctrl.prescription.arvPlan).toEqual({});
+    });
+
+    it('should reset regime change reason from prescription', () => {
+      ctrl.changeReason = {display : 'MOTIVOS'};
+      ctrl.removeAll();
+      expect(ctrl.prescription.changeReason).toEqual({});
+    });
+
+    it('should reset arv plan interrution reason from prescription', () => {
+      ctrl.interruptionReason = {display : 'TOXICIDADE'};
+      ctrl.removeAll();
+      expect(ctrl.prescription.interruptionReason).toEqual({});
     });
 
   });
@@ -234,26 +272,48 @@ describe('prescription', () => {
 
     it('should add selected drug to current prescription', () => {
       const item = {drugOrder: {dosingInstructions: 'Empty stomach'}};
-      controller = $componentController('prescription');
-      controller.refill({}, item);
-      expect(controller.prescription.items).toContain({drugOrder: {dosingInstructions: {uuid: 'Empty stomach'}}});
+      ctrl = $componentController('prescription');
+      ctrl.refill({}, item);
+      expect(ctrl.prescription.items).toContain({drugOrder: {dosingInstructions: {uuid: 'Empty stomach'}}});
     });
 
-    it('should set regimen to regimen of selected drug', () => {
+    describe('item from arv prescription', () => {
 
-      const item = {drugOrder: {dosingInstructions: 'Empty stomach'}};
-      controller = $componentController('prescription');
+      it('should set regime to regime of selected drug', () => {
 
-      const prescription = {regime: '(TDF+3TC+EFV', therapeuticLine: 'PRIMEIRA LINHA', arvPlan: 'INICIAR'};
-      controller.refill(prescription, item);
+        const item = {drugOrder: {dosingInstructions: 'Empty stomach'}};
+        ctrl = $componentController('prescription');
 
-      expect(controller.regimen).toEqual({
-        drugRegimen: prescription.regime,
-        therapeuticLine: prescription.therapeuticLine,
-        artPlan: prescription.arvPlan,
-        isArv: !!prescription.arvPlan,
+        const prescription = {regime: '(TDF+3TC+EFV', therapeuticLine: 'PRIMEIRA LINHA', arvPlan: 'INICIAR'};
+        ctrl.refill(prescription, item);
+
+        expect(ctrl.regime).toEqual(prescription.regime);
+
       });
 
+      it('should set therapeutic line to therapeutic line of selected drug', () => {
+
+        const item = {drugOrder: {dosingInstructions: 'Empty stomach'}};
+        ctrl = $componentController('prescription');
+
+        const prescription = {regime: '(TDF+3TC+EFV', therapeuticLine: 'PRIMEIRA LINHA', arvPlan: 'INICIAR'};
+        ctrl.refill(prescription, item);
+
+        expect(ctrl.therapeuticLine).toEqual(prescription.therapeuticLine);
+
+      });
+
+      it('should set isArvPrescriptionItem', () => {
+
+        const item = {drugOrder: {dosingInstructions: 'Empty stomach'}};
+        ctrl = $componentController('prescription');
+
+        const prescription = {regime: '(TDF+3TC+EFV', therapeuticLine: 'PRIMEIRA LINHA', arvPlan: 'INICIAR'};
+        ctrl.refill(prescription, item);
+
+        expect(ctrl.isArvPrescriptionItem).toEqual(true);
+
+      });
     });
 
   });
@@ -276,18 +336,18 @@ describe('prescription', () => {
 
         spyOn(drugService, 'isArvDrug').and.callFake(() => $q(resolve => resolve(true)));
 
-        controller = $componentController('prescription', {
+        ctrl = $componentController('prescription', {
           $scope: {}
         });
-        controller.prescriptionItem = {};
+        ctrl.prescriptionItem = {};
       });
 
       it('should check a drug as ARV drug', () => {
         const drug = {"uuid": "9d7127f9-10e8-11e5-9009-0242ac110012"};
-        controller.checkDrugType(drug);
+        ctrl.checkDrugType(drug);
         $rootScope.$apply();
-        expect(controller.regimen.isArv).toBe(true);
-        expect(controller.prescriptionItem.drugOrder).toBe(null);
+        expect(ctrl.isArvPrescriptionItem).toBe(true);
+        expect(ctrl.prescriptionItem.drugOrder).toBe(null);
       });
     });
 
@@ -296,18 +356,18 @@ describe('prescription', () => {
 
         spyOn(drugService, 'isArvDrug').and.callFake(() => $q(resolve => resolve(false)));
 
-        controller = $componentController('prescription', {
+        ctrl = $componentController('prescription', {
           $scope: {}
         });
-        controller.prescriptionItem = {};
+        ctrl.prescriptionItem = {};
       });
 
 
       it('should check a drug as ARV drug', () => {
         const drug = {"uuid": "9d7127f9-10e8-11e5-9009-0242ac110012"};
-        controller.checkDrugType(drug);
+        ctrl.checkDrugType(drug);
         $rootScope.$apply();
-        expect(controller.prescriptionItem.isArv).toBe(false);
+        expect(ctrl.prescriptionItem.isArv).toBe(false);
       });
     });
 
@@ -317,7 +377,7 @@ describe('prescription', () => {
   describe('add', () => {
 
     beforeEach(() => {
-      controller = $componentController('prescription', {
+      ctrl = $componentController('prescription', {
         $scope: {}
       });
 
@@ -337,7 +397,7 @@ describe('prescription', () => {
     describe('form has validation errors', () => {
 
       beforeEach(() => {
-        controller = $componentController('prescription');
+        ctrl = $componentController('prescription');
       });
 
       const formError = {
@@ -349,8 +409,8 @@ describe('prescription', () => {
       };
 
       it('should not add a drug order', () => {
-        controller.add(formError);
-        expect(controller.showMessages).toBe(true);
+        ctrl.add(formError);
+        expect(ctrl.showMessages).toBe(true);
       });
     });
 
@@ -363,10 +423,10 @@ describe('prescription', () => {
         $setUntouched: () => {
         },
       };
-      controller.prescriptionItem = item;
-      controller.regimen.isArv = true;
-      controller.add(form);
-      expect(controller.prescription.arvItems).toContain(item);
+      ctrl.prescriptionItem = item;
+      ctrl.isArvPrescriptionItem = true;
+      ctrl.add(form);
+      expect(ctrl.prescription.arvItems).toContain(item);
     });
 
   });
@@ -413,19 +473,19 @@ describe('prescription', () => {
         }
       };
 
-      controller = $componentController('prescription');
+      ctrl = $componentController('prescription');
 
-      controller.prescriptionConvSet.interruptedReason = interruptedReason;
-      controller.prescription.items = [1];
+      ctrl.prescriptionConvSet.interruptedReason = interruptedReason;
+      ctrl.prescription.items = [1];
 
       spyOn($uibModal, 'open').and.returnValue({result: $q.resolve({cancellationReason: 'TOXICIDADE'})});
 
-      expect(controller.prescription.items.length).toBe(1);
+      expect(ctrl.prescription.items.length).toBe(1);
 
-      controller.cancelOrStop(item);
+      ctrl.cancelOrStop(item);
 
       $rootScope.$apply();
-      expect(controller.prescription.items.length).toBe(0);
+      expect(ctrl.prescription.items.length).toBe(0);
       expect(notifier.success).toHaveBeenCalled();
       expect(prescriptionService.stopPrescriptionItem).toHaveBeenCalled();
       expect(prescriptionService.getAllPrescriptions).toHaveBeenCalled();
@@ -487,9 +547,9 @@ describe('prescription', () => {
 
           spyOn($uibModal, 'open').and.returnValue({result: $q.resolve()});
 
-          controller = $componentController('prescription', null, {retrospectiveMode, patient});
+          ctrl = $componentController('prescription', null, {retrospectiveMode, patient});
 
-          controller.save();
+          ctrl.save();
 
           expect($uibModal.open).toHaveBeenCalled();
         });
@@ -502,13 +562,13 @@ describe('prescription', () => {
 
           spyOn($uibModal, 'open').and.returnValue({result: $q.resolve({date, provider})});
 
-          controller = $componentController('prescription', null, {retrospectiveMode, patient});
+          ctrl = $componentController('prescription', null, {retrospectiveMode, patient});
 
-          controller.save();
+          ctrl.save();
 
           $rootScope.$apply();
 
-          expect(controller.selectedProvider).toEqual(provider);
+          expect(ctrl.selectedProvider).toEqual(provider);
 
         }, 'Selected provider is set but then it is removed after save');
 
@@ -520,15 +580,15 @@ describe('prescription', () => {
 
           spyOn($uibModal, 'open').and.returnValue({result: $q.resolve({date, provider})});
 
-          controller = $componentController('prescription', null, {retrospectiveMode, patient});
+          ctrl = $componentController('prescription', null, {retrospectiveMode, patient});
 
-          controller.prescription.regimen = regimen;
+          ctrl.prescription.regimen = regimen;
 
-          controller.save();
+          ctrl.save();
 
           $rootScope.$apply();
 
-          expect(controller.prescriptionDate).toEqual(date);
+          expect(ctrl.prescriptionDate).toEqual(date);
 
         });
 
@@ -540,9 +600,9 @@ describe('prescription', () => {
 
         spyOn(prescriptionService, 'create').and.callFake(() => $q((resolve, reject) => reject({data: {error: {message: '[]'}}})));
 
-        controller = $componentController('prescription',null, {patient: {uuid: '9d674660-10e8-11e5-9009-0242ac110011'}});
+        ctrl = $componentController('prescription',null, {patient: {uuid: '9d674660-10e8-11e5-9009-0242ac110011'}});
 
-        controller.prescription.items.push({
+        ctrl.prescription.items.push({
           "drugOrder": {
 
             "dosingInstructions": "Conforme indicado",
@@ -568,14 +628,14 @@ describe('prescription', () => {
             }
           }
         });
-        controller.prescriptionDate = new Date();
-        controller.selectedProvider = {uuid: '123'};
-        controller.showNewPrescriptionsControlls = null;
+        ctrl.prescriptionDate = new Date();
+        ctrl.selectedProvider = {uuid: '123'};
+        ctrl.showNewPrescriptionsControlls = null;
       });
 
       it('should not create a prescription', () => {
-        controller.prescription.regimen = regimen;
-        controller.save();
+        ctrl.prescription.regimen = regimen;
+        ctrl.save();
         $rootScope.$apply();
         expect(notifier.error).toHaveBeenCalled();
       });
@@ -584,8 +644,8 @@ describe('prescription', () => {
     describe('invalid prescription', () => {
 
       beforeEach(() => {
-        controller = $componentController('prescription',null, {patient: {uuid: '9d674660-10e8-11e5-9009-0242ac110011'}});
-        controller.prescription.items.push({
+        ctrl = $componentController('prescription',null, {patient: {uuid: '9d674660-10e8-11e5-9009-0242ac110011'}});
+        ctrl.prescription.items.push({
           "drugOrder": {
 
             "dosingInstructions": "Conforme indicado",
@@ -614,16 +674,16 @@ describe('prescription', () => {
       });
 
       it('should not create a prescription', () => {
-        controller.save();
+        ctrl.save();
       });
     });
 
     describe('another active ARV prescription exists', () => {
 
       beforeEach(() => {
-        controller = $componentController('prescription', {notifier}, {patient: {uuid: '9d674660-10e8-11e5-9009-0242ac110011'}});
+        ctrl = $componentController('prescription', {notifier}, {patient: {uuid: '9d674660-10e8-11e5-9009-0242ac110011'}});
 
-        controller.prescription.items.push({
+        ctrl.prescription.items.push({
           "drugOrder": {
 
             "dosingInstructions": "Conforme indicado",
@@ -650,7 +710,7 @@ describe('prescription', () => {
           }
         });
 
-        controller.existingPrescriptions.push({
+        ctrl.existingPrescriptions.push({
           "prescriptionItems": [{
             regime: true,
             "drugOrder": {
@@ -666,8 +726,8 @@ describe('prescription', () => {
 
 
       it('should not create a prescription', () => {
-        controller.prescription.regimen = regimen;
-        controller.save();
+        ctrl.prescription.regimen = regimen;
+        ctrl.save();
         $rootScope.$apply();
         expect(notifier.error).toHaveBeenCalled();
       });
@@ -676,8 +736,8 @@ describe('prescription', () => {
     describe('at least one item in the new prescription exists in another active prescription', () => {
       beforeEach(() => {
 
-        controller = $componentController('prescription', {notifier}, {patient: {uuid: '9d674660-10e8-11e5-9009-0242ac110011'}});
-        controller.prescription.items.push({
+        ctrl = $componentController('prescription', {notifier}, {patient: {uuid: '9d674660-10e8-11e5-9009-0242ac110011'}});
+        ctrl.prescription.items.push({
           "drugOrder": {
 
             "dosingInstructions": "Conforme indicado",
@@ -703,7 +763,7 @@ describe('prescription', () => {
             }
           }
         });
-        controller.existingPrescriptions.push({
+        ctrl.existingPrescriptions.push({
           "prescriptionItems": [{
             "drugOrder": {
               "drug": {
@@ -717,8 +777,8 @@ describe('prescription', () => {
       });
 
       it('should not create a prescription', () => {
-        controller.prescription.regimen = regimen;
-        controller.save();
+        ctrl.prescription.regimen = regimen;
+        ctrl.save();
         $rootScope.$apply();
         expect(notifier.error).toHaveBeenCalled();
       });
@@ -726,12 +786,12 @@ describe('prescription', () => {
 
   });
 
-  describe('onArvRegimenChange', () => {
+  describe('onIsArvPrescriptionItemChange', () => {
 
     beforeEach(() => {
-      controller = $componentController('prescription');
+      ctrl = $componentController('prescription');
 
-      controller.prescriptionItem = {
+      ctrl.prescriptionItem = {
         "isArv": false,
         "drugOrder": {"drug": {}},
         "therapeuticLine": {},
@@ -747,22 +807,23 @@ describe('prescription', () => {
 
       it('should load patient regimen', () => {
 
-        controller.regimen.isArv = true;
+        ctrl.isArvPrescriptionItem = true;
 
-        controller.onArvRegimenChange();
+        ctrl.onIsArvPrescriptionItemChange();
 
         expect(prescriptionService.getPatientRegimen).toHaveBeenCalled();
 
       });
 
     });
+
     it('should clean drug fields', () => {
 
-      controller.regimen.isArv = false;
+      ctrl.isArvPrescriptionItem = false;
 
-      controller.onArvRegimenChange();
+      ctrl.onIsArvPrescriptionItemChange();
 
-      expect(controller.prescriptionItem.drugOrder.drug).toBe(null);
+      expect(ctrl.prescriptionItem.drugOrder.drug).toBe(null);
     });
 
   });
@@ -776,7 +837,7 @@ describe('prescription', () => {
         const item = {drugOrder: {drug: {uuid: '3c6e46ec-b302-4769-b2e2-0bc55ef72b69'}}};
         const newItem = {drugOrder: {drug: {uuid: '3c6e46ec-b302-4769-b2e2-0bc55ef72b68'}}};
         const controller = $componentController('prescription');
-        controller.prescription.regimen = {drugRegimen: {uuid: '3c6e46ec-b302-4769-b2e2-0bc55ef72b67'}, isArv: true};
+        controller.prescription.regime = {uuid: '3c6e46ec-b302-4769-b2e2-0bc55ef72b67'};
         controller.prescription.items = [item];
         expect(controller.checkItemIsRefillable(prescription, newItem)).toBe(false);
       });
@@ -799,7 +860,7 @@ describe('prescription', () => {
   describe('checkActiveAndNewItemStatus', () => {
     const item = {status: "NEW"};
     it('should return True for NEW Item status', () => {
-      expect(controller.checkActiveAndNewItemStatus(item)).toBe(true);
+      expect(ctrl.checkActiveAndNewItemStatus(item)).toBe(true);
     });
   });
 
@@ -829,7 +890,7 @@ describe('prescription', () => {
 
       ctrl.prescription.items = [1];
 
-      ctrl.prescription.regimen = {};
+      ctrl.prescription.regime = {};
 
       expect(ctrl.isRegimenEditable()).toBe(false);
 

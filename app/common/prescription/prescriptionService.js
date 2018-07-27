@@ -66,10 +66,10 @@
       });
     }
 
-    function loadFirstTherapeuticLine() {
+    function getFirstTherapeuticLineRegimen() {
       return conceptService.getConcept(therapeuticLineQuestion.firstLine)
         .then(therapeuticLine => {
-          return {therapeuticLine};
+          return {therapeuticLine, regime: null, arvPlan: null};
         });
     }
 
@@ -80,9 +80,9 @@
           const artPrescriptions = prescriptions.filter(p => !!p.arvPlan);
           const last = artPrescriptions[artPrescriptions.length - 1];
           if (last) {
-            return {therapeuticLine: last.therapeuticLine, drugRegimen: last.regime, artPlan: last.arvPlan};
+            return {therapeuticLine: last.therapeuticLine, regime: last.regime, arvPlan: last.arvPlan};
           } else {
-            return loadFirstTherapeuticLine();
+            return getFirstTherapeuticLineRegimen();
           }
         });
     }
