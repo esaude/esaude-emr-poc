@@ -1,7 +1,11 @@
 const Page = require('./page');
 
+/**
+ * Represents the vitals page for adults
+ * and includes functionality that facilitates interacting
+ * with the page during tests
+ */
 class VitalsAdultFormPage extends Page {
-
   constructor() {
     super({
       isLoaded: {
@@ -13,6 +17,16 @@ class VitalsAdultFormPage extends Page {
     this._initFieldsProperty();
   }
 
+  /**
+   * Fills the vitals form with data
+   * @param {number} data.temperature
+   * @param {number} data.weight
+   * @param {number} data.height
+   * @param {number} data.systolicBloodPressure
+   * @param {number} data.diastolicBloopPressure
+   * @param {number} data.cardiacFrequency
+   * @param {number} data.respiratoryRate
+   */
   fillForm(data) {
     this.I.fillField(this.fields.temperature, data.temperature);
     this.I.fillField(this.fields.weight, data.weight);
@@ -23,10 +37,21 @@ class VitalsAdultFormPage extends Page {
     this.I.fillField(this.fields.respiratoryRate, data.respiratoryRate);
   }
 
+  /** Clicks the next button */
   clickNext() {
     this.I.click('[name="aForm"] button');
   }
 
+  /**
+   * Verifies the form data is as expected
+   * @param {number} data.temperature
+   * @param {number} data.weight
+   * @param {number} data.height
+   * @param {number} data.systolicBloodPressure
+   * @param {number} data.diastolicBloopPressure
+   * @param {number} data.cardiacFrequency
+   * @param {number} data.respiratoryRate
+   */
   verifyForm(data) {
     this.I.see(data.temperature);
     this.I.see(data.weight);
@@ -37,6 +62,7 @@ class VitalsAdultFormPage extends Page {
     this.I.see(data.respiratoryRate);
   }
 
+  /** Clicks the confirm button */
   clickConfirm() {
     this.I.click('form-wizard-confirm-part button');
 
@@ -51,6 +77,7 @@ class VitalsAdultFormPage extends Page {
     return clinicDashboardPage;
   }
 
+  /** Initializes the data that is used to find fields in the DOM */
   _initFieldsProperty() {
     const getFieldData = (fieldName) => `input[name="${fieldName}"]`;
 

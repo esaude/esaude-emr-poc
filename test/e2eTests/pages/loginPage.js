@@ -1,5 +1,11 @@
 const Page = require('./page');
 
+/**
+ * Represents the login page
+ * and includes functionality that facilitates interacting
+ * with the page during tests
+ * @extends Page
+ */
 class LoginPage extends Page {
 
   constructor() {
@@ -18,7 +24,13 @@ class LoginPage extends Page {
     this.loginButton = {css: '.btn'};
   }
 
-  // Logs the user in
+  /**
+   * Logs the user in
+   * Unless you are testing this functionality directly
+   * you should not call this function. Instead, call I.login(userInfo)
+   * @param {string} userInfo.username - username to login with
+   * @param {string} userInfo.password - the user's password
+   */
   login(userInfo) {
     this.I.amOnPage('/home/index.html#/login');
     this.I.fillField(this.fields.username, userInfo.username);

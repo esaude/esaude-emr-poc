@@ -4,11 +4,13 @@ const querystring = require('querystring');
 const APIMANAGER_LOGTAG = '[ApiManager]';
 const API_LOGTAG = '[Api]';
 
-// ApiManager holds on to each Api. An instance of Api manager can be passed
-// into a test if that test needs to manipulate data on the server
-// A detaled description of each Api can be foudn at the following urls:
-//    https://wiki.openmrs.org/display/docs/REST+Web+Service+Resources+in+OpenMRS+1.8#RESTWebServiceResourcesinOpenMRS1.8-User
-//    https://psbrandt.io/openmrs-contrib-apidocs/
+/**
+ * ApiManager holds on to each Api. An instance of Api manager can be passed
+ * into a test if that test needs to manipulate data on the server
+ * A detaled description of each Api can be foudn at the following urls:
+ *    https://wiki.openmrs.org/display/docs/REST+Web+Service+Resources+in+OpenMRS+1.8#RESTWebServiceResourcesinOpenMRS1.8-User
+ *    https://psbrandt.io/openmrs-contrib-apidocs/
+ */
 class ApiManager {
   _init() {
     this.I = actor();
@@ -27,7 +29,10 @@ class ApiManager {
     this._createApis();
   }
 
-  // Remove all objects that were created during testing
+  /**
+   * Remove all objects that were created during testing.
+   * This function is called after each tests from hooks.js
+   */
   async cleanUp() {
     this.I.say(`${APIMANAGER_LOGTAG} Cleaning up ${this.resourcesToCleanUp.length} resources`);
 
@@ -51,7 +56,7 @@ class ApiManager {
       `${APIMANAGER_LOGTAG} Failed to clean up ${this.resourcesToCleanUp.length} resources after test`);
   }
 
-  // Create the apis
+  /** Create the apis */
   _createApis() {
     this.I.say(`${APIMANAGER_LOGTAG} Creating APIs`);
 
@@ -71,7 +76,11 @@ class ApiManager {
     this.visit = createApi('visit');
   }
 
-  // Callback executed each time an API creates a new resource
+  /**
+   * Callback executed each time an API creates a new resource
+   * @param {Api} api - the api that created a new resource
+   * @param {object} createdResource - the resource that was created
+   */
   _onApiCreatedResource(api, createdResource) {
     this.I.say(`${APIMANAGER_LOGTAG} Saving resource created by ${api.url}`);
 
@@ -81,7 +90,11 @@ class ApiManager {
     });
   }
 
-  // Callback executed each time an API deletes a new resource
+  /**
+   * Callback executed each time an API deletes a new resource
+   * @param {Api} api - the api that deleted a resource
+   * @param {object} deletedResource - the deleted resource
+   */
   _onApiDeletedResource(api, deletedResource) {
     this.I.say(`${APIMANAGER_LOGTAG} Resource delete by ${api.url}, removing from our clean up collection`);
 
@@ -90,8 +103,10 @@ class ApiManager {
   }
 }
 
-// This class contains methods that are used to send requests to
-// a specific Api. Each Api is contained in the ApiManager class.
+/**
+ * This class contains methods that are used to send requests to
+ * a specific Api. Each Api is contained in the ApiManager class.
+ */
 /* eslint-disable angular/json-functions */
 class Api {
   constructor(apiName, onCreate, onDelete) {
@@ -103,6 +118,14 @@ class Api {
     this.onDelete = onDelete;
   }
 
+  /**
+   * Sends a GET request the the api with the given quary options
+   * @param {object} options - the options used to filter the query
+   * @example
+   *    ApiManager.patient.getAll({ q: 'Ryan' })
+   *    sends a GET request to /patient?q='Ryan'
+   *    which effectively searches for all patients with Ryan in their first or last name
+   */
   async getAll(options) {
     const query = querystring.stringify(options);
     const response = await this.I.sendGetRequest(`${this.url}?${query}`);
@@ -115,6 +138,10 @@ class Api {
     return response.body.results;
   }
 
+  /**
+   * Gets a resource by its uuid.
+   * @param {string} id - the uuid of the resource
+   */
   async get(id) {
     const response = await this.I.sendGetRequest(`${this.url}/${id}`);
 
@@ -128,8 +155,12 @@ class Api {
     return response.body;
   }
 
-  async create(json) {
-    const response = await this.I.sendPostRequest(this.url, JSON.stringify(json));
+  /**
+   * Creates a new resource with the given json
+   * @param {object} data - an object of data that is posted in the create request
+   */
+  async create(data) {
+    const response = await this.I.sendPostRequest(this.url, JSON.stringify(data));
     
     assert.equal(response.statusCode, 201,
       `${API_LOGTAG} create ${this.url} request failed ${JSON.stringify(response, null, 2)}`);
@@ -146,19 +177,28 @@ class Api {
     return response.body;
   }
 
-  async delete(json) {
-    const response = await this.I.sendDeleteRequest(`${this.url}/${json.uuid}?purge`);
+  /**
+   * Deletes a resource based on the given object's uuid
+   * This function assummes the given object is the object returned from a create request
+   * @param {object} resource - the resource returned from a create request
+   */
+  async delete(resource) {
+    const response = await this.I.sendDeleteRequest(`${this.url}/${resource.uuid}?purge`);
 
     assert.equal(response.statusCode, 204,
       `${API_LOGTAG} delete ${this.url} request failed ${JSON.stringify(response, null, 2)}`);
 
     // Let the listener know we deleted a resource
     if(response.statusCode == 204)
-      this.onDelete(this, json);
+      this.onDelete(this, resource);
 
     this.I.say(`${API_LOGTAG} ${this.url} delete successful`);
   }
 
+  /**
+   * Validates the body of the response which holds the returned resources values.
+   * @param {object} body - the response body containing the returned resource
+   */
   validate(body) {
     assert.ok(body, `${API_LOGTAG} ${this.url} object invalid`);
     assert.ok(body.uuid, `${API_LOGTAG} ${this.url} invalid`);

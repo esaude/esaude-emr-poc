@@ -2,8 +2,13 @@ const Page = require('./page');
 
 const LOG_TAG = '[ClinicDashboardPage]';
 
+/**
+ * Represents the clinic dashboard page
+ * and includes functionality that facilitates interacting
+ * with the page during tests
+ * @extends Page
+ */
 class ClinicDashboardPage extends Page {
-
   constructor() {
     super({
       isLoaded: {
@@ -19,10 +24,12 @@ class ClinicDashboardPage extends Page {
     };
   }
 
+  /** Clicks the consultation tab */
   clickConsultationTab() {
     this.clickTab(this.tabs.consultation);
   }
 
+  /** Clicks the add vitals button */
   clickAddVitals() {
     const vitalsServiceId = '003';
     const addButton = `[data-qa-service-id="${vitalsServiceId}"] button[data-qa-type="add"]`;
