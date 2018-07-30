@@ -153,9 +153,9 @@ module.exports = {
       },
       contacts: {
         country: "Mocambique",
-        province: "Gaza",
-        district: "Chibuto",
-        administrativePost: "Chibuto Sede",
+        province: "Nampula",
+        district: "Erati",
+        administrativePost: "Alua",
         locality: "Sede",
         neighborhood: "Longuene",
         cell: "A",

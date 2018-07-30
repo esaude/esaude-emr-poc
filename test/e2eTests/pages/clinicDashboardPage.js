@@ -15,7 +15,12 @@ class ClinicDashboardPage extends Page {
     });
 
     this.tabs = {
+      summary: 'a[ui-sref="dashboard.summary"]',
+      chart: 'a[ui-sref="dashboard.chart"]',
       consultation: 'a[ui-sref="dashboard.consultation"]',
+      prescriptions: 'a[ui-sref="dashboard.prescriptions"]',
+      laboratory: 'a[ui-sref="dashboard.laboratory"]',
+      current: 'a[ui-sref="dashboard.current"]',
     };
   }
 
