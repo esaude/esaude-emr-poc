@@ -29,13 +29,16 @@ Scenario('Login successful with admin credentials and logout', (I, LoginPage, Da
 	logoutStatus.successful();
 });
 ```
-
 The above is a snippet from [login_test.js](tests/login_test.js) which verifies a user can login to the POC. Let's break it down line-by-line.
+
+<br />
 
 ```javascript
 Feature('Login');
 ```
 Defines which feature the scenarios are for. This does more for organization than anything else.
+
+<br />
 
 ```javascript
 Scenario('Login successful with admin credentials and logout', (I, LoginPage, Data) => {
@@ -44,11 +47,15 @@ Scenario('Login successful with admin credentials and logout', (I, LoginPage, Da
 ```
 Defines a new scenario with a description and a delegate containing the scenario's logic. The sSpecial variables `I`, `LoginPage` and `Data` are automatically defined when listed in the delegate function.
 
+<br />
+
 ```javascript
   // Log the user in
 	const loginStatus = LoginPage.login(Data.users.admin);
 ```
 Logs the user in by entering their with admin credentials into the login page form. [pages/loginPage.js](pages/loginPage.js) defines this login in its `login(userInfo)` function. [data.js](data.js) defines data about the admin user.
+
+<br />
 
 ```javascript
 	// Validate that login was successful
@@ -56,17 +63,23 @@ Logs the user in by entering their with admin credentials into the login page fo
 ```
 Validates the login was successful. After a successful login the POC takes the user to the dashboard page. If that doesn't happen the test will fail on this line.
 
+<br />
+
 ```javascript
 	// Log the user out
 	const logoutStatus = dashboardPage.logout();
 ```
 Selects the logout button in the POC header bar.
 
+<br />
+
 ```javascript
 	// Validate that logout was successful
 	logoutStatus.successful();
 ```
 Validates that logout was successful. If not the test will fail here.
+
+<br />
 
 That's it! Ready to write your own? There are a bunch of examples in the [tests](tests) folder. When writing tests please keep in mind
 - `I`, `Apis`, `Data` and and `<name>Page` are special variables that be imported into delegates
