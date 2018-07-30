@@ -10,7 +10,7 @@ In order to validate the POC website is working properly someone needs to open t
 5.  Once the tests have finished open `test/e2eTests/reports/pocE2E.html` to view results
 
 ## How Do I Write E2E Tests?
-Adding a new E2E test? If you haven't done so already, I recommend reading the next section on architecture before reading this section. I'm inpatient, however, and just want to see code, so I placed this section earlier in the stack.
+Adding a new E2E test? If you haven't done so already, I recommend reading the next section on architecture before reading this one. I'm inpatient, however, and just want to see code, so I placed this section earlier in the stack.
 
 ```javascript
 Feature('Login');
@@ -36,7 +36,7 @@ The above is a snippet from [login_test.js](tests/login_test.js) which verifies 
 ```javascript
 Feature('Login');
 ```
-Groups all scenarios defined in the file under a single feature. This does more for organization than anything else.
+This line groups all scenarios under a single feature. This does more for organization than anything else.
 
 <br />
 
@@ -45,7 +45,7 @@ Scenario('Login successful with admin credentials and logout', (I, LoginPage, Da
   // ...
 });
 ```
-Defines a new scenario with a description and a delegate containing the scenario's logic. `I`, `LoginPage` and `Data` are special variables that, when defines, are automatically imported into the delegate function.
+Defines a new scenario with a description and a delegate containing the scenario's logic. `I`, `LoginPage` and `Data` are special variables that are automatically imported into the delegate function.
 
 <br />
 
@@ -53,7 +53,7 @@ Defines a new scenario with a description and a delegate containing the scenario
 	// Log the user in
 	const loginStatus = LoginPage.login(Data.users.admin);
 ```
-Logs in with admin credentials using the login page form. [pages/loginPage.js](pages/loginPage.js) defines the `login(userInfo)` function. [data.js](data.js) defines data about the admin user, including their username and password.
+Logs in with admin credentials using the login page form. [pages/loginPage.js](pages/loginPage.js) defines `LoginPage.login(...)`. [data.js](data.js) defines `Data` which defines information about the admin user, including their username and password.
 
 <br />
 
@@ -77,11 +77,12 @@ Selects the logout button in the POC header bar.
 	// Validate that logout was successful
 	logoutStatus.successful();
 ```
-Validates that logout was successful.
+Validates the logout was successful.
 
 <br />
 
 That's it! Ready to write your own? There are a bunch of examples in the [tests](tests) folder. When writing tests please keep in mind:
+- Every page in the POC has an associated test page defined in [pages](pages). More on this in the [next](https://github.com/drryanjames/esaude-emr-poc/tree/docs/test/e2eTests#e2e-test-architecture) section.
 - `I`, `Apis`, `Data` and all `*Page`s are special variables that can be imported into delegates
 - `Before` and `After` run logic before and after each test
 - `BeforeSuite` and `AfterSuite` run login before and after all scenarios defined in a single file
@@ -105,7 +106,7 @@ That's it! Ready to write your own? There are a bunch of examples in the [tests]
 ```
 
 #### CodeceptJS & Puppeteer
-E2E tests are built on top of [CodeceptJS](https://github.com/Codeception/CodeceptJS). CodeceptJS is a wrapper around other test libraries that exposes a very simple API. From their page:
+E2E tests are built on top of [CodeceptJS](https://github.com/Codeception/CodeceptJS). CodeceptJS is a wrapper around other test libraries and exposes a very simple API. From their page:
 
 ```
 // A simple test that verifies that "Welcome" text is present on a main page of a site will look like:
