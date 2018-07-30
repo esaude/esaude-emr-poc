@@ -42,8 +42,6 @@ This line groups all scenarios under a single feature. This does more for organi
 
 ```javascript
 Scenario('Login successful with admin credentials and logout', (I, LoginPage, Data) => {
-  // ...
-});
 ```
 Defines a new scenario with a description and a delegate containing the scenario's logic. `I`, `LoginPage` and `Data` are special variables that are automatically imported into the delegate function.
 
@@ -76,6 +74,7 @@ Selects the logout button in the POC header bar.
 ```javascript
 	// Validate that logout was successful
 	logoutStatus.successful();
+});
 ```
 Validates the logout was successful.
 
