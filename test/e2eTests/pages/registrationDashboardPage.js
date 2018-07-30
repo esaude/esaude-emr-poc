@@ -12,8 +12,11 @@ class RegistrationDashboardPage extends Page {
       },
       components: ['checkIn', 'tabs', 'actions', 'deletePatientModal'],
     });
+
     this.tabs = {
       programs: 'a[ui-sref="dashboard.program"]',
+      visits: 'a[ui-sref="dashboard.visits"]',
+      services: 'a[ui-sref="dashboard.services"]',
     };
 
     this.programs = {

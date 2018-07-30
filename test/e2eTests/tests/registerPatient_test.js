@@ -29,39 +29,6 @@ After(async (I, Apis, Data) => {
   await cleanUpPatient(Data.patients.patient3);
 });
 
-Scenario('Validate tab sequence', (I) => {
-  I.say(`${LOG_TAG} login`);
-  let dashboardPage = I.login();
-
-  I.say(`${LOG_TAG} Navigate to the registration page`);
-  const registrationPage = dashboardPage.navigateToRegistrationPage();
-
-  I.say(`${LOG_TAG} Click on the New Patient button`);
-  const registerPatientPage = registrationPage.clickNewPatienButton();
-
-  const tabSequenseMessage = registerPatientPage.translate('FOLLOW_SEQUENCE_OF_TABS');
-
-  I.say(`${LOG_TAG} Validating tab sequence`);
-
-  I.click(registerPatientPage.tabs.name);
-  I.see(registerPatientPage.translate('ERROR_REQUIRED'));
-
-  I.click(registerPatientPage.tabs.gender);
-  I.see(tabSequenseMessage);
-
-  I.click(registerPatientPage.tabs.age);
-  I.see(tabSequenseMessage);
-
-  I.click(registerPatientPage.tabs.address);
-  I.see(tabSequenseMessage);
-
-  I.click(registerPatientPage.tabs.contacts);
-  I.see(tabSequenseMessage);
-
-  I.click(registerPatientPage.tabs.testing);
-  I.see(tabSequenseMessage);
-});
-
 Scenario('Validate Identifiers', (I) => {
   const identifierTypes = {
     NIDTARV: {
@@ -217,12 +184,12 @@ Scenario('Register a patient', (I, Data, RegistrationDashboardPage) => {
   registerPatientPage.fillHIVTestForm(patient);
   registerPatientPage.clickNext();
 
-  I.say(`${LOG_TAG} Scroll down and confirm patient registration`);
+  I.say(`${LOG_TAG} Confirm patient data and scroll down to save the patient`);
+  registerPatientPage.confirmPatientData(patient);
   I.scrollPageToBottom();
   I.click(registerPatientPage.buttons.confirm);
 
-  I.say(`${LOG_TAG} verify the success toast popped up`);
-  I.waitForElement(registerPatientPage.elements.successElement, 10);
+  registerPatientPage.verifySuccessToast('COMMON_PATIENT_CREATED');
 
   I.say(`${LOG_TAG} Make sure the registration dashboard page is loaded`);
   RegistrationDashboardPage.isLoaded();

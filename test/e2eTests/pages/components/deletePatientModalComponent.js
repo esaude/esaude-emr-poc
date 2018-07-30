@@ -91,7 +91,7 @@ class DeletePatientModalComponent extends Component {
     const disabledEditButton = locate('button').withAttr({ id: 'edit_patient', disabled: 'disabled' });
     const disabledDeleteButton = locate('button').withAttr({ id: 'delete_patient', disabled: 'disabled' });
     this.I.waitForElement('#delete_patient', 10);
-    // this.I.seeElement(disabledEditButton); // There is a bug on the system... this should be disabled
+    // this.I.seeElement(disabledEditButton); // There is a bug on the system... this should be disabled. Issue #563 (github)
     this.I.seeElement(disabledDeleteButton);
   }
 

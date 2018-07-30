@@ -69,10 +69,6 @@ class ActionsComponent extends Component {
   /** Clicks the delete patient button */
   clickDeletePatientButton() {
     this._clickButton('delete', this.actionButtons.deletePatient);
-    // const deletePatientModal = require('./../windows/deletePatientModal.js');
-    // deletePatientModal._init();
-    // deletePatientModal.hasPoppedUp();
-    // return deletePatientModal;
   }
 
   /** Transfer Patient to the registration module */
