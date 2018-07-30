@@ -19,6 +19,8 @@ module.exports = function (grunt) {
 
   grunt.loadNpmTasks('grunt-gitinfo');
 
+  grunt.loadNpmTasks('grunt-jsdoc-to-markdown')
+
   // Automatically load required Grunt tasks
   require('jit-grunt')(grunt, {
     useminPrepare: 'grunt-usemin'
@@ -97,4 +99,6 @@ module.exports = function (grunt) {
     'test',
     'build'
   ]);
+
+  grunt.registerTask('default', 'jsdoc2md')
 };
