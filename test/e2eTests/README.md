@@ -13,4 +13,22 @@ This directory contains code that runs automated end-to-end tests that validate 
 In contrast with a unit test, an equally important type of test that validates a small chunck of code, an E2E test validates an entire scenario from beginning to end, such as: login -> find patient -> check in patient -> verify patient is checked in. These test are important because they allow us to quickly and frequently validate that key scenarios are working properly. Before these tests we would validate scenarios manually, which took several people and several months. Now we can run our entire test suite in a matter of minutes before new code is checked in. This allows us to validate changes before they're checked in, and allows us to generate reports to key stakeholders, such as the CDC and ministry of health.
 
 ## How Do I Add New E2E Tests?
-I'm glad you asked.
+I'm glad you asked. Writing new E2E tests is fairly straightforward. Before you start writing, however, I'll give you a quick explination of the framework you'll be writing upon.
+
+### Architecture
+
+```
+--------------------
+|    E2E Tests     |
+--------------------
+        ^
+        |
+--------------------
+|    Puppeteer     |
+--------------------
+        ^
+        |
+--------------------
+|    CodeceptJS    |
+--------------------
+```
