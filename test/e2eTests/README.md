@@ -1,6 +1,6 @@
 # POC End-To-End Tests
 
-In order to validate the POC website is working properly someone needs to open the site, click through pages, fill out forms, and see that everything is working properly. These are commonly known as End-To-End (E2E) testing. When we did this manually it took us several months. This directory defines a framework that automates our E2E tests in a few minutes, which allows us to validate the POC is working much more frequently. Below we describe how to run these tests, how to write them, their underlying architecture, and why we think they're important.
+In order to validate the POC website is working properly someone needs to open the site, click through pages, fill out forms, and see that everything is working properly. These are commonly known as End-To-End (E2E) testing. When we did this manually it took us several months. This directory defines a framework that automates our E2E tests in a few minutes, which allows us to validate the POC is working much more frequently. Below we describe how to run these tests, how to write them, and their underlying architecture.
 
 ## How Do I Run E2E Tests?
 1.  [Setup your development environment](https://github.com/drryanjames/esaude-emr-poc/tree/docs#setup-development-environment)
@@ -128,6 +128,3 @@ A `Page` is a class with a set of functions and properties that make it easy to 
 A `Component` is a set of functions and properties that make it easy to interact with elements that are found on multiple pages, like the header bar or patient search bar. All `Component`s are in the [components](pages/components) folder. 
 
 [data.js](data.js) contains a collection of shared data, such as data about different users, patients, providers and programs that are used across all scenarios. If you use data in more than one test file you may want to add it to [data.js](data.js)
-
-## Why Are E2E Tests Important?
-In contrast with a unit test, an equally important type of test that validates a small chunck of code, an E2E test validates an entire scenario from beginning to end, such as: login -> find patient -> check in patient -> verify patient is checked in. These test are important because they allow us to quickly and frequently validate that key scenarios are working properly. Before these tests we would validate scenarios manually, which took several people and several months. Now we can run our entire test suite in a matter of minutes before new code is checked in. This allows us to validate changes before they're checked in, and allows us to generate reports to key stakeholders, such as the CDC and ministry of health.
