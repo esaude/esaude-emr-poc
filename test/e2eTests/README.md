@@ -46,6 +46,13 @@ Scenario('check Welcome page on site', (I) => {
 });
 ```
 
-As you can see, it is simple to create new test scenarios and easy to read the code that defines the test. Underneath the covers, CodeceptJS sends its commands, such as `I.amOnPage('/');`, to a separate test engine that runs the command in the browser. We are using [Puppeteer](https://github.com/GoogleChrome/puppeteer) as the underlying test engine because it is popular, comes with Chrome installed and is maintained by Google. There are several alternatives we have discussed using, including [Protractor](https://www.protractortest.org/#/), that we can swap out at any time.
+As you can see, it is simple to create new test scenarios and easy to read the code that defines the test. Underneath the covers, CodeceptJS sends its commands, such as `I.amOnPage('/');`, to a separate test engine that runs the command in the browser. We are using [Puppeteer](https://github.com/GoogleChrome/puppeteer) as the underlying test engine because it is popular, comes with Chrome installed and is maintained by Google. There are several alternatives we have discussed, including [Protractor](https://www.protractortest.org/#/), that we can swap in if we so choose.
 
 #### E2E Tests
+E2E tests use CodeceptJS's APIs to run scenarios against the POC. Because each pages is unique, but many pages share elements, like the header bar, we created an extendable architecture that encapsulates test logic in an easy to use, structured form. This architecture consists of pages, components and data.
+
+A `Page` is a class with a set of functions and properties that make it easy to interact with a page on the POC. All `Page`s are in the [pages](pages) folder.
+
+A `Component` is a set of functions and properties that make it easy to interact with a component, like the header bar or patient search bar. All `Component`s are in the [components](pages/components) folder. 
+
+[data.js](data.js) contains a collection of shared data, such as data about different users, patients, providers and programs, that's used across all scenarios.
