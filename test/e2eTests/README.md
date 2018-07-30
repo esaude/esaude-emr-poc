@@ -10,7 +10,27 @@ This directory contains automated end-to-end tests that validate key scenarios o
 5.  Open `test/e2eTests/reports/pocE2E.html` to view test results
 
 ## How Do I Write E2E Tests?
-<>
+Adding a new E2E test? If you haven't done so already, I recommend reading the next section on architecture first. I placed this section first because I'm inpatient and just want to see code.
+
+```
+Feature('Login');
+
+Scenario('Login successful with admin credentials and logout', (I, LoginPage, Data) => {
+	// Log the user in
+	const loginStatus = LoginPage.login(Data.users.admin);
+	
+	// Validate that login was successful
+	const dashboardPage = loginStatus.successful();
+	
+	// Log the user out
+	const logoutStatus = dashboardPage.logout();
+	
+	// Validate that logout was successful
+	logoutStatus.successful();
+});
+```
+
+The above is a snippet from [login_test.js](tests/login_test.js) that verifies a user can successfully login to the POC. Let's break it down line-by-line.
 
 ## E2E Test Architecture
 ```
