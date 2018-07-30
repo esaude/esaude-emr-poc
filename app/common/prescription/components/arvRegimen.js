@@ -1,3 +1,7 @@
+/**
+ * Component for handling patient drug regime change.
+ * It asks for the reason of change when the regime is changed and for interruption reason when the ART plan is interrupted.
+ */
 (() => {
   'use strict';
 
@@ -6,13 +10,10 @@
     .component('arvRegimen', {
       bindings: {
         patient: '<',
-        therapeuticLine: '<',
-        regime: '<',
-        arvPlan: '<',
         prescriptionConvSet: '<',
         disabled: '<',
         onTherapeuticLineChange: '&',
-        onDrugRegimenChange: '&',
+        onRegimeChange: '&',
         onArtPlanChange: '&',
       },
       controller: ArvRegimen,
@@ -25,22 +26,33 @@
 
     const vm = this;
 
-    vm.$onChanges = $onChanges;
+    let initialRegime = null;
+
+    vm.$onInit = $onInit;
     vm._onTherapeuticLineChange = _onTherapeuticLineChange;
     vm._onArtPlanChange = _onArtPlanChange;
-    vm._onDrugRegimenChange = _onDrugRegimenChange;
+    vm._onRegimeChange = _onRegimeChange;
     vm.onDrugRegimenChangeReasonChange = onDrugRegimenChangeReasonChange;
     vm.onArvPlanInterruptedReasonChange = onArvPlanInterruptedReasonChange;
 
-    function $onChanges(changesObj) {
-      const therapeuticLineChanged = changesObj.therapeuticLine;
-      const regimeChanged = changesObj.regime;
-      if (therapeuticLineChanged && changesObj.therapeuticLine.currentValue) {
-        loadRegimensByTherapeuticLine(changesObj.therapeuticLine.currentValue);
-      }
-      if (regimeChanged && changesObj.regime.currentValue) {
-        vm.$regime = changesObj.regime.currentValue;
-      }
+    function $onInit() {
+      prescriptionService.getPatientRegimen(vm.patient)
+        .then(regimen => {
+          initialRegime = regimen.regime;
+          const therapeuticLine = regimen.therapeuticLine;
+          const regime = regimen.regime;
+          const arvPlan = regimen.arvPlan;
+          vm.regime = regime;
+          vm.therapeuticLine = therapeuticLine;
+          vm.arvPlan = arvPlan;
+          vm.onTherapeuticLineChange({therapeuticLine});
+          vm.onRegimeChange({regime});
+          vm.onArtPlanChange({arvPlan});
+          return loadRegimensByTherapeuticLine(therapeuticLine);
+        })
+        .catch(() => {
+          notifier.error(translateFilter('COMMON_ERROR'));
+        });
     }
 
     function loadRegimensByTherapeuticLine(therapeuticLine) {
@@ -82,22 +94,23 @@
       vm.onArtPlanChange({arvPlan, interruptionReason});
     }
 
-    function _onDrugRegimenChange(drugRegimen) {
-      const changed = vm.regime ? drugRegimen.uuid !== vm.regime.uuid : true;
+    function _onRegimeChange(regime) {
+      const changed = initialRegime ? regime.uuid !== initialRegime.uuid : true;
       if (changed) {
         vm.isDrugRegimenEditCancel = true;
-        vm.isDrugRegimenChanged = true;
-        vm.onDrugRegimenChange({drugRegimen});
+        vm.isDrugRegimenChanged = !!initialRegime;
       } else {
         vm.isDrugRegimenEditCancel = false;
         vm.isDrugRegimenChanged = false;
         vm.changeReason = null;
       }
+      regime = changed ? regime : initialRegime;
+      vm.onRegimeChange({regime});
     }
 
     function onDrugRegimenChangeReasonChange(changeReason) {
       vm.isDrugRegimenEdit = false;
-      vm.onDrugRegimenChange({drugRegimen: vm.regime, changeReason});
+      vm.onRegimeChange({regime: vm.regime, changeReason});
     }
 
     function onArvPlanInterruptedReasonChange(interruptedReason) {

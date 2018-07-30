@@ -46,7 +46,7 @@
     vm.checkDrugType = checkDrugType;
     vm.isRegimenEditable = isRegimenEditable;
     vm.onIsArvPrescriptionItemChange = onIsArvPrescriptionItemChange;
-    vm.onDrugRegimenChange = onDrugRegimenChange;
+    vm.onRegimeChange = onRegimeChange;
     vm.edit = edit;
     vm.getDrugs = getDrugs;
     vm.refill = refill;
@@ -156,7 +156,7 @@
           .then(isArv => {
             if (isArv) {
               vm.isArvPrescriptionItem = true;
-              // TODO load therapeuticline, drugRegimen and artPlan
+              // TODO implement load therapeuticline, drugRegimen and artPlan for given drug
               vm.prescriptionItem.drugOrder = null;
             } else {
               vm.prescriptionItem.isArv = false;
@@ -185,10 +185,12 @@
       vm.therapeuticLine = therapeuticLine;
     }
 
-    function onDrugRegimenChange(regime, changeReason) {
+    function onRegimeChange(regime, changeReason) {
       vm.regime = regime;
       vm.changeReason = changeReason;
-      loadDrugRegimenDrugs(vm.regime);
+      if (regime) {
+        loadDrugRegimenDrugs(vm.regime);
+      }
     }
 
 

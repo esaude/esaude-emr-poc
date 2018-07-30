@@ -46,8 +46,8 @@
           class="asterick">*</span></label>
         <div ng-show="!vm.isDrugRegimenEdit">
           <div class="col-sm-7 default-border-bottom">
-            <label class="control-label">{{vm.$regime.display}}<span
-              ng-if="!vm.$regime">N/A</span></label>
+            <label class="control-label">{{vm.regime.display}}<span
+              ng-if="!vm.regime">N/A</span></label>
           </div>
           <div class="col-sm-2">
             <button class="btn btn-default btn-lg" type="button" ng-click="vm.isDrugRegimenEdit = true" ng-disabled="vm.disabled">
@@ -62,9 +62,9 @@
                  ng-show="vm.showMessages">
               <div ng-messages-include="../common/application/views/error-messages.html"></div>
             </div>
-            <select name="regime" class="form-control" ng-model="vm.$regime"
+            <select name="regime" class="form-control" ng-model="vm.regime"
                     ng-options="regime.display for regime in vm.therapeuticLineRegimens.answers | orderBy:'display'"
-                    ng-change="vm._onDrugRegimenChange(vm.$regime);">
+                    ng-change="vm._onRegimeChange(vm.regime);">
               <option></option>
             </select>
           </div>

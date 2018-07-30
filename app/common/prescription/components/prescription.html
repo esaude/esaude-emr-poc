@@ -75,14 +75,11 @@
 
           <arv-regimen ng-if="vm.isArvPrescriptionItem"
                        patient="vm.patient"
-                       therapeutic-line="vm.therapeuticLine"
-                       regime="vm.regime"
-                       arv-plan="vm.arvPlan"
                        prescription-conv-set="vm.prescriptionConvSet"
                        disabled="!vm.isRegimenEditable()"
                        on-therapeutic-line-change="vm.onTherapeuticLineChange(therapeuticLine);"
                        on-art-plan-change="vm.onArtPlanChange(arvPlan, interruptionReason);"
-                       on-drug-regimen-change="vm.onDrugRegimenChange(drugRegimen, changeReason);">
+                       on-regime-change="vm.onRegimeChange(regime, changeReason);">
           </arv-regimen>
 
           <div class="panel panel-primary panel-marginless-sides">
