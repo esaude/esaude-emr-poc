@@ -4,15 +4,15 @@ This directory contains automated end-to-end tests that validate key scenarios o
 
 ## How Do I Run E2E Tests?
 1.  [Setup your development environment](https://github.com/drryanjames/esaude-emr-poc/tree/docs#setup-development-environment)
-2.  `npm install`
+2.  In the esaude directory run `npm install`
 3.  In a new terminal start selenium `npm run wd:start`
-4.  `npm run e2e`
-5.  Open `test/e2eTests/reports/pocE2E.html` to view test results
+4.  In a separate terminal run thge tests by running `npm run e2e`
+5.  Once the tests have finished open `test/e2eTests/reports/pocE2E.html` to view the results report
 
 ## How Do I Write E2E Tests?
-Adding a new E2E test? If you haven't done so already, I recommend reading the next section on architecture first. I placed this section first because I'm inpatient and just want to see code.
+Adding a new E2E test? If you haven't done so already, I recommend reading the next section on architecture before reading this section. I'm inpatient, however, and just want to see code, so I placed this section earlier in the stack.
 
-```
+```javascript
 Feature('Login');
 
 Scenario('Login successful with admin credentials and logout', (I, LoginPage, Data) => {
@@ -30,7 +30,49 @@ Scenario('Login successful with admin credentials and logout', (I, LoginPage, Da
 });
 ```
 
-The above is a snippet from [login_test.js](tests/login_test.js) that verifies a user can successfully login to the POC. Let's break it down line-by-line.
+The above is a snippet from [login_test.js](tests/login_test.js) which verifies a user can login to the POC. Let's break it down line-by-line.
+
+```javascript
+Feature('Login');
+```
+Defines which feature the scenarios are for. This does more for organization than anything else.
+
+```javascript
+Scenario('Login successful with admin credentials and logout', (I, LoginPage, Data) => {
+  // ...
+});
+```
+Defines a new scenario with a description and a delegate containing the scenario's logic. The sSpecial variables `I`, `LoginPage` and `Data` are automatically defined when listed in the delegate function.
+
+```javascript
+  // Log the user in
+	const loginStatus = LoginPage.login(Data.users.admin);
+```
+Logs the user in by entering their with admin credentials into the login page form. [pages/loginPage.js](pages/loginPage.js) defines this login in its `login(userInfo)` function. [data.js](data.js) defines data about the admin user.
+
+```javascript
+	// Validate that login was successful
+	const dashboardPage = loginStatus.successful();
+```
+Validates the login was successful. After a successful login the POC takes the user to the dashboard page. If that doesn't happen the test will fail on this line.
+
+```javascript
+	// Log the user out
+	const logoutStatus = dashboardPage.logout();
+```
+Selects the logout button in the POC header bar.
+
+```javascript
+	// Validate that logout was successful
+	logoutStatus.successful();
+```
+Validates that logout was successful. If not the test will fail here.
+
+That's it! Ready to write your own? There are a bunch of examples in the [tests](tests) folder. When writing tests please keep in mind
+- `I`, `Apis`, `Data` and and `<name>Page` are special variables that be imported into delegates
+- `Before` and `After` run logic before and after each test
+- `BeforeSuite` and `AfterSuite` run login before and after all scenarios defined in a single file
+- `Apis` should be used to setup the database for your test. All data created with `Apis` is cleaned up automatically after each test.
 
 ## E2E Test Architecture
 ```
