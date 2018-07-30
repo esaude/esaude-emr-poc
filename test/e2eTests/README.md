@@ -1,5 +1,7 @@
 # POC End-To-End Tests
 
+###### [APIs](DOCS.md)
+
 In order to validate the POC website is working properly someone needs to open the site, click through pages, fill out forms, and see that everything is working properly. These are commonly known as End-To-End (E2E) testing. When we did this manually it took us several months. This directory defines a framework that automates our E2E tests in a few minutes, which allows us to validate the POC is working much more frequently. Below we describe how to run these tests, how to write them, and their underlying architecture.
 
 ## How Do I Run E2E Tests?
