@@ -14,7 +14,7 @@
         disabled: '<',
         onTherapeuticLineChange: '&',
         onRegimeChange: '&',
-        onArtPlanChange: '&',
+        onArvPlanChange: '&',
       },
       controller: ArvRegimen,
       controllerAs: 'vm',
@@ -30,7 +30,7 @@
 
     vm.$onInit = $onInit;
     vm._onTherapeuticLineChange = _onTherapeuticLineChange;
-    vm._onArtPlanChange = _onArtPlanChange;
+    vm._onArvPlanChange = _onArvPlanChange;
     vm._onRegimeChange = _onRegimeChange;
     vm.onDrugRegimenChangeReasonChange = onDrugRegimenChangeReasonChange;
     vm.onArvPlanInterruptedReasonChange = onArvPlanInterruptedReasonChange;
@@ -47,7 +47,7 @@
           vm.arvPlan = arvPlan;
           vm.onTherapeuticLineChange({therapeuticLine});
           vm.onRegimeChange({regime});
-          vm.onArtPlanChange({arvPlan});
+          vm.onArvPlanChange({arvPlan});
           return loadRegimensByTherapeuticLine(therapeuticLine);
         })
         .catch(() => {
@@ -80,7 +80,7 @@
       vm.onTherapeuticLineChange({therapeuticLine});
     }
 
-    function _onArtPlanChange(arvPlan) {
+    function _onArvPlanChange(arvPlan) {
       if (prescriptionService.isArtPlanInterrupt(arvPlan)) {
         vm.isPlanInterrupted = true;
         vm.isArtPlanInterruptedEdit = true;
@@ -91,7 +91,7 @@
         vm.interruptedReason = null;
       }
       const interruptionReason = vm.interruptedReason;
-      vm.onArtPlanChange({arvPlan, interruptionReason});
+      vm.onArvPlanChange({arvPlan, interruptionReason});
     }
 
     function _onRegimeChange(regime) {
@@ -116,7 +116,7 @@
     function onArvPlanInterruptedReasonChange(interruptedReason) {
       vm.isArtPlanInterruptedEdit = false;
       vm.isArvPlanEdit = false;
-      vm.onArtPlanChange({arvPlan: vm.artPlan, interruptionReason: interruptedReason});
+      vm.onArvPlanChange({arvPlan: vm.arvPlan, interruptionReason: interruptedReason});
     }
   }
 
