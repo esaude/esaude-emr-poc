@@ -119,16 +119,16 @@ Scenario('check Welcome page on site', (I) => {
 });
 ```
 
-As you can see, it is simple to create new test scenarios and easy to read the code that defines the test. Underneath the covers, CodeceptJS sends its commands, such as `I.amOnPage('/');`, to a separate test engine that runs the command in the browser. We are using [Puppeteer](https://github.com/GoogleChrome/puppeteer) as the underlying test engine because it is popular, comes with Chrome installed and is maintained by Google. There are several alternatives we have discussed, including [Protractor](https://www.protractortest.org/#/), that we can swap in if we so choose.
+As you can see its simple to create new test scenarios and easy to read the code that defines them. Underneath the covers, CodeceptJS sends its commands, such as `I.amOnPage('/');`, to a separate test engine that runs the command in the browser. We are using [Puppeteer](https://github.com/GoogleChrome/puppeteer) as the underlying test engine because its powerful, popular, comes with Chrome installed and is maintained by Google. There are several alternatives we have discussed, including [Protractor](https://www.protractortest.org/#/), that we can swap in if we so choose.
 
 #### E2E Tests
-E2E tests use CodeceptJS's APIs to run scenarios against the POC. Because each pages is unique, but many pages share elements, like the header bar, we created an extendable architecture that encapsulates test logic in an easy to use, structured form. This architecture consists of pages, components and data.
+E2E tests use CodeceptJS's APIs to run scenarios against the POC. Each page on the POC is unique but can have the same elements, like the header bar for example. To make tests easy to read and write E2E tests consists of pages, components and data.
 
 A `Page` is a class with a set of functions and properties that make it easy to interact with a page on the POC. All `Page`s are in the [pages](pages) folder.
 
-A `Component` is a set of functions and properties that make it easy to interact with a component, like the header bar or patient search bar. All `Component`s are in the [components](pages/components) folder. 
+A `Component` is a set of functions and properties that make it easy to interact with elements that are found on multiple pages, like the header bar or patient search bar. All `Component`s are in the [components](pages/components) folder. 
 
-[data.js](data.js) contains a collection of shared data, such as data about different users, patients, providers and programs, that's used across all scenarios.
+[data.js](data.js) contains a collection of shared data, such as data about different users, patients, providers and programs that are used across all scenarios. If you use data in more than one test file you may want to add it to [data.js](data.js)
 
 ## Why Are E2E Tests Important?
 In contrast with a unit test, an equally important type of test that validates a small chunck of code, an E2E test validates an entire scenario from beginning to end, such as: login -> find patient -> check in patient -> verify patient is checked in. These test are important because they allow us to quickly and frequently validate that key scenarios are working properly. Before these tests we would validate scenarios manually, which took several people and several months. Now we can run our entire test suite in a matter of minutes before new code is checked in. This allows us to validate changes before they're checked in, and allows us to generate reports to key stakeholders, such as the CDC and ministry of health.
