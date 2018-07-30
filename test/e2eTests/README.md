@@ -1,13 +1,13 @@
-# POC End-To-End (E2E) Tests
+# POC End-To-End Tests
 
-This directory contains automated end-to-end tests that validate key scenarios on the POC website. Below we describe how to run these tests, how to write them, their underlying architecture, and why we think they're important.
+In order to validate the POC website is working properly someone needs to open the site, click through pages, fill out forms, and see that everything is working properly. These are commonly known as End-To-End (E2E) testing. When we did this manually it took us several months. This directory defines a framework that automates our E2E tests in a few minutes, which allows us to validate the POC is working much more frequently. Below we describe how to run these tests, how to write them, their underlying architecture, and why we think they're important.
 
 ## How Do I Run E2E Tests?
 1.  [Setup your development environment](https://github.com/drryanjames/esaude-emr-poc/tree/docs#setup-development-environment)
-2.  In the esaude directory run `npm install`
+2.  In the root directory run `npm install`
 3.  In a new terminal start selenium `npm run wd:start`
-4.  In a separate terminal run thge tests by running `npm run e2e`
-5.  Once the tests have finished open `test/e2eTests/reports/pocE2E.html` to view the results report
+4.  In a separate terminal run E2E tests `npm run e2e`
+5.  Once the tests have finished open `test/e2eTests/reports/pocE2E.html` to view results
 
 ## How Do I Write E2E Tests?
 Adding a new E2E test? If you haven't done so already, I recommend reading the next section on architecture before reading this section. I'm inpatient, however, and just want to see code, so I placed this section earlier in the stack.
@@ -36,7 +36,7 @@ The above is a snippet from [login_test.js](tests/login_test.js) which verifies 
 ```javascript
 Feature('Login');
 ```
-Defines which feature the scenarios are for. This does more for organization than anything else.
+Groups all scenarios defined in the file under a single feature. This does more for organization than anything else.
 
 <br />
 
@@ -45,15 +45,15 @@ Scenario('Login successful with admin credentials and logout', (I, LoginPage, Da
   // ...
 });
 ```
-Defines a new scenario with a description and a delegate containing the scenario's logic. The sSpecial variables `I`, `LoginPage` and `Data` are automatically defined when listed in the delegate function.
+Defines a new scenario with a description and a delegate containing the scenario's logic. `I`, `LoginPage` and `Data` are special variables that, when defines, are automatically imported into the delegate function.
 
 <br />
 
 ```javascript
-  // Log the user in
+	// Log the user in
 	const loginStatus = LoginPage.login(Data.users.admin);
 ```
-Logs the user in by entering their with admin credentials into the login page form. [pages/loginPage.js](pages/loginPage.js) defines this login in its `login(userInfo)` function. [data.js](data.js) defines data about the admin user.
+Logs in with admin credentials using the login page form. [pages/loginPage.js](pages/loginPage.js) defines the `login(userInfo)` function. [data.js](data.js) defines data about the admin user, including their username and password.
 
 <br />
 
@@ -61,7 +61,7 @@ Logs the user in by entering their with admin credentials into the login page fo
 	// Validate that login was successful
 	const dashboardPage = loginStatus.successful();
 ```
-Validates the login was successful. After a successful login the POC takes the user to the dashboard page. If that doesn't happen the test will fail on this line.
+Validates the login was successful. After a successful login the POC automatically takes the user to the dashboard page.
 
 <br />
 
@@ -77,12 +77,12 @@ Selects the logout button in the POC header bar.
 	// Validate that logout was successful
 	logoutStatus.successful();
 ```
-Validates that logout was successful. If not the test will fail here.
+Validates that logout was successful.
 
 <br />
 
-That's it! Ready to write your own? There are a bunch of examples in the [tests](tests) folder. When writing tests please keep in mind
-- `I`, `Apis`, `Data` and and `<name>Page` are special variables that be imported into delegates
+That's it! Ready to write your own? There are a bunch of examples in the [tests](tests) folder. When writing tests please keep in mind:
+- `I`, `Apis`, `Data` and all `*Page`s are special variables that can be imported into delegates
 - `Before` and `After` run logic before and after each test
 - `BeforeSuite` and `AfterSuite` run login before and after all scenarios defined in a single file
 - `Apis` should be used to setup the database for your test. All data created with `Apis` is cleaned up automatically after each test.
