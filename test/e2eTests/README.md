@@ -16,7 +16,6 @@ In contrast with a unit test, an equally important type of test that validates a
 I'm glad you asked. Writing new E2E tests is fairly straightforward. Before you start writing, however, I'll give you a quick explination of the framework you'll be writing upon.
 
 ### Architecture
-
 ```
 --------------------
 |    E2E Tests     |
@@ -32,3 +31,21 @@ I'm glad you asked. Writing new E2E tests is fairly straightforward. Before you 
 |    CodeceptJS    |
 --------------------
 ```
+
+#### CodeceptJS & Puppeteer
+E2E tests are built on top of [CodeceptJS](https://github.com/Codeception/CodeceptJS). CodeceptJS is a wrapper around other test libraries that exposes a very simple API. From their page:
+
+```
+// A simple test that verifies that "Welcome" text is present on a main page of a site will look like:
+
+Feature('CodeceptJS demo');
+
+Scenario('check Welcome page on site', (I) => {
+  I.amOnPage('/');
+  I.see('Welcome');
+});
+```
+
+As you can see, it is simple to create new test scenarios and easy to read the code that defines the test. Underneath the covers, CodeceptJS sends its commands, such as `I.amOnPage('/');`, to a separate test engine that runs the command in the browser. We are using [Puppeteer](https://github.com/GoogleChrome/puppeteer) as the underlying test engine because it is popular, comes with Chrome installed and is maintained by Google. There are several alternatives we have discussed using, including [Protractor](https://www.protractortest.org/#/), that we can swap out at any time.
+
+#### E2E Tests
