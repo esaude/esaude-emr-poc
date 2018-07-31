@@ -100,6 +100,7 @@
         vm.isDrugRegimenEditCancel = true;
         vm.isDrugRegimenChanged = !!initialRegime;
       } else {
+        vm.isDrugRegimenEdit = false;
         vm.isDrugRegimenEditCancel = false;
         vm.isDrugRegimenChanged = false;
         vm.changeReason = null;

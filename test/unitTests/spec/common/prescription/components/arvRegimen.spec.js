@@ -297,6 +297,24 @@ describe('arvRegimen', () => {
 
       });
 
+      it('should disable drug regimen edit mode', () => {
+
+        const ctrl = $componentController('arvRegimen', null, {patient, regime, onRegimeChange, onTherapeuticLineChange, onArvPlanChange});
+
+        ctrl.$onInit();
+
+        $rootScope.$apply();
+
+        ctrl.isDrugRegimenEdit = true;
+
+        ctrl._onRegimeChange(regime);
+
+        $rootScope.$apply();
+
+        expect(ctrl.isDrugRegimenEdit).toBe(false);
+
+      });
+
     });
   });
 
