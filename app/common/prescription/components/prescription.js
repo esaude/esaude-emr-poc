@@ -103,15 +103,17 @@
         vm.showMessages = true;
         return;
       }
-      _add(vm.prescriptionItem);
-      resetForm(form);
-      vm.showMessages = false;
+      try {
+        _add(vm.prescriptionItem);
+        resetForm(form);
+        vm.showMessages = false;
+      } catch (e) {
+        notifier.error(e.message);
+      }
     }
 
     function _add(prescriptionItem) {
-      if (!validateAddItem(prescriptionItem)) {
-        return;
-      }
+      validateAddItem(prescriptionItem);
       //avoid duplication of drugs
       const sameOrderItem = _.find(vm.prescription.items, i => i.drugOrder.drug.uuid === prescriptionItem.drugOrder.drug.uuid);
       if (sameOrderItem) {
@@ -131,17 +133,13 @@
     }
 
     function validateAddItem(prescriptionItem) {
-      const prescription = {regime: vm.regime, prescriptionItems: [vm.prescriptionItem]};
+      const prescription = {regime: vm.regime, prescriptionItems: [prescriptionItem]};
       if (prescription.regime && hasActiveArvPrescription()) {
-        notifier.error($filter('translate')('COMMON_MESSAGE_COULD_NOT_ADD_ITEM_ARV_BECAUSE_EXISTS_AN_ACTIVE_ARV_PRESCRIPTION', {EXISTING_ITEM: prescriptionItem.drugOrder.drug.display}));
-        return false;
+        throw new Error($filter('translate')('COMMON_MESSAGE_COULD_NOT_ADD_ITEM_ARV_BECAUSE_EXISTS_AN_ACTIVE_ARV_PRESCRIPTION', {EXISTING_ITEM: prescriptionItem.drugOrder.drug.display}));
       }
-
       if (!_.isEmpty(getDuplicatedExistingActivePrescriptionItems(prescription))) {
-        notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_EXISTIS_ACTIVE_PRESCRIPTION_FOR_ENTERED_ITEM', {EXISTING_ITEM: prescriptionItem.drugOrder.drug.display}));
-        return false;
+        throw new Error($filter('translate')('COMMON_MESSAGE_ERROR_EXISTIS_ACTIVE_PRESCRIPTION_FOR_ENTERED_ITEM', {EXISTING_ITEM: prescriptionItem.drugOrder.drug.display}));
       }
-      return true;
     }
 
 
@@ -234,7 +232,11 @@
         setArvRegimeFields(prescription.therapeuticLine, prescription.regime, prescription.arvPlan);
       }
       i.drugOrder.dosingInstructions = {uuid: i.drugOrder.dosingInstructions};
-      _add(i);
+      try {
+        _add(i);
+      } catch (e) {
+        notifier.error(e.message);
+      }
     }
 
 
