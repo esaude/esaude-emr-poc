@@ -249,7 +249,6 @@
 
     function removeAll() {
       vm.prescription.items = [];
-      vm.prescription.regime = null;
       resetArvRegimeFields(vm);
       resetArvRegimeFields(vm.prescription);
       isPrescriptionControl();
@@ -321,7 +320,7 @@
             notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
             vm.prescription.items = [];
             resetSelectedProvider();
-            isPrescriptionControl();
+            removeAll();
             loadSavedPrescriptions(vm.patient);
           })
           .catch(error => {
