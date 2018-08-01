@@ -88,31 +88,21 @@
       return vm.prescription.items.length === 0 || angular.isUndefined(vm.prescription.regime);
     }
 
-    function setArvRegimeFields(therapeuticLine, regime, arvPlan) {
-      vm.therapeuticLine = therapeuticLine;
-      vm.regime = regime;
-      vm.arvPlan = arvPlan;
-      vm.isArvPrescriptionItem = true;
-      if (regime) {
-        loadDrugRegimenDrugs(regime);
-      }
-    }
-
     function add(form) {
       if (!form.$valid) {
         vm.showMessages = true;
         return;
       }
       try {
-        _add(vm.prescriptionItem);
-        resetForm(form);
+        _add(vm.prescriptionItem, vm.isArvPrescriptionItem);
+        reset(form);
         vm.showMessages = false;
       } catch (e) {
         notifier.error(e.message);
       }
     }
 
-    function _add(prescriptionItem) {
+    function _add(prescriptionItem, isArv) {
       validateAddItem(prescriptionItem);
       //avoid duplication of drugs
       const sameOrderItem = _.find(vm.prescription.items, i => i.drugOrder.drug.uuid === prescriptionItem.drugOrder.drug.uuid);
@@ -120,7 +110,7 @@
         notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ITEM_ALREADY_IN_LIST'));
         return;
       }
-      if (vm.isArvPrescriptionItem) {
+      if (isArv) {
         vm.prescription.arvItems.push(prescriptionItem);
         vm.prescription.therapeuticLine = vm.therapeuticLine;
         vm.prescription.regime = vm.regime;
@@ -194,10 +184,10 @@
 
     function edit(item) {
       vm.prescriptionItem = item;
-      if(item.regime){
-        vm.prescriptionItem.isArv  = true;
+      if (vm.prescription.regime) {
+        vm.isArvPrescriptionItem = true;
       }
-      _.pull(vm.prescription.items, item);
+      remove(item);
       isPrescriptionControl();
     }
 
@@ -227,13 +217,18 @@
     }
 
     function refill(prescription, item) {
-      const i = angular.copy(item);
-      if (prescription.regime) {
-        setArvRegimeFields(prescription.therapeuticLine, prescription.regime, prescription.arvPlan);
-      }
-      i.drugOrder.dosingInstructions = {uuid: i.drugOrder.dosingInstructions};
       try {
-        _add(i);
+        const toAdd = angular.copy(item);
+        if (prescription.therapeuticLine) {
+          vm.therapeuticLine = prescription.therapeuticLine;
+          vm.regime = prescription.regime;
+          vm.arvPlan = prescription.arvPlan;
+          if (prescription.regime) {
+            loadDrugRegimenDrugs(prescription.regime);
+          }
+        }
+        toAdd.drugOrder.dosingInstructions = {uuid: toAdd.drugOrder.dosingInstructions};
+        _add(toAdd, !!prescription.therapeuticLine);
       } catch (e) {
         notifier.error(e.message);
       }
@@ -258,7 +253,15 @@
 
 
     function reset(form) {
-      resetForm(form);
+      if (form) {
+        form.$setPristine();
+        form.$setUntouched();
+      }
+      vm.prescriptionItem = {};
+      resetArvRegimeFields(vm);
+      if (vm.prescription.items.length === 0) {
+        resetArvRegimeFields(vm.prescription);
+      }
     }
 
     function save() {
@@ -426,15 +429,6 @@
       obj.changeReason = null;
       obj.interruptionReason = null;
       obj.isArvPrescriptionItem = false;
-    }
-
-    function resetForm(form) {
-      if (form) {
-        form.$setPristine();
-        form.$setUntouched();
-      }
-      resetArvRegimeFields(vm);
-      vm.prescriptionItem = {};
     }
 
 

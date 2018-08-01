@@ -302,18 +302,6 @@ describe('prescription', () => {
         expect(ctrl.therapeuticLine).toEqual(prescription.therapeuticLine);
 
       });
-
-      it('should set isArvPrescriptionItem', () => {
-
-        const item = {drugOrder: {dosingInstructions: 'Empty stomach'}};
-        ctrl = $componentController('prescription');
-
-        const prescription = {regime: '(TDF+3TC+EFV', therapeuticLine: 'PRIMEIRA LINHA', arvPlan: 'INICIAR'};
-        ctrl.refill(prescription, item);
-
-        expect(ctrl.isArvPrescriptionItem).toEqual(true);
-
-      });
     });
 
   });
@@ -882,6 +870,87 @@ describe('prescription', () => {
 
     });
 
+  });
+
+  describe('reset', () => {
+    it('should set pristine', () => {
+      const ctrl = $componentController('prescription');
+      const form = jasmine.createSpyObj('form', ['$setPristine', '$setUntouched']);
+      ctrl.reset(form);
+      expect(form.$setPristine).toHaveBeenCalled();
+    });
+    it('should set untouched', () => {
+      const ctrl = $componentController('prescription');
+      const form = jasmine.createSpyObj('form', ['$setPristine', '$setUntouched']);
+      ctrl.reset(form);
+      expect(form.$setUntouched).toHaveBeenCalled();
+    });
+    it('should reset prescription item', () => {
+      const ctrl = $componentController('prescription');
+      const form = jasmine.createSpyObj('form', ['$setPristine', '$setUntouched']);
+      ctrl.prescriptionItem = {drug: {display: 'Efavirenz (efv) 600mg 30comp (embalagem)'}};
+      ctrl.reset(form);
+      expect(ctrl.prescriptionItem).toEqual({});
+    });
+    it('should reset arv regime fields', () => {
+      const ctrl = $componentController('prescription');
+      const form = jasmine.createSpyObj('form', ['$setPristine', '$setUntouched']);
+      ctrl.therapeuticLine = {display: 'PRIMEIRA LINHA'};
+      ctrl.regime = {display: "TDF+3TC+EFV"};
+      ctrl.arvPlan = {display: "INICIAR"};
+      ctrl.reset(form);
+      expect(ctrl.therapeuticLine).toBeNull();
+      expect(ctrl.regime).toBeNull();
+      expect(ctrl.arvPlan).toBeNull();
+    });
+    describe('no items in prescription', () => {
+      it('should reset arv regime fields from prescription', () => {
+        const ctrl = $componentController('prescription');
+        const form = jasmine.createSpyObj('form', ['$setPristine', '$setUntouched']);
+        ctrl.prescription.therapeuticLine = {display: 'PRIMEIRA LINHA'};
+        ctrl.prescription.regime = {display: "TDF+3TC+EFV"};
+        ctrl.prescription.arvPlan = {display: "INICIAR"};
+        ctrl.reset(form);
+        expect(ctrl.therapeuticLine).toBeNull();
+        expect(ctrl.regime).toBeNull();
+        expect(ctrl.arvPlan).toBeNull();
+      });
+    });
+  });
+
+  describe('edit', () => {
+    it('should set prescription item', () => {
+      const ctrl = $componentController('prescription');
+      const item = {drug: {display: 'Efavirenz (efv) 600mg 30comp (embalagem)'}};
+      ctrl.edit(item);
+      expect(ctrl.prescriptionItem).toEqual(item);
+    });
+    it('should remove item from prescription items', () => {
+      const ctrl = $componentController('prescription');
+      const item = {drug: {display: 'Efavirenz (efv) 600mg 30comp (embalagem)'}};
+      ctrl.prescription.items = [item];
+      ctrl.edit(item);
+      expect(ctrl.prescription.items.length).toEqual(0);
+    });
+    describe('arv prescription', () => {
+      it('should set is arv prescription item', () => {
+        const ctrl = $componentController('prescription');
+        const item = {drug: {display: 'Efavirenz (efv) 600mg 30comp (embalagem)'}};
+        ctrl.isArvPrescriptionItem = false;
+        ctrl.prescription.regime = {display: "TDF+3TC+EFV"};
+        ctrl.edit(item);
+        expect(ctrl.isArvPrescriptionItem).toEqual(true);
+      });
+    });
+    describe('no more prescription items', () => {
+      it('should hide new prescription controls', () => {
+        const ctrl = $componentController('prescription');
+        const item = {drug: {display: 'Efavirenz (efv) 600mg 30comp (embalagem)'}};
+        ctrl.prescription.items = [item];
+        ctrl.edit(item);
+        expect(ctrl.showNewPrescriptionsControlls).toEqual(false);
+      });
+    });
   });
 
 });

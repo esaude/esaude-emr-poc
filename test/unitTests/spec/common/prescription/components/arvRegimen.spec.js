@@ -26,65 +26,149 @@ describe('arvRegimen', () => {
       spyOn(prescriptionService, 'getRegimensByTherapeuticLine').and.returnValue($q.resolve(therapeuticLineRegimens));
     });
 
-    it('should load the patient regimen data', () => {
+    describe('prescription with therapeutic line', () => {
 
-      const ctrl = $componentController('arvRegimen', null, {patient, onRegimeChange, onTherapeuticLineChange, onArvPlanChange});
+      const prescription = {therapeuticLine, regime, arvPlan};
 
-      ctrl.$onInit();
+      it('should load the patient regimen data from prescription', () => {
 
-      $rootScope.$apply();
+        const ctrl = $componentController('arvRegimen', null, {
+          patient,
+          prescription,
+          onRegimeChange,
+          onTherapeuticLineChange,
+          onArvPlanChange
+        });
 
-      expect(prescriptionService.getPatientRegimen).toHaveBeenCalled();
-      expect(ctrl.regime).toEqual(regime);
-      expect(ctrl.therapeuticLine).toEqual(therapeuticLine);
-      expect(ctrl.arvPlan).toEqual(arvPlan);
-    });
+        ctrl.$onInit();
 
-    it('should load regimen for patient current therapeutic line', () => {
+        $rootScope.$apply();
 
-      const ctrl = $componentController('arvRegimen', null, {patient, therapeuticLine, regime, onRegimeChange, onTherapeuticLineChange, onArvPlanChange});
+        expect(ctrl.regime).toEqual(prescription.regime);
+        expect(ctrl.therapeuticLine).toEqual(prescription.therapeuticLine);
+        expect(ctrl.arvPlan).toEqual(prescription.arvPlan);
 
-      ctrl.$onInit();
+      });
 
-      $rootScope.$apply();
+      it('should load regimen for patient current therapeutic line', () => {
 
-      expect(ctrl.therapeuticLineRegimens).toBe(therapeuticLineRegimens);
+        const ctrl = $componentController('arvRegimen', null, {
+          patient,
+          prescription,
+          therapeuticLine,
+          regime,
+          onRegimeChange,
+          onTherapeuticLineChange,
+          onArvPlanChange
+        });
 
-    });
+        ctrl.$onInit();
 
-    it('should call onTherapeuticLineChange binding', () => {
+        $rootScope.$apply();
 
-      const ctrl = $componentController('arvRegimen', null, {patient, onRegimeChange, onTherapeuticLineChange, onArvPlanChange});
+        expect(ctrl.therapeuticLineRegimens).toBe(therapeuticLineRegimens);
 
-      ctrl.$onInit();
-
-      $rootScope.$apply();
-
-      expect(onTherapeuticLineChange).toHaveBeenCalledWith({therapeuticLine});
-
-    });
-
-    it('should call onRegimeChange binding', () => {
-
-      const ctrl = $componentController('arvRegimen', null, {patient, onRegimeChange, onTherapeuticLineChange, onArvPlanChange});
-
-      ctrl.$onInit();
-
-      $rootScope.$apply();
-
-      expect(onRegimeChange).toHaveBeenCalledWith({regime});
+      });
 
     });
 
-    it('should call onArvPlanChange binding', () => {
+    describe('prescription has no therapeutic line', () => {
 
-      const ctrl = $componentController('arvRegimen', null, {patient, onRegimeChange, onTherapeuticLineChange, onArvPlanChange});
+      const prescription = {};
 
-      ctrl.$onInit();
+      it('should load the patient regimen data', () => {
 
-      $rootScope.$apply();
+        const ctrl = $componentController('arvRegimen', null, {
+          patient,
+          prescription,
+          onRegimeChange,
+          onTherapeuticLineChange,
+          onArvPlanChange
+        });
 
-      expect(onArvPlanChange).toHaveBeenCalledWith({arvPlan});
+        ctrl.$onInit();
+
+        $rootScope.$apply();
+
+        expect(prescriptionService.getPatientRegimen).toHaveBeenCalled();
+        expect(ctrl.regime).toEqual(regime);
+        expect(ctrl.therapeuticLine).toEqual(therapeuticLine);
+        expect(ctrl.arvPlan).toEqual(arvPlan);
+      });
+
+      it('should load regimen for patient current therapeutic line', () => {
+
+        const ctrl = $componentController('arvRegimen', null, {
+          patient,
+          prescription,
+          therapeuticLine,
+          regime,
+          onRegimeChange,
+          onTherapeuticLineChange,
+          onArvPlanChange
+        });
+
+        ctrl.$onInit();
+
+        $rootScope.$apply();
+
+        expect(ctrl.therapeuticLineRegimens).toBe(therapeuticLineRegimens);
+
+      });
+
+      it('should call onTherapeuticLineChange binding', () => {
+
+        const ctrl = $componentController('arvRegimen', null, {
+          patient,
+          prescription,
+          onRegimeChange,
+          onTherapeuticLineChange,
+          onArvPlanChange
+        });
+
+        ctrl.$onInit();
+
+        $rootScope.$apply();
+
+        expect(onTherapeuticLineChange).toHaveBeenCalledWith({therapeuticLine});
+
+      });
+
+      it('should call onRegimeChange binding', () => {
+
+        const ctrl = $componentController('arvRegimen', null, {
+          patient,
+          prescription,
+          onRegimeChange,
+          onTherapeuticLineChange,
+          onArvPlanChange
+        });
+
+        ctrl.$onInit();
+
+        $rootScope.$apply();
+
+        expect(onRegimeChange).toHaveBeenCalledWith({regime});
+
+      });
+
+      it('should call onArvPlanChange binding', () => {
+
+        const ctrl = $componentController('arvRegimen', null, {
+          patient,
+          prescription,
+          onRegimeChange,
+          onTherapeuticLineChange,
+          onArvPlanChange
+        });
+
+        ctrl.$onInit();
+
+        $rootScope.$apply();
+
+        expect(onArvPlanChange).toHaveBeenCalledWith({arvPlan});
+
+      });
 
     });
 
@@ -193,7 +277,16 @@ describe('arvRegimen', () => {
 
         it('should add flag for regimen change', () => {
 
-          const ctrl = $componentController('arvRegimen', null, {patient, regime, onRegimeChange, onTherapeuticLineChange, onArvPlanChange});
+          const prescription = {};
+
+          const ctrl = $componentController('arvRegimen', null, {
+            patient,
+            prescription,
+            regime,
+            onRegimeChange,
+            onTherapeuticLineChange,
+            onArvPlanChange
+          });
 
           ctrl.$onInit();
 
@@ -243,9 +336,18 @@ describe('arvRegimen', () => {
 
     describe('regimen did not change', () => {
 
+      const prescription = {};
+
       it('should enable drug regimen cancel edit mode', () => {
 
-        const ctrl = $componentController('arvRegimen', null, {patient, regime, onRegimeChange, onTherapeuticLineChange, onArvPlanChange});
+        const ctrl = $componentController('arvRegimen', null, {
+          patient,
+          prescription,
+          regime,
+          onRegimeChange,
+          onTherapeuticLineChange,
+          onArvPlanChange
+        });
 
         ctrl.$onInit();
 
@@ -263,7 +365,14 @@ describe('arvRegimen', () => {
 
       it('should remove flag for regimen change', () => {
 
-        const ctrl = $componentController('arvRegimen', null, {patient, regime, onRegimeChange, onTherapeuticLineChange, onArvPlanChange});
+        const ctrl = $componentController('arvRegimen', null, {
+          patient,
+          prescription,
+          regime,
+          onRegimeChange,
+          onTherapeuticLineChange,
+          onArvPlanChange
+        });
 
         ctrl.$onInit();
 
@@ -281,7 +390,14 @@ describe('arvRegimen', () => {
 
       it('should remove drug regimen change reason', () => {
 
-        const ctrl = $componentController('arvRegimen', null, {patient, regime, onRegimeChange, onTherapeuticLineChange, onArvPlanChange});
+        const ctrl = $componentController('arvRegimen', null, {
+          patient,
+          prescription,
+          regime,
+          onRegimeChange,
+          onTherapeuticLineChange,
+          onArvPlanChange
+        });
 
         ctrl.$onInit();
 
@@ -299,7 +415,14 @@ describe('arvRegimen', () => {
 
       it('should disable drug regimen edit mode', () => {
 
-        const ctrl = $componentController('arvRegimen', null, {patient, regime, onRegimeChange, onTherapeuticLineChange, onArvPlanChange});
+        const ctrl = $componentController('arvRegimen', null, {
+          patient,
+          prescription,
+          regime,
+          onRegimeChange,
+          onTherapeuticLineChange,
+          onArvPlanChange
+        });
 
         ctrl.$onInit();
 

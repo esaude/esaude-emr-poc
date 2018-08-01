@@ -10,6 +10,8 @@
     .component('arvRegimen', {
       bindings: {
         patient: '<',
+        prescription: '<',
+        // Prescription ConvSet added here just to avoid reloading
         prescriptionConvSet: '<',
         disabled: '<',
         onTherapeuticLineChange: '&',
@@ -36,6 +38,20 @@
     vm.onArvPlanInterruptedReasonChange = onArvPlanInterruptedReasonChange;
 
     function $onInit() {
+      if (vm.prescription.therapeuticLine) {
+        initialRegime = vm.prescription.regime;
+        vm.therapeuticLine = vm.prescription.therapeuticLine;
+        vm.regime = vm.prescription.regime;
+        vm.changeReason = vm.prescription.changeReason;
+        vm.arvPlan = vm.prescription.arvPlan;
+        vm.interruptedReason = vm.prescription.interruptionReason;
+        loadRegimensByTherapeuticLine(vm.therapeuticLine);
+      } else {
+        loadPatientRegimen();
+      }
+    }
+
+    function loadPatientRegimen() {
       prescriptionService.getPatientRegimen(vm.patient)
         .then(regimen => {
           initialRegime = regimen.regime;
