@@ -2,7 +2,9 @@
 
 ###### [APIs](DOCS.md)
 
-In order to validate the POC website is working properly someone needs to open the site, click through pages, fill out forms, and see that everything is working properly. These are commonly known as End-To-End (E2E) testing. When we did this manually it took us several months. This directory defines a framework that automates our E2E tests in a few minutes, which allows us to validate the POC is working much more frequently. Below we describe how to run these tests, how to write them, and their underlying architecture.
+![e2e login tests](https://user-images.githubusercontent.com/2764891/43496135-82e842c4-94f0-11e8-8e99-139c8cfcecbc.gif)
+
+In order to validate the POC website is working properly someone needs to open the site, click through pages, fill out forms, and see that everything is working properly. This is commonly known as End-To-End (E2E) testing. When done manually it can take several months and several people to test thoroughly, fix issues and retest. This directory defines a framework that automates E2E testing. Running these tests takes only a few minutes, which allows us to validate the POC is working much more frequently. Below we describe how to run these tests, how to write them, and their underlying architecture.
 
 ## How Do I Run E2E Tests?
 1.  [Setup your development environment](https://github.com/drryanjames/esaude-emr-poc/tree/docs#setup-development-environment)
