@@ -48,6 +48,14 @@ module.exports = function (grunt) {
   return {
       gitinfo: {},
 
+      jsdoc2md: {
+       separateOutputFilePerInput: {
+          files: [
+            { src: 'test/e2eTests/**/*.js', dest: 'test/e2eTests/DOCS.md' },
+          ]
+        },
+      },
+
       replace: {
         dist: {
           options: {

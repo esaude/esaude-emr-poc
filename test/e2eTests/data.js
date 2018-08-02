@@ -1,3 +1,11 @@
+/**
+ * A common place for data used during tests.
+ * This file defines data for users, patients,
+ * providers, programs, and much more. If you have
+ * data that needs to be shared across tests consider
+ * placing it here.
+ */
+
 // Generates a patient identifier
 const generatePatientIdentifier = () => {
   // Generates a random number between [0,9]

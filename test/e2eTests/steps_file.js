@@ -1,12 +1,14 @@
-// Properties defined in the actor below are added
-// to the instance of "I" used during tests
-
 'use strict';
 
+/** Extends properties on the I variable during tests */
 module.exports = function() {
   return actor({
 
-    // Log the user in
+    /**
+     * Logs the user in through the login page.
+     * If no user is specified the admin user is used.
+     * @param {object} - information about the user that's used to login
+     */
     login: function(userInfo) {
       // Default to the admin user
       if(!userInfo) {
@@ -22,6 +24,5 @@ module.exports = function() {
       const dashboardPage = loginStatus.successful();
       return dashboardPage;
     },
-
   });
 };

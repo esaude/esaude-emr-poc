@@ -2,6 +2,12 @@ const Page = require('./page');
 
 const LOG_TAG = '[RegisterPatientPage]';
 
+/**
+ * Represents the register patint page
+ * and includes functionality that facilitates interacting
+ * with the page during tests
+ * @extends Page
+ */
 class RegisterPatientPage extends Page {
 
   constructor() {
@@ -60,7 +66,10 @@ class RegisterPatientPage extends Page {
     };
   }
 
-  // Check additional elements
+  /**
+   * Checks to see if the url in chrome is loaded and
+   * checks additional elements on the page
+   */
   isLoaded() {
     super.isLoaded();
     this.I.seeElement(this.tabs.identifiers);
@@ -73,26 +82,46 @@ class RegisterPatientPage extends Page {
     this.I.see('NID (SERVICO TARV)');
   }
 
+  /**
+   * Fill the identifier form with the patient's identifier
+   * @param {object} patient - patient info that contains an identifier to fill the form with
+   */
   fillIdentifierForm(patient) {
     this.I.fillField(this.fields.nid, patient.identifiers[0].identifier3);
   }
 
+  /**
+   * Fills the name form with the patient first and last name
+   * @param {object} patient - patient info to fill the form with
+   */
   fillNameForm(patient) {
     this.I.fillField(this.fields.givenName, patient.person.names[0].givenName);
     this.I.fillField(this.fields.familyName, patient.person.names[0].familyName);
   }
 
+  /**
+   * Selects the appropriate gender based on the given patient info
+   * @param {object} patient - the patient info to select the gender from
+   */
   selectGender(patient) {
     const genderButton = `label[for="patientGender${patient.person.gender}"]`;
     this.I.click(genderButton);
   }
 
+  /**
+   * Fills in the birthdate form with the patient's birthdate
+   * @param {object} patient - patient info containing the patient's birthdate
+   */
   fillBirthDateForm(patient) {
     this.I.click(this.fields.birthDate);
     this.I.fillField(this.fields.birthDate, patient.person.birthdate);
     this.I.click('Done');
   }
 
+  /**
+   * Fills the contact form with patient info
+   * @param {object} patient - patient info used to fill the form
+   */
   fillContactForm(patient) {
     this.I.fillField(this.fields.street, patient.contacts.street);
     this.I.fillField(this.fields.cell, patient.contacts.cell);
@@ -105,10 +134,18 @@ class RegisterPatientPage extends Page {
     this.I.click(typeaheadMatch);
   }
 
+  /**
+   * Selects the appropriate provenience based on the patients info
+   * @param {object} patient - patient info used to select the provenience
+   */
   selectProvenience(patient) {
     this.I.selectOption(this.fields.provenience, patient.contacts.provenience);
   }
 
+  /**
+   * Fills the HIV form with patient info
+   * @param {object} patient - patient info used to fill the form
+   */
   fillHIVTestForm(patient) {
     this.I.click(this.fields.hivTestDate);
     this.I.fillField(this.fields.hivTestDate, patient.tests.testDate);
@@ -117,6 +154,10 @@ class RegisterPatientPage extends Page {
     this.I.selectOption(this.fields.hivTestResult, patient.tests.testResult);
   }
 
+  /**
+   * Clicks the next button
+   * @param {number} seconds - the max number of seconds to wait for the oerlay to dissappear
+   */
   clickNext(seconds = 5) {
     this.I.click(this.buttons.nextStep);
     this.I.waitForInvisible('#overlay', seconds);

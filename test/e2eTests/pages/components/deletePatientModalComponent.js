@@ -2,6 +2,11 @@ const Component = require('./component');
 
 const LOG_TAG = '[DeletePatientModalComponent]';
 
+/**
+ * Defines functions that help tests interact with
+ * the modal that pops up when a patient is being deleted
+ * @extends Component
+ */
 class DeletePatientModalComponent extends Component {
   constructor() {
     super();
@@ -17,6 +22,10 @@ class DeletePatientModalComponent extends Component {
     };
   }
 
+  /**
+   * Waits for the modal to finish loading and fails
+   * the test if it never loads
+   */
   deletePatientModalIsLoaded() {
     const cancelButton = '.modal-footer .btn-default';
     this.I.waitForElement(this.modalDialog, 5);
@@ -25,12 +34,21 @@ class DeletePatientModalComponent extends Component {
     this._verifySaveButtonIsDisabled();
   }
 
+  /**
+   * Deletes the patient
+   * @param {string} deleteReason - the reason this patietn is being deleted
+   */
   deletePatient(deleteReason) {
     this.I.say(`${LOG_TAG} Deleting the patient`);
     this.I.fillField(this.fields.deleteReason, deleteReason);
     this._clickSaveButton();
   }
 
+  /**
+   * Declares the patient as dead
+   * @param {string} deathReason - the reason the patient died
+   * @param {string} deathDate - the date the patient died
+   */
   declarePatientAsDead(deathReason, deathDate) {
     this.I.say(`${LOG_TAG} Declaring the patient as dead`);
     this.I.selectOption(this.fields.deathReason, deathReason);
@@ -40,6 +58,7 @@ class DeletePatientModalComponent extends Component {
     this._clickSaveButton();
   }
 
+  /** Verifies an alert popped up indicating the patient cannot be deleted */
   verifyRestrictionToDeletePatient() {
     const alertElement = '.alert-info';
     const disabledCheckbox = locate('button').withAttr({ name: 'isDead', disabled: 'disabled' });
@@ -50,11 +69,18 @@ class DeletePatientModalComponent extends Component {
     this._verifySaveButtonIsDisabled();
   }
 
+  /** Checks the box indicating the patient is dead */
   checkIsDeadBox() {
     this.I.say(`${LOG_TAG} Checking the isDead checkbox`);
     this.I.checkOption(this.isDead);
   }
 
+  /**
+   * Verifies the details about the patients death.
+   * This should be called after the patient is decalred dead
+   * @param {string} deathDetails.date - the date the patient died
+   * @param {string} deathDetails.reason - the reason the patient died
+   */
   verifyPatientDeathDetails(deathDetails) {
     this.I.say(`${LOG_TAG} Verifying patient death details`);
     const patientHeader = '.patientdeceased';
@@ -69,11 +95,13 @@ class DeletePatientModalComponent extends Component {
     this.I.seeElement(disabledDeleteButton);
   }
 
+  /** Verifies the save button is disabled */
   _verifySaveButtonIsDisabled() {
     const disabledSaveButton = locate('button').withAttr({ disabled: 'disabled' }).withText(this.translate('SAVE'));
     this.I.seeElement(disabledSaveButton);
   }
 
+  /** Clicks the save button */
   _clickSaveButton() {
     const saveButton = '.modal-footer .btn-primary';
     this.I.click(saveButton);

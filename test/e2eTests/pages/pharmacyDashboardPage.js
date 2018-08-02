@@ -2,6 +2,12 @@ const Page = require('./page');
 
 const LOG_TAG = '[PharmacyDashboardPage]';
 
+/**
+ * Represents the pharmacy dashboard page
+ * and includes functionality that facilitates interacting
+ * with the page during tests
+ * @extends Page
+ */
 class PharmacyDashboardPage extends Page {
 
   constructor() {
