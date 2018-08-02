@@ -13,6 +13,5 @@
 *.log
 *.patch
 /.vscode
-/package-lock.json
 /test/e2eTests/output
 /test/e2eTests/reports
