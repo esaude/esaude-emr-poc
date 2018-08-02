@@ -11,19 +11,12 @@ module.exports = function (grunt) {
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
 
-  grunt.loadNpmTasks('grunt-connect-proxy');
-
-  grunt.loadNpmTasks('grunt-string-replace');
-
-  grunt.loadNpmTasks('grunt-zip');
-
-  grunt.loadNpmTasks('grunt-gitinfo');
-
   grunt.loadNpmTasks('grunt-jsdoc-to-markdown')
 
   // Automatically load required Grunt tasks
   require('jit-grunt')(grunt, {
-    useminPrepare: 'grunt-usemin'
+    useminPrepare: 'grunt-usemin',
+    configureProxies: 'grunt-connect-proxy',
   });
 
   // Define the configuration for all the tasks
