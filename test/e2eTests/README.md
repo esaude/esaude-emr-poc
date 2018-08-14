@@ -92,23 +92,9 @@ That's it! Ready to write your own? There are a bunch of examples in the [tests]
 - `Apis` should be used to setup the database for your test. All data created with `Apis` is cleaned up automatically after each test.
 
 ## E2E Test Architecture
-```
---------------------
-|    E2E Tests     |
---------------------
-        ^
-        |
---------------------
-|    Puppeteer     |
---------------------
-        ^
-        |
---------------------
-|    CodeceptJS    |
---------------------
-```
+![image](https://user-images.githubusercontent.com/2764891/44108066-1e003470-9fae-11e8-897c-80ec956d153c.png)
 
-#### CodeceptJS & Puppeteer
+### CodeceptJS & Puppeteer
 E2E tests are built on top of [CodeceptJS](https://github.com/Codeception/CodeceptJS). CodeceptJS is a wrapper around other test libraries and exposes a very simple API. From their page:
 
 ```
@@ -124,11 +110,11 @@ Scenario('check Welcome page on site', (I) => {
 
 As you can see its simple to create new test scenarios and easy to read the code that defines them. Underneath the covers, CodeceptJS sends its commands, such as `I.amOnPage('/');`, to a separate test engine that runs the command in the browser. We are using [Puppeteer](https://github.com/GoogleChrome/puppeteer) as the underlying test engine because its powerful, popular, comes with Chrome installed and is maintained by Google. There are several alternatives we have discussed, including [Protractor](https://www.protractortest.org/#/), that we can swap in if we so choose.
 
-#### E2E Tests
+### E2E Tests
 E2E tests use CodeceptJS's APIs to run scenarios against the POC. Each page on the POC is unique but can have the same elements, like the header bar for example. To make tests easy to read and write E2E tests consists of pages, components and data.
 
 A `Page` is a class with a set of functions and properties that make it easy to interact with a page on the POC. All `Page`s are in the [pages](pages) folder.
 
 A `Component` is a set of functions and properties that make it easy to interact with elements that are found on multiple pages, like the header bar or patient search bar. All `Component`s are in the [components](pages/components) folder. 
 
-[data.js](data.js) contains a collection of shared data, such as data about different users, patients, providers and programs that are used across all scenarios. If you use data in more than one test file you may want to add it to [data.js](data.js)
+[data.js](data.js) contains a collection of shared data, such as data about different users, patients, providers and programs that are used across all scenarios. If you use data in more than one test file you may want to add it to [data.js](data.js). Data is injected into OpenMRS using APIs to setup tests before they run and clean up after tests are finished. 
