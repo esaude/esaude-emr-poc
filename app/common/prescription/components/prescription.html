@@ -75,14 +75,12 @@
 
           <arv-regimen ng-if="vm.isArvPrescriptionItem"
                        patient="vm.patient"
-                       therapeutic-line="vm.therapeuticLine"
-                       regime="vm.regime"
-                       arv-plan="vm.arvPlan"
+                       prescription="vm.prescription"
                        prescription-conv-set="vm.prescriptionConvSet"
                        disabled="!vm.isRegimenEditable()"
                        on-therapeutic-line-change="vm.onTherapeuticLineChange(therapeuticLine);"
-                       on-art-plan-change="vm.onArtPlanChange(arvPlan, interruptionReason);"
-                       on-drug-regimen-change="vm.onDrugRegimenChange(drugRegimen, changeReason);">
+                       on-arv-plan-change="vm.onArtPlanChange(arvPlan, interruptionReason);"
+                       on-regime-change="vm.onRegimeChange(regime, changeReason);">
           </arv-regimen>
 
           <div class="panel panel-primary panel-marginless-sides">
@@ -291,14 +289,14 @@
             <span>
               <strong>{{item.drugOrder.drug.display}}</strong>
             <span ng-if="vm.prescription.regime">
-               <strong>({{vm.prescription.regime.display}}</strong> : {{vm.prescription.regime.therapeuticLine.display}})-
+               <strong>({{vm.prescription.regime.display}}</strong> : {{vm.prescription.therapeuticLine.display}})-
             </span>
               {{item.drugOrder.dose}}
               {{item.drugOrder.doseUnits.display}}, {{item.drugOrder.frequency.display}},
               {{item.drugOrder.route.display}} - {{item.drugOrder.duration}}
               {{item.drugOrder.durationUnits.display}}, {{item.drugOrder.dosingInstructions.display}}
             </span>
-            <span ng-if="vm.prescription.regime && item.arvPlan">
+            <span ng-if="vm.prescription.regime">
                 <strong>{{'CLINIC_PRESCRIPTION_ARV_PLAN'| translate}}:</strong> {{vm.prescription.arvPlan.display}}
             </span>
             <span ng-if="item.drugOrder.drug.isProphilaxy">

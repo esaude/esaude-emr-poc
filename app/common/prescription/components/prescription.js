@@ -46,7 +46,7 @@
     vm.checkDrugType = checkDrugType;
     vm.isRegimenEditable = isRegimenEditable;
     vm.onIsArvPrescriptionItemChange = onIsArvPrescriptionItemChange;
-    vm.onDrugRegimenChange = onDrugRegimenChange;
+    vm.onRegimeChange = onRegimeChange;
     vm.edit = edit;
     vm.getDrugs = getDrugs;
     vm.refill = refill;
@@ -88,37 +88,29 @@
       return vm.prescription.items.length === 0 || angular.isUndefined(vm.prescription.regime);
     }
 
-    function setArvRegimeFields(therapeuticLine, regime, arvPlan) {
-      vm.therapeuticLine = therapeuticLine;
-      vm.regime = regime;
-      vm.arvPlan = arvPlan;
-      vm.isArvPrescriptionItem = true;
-      if (regime) {
-        loadDrugRegimenDrugs(regime);
-      }
-    }
-
     function add(form) {
       if (!form.$valid) {
         vm.showMessages = true;
         return;
       }
-      _add(vm.prescriptionItem);
-      resetForm(form);
-      vm.showMessages = false;
+      try {
+        _add(vm.prescriptionItem, vm.isArvPrescriptionItem);
+        reset(form);
+        vm.showMessages = false;
+      } catch (e) {
+        notifier.error(e.message);
+      }
     }
 
-    function _add(prescriptionItem) {
-      if (!validateAddItem(prescriptionItem)) {
-        return;
-      }
+    function _add(prescriptionItem, isArv) {
+      validateAddItem(prescriptionItem);
       //avoid duplication of drugs
       const sameOrderItem = _.find(vm.prescription.items, i => i.drugOrder.drug.uuid === prescriptionItem.drugOrder.drug.uuid);
       if (sameOrderItem) {
         notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_ITEM_ALREADY_IN_LIST'));
         return;
       }
-      if (vm.isArvPrescriptionItem) {
+      if (isArv) {
         vm.prescription.arvItems.push(prescriptionItem);
         vm.prescription.therapeuticLine = vm.therapeuticLine;
         vm.prescription.regime = vm.regime;
@@ -131,17 +123,13 @@
     }
 
     function validateAddItem(prescriptionItem) {
-      const prescription = {regime: vm.regime, prescriptionItems: [vm.prescriptionItem]};
+      const prescription = {regime: vm.regime, prescriptionItems: [prescriptionItem]};
       if (prescription.regime && hasActiveArvPrescription()) {
-        notifier.error($filter('translate')('COMMON_MESSAGE_COULD_NOT_ADD_ITEM_ARV_BECAUSE_EXISTS_AN_ACTIVE_ARV_PRESCRIPTION', {EXISTING_ITEM: prescriptionItem.drugOrder.drug.display}));
-        return false;
+        throw new Error($filter('translate')('COMMON_MESSAGE_COULD_NOT_ADD_ITEM_ARV_BECAUSE_EXISTS_AN_ACTIVE_ARV_PRESCRIPTION', {EXISTING_ITEM: prescriptionItem.drugOrder.drug.display}));
       }
-
       if (!_.isEmpty(getDuplicatedExistingActivePrescriptionItems(prescription))) {
-        notifier.error($filter('translate')('COMMON_MESSAGE_ERROR_EXISTIS_ACTIVE_PRESCRIPTION_FOR_ENTERED_ITEM', {EXISTING_ITEM: prescriptionItem.drugOrder.drug.display}));
-        return false;
+        throw new Error($filter('translate')('COMMON_MESSAGE_ERROR_EXISTIS_ACTIVE_PRESCRIPTION_FOR_ENTERED_ITEM', {EXISTING_ITEM: prescriptionItem.drugOrder.drug.display}));
       }
-      return true;
     }
 
 
@@ -156,7 +144,7 @@
           .then(isArv => {
             if (isArv) {
               vm.isArvPrescriptionItem = true;
-              // TODO load therapeuticline, drugRegimen and artPlan
+              // TODO implement load therapeuticline, drugRegimen and artPlan for given drug
               vm.prescriptionItem.drugOrder = null;
             } else {
               vm.prescriptionItem.isArv = false;
@@ -185,19 +173,21 @@
       vm.therapeuticLine = therapeuticLine;
     }
 
-    function onDrugRegimenChange(regime, changeReason) {
+    function onRegimeChange(regime, changeReason) {
       vm.regime = regime;
       vm.changeReason = changeReason;
-      loadDrugRegimenDrugs(vm.regime);
+      if (regime) {
+        loadDrugRegimenDrugs(vm.regime);
+      }
     }
 
 
     function edit(item) {
       vm.prescriptionItem = item;
-      if(item.regime){
-        vm.prescriptionItem.isArv  = true;
+      if (vm.prescription.regime) {
+        vm.isArvPrescriptionItem = true;
       }
-      _.pull(vm.prescription.items, item);
+      remove(item);
       isPrescriptionControl();
     }
 
@@ -227,12 +217,21 @@
     }
 
     function refill(prescription, item) {
-      const i = angular.copy(item);
-      if (prescription.regime) {
-        setArvRegimeFields(prescription.therapeuticLine, prescription.regime, prescription.arvPlan);
+      try {
+        const toAdd = angular.copy(item);
+        if (prescription.therapeuticLine) {
+          vm.therapeuticLine = prescription.therapeuticLine;
+          vm.regime = prescription.regime;
+          vm.arvPlan = prescription.arvPlan;
+          if (prescription.regime) {
+            loadDrugRegimenDrugs(prescription.regime);
+          }
+        }
+        toAdd.drugOrder.dosingInstructions = {uuid: toAdd.drugOrder.dosingInstructions};
+        _add(toAdd, !!prescription.therapeuticLine);
+      } catch (e) {
+        notifier.error(e.message);
       }
-      i.drugOrder.dosingInstructions = {uuid: i.drugOrder.dosingInstructions};
-      _add(i);
     }
 
 
@@ -247,7 +246,6 @@
 
     function removeAll() {
       vm.prescription.items = [];
-      vm.prescription.regime = null;
       resetArvRegimeFields(vm);
       resetArvRegimeFields(vm.prescription);
       isPrescriptionControl();
@@ -255,7 +253,15 @@
 
 
     function reset(form) {
-      resetForm(form);
+      if (form) {
+        form.$setPristine();
+        form.$setUntouched();
+      }
+      vm.prescriptionItem = {};
+      resetArvRegimeFields(vm);
+      if (vm.prescription.items.length === 0) {
+        resetArvRegimeFields(vm.prescription);
+      }
     }
 
     function save() {
@@ -319,7 +325,7 @@
             notifier.success($filter('translate')('COMMON_MESSAGE_SUCCESS_ACTION_COMPLETED'));
             vm.prescription.items = [];
             resetSelectedProvider();
-            isPrescriptionControl();
+            removeAll();
             loadSavedPrescriptions(vm.patient);
           })
           .catch(error => {
@@ -377,20 +383,7 @@
       return hasDuplicated;
     }
 
-    function loadPatientRegimen() {
-      prescriptionService.getPatientRegimen(vm.patient)
-        .then(regimen => {
-          setArvRegimeFields(regimen.therapeuticLine, regimen.regime, regimen.arvPlan);
-        })
-        .catch(() => {
-          notifier.error($filter('translate')('COMMON_ERROR'));
-        });
-    }
-
     function onIsArvPrescriptionItemChange() {
-      if (vm.isArvPrescriptionItem) {
-        loadPatientRegimen();
-      }
       if (!vm.prescriptionItem.isArv && vm.prescriptionItem && vm.prescriptionItem.drugOrder) {
         vm.prescriptionItem.drugOrder.drug = null;
       }
@@ -431,20 +424,11 @@
 
     function resetArvRegimeFields(obj) {
       obj.regime = null;
-      obj.therapeuticLine = {};
-      obj.arvPlan = {};
-      obj.changeReason = {};
-      obj.interruptionReason = {};
+      obj.therapeuticLine = null;
+      obj.arvPlan = null;
+      obj.changeReason = null;
+      obj.interruptionReason = null;
       obj.isArvPrescriptionItem = false;
-    }
-
-    function resetForm(form) {
-      if (form) {
-        form.$setPristine();
-        form.$setUntouched();
-      }
-      resetArvRegimeFields(vm);
-      vm.prescriptionItem = {};
     }
 
 

@@ -78,9 +78,9 @@
       return getAllPrescriptions(patient)
         .then(prescriptions => {
           const artPrescriptions = prescriptions.filter(p => !!p.arvPlan);
-          const last = artPrescriptions[artPrescriptions.length - 1];
-          if (last) {
-            return {therapeuticLine: last.therapeuticLine, regime: last.regime, arvPlan: last.arvPlan};
+          const latest = artPrescriptions[0];
+          if (latest) {
+            return {therapeuticLine: latest.therapeuticLine, regime: latest.regime, arvPlan: latest.arvPlan};
           } else {
             return getFirstTherapeuticLineRegimen();
           }
