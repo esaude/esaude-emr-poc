@@ -1,11 +1,11 @@
 describe('patientAddressStep', () => {
 
-  var $componentController, configurationService, $q, $rootScope, addressAttributeService;
+  let $componentController, configurationService, $q, $rootScope, addressAttributeService;
 
   beforeEach(module('common.patient', ($provide, $translateProvider, $urlRouterProvider) => {
     // Mock translate asynchronous loader
     $provide.factory('mergeLocaleFilesService', $q => () => {
-      var deferred = $q.defer();
+      const deferred = $q.defer();
       deferred.resolve({});
       return deferred.promise;
     });
@@ -32,8 +32,8 @@ describe('patientAddressStep', () => {
 
     it('should load addressLevels and reverse the order', () => {
 
-      var patientWizard = jasmine.createSpyObj('patientWizard', ['setCurrentStep']);
-      var ctrl = $componentController('patientAddressStep', null, {patientWizard});
+      const patientWizard = jasmine.createSpyObj('patientWizard', ['setCurrentStep']);
+      const ctrl = $componentController('patientAddressStep', null, {patientWizard});
 
       ctrl.$onInit();
 
@@ -49,7 +49,7 @@ describe('patientAddressStep', () => {
 
   describe('addressFieldSelected', () => {
 
-    var addressLevels = [
+    const addressLevels = [
       {name: "Pais", addressField: "country", required: true},
       {name: "Provincia", addressField: "stateProvince", required: true}
     ];
@@ -60,9 +60,9 @@ describe('patientAddressStep', () => {
 
     it('should set the values of the address hierarchy parent fields', () => {
 
-      var patient = {address: {}};
-      var patientWizard = jasmine.createSpyObj('patientWizard', ['setCurrentStep']);
-      var ctrl = $componentController('patientAddressStep', null, {patient, patientWizard});
+      const patient = {address: {}};
+      const patientWizard = jasmine.createSpyObj('patientWizard', ['setCurrentStep']);
+      const ctrl = $componentController('patientAddressStep', null, {patient, patientWizard});
 
       ctrl.$onInit();
 
@@ -82,11 +82,11 @@ describe('patientAddressStep', () => {
 
       spyOn(addressAttributeService, 'search');
 
-      var ctrl = $componentController('patientAddressStep');
+      const ctrl = $componentController('patientAddressStep');
 
-      var term = 'someplace';
+      const term = 'someplace';
 
-      var addressField = 'stateProvince';
+      const addressField = 'stateProvince';
 
       ctrl.getAddressEntryList(addressField, term);
 
@@ -97,7 +97,7 @@ describe('patientAddressStep', () => {
 
   describe('clearFields', () => {
 
-    var addressLevels = [
+    const addressLevels = [
       {name: "Pais", addressField: "country", required: true},
       {name: "Provincia", addressField: "stateProvince", required: true}
     ];
@@ -108,9 +108,9 @@ describe('patientAddressStep', () => {
 
     it('should clear address hierarchy child fields', () => {
 
-      var patient = {address: {}};
-      var patientWizard = jasmine.createSpyObj('patientWizard', ['setCurrentStep']);
-      var ctrl = $componentController('patientAddressStep', null, {patient, patientWizard});
+      const patient = {address: {}};
+      const patientWizard = jasmine.createSpyObj('patientWizard', ['setCurrentStep']);
+      const ctrl = $componentController('patientAddressStep', null, {patient, patientWizard});
 
       ctrl.$onInit();
 
@@ -126,6 +126,40 @@ describe('patientAddressStep', () => {
 
     });
 
+  });
+
+  describe('entryDisplay', () => {
+
+    describe('string entry', () => {
+      it('should return the entry', () => {
+        const ctrl = $componentController('patientAddressStep');
+        const entry = 'Maputo';
+        expect(ctrl.entryDisplay(entry)).toEqual(entry);
+      });
+    });
+
+    it('should return concatenated names of address hierarchy and all parents', () => {
+      const ctrl = $componentController('patientAddressStep');
+      const entry = {name: 'Machangulo', parent: {name: 'Matutuine', parent: {name: 'Maputo', parent: {name: 'Mocambique'}}}};
+      expect(ctrl.entryDisplay(entry)).toEqual('Machangulo, Matutuine, Maputo, Mocambique');
+    });
+  });
+
+  describe('entryFormat', () => {
+
+    describe('not a address hierarchy object', () => {
+      it('should return the entry', () => {
+        const ctrl = $componentController('patientAddressStep');
+        const entry = 'Maputo';
+        expect(ctrl.entryDisplay(entry)).toEqual(entry);
+      });
+    });
+
+    it('should return the entry name', () => {
+      const ctrl = $componentController('patientAddressStep');
+      const entry = {name: 'Machangulo'};
+      expect(ctrl.entryDisplay(entry)).toEqual('Machangulo');
+    });
   });
 
 });
